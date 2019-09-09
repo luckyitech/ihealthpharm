@@ -47,8 +47,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	EmployeeHelper employeeHelper;
 
 	@Override
-	public EmployeeModel saveEmployeeData(EmployeeDTO employeeDto) {
-
+	public EmployeeModel saveEmployeeData(EmployeeModel employeeModel) {
+		
+/*
 		EmployeeModel employeeRes = new EmployeeModel();
 		employeeRes.setEmployeeId(employeeRes.getEmployeeId());
 		employeeRes.setPhoneNumber(employeeDto.getPhoneNumber());
@@ -211,21 +212,21 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 		employeeRes.setEmployeeSalaryModel(EmployeeSalaryModelList);
 		
-		log.info(" Active S: Value: "+employeeRes.getActiveS());
-		employeeRes = employeeRepository.save(employeeRes);
+		log.info(" Active S: Value: "+employeeRes.getActiveS());*/
+		EmployeeModel employeeRes = employeeRepository.save(employeeModel);
 		log.info("Employee data with ID: " + employeeRes.getEmployeeId() + " saved succesfully");
 		return employeeRes;
 	}
 
 	@Override
-	public EmployeeModel updateEmployeeData(EmployeeDTO employeeDto) {
-		EmployeeModel employeeRes = getValidEmployee(employeeDto.getEmployeeId());
+	public EmployeeModel updateEmployeeData(EmployeeModel employeeModel) {
+		EmployeeModel employeeRes = getValidEmployee(employeeModel.getEmployeeId());
 
 		if (!Objects.nonNull(employeeRes)) {
 			throw new IHealthPharmException(employeeHelper.getNotFoundEmployeeMessage(), HttpStatus.NOT_FOUND);
 		}
 		// employeeRes = new EmployeeModel();
-		employeeRes.setEmployeeId(employeeRes.getEmployeeId());
+		/*employeeRes.setEmployeeId(employeeRes.getEmployeeId());
 		employeeRes.setPhoneNumber(employeeDto.getPhoneNumber());
 		employeeRes.setFirstName(employeeDto.getFirstName());
 		employeeRes.setLastName(employeeDto.getLastName());
@@ -277,7 +278,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 				EmployeeEducationModel employeeEducationModel = new EmployeeEducationModel();
 				employeeEducationModel.setStudiedAt(emp.getStudiedAt());
-				employeeEducationModel.setCreationUserId(" ");
+				//employeeEducationModel.setCreationUserId(" ");
 				employeeEducationModel.setDegree(emp.getDegree());
 				employeeEducationModel.setGraduationDate(emp.getGraduationDate());
 				employeeEducationModel.setEmployee(employeeRes);
@@ -298,7 +299,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 				employeeProfMembershipModel.setMembershipName(emp.getMembershipName());
 				employeeProfMembershipModel.setStartDate(emp.getStartDate());
 				employeeProfMembershipModel.setEndDate(emp.getEndDate());
-				employeeProfMembershipModel.setCratedUserId("  ");
+				//employeeProfMembershipModel.setCratedUserId("  ");
 				employeeProfMembershipModel.setEmployee(employeeRes);
 				employeeProfMembershipModelList.add(employeeProfMembershipModel);
 
@@ -315,7 +316,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 				employeeHonorModel.setHonorName(emp.getHonorName());
 				employeeHonorModel.setHonorDesc(emp.getHonorDesc());
 				employeeHonorModel.setReceivedDate(emp.getReceivedDate());
-				employeeHonorModel.setCratedUserId(" ");
+				//employeeHonorModel.setCratedUserId(" ");
 				employeeHonorModel.setEmployee(employeeRes);
 				employeeHonorModelList.add(employeeHonorModel);
 			}
@@ -329,7 +330,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			for (EmployeeInterestDTO emp : employeeInterestDtoList) {
 				EmployeeInterestModel employeeInterestModel = new EmployeeInterestModel();
 				employeeInterestModel.setAreaOfIntrestDesc(emp.getAreaOfIntrestDesc());
-				employeeInterestModel.setCratedUserId("  ");
+				//employeeInterestModel.setCratedUserId("  ");
 				employeeInterestModel.setEmployee(employeeRes);
 				employeeInterestModelList.add(employeeInterestModel);
 			}
@@ -345,7 +346,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 				employeePublicationModel.setPublicationName(emp.getPublicationName());
 				employeePublicationModel.setPublicationDesc(emp.getPublicationDesc());
 				employeePublicationModel.setPublishDate(emp.getPublishDate());
-				employeePublicationModel.setCratedUserId(" ");
+				//employeePublicationModel.setCratedUserId(" ");
 				employeePublicationModel.setEmployee(employeeRes);
 				employeePublicationModelList.add(employeePublicationModel);
 			}
@@ -370,7 +371,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 				employmentHistoryModel.setEmployementType(emp.getEmployementType());
 				employmentHistoryModel.setReference1(emp.getReference1());
 				employmentHistoryModel.setReference2(emp.getReference2());
-				employmentHistoryModel.setCratedUserId(" ");
+				//employmentHistoryModel.setCratedUserId(" ");
 				employmentHistoryModel.setEmployee(employeeRes);
 				employmentHistoryModelList.add(employmentHistoryModel);
 			}
@@ -388,20 +389,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 				employeeSalaryModel.setHra(emp.getHra());
 				employeeSalaryModel.setDa(emp.getDa());
 				employeeSalaryModel.setMedical(emp.getMedical());
-				employeeSalaryModel.setPTax(emp.getPTax());
+				//employeeSalaryModel.setPTax(emp.getPTax());
 				employeeSalaryModel.setPfEmployee(emp.getPfEmployee());
 				employeeSalaryModel.setPfEmployer(emp.getPfEmployer());
 				employeeSalaryModel.setTds(emp.getTds());
 				employeeSalaryModel.setEsi(emp.getEsi());
 				employeeSalaryModel.setGrossSalary(emp.getGrossSalary());
-				employeeSalaryModel.setCratedUserId(" ");
+				//employeeSalaryModel.setCratedUserId(" ");
 				employeeSalaryModel.setEmployee(employeeRes);
 				EmployeeSalaryModelList.add(employeeSalaryModel);
 			}
 			employeeRes.setEmployeeSalaryModel(EmployeeSalaryModelList);
 
-		}
-		employeeRes = employeeRepository.save(employeeRes);
+		}*/
+		employeeRes = employeeRepository.save(employeeModel);
 		log.info("Employee data with ID : " + employeeRes.getEmployeeId() + " updated succesfully");
 
 		return employeeRes;
@@ -505,7 +506,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 					EmployeeEducationModel employeeEducationModel = new EmployeeEducationModel();
 					employeeEducationModel.setStudiedAt(emp.getStudiedAt());
-					employeeEducationModel.setCreationUserId(" ");
+					//employeeEducationModel.setCreationUserId(" ");
 					employeeEducationModel.setDegree(emp.getDegree());
 					employeeEducationModel.setGraduationDate(emp.getGraduationDate());
 					employeeEducationModel.setEmployee(employeeRes);
@@ -526,7 +527,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 					employeeProfMembershipModel.setMembershipName(emp.getMembershipName());
 					employeeProfMembershipModel.setStartDate(emp.getStartDate());
 					employeeProfMembershipModel.setEndDate(emp.getEndDate());
-					employeeProfMembershipModel.setCratedUserId("  ");
+					//employeeProfMembershipModel.setCratedUserId("  ");
 					employeeProfMembershipModel.setEmployee(employeeRes);
 					employeeProfMembershipModelList.add(employeeProfMembershipModel);
 
@@ -543,7 +544,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 					employeeHonorModel.setHonorName(emp.getHonorName());
 					employeeHonorModel.setHonorDesc(emp.getHonorDesc());
 					employeeHonorModel.setReceivedDate(emp.getReceivedDate());
-					employeeHonorModel.setCratedUserId(" ");
+					//employeeHonorModel.setCratedUserId(" ");
 					employeeHonorModel.setEmployee(employeeRes);
 					employeeHonorModelList.add(employeeHonorModel);
 				}
@@ -557,7 +558,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 				for (EmployeeInterestDTO emp : employeeInterestDtoList) {
 					EmployeeInterestModel employeeInterestModel = new EmployeeInterestModel();
 					employeeInterestModel.setAreaOfIntrestDesc(emp.getAreaOfIntrestDesc());
-					employeeInterestModel.setCratedUserId("  ");
+					//employeeInterestModel.setCratedUserId("  ");
 					employeeInterestModel.setEmployee(employeeRes);
 					employeeInterestModelList.add(employeeInterestModel);
 				}
@@ -573,7 +574,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 					employeePublicationModel.setPublicationName(emp.getPublicationName());
 					employeePublicationModel.setPublicationDesc(emp.getPublicationDesc());
 					employeePublicationModel.setPublishDate(emp.getPublishDate());
-					employeePublicationModel.setCratedUserId(" ");
+					//employeePublicationModel.setCratedUserId(" ");
 					employeePublicationModel.setEmployee(employeeRes);
 					employeePublicationModelList.add(employeePublicationModel);
 				}
@@ -598,7 +599,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 					employmentHistoryModel.setEmployementType(emp.getEmployementType());
 					employmentHistoryModel.setReference1(emp.getReference1());
 					employmentHistoryModel.setReference2(emp.getReference2());
-					employmentHistoryModel.setCratedUserId(" ");
+					//employmentHistoryModel.setCratedUserId(" ");
 					employmentHistoryModel.setEmployee(employeeRes);
 					employmentHistoryModelList.add(employmentHistoryModel);
 				}
@@ -616,13 +617,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 					employeeSalaryModel.setHra(emp.getHra());
 					employeeSalaryModel.setDa(emp.getDa());
 					employeeSalaryModel.setMedical(emp.getMedical());
-					employeeSalaryModel.setPTax(emp.getPTax());
+					//employeeSalaryModel.setPTax(emp.getPTax());
 					employeeSalaryModel.setPfEmployee(emp.getPfEmployee());
 					employeeSalaryModel.setPfEmployer(emp.getPfEmployer());
 					employeeSalaryModel.setTds(emp.getTds());
 					employeeSalaryModel.setEsi(emp.getEsi());
 					employeeSalaryModel.setGrossSalary(emp.getGrossSalary());
-					employeeSalaryModel.setCratedUserId(" ");
+					//employeeSalaryModel.setCratedUserId(" ");
 					employeeSalaryModel.setEmployee(employeeRes);
 					EmployeeSalaryModelList.add(employeeSalaryModel);
 				}

@@ -7,9 +7,9 @@ import com.ihealthpharm.masters.model.EmployeeModel;
 
 public interface EmployeeService {
 
-	public EmployeeModel saveEmployeeData(EmployeeDTO employeeDto);
+	public EmployeeModel saveEmployeeData(EmployeeModel employeeModel);
 	
-	public EmployeeModel updateEmployeeData(EmployeeDTO employeeDto);
+	public EmployeeModel updateEmployeeData(EmployeeModel employeeModel);
 	
 	public List<EmployeeModel> updateEmployeesData(List<EmployeeDTO> employeeDtos);
 	

@@ -16,12 +16,14 @@ import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 
 @Data
 @Entity(name = "employee")
+@JsonIgnoreProperties("inspection")
 public class EmployeeModel extends AuditModel implements Serializable{
 
 	private static final long serialVersionUID = -3990973417396713887L;
@@ -155,30 +157,30 @@ public class EmployeeModel extends AuditModel implements Serializable{
 	private EmployeeTypeModel employeeTypeModel;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "employee" , cascade = CascadeType.ALL)
-	@JsonBackReference
+	@JsonManagedReference
 	private List<EmployeeProfMembershipModel> employeeProfMembershipModel;
 	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "employee" , cascade = CascadeType.ALL)
-	@JsonBackReference
+	@JsonManagedReference
 	private List<EmployeeHonorModel> employeeHonorModel;
 	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "employee" , cascade = CascadeType.ALL)
-	@JsonBackReference
+	@JsonManagedReference
 	private List<EmployeeInterestModel> employeeInterestModel;
 	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "employee" , cascade = CascadeType.ALL)
-	@JsonBackReference
+	@JsonManagedReference
 	private List<EmployeePublicationModel> employeePublicationModel;
 	
 	@OneToMany(mappedBy = "employee" , cascade = CascadeType.ALL)
-	@JsonBackReference
+	@JsonManagedReference
 	private List<EmployeeEducationModel> employeeEducationModel;
 	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "employee" , cascade = CascadeType.ALL)
-	@JsonBackReference
+	@JsonManagedReference
 	private List<EmploymentHistoryModel> employeeHistoryModel;
 	
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "employee" , cascade = CascadeType.ALL)
-	@JsonBackReference
+	@JsonManagedReference
 	private List<EmployeeSalaryModel> employeeSalaryModel;
 }

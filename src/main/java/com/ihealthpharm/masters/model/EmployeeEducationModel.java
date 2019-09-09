@@ -12,16 +12,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Data;
 
 @Data
 @Entity(name = "employee_education")
-public class EmployeeEducationModel implements Serializable{
+public class EmployeeEducationModel extends AuditModel implements Serializable{
 	
 
 	private static final long serialVersionUID = -5184196655401323428L;
@@ -33,7 +30,7 @@ public class EmployeeEducationModel implements Serializable{
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="EMPLOYEE_ID",nullable = false, updatable = true, insertable = true)
-	@JsonManagedReference
+	@JsonBackReference
 	private EmployeeModel employee;
 	
 	@Column( name = "STUDIED_AT", length=250)
@@ -45,20 +42,8 @@ public class EmployeeEducationModel implements Serializable{
 	@Column( name = "GARDUATION_DATE")
 	private Date graduationDate;
 	
-	@CreationTimestamp
-	@Column( name = "CREATION_TS")
-	private Date creationTimeStamp;
-	
-	@Column( name = "CREATION_USER_ID", length=50)
-	private String creationUserId;
-	
-	@UpdateTimestamp
-	@Column( name = "LAST_UPDATE_TS")
-	private Date latestUpdatedTimeStamp;
-	
-	@Column( name = "LAST_UPDATE_USER_ID", length=50)
-	private String latestUpdatedUserId;
-	
 	@Column(name = "AUDIT_ID", length = 11)
 	private Integer auditId;
+	
+	
 }

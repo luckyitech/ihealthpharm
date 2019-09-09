@@ -39,7 +39,7 @@ public class AuditModel implements Serializable {
 	private Date creationTimeStamp;
 	
 	
-	@Column(name = "CREATION_USER_ID")
+	@Column(name = "CREATION_USER_ID", columnDefinition="admin")
 	private String createdUser;
 	
 	@Column(name = "LAST_UPDATE_TS")
