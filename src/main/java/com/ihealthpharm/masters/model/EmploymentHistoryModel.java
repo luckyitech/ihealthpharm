@@ -14,13 +14,13 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Data;
 
 @Data
 @Entity(name = "employment_history")
-public class EmploymentHistoryModel {
+public class EmploymentHistoryModel extends AuditModel{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,25 +63,12 @@ public class EmploymentHistoryModel {
 	@Column(name = "REFERENCE2", length=50)
 	private String reference2;
 
-	@CreationTimestamp
-	@Column(name = "CREATION_TS")
-	private Date creationTimeStamp;
-
-	@Column(name = "CREATION_USER_ID", length=50)
-	private String cratedUserId;
-
-	@UpdateTimestamp
-	@Column(name = "LAST_UPDATE_TS")
-	private Date latestUpdatedTimeStamp;
-
-	@Column(name = "LAST_UPDATE_USER_ID", length=50)
-	private String latestUpdatedUserId;
-	
+		
 	@Column(name="AUDIT_ID", length=11)
 	private Integer auditId;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="EMPLOYEE_ID")
-	@JsonManagedReference
+	@JsonBackReference
 	private EmployeeModel employee;
 }

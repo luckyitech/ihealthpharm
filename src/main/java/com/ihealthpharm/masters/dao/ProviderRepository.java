@@ -11,6 +11,7 @@ public interface ProviderRepository extends JpaRepository<ProviderModel, Integer
 	
 	public List<ProviderModel> findByActiveS(char c);
 	
-	List<ProviderModel> findAllByOrderByCreationTimeStampDesc();
+	
+	List<ProviderModel> findAllByOrderByLastUpdateTimestampDesc();
 
 }

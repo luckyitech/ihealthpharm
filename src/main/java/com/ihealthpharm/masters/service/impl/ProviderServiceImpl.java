@@ -121,6 +121,6 @@ public class ProviderServiceImpl implements ProviderService {
 	@Override
 	public List<ProviderModel> findAllProviders() {
 		// TODO Auto-generated method stub
-		return providerRepository.findAllByOrderByCreationTimeStampDesc();
+		return providerRepository.findAllByOrderByLastUpdateTimestampDesc();
 	}
 }

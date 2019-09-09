@@ -49,25 +49,27 @@ public class EmployeeController {
 			@RequestParam("identificationDocument") MultipartFile identificationDocument,
 			@RequestParam("policeGoodConductCertificate") MultipartFile policeGoodConductCertificate,
 			@RequestParam("resume") MultipartFile resume,
-			@RequestParam("signedContract") MultipartFile signedContract) {
+			@RequestParam("signedContract") MultipartFile signedContract) throws IOException {
 		
 		log.info(employeeData);
 		log.info("----------------------------------------------------------------------");
-		EmployeeDTO employeeDto = null;
+		EmployeeModel employeeModel = null;
 		try {
-			employeeDto = new ObjectMapper().readValue(employeeData, EmployeeDTO.class);
+			employeeModel = new ObjectMapper().readValue(employeeData, EmployeeModel.class);
+			employeeModel.setProfileImage(image.getBytes());
+			employeeModel.setIdentificationDocument(identificationDocument.getBytes());
+			employeeModel.setPoliceGoodConductCertificate(policeGoodConductCertificate.getBytes());
+			employeeModel.setResume(resume.getBytes());
+			employeeModel.setSignedContract(signedContract.getBytes());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
-		employeeDto.setProfileImage(image);
-		employeeDto.setIdentificationDocument(identificationDocument);
-		employeeDto.setPoliceGoodConductCertificate(policeGoodConductCertificate);
-		employeeDto.setResume(resume);
-		employeeDto.setSignedContract(signedContract);
-		log.info("Request Object insert is: " + employeeDto.toString());
+		
+		
+		//log.info("Request Object insert is: " + employeeDto.toString());
 
-		EmployeeModel employeeRes = employeeService.saveEmployeeData(employeeDto);
+		EmployeeModel employeeRes = employeeService.saveEmployeeData(employeeModel);
 
 		return new BaseDto<>(employeeRes, employeeHelper.getSaveEmployeeMessage(), OK).respond();
 	}
@@ -80,9 +82,27 @@ public class EmployeeController {
 	}
 
 	@PutMapping("/update/employee")
-	public ResponseEntity<BaseDto<EmployeeModel>> updateEmployeeData(@Valid @RequestBody EmployeeDTO employeeDto) {
-		log.info("Request Object for update is: "+ employeeDto.toString());
-		EmployeeModel employeeRes = employeeService.updateEmployeeData(employeeDto);
+	public ResponseEntity<BaseDto<EmployeeModel>> updateEmployeeData(@Valid @RequestParam("employee") String employeeData, @RequestParam("image") MultipartFile image,
+			@RequestParam("identificationDocument") MultipartFile identificationDocument,
+			@RequestParam("policeGoodConductCertificate") MultipartFile policeGoodConductCertificate,
+			@RequestParam("resume") MultipartFile resume,
+			@RequestParam("signedContract") MultipartFile signedContract) throws IOException {
+		
+		log.info(employeeData);
+		log.info("----------------------------------------------------------------------");
+		EmployeeModel employeeModel = null;
+		try {
+			employeeModel = new ObjectMapper().readValue(employeeData, EmployeeModel.class);
+			employeeModel.setProfileImage(image.getBytes());
+			employeeModel.setIdentificationDocument(identificationDocument.getBytes());
+			employeeModel.setPoliceGoodConductCertificate(policeGoodConductCertificate.getBytes());
+			employeeModel.setResume(resume.getBytes());
+			employeeModel.setSignedContract(signedContract.getBytes());
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+		EmployeeModel employeeRes = employeeService.updateEmployeeData(employeeModel);
 		return new BaseDto<>(employeeRes, employeeHelper.getUpdateEmployeeMessage(), OK).respond();
 	}
 	

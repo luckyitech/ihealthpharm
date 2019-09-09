@@ -10,6 +10,6 @@ public interface DistrubutorRepository extends JpaRepository<DistributorModel, I
 
 	List<DistributorModel> findByActiveS(char c);
 	
-	List<DistributorModel> findAllByOrderByCreationTimeStampDesc();
+	List<DistributorModel> findAllByOrderByLastUpdateTimestampDesc();
 
 }
