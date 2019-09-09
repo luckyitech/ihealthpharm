@@ -1,0 +1,87 @@
+package com.ihealthpharm.masters.model;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import lombok.Data;
+
+@Data
+@Entity(name = "employment_history")
+public class EmploymentHistoryModel {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "EMPLOYMENT_HISTORY_ID", length=11)
+	private Integer employeementHistoryId;
+
+	@Column(name = "COMPANY_NAME", length=100)
+	private String companyName;
+
+	@Column(name = "START_DT")
+	private Date startDate;
+
+	@Column(name = "END_DT")
+	private Date endDate;
+
+	@Column(name = "COMPANY_ADDRESS", length=250)
+	private String compnayAddress;
+
+	@Column(name = "REPORTING_PERSON_DETAILS", length=50)
+	private String reportingPersonDetails;
+
+	@Column(name = "MANAGER_NM", length=50)
+	private String managerName;
+
+	@Column(name = "MANAGER_PHONE_NBR", length=20)
+	private String managerPhoneNumber;
+
+	@Column(name = "MANAGER_EMAIL_ID", length=50)
+	private String managerEmail;
+
+	@Column(name = "DESIGNATION", length=50)
+	private String designation;
+
+	@Column(name = "EMPLOYMENT_TYPE", length=50)
+	private String employementType;
+
+	@Column(name = "REFERENCE1", length=50)
+	private String reference1;
+
+	@Column(name = "REFERENCE2", length=50)
+	private String reference2;
+
+	@CreationTimestamp
+	@Column(name = "CREATION_TS")
+	private Date creationTimeStamp;
+
+	@Column(name = "CREATION_USER_ID", length=50)
+	private String cratedUserId;
+
+	@UpdateTimestamp
+	@Column(name = "LAST_UPDATE_TS")
+	private Date latestUpdatedTimeStamp;
+
+	@Column(name = "LAST_UPDATE_USER_ID", length=50)
+	private String latestUpdatedUserId;
+	
+	@Column(name="AUDIT_ID", length=11)
+	private Integer auditId;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="EMPLOYEE_ID")
+	@JsonManagedReference
+	private EmployeeModel employee;
+}
