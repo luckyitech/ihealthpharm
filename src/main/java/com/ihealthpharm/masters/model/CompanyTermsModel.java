@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 
 @Entity(name="company_terms_and_conditions")
 @Data
-@EqualsAndHashCode(of="companyTermsId")
+@EqualsAndHashCode(of="companyTermsId",callSuper=false)
 public class CompanyTermsModel extends AuditModel{
 	
 	/**

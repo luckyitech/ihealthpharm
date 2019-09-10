@@ -37,38 +37,42 @@ public class PurchaseOrderModel extends AuditModel {
 	@Column(name="ADVANCE",length=25)
 	private Double advance;
 
-	@Column(name="APPROVED_BY",length=11)
-	private int approvedBy;
+	@OneToOne
+	@JoinColumn(name="APPROVED_BY")
+	private UsersModel approvedBy;
 
 	@Column(name="APPROVED_DT")
 	private Date approvedDate;
 
 	@Column(name="AUDIT_ID",length=11)
-	private int auditId;
+	private Integer auditId;
 
-	@Column(name="CANCELLED_BY",length=11)
-	private int cancelledBy;
+	@OneToOne
+	@JoinColumn(name="CANCELLED_BY")
+	private UsersModel cancelledBy;
 
 	@Column(name="CANCELLED_DT")
 	private Date cancelledDate;
 
-	@Column(name="CREATED_BY",length=11)
-	private int createdBy;
+	@OneToOne
+	@JoinColumn(name="CREATED_BY")
+	private UsersModel createdBy;
 
 	@Column(name="DELIVERY_TIME",length=11)
-	private int deliveryTime;
+	private Integer deliveryTime;
 
 	@Column(name="DISCOUNT")
 	private Double discount;
 
 	@Column(name="DISCOUNT_PERCENTAGE")
-	private float discountPercentage;
+	private Float discountPercentage;
 
 	@Column(name="EMERGENCY",length=1)
 	private char emergency;
-
-	@Column(name="MODIFIED_BY",length=11)
-	private int modifiedBy;
+	
+	@OneToOne
+	@JoinColumn(name="MODIFIED_BY")
+	private UsersModel modifiedBy;
 
 	@Column(name="MODIFIED_DT")
 	private Date modifiedDate;
@@ -77,7 +81,7 @@ public class PurchaseOrderModel extends AuditModel {
 	private Double otherCharges;
 
 	@Column(name="PAYMENT_TIME",length=11)
-	private int paymentTime;
+	private Integer paymentTime;
 
 	@Column(name="PO_AMOUNT")
 	private Double poAmount;
@@ -99,34 +103,43 @@ public class PurchaseOrderModel extends AuditModel {
 
 	@Column(name="REMARKS",length=200)
 	private String remarks;
+	
+	@OneToOne
+	@JoinColumn(name="REQUESTED_BY")
+	private UsersModel requestedBy;
+
 
 	@Column(name="REQUEST_DT")
 	private Date requestDate;
 
-	@Column(name="STATUS",length=1)
-	private char status;
 
 	@Column(name="VARIATION_TYPE",length=20)
 	private String variationType;
 
-	@Column(name="VERIFY_BY",length=11)
-	private int verifyBy;
+	@OneToOne
+	@JoinColumn(name="VERIFY_BY")
+	private UsersModel verifyBy;
 
 	@Column(name="VERIFY_DT")
 	private Date verifyDate;
 	
-
 	@OneToOne
 	@JoinColumn(name="DISTRIBUTOR_ID")
 	private  DistributorModel distributorModel;
 
-	 //@OneToOne
-	//@JoinColumn(name="PHARMACY_ID")
-	//PharmacyModel pharmacyModel;
+	/*@ManyToOne(cascade = CascadeType.DETACH)
+	@JoinColumn(name="PHARMACY_ID")
+	@JsonBackReference
+	PharmacyModel pharmacyModel;*/
 
 	@OneToOne
 	@JoinColumn(name="QUOTATION_ID")
 	private QuotationModel quotationModel;
+	
+	@OneToOne
+	@JoinColumn(name="PURCHASE_ORDER_STATUS_ID")
+	private PurchaseOrderStatusModel purchaseOrderStatusModel;
+	
 	
 	@OneToMany(mappedBy = "purchaseOrderModel")
 	@JsonManagedReference
