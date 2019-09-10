@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.helper.ItemGenericNamesHelper;
 import com.ihealthpharm.masters.model.ItemGenericNamesModel;
-import com.ihealthpharm.masters.model.ItemGroupModel;
 import com.ihealthpharm.masters.service.ItemGenericNamesService;
 
 import lombok.extern.slf4j.Slf4j;
