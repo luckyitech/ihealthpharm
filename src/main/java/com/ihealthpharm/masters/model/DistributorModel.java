@@ -125,6 +125,12 @@ public class DistributorModel extends AuditModel {
 	@Column(name = "ACCEPT_GOOD_RETURNS", length=1)
 	private char acceptGoodReturns;
 	
+	@Column(name = "DISTRIBUTOR_ALSO_MANUFACTURER", length=1)
+	private char distributorAlsoManufacturer;
+	
+	@Column(name = "SUPPLIES_MEDICAL_NON_MEDICAL_BOTH", length=1)
+	private char suppliesMedicalNonMedicalBoth;
+	
 	@OneToOne
 	@JoinColumn(name = "RETURN_CREDIT_TYPE_ID")
 	private ReturnCreditTypeModel returnCreditTypeId;
