@@ -18,5 +18,6 @@ public interface ItemsBinService {
 	 
 	 void deleteMultipleItemBinsById(int[] itemBinIds);
 	
+	 List<ItemsBinModel> findAllBinItems();
 	
 }

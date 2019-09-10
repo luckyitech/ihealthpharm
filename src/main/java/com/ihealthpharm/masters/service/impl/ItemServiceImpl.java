@@ -132,7 +132,6 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public List<ItemsModel> findAllItems() {
-		// TODO Auto-generated method stub
 		return itemRepository.findAllByOrderByCreationTimeStampDesc();
 	}
 

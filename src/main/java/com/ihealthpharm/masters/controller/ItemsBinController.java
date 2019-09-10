@@ -58,7 +58,7 @@ public class ItemsBinController {
 		return new BaseDto<>(binRes,binHelper.getUpdateItemsBinMessage(),OK).respond();
 	}
 	
-	@DeleteMapping("/delete/itemsbindata")
+	@DeleteMapping("/delete/itemsbinbyid")
 	public ResponseEntity<BaseDto<Object>> deleteItemsBinData(@RequestParam int itemBinId) {
 		log.info("Request Object for delete is: ", itemBinId);
 		itemsBinService.deleteItemsBinById(itemBinId);
@@ -79,6 +79,16 @@ public class ItemsBinController {
 		ItemsBinModel result = itemsBinService.findItemsBinById(itemBinId);
 		return new BaseDto<>(result, binHelper.getRetrieveItemsBinMessage(), OK).respond();
 	}
+	
+	
+	@GetMapping("/getallitembins")
+	public ResponseEntity<BaseDto<List<ItemsBinModel>>> getAllItemBinsData(){
+		
+		List<ItemsBinModel> result=itemsBinService.findAllBinItems();
+		return new BaseDto<>(result,binHelper.getRetrieveItemsBinMessage(),OK).respond();
+	}
+	
+
 	
 	
 }
