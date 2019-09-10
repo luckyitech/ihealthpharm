@@ -129,4 +129,11 @@ public class ItemsBinServiceImpl implements ItemsBinService {
 		
 	}
 
+	@Override
+	public List<ItemsBinModel> findAllBinItems() {
+		return itemsBinRepository.findAllByOrderByCreationTimeStampDesc();
+	}
+	
+	
+
 }
