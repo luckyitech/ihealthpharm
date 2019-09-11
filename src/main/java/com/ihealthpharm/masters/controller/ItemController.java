@@ -33,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @RestController
 @RequestMapping("/item")
-@CrossOrigin("*")
+@CrossOrigin
 @Slf4j
 public class ItemController {
 
