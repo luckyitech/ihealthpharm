@@ -13,8 +13,10 @@ import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.ItemsRepository;
+import com.ihealthpharm.masters.dao.UnitOfMeasurementRepository;
 import com.ihealthpharm.masters.helper.ItemPropertyHelper;
 import com.ihealthpharm.masters.model.ItemsModel;
+import com.ihealthpharm.masters.model.UnitOfMeasurementModel;
 import com.ihealthpharm.masters.service.ItemService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +35,9 @@ public class ItemServiceImpl implements ItemService {
 	
 	@Autowired
 	private ItemPropertyHelper itemPropertyHelper;
+	
+	@Autowired
+	 private UnitOfMeasurementRepository UnitOfMeasurementRepo;
 	
 
 	@Override
@@ -134,6 +139,13 @@ public class ItemServiceImpl implements ItemService {
 	public List<ItemsModel> findAllItems() {
 		return itemRepository.findAllByOrderByCreationTimeStampDesc();
 	}
+
+	@Override
+	public List<UnitOfMeasurementModel> findAllUOMMethod() {
+		return UnitOfMeasurementRepo.findAllByOrderByCreationTimeStampDesc();
+	}
+	
+	
 
 	
 	

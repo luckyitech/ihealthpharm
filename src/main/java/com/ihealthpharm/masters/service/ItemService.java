@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.ihealthpharm.masters.model.ItemsModel;
+import com.ihealthpharm.masters.model.UnitOfMeasurementModel;
 
 public interface ItemService {
 
@@ -22,6 +23,11 @@ public interface ItemService {
 	 
 	 void deleteMultipleItemsById(int[] itemIds);
 	 
-	 public List<ItemsModel> findAllItems();
+	  List<ItemsModel> findAllItems();
+	  
+	  //UOM method
+	  List<UnitOfMeasurementModel> findAllUOMMethod();
+	 
+	 
 
 }
