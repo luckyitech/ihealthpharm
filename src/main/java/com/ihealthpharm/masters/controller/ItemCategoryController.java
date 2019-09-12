@@ -76,6 +76,12 @@ public class ItemCategoryController {
 		return new BaseDto<>(itemCategoryHelper.getDeleteItemCategoryMessage(), OK).respond();
 	}
 	
+
+	@GetMapping("/getallitemcategories")
+	public ResponseEntity<BaseDto<List<ItemCategoryModel>>> getAllItemGenericsdata() {
+		List<ItemCategoryModel> result = itemCategoryService.findAllCategories();
+		return new BaseDto<>(result, itemCategoryHelper.getRetrieveItemCategoryMessage(), OK).respond();
+	}
 	
 
 	@GetMapping("/getactiveitemcategoriesdata")

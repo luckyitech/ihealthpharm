@@ -144,6 +144,16 @@ public class ItemServiceImpl implements ItemService {
 	public List<UnitOfMeasurementModel> findAllUOMMethod() {
 		return UnitOfMeasurementRepo.findAllByOrderByCreationTimeStampDesc();
 	}
+
+	@Override
+	public List<UnitOfMeasurementModel> findAllUOMMethodsOnSerch(String searchTerm) {
+
+		if("All".equalsIgnoreCase(searchTerm)) {
+			searchTerm = "";
+		}
+		return UnitOfMeasurementRepo.findAllBySearchCriteria(searchTerm);
+	}
+	
 	
 	
 

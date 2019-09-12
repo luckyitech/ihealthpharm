@@ -17,7 +17,7 @@ public interface SpecializationRepository extends JpaRepository<SpecializationMo
 	List<SpecializationModel> findAllByOrderByCreationTimeStampDesc();
 	
 	
-	@Query("select i from specialization i where i.specializationCode like %:searchTerm% order by i.creationTimeStamp desc")
+	@Query("select i from specialization i where i.specializationName like %:searchTerm% order by i.creationTimeStamp desc")
 	List<SpecializationModel> findAllBySearchCriteria(@Param("searchTerm") String searchTerm);
 	
 	

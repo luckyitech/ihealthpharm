@@ -139,6 +139,18 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 		return manufacturerRepository.findAllByOrderByCreationTimeStampDesc();
 	}
 
+	@Override
+	public List<ManufacturerModel> findAllManufacturersData(String searchTerm) {
+
+		if("All".equalsIgnoreCase(searchTerm)) {
+			searchTerm = "";
+		}
+		return manufacturerRepository.findAllBySearchCriteria(searchTerm);
+		
+	}
+
+	
+	
 
 
 }

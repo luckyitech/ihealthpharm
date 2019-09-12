@@ -3,6 +3,7 @@ package com.ihealthpharm.masters.service;
 import java.util.List;
 
 import com.ihealthpharm.masters.model.ItemGroupModel;
+import com.ihealthpharm.masters.model.ItemsModel;
 
 public interface ItemGroupService {
 
@@ -20,6 +21,8 @@ public interface ItemGroupService {
 	void deleteItemGroupById( int itemGroupId);
 
 	void deleteMultipleItemGroupsById(int[] itemGroupIds);
+	 
+	List<ItemGroupModel> findAllItemGroups();
 	
 	  List<ItemGroupModel> findAllItemGroupData(String medicalOrNonMedical,String searchTerm);
 }

@@ -73,6 +73,11 @@ public class ItemGroupController {
 	}
 	
 	
+	@GetMapping("/getallitemgroupdata")
+	public ResponseEntity<BaseDto<List<ItemGroupModel>>> getAllItemdata() {
+		List<ItemGroupModel> result = itemGroupService.findAllItemGroups();
+		return new BaseDto<>(result, itemGroupHelper.getRetrieveItemGroupMessage(), OK).respond();
+	}
 
 	@GetMapping("/getactiveitemgroupsdata")
 	public ResponseEntity<BaseDto<List<ItemGroupModel>>> getItemGroupdata() {

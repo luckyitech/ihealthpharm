@@ -22,4 +22,5 @@ public interface ItemCategoryService {
 		 
 		 List<ItemCategoryModel> findAllItemCategoryData(String medicalOrNonMedical,String searchTerm);
 		 
+		 List<ItemCategoryModel> findAllCategories();
 }
