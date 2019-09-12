@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.ihealthpharm.masters.model.DistributorModel;
 
-public interface DistrubutorService {
+public interface DistributorService {
 
 	public DistributorModel saveDistrubutorData(DistributorModel distributorModel );
 	
