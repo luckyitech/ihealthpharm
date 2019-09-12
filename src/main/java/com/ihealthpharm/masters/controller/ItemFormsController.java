@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.helper.ItemFormsHelper;
+import com.ihealthpharm.masters.model.ItemCategoryModel;
 import com.ihealthpharm.masters.model.ItemFormModel;
 import com.ihealthpharm.masters.service.ItemFormService;
 
@@ -99,6 +100,10 @@ public class ItemFormsController {
 		return new BaseDto<>(result, itemFormsHelper.getRetrieveItemFormsMessage(), OK).respond();
 	}
 	
-	
+	@GetMapping("/getallitemforms")
+	public ResponseEntity<BaseDto<List<ItemFormModel>>> getAllItemFormsdata() {
+		List<ItemFormModel> result = itemFormService.findAllItemForms();
+		return new BaseDto<>(result, itemFormsHelper.getRetrieveItemFormsMessage(), OK).respond();
+	}
 
 }
