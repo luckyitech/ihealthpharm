@@ -27,6 +27,12 @@ public interface ItemService {
 	  
 	  //UOM method
 	  List<UnitOfMeasurementModel> findAllUOMMethod();
+	  
+	  //UOM BASED ON SEARCH
+	  List<UnitOfMeasurementModel> findAllUOMMethodsOnSerch(String searchTerm);
+	  
+	  
+	  
 	 
 	 
 

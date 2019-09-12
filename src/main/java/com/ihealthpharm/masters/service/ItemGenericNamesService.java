@@ -20,6 +20,8 @@ public interface ItemGenericNamesService {
 
 	void deleteMultipleItemGenericNamesById(int[] itemGenericNameIds);
 	
+	List<ItemGenericNamesModel> getAllGenerics();
+	
 	List<ItemGenericNamesModel> findAllItemGenericNamesData(String medicalOrNonMedical,String searchTerm,Integer itemGroupId);
 
 }

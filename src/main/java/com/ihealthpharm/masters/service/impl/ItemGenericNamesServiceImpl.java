@@ -149,6 +149,12 @@ public class ItemGenericNamesServiceImpl implements ItemGenericNamesService {
 	}
 
 
+	@Override
+	public List<ItemGenericNamesModel> getAllGenerics() {
+		return itemGenericNameRepository.findAllByOrderByCreationTimeStampDesc();
+	}
+
+
 
 
 }

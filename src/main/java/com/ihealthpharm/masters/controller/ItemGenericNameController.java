@@ -74,6 +74,12 @@ public class ItemGenericNameController {
 	}
 	
 	
+	@GetMapping("/getallitemgenericsdata")
+	public ResponseEntity<BaseDto<List<ItemGenericNamesModel>>> getAllItemGenericsdata() {
+		List<ItemGenericNamesModel> result = itemGenericNamesService.getAllGenerics();
+		return new BaseDto<>(result, itemGenericHelper.getRetrieveItemGenericNameMessage(), OK).respond();
+	}
+	
 
 	@GetMapping("/getactiveitemgenericsdata")
 	public ResponseEntity<BaseDto<List<ItemGenericNamesModel>>> getItemGenericdata() {

@@ -105,7 +105,9 @@ public class SpecializationController {
 	
 	@GetMapping("/getallspecializationsbysearch")
 	public ResponseEntity<BaseDto<List<SpecializationModel>>> getAllSpecializationdata(@RequestParam String searchTerm) {
+		log.info(searchTerm);
 		List<SpecializationModel> result = specializationService.findAllSpecializationData(searchTerm);
+		log.info(result.toString());
 		return new BaseDto<>(result, specializationHelper.getRetrieveSpecializationMessage(), OK).respond();
 	}
 	

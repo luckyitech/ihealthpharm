@@ -143,4 +143,10 @@ public class ItemCategoryServiceImpl implements ItemCategoryService {
 		return itemCategoriesRepository.findAllBySearchCriteria(medicalOrNonMedical,searchTerm);
 	}
 
+
+	@Override
+	public List<ItemCategoryModel> findAllCategories() {
+		return itemCategoriesRepository.findAllByOrderByCreationTimeStampDesc();
+	}
+
 }
