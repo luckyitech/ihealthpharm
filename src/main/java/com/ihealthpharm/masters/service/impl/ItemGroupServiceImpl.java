@@ -140,4 +140,11 @@ public class ItemGroupServiceImpl implements ItemGroupService {
 		return itemGroupRepository.findAllBySearchCriteria(medicalOrNonMedical,searchTerm);
 	}
 
+
+	@Override
+	public List<ItemGroupModel> findAllItemGroups() {
+
+		return itemGroupRepository.findAllByOrderByCreationTimeStampDesc();
+	}
+
 }

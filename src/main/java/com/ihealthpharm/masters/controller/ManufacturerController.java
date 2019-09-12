@@ -96,4 +96,11 @@ public class ManufacturerController {
 	}
 	
 	
+	@GetMapping("/getallmanufacturersdatabysearch")
+	public ResponseEntity<BaseDto<List<ManufacturerModel>>> getAllManufacturersdata(@RequestParam String searchTerm) {
+	   List<ManufacturerModel> result=manufacturerService.findAllManufacturersData(searchTerm);
+		return new BaseDto<>(result, manufacturerHelper.getRetrieveManufacturerMessage(), OK).respond();
+	}
+	
+	
 }

@@ -46,6 +46,7 @@ public class ItemController {
 	
 	@PostMapping("/save/item")
 	public ResponseEntity<BaseDto<ItemsModel>> insertItemData(@Valid @RequestBody ItemsModel itemsModel) {
+		System.out.println("----------------------------------------------"+itemsModel.toString());
 		log.info("Request Object insert is: "+ itemsModel);
 		
 		ItemsModel itemModelRes = itemService.saveItemsData(itemsModel);
@@ -104,10 +105,18 @@ public class ItemController {
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 	
+	//uom
 	
 	@GetMapping("/getallunitsofmeasurementdata")
 	public ResponseEntity<BaseDto<List<UnitOfMeasurementModel>>> getAllUnitsdata() {
 		List<UnitOfMeasurementModel> result = itemService.findAllUOMMethod();
+		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+	
+	
+	@GetMapping("/getallunitsdatabysearch")
+	public ResponseEntity<BaseDto<List<UnitOfMeasurementModel>>> getAllUnitsOfMeasurementsdata(@RequestParam String searchTerm) {
+	     List<UnitOfMeasurementModel> result=itemService.findAllUOMMethodsOnSerch(searchTerm);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 	

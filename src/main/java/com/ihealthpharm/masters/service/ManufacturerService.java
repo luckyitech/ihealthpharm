@@ -20,7 +20,9 @@ public interface ManufacturerService {
 	 
 	 void deleteMultipleManufacturersById(int[] manufacturerIds);
 	 
-	 public List<ManufacturerModel> findAllManufacturers();
+	  List<ManufacturerModel> findAllManufacturers();
+	
+	 List<ManufacturerModel> findAllManufacturersData(String searchTerm);
 	 
 	 
 
