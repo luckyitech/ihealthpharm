@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.helper.ItemPropertyHelper;
 import com.ihealthpharm.masters.model.ItemsModel;
+import com.ihealthpharm.masters.model.UnitOfMeasurementModel;
 import com.ihealthpharm.masters.service.ItemService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @RestController
 @RequestMapping("/item")
-@CrossOrigin("*")
+@CrossOrigin
 @Slf4j
 public class ItemController {
 
@@ -103,5 +104,11 @@ public class ItemController {
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 	
+	
+	@GetMapping("/getallunitsofmeasurementdata")
+	public ResponseEntity<BaseDto<List<UnitOfMeasurementModel>>> getAllUnitsdata() {
+		List<UnitOfMeasurementModel> result = itemService.findAllUOMMethod();
+		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
 	
 }

@@ -14,5 +14,7 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 	public List<ItemsModel> findByActiveS(String s);
 	
 	List<ItemsModel> findAllByOrderByCreationTimeStampDesc();
-
+	
+	
+	
 }
