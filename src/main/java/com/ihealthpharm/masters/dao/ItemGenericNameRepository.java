@@ -15,7 +15,7 @@ public interface ItemGenericNameRepository extends JpaRepository<ItemGenericName
 
 	List<ItemGenericNamesModel> findByActiveS(String s);
 	
-	List<ItemGenericNamesModel> findAllByOrderByCreationTimeStampDesc();
+	List<ItemGenericNamesModel> findAllByOrderByLastUpdateTimestampDesc();
 	
 	@Query("select i from items_generic_names i where i.medicalOrNonMedical = :medicalOrNonMedical and i.genericCode like %:searchTerm% and i.itemGroupId =:itemGroupModel order by i.creationTimeStamp desc")
 	List<ItemGenericNamesModel> findAllBySearchCriteria(@Param("medicalOrNonMedical") String medicalOrNonMedical,@Param("searchTerm") String searchTerm,@Param("itemGroupModel") ItemGroupModel itemGroupModel );

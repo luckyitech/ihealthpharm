@@ -21,7 +21,7 @@ import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.helper.DistributorHelper;
 import com.ihealthpharm.masters.model.DistributorModel;
 import com.ihealthpharm.masters.model.ReturnCreditTypeModel;
-import com.ihealthpharm.masters.service.DistrubutorService;
+import com.ihealthpharm.masters.service.DistributorService;
 import com.ihealthpharm.masters.service.ReturnCreditTypeService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ public class DistrubutorController {
 	String resMessage;
 
 	@Autowired
-	private DistrubutorService distrubutorService ;
+	private DistributorService distributorService ;
 	
 	@Autowired
 	private ReturnCreditTypeService returnCreditTypeService;
@@ -44,28 +44,28 @@ public class DistrubutorController {
 	@PostMapping("/save/distrubutor")
 	public ResponseEntity<BaseDto<DistributorModel>> insertDistrubutorData(@Valid @RequestBody DistributorModel distributorModel) {
 		log.info("Request Object insert is: "+distributorModel.toString());
-		DistributorModel distrubutorRes = distrubutorService.saveDistrubutorData(distributorModel);
+		DistributorModel distrubutorRes = distributorService.saveDistrubutorData(distributorModel);
 		return new BaseDto<>(distrubutorRes,distributorHelper.getSaveDistrubutorMessage(),OK).respond();
 	}
 	
 	@PutMapping("/update/distrubutor")
 	public ResponseEntity<BaseDto<DistributorModel>> updateDistrubutorData(@Valid @RequestBody DistributorModel distributorModel) {
 		log.info("Request Object for update is: "+ distributorModel.toString());
-		DistributorModel distrubutorRes = distrubutorService.updateDistrubutorData(distributorModel);
+		DistributorModel distrubutorRes = distributorService.updateDistrubutorData(distributorModel);
 		return new BaseDto<>(distrubutorRes,distributorHelper.getUpdateDistrubutorMessage(),OK).respond();
 	}
 	
 	@PutMapping("/update/distrubutors")
 	public ResponseEntity<BaseDto<List<DistributorModel>>> updateDistrubutorsData(@Valid @RequestBody List<DistributorModel> distributorModels) {
 		log.info("Request Object for update is: "+ distributorModels.toString());
-		List<DistributorModel> distrubutorRes = distrubutorService.updateDistrubutorsData(distributorModels);
+		List<DistributorModel> distrubutorRes = distributorService.updateDistrubutorsData(distributorModels);
 		return new BaseDto<>(distrubutorRes,distributorHelper.getUpdateDistrubutorMessage(),OK).respond();
 	}
 	
 	@DeleteMapping("/delete/distrubutor")
 	public ResponseEntity<BaseDto<Object>> deleteProviderData(@RequestParam int distrubutorId) {
 		log.info("Request Object for delete is: ", distrubutorId);
-		distrubutorService.deleteDistrubutorById(distrubutorId);;
+		distributorService.deleteDistrubutorById(distrubutorId);;
 		return new BaseDto<>(distributorHelper.getDeleteDistrubutorMessage(), OK).respond();
 	}
 	
@@ -73,25 +73,25 @@ public class DistrubutorController {
 	@DeleteMapping("/delete/distrubutors")
 	public ResponseEntity<BaseDto<Object>> deleteProviderData(@RequestParam int[] distrubutorsId) {
 		log.info("Request Object for delete is: "+ distrubutorsId.toString());
-		distrubutorService.deleteDistrubutorsById(distrubutorsId);
+		distributorService.deleteDistrubutorsById(distrubutorsId);
 		return new BaseDto<>(distributorHelper.getDeleteDistrubutorMessage(), OK).respond();
 	}
 	
 	@GetMapping("/getactivedistrubutorsdata")
 	public ResponseEntity<BaseDto<List<DistributorModel>>> getActiveDistributorData() {
-		List<DistributorModel> result = distrubutorService.findDistrubutorByActive();
+		List<DistributorModel> result = distributorService.findDistrubutorByActive();
 		return new BaseDto<>(result, distributorHelper.getRetrieveDistrubutorMessage(), OK).respond();
 	}
 	
 	@GetMapping("/getalldistrubutorsdata")
 	public ResponseEntity<BaseDto<List<DistributorModel>>> getAllDistributordata() {
-		List<DistributorModel> result = distrubutorService.findAllDistributors();
+		List<DistributorModel> result = distributorService.findAllDistributors();
 		return new BaseDto<>(result, distributorHelper.getRetrieveDistrubutorMessage(), OK).respond();
 	}
 	
 	@GetMapping("/getdistrubutordatabyid")
 	public ResponseEntity<BaseDto<DistributorModel>> getProviderDataById(@RequestParam int distrubutorId) {
-		DistributorModel result = distrubutorService.findDistrubutorById(distrubutorId);
+		DistributorModel result = distributorService.findDistrubutorById(distrubutorId);
 		return new BaseDto<>(result, distributorHelper.getRetrieveDistrubutorMessage(), OK).respond();
 	}
 	
