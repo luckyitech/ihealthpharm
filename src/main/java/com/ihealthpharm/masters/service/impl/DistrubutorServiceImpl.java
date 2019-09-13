@@ -14,14 +14,14 @@ import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.DistrubutorRepository;
 import com.ihealthpharm.masters.helper.DistributorHelper;
 import com.ihealthpharm.masters.model.DistributorModel;
-import com.ihealthpharm.masters.service.DistrubutorService;
+import com.ihealthpharm.masters.service.DistributorService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
 @Slf4j
-public class DistrubutorServiceImpl implements DistrubutorService {
+public class DistrubutorServiceImpl implements DistributorService {
 
 	@Autowired
 	DistrubutorRepository distrubutorRepository;

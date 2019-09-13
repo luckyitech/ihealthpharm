@@ -133,7 +133,6 @@ public class ItemCategoryServiceImpl implements ItemCategoryService {
 
 	}
 
-
 	@Override
 	public List<ItemCategoryModel> findAllItemCategoryData(String medicalOrNonMedical, String searchTerm) {
 
@@ -146,7 +145,7 @@ public class ItemCategoryServiceImpl implements ItemCategoryService {
 
 	@Override
 	public List<ItemCategoryModel> findAllCategories() {
-		return itemCategoriesRepository.findAllByOrderByCreationTimeStampDesc();
+		return itemCategoriesRepository.findAllByOrderByLastUpdateTimestampDesc();
 	}
 
 }
