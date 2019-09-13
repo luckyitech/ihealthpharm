@@ -35,7 +35,7 @@ public class PharmacyBranchModel {
 
 	@ManyToOne
 	@JoinColumn(name="PHARMACY_ID",nullable = false, updatable = true, insertable = true)
-	@JsonManagedReference
+	@JsonBackReference
 	private PharmacyModel pharmacy;
 
 	@Column(name="PHONE_NBR",length=20)
@@ -99,7 +99,7 @@ public class PharmacyBranchModel {
 	private Integer auditId;
 
 	@OneToMany(mappedBy="pharmacyBranch",cascade=CascadeType.ALL)
-	@JsonBackReference
+	@JsonManagedReference
 	private List<PharmacyStockModel> stockPointId;
 
 }

@@ -3,15 +3,18 @@ package com.ihealthpharm.masters.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
@@ -127,10 +130,10 @@ public class PurchaseOrderModel extends AuditModel {
 	@JoinColumn(name="DISTRIBUTOR_ID")
 	private  DistributorModel distributorModel;
 
-	/*@ManyToOne(cascade = CascadeType.DETACH)
+	@ManyToOne(cascade = CascadeType.DETACH)
 	@JoinColumn(name="PHARMACY_ID")
 	@JsonBackReference
-	PharmacyModel pharmacyModel;*/
+	PharmacyModel pharmacyModel;
 
 	@OneToOne
 	@JoinColumn(name="QUOTATION_ID")

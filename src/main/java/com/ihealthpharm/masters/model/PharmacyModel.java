@@ -20,6 +20,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 
@@ -120,9 +121,15 @@ public class PharmacyModel implements Serializable{
 	private Integer auditId;
 
 	@OneToMany(fetch = FetchType.LAZY,mappedBy="pharmacy",cascade=CascadeType.ALL)
-	@JsonBackReference
+	@JsonManagedReference
 	private List<PharmacyBranchModel> pharmacyBranchId;
+	
+	@OneToMany(mappedBy="pharmacyModel")
+	@JsonBackReference
+	private List<PurchaseOrderModel> purchaseordermodel;
 
+	
+	
 	/*@OneToMany(fetch = FetchType.LAZY,mappedBy="pharmacy",cascade=CascadeType.ALL)
 	@JsonBackReference
 	private List<PharmacyStockModel> pharmacyStocks;
