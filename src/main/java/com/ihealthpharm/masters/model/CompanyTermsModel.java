@@ -27,4 +27,7 @@ public class CompanyTermsModel extends AuditModel{
 	@Column(name="TERMS_AND_CONDITIONS")
 	private String termsAndConditions;
 			
+	@Column(name="ACTIVE_S",length=1)
+	private char activeS;
+	
 }

@@ -92,18 +92,7 @@ public class ManufacturerModel extends AuditModel {
 	@Column(name="CONTACT_PERSON_LAST_NM",length=50)
 	private String contactPersonLastName;
 
-	@Override
-	public String toString() {
-		return "ManufacturerModel [manufacturerId=" + manufacturerId + ", name=" + name + ", licence=" + licence
-				+ ", phoneNumber=" + phoneNumber + ", emailId=" + emailId + ", activeS=" + activeS + ", fax=" + fax
-				+ ", contactPersonEmail=" + contactPersonEmail + ", contactPersonPhoneNumber="
-				+ contactPersonPhoneNumber + ", contactPersonFirstName=" + contactPersonFirstName + ", website="
-				+ website + ", addressLine1=" + addressLine1 + ", addressLine2=" + addressLine2 + ", cityName="
-				+ cityName + ", provinceId=" + provinceId + ", zipCode=" + zipCode + ", countryId=" + countryId
-				+ ", auditId=" + auditId + ", contactPersonMiddleName=" + contactPersonMiddleName
-				+ ", contactPersonLastName=" + contactPersonLastName + "]";
-	}
-	
+
 	
 }
 
