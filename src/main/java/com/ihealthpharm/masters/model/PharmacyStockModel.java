@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,11 +30,6 @@ public class PharmacyStockModel {
 	@Column(name="PHARMACY_STOCK_POINTS_ID",length=11)
 	private int stockPointId;
 
-
-	@ManyToOne
-	@JoinColumn(name="PHARMACY_BRANCH_ID")
-	@JsonManagedReference
-	private PharmacyBranchModel pharmacyBranch;
 	
 	@CreationTimestamp
 	@Column(name="CREATION_TS")
@@ -81,6 +76,11 @@ public class PharmacyStockModel {
 	
 	@Column(name = "AUDIT_ID",length=11)
 	private Integer auditId;
+	
+	@ManyToOne
+	@JoinColumn(name="PHARMACY_BRANCH_ID")
+	@JsonBackReference
+	private PharmacyBranchModel pharmacyBranch;
 	
 	
 }
