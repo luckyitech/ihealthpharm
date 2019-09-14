@@ -3,6 +3,7 @@ package com.ihealthpharm.masters.controller;
 import static org.springframework.http.HttpStatus.OK;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -75,7 +76,7 @@ public class EmployeeController {
 	}
 
 	@PutMapping("/update/employees")
-	public ResponseEntity<BaseDto<List<EmployeeModel>>> updateEmployeesData(@Valid @RequestBody List<EmployeeDTO> employeeDtos) {
+	public ResponseEntity<BaseDto<List<EmployeeModel>>> updateEmployeesData(@Valid @RequestBody List<EmployeeDTO> employeeDtos) throws ParseException {
 		log.info("Request Object for update is: "+ employeeDtos.toString());
 		List<EmployeeModel> employeeRes = employeeService.updateEmployeesData(employeeDtos);
 		return new BaseDto<>(employeeRes, employeeHelper.getUpdateEmployeeMessage(), OK).respond();
