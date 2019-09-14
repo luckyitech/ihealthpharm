@@ -1,5 +1,7 @@
 package com.ihealthpharm.masters.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -42,8 +44,9 @@ public class EmployeeProfMembershipModel extends AuditModel{
 	@Column( name = "END_DT")
 	private Date endDate;
 	
-
-	
 	@Column( name = "AUDIT_ID",length=11)
 	private Integer auditId;
+	
+	
+	
 }
