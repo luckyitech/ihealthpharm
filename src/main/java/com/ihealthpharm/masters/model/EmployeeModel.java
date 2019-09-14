@@ -1,6 +1,8 @@
 package com.ihealthpharm.masters.model;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -65,10 +67,10 @@ public class EmployeeModel extends AuditModel implements Serializable{
 	private char activeS;
 	
 	@Column( name = "DOB_DT")
-	private Date dateOfBirth;
+	private String dateOfBirth;
 	
 	@Column( name = "DATE_OF_JOINING")
-	private Date dateOfJoining;
+	private String dateOfJoining;
 	
 	@Column( name = "EMAIL_ID",length=50)
 	private String emailId;
@@ -105,8 +107,6 @@ public class EmployeeModel extends AuditModel implements Serializable{
 	
 	@Column( name = "POSTAL_CD" ,length=20)
 	private String postalCode;
-	
-	
 	
 	@Lob
 	@Column( name = "PROFILE_IMAGE")
@@ -183,4 +183,17 @@ public class EmployeeModel extends AuditModel implements Serializable{
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "employee" , cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<EmployeeSalaryModel> employeeSalaryModel;
+	
+	public void setDateOfBirth(Date birthDate) throws ParseException {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String dateBirth=simpleDateFormat.format(birthDate);  
+		this.dateOfBirth = dateBirth;
+    }
+	
+	public void setDateOfJoining(Date dateOfJoin)
+	{
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String dateOfJoins=simpleDateFormat.format(dateOfJoin);  
+		this.dateOfJoining = dateOfJoins;
+	}
 }

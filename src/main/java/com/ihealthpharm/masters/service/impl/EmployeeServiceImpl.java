@@ -1,6 +1,7 @@
 package com.ihealthpharm.masters.service.impl;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -444,7 +445,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public List<EmployeeModel> updateEmployeesData(List<EmployeeDTO> employeeDtos) {
+	public List<EmployeeModel> updateEmployeesData(List<EmployeeDTO> employeeDtos) throws ParseException {
 		EmployeeModel employeeRes;
 		List<EmployeeModel> employeeResp = new ArrayList<>();
 		for (EmployeeDTO employeeDto : employeeDtos) {
