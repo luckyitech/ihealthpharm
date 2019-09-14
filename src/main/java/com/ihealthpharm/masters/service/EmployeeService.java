@@ -1,5 +1,6 @@
 package com.ihealthpharm.masters.service;
 
+import java.text.ParseException;
 import java.util.List;
 
 import com.ihealthpharm.masters.dto.EmployeeDTO;
@@ -11,7 +12,7 @@ public interface EmployeeService {
 	
 	public EmployeeModel updateEmployeeData(EmployeeModel employeeModel);
 	
-	public List<EmployeeModel> updateEmployeesData(List<EmployeeDTO> employeeDtos);
+	public List<EmployeeModel> updateEmployeesData(List<EmployeeDTO> employeeDtos) throws ParseException;
 	
 	public List<EmployeeModel> findAllEmployees();
 	

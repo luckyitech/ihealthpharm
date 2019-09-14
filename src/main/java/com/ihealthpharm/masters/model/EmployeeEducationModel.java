@@ -1,6 +1,8 @@
 package com.ihealthpharm.masters.model;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -44,6 +46,7 @@ public class EmployeeEducationModel extends AuditModel implements Serializable{
 	
 	@Column(name = "AUDIT_ID", length = 11)
 	private Integer auditId;
+	
 	
 	
 }

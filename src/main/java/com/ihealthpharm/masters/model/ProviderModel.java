@@ -1,5 +1,7 @@
 package com.ihealthpharm.masters.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -11,16 +13,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import lombok.Data;
 @Data
 @Entity(name="provider")
 public class ProviderModel extends AuditModel{
-	/**
-	 * 
-	 */
+
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -75,7 +73,8 @@ public class ProviderModel extends AuditModel{
 	private String   genderCode;
 	 
 	@Column(name = "DOB")
-	private Date dob;
+	private String dob;
+	
 	
 	@Column(name = "SPECIALITY")
 	private String speciality;
@@ -88,5 +87,15 @@ public class ProviderModel extends AuditModel{
 	@OneToOne(cascade=CascadeType.DETACH)
 	@JoinColumn(name = "PROVIDER_TYPE_LOOKUP_ID")
 	private ProviderLookupTypeModel providerLookupTypeModel;
+
+
+    public void setDateOfBirth(Date birthDate) throws ParseException {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String dateOfBirth=simpleDateFormat.format(birthDate);  
+		this.dob = dateOfBirth;
+    }
+    
+    
+    
 
 }
