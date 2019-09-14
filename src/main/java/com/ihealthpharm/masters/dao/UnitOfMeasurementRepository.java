@@ -15,4 +15,6 @@ public interface UnitOfMeasurementRepository extends JpaRepository<UnitOfMeasure
 	@Query("select i from unit_of_measurement i where i.measurementName like %:searchTerm% order by i.creationTimeStamp desc")
 	List<UnitOfMeasurementModel> findAllBySearchCriteria(@Param("searchTerm") String searchTerm);
 
+	List<UnitOfMeasurementModel> findByActiveS(String string);
+
 }
