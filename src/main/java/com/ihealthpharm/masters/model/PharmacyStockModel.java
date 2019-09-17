@@ -1,7 +1,5 @@
 package com.ihealthpharm.masters.model;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,9 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Data;
@@ -20,31 +15,27 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @Entity(name="pharmacy_stock_points")
-@EqualsAndHashCode(of="stockPointId")
+@EqualsAndHashCode(of="stockPointId",callSuper=false)
 
-public class PharmacyStockModel {
+public class PharmacyStockModel extends AuditModel {
 	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8278019257547205835L;
+
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="PHARMACY_STOCK_POINTS_ID",length=11)
 	private int stockPointId;
 
+	@ManyToOne
+	@JoinColumn(name="PHARMACY_BRANCH_ID")
+	@JsonBackReference
+	private PharmacyBranchModel pharmacyBranch;
 	
-	@CreationTimestamp
-	@Column(name="CREATION_TS")
-	private Date creationTimeStamp;
-
-	@Column(name="CREATION_USER_ID",length=50)
-	private String creationUserId ;
-
-	@UpdateTimestamp
-	@Column(name="LAST_UPDATE_TS")
-	private Date lastUpdateTimeStamp;
-
-	@Column(name="LAST_UPDATE_USER_ID",length=50)
-	private String lastUpdatedUserId;
-
 	@Column(name="ACTIVE_S",length=1)
 	private char activeS;
 	
@@ -73,14 +64,5 @@ public class PharmacyStockModel {
 	
 	@Column(name="DISCOUNT_FACILITY",length=1)
 	private char discountFacility;
-	
-	@Column(name = "AUDIT_ID",length=11)
-	private Integer auditId;
-	
-	@ManyToOne
-	@JoinColumn(name="PHARMACY_BRANCH_ID")
-	@JsonBackReference
-	private PharmacyBranchModel pharmacyBranch;
-	
 	
 }

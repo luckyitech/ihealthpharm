@@ -46,16 +46,16 @@ public class PharmacyHelper {
 	@Value("${pharmacyStock.save.response}")
 	public String saveStockResponse;
 	
-	@Value("${pharmacyBranch.update.response}")
+	@Value("${pharmacyStock.update.response}")
 	public String updateStockMessage;
 	
-	@Value("${pharmacyBranch.delete.response}")
+	@Value("${pharmacyStock.delete.response}")
 	public String deleteStockMessage;
 
-	@Value("${pharmacyBranch.retrieve.response}")
+	@Value("${pharmacyStock.retrieve.response}")
 	public String retrieveStockMessage;
 	
-	@Value("${pharmacyBranch.not.found.response}")
+	@Value("${pharmacyStock.not.found.response}")
 	public String notFoundStockMessage;
 
 	
