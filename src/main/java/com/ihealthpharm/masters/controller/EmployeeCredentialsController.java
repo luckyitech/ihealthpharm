@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.helper.EmployeeCredentialsHelper;
 import com.ihealthpharm.masters.model.EmployeeCredentialsModel;
+import com.ihealthpharm.masters.model.TokenModel;
 import com.ihealthpharm.masters.service.EmployeeCredentialsService;
 
 import io.jsonwebtoken.Jwts;
@@ -97,15 +98,16 @@ public class EmployeeCredentialsController {
 	}
 
 	@PostMapping("employeelogin")
-	public ResponseEntity<BaseDto<EmployeeCredentialsModel>> checkEmployeeCredentials(
+	public ResponseEntity<BaseDto<TokenModel>> checkEmployeeCredentials(
 			@RequestParam("userName") String userName, @RequestParam("currentPassword") String currentPassword)
 			throws Exception {
 
+		TokenModel tokenModel = new TokenModel();
 		EmployeeCredentialsModel employeeCredentialsModels = employeeCredentialsService.findEmployeeCredentialsByUserNameAndPassword(userName, currentPassword);
 		String token = Jwts.builder().setSubject(employeeCredentialsModels.getUserName()).claim("roles", "user").setIssuedAt(new Date())
 				.signWith(SignatureAlgorithm.HS256, "secretkey").compact();
-	   System.out.println(token);
-		return new BaseDto<>(employeeCredentialsModels, employeeCredentialsHelper.getDeleteEmployeeCredentialsMessage(),
-				OK).respond();
+		
+		tokenModel.setToken(token);
+		return new BaseDto<>(tokenModel, employeeCredentialsHelper.getDeleteEmployeeCredentialsMessage(),OK).respond();
 	}
 }
