@@ -3,7 +3,6 @@
  */
 package com.ihealthpharm.masters.dao;
 
-import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,12 +16,12 @@ import com.ihealthpharm.masters.model.PharmacyStockModel;
  *
  */
 @Repository
-public interface PharmacyStockRepository extends JpaRepository<PharmacyStockModel, Serializable> {
+public interface PharmacyStockRepository extends JpaRepository<PharmacyStockModel, Integer> {
 
 	PharmacyStockModel findByStockPointId(int stockPointId);
 
 	List<PharmacyStockModel> findByPharmacyBranch(PharmacyBranchModel pharmacyBranchModel);
 
-	
+	List<PharmacyStockModel> findAllByOrderByCreationTimeStampDesc();
 	
 }

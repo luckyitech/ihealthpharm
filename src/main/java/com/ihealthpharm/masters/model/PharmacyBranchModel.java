@@ -1,34 +1,35 @@
 package com.ihealthpharm.masters.model;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity(name="pharmacy_branch")
-public class PharmacyBranchModel {
+@EqualsAndHashCode(of="pharmacyBranchId",callSuper=false)
+public class PharmacyBranchModel extends AuditModel {
 
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6316932971719045053L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="PHARMACY_BRANCH_ID",length=11)
-	private int pharmacyBranchId;
+	private Integer pharmacyBranchId;
 
 	@Column(name="PHARMACY_BRANCH_NM",length=250)
 	private String pharmaBranchName;
@@ -61,20 +62,6 @@ public class PharmacyBranchModel {
 	@Column(name="ACTIVE_S",length=1)
 	private char activeS;
 
-	@CreationTimestamp
-	@Column(name="CREATION_TS")
-	private Date creationTimeStamp;
-
-	@Column(name="CREATION_USER_ID",length=50)
-	private String creationUserId ;
-
-	@UpdateTimestamp
-	@Column(name="LAST_UPDATE_TS")
-	private Date lastUpdateTimeStamp;
-
-	@Column(name="LAST_UPDATE_USER_ID",length=50)
-	private String lastUpdatedUserId;
-
 	@Column(name="ADDRESS_LINE2",length=250)
 	private String addressLine2;
 
@@ -98,8 +85,9 @@ public class PharmacyBranchModel {
 	@Column(name ="AUDIT_ID",length=11)
 	private Integer auditId;
 
-	@OneToMany(mappedBy="pharmacyBranch",cascade=CascadeType.ALL)
+	//need to have clarity
+	/*@OneToMany(mappedBy="pharmacyBranch",cascade=CascadeType.ALL)
 	@JsonManagedReference
 	private List<PharmacyStockModel> stockPointId;
-
+*/
 }

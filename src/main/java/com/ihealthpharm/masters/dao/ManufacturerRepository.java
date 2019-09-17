@@ -13,10 +13,9 @@ import com.ihealthpharm.masters.model.ManufacturerModel;
 @Repository
 public interface ManufacturerRepository  extends JpaRepository<ManufacturerModel, Integer>{
 	
-	public List<ManufacturerModel> findByActiveS(Character active);
+	List<ManufacturerModel> findByActiveS(Character active);
 	
 	List<ManufacturerModel> findAllByOrderByCreationTimeStampDesc();
-	
 
 	@Query("select i from manufacturer i where i.name like %:searchTerm% order by i.creationTimeStamp desc")
 	List<ManufacturerModel> findAllBySearchCriteria(@Param("searchTerm") String searchTerm);
