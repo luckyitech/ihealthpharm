@@ -4,6 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.ihealthpharm.masters.model.UsersModel;
 
-public interface UsersRepository extends JpaRepository<UsersModel, Integer>{
+public interface UsersRepository extends JpaRepository<UsersModel, Long>{
+
+	UsersModel findByUserName(String userName);
 
 }

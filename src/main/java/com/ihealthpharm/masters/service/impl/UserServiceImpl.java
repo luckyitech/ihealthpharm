@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UsersModel findUserById(int userId) {
+	public UsersModel findUserById(Long userId) {
 		UsersModel usersRes = getValidUsers(userId);
 		if (!Objects.nonNull(usersRes)) {
 			throw new IHealthPharmException(usersHelper.getNotFoundUsersMessage(), HttpStatus.NOT_FOUND);
@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void deleteUsersById(int userId) {
+	public void deleteUsersById(Long userId) {
 		
 		UsersModel usersRes = usersRepository.getOne(userId);
 		if (!Objects.nonNull(usersRes)) {
@@ -94,10 +94,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void deleteUsersById(int[] usersIds) {
+	public void deleteUsersById(Long[] usersIds) {
 		
 		UsersModel usersRes;
-		for (int user : usersIds) {
+		for (Long user : usersIds) {
 			usersRes = getValidUsers(user);
 			if (!Objects.nonNull(usersRes)) {
 				throw new IHealthPharmException(usersHelper.getNotFoundUsersMessage(), HttpStatus.NOT_FOUND);
@@ -108,7 +108,7 @@ public class UserServiceImpl implements UserService {
 
 	}
 
-	public UsersModel getValidUsers(int userId) {
+	public UsersModel getValidUsers(Long userId) {
 		UsersModel userRes = null;
 
 		try {
@@ -117,5 +117,11 @@ public class UserServiceImpl implements UserService {
 		} catch (NoSuchElementException noSuchElementException) {
 			throw new IHealthPharmException(usersHelper.getNotFoundUsersMessage(), HttpStatus.NOT_FOUND);
 		}
+	}
+
+	@Override
+	public UsersModel findUserByUserName(String userName) {
+		
+		return usersRepository.findByUserName(userName);
 	}
 }

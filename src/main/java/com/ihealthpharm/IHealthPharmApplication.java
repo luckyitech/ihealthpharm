@@ -15,12 +15,12 @@ public class IHealthPharmApplication extends SpringBootServletInitializer{
 		SpringApplication.run(IHealthPharmApplication.class, args);
 	}
 	
-	@Bean
+	/*@Bean
 	public FilterRegistrationBean jwtFilter() {
 		final FilterRegistrationBean registrationBean = new FilterRegistrationBean();
 		registrationBean.setFilter(new JwtFilter());
 		registrationBean.addUrlPatterns("/getallemployeecredentials","/getemployeecredentialsbyid");
 		return registrationBean;
-	}
+	}*/
 
 }

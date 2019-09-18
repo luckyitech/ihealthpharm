@@ -15,10 +15,14 @@ public interface UserService {
 	
 	public List<UsersModel> findAllUsers();
 	
-	public UsersModel findUserById(int UserId);
+	public UsersModel findUserById(Long UserId);
 	
-	public void deleteUsersById(int UserIds);
+	public UsersModel findUserByUserName(String userName);
 	
-	public void deleteUsersById(int[] UsersIds);
+	public void deleteUsersById(Long UserIds);
+	
+	public void deleteUsersById(Long[] UsersIds);
+	
+	
 
 }

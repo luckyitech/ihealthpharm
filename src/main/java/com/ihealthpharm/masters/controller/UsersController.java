@@ -50,7 +50,7 @@ public class UsersController {
 	}
 	
 	@DeleteMapping("/delete/user")
-	public ResponseEntity<BaseDto<Object>> deleteUserData(@RequestParam int userId) {
+	public ResponseEntity<BaseDto<Object>> deleteUserData(@RequestParam Long userId) {
 		log.info("Request Object for delete is: ", userId);
 		userService.deleteUsersById(userId);;
 		return new BaseDto<>(usersHelper.getDeleteUsersMessage(), OK).respond();
@@ -64,13 +64,13 @@ public class UsersController {
 	
 		
 	@GetMapping("/getuserdatabyid")
-	public ResponseEntity<BaseDto<UsersModel>> getUserDataById(@RequestParam int userId) {
+	public ResponseEntity<BaseDto<UsersModel>> getUserDataById(@RequestParam Long userId) {
 		UsersModel result = userService.findUserById(userId);
 		return new BaseDto<>(result, usersHelper.getRetrieveUsersMessage(), OK).respond();
 	}
 	
 	@DeleteMapping("/delete/users")
-	public ResponseEntity<BaseDto<Object>> deleteUsersData(@RequestParam int[] usersIds) {
+	public ResponseEntity<BaseDto<Object>> deleteUsersData(@RequestParam Long[] usersIds) {
 		
 			log.info("Request Object for delete is: "+usersIds[0]);
 		
@@ -84,4 +84,6 @@ public class UsersController {
 	List<UsersModel> UsersModelRes = userService.updateUsersData(usersModel);
 	return new BaseDto<>(UsersModelRes,usersHelper.getUpdateUsersMessage(),OK).respond();
 	}
+	
+	
 }
