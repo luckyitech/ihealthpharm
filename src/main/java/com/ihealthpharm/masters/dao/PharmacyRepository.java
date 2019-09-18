@@ -3,10 +3,12 @@ package com.ihealthpharm.masters.dao;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.ihealthpharm.masters.model.PharmacyModel;
 
-public interface PharmacyRepository extends JpaRepository<PharmacyModel,Integer > {
+@Repository
+public interface PharmacyRepository extends JpaRepository<PharmacyModel,Integer> {
 
-  	List<PharmacyModel> findByActiveS(String active);
+  	List<PharmacyModel> findByActiveS(Character active);
 }
