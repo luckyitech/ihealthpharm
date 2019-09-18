@@ -53,7 +53,7 @@ public class PurchaseOrderItemsModel extends AuditModel {
 	private String remarks;
 
 	@Column(name="STATUS",length=1)
-	private char status;
+	private Character status;
 
 	@Column(name="UNIT_RATE")
 	private Double unitRate;
@@ -63,7 +63,19 @@ public class PurchaseOrderItemsModel extends AuditModel {
 
 	@Column(name="BONUS")
 	private Double bonus;
-
+	
+	@Column(name="TOTAL_VALUE")
+	private Double totalValue;
+	
+	@Column(name="TOTAL_QUANTITY",length=11)
+	private int totalQuantity;
+	
+	@Column(name="ACTUAL_VALUE")
+	private Double actualValue;
+	
+	@Column(name="PACK",length=11)
+	private int pack;
+	
 
 	@OneToOne
 	@JoinColumn(name="ITEM_ID")
