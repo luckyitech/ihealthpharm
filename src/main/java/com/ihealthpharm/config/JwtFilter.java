@@ -15,9 +15,10 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureException;
 
-public class JwtFilter extends GenericFilterBean {
+public class JwtFilter //extends GenericFilterBean 
+{
 	
-	@Override
+	/*@Override
     public void doFilter(final ServletRequest req,
                          final ServletResponse res,
                          final FilterChain chain) throws IOException, ServletException {
@@ -48,5 +49,5 @@ public class JwtFilter extends GenericFilterBean {
             chain.doFilter(req, res);
         }
 
-    }
+    }*/
 }
