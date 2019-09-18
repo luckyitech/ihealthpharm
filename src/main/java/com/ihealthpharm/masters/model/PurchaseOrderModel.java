@@ -42,7 +42,7 @@ public class PurchaseOrderModel extends AuditModel {
 
 	@OneToOne
 	@JoinColumn(name="APPROVED_BY")
-	private UsersModel approvedBy;
+	private EmployeeModel approvedBy;
 
 	@Column(name="APPROVED_DT")
 	private Date approvedDate;
@@ -52,14 +52,14 @@ public class PurchaseOrderModel extends AuditModel {
 
 	@OneToOne
 	@JoinColumn(name="CANCELLED_BY")
-	private UsersModel cancelledBy;
+	private EmployeeModel cancelledBy;
 
 	@Column(name="CANCELLED_DT")
 	private Date cancelledDate;
 
 	@OneToOne
 	@JoinColumn(name="CREATED_BY")
-	private UsersModel createdBy;
+	private EmployeeModel createdBy;
 
 	@Column(name="DELIVERY_TIME",length=11)
 	private Integer deliveryTime;
@@ -71,11 +71,11 @@ public class PurchaseOrderModel extends AuditModel {
 	private Float discountPercentage;
 
 	@Column(name="EMERGENCY",length=1)
-	private char emergency;
+	private Character emergency;
 	
 	@OneToOne
 	@JoinColumn(name="MODIFIED_BY")
-	private UsersModel modifiedBy;
+	private EmployeeModel modifiedBy;
 
 	@Column(name="MODIFIED_DT")
 	private Date modifiedDate;
@@ -109,7 +109,7 @@ public class PurchaseOrderModel extends AuditModel {
 	
 	@OneToOne
 	@JoinColumn(name="REQUESTED_BY")
-	private UsersModel requestedBy;
+	private EmployeeModel requestedBy;
 
 
 	@Column(name="REQUEST_DT")
@@ -121,14 +121,28 @@ public class PurchaseOrderModel extends AuditModel {
 
 	@OneToOne
 	@JoinColumn(name="VERIFY_BY")
-	private UsersModel verifyBy;
+	private EmployeeModel verifyBy;
 
 	@Column(name="VERIFY_DT")
 	private Date verifyDate;
 	
+	@Column(name="MEDICAL_OR_NON_MEDICAL",length=1)
+	private Character medicalOrNonMedical;
+	
+	@Column(name="CASH",length=1)
+	private Character cash;
+	
 	@OneToOne
 	@JoinColumn(name="DISTRIBUTOR_ID")
 	private  DistributorModel distributorModel;
+	
+	@OneToOne
+	@JoinColumn(name="PHARMACY_ADDRESS_ID")
+	private  PharmacyAddressModel pharmacyAddressModel;
+	
+	@OneToOne
+	@JoinColumn(name="DELIVERY_TYPE_ID")
+	private  DeliveryTypesModel deliveryTypesModel;
 
 	@ManyToOne(cascade = CascadeType.DETACH)
 	@JoinColumn(name="PHARMACY_ID")
