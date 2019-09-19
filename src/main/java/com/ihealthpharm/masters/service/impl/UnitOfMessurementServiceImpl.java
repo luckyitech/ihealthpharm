@@ -101,6 +101,13 @@ public class UnitOfMessurementServiceImpl implements UnitOfMessurementService {
 		return uomRepository.findByActiveS("Y");
 	}
 
+
+
+	@Override
+	public List<UnitOfMeasurementModel> findAllMeasurements() {
+		return uomRepository.findAllByOrderByCreationTimeStampDesc();
+	}
+
 	
 	
 	
