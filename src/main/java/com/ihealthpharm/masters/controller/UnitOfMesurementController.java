@@ -82,6 +82,13 @@ public class UnitOfMesurementController {
 		return new BaseDto<String>(uomHelper.getDeleteUomMessage(), OK).respond();
 	}
 	
+	@GetMapping("uom/findAll/measurements")
+	public ResponseEntity<BaseDto<List<UnitOfMeasurementModel>>> findAllUnitOfMeasurements(){
+		
+		List<UnitOfMeasurementModel> result=uomService.findAllMeasurements();
+      return new BaseDto<>(result,uomHelper.getRetrieveUomMessage(),OK).respond();
+	}
+	
 	
 
 }

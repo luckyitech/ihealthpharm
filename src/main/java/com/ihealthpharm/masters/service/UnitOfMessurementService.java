@@ -25,5 +25,9 @@ public interface UnitOfMessurementService {
 	void remove(int[] ids);
 
 	List<UnitOfMeasurementModel> findbyActiveS();
+	
+	
+	List<UnitOfMeasurementModel> findAllMeasurements();
+	
 
 }
