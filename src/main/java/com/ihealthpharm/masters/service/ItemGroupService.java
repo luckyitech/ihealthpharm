@@ -3,7 +3,6 @@ package com.ihealthpharm.masters.service;
 import java.util.List;
 
 import com.ihealthpharm.masters.model.ItemGroupModel;
-import com.ihealthpharm.masters.model.ItemsModel;
 
 public interface ItemGroupService {
 
