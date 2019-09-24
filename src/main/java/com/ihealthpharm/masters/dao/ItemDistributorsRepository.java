@@ -10,7 +10,8 @@ import com.ihealthpharm.masters.model.ItemDistributorModel;
 @Repository
 public interface ItemDistributorsRepository extends JpaRepository<ItemDistributorModel, Integer> {
 
-	//List<ItemDistributorModel> findByItemId(ItemsModel existingDrugInfo);
 	List<ItemDistributorModel> findByActiveS(String active);
+	
+	 List<ItemDistributorModel> findAllByOrderByLastUpdateTimestampDesc();
 
 }

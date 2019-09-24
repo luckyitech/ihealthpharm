@@ -128,7 +128,8 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public ItemsModel saveItemsData(@Valid ItemsModel itemsModel) {
+	public ItemsModel saveItemsData(ItemsModel itemsModel) {
+		System.out.println("*******************save servixce  impl***********************************");
 		itemsModel = itemRepository.save(itemsModel);
 		log.info("Items data with ID: "+ itemsModel.getItemId()+" saved succesfully");
 		return itemsModel;
