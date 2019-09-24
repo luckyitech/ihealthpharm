@@ -46,7 +46,6 @@ public class ItemController {
 	
 	@PostMapping("/save/item")
 	public ResponseEntity<BaseDto<ItemsModel>> insertItemData(@Valid @RequestBody ItemsModel itemsModel) {
-		System.out.println("----------------------------------------------"+itemsModel.toString());
 		log.info("Request Object insert is: "+ itemsModel);
 		
 		ItemsModel itemModelRes = itemService.saveItemsData(itemsModel);

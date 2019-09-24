@@ -37,10 +37,10 @@ public class ItemDistributorController {
 	
 	
 	@PostMapping("/save/itemdistributor")
-	public ResponseEntity<BaseDto<ItemDistributorModel>> insertDistributorData(@Valid @RequestBody ItemDistributorModel itemDistributorModel) {
-		log.info("Request Object insert is: "+ itemDistributorModel);
+	public ResponseEntity<BaseDto<ItemDistributorModel>> insertDistributorData(@Valid @RequestParam int[] itemsId,@Valid @RequestParam int[] distributorsId ) {
+		log.info("Request Object insert is: "+ itemsId+distributorsId);
 		
-		ItemDistributorModel itemDistributorModelRes = itemDistributorService.saveItemDistributorData(itemDistributorModel);
+		ItemDistributorModel itemDistributorModelRes = itemDistributorService.saveItemDistributorData(itemsId,distributorsId);
 		return new BaseDto<>(itemDistributorModelRes,itemDistributorHelper.getSaveItemDistributorMessage(),OK).respond();
 	}
 	
@@ -80,13 +80,17 @@ public class ItemDistributorController {
 		return new BaseDto<>(result, itemDistributorHelper.getRetrieveItemDistributorMessage(), OK).respond();
 	}
 	
-	@GetMapping("/geitemdistributordatabyid")
+	@GetMapping("/getitemdistributordatabyid")
 	public ResponseEntity<BaseDto<ItemDistributorModel>> getDistributorDataById(@RequestParam int itemdistributorId) {
 		ItemDistributorModel result = itemDistributorService.findItemDistributorById(itemdistributorId);
 		return new BaseDto<>(result, itemDistributorHelper.getRetrieveItemDistributorMessage(), OK).respond();
 	}
 	
-	
+	@GetMapping("/getallitemdistributors")
+	public ResponseEntity<BaseDto<List<ItemDistributorModel>>> getAllItemDistributors(){
+		List<ItemDistributorModel> response=itemDistributorService.findAllItemDistributors();
+		return new BaseDto<>(response,itemDistributorHelper.getRetrieveItemDistributorMessage(),OK).respond();
+	}
 	
 	 
 

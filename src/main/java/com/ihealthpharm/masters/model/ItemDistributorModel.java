@@ -1,28 +1,16 @@
 package com.ihealthpharm.masters.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
-/**
- * @author Vikas
- *	DrugDistributors Persists the Drug and Distributors details 
- *	Setter, getters by default added no need to add manually
- * Audit Columns will be added from AuditModel
- */
-@Getter
-@Setter
+
+@Data
 @Entity(name = "items_distributor")
 @EqualsAndHashCode(of = "itemDistributorId", callSuper = false)
 public class ItemDistributorModel extends AuditModel{
@@ -38,19 +26,18 @@ public class ItemDistributorModel extends AuditModel{
 	private Integer itemDistributorId;
 	
 	// Drug Entity mapped 
-	@ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name="ITEM_ID")
-	@JsonBackReference
-	private ItemsModel itemId;
+	@Column(name="ITEM_ID")
+	private int itemsId;
 	
 	// DistrubutorModel Entity mapped 
-	@ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name="DISTRIBUTOR_ID")
-	private DistributorModel distributor;
+    @Column(name="DISTRIBUTOR_ID")
+	private int distributorsId;
 	
 	@Column(name="ACTIVE_S",length=1)
 	private String activeS;
+
 	
-	
-	
+
+
+
 }

@@ -1,7 +1,6 @@
 package com.ihealthpharm.masters.model;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,11 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -108,10 +105,6 @@ public class ItemsModel extends AuditModel {
 	
 	@Column(name="IS_FORMULARY",length=1)//defalut 'N'
 	private String isFormulary;
-	
-	@OneToOne
-	@JoinColumn(name = "SPECIALIZATION_ID")
-	private SpecializationModel specialization;
 
 	@Column(name="TEMPERATURE",length=20)
 	private String  temperature;
@@ -247,16 +240,24 @@ public class ItemsModel extends AuditModel {
 	@Column(name="DRUG_INTERNAL_EXTERNAL_BOTH",length=20)
 	private String drugInternalExternalBoth;
 	
-//    DistrubutorModel Entity mapped
-	@OneToMany(mappedBy = "itemId")
-	@JsonManagedReference
-	private List<ItemDistributorModel> itemDistributors;
-	
-
 	@ManyToOne(fetch = FetchType.LAZY,cascade=CascadeType.ALL)
 	@JsonBackReference
 	@JoinColumn(name="EXPIRY_PROFILE_ID")
 	private ExpiryProfileModel expiryProfile;
+	
+	@OneToOne(cascade=CascadeType.DETACH)
+	@JoinColumn(name = "SPECIALIZATION_ID")
+	private SpecializationModel specialization;
+	
+	
+	/*@ManyToMany(cascade = CascadeType.ALL,mappedBy="itemsId")
+	private List<ItemDistributorModel> itemDistributors;*/
+	
+	/*@ManyToMany(fetch=FetchType.LAZY)
+	@JoinColumn(name="ITEM_DISTRIBUTOR_ID")
+	private List<ItemDistributorModel> itemDist;
+*/
+
 
 
 }

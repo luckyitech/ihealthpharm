@@ -47,9 +47,31 @@ public class ItemDistributorServiceImpl implements ItemDistributorService {
 
 
 	@Override
-	public ItemDistributorModel saveItemDistributorData(ItemDistributorModel itemDistributor) {
-
-		itemDistributor = itemDistributorsRepository.save(itemDistributor);
+	public ItemDistributorModel saveItemDistributorData( int[] itemsId,  int[] distributorsId) {
+		
+		ItemDistributorModel itemDistributor=null;
+		
+		if(itemsId.length<=1) {
+			
+			for(int i:distributorsId) {
+				 itemDistributor = new ItemDistributorModel();
+				itemDistributor.setItemsId(itemsId[0]);
+				itemDistributor.setDistributorsId(i);
+				itemDistributor = itemDistributorsRepository.save(itemDistributor);
+			}
+			
+		}
+		else 
+		{
+			
+				for(int i:itemsId) {
+					 itemDistributor = new ItemDistributorModel();
+					itemDistributor.setItemsId(i);
+					itemDistributor.setDistributorsId(distributorsId[0]);
+					itemDistributor = itemDistributorsRepository.save(itemDistributor);
+				}
+			
+		}
 		log.info("ItemDistributor data with ID: "+ itemDistributor.getItemDistributorId()+" saved succesfully");
 		return itemDistributor;
 	}
@@ -127,6 +149,13 @@ public class ItemDistributorServiceImpl implements ItemDistributorService {
 			itemDistributorsRepository.delete(itemDistributorModelRes);
 			log.info("ItemDistributor data with ID: " + itemDistributorModelRes.getItemDistributorId() + " deleted succesfully");
 		}
+	}
+
+
+
+	@Override
+	public List<ItemDistributorModel> findAllItemDistributors() {
+		return itemDistributorsRepository.findAllByOrderByLastUpdateTimestampDesc();
 	}
 
 }
