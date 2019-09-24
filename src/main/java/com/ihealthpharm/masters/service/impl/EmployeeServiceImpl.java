@@ -14,7 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
+import com.ihealthpharm.masters.dao.EmployeeAccessRepository;
 import com.ihealthpharm.masters.dao.EmployeeRepository;
+import com.ihealthpharm.masters.dto.EmployeeAccessDTO;
 import com.ihealthpharm.masters.dto.EmployeeDTO;
 import com.ihealthpharm.masters.dto.EmployeeEducationDTO;
 import com.ihealthpharm.masters.dto.EmployeeHonorDTO;
@@ -24,6 +26,7 @@ import com.ihealthpharm.masters.dto.EmployeePublicationDTO;
 import com.ihealthpharm.masters.dto.EmployeeSalaryDTO;
 import com.ihealthpharm.masters.dto.EmploymentHistoryDTO;
 import com.ihealthpharm.masters.helper.EmployeeHelper;
+import com.ihealthpharm.masters.model.EmployeeAccessModel;
 import com.ihealthpharm.masters.model.EmployeeEducationModel;
 import com.ihealthpharm.masters.model.EmployeeHonorModel;
 import com.ihealthpharm.masters.model.EmployeeInterestModel;
@@ -43,12 +46,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Autowired
 	EmployeeRepository employeeRepository;
+	
+	@Autowired
+	EmployeeAccessRepository employeeAccessRepository;
 
 	@Autowired
 	EmployeeHelper employeeHelper;
 
 	@Override
-	public EmployeeModel saveEmployeeData(EmployeeModel employeeModel) {
+	public EmployeeModel saveEmployeeData(EmployeeModel employeeModel,EmployeeAccessDTO employeeAccessDTO) {
 		
 /*
 		EmployeeModel employeeRes = new EmployeeModel();
@@ -215,6 +221,21 @@ public class EmployeeServiceImpl implements EmployeeService {
 		
 		log.info(" Active S: Value: "+employeeRes.getActiveS());*/
 		EmployeeModel employeeRes = employeeRepository.save(employeeModel);
+		EmployeeAccessModel employeeAccessModel = null;
+		for(Integer i=0; i<employeeAccessDTO.getPharmaAccessids().length;i++) {
+			employeeAccessModel = new EmployeeAccessModel();
+			employeeAccessModel.setEmployeeModel(employeeRes);
+			employeeAccessModel.setPharmaAccessModel(employeeAccessDTO.getPharmaAccessids()[i]);
+			if(employeeAccessDTO.getFlag()[i])
+			{
+				employeeAccessModel.setActiveS('Y');
+			}
+			else
+			{
+				employeeAccessModel.setActiveS('N');
+			}
+			employeeAccessRepository.save(employeeAccessModel);
+		}
 		log.info("Employee data with ID: " + employeeRes.getEmployeeId() + " saved succesfully");
 		return employeeRes;
 	}
