@@ -35,7 +35,7 @@ public class PharmacyController {
 	@Autowired
 	private PharmacyHelper pharmacyHelper;
 	
-	
+
 	@PostMapping("/save/pharmacy")
 	public ResponseEntity<BaseDto<PharmacyModel>> insertPharmacyData(@Valid @RequestBody PharmacyModel pharmacyModel){
 		log.info("Request Object insert is :",pharmacyModel);

@@ -2,11 +2,15 @@ package com.ihealthpharm.masters.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Data;
 
@@ -19,9 +23,10 @@ public class EmployeeCredentialsModel extends AuditModel{
 	@Column(name = "EMPLOYEE_CREDENTIALS_ID" ,length=11)
 	private Integer employeeCredentialsId;
 	
-	@OneToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "EMPLOYEE_ID")
-	private EmployeeModel employeeId;
+	@JsonBackReference
+	private EmployeeModel employee;
 	
 	@Column(name="USER_NM", length=50)
 	private String userName;

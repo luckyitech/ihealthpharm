@@ -22,8 +22,8 @@ import com.ihealthpharm.masters.model.EmployeeCredentialsModel;
 import com.ihealthpharm.masters.model.TokenModel;
 import com.ihealthpharm.masters.service.EmployeeCredentialsService;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+//import io.jsonwebtoken.Jwts;
+//import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 
 @CrossOrigin
@@ -97,7 +97,7 @@ public class EmployeeCredentialsController {
 				OK).respond();
 	}
 
-	@PostMapping("employeelogin")
+	/*@PostMapping("employeelogin")
 	public ResponseEntity<BaseDto<TokenModel>> checkEmployeeCredentials(
 			@RequestParam("userName") String userName, @RequestParam("currentPassword") String currentPassword)
 			throws Exception {
@@ -109,5 +109,5 @@ public class EmployeeCredentialsController {
 		
 		tokenModel.setToken(token);
 		return new BaseDto<>(tokenModel, employeeCredentialsHelper.getDeleteEmployeeCredentialsMessage(),OK).respond();
-	}
+	}*/
 }

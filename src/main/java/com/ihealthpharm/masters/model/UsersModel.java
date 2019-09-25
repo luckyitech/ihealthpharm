@@ -9,17 +9,17 @@ import javax.persistence.Id;
 import lombok.Data;
 
 @Data
-@Entity(name="users")
+@Entity(name="pharmacy_admin")
 public class UsersModel extends AuditModel{
 
 	private static final long serialVersionUID = -7557940488957361025L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="USER_ID",length=11)
+	@Column(name="ADMIN_USER_ID",length=11)
 	private Long userId;
 	
-	@Column(name="USER_NM")
+	@Column(name="ADMIN_USER_NM")
 	private String  userName;
 	
 	@Column(name="PASSWORD")
