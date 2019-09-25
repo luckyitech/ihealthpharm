@@ -91,8 +91,6 @@ public class ManufacturerModel extends AuditModel {
 	
 	@Column(name="CONTACT_PERSON_LAST_NM",length=50)
 	private String contactPersonLastName;
-
-
 	
 }
 

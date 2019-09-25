@@ -36,7 +36,6 @@ public class SpecializationModel extends AuditModel{
 	@Column(name="SPECIALIZATION_NAME",length=100)
 	private String specializationName;
 	
-	
 	@Column(name="SPECIALIZATION_DESC",columnDefinition="text")
     private String specializationDesc;
 	

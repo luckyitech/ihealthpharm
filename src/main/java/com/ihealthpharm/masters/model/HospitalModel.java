@@ -56,10 +56,6 @@ public class HospitalModel {
 	@Size(max=250)
 	private String addressLine2;
 	
-//	@OrderColumn(name = "ADDRESS_LINE3")
-//	@Size(max=250)
-//	private String addressLine3;
-	
 	@Column(name = "CITY_NM")
 	@Size(max=50)
 	private String cityName;
@@ -84,25 +80,7 @@ public class HospitalModel {
 	@Column(name = "HELPLINE")
 	@Size(max=50)
 	private String helpLine;
-	
-//	@Column(name = "CONTACT_FIRST_NAME")
-//	@Size(max=80)
-//	private String contactFirstName;
-//	
-//	@Column(name = "CONTACT_MIDDLE_NAME")
-//	@Size(max=80)
-//	private String contactMiddleName;
-//
-//	@Column(name = "CONTACT_LAST_NAME")
-//	@Size(max=80)
-//	private String contactLastName;
-//
-//	@Column(name = "CONTACT_PHONE_NBR")
-//	private String contactPhoneNumber;
-//	
-//	@Column(name = "CONTACT_EMAIL_ID")
-//	private String contactEmail;
-	
+
 	@Column(name = "CREATION_TS")
 	private Date creationTimeStamp = new Date();
 	
