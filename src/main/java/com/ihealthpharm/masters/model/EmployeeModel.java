@@ -20,6 +20,7 @@ import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.ihealthpharm.masters.dto.EmployeeAccessDTO;
 
 import lombok.Data;
 
@@ -184,6 +185,14 @@ public class EmployeeModel extends AuditModel implements Serializable{
 	@JsonManagedReference
 	private List<EmployeeSalaryModel> employeeSalaryModel;
 	
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "employee" , cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private List<EmployeeCredentialsModel> employeeCredentialsModel;
+	
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "employee" , cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private List<EmployeePharmacyRoleModel> employeePharmacyRoleModel;
+	
 	public void setDateOfBirth(Date birthDate) throws ParseException {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String dateBirth=simpleDateFormat.format(birthDate);  
@@ -196,4 +205,6 @@ public class EmployeeModel extends AuditModel implements Serializable{
 		String dateOfJoins=simpleDateFormat.format(dateOfJoin);  
 		this.dateOfJoining = dateOfJoins;
 	}
+	
+	
 }
