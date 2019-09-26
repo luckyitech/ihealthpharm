@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.model.EmployeePharmacyRoleModel;
 import com.ihealthpharm.masters.service.EmployeePharmacyRoleService;
-import com.ihealthpharm.masters.service.PharmacyRolesService;
 
 import lombok.extern.slf4j.Slf4j;
 

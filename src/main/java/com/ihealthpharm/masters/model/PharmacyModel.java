@@ -67,14 +67,4 @@ public class PharmacyModel extends AuditModel{
 	@Column(name="PURCHASE_ORDER_APPROVAL",length=1)
 	private char purchaseOrderApproval;
 
-	/*@OneToMany(fetch = FetchType.LAZY,mappedBy="pharmacy",cascade=CascadeType.ALL)
-	@JsonManagedReference
-	private List<PharmacyBranchModel> pharmacyBranchId;
-	
-	@OneToMany(mappedBy="pharmacyModel")
-	@JsonBackReference
-	private List<PurchaseOrderModel> purchaseordermodel;
-	*/
-	
-
 }

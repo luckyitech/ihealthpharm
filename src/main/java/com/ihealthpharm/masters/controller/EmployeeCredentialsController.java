@@ -2,7 +2,6 @@ package com.ihealthpharm.masters.controller;
 
 import static org.springframework.http.HttpStatus.OK;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.helper.EmployeeCredentialsHelper;
 import com.ihealthpharm.masters.model.EmployeeCredentialsModel;
-import com.ihealthpharm.masters.model.TokenModel;
 import com.ihealthpharm.masters.service.EmployeeCredentialsService;
 
 //import io.jsonwebtoken.Jwts;
