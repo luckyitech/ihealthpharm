@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class QuotationItemController {
 
-	@Autowired
+	/*@Autowired
 	QuotationItemsService quotationItemService;
 
 	@Autowired
@@ -87,5 +87,5 @@ public class QuotationItemController {
 		List<QuotationItemsModel> quotationItemModelRes = quotationItemService
 				.updateQuotationItemsData(quotationItemModel);
 		return new BaseDto<>(quotationItemModelRes, quotationItemHelper.getUpdateQuotationItemMessage(), OK).respond();
-	}
+	}*/
 }
