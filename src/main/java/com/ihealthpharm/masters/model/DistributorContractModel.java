@@ -15,7 +15,13 @@ import lombok.Data;
 
 @Data
 @Entity(name="distributor_contract")
+
 public class DistributorContractModel extends AuditModel{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4503882708794176310L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

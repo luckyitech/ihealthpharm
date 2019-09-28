@@ -103,13 +103,74 @@ public class ItemController {
 		ItemsModel result = itemService.findItemsById(itemId); 
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
+
+	
+	///////////////////////////////////////////////////////////
+	//based on medical search and itemName
+	
+	@GetMapping("/getallby/MedicalandItemnameSearch")
+	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllByItemName(@RequestParam String medicalOrNonMedical,@RequestParam String searchTerm){
+		
+		List<ItemsModel> results=itemService.findAllByMedicalAndItemName(medicalOrNonMedical, searchTerm);
+		return new BaseDto<>(results,propertyHelper.getRetrieveMessage(),OK).respond();
+	}
+	
+	//based on medical and itemDesc
+		@GetMapping("/getallby/MedicalAndItemDescSearch")
+		public ResponseEntity<BaseDto<List<ItemsModel>>> getAllMedicalAndItemDesc(@RequestParam String medicalOrNonMedical,@RequestParam String searchTerm){
+		
+			List<ItemsModel> result=itemService.findAllByMedicalAndItemDesc(medicalOrNonMedical, searchTerm);
+			return new BaseDto<>(result,propertyHelper.getRetrieveMessage(),OK).respond(); 
+		}
+		
+	///////////////////////////////////////////////////////////
+		
+		
+		
+	
+	//based on itemName search
+	@GetMapping("/getallby/ItemNameSearch")
+	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllByItemNameSearch(@RequestParam String searchTerm){
+		System.out.println("in itemname search");
+		List<ItemsModel> results=itemService.findAllByItemName(searchTerm);
+		System.out.println(results);
+		return new BaseDto<>(results,propertyHelper.getRetrieveMessage(),OK).respond();
+	}
+	
+
+	
+	//based on itemDescription
+	@GetMapping("/getallby/ItemDescriptionSearch")
+	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllItemsByItemDesc(@RequestParam String searchTerm){
+		
+		List<ItemsModel> result=itemService.findAllByItemDescription(searchTerm);
+		return new BaseDto<>(result,propertyHelper.getRetrieveMessage(),OK).respond();
+	}
+	
+	//based on itemgeneric name
+	@GetMapping("/getallby/genericnameSearch")
+	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllItemsBySearchGenericName(@RequestParam String searchTerm){
+		List<ItemsModel> result=itemService.findAllGerericNamesBySearch(searchTerm);
+		return new BaseDto<>(result,propertyHelper.getRetrieveMessage(),OK).respond();
+ 	}
+	
+	//based on groupcode
+	@GetMapping("/getallby/groupcodeSearch")
+    public ResponseEntity<BaseDto<List<ItemsModel>>> getAllItemsByGroupCodeSearch(@RequestParam String searchTerm){
+		
+		System.out.println("in groupcode search controller");
+		System.out.println(searchTerm);
+		List<ItemsModel> response=itemService.findAllByItemGroupCodeSearch(searchTerm);
+		return new BaseDto<>(response,propertyHelper.getRetrieveMessage(),OK).respond();
+	}
+	
 	
 	//uom
 	
 	@GetMapping("/getallunitsofmeasurementdata")
 	public ResponseEntity<BaseDto<List<UnitOfMeasurementModel>>> getAllUnitsdata() {
 		List<UnitOfMeasurementModel> result = itemService.findAllUOMMethod();
-		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
+		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(),OK).respond();
 	}
 	
 	
@@ -118,5 +179,8 @@ public class ItemController {
 	     List<UnitOfMeasurementModel> result=itemService.findAllUOMMethodsOnSerch(searchTerm);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
+	
+	
+
 	
 }
