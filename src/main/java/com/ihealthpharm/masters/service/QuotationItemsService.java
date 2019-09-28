@@ -6,7 +6,7 @@ import com.ihealthpharm.masters.model.QuotationItemsModel;
 
 public interface QuotationItemsService {
 	
-	void deleteQuotationItemsData(int[] quotationItems);
+	/*void deleteQuotationItemsData(int[] quotationItems);
 
     QuotationItemsModel findQuotationItemsData(int quotationItems);
 
@@ -18,6 +18,6 @@ public interface QuotationItemsService {
 	
 	public List<QuotationItemsModel> findAllQuotationItems();
 	
-	public void deleteQuotationItemsById(int quotationItemsById);
+	public void deleteQuotationItemsById(int quotationItemsById);*/
 }
 
