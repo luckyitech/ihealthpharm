@@ -5,16 +5,19 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
+import com.ihealthpharm.masters.dao.ItemGenericNameRepository;
+import com.ihealthpharm.masters.dao.ItemGroupRepository;
 import com.ihealthpharm.masters.dao.ItemsRepository;
 import com.ihealthpharm.masters.dao.UnitOfMeasurementRepository;
 import com.ihealthpharm.masters.helper.ItemPropertyHelper;
+import com.ihealthpharm.masters.model.ItemGenericNamesModel;
+import com.ihealthpharm.masters.model.ItemGroupModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.model.UnitOfMeasurementModel;
 import com.ihealthpharm.masters.service.ItemService;
@@ -32,6 +35,12 @@ public class ItemServiceImpl implements ItemService {
 	
 	@Autowired
 	private ItemsRepository itemRepository;
+	
+	@Autowired
+	private ItemGenericNameRepository genericRepo;
+	
+	@Autowired
+	private ItemGroupRepository itemGroupRepo;
 	
 	@Autowired
 	private ItemPropertyHelper itemPropertyHelper;
@@ -131,6 +140,7 @@ public class ItemServiceImpl implements ItemService {
 	public ItemsModel saveItemsData(ItemsModel itemsModel) {
 		System.out.println("*******************save servixce  impl***********************************");
 		itemsModel = itemRepository.save(itemsModel);
+		System.out.println(itemsModel.toString());
 		log.info("Items data with ID: "+ itemsModel.getItemId()+" saved succesfully");
 		return itemsModel;
 		
@@ -141,6 +151,82 @@ public class ItemServiceImpl implements ItemService {
 		return itemRepository.findAllByOrderByCreationTimeStampDesc();
 	}
 
+	
+	
+
+	
+	
+	@Override
+	public List<ItemsModel> findAllByMedicalAndItemName(String medicalOrNonMedical, String searchTerm) {
+
+		if("ALL".equalsIgnoreCase(searchTerm)) {
+			searchTerm=" ";
+		}
+		
+		return itemRepository.findAllByMedicalAndItemName(medicalOrNonMedical, searchTerm);
+	}
+
+	
+	@Override
+	public List<ItemsModel> findAllByItemName(String searchTerm) {
+	
+		List<ItemsModel> resp =itemRepository.findAllByItemNameSearch(searchTerm);
+	        
+	        System.out.println(resp.toString());
+		
+		
+		return resp;
+	}
+	
+
+		
+	@Override
+	public List<ItemsModel> findAllByMedicalAndItemDesc(String medicalOrNonMedical, String searchTerm) {
+   
+		if("ALL".equalsIgnoreCase(searchTerm)) {
+			searchTerm=" ";
+		}
+		
+		return itemRepository.findAllByMedicalAndItemDesc(medicalOrNonMedical, searchTerm);
+	}
+	
+	
+	@Override
+	public List<ItemsModel> findAllByItemDescription(String searchTerm) {
+		List<ItemsModel> response=itemRepository.findAllByItemDescription(searchTerm);
+		 System.out.println(response.toString());
+		
+       return response;
+	}
+
+	
+	@Override
+	public List<ItemsModel> findAllGerericNamesBySearch(String searchTerm) {
+		ItemGenericNamesModel genericRes= genericRepo.findByGenericName(searchTerm);
+		List<ItemsModel> itemsRes = itemRepository.findByItemGenericName(genericRes);
+		return itemsRes;
+	}
+	
+	@Override
+	public List<ItemsModel> findAllByItemGroupCodeSearch(String searchTerm) {
+		System.out.println("in item service");
+        ItemGroupModel groupCodes=itemGroupRepo.findByGroupName(searchTerm);
+        System.out.println(groupCodes);
+        List<ItemsModel> itemModelRes=itemRepository.findByItemGroup(groupCodes);
+        System.out.println(itemModelRes.toString());
+		return itemModelRes;
+	}
+
+
+	
+
+	
+	
+	
+	
+	
+	
+	//////////////////////////////////
 	@Override
 	public List<UnitOfMeasurementModel> findAllUOMMethod() {
 		return UnitOfMeasurementRepo.findAllByOrderByCreationTimeStampDesc();
@@ -154,6 +240,17 @@ public class ItemServiceImpl implements ItemService {
 		}
 		return UnitOfMeasurementRepo.findAllBySearchCriteria(searchTerm);
 	}
+
+
+
+	
+
+
+
+	
+
+
+
 	
 	
 	

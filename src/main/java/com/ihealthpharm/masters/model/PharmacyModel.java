@@ -48,7 +48,6 @@ public class PharmacyModel extends AuditModel{
 	@Column(name="AUTHORIZED_PERSON_LAST_NM",length=50)
 	private String autherizedPersonLastName;
 	
-
 	@Column(name="AUTHORIZED_PERSON_EMAIL_ID",length=50)
 	private String authPersonEmail;
 	

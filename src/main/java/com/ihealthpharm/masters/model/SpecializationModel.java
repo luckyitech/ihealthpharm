@@ -19,11 +19,6 @@ import lombok.EqualsAndHashCode;
 public class SpecializationModel extends AuditModel{
 
 	
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5694235709857071084L;
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
