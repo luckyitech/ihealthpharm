@@ -19,11 +19,6 @@ import lombok.EqualsAndHashCode;
 public class SpecializationModel extends AuditModel{
 
 	
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5694235709857071084L;
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -35,7 +30,6 @@ public class SpecializationModel extends AuditModel{
 	
 	@Column(name="SPECIALIZATION_NAME",length=100)
 	private String specializationName;
-	
 	
 	@Column(name="SPECIALIZATION_DESC",columnDefinition="text")
     private String specializationDesc;

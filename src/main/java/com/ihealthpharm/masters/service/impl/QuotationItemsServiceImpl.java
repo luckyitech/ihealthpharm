@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class QuotationItemsServiceImpl implements QuotationItemsService {
 
-	@Autowired
+	/*@Autowired
 	QuotationItemsRepository quotationItemsRepository;
 
 	@Autowired
@@ -120,6 +120,6 @@ public class QuotationItemsServiceImpl implements QuotationItemsService {
 			throw new IHealthPharmException(quotationItemHelper.getNotFoundQuotationItemMessage(),
 					HttpStatus.NOT_FOUND);
 		}
-	}
+	}*/
 
 }

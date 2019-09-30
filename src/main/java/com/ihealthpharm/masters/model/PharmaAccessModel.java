@@ -7,11 +7,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity (name="PHARMA_ACCESS")
 @Data
+@EqualsAndHashCode(of="pharmaAccessId",callSuper=false)
 public class PharmaAccessModel extends AuditModel{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5810000668353628879L;
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="PHARMA_ACCESS_ID",length=11, columnDefinition = "AUTO_INCREMENT")

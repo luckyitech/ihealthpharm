@@ -69,18 +69,12 @@ public class ItemsModel extends AuditModel {
 	@JoinColumn(name = "ITEM_CATEGORIE_ID")
 	private ItemCategoryModel itemCategory;
 	
-	
 	@Column(name = "ACTIVE_S",length=1)
 	private String activeS;
-	
 	
 	@Column(name = "AUDIT_ID",length=11)
 	private Integer auditId;
 	
-	@OneToOne
-	@JoinColumn(name = "MANUFACTURER_ID")
-	private ManufacturerModel manufacturer;
-
 	@Column(name = "SPECIFICATION",length=100)
 	private String specification;
 
@@ -108,7 +102,6 @@ public class ItemsModel extends AuditModel {
 
 	@Column(name="TEMPERATURE",length=20)
 	private String  temperature;
-	
 
 	@Column(name="BATCH_NO_REQ",length=1) //default 'Y'
 	private String batchNoRequired;
@@ -149,7 +142,6 @@ public class ItemsModel extends AuditModel {
 	@Column(name="IS_NON_REFUNDABLE_ITEM",length=1) //default null
 	private String isNonRefundableItem;
 	
-	
 	@OneToOne
 	@JoinColumn(name="ISSUE_UNIT_OF_MEASUREMENT_ID")
 	private UnitOfMeasurementModel issueUnitOfMeasurementId;
@@ -167,11 +159,9 @@ public class ItemsModel extends AuditModel {
 	@JoinColumn(name="TAX_ID")
 	private TaxModel tax;
 	
-	//dependent on po table on ramya
 	@Column(name="DEFAULT_PO_QTY")
 	private Integer defaultPOQuantity;
 	
-	//dependent on po table
 	@Column(name="PO_TERMS",columnDefinition="text")
 	private String poTerms;
 	
@@ -209,7 +199,6 @@ public class ItemsModel extends AuditModel {
 	@OneToOne
 	@JoinColumn(name="MODIFIED_BY")
 	private UsersModel userModifiedBy;
-	
 
 	@Column(name="MODIFIED_DT")
 	private Date modifiedDate;
@@ -245,19 +234,11 @@ public class ItemsModel extends AuditModel {
 	@JoinColumn(name="EXPIRY_PROFILE_ID")
 	private ExpiryProfileModel expiryProfile;
 	
-	@OneToOne(cascade=CascadeType.DETACH)
+	@OneToOne
 	@JoinColumn(name = "SPECIALIZATION_ID")
 	private SpecializationModel specialization;
-	
-	
-	/*@ManyToMany(cascade = CascadeType.ALL,mappedBy="itemsId")
-	private List<ItemDistributorModel> itemDistributors;*/
-	
-	/*@ManyToMany(fetch=FetchType.LAZY)
-	@JoinColumn(name="ITEM_DISTRIBUTOR_ID")
-	private List<ItemDistributorModel> itemDist;
-*/
 
-
-
+	@OneToOne
+	@JoinColumn(name = "MANUFACTURER_ID")
+	private ManufacturerModel manufacturer;
 }

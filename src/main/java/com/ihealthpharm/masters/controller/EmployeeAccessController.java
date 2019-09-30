@@ -15,11 +15,9 @@ import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.model.EmployeeAccessModel;
 import com.ihealthpharm.masters.service.EmployeeAccessService;
 
-import lombok.extern.slf4j.Slf4j;
-
 @CrossOrigin
 @RestController
-@Slf4j
+
 public class EmployeeAccessController {
 
 	

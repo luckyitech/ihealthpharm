@@ -8,19 +8,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 /**
  * @author Tarun
  *	Setter, getters by default added no need to add manually
  */
 
-@Getter
-@Setter
-@ToString
+@Data
 @Entity(name = "items_generic_names")
 @EqualsAndHashCode(of = "itemGenericNameId", callSuper = false)
 public class ItemGenericNamesModel extends AuditModel {

@@ -1,91 +1,113 @@
 package com.ihealthpharm.masters.model;
 
-import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
-@Entity(name="quotation")
-public class QuotationModel extends AuditModel{
+@Entity (name="QUOTATION")
+@Getter
+@Setter
+@ToString
+public class QuotationModel {
+    /*
+    @OneToOne(cascade=CascadeType.DETACH)
+    @JoinColumn(name="PHARMACY_ID")
+    PharmacyModel pharmacyModel;*/
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name ="QUOTATION_ID", length=11)
-	private int quotationId;
-	
-	@Column(name ="QUOTATION_NO", length=20)
-	private String quotationNumber;
-	
-	@Column(name ="QUOTATION_DT", length=20)
-	private Date quotationDate;
-	
-	@Column(name ="REMARKS", length=200)
-	private String remarks;
-	
-	@Column(name ="AUDIT_ID", length=11)
-	private int auditId;
-	
-	@Column(name="CANCELLED_DT")
-	private Date cancelledDate;
-	
-	@Column(name="MODIFIED_DT")
-	private Date modifiedDate;
-	
-	@Column(name="APPROVED_DT")
-	private Date approvedDate;
-	
-	@Column(name="QUOTATION_EXPIRY_DT")
-	private Date quotationExpiryDate;
-	
-	@Column(name="CANCELLED_REASON",length=200)
-	private String cancelledReason;
-	
-	@Column(name="REJECTED_DT")
-	private Date rejectedDate;
-	
-	@Column(name="REJECTED_REASON",length=200)
-	private String rejectedReason;
-	
-	@Column(name="QUOTATION_SEND_MODE",length=20)
-	private String quotationSendMode;
-	
-	@ManyToOne
-	@JoinColumn(name="QUOTATION_STATUS_ID")
-	private QuotationStatus quotationStatusId;
-	
-	@ManyToOne
-	@JoinColumn(name="REJECTED_BY")
-	private UsersModel rejectedBy;
-	
-	@ManyToOne
-	@JoinColumn(name="APPROVED_BY")
-	private UsersModel approvedBy;
-	
-	@ManyToOne
-	@JoinColumn(name="CANCELLED_BY")
-	private UsersModel cancelledBy;
-	
-	@ManyToOne
-	@JoinColumn(name="CREATED_BY")
-	private UsersModel createdBy;
-	
-	@ManyToOne
-	@JoinColumn(name="REQUESTED_BY")
-	private UsersModel requestdBy;
-	
-	@ManyToOne
-	@JoinColumn(name="MODIFIED_BY")
-	private UsersModel modifiedBy;
-	
-	@Column(name="PHARMACY_ID",length=11)
-	private int pharmacyId;
-	
+    @OneToOne
+    @JoinColumn(name="QUOTATION_STATUS_ID")
+    QuotationStatusModel quotationStatusModel;
+
+    @OneToOne(cascade=CascadeType.DETACH)
+    @JoinColumn(name="CREATED_BY")   
+    UsersModel usersModel;
+
+    @OneToOne(cascade=CascadeType.DETACH)   
+    @JoinColumn(name="CANCELLED_BY")
+    UsersModel cancelledBy;
+
+    @OneToOne(cascade=CascadeType.DETACH)
+    @JoinColumn(name="REQUESTED_BY")
+    UsersModel requestedby;
+
+    @OneToOne(cascade=CascadeType.DETACH)
+    @JoinColumn(name="MODIFIED_BY")
+    UsersModel modifiedBy;
+
+    @OneToOne(cascade=CascadeType.DETACH)
+    @JoinColumn(name="APPROVED_BY")
+    UsersModel approvedBy;
+
+    @OneToOne(cascade=CascadeType.DETACH)
+    @JoinColumn(name="REJECTED_BY")
+    UsersModel rejectedBy;  
+    
+    @Column(name="APPROVED_DT",length=25)
+    private LocalDate approvedDt;
+
+    @Column(name="AUDIT_ID",length=11)
+    private int auditId;
+
+    @Column(name="CANCELLED_DT",length=25)
+    private LocalDate cancelledDt;
+
+    @Column(name="CANCELLED_REASON",length=200)
+    private String cancelledReason;
+
+    @Column(name="CREATION_TS",length=25)
+    private LocalDateTime creationTs;
+
+    @Column(name="CREATION_USER_ID",length=50)
+    private String creationUserId;
+
+    @Column(name="LAST_UPDATE_TS",length=25)
+    private LocalDateTime lastUpdateTs;
+
+    @Column(name="LAST_UPDATE_USER_ID",length=50)
+    private String lastUpdateUserId;
+
+    @Column(name="MODIFIED_DT",length=25)
+    private LocalDate modifiedDt;
+
+    @Column(name="QUOTATION_DT",length=25)
+    private LocalDate quotationDt;
+
+    @Column(name="QUOTATION_EXPIRY_DT",length=25)
+    private LocalDate quotationExpiryDt;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="QUOTATION_ID",length=11)
+    private int quotationId;
+
+    @Column(name="QUOTATION_NO",length=20)
+    private String quotationNo;
+
+    @Column(name="QUOTATION_SEND_MODE",length=20)
+    private String quotationSendMode;
+
+    @Column(name="REJECTED_DT",length=25)
+    private LocalDate rejectedDate;
+
+    @Column(name="REJECTED_REASON",length=200)
+    private String rejectedReason;
+
+    @Column(name="REMARKS",length=200)
+    private String remarks;
+    
+    @Column(name = "ACTIVE_S",length=1)
+	private String activeS;
+    
 }
