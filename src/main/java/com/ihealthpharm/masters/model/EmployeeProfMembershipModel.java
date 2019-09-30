@@ -46,7 +46,4 @@ public class EmployeeProfMembershipModel extends AuditModel{
 	
 	@Column( name = "AUDIT_ID",length=11)
 	private Integer auditId;
-	
-	
-	
 }

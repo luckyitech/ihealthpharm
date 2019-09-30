@@ -1,7 +1,5 @@
 package com.ihealthpharm.masters.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,33 +7,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import javax.persistence.OneToOne;
 
 import lombok.Data;
 
 @Data
 @Entity(name="employee_credentials")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "employeeCredentialsId")
-public class EmployeeCredentialsModel extends AuditModel implements Serializable{
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4900919938997174124L;
+public class EmployeeCredentialsRetriveModel extends AuditModel{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "EMPLOYEE_CREDENTIALS_ID" ,length=11)
 	private Integer employeeCredentialsId;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "EMPLOYEE_ID")
-	@JsonBackReference
-	private EmployeeModel employee;
+	//@OneToOne(fetch = FetchType.LAZY)
+	@Column(name = "EMPLOYEE_ID")
+	private Integer employee;
 	
 	@Column(name="USER_NM", length=50)
 	private String userName;

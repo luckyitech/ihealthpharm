@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.ihealthpharm.masters.dto.EmployeeAccessDTO;
 import com.ihealthpharm.masters.dto.EmployeeDTO;
+import com.ihealthpharm.masters.model.EmployeeCredentialsModel;
 import com.ihealthpharm.masters.model.EmployeeModel;
 
 public interface EmployeeService {
@@ -22,4 +23,9 @@ public interface EmployeeService {
 	public void deleteEmployeeById(int employeeId);
 	
 	public void deleteEmployeesById(int[] employeeIds);
+	
+	public EmployeeModel findLastCreatedEmployeeId();
+	
+	/*public EmployeeModel findEmployeeCredentialsModel(EmployeeCredentialsModel employeeCredentialsModel);*/
+	
 }

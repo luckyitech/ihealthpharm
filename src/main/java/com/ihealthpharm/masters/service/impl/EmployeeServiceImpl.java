@@ -27,6 +27,7 @@ import com.ihealthpharm.masters.dto.EmployeeSalaryDTO;
 import com.ihealthpharm.masters.dto.EmploymentHistoryDTO;
 import com.ihealthpharm.masters.helper.EmployeeHelper;
 import com.ihealthpharm.masters.model.EmployeeAccessModel;
+import com.ihealthpharm.masters.model.EmployeeCredentialsModel;
 import com.ihealthpharm.masters.model.EmployeeEducationModel;
 import com.ihealthpharm.masters.model.EmployeeHonorModel;
 import com.ihealthpharm.masters.model.EmployeeInterestModel;
@@ -671,5 +672,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 			log.info("Employee data with ID: " + employeeRes.getEmployeeId() + " deleted succesfully");
 		}
 	}
+
+	@Override
+	public EmployeeModel findLastCreatedEmployeeId() {
+		
+		return employeeRepository.findLastCreatedEmployeeId();
+	}
+
+	/*@Override
+	public EmployeeModel findEmployeeCredentialsModel(EmployeeCredentialsModel employeeCredentialsModel) {
+		
+		return employeeRepository.findEmployeeCredentialsModel(employeeCredentialsModel);
+	}*/
 
 }

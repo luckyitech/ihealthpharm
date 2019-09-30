@@ -25,6 +25,7 @@ import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.dto.EmployeeAccessDTO;
 import com.ihealthpharm.masters.dto.EmployeeDTO;
 import com.ihealthpharm.masters.helper.EmployeeHelper;
+import com.ihealthpharm.masters.model.EmployeeCredentialsModel;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.EmployeeTypeModel;
 import com.ihealthpharm.masters.service.EmployeeService;
@@ -144,5 +145,17 @@ public class EmployeeController {
 		List<EmployeeTypeModel> result = employeeTypeService.getAllEmployeeTypes();
 		return new BaseDto<>(result, employeeHelper.getRetrieveEmployeeMessage(), OK).respond();
 	}
+	
+	@GetMapping("/getemployeeid")
+	public ResponseEntity<BaseDto<EmployeeModel>> getLasteCreatedEmployeeId() {
+		EmployeeModel result = employeeService.findLastCreatedEmployeeId();
+		return new BaseDto<>(result, employeeHelper.getRetrieveEmployeeMessage(), OK).respond();
+	}
+	
+	/*@PostMapping("/getemployeebycredential")
+	public ResponseEntity<BaseDto<EmployeeModel>> getEmployeeByEmployeeCredential(EmployeeCredentialsModel employeeCredentialsModel) {
+		EmployeeModel result = employeeService.findEmployeeCredentialsModel(employeeCredentialsModel);
+		return new BaseDto<>(result, employeeHelper.getRetrieveEmployeeMessage(), OK).respond();
+	}*/
 
 }

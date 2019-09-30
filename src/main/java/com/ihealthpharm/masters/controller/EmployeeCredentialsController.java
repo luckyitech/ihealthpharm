@@ -2,7 +2,6 @@ package com.ihealthpharm.masters.controller;
 
 import static org.springframework.http.HttpStatus.OK;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.helper.EmployeeCredentialsHelper;
 import com.ihealthpharm.masters.model.EmployeeCredentialsModel;
-import com.ihealthpharm.masters.model.TokenModel;
 import com.ihealthpharm.masters.service.EmployeeCredentialsService;
 
 //import io.jsonwebtoken.Jwts;
@@ -89,6 +87,15 @@ public class EmployeeCredentialsController {
 				OK).respond();
 	}
 
+	@GetMapping("getemployeecredentialsbyusername")
+	public ResponseEntity<BaseDto<EmployeeCredentialsModel>> getEmployeeCredentialByUserName(
+			@RequestParam("employeeUserName") String employeeUserName) {
+		EmployeeCredentialsModel employeeCredentialsModel = employeeCredentialsService
+				.findEmployeeCredentialsByUserName(employeeUserName);
+		return new BaseDto<>(employeeCredentialsModel, employeeCredentialsHelper.getDeleteEmployeeCredentialsMessage(),
+				OK).respond();
+	}
+	
 	@GetMapping("getallemployeecredentials")
 	public ResponseEntity<BaseDto<List<EmployeeCredentialsModel>>> getAllEmployeeCredentials() {
 		List<EmployeeCredentialsModel> employeeCredentialsModels = employeeCredentialsService
@@ -97,6 +104,7 @@ public class EmployeeCredentialsController {
 				OK).respond();
 	}
 
+	
 	/*@PostMapping("employeelogin")
 	public ResponseEntity<BaseDto<TokenModel>> checkEmployeeCredentials(
 			@RequestParam("userName") String userName, @RequestParam("currentPassword") String currentPassword)
