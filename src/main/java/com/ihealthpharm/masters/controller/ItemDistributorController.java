@@ -24,6 +24,11 @@ import com.ihealthpharm.masters.service.ItemDistributorService;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * @author Tarun
+ * All the related API's available here..
+ *
+ */
 @RestController
 @Slf4j
 @CrossOrigin
@@ -90,6 +95,35 @@ public class ItemDistributorController {
 	public ResponseEntity<BaseDto<List<ItemDistributorModel>>> getAllItemDistributors(){
 		List<ItemDistributorModel> response=itemDistributorService.findAllItemDistributors();
 		return new BaseDto<>(response,itemDistributorHelper.getRetrieveItemDistributorMessage(),OK).respond();
+	}
+	
+	
+	
+	//itemdistributor dropdown search
+	
+	@GetMapping("/getunmapped/distributors")
+	public ResponseEntity<BaseDto<List<String>>> getAllDistributors(@RequestParam int itemId){
+		System.out.println("In Itemdist controller");
+		List<String> response=itemDistributorService.findAllUnMappedItemDistributorsData(itemId);
+		return new BaseDto<>(response,itemDistributorHelper.getRetrieveItemDistributorMessage(),OK).respond();
+	}
+	
+	
+	//distributorItem dropdown search
+	
+	@GetMapping("/getunmapped/items")
+	public ResponseEntity<BaseDto<List<String>>> getAllItems(@RequestParam int distributorId){
+		System.out.println("In DistItem Controller");
+		List<String> result=itemDistributorService.findAllUnMappedDistributorItems(distributorId);
+		return new BaseDto<>(result,itemDistributorHelper.getRetrieveItemDistributorMessage(),OK).respond();
+	}
+	
+	//Grid Options itemdistributors mapped data
+	@GetMapping("/getitemdistributors/mapppeddata")
+	public ResponseEntity<BaseDto<List<Object[]>>> getAllItemDistributorsMapped(){
+		List<Object[]> result=itemDistributorService.findAllMappedItemDistributors();
+		
+		return new BaseDto<>(result,itemDistributorHelper.getRetrieveItemDistributorMessage(),OK).respond();
 	}
 	
 	 

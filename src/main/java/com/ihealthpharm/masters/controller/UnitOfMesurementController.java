@@ -89,7 +89,12 @@ public class UnitOfMesurementController {
       return new BaseDto<>(result,uomHelper.getRetrieveUomMessage(),OK).respond();
 	}
 	
+	@GetMapping("/getallunitsdatabysearch")
+	public ResponseEntity<BaseDto<List<UnitOfMeasurementModel>>> getAllUnitsOfMeasurementsdata(@RequestParam String searchTerm) {
 	
+		List<UnitOfMeasurementModel> result=uomService.findAllUOMMethodsOnSerch(searchTerm);
+		return new BaseDto<>(result, uomHelper.getRetrieveUomMessage(), OK).respond();
+	}
 	
 	
 

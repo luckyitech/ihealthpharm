@@ -29,6 +29,9 @@ public interface UnitOfMessurementService {
 	
 	List<UnitOfMeasurementModel> findAllMeasurements();
 	
+	// BASED ON SEARCH
+	List<UnitOfMeasurementModel> findAllUOMMethodsOnSerch(String searchTerm);
+	
 	
 
 }

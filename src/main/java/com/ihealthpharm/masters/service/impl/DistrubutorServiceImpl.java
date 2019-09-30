@@ -117,8 +117,12 @@ public class DistrubutorServiceImpl implements DistributorService {
 
 	@Override
 	public List<DistributorModel> findAllDistributors() {
-		// TODO Auto-generated method stub
 		return distrubutorRepository.findAllByOrderByLastUpdateTimestampDesc();
+	}
+
+	@Override
+	public List<DistributorModel> findAllDistributorsByName(String searchTerm) {
+		return distrubutorRepository.getAllDistributorNamesBySearch(searchTerm);
 	}
 
 }

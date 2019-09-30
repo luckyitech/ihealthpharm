@@ -1,7 +1,5 @@
 package com.ihealthpharm.masters.model;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +15,11 @@ import lombok.ToString;
 @Setter
 @ToString
 public class PharmacyRolesModel extends AuditModel {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7429543487889994623L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

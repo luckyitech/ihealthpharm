@@ -23,5 +23,11 @@ public interface ItemDistributorService {
 	
 	List<ItemDistributorModel> findAllItemDistributors();
 
+	List<String> findAllUnMappedItemDistributorsData(int itemId);
+
+	List<String> findAllUnMappedDistributorItems(int distributorId);
+
+	List<Object[]> findAllMappedItemDistributors();
+
 
 }

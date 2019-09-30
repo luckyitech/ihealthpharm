@@ -11,9 +11,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity(name="user_roles")
+@EqualsAndHashCode(of="userRolesId",callSuper=false)
 public class UserRolesModel extends AuditModel{
 
 	/**

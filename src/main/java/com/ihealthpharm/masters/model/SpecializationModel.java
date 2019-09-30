@@ -20,6 +20,11 @@ public class SpecializationModel extends AuditModel{
 
 	
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2377392142089167593L;
+
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	@Column(name="SPECIALIZATION_ID",length=11)

@@ -10,15 +10,13 @@ import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-@Getter
-@Setter
-@ToString
+@Data
 @Entity(name = "distributor")
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+@EqualsAndHashCode(of="distributorId",callSuper=false)
 public class DistributorModel extends AuditModel {
 
 	/**
@@ -134,13 +132,5 @@ public class DistributorModel extends AuditModel {
 	@OneToOne
 	@JoinColumn(name = "RETURN_CREDIT_TYPE_ID")
 	private ReturnCreditTypeModel returnCreditTypeId;
-	
-/*	@ManyToMany(mappedBy="distributorsId")
 
-	private List<ItemDistributorModel> Distributors;*/
-	
-
-	/*@ManyToMany(fetch=FetchType.LAZY,mappedBy="distributorsId")
-	//@JoinColumn(name="ITEM_DISTRIBUTOR_ID")
-	private List<ItemDistributorModel> itemDistributorModels;*/
 }

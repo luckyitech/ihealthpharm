@@ -12,10 +12,11 @@ import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity(name="distributor_contract")
-
+@EqualsAndHashCode(of="distributorContractId",callSuper=false)
 public class DistributorContractModel extends AuditModel{
 
 	/**

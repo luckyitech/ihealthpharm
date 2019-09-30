@@ -5,7 +5,6 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.ihealthpharm.masters.model.ItemsModel;
-import com.ihealthpharm.masters.model.UnitOfMeasurementModel;
 
 public interface ItemService {
 
@@ -25,15 +24,12 @@ public interface ItemService {
 
 	List<ItemsModel> findAllItems();
 
-
-
-
+	
 	//searches based on item fields
-
-
 
 	//2.based on medical and itemName
 	List<ItemsModel> findAllByMedicalAndItemName(String medicalOrNonMedical, String searchTerm);
+	
 	//.based on medical and itemDescription
 	List<ItemsModel> findAllByMedicalAndItemDesc(String medicalOrNonMedical,String searchTerm);
 
@@ -50,24 +46,6 @@ public interface ItemService {
 
 	//based on itemGroupCode
 	List<ItemsModel> findAllByItemGroupCodeSearch(String searchTerm);
-
-
-
-
-
-	//UOM method
-	List<UnitOfMeasurementModel> findAllUOMMethod();
-
-	//UOM BASED ON SEARCH
-	List<UnitOfMeasurementModel> findAllUOMMethodsOnSerch(String searchTerm);
-
-
-
-
-
-
-
-
 
 
 }
