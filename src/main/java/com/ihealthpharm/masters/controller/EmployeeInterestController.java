@@ -29,38 +29,38 @@ import lombok.extern.slf4j.Slf4j;
 public class EmployeeInterestController {
 
 	@Autowired
-	EmployeeInterestService employeeHonorService;
+	EmployeeInterestService employeeInterestService;
 	
 	@PostMapping("/save/employeeinterest")
-	public ResponseEntity<BaseDto<EmployeeInterestModel>> insertDistrubutorData(@Valid @RequestBody EmployeeInterestModel EmployeeInterestModel) {
+	public ResponseEntity<BaseDto<EmployeeInterestModel>> insertEmployeeInterestData(@Valid @RequestBody EmployeeInterestModel EmployeeInterestModel) {
 		log.info("Request Object insert is: "+EmployeeInterestModel.toString());
-		EmployeeInterestModel employeeHonorRes = employeeHonorService.saveEmployeeInterestData(EmployeeInterestModel);
-		return new BaseDto<>(employeeHonorRes,"saved",OK).respond();
+		EmployeeInterestModel employeeInterestRes = employeeInterestService.saveEmployeeInterestData(EmployeeInterestModel);
+		return new BaseDto<>(employeeInterestRes,"saved",OK).respond();
 	}
 	
 	@PutMapping("/update/employeeinterest")
-	public ResponseEntity<BaseDto<EmployeeInterestModel>> updateDistrubutorData(@Valid @RequestBody EmployeeInterestModel EmployeeInterestModel) {
+	public ResponseEntity<BaseDto<EmployeeInterestModel>> updateEmployeeInterestData(@Valid @RequestBody EmployeeInterestModel EmployeeInterestModel) {
 		log.info("Request Object for update is: "+ EmployeeInterestModel.toString());
-		EmployeeInterestModel employeeHonorRes = employeeHonorService.updateEmployeeInterestData(EmployeeInterestModel);
-		return new BaseDto<>(employeeHonorRes,"updated",OK).respond();
+		EmployeeInterestModel employeeInterestRes = employeeInterestService.updateEmployeeInterestData(EmployeeInterestModel);
+		return new BaseDto<>(employeeInterestRes,"updated",OK).respond();
 	}
 	
 	@DeleteMapping("/delete/employeeinterest")
-	public ResponseEntity<BaseDto<Object>> deleteProviderData(@RequestParam int employeeHonorId) {
-		log.info("Request Object for delete is: ", employeeHonorId);
-		employeeHonorService.deleteEmployeeInterestData(employeeHonorId);;
+	public ResponseEntity<BaseDto<Object>> deleteEmployeeInterestData(@RequestParam int employeeInterestId) {
+		log.info("Request Object for delete is: ", employeeInterestId);
+		employeeInterestService.deleteEmployeeInterestData(employeeInterestId);;
 		return new BaseDto<>("deleted", OK).respond();
 	}
 	
 	@GetMapping("/getallemployeeinterestdata")
-	public ResponseEntity<BaseDto<List<EmployeeInterestModel>>> getAllDistributordata() {
-		List<EmployeeInterestModel> result = employeeHonorService.findAllEmployeeInterestData();
+	public ResponseEntity<BaseDto<List<EmployeeInterestModel>>> getAllEmployeeInterestData() {
+		List<EmployeeInterestModel> result = employeeInterestService.findAllEmployeeInterestData();
 		return new BaseDto<>(result, "retrived", OK).respond();
 	}
 	
 	@GetMapping("/getemployeeinterestdatabyid")
-	public ResponseEntity<BaseDto<EmployeeInterestModel>> getProviderDataById(@RequestParam int employeeHonorId) {
-		EmployeeInterestModel result = employeeHonorService.findEmployeeInterestDataById(employeeHonorId);
+	public ResponseEntity<BaseDto<EmployeeInterestModel>> getEmployeeInterestDataById(@RequestParam int employeeInterestId) {
+		EmployeeInterestModel result = employeeInterestService.findEmployeeInterestDataById(employeeInterestId);
 		return new BaseDto<>(result,  "retrived", OK).respond();
 	}
 	

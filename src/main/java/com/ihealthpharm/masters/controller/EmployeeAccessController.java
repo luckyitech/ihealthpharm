@@ -25,7 +25,7 @@ public class EmployeeAccessController {
 	EmployeeAccessService employeeAccessService;
 	
 	@PostMapping("/save/employeeaccess")
-	public ResponseEntity<BaseDto<EmployeeAccessModel>> insertDistrubutorData(@Valid @RequestBody EmployeeAccessModel employeeAccessModel) {
+	public ResponseEntity<BaseDto<EmployeeAccessModel>> insertEmployeeAccessData(@Valid @RequestBody EmployeeAccessModel employeeAccessModel) {
 		
 		EmployeeAccessModel employeeAccessRes = employeeAccessService.saveEmployeeAccessData(employeeAccessModel);
 		return new BaseDto<>(employeeAccessRes,"Employee Access",OK).respond();

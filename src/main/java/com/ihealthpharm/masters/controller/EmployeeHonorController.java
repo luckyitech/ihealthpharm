@@ -32,35 +32,35 @@ public class EmployeeHonorController {
 	EmployeeHonorService employeeHonorService;
 	
 	@PostMapping("/save/employeehonor")
-	public ResponseEntity<BaseDto<EmployeeHonorModel>> insertDistrubutorData(@Valid @RequestBody EmployeeHonorModel EmployeeHonorModel) {
+	public ResponseEntity<BaseDto<EmployeeHonorModel>> insertEmployeeHonorData(@Valid @RequestBody EmployeeHonorModel EmployeeHonorModel) {
 		log.info("Request Object insert is: "+EmployeeHonorModel.toString());
 		EmployeeHonorModel employeeHonorRes = employeeHonorService.saveEmployeeHonorData(EmployeeHonorModel);
 		return new BaseDto<>(employeeHonorRes,"saved",OK).respond();
 	}
 	
 	@PutMapping("/update/employeehonor")
-	public ResponseEntity<BaseDto<EmployeeHonorModel>> updateDistrubutorData(@Valid @RequestBody EmployeeHonorModel EmployeeHonorModel) {
+	public ResponseEntity<BaseDto<EmployeeHonorModel>> updateEmployeeHonorData(@Valid @RequestBody EmployeeHonorModel EmployeeHonorModel) {
 		log.info("Request Object for update is: "+ EmployeeHonorModel.toString());
 		EmployeeHonorModel employeeHonorRes = employeeHonorService.updateEmployeeHonorData(EmployeeHonorModel);
 		return new BaseDto<>(employeeHonorRes,"updated",OK).respond();
 	}
 	
 	@DeleteMapping("/delete/employeehonor")
-	public ResponseEntity<BaseDto<Object>> deleteProviderData(@RequestParam int employeeEducationId) {
-		log.info("Request Object for delete is: ", employeeEducationId);
-		employeeHonorService.deleteEmployeeHonorData(employeeEducationId);;
+	public ResponseEntity<BaseDto<Object>> deleteEmployeeHonorData(@RequestParam int employeeHonorId) {
+		log.info("Request Object for delete is: ", employeeHonorId);
+		employeeHonorService.deleteEmployeeHonorData(employeeHonorId);;
 		return new BaseDto<>("deleted", OK).respond();
 	}
 	
 	@GetMapping("/getallemployeehonordata")
-	public ResponseEntity<BaseDto<List<EmployeeHonorModel>>> getAllDistributordata() {
+	public ResponseEntity<BaseDto<List<EmployeeHonorModel>>> getAllEmployeeHonordata() {
 		List<EmployeeHonorModel> result = employeeHonorService.findAllEmployeeHonorData();
 		return new BaseDto<>(result, "retrived", OK).respond();
 	}
 	
 	@GetMapping("/getemployeehonordatabyid")
-	public ResponseEntity<BaseDto<EmployeeHonorModel>> getProviderDataById(@RequestParam int employeeEducationId) {
-		EmployeeHonorModel result = employeeHonorService.findEmployeeHonorDataById(employeeEducationId);
+	public ResponseEntity<BaseDto<EmployeeHonorModel>> getEmployeeHonorDataById(@RequestParam int employeeHonorId) {
+		EmployeeHonorModel result = employeeHonorService.findEmployeeHonorDataById(employeeHonorId);
 		return new BaseDto<>(result,  "retrived", OK).respond();
 	}
 	

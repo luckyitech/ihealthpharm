@@ -1,7 +1,5 @@
 package com.ihealthpharm.masters.model;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -12,12 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import javax.persistence.OneToOne;
 
 import lombok.Data;
 
@@ -30,9 +23,8 @@ public class EmployeeProfMembershipModel extends AuditModel{
 	@Column(name = "EMPLOYEE_PROF_MEMBERSHIP_ID", length=11)
 	private Integer employeeProfMembershipId;
 
-	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	@JoinColumn(name = "EMPLOYEE_ID")
-	@JsonBackReference
 	private EmployeeModel employee;
 	
 	@Column( name = "MEMBERSHIP_NM", length=250)

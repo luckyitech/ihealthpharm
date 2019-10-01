@@ -159,41 +159,41 @@ public class EmployeeModel extends AuditModel implements Serializable{
 	@JoinColumn(name="EMPLOYEE_TYPE_LOOKUP_ID")
 	private EmployeeTypeModel employeeTypeModel;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "employee" , cascade = CascadeType.ALL)
+	/*@OneToMany(fetch = FetchType.LAZY, mappedBy = "employee" , cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<EmployeeProfMembershipModel> employeeProfMembershipModel;
-	
-	@OneToMany(fetch = FetchType.LAZY,mappedBy = "employee" , cascade = CascadeType.ALL)
+	*/
+	/*@OneToMany(fetch = FetchType.LAZY,mappedBy = "employee" , cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<EmployeeHonorModel> employeeHonorModel;
-	
-	@OneToMany(fetch = FetchType.LAZY,mappedBy = "employee" , cascade = CascadeType.ALL)
+	*/
+	/*@OneToMany(fetch = FetchType.LAZY,mappedBy = "employee" , cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<EmployeeInterestModel> employeeInterestModel;
-	
-	@OneToMany(fetch = FetchType.LAZY,mappedBy = "employee" , cascade = CascadeType.ALL)
+	*/
+	/*@OneToMany(fetch = FetchType.LAZY,mappedBy = "employee" , cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<EmployeePublicationModel> employeePublicationModel;
-	
-	@OneToMany(mappedBy = "employee" , cascade = CascadeType.ALL)
+	*/
+	/*@OneToMany(mappedBy = "employee" , cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<EmployeeEducationModel> employeeEducationModel;
-	
-	@OneToMany(fetch = FetchType.LAZY,mappedBy = "employee" , cascade = CascadeType.ALL)
+	*/
+	/*@OneToMany(fetch = FetchType.LAZY,mappedBy = "employee" , cascade = CascadeType.ALL)
 	@JsonManagedReference
-	private List<EmploymentHistoryModel> employeeHistoryModel;
+	private List<EmploymentHistoryModel> employeeHistoryModel;*/
 	
-	@OneToMany(fetch = FetchType.LAZY,mappedBy = "employee" , cascade = CascadeType.ALL)
+	/*@OneToMany(fetch = FetchType.LAZY,mappedBy = "employee" , cascade = CascadeType.ALL)
 	@JsonManagedReference
-	private List<EmployeeSalaryModel> employeeSalaryModel;
+	private List<EmployeeSalaryModel> employeeSalaryModel;*/
 	
-	@OneToMany(fetch = FetchType.LAZY,mappedBy = "employee" , cascade = CascadeType.ALL)
+	/*@OneToMany(fetch = FetchType.LAZY,mappedBy = "employee" , cascade = CascadeType.ALL)
 	@JsonManagedReference
-	private List<EmployeeCredentialsModel> employeeCredentialsModel;
+	private List<EmployeeCredentialsModel> employeeCredentialsModel;*/
 	
-	@OneToMany(fetch = FetchType.LAZY,mappedBy = "employee" , cascade = CascadeType.ALL)
+	/*@OneToMany(fetch = FetchType.LAZY,mappedBy = "employee" , cascade = CascadeType.ALL)
 	@JsonManagedReference
-	private List<EmployeePharmacyRoleModel> employeePharmacyRoleModel;
+	private List<EmployeePharmacyRoleModel> employeePharmacyRoleModel;*/
 	
 	public void setDateOfBirth(Date birthDate) throws ParseException {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");

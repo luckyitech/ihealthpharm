@@ -1,7 +1,5 @@
 package com.ihealthpharm.masters.model;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,12 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import javax.persistence.OneToOne;
 
 import lombok.Data;
 
@@ -27,9 +20,8 @@ public class EmployeeInterestModel extends AuditModel{
 	@Column(name = "EMPLOYEE_INTEREST_ID", length=11)
 	private Integer employeeIntrestId;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "EMPLOYEE_ID")
-	@JsonBackReference
 	private EmployeeModel employee;
 	
 	@Column( name = "AREA_OF_INTEREST_DESC", length=250)

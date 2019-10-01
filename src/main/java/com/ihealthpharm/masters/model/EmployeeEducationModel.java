@@ -10,9 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import javax.persistence.OneToOne;
 
 import lombok.Data;
 
@@ -28,9 +26,8 @@ public class EmployeeEducationModel extends AuditModel implements Serializable{
 	@Column(name = "EMPLOYEE_EDUCATION_ID", length=11)
 	private Integer employeeEducationId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="EMPLOYEE_ID",nullable = false, updatable = true, insertable = true)
-	@JsonBackReference
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="EMPLOYEE_ID")
 	private EmployeeModel employee;
 	
 	@Column( name = "STUDIED_AT", length=250)

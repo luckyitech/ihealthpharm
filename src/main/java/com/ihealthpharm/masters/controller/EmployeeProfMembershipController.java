@@ -32,35 +32,35 @@ public class EmployeeProfMembershipController {
 	EmployeeProfMembershipService employeeProfMembershipService;
 	
 	@PostMapping("/save/employeeprofmembership")
-	public ResponseEntity<BaseDto<EmployeeProfMembershipModel>> insertDistrubutorData(@Valid @RequestBody EmployeeProfMembershipModel EmployeeProfMembershipModel) {
+	public ResponseEntity<BaseDto<EmployeeProfMembershipModel>> insertEmployeeProfMembershipData(@Valid @RequestBody EmployeeProfMembershipModel EmployeeProfMembershipModel) {
 		log.info("Request Object insert is: "+EmployeeProfMembershipModel.toString());
 		EmployeeProfMembershipModel employeeProfMembershipRes = employeeProfMembershipService.saveEmployeeProfMembershipData(EmployeeProfMembershipModel);
 		return new BaseDto<>(employeeProfMembershipRes,"saved",OK).respond();
 	}
 	
 	@PutMapping("/update/employeeprofmembership")
-	public ResponseEntity<BaseDto<EmployeeProfMembershipModel>> updateDistrubutorData(@Valid @RequestBody EmployeeProfMembershipModel EmployeeProfMembershipModel) {
+	public ResponseEntity<BaseDto<EmployeeProfMembershipModel>> updateEmployeeProfMembershipData(@Valid @RequestBody EmployeeProfMembershipModel EmployeeProfMembershipModel) {
 		log.info("Request Object for update is: "+ EmployeeProfMembershipModel.toString());
 		EmployeeProfMembershipModel employeeProfMembershipRes = employeeProfMembershipService.updateEmployeeProfMembershipData(EmployeeProfMembershipModel);
 		return new BaseDto<>(employeeProfMembershipRes,"updated",OK).respond();
 	}
 	
 	@DeleteMapping("/delete/employeeprofmembership")
-	public ResponseEntity<BaseDto<Object>> deleteProviderData(@RequestParam int employeeEducationId) {
-		log.info("Request Object for delete is: ", employeeEducationId);
-		employeeProfMembershipService.deleteEmployeeEmployeeProfMembershipData(employeeEducationId);;
+	public ResponseEntity<BaseDto<Object>> deleteEmployeeProfMembershipData(@RequestParam int employeeProfMembershipId) {
+		log.info("Request Object for delete is: ", employeeProfMembershipId);
+		employeeProfMembershipService.deleteEmployeeEmployeeProfMembershipData(employeeProfMembershipId);;
 		return new BaseDto<>("deleted", OK).respond();
 	}
 	
 	@GetMapping("/getallemployeeprofmembershipdata")
-	public ResponseEntity<BaseDto<List<EmployeeProfMembershipModel>>> getAllDistributordata() {
+	public ResponseEntity<BaseDto<List<EmployeeProfMembershipModel>>> getAllEmployeeProfMembershipData() {
 		List<EmployeeProfMembershipModel> result = employeeProfMembershipService.findAllEmployeeProfMembershipData();
 		return new BaseDto<>(result, "retrived", OK).respond();
 	}
 	
 	@GetMapping("/getemployeeprofmembershipdatabyid")
-	public ResponseEntity<BaseDto<EmployeeProfMembershipModel>> getProviderDataById(@RequestParam int employeeEducationId) {
-		EmployeeProfMembershipModel result = employeeProfMembershipService.findEmployeeProfMembershipDataById(employeeEducationId);
+	public ResponseEntity<BaseDto<EmployeeProfMembershipModel>> getEmployeeProfMembershipDataById(@RequestParam int employeeProfMembershipId) {
+		EmployeeProfMembershipModel result = employeeProfMembershipService.findEmployeeProfMembershipDataById(employeeProfMembershipId);
 		return new BaseDto<>(result,  "retrived", OK).respond();
 	}
 	

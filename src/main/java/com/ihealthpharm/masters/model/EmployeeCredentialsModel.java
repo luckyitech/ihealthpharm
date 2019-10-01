@@ -9,9 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -32,9 +31,8 @@ public class EmployeeCredentialsModel extends AuditModel implements Serializable
 	@Column(name = "EMPLOYEE_CREDENTIALS_ID" ,length=11)
 	private Integer employeeCredentialsId;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "EMPLOYEE_ID")
-	@JsonBackReference
 	private EmployeeModel employee;
 	
 	@Column(name="USER_NM", length=50)

@@ -32,34 +32,34 @@ public class EmployeeEducationController {
 	EmployeeEducationService employeeEducationService;
 	
 	@PostMapping("/save/employeeeducation")
-	public ResponseEntity<BaseDto<EmployeeEducationModel>> insertDistrubutorData(@Valid @RequestBody EmployeeEducationModel employeeEducationModel) {
+	public ResponseEntity<BaseDto<EmployeeEducationModel>> insertEmployeeEducationData(@Valid @RequestBody EmployeeEducationModel employeeEducationModel) {
 		log.info("Request Object insert is: "+employeeEducationModel.toString());
 		EmployeeEducationModel employeeEducationRes = employeeEducationService.saveEmployeeEducationData(employeeEducationModel);
 		return new BaseDto<>(employeeEducationRes,"saved",OK).respond();
 	}
 	
 	@PutMapping("/update/employeeeducation")
-	public ResponseEntity<BaseDto<EmployeeEducationModel>> updateDistrubutorData(@Valid @RequestBody EmployeeEducationModel employeeEducationModel) {
+	public ResponseEntity<BaseDto<EmployeeEducationModel>> updateEmployeeEducationData(@Valid @RequestBody EmployeeEducationModel employeeEducationModel) {
 		log.info("Request Object for update is: "+ employeeEducationModel.toString());
 		EmployeeEducationModel employeeEducationRes = employeeEducationService.updateEmployeeEducationData(employeeEducationModel);
 		return new BaseDto<>(employeeEducationRes,"updated",OK).respond();
 	}
 	
 	@DeleteMapping("/delete/employeeeducation")
-	public ResponseEntity<BaseDto<Object>> deleteProviderData(@RequestParam int employeeEducationId) {
+	public ResponseEntity<BaseDto<Object>> deleteEmployeeEducationData(@RequestParam int employeeEducationId) {
 		log.info("Request Object for delete is: ", employeeEducationId);
 		employeeEducationService.deleteEmployeeEmployeeEducationData(employeeEducationId);;
 		return new BaseDto<>("deleted", OK).respond();
 	}
 	
 	@GetMapping("/getallemployeeeducationdata")
-	public ResponseEntity<BaseDto<List<EmployeeEducationModel>>> getAllDistributordata() {
+	public ResponseEntity<BaseDto<List<EmployeeEducationModel>>> getAllEmployeeEducationdata() {
 		List<EmployeeEducationModel> result = employeeEducationService.findAllEmployeeEducationData();
 		return new BaseDto<>(result, "retrived", OK).respond();
 	}
 	
 	@GetMapping("/getemployeeeducationdatabyid")
-	public ResponseEntity<BaseDto<EmployeeEducationModel>> getProviderDataById(@RequestParam int employeeEducationId) {
+	public ResponseEntity<BaseDto<EmployeeEducationModel>> getEmployeeEducationDataById(@RequestParam int employeeEducationId) {
 		EmployeeEducationModel result = employeeEducationService.findEmployeeEducationDataById(employeeEducationId);
 		return new BaseDto<>(result,  "retrived", OK).respond();
 	}
