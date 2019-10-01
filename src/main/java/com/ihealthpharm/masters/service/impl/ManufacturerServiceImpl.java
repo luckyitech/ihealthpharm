@@ -23,16 +23,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ManufacturerServiceImpl implements ManufacturerService {
 
-
-
 	@Autowired
 	ManufacturerRepository manufacturerRepository;
 
-
 	@Autowired
 	ManufacturerHelper manufacturerHelper;
-
-
 
 	@Override
 	public ManufacturerModel saveManufacturerData(ManufacturerModel manufacturerModel) {
@@ -136,15 +131,12 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 
 	@Override
 	public List<ManufacturerModel> findAllManufacturers() {
-		return manufacturerRepository.findAllByOrderByCreationTimeStampDesc();
+		return manufacturerRepository.findAllByOrderByLastUpdateTimestampDesc();
 	}
 
 	@Override
 	public List<ManufacturerModel> findAllManufacturersData(String searchTerm) {
 
-		if("All".equalsIgnoreCase(searchTerm)) {
-			searchTerm = "";
-		}
 		return manufacturerRepository.findAllBySearchCriteria(searchTerm);
 		
 	}
