@@ -57,7 +57,7 @@ public class CompanyTermsServiceImpl implements  CompanyTermsService {
 	@Override
 	public List<CompanyTermsModel> findAllCompanyTerms() {
 		
-		return companyTermsRepository.findAllByOrderByCreationTimeStampDesc();
+		return companyTermsRepository.findAllByOrderByLastUpdateTimestampDesc();
 	}
 
 	@Override
