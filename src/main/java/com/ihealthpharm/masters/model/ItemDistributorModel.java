@@ -35,9 +35,8 @@ public class ItemDistributorModel extends AuditModel{
 	
 	@Column(name="ACTIVE_S",length=1)
 	private String activeS;
-
 	
-
-
+	@Column(name="DISTRIBUTOR_PRIORITY",length=11)
+	private int distributorPriority;
 
 }
