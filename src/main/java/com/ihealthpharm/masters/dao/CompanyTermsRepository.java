@@ -10,6 +10,6 @@ import com.ihealthpharm.masters.model.CompanyTermsModel;
 @Repository
 public interface CompanyTermsRepository extends JpaRepository<CompanyTermsModel, Integer> {
 
-	List<CompanyTermsModel> findAllByOrderByCreationTimeStampDesc();
+	List<CompanyTermsModel> findAllByOrderByLastUpdateTimestampDesc();
 	
 }
