@@ -109,6 +109,11 @@ public class UnitOfMessurementServiceImpl implements UnitOfMessurementService {
 	}
 
 	
+	@Override
+	public List<UnitOfMeasurementModel> findAllUOMMethodsOnSerch(String searchTerm) {
+		return uomRepository.findAllBySearchCriteria(searchTerm);
+	}
+	
 	
 	
 	

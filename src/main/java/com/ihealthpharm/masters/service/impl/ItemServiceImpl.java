@@ -14,12 +14,10 @@ import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.ItemGenericNameRepository;
 import com.ihealthpharm.masters.dao.ItemGroupRepository;
 import com.ihealthpharm.masters.dao.ItemsRepository;
-import com.ihealthpharm.masters.dao.UnitOfMeasurementRepository;
 import com.ihealthpharm.masters.helper.ItemPropertyHelper;
 import com.ihealthpharm.masters.model.ItemGenericNamesModel;
 import com.ihealthpharm.masters.model.ItemGroupModel;
 import com.ihealthpharm.masters.model.ItemsModel;
-import com.ihealthpharm.masters.model.UnitOfMeasurementModel;
 import com.ihealthpharm.masters.service.ItemService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -32,22 +30,19 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 @Slf4j
 public class ItemServiceImpl implements ItemService {
-	
+
 	@Autowired
 	private ItemsRepository itemRepository;
-	
+
 	@Autowired
 	private ItemGenericNameRepository genericRepo;
-	
+
 	@Autowired
 	private ItemGroupRepository itemGroupRepo;
-	
+
 	@Autowired
 	private ItemPropertyHelper itemPropertyHelper;
-	
-	@Autowired
-	 private UnitOfMeasurementRepository UnitOfMeasurementRepo;
-	
+
 
 	@Override
 	public ItemsModel updateItemData(ItemsModel itemsModel) {
@@ -74,11 +69,11 @@ public class ItemServiceImpl implements ItemService {
 			itemsRes = itemRepository.save(items);
 			log.info("Items data with Multiple IDs : " + itemsRes.getItemId() + " updated succesfully");
 		}
-		
+
 		return itemsModels;
 	}
 
-	
+
 	private ItemsModel getValidItems(int itemId)
 	{
 		ItemsModel itemsRes = null;
@@ -92,8 +87,8 @@ public class ItemServiceImpl implements ItemService {
 
 
 	}
-	
-	
+
+
 	@Override
 	public List<ItemsModel> findItemsByActive() {
 		return itemRepository.findByActiveS("Y");
@@ -101,7 +96,7 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public ItemsModel findItemsById(int itemId) {
-		
+
 		ItemsModel itemsModelRes = getValidItems(itemId);
 
 		if(!Objects.nonNull(itemsModelRes))
@@ -143,7 +138,7 @@ public class ItemServiceImpl implements ItemService {
 		System.out.println(itemsModel.toString());
 		log.info("Items data with ID: "+ itemsModel.getItemId()+" saved succesfully");
 		return itemsModel;
-		
+
 	}
 
 	@Override
@@ -151,110 +146,58 @@ public class ItemServiceImpl implements ItemService {
 		return itemRepository.findAllByOrderByCreationTimeStampDesc();
 	}
 
-	
-	
 
-	
-	
 	@Override
 	public List<ItemsModel> findAllByMedicalAndItemName(String medicalOrNonMedical, String searchTerm) {
-
-		if("ALL".equalsIgnoreCase(searchTerm)) {
-			searchTerm=" ";
-		}
-		
 		return itemRepository.findAllByMedicalAndItemName(medicalOrNonMedical, searchTerm);
 	}
 
-	
+
 	@Override
 	public List<ItemsModel> findAllByItemName(String searchTerm) {
-	
+
 		List<ItemsModel> resp =itemRepository.findAllByItemNameSearch(searchTerm);
-	        
-	        System.out.println(resp.toString());
-		
-		
+
+		System.out.println(resp.toString());
+
 		return resp;
 	}
-	
 
-		
+
+
 	@Override
 	public List<ItemsModel> findAllByMedicalAndItemDesc(String medicalOrNonMedical, String searchTerm) {
-   
-		if("ALL".equalsIgnoreCase(searchTerm)) {
-			searchTerm=" ";
-		}
-		
+
 		return itemRepository.findAllByMedicalAndItemDesc(medicalOrNonMedical, searchTerm);
 	}
-	
-	
+
+
 	@Override
 	public List<ItemsModel> findAllByItemDescription(String searchTerm) {
 		List<ItemsModel> response=itemRepository.findAllByItemDescription(searchTerm);
-		 System.out.println(response.toString());
-		
-       return response;
+		System.out.println(response.toString());
+
+		return response;
 	}
 
-	
+
 	@Override
 	public List<ItemsModel> findAllGerericNamesBySearch(String searchTerm) {
 		ItemGenericNamesModel genericRes= genericRepo.findByGenericName(searchTerm);
+
 		List<ItemsModel> itemsRes = itemRepository.findByItemGenericName(genericRes);
 		return itemsRes;
 	}
-	
+
 	@Override
 	public List<ItemsModel> findAllByItemGroupCodeSearch(String searchTerm) {
-		System.out.println("in item service");
-        ItemGroupModel groupCodes=itemGroupRepo.findByGroupName(searchTerm);
-        System.out.println(groupCodes);
-        List<ItemsModel> itemModelRes=itemRepository.findByItemGroup(groupCodes);
-        System.out.println(itemModelRes.toString());
+
+		ItemGroupModel groupCodes=itemGroupRepo.findByGroupName(searchTerm);
+
+		List<ItemsModel> itemModelRes=itemRepository.findByItemGroup(groupCodes);
+
 		return itemModelRes;
 	}
 
 
-	
-
-	
-	
-	
-	
-	
-	
-	//////////////////////////////////
-	@Override
-	public List<UnitOfMeasurementModel> findAllUOMMethod() {
-		return UnitOfMeasurementRepo.findAllByOrderByCreationTimeStampDesc();
-	}
-
-	@Override
-	public List<UnitOfMeasurementModel> findAllUOMMethodsOnSerch(String searchTerm) {
-
-		if("All".equalsIgnoreCase(searchTerm)) {
-			searchTerm = "";
-		}
-		return UnitOfMeasurementRepo.findAllBySearchCriteria(searchTerm);
-	}
-
-
-
-	
-
-
-
-	
-
-
-
-	
-	
-	
-
-	
-	
 }

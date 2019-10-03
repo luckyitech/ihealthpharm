@@ -16,25 +16,25 @@ import com.ihealthpharm.masters.model.ItemsModel;
 public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable> {
 
 	public List<ItemsModel> findByActiveS(String s);
-	
-	List<ItemsModel> findAllByOrderByCreationTimeStampDesc();
-	
 
+	List<ItemsModel> findAllByOrderByCreationTimeStampDesc();
+
+	//itemName search
 	@Query("select i from items i where i.itemName like %:searchTerm% order by i.creationTimeStamp desc")
 	List<ItemsModel> findAllByItemNameSearch(@Param("searchTerm") String searchTerm);
-	
+
 	@Query("select i from items i where i.medicalOrNonMedical =:medicalOrNonMedical and i.itemName like %:searchTerm% order by i.creationTimeStamp desc")
 	List<ItemsModel> findAllByMedicalAndItemName(@Param("medicalOrNonMedical") String medicalOrNonMedical,@Param("searchTerm") String searchTerm);
-	
+
 	@Query("select i from items i where i.medicalOrNonMedical =:medicalOrNonMedical and i.itemDescription like %:searchTerm% order by i.creationTimeStamp desc")
 	List<ItemsModel> findAllByMedicalAndItemDesc(@Param("medicalOrNonMedical")String medicalOrNonMedical,@Param("searchTerm")String searchTerm);
-	
+
 	@Query("select i from items i where i.itemDescription like %:searchTerm% order by i.creationTimeStamp desc")
 	List<ItemsModel> findAllByItemDescription(@Param("searchTerm") String searchTerm);
 
-	 List<ItemsModel> findByItemGenericName(ItemGenericNamesModel genericRes);
-	 
-	  List<ItemsModel> findByItemGroup(ItemGroupModel groupCode);
-   
-	
+	List<ItemsModel> findByItemGenericName(ItemGenericNamesModel genericRes);
+
+	List<ItemsModel> findByItemGroup(ItemGroupModel groupCode);
+
+
 }

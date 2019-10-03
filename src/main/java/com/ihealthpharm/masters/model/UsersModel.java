@@ -7,9 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity(name="pharmacy_admin")
+@EqualsAndHashCode(of="userId",callSuper=false)
 public class UsersModel extends AuditModel{
 
 	private static final long serialVersionUID = -7557940488957361025L;

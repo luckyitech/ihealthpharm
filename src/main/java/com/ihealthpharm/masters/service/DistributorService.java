@@ -6,19 +6,21 @@ import com.ihealthpharm.masters.model.DistributorModel;
 
 public interface DistributorService {
 
-	public DistributorModel saveDistrubutorData(DistributorModel distributorModel );
+	 DistributorModel saveDistrubutorData(DistributorModel distributorModel );
 	
-	public DistributorModel updateDistrubutorData(DistributorModel distributorModel );
+	 DistributorModel updateDistrubutorData(DistributorModel distributorModel );
 	
-	public List<DistributorModel> updateDistrubutorsData(List<DistributorModel> distributorModels );
+	 List<DistributorModel> updateDistrubutorsData(List<DistributorModel> distributorModels );
 	
-	public List<DistributorModel> findDistrubutorByActive();
+	 List<DistributorModel> findDistrubutorByActive();
 	
-	public DistributorModel findDistrubutorById(int distrubutorId);
+	 DistributorModel findDistrubutorById(int distrubutorId);
 	
-	public void deleteDistrubutorById(int distrubutorId);
+	 void deleteDistrubutorById(int distrubutorId);
 	
-	public void deleteDistrubutorsById(int[] distrubutorIds);
+	 void deleteDistrubutorsById(int[] distrubutorIds);
 	
-	public List<DistributorModel> findAllDistributors();
+	 List<DistributorModel> findAllDistributors();
+
+	 List<DistributorModel> findAllDistributorsByName(String searchTerm);
 }
