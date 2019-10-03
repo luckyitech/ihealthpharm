@@ -9,12 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import javax.persistence.OneToOne;
 
 import lombok.Data;
 
@@ -27,9 +22,8 @@ public class EmployeeHonorModel extends AuditModel{
 	@Column(name = "EMPLOYEE_HONOR_ID", length=11)
 	private Integer employeeHonorId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "EMPLOYEE_ID")
-	@JsonBackReference
 	private EmployeeModel employee;
 	
 	@Column( name = "HONOR_NM", length=250)

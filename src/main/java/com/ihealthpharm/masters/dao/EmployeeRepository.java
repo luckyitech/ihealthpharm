@@ -3,10 +3,17 @@ package com.ihealthpharm.masters.dao;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
+import com.ihealthpharm.masters.model.EmployeeCredentialsModel;
 import com.ihealthpharm.masters.model.EmployeeModel;
 
 public interface EmployeeRepository extends JpaRepository<EmployeeModel, Integer>{
 
 	List<EmployeeModel> findAllByOrderByCreationTimeStampDesc();
+	
+	@Query(value="SELECT * from employee e order by e.EMPLOYEE_ID desc limit 1", nativeQuery=true)
+	public EmployeeModel findLastCreatedEmployeeId();
+
+	//public EmployeeModel findEmployeeCredentialsModel(EmployeeCredentialsModel employeeCredentialsModel);
 }
