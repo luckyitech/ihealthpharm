@@ -148,10 +148,4 @@ public class EmployeeCredentialsImpl implements EmployeeCredentialsService {
 		return employeeCredentialsRetriveRepository.findByUserName(userName);
 	}
 
-	
-
-	
-
-	
-
 }

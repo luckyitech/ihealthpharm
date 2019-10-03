@@ -38,7 +38,12 @@ public class JwtInMemoryUserDetailsService implements UserDetailsService {
 		EmployeeCredentialsModel usersList = employeeCredentialsService.findEmployeeCredentialsByUserName(username);
 		List<JwtUserDetails> inMemoryUserList = new ArrayList<>();
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		inMemoryUserList.add(new JwtUserDetails(usersList.getEmployee().getEmployeeId(),usersList.getUserName(),encoder.encode(usersList.getCurrentPassword()),"ROLE_USER_2"));
+		inMemoryUserList.add(
+				new JwtUserDetails(
+						usersList.getEmployee().getEmployeeId(),
+						usersList.getUserName(),
+						encoder.encode(usersList.getCurrentPassword()),
+						"ROLE_USER_2"));
 		Optional<JwtUserDetails> findFirst = inMemoryUserList.stream().filter(user -> user.getUsername().equals(username)).findFirst();
 
 		//System.out.println(usersList.toString());

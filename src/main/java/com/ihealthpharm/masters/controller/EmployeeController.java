@@ -127,12 +127,14 @@ public class EmployeeController {
 	@GetMapping("/getallemployeesdata")
 	public ResponseEntity<BaseDto<List<EmployeeModel>>> getEmployeesdata() {
 		List<EmployeeModel> result = employeeService.findAllEmployees();
+		//log.info(result.toString());
 		return new BaseDto<>(result, employeeHelper.getRetrieveEmployeeMessage(), OK).respond();
 	}
 
 	@GetMapping("/getemployeedatabyid")
 	public ResponseEntity<BaseDto<EmployeeModel>> getEmployeeDataById(@RequestParam int employeeId) {
 		EmployeeModel result = employeeService.findEmployeeById(employeeId);
+		
 		return new BaseDto<>(result, employeeHelper.getRetrieveEmployeeMessage(), OK).respond();
 	}
 	

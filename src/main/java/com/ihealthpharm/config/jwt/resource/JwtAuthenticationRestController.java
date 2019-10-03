@@ -2,6 +2,7 @@ package com.ihealthpharm.config.jwt.resource;
 
 import static org.springframework.http.HttpStatus.OK;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +27,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.config.jwt.JwtTokenUtil;
 import com.ihealthpharm.config.jwt.JwtUserDetails;
+import com.ihealthpharm.masters.model.EmployeeAccessModel;
+import com.ihealthpharm.masters.model.EmployeeCredentialsModel;
+import com.ihealthpharm.masters.service.EmployeeAccessService;
+import com.ihealthpharm.masters.service.EmployeeCredentialsService;
 
 @RestController
 @CrossOrigin
@@ -43,18 +48,26 @@ public class JwtAuthenticationRestController {
 	@Autowired
 	private UserDetailsService jwtInMemoryUserDetailsService;
 
+	@Autowired
+	EmployeeCredentialsService employeeCredentialsService;
+	
+	@Autowired
+	EmployeeAccessService employeeAccessService;
+	
 	@RequestMapping(value = "${jwt.get.token.uri}", method = RequestMethod.POST)
 	public ResponseEntity<BaseDto<JwtTokenResponse>> createAuthenticationToken(@RequestBody JwtTokenRequest authenticationRequest)
 			throws AuthenticationException {
-		System.out.println(authenticationRequest.toString());
+		
 		authenticate(authenticationRequest.getUserName(), authenticationRequest.getPassword());
-
+		EmployeeCredentialsModel users = employeeCredentialsService.findEmployeeCredentialsByUserName(authenticationRequest.getUserName());
 		final UserDetails userDetails = jwtInMemoryUserDetailsService
 				.loadUserByUsername(authenticationRequest.getUserName());
-
-		final String token = jwtTokenUtil.generateToken(userDetails);
 		
-		return new BaseDto<>(new JwtTokenResponse(token),"Authondication sucess",OK).respond();
+		final String token = jwtTokenUtil.generateToken(userDetails);
+		System.out.println("User ID : "+users.getEmployee().getEmployeeId());
+		List<EmployeeAccessModel> result = employeeAccessService.findByEmployee(users.getEmployee());
+		
+		return new BaseDto<>(new JwtTokenResponse(token,users.getEmployee().getEmployeeId(),result),"Authondication sucess",OK).respond();
 	}
 
 	@RequestMapping(value = "${jwt.refresh.token.uri}", method = RequestMethod.GET)

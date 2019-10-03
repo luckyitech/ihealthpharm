@@ -23,7 +23,7 @@ public class EmployeeProfMembershipModel extends AuditModel{
 	@Column(name = "EMPLOYEE_PROF_MEMBERSHIP_ID", length=11)
 	private Integer employeeProfMembershipId;
 
-	@OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "EMPLOYEE_ID")
 	private EmployeeModel employee;
 	
