@@ -20,6 +20,9 @@ public class PharmacyModel extends AuditModel{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="PHARMACY_ID",length=11)
 	private Integer pharmacyId;
+	
+	@Column(name="MAIN_PHARMACY_ID",length=11)
+	private Integer mainPharmacyId;
 
 	@Column(name="PHARMACY_NM",length=250)
 	private String pharmacyName;

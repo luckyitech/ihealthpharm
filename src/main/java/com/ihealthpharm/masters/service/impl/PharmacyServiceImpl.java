@@ -41,7 +41,10 @@ public class PharmacyServiceImpl implements PharmacyService {
 
 	@Override
 	public PharmacyModel savePharmacyData(PharmacyModel pharmacyModel) {
-
+ 
+		  pharmacyModel.setCreatedUser("2");
+		
+		
 		pharmacyModel=pharmacyRepository.save(pharmacyModel);
 		
 		log.info("Pharmacy data with ID : "+pharmacyModel.getPharmacyId()+"saved successfully");
