@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.EmployeeCredentialsRepository;
+import com.ihealthpharm.masters.dao.EmployeeCredentialsRetriveRepository;
 import com.ihealthpharm.masters.helper.EmployeeCredentialsHelper;
 import com.ihealthpharm.masters.model.EmployeeCredentialsModel;
+import com.ihealthpharm.masters.model.EmployeeCredentialsRetriveModel;
 import com.ihealthpharm.masters.service.EmployeeCredentialsService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +27,10 @@ public class EmployeeCredentialsImpl implements EmployeeCredentialsService {
 
 	@Autowired
 	EmployeeCredentialsRepository employeeCredentialsRepository;
+	
+	@Autowired
+	EmployeeCredentialsRetriveRepository employeeCredentialsRetriveRepository;
+	
 
 	@Autowired
 	EmployeeCredentialsHelper employeeCredentialsHelper;
@@ -136,8 +142,10 @@ public class EmployeeCredentialsImpl implements EmployeeCredentialsService {
 		}
 	}
 
-	
-
-	
+	@Override
+	public EmployeeCredentialsRetriveModel findEmployeeCredentialByUserName(String userName) {
+		
+		return employeeCredentialsRetriveRepository.findByUserName(userName);
+	}
 
 }

@@ -32,34 +32,34 @@ public class EmployeePharmacyRolesController {
 	EmployeePharmacyRoleService employeePharmacyRoleService;
 	
 	@PostMapping("/save/employeepharmacyrole")
-	public ResponseEntity<BaseDto<EmployeePharmacyRoleModel>> insertDistrubutorData(@Valid @RequestBody EmployeePharmacyRoleModel employeePharmacyRoleModel) {
+	public ResponseEntity<BaseDto<EmployeePharmacyRoleModel>> insertEmployeePharmacyRoleData(@Valid @RequestBody EmployeePharmacyRoleModel employeePharmacyRoleModel) {
 		log.info("Request Object insert is: "+employeePharmacyRoleModel.toString());
 		EmployeePharmacyRoleModel pharmacyRolesRes = employeePharmacyRoleService.saveEmployeePharmacyRoleData(employeePharmacyRoleModel);
 		return new BaseDto<>(pharmacyRolesRes,"saved",OK).respond();
 	}
 	
 	@PutMapping("/update/employeepharmacyrole")
-	public ResponseEntity<BaseDto<EmployeePharmacyRoleModel>> updateDistrubutorData(@Valid @RequestBody EmployeePharmacyRoleModel employeePharmacyRoleModel) {
+	public ResponseEntity<BaseDto<EmployeePharmacyRoleModel>> updateEmployeePharmacyRoleData(@Valid @RequestBody EmployeePharmacyRoleModel employeePharmacyRoleModel) {
 		log.info("Request Object for update is: "+ employeePharmacyRoleModel.toString());
 		EmployeePharmacyRoleModel pharmacyRolesRes = employeePharmacyRoleService.updateEmployeePharmacyRoleData(employeePharmacyRoleModel);
 		return new BaseDto<>(pharmacyRolesRes,"updated",OK).respond();
 	}
 	
 	@DeleteMapping("/delete/employeepharmacyrole")
-	public ResponseEntity<BaseDto<Object>> deleteProviderData(@RequestParam int pharmaAccessId) {
+	public ResponseEntity<BaseDto<Object>> deleteEmployeePharmacyRoleData(@RequestParam int pharmaAccessId) {
 		log.info("Request Object for delete is: ", pharmaAccessId);
 		employeePharmacyRoleService.deleteEmployeePharmacyRoleData(pharmaAccessId);;
 		return new BaseDto<>("deleted", OK).respond();
 	}
 	
 	@GetMapping("/getallemployeepharmacyroledata")
-	public ResponseEntity<BaseDto<List<EmployeePharmacyRoleModel>>> getAllDistributordata() {
+	public ResponseEntity<BaseDto<List<EmployeePharmacyRoleModel>>> getAllEmployeePharmacyRoleData() {
 		List<EmployeePharmacyRoleModel> result = employeePharmacyRoleService.findAllEmployeePharmacyRoleData();
 		return new BaseDto<>(result, "retrived", OK).respond();
 	}
 	
 	@GetMapping("/getemployeepharmacyroledatabyid")
-	public ResponseEntity<BaseDto<EmployeePharmacyRoleModel>> getProviderDataById(@RequestParam int pharmaAccessId) {
+	public ResponseEntity<BaseDto<EmployeePharmacyRoleModel>> getEmployeePharmacyRoleDataById(@RequestParam int pharmaAccessId) {
 		EmployeePharmacyRoleModel result = employeePharmacyRoleService.findEmployeePharmacyRoleDataById(pharmaAccessId);
 		return new BaseDto<>(result,  "retrived", OK).respond();
 	}

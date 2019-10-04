@@ -22,8 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ihealthpharm.commons.BaseDto;
-import com.ihealthpharm.masters.dto.EmployeeAccessDTO;
-import com.ihealthpharm.masters.dto.EmployeeDTO;
 import com.ihealthpharm.masters.helper.EmployeeHelper;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.EmployeeTypeModel;
@@ -48,7 +46,6 @@ public class EmployeeController {
 
 	@PostMapping("/save/employee")
 	public ResponseEntity<BaseDto<EmployeeModel>> insertEmployeeData(@Valid @RequestParam("employee") String employeeData, 
-			@RequestParam("employeeAccess") String employeeAccessData,
 			@RequestParam("image") MultipartFile image,
 			@RequestParam("identificationDocument") MultipartFile identificationDocument,
 			@RequestParam("policeGoodConductCertificate") MultipartFile policeGoodConductCertificate,
@@ -56,13 +53,13 @@ public class EmployeeController {
 			@RequestParam("signedContract") MultipartFile signedContract) throws IOException {
 		
 		log.info(employeeData);
-		log.info(employeeAccessData);
+		
 		log.info("----------------------------------------------------------------------");
 		EmployeeModel employeeModel = null;
-		EmployeeAccessDTO employeeAccessDTO = null; 
+		
 		try {
 			employeeModel = new ObjectMapper().readValue(employeeData, EmployeeModel.class);
-			employeeAccessDTO = new ObjectMapper().readValue(employeeAccessData, EmployeeAccessDTO.class);
+			
 			employeeModel.setProfileImage(image.getBytes());
 			employeeModel.setIdentificationDocument(identificationDocument.getBytes());
 			employeeModel.setPoliceGoodConductCertificate(policeGoodConductCertificate.getBytes());
@@ -76,15 +73,15 @@ public class EmployeeController {
 		
 		//log.info("Request Object insert is: " + employeeDto.toString());
 
-		EmployeeModel employeeRes = employeeService.saveEmployeeData(employeeModel,employeeAccessDTO);
+		EmployeeModel employeeRes = employeeService.saveEmployeeData(employeeModel);
 
 		return new BaseDto<>(employeeRes, employeeHelper.getSaveEmployeeMessage(), OK).respond();
 	}
 
 	@PutMapping("/update/employees")
-	public ResponseEntity<BaseDto<List<EmployeeModel>>> updateEmployeesData(@Valid @RequestBody List<EmployeeDTO> employeeDtos) throws ParseException {
-		log.info("Request Object for update is: "+ employeeDtos.toString());
-		List<EmployeeModel> employeeRes = employeeService.updateEmployeesData(employeeDtos);
+	public ResponseEntity<BaseDto<List<EmployeeModel>>> updateEmployeesData(@Valid @RequestBody List<EmployeeModel> EmployeeModels) throws ParseException {
+		log.info("Request Object for update is: "+ EmployeeModels.toString());
+		List<EmployeeModel> employeeRes = employeeService.updateEmployeesData(EmployeeModels);
 		return new BaseDto<>(employeeRes, employeeHelper.getUpdateEmployeeMessage(), OK).respond();
 	}
 
@@ -130,12 +127,14 @@ public class EmployeeController {
 	@GetMapping("/getallemployeesdata")
 	public ResponseEntity<BaseDto<List<EmployeeModel>>> getEmployeesdata() {
 		List<EmployeeModel> result = employeeService.findAllEmployees();
+		//log.info(result.toString());
 		return new BaseDto<>(result, employeeHelper.getRetrieveEmployeeMessage(), OK).respond();
 	}
 
 	@GetMapping("/getemployeedatabyid")
 	public ResponseEntity<BaseDto<EmployeeModel>> getEmployeeDataById(@RequestParam int employeeId) {
 		EmployeeModel result = employeeService.findEmployeeById(employeeId);
+		
 		return new BaseDto<>(result, employeeHelper.getRetrieveEmployeeMessage(), OK).respond();
 	}
 	
@@ -144,5 +143,17 @@ public class EmployeeController {
 		List<EmployeeTypeModel> result = employeeTypeService.getAllEmployeeTypes();
 		return new BaseDto<>(result, employeeHelper.getRetrieveEmployeeMessage(), OK).respond();
 	}
+	
+	@GetMapping("/getemployeeid")
+	public ResponseEntity<BaseDto<EmployeeModel>> getLasteCreatedEmployeeId() {
+		EmployeeModel result = employeeService.findLastCreatedEmployeeId();
+		return new BaseDto<>(result, employeeHelper.getRetrieveEmployeeMessage(), OK).respond();
+	}
+	
+	/*@PostMapping("/getemployeebycredential")
+	public ResponseEntity<BaseDto<EmployeeModel>> getEmployeeByEmployeeCredential(EmployeeCredentialsModel employeeCredentialsModel) {
+		EmployeeModel result = employeeService.findEmployeeCredentialsModel(employeeCredentialsModel);
+		return new BaseDto<>(result, employeeHelper.getRetrieveEmployeeMessage(), OK).respond();
+	}*/
 
 }
