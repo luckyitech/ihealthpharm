@@ -77,7 +77,6 @@ public class ProviderModel extends AuditModel{
 	@Column(name = "DOB")
 	private String dob;
 	
-	
 	@Column(name = "SPECIALITY")
 	private String speciality;
 	
@@ -85,11 +84,9 @@ public class ProviderModel extends AuditModel{
 	@JoinColumn(name="COUNTRY_ID")
 	private CountryModel country;
 	
-	
 	@OneToOne(cascade=CascadeType.DETACH)
 	@JoinColumn(name = "PROVIDER_TYPE_LOOKUP_ID")
 	private ProviderLookupTypeModel providerLookupTypeModel;
-
 
     public void setDateOfBirth(Date birthDate) throws ParseException {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
