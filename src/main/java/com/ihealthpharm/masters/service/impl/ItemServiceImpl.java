@@ -143,7 +143,7 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public List<ItemsModel> findAllItems() {
-		return itemRepository.findAllByOrderByCreationTimeStampDesc();
+		return itemRepository.findAllByOrderByLastUpdateTimestampDesc();
 	}
 
 

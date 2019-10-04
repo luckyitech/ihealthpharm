@@ -56,7 +56,7 @@ public class PharmacyServiceImpl implements PharmacyService {
 	public PharmacyModel updatePharmacyData(PharmacyModel pharmacyModel) {
 
 		PharmacyModel pharmacyModelRes=getValidPharmacy(pharmacyModel.getPharmacyId());
-		
+		  pharmacyModel.setCreatedUser("2");
 		if(!Objects.nonNull(pharmacyModelRes)){
 			throw new IHealthPharmException(pharmacyHelper.getNotFoundPharmacyMessage(), HttpStatus.NOT_FOUND);
 		}
@@ -125,6 +125,12 @@ public class PharmacyServiceImpl implements PharmacyService {
 		}
 		
 		return pharmacyModels;
+	}
+
+	@Override
+	public List<PharmacyModel> getAllPharmacies() {
+		List<PharmacyModel> response=pharmacyRepository.findAllByOrderByLastUpdateTimestampDesc();
+		return response;
 	}
 
 	

@@ -3,6 +3,7 @@ package com.ihealthpharm.masters.service;
 import java.util.List;
 
 import com.ihealthpharm.masters.model.EmployeeCredentialsModel;
+import com.ihealthpharm.masters.model.EmployeeCredentialsRetriveModel;
 
 public interface EmployeeCredentialsService {
 
@@ -16,9 +17,12 @@ public interface EmployeeCredentialsService {
 	
 	public EmployeeCredentialsModel findEmployeeCredentialsByUserName(String userName);
 	
+	public EmployeeCredentialsRetriveModel findEmployeeCredentialByUserName(String userName);
+	
 	public List<EmployeeCredentialsModel> findAllEmployeeCredentials();
 	
 	public EmployeeCredentialsModel findEmployeeCredentialsById(int employeeCredentialId);
+	
 	
 	public void deleteEmployeeCredentialsById(int employeeCredentialId);
 	

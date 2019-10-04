@@ -22,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.helper.PharmacyHelper;
-import com.ihealthpharm.masters.model.HospitalModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.service.PharmacyService;
 
@@ -95,6 +94,12 @@ public class PharmacyController {
 	@GetMapping("/getpharmacybyid")
 	public ResponseEntity<BaseDto<PharmacyModel>> getPharmacyById(@RequestParam int pharmacyId){
 		PharmacyModel result=pharmacyService.findPharmacyById(pharmacyId);
+		return new BaseDto<>(result,pharmacyHelper.getRetrievePharmacyMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getallpharmacies")
+	public ResponseEntity<BaseDto<List<PharmacyModel>>> getAllPharmaciesData(){
+		List<PharmacyModel> result=pharmacyService.getAllPharmacies();
 		return new BaseDto<>(result,pharmacyHelper.getRetrievePharmacyMessage(),OK).respond();
 	}
 	

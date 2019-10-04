@@ -87,6 +87,15 @@ public class EmployeeCredentialsController {
 				OK).respond();
 	}
 
+	@GetMapping("getemployeecredentialsbyusername")
+	public ResponseEntity<BaseDto<EmployeeCredentialsModel>> getEmployeeCredentialByUserName(
+			@RequestParam("employeeUserName") String employeeUserName) {
+		EmployeeCredentialsModel employeeCredentialsModel = employeeCredentialsService
+				.findEmployeeCredentialsByUserName(employeeUserName);
+		return new BaseDto<>(employeeCredentialsModel, employeeCredentialsHelper.getDeleteEmployeeCredentialsMessage(),
+				OK).respond();
+	}
+	
 	@GetMapping("getallemployeecredentials")
 	public ResponseEntity<BaseDto<List<EmployeeCredentialsModel>>> getAllEmployeeCredentials() {
 		List<EmployeeCredentialsModel> employeeCredentialsModels = employeeCredentialsService
@@ -95,6 +104,7 @@ public class EmployeeCredentialsController {
 				OK).respond();
 	}
 
+	
 	/*@PostMapping("employeelogin")
 	public ResponseEntity<BaseDto<TokenModel>> checkEmployeeCredentials(
 			@RequestParam("userName") String userName, @RequestParam("currentPassword") String currentPassword)
