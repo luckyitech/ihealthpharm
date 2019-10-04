@@ -18,5 +18,7 @@ public interface PharmacyService {
 	void deletePharmacyById(int pharmacyId);
 	
 	List<PharmacyModel> updateMultiplePharmacyData(List<PharmacyModel> pharmacyModels);
+
+	List<PharmacyModel> getAllPharmacies();
 	
 }
