@@ -15,9 +15,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(of = "itemDistributorId", callSuper = false)
 public class ItemDistributorModel extends AuditModel{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	@Id

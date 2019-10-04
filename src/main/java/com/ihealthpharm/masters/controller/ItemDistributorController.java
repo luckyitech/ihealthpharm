@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.helper.ItemDistributorHelper;
+import com.ihealthpharm.masters.model.DistributorModel;
 import com.ihealthpharm.masters.model.ItemDistributorModel;
+import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.service.ItemDistributorService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +43,8 @@ public class ItemDistributorController {
 	private ItemDistributorHelper itemDistributorHelper;
 	
 	
+	
+	
 	@PostMapping("/save/itemdistributor")
 	public ResponseEntity<BaseDto<ItemDistributorModel>> insertDistributorData(@Valid @RequestParam int[] itemsId,@Valid @RequestParam int[] distributorsId ) {
 		log.info("Request Object insert is: "+ itemsId+distributorsId);
@@ -48,6 +52,16 @@ public class ItemDistributorController {
 		ItemDistributorModel itemDistributorModelRes = itemDistributorService.saveItemDistributorData(itemsId,distributorsId);
 		return new BaseDto<>(itemDistributorModelRes,itemDistributorHelper.getSaveItemDistributorMessage(),OK).respond();
 	}
+	
+	
+	@PutMapping("/update/itemDistributors")
+	public ResponseEntity<BaseDto<Object>> updateItemDistributorData(@Valid @RequestParam int itemDistributorId,@Valid @RequestParam String activeS){
+		
+		log.info("Request Object for update :"+itemDistributorId+"recieved status:"+activeS);
+		itemDistributorService.saveItemDistributorsById(itemDistributorId,activeS);
+		return new BaseDto<>(itemDistributorHelper.getUpdateItemDistributorMessage(),OK).respond();
+	}
+	
 	
 	@PutMapping("/update/itemdistributor")
 	public ResponseEntity<BaseDto<ItemDistributorModel>> updateDistributorData(@Valid @RequestBody ItemDistributorModel itemDistributorModel) {
@@ -99,29 +113,44 @@ public class ItemDistributorController {
 	
 	
 	
-	//itemdistributor dropdown search
+	//itemdistributor dropdown item search
 	
 	@GetMapping("/getunmapped/distributors")
-	public ResponseEntity<BaseDto<List<String>>> getAllDistributors(@RequestParam int itemId){
-		System.out.println("In Itemdist controller");
-		List<String> response=itemDistributorService.findAllUnMappedItemDistributorsData(itemId);
+	public ResponseEntity<BaseDto<List<DistributorModel>>> getAllDistributors(@RequestParam int itemId){
+		List<DistributorModel> response=itemDistributorService.findAllUnMappedItemDistributorsData(itemId);
 		return new BaseDto<>(response,itemDistributorHelper.getRetrieveItemDistributorMessage(),OK).respond();
+	}
+	
+	
+	//ITEMDISTRIBUTOR dropdown search for unmapped distributors
+	
+	@GetMapping("/getunmapped/distributorssearch/byName")
+	public ResponseEntity<BaseDto<List<DistributorModel>>> getAllDistributorsUnmappedSearch(@RequestParam int itemId,@RequestParam String searchTerm){
+		List<DistributorModel> response=itemDistributorService.findAllUnmappedDistributorsNamesSearch(itemId,searchTerm);
+		return new BaseDto<>(response,itemDistributorHelper.getRetrieveItemDistributorMessage(),OK).respond();
+	}
+	
+	//itemdistributors dropdown search for unmapped items
+	@GetMapping("/getunmapped/itemssearch/byitemName")
+	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllItemsUnmappedSearch(@RequestParam int distributorId,@RequestParam String searchTerm){
+		log.info("searchTerm :"+searchTerm +"distId :"+distributorId);
+		List<ItemsModel> result=itemDistributorService.finAllUnmppedItemsNameSearch(distributorId,searchTerm);
+		return new BaseDto<>(result,itemDistributorHelper.getRetrieveItemDistributorMessage(),OK).respond();
 	}
 	
 	
 	//distributorItem dropdown search
 	
 	@GetMapping("/getunmapped/items")
-	public ResponseEntity<BaseDto<List<String>>> getAllItems(@RequestParam int distributorId){
-		System.out.println("In DistItem Controller");
-		List<String> result=itemDistributorService.findAllUnMappedDistributorItems(distributorId);
+	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllItems(@RequestParam int distributorId){
+		List<ItemsModel> result=itemDistributorService.findAllUnMappedDistributorItems(distributorId);
 		return new BaseDto<>(result,itemDistributorHelper.getRetrieveItemDistributorMessage(),OK).respond();
 	}
 	
 	//Grid Options itemdistributors mapped data
 	@GetMapping("/getitemdistributors/mapppeddata")
-	public ResponseEntity<BaseDto<List<Object[]>>> getAllItemDistributorsMapped(){
-		List<Object[]> result=itemDistributorService.findAllMappedItemDistributors();
+	public ResponseEntity<BaseDto<List<ItemDistributorModel>>> getAllItemDistributorsMapped(){
+		List<ItemDistributorModel> result=itemDistributorService.findAllMappedItemDistributors();
 		
 		return new BaseDto<>(result,itemDistributorHelper.getRetrieveItemDistributorMessage(),OK).respond();
 	}
