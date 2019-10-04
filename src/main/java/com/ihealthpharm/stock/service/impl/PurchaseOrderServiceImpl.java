@@ -1,4 +1,4 @@
-package com.ihealthpharm.masters.service.impl;
+package com.ihealthpharm.stock.service.impl;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -11,10 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
-import com.ihealthpharm.masters.dao.PurchaseOrderRepository;
-import com.ihealthpharm.masters.helper.PurchaseOrderHelper;
-import com.ihealthpharm.masters.model.PurchaseOrderModel;
-import com.ihealthpharm.masters.service.PurchaseOrderService;
+import com.ihealthpharm.stock.dao.PurchaseOrderRepository;
+import com.ihealthpharm.stock.helper.PurchaseOrderHelper;
+import com.ihealthpharm.stock.model.PurchaseOrderModel;
+import com.ihealthpharm.stock.service.PurchaseOrderService;
 
 import lombok.extern.slf4j.Slf4j;
 

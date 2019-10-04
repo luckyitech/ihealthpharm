@@ -1,4 +1,4 @@
-package com.ihealthpharm.masters.controller;
+package com.ihealthpharm.stock.controller;
 
 import static org.springframework.http.HttpStatus.OK;
 
@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
-import com.ihealthpharm.masters.helper.PurchaseOrderHelper;
-import com.ihealthpharm.masters.model.PurchaseOrderModel;
-import com.ihealthpharm.masters.service.PurchaseOrderService;
+import com.ihealthpharm.stock.helper.PurchaseOrderHelper;
+import com.ihealthpharm.stock.model.PurchaseOrderModel;
+import com.ihealthpharm.stock.service.PurchaseOrderService;
 
 import lombok.extern.slf4j.Slf4j;
 
