@@ -20,7 +20,6 @@ import com.ihealthpharm.masters.dto.QuotationModelDTO;
 import com.ihealthpharm.masters.helper.QuotationHelper;
 import com.ihealthpharm.masters.model.DistributorModel;
 import com.ihealthpharm.masters.model.ItemsModel;
-import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.QuotationItemStatusModel;
 import com.ihealthpharm.masters.model.QuotationItemsModel;
 import com.ihealthpharm.masters.model.QuotationModel;

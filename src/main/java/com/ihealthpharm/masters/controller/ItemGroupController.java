@@ -38,7 +38,6 @@ public class ItemGroupController {
 	@PostMapping("/save/itemgroup")
 	public ResponseEntity<BaseDto<ItemGroupModel>> insertItemGroupData(@Valid @RequestBody ItemGroupModel itemGroupModel) {
 		log.info("Request Object insert is: "+ itemGroupModel);
-		
 		ItemGroupModel itemGroupModelRes = itemGroupService.saveItemGroupData(itemGroupModel);
 		return new BaseDto<>(itemGroupModelRes,itemGroupHelper.getSaveItemGroupMessage(),OK).respond();
 	}

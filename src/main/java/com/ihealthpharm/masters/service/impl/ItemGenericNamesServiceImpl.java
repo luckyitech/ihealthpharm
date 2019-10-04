@@ -25,16 +25,16 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public class ItemGenericNamesServiceImpl implements ItemGenericNamesService {
 
-	
+
 	@Autowired
 	ItemGenericNameRepository itemGenericNameRepository;
 
-    @Autowired
-    ItemGenericNamesHelper itemGenericHelper;
-	
-    private ItemGenericNamesModel getValidItemGeneric(int itemGenericNameId)
+	@Autowired
+	ItemGenericNamesHelper itemGenericHelper;
+
+	private ItemGenericNamesModel getValidItemGeneric(int itemGenericNameId)
 	{
-    	ItemGenericNamesModel itemGenericRes = null;
+		ItemGenericNamesModel itemGenericRes = null;
 		try {
 			itemGenericRes =itemGenericNameRepository.findById(itemGenericNameId).get();
 			return itemGenericRes;
@@ -45,21 +45,21 @@ public class ItemGenericNamesServiceImpl implements ItemGenericNamesService {
 
 
 	}
-    
-    
+
+
 	@Override
 	public ItemGenericNamesModel saveItemGenericNamesData(ItemGenericNamesModel itemGenericNamesModel) {
-		
+
 		itemGenericNamesModel = itemGenericNameRepository.save(itemGenericNamesModel);
 		log.info("ItemGenericName data with ID: "+ itemGenericNamesModel.getItemGenericNameId()+" saved succesfully");
 		return itemGenericNamesModel;
-		
+
 	}
 
 	@Override
 	public ItemGenericNamesModel updateItemGenericNameData(ItemGenericNamesModel itemGenericNamesModel) {
-		
-		
+
+
 		ItemGenericNamesModel itemGenericModelRes = getValidItemGeneric(itemGenericNamesModel.getItemGenericNameId());
 
 		if(!Objects.nonNull(itemGenericModelRes))
@@ -84,19 +84,19 @@ public class ItemGenericNamesServiceImpl implements ItemGenericNamesService {
 			itemGenericRes =  itemGenericNameRepository.save(itemGenerics);
 			log.info("ItemGenericName data with Multiple IDs : " + itemGenericRes.getItemGenericNameId() + " updated succesfully");
 		}
-		
+
 		return itemGroupModels;
 	}
 
 	@Override
 	public List<ItemGenericNamesModel> findItemGenericNameByActive() {
-		
+
 		return itemGenericNameRepository.findByActiveS("Y");
 	}
 
 	@Override
 	public ItemGenericNamesModel findItemGenericNameById(int itemGenericNameId) {
-		
+
 		ItemGenericNamesModel itemGenericModelRes = getValidItemGeneric(itemGenericNameId);
 
 		if(!Objects.nonNull(itemGenericModelRes))
@@ -124,7 +124,7 @@ public class ItemGenericNamesServiceImpl implements ItemGenericNamesService {
 
 		ItemGenericNamesModel itemGenericModelRes;
 		for (int itemGeneric : itemGenericNameIds) {
-			
+
 			itemGenericModelRes =  getValidItemGeneric(itemGeneric); 
 			if (!Objects.nonNull(itemGenericModelRes)) {
 				throw new IHealthPharmException(itemGenericHelper.getNotFoundItemGenericNameMessage(), HttpStatus.NOT_FOUND);
@@ -132,7 +132,7 @@ public class ItemGenericNamesServiceImpl implements ItemGenericNamesService {
 			itemGenericNameRepository.delete(itemGenericModelRes);
 			log.info("ItemForm data with ID: " + itemGenericModelRes.getItemGenericNameId() + " deleted succesfully");
 		}
-		
+
 	}
 
 
@@ -141,7 +141,7 @@ public class ItemGenericNamesServiceImpl implements ItemGenericNamesService {
 			Integer itemGroupId) {
 		ItemGroupModel itemGroupModel = new ItemGroupModel();
 		itemGroupModel.setItemGroupId(itemGroupId);
-		
+
 		return itemGenericNameRepository.findAllBySearchCriteria(medicalOrNonMedical, searchTerm, itemGroupModel);
 	}
 

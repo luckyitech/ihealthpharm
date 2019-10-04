@@ -8,17 +8,17 @@ public interface DistributorContractService {
 
 public DistributorContractModel saveDistrubutorContractData(DistributorContractModel distributorContractModel );
 	
-	public DistributorContractModel updateDistrubutorContractData(DistributorContractModel distributorContractModel );
+	 DistributorContractModel updateDistrubutorContractData(DistributorContractModel distributorContractModel );
 	
-	public List<DistributorContractModel> updateDistrubutorContractsData(List<DistributorContractModel> distributorContractModels );
+	 List<DistributorContractModel> updateDistrubutorContractsData(List<DistributorContractModel> distributorContractModels );
 	
-	public List<DistributorContractModel> findDistrubutorContractByActive();
+	 List<DistributorContractModel> findDistrubutorContractByActive();
 	
-	public DistributorContractModel findDistrubutorContractById(int distrubutorContractId);
+	 DistributorContractModel findDistrubutorContractById(int distrubutorContractId);
 	
-	public void deleteDistrubutorContractById(int distrubutorContractId);
+	 void deleteDistrubutorContractById(int distrubutorContractId);
 	
-	public void deleteDistrubutorContractsById(int[] distrubutorContractIds);
+	 void deleteDistrubutorContractsById(int[] distrubutorContractIds);
 	
-	public List<DistributorContractModel> findAllDistributorContracts();
+	 List<DistributorContractModel> findAllDistributorContracts();
 }

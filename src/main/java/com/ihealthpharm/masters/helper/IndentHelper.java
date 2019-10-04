@@ -9,7 +9,6 @@ import lombok.Data;
 @Configuration
 public class IndentHelper {
 
-	/*Indent Messages*/
 	
 	@Value("${indent.save.response}")
 	public String saveIndentMessage;

@@ -9,8 +9,6 @@ import lombok.Data;
 @Configuration
 public class PurchaseOrderHelper {
 
-	/*PurchaseOrder Messages*/
-	
 	@Value("${purchaseorder.save.response}")
 	public String savePurchaseOrderMessage;
 	

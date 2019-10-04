@@ -143,9 +143,6 @@ public class SpecializationServiceImpl implements SpecializationService {
 	@Override
 	public List<SpecializationModel> findAllSpecializationData(String searchTerm) {
 
-		if("All".equalsIgnoreCase(searchTerm)) {
-			searchTerm="";
-		}
 		return specializationRepository.findAllBySearchCriteria(searchTerm);
 	}
 

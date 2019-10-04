@@ -40,7 +40,4 @@ public class AllergyModel extends AuditModel {
 	@Column(name = "ACTIVE_S")
 	private String activeS;
 	
-	
-	
-	
 }

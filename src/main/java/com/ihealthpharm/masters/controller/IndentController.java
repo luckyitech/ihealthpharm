@@ -53,7 +53,6 @@ public class IndentController {
 	public ResponseEntity<BaseDto<Object>> deleteUserData(@RequestParam int indentId) {
 		log.info("Request Object for delete is: ", indentId);
 		indentService.deleteIndentById(indentId);
-		;
 		return new BaseDto<>(indentHelper.getDeleteIndentMessage(), OK).respond();
 	}
 

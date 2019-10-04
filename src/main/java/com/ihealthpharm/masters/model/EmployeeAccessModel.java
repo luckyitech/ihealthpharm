@@ -1,7 +1,5 @@
 package com.ihealthpharm.masters.model;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,11 +9,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity (name="EMPLOYEE_ACCESS")
+@EqualsAndHashCode(of = "employeeAccessId", callSuper = false)
 public class EmployeeAccessModel extends AuditModel{
     
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8356100687586867048L;
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="EMPLOYEE_ACCESS_ID",length=11, columnDefinition = "AUTO_INCREMENT")

@@ -4,17 +4,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-/**
- * @author Vikas
- * All the drug related properties are available here.
- */
+
 @Configuration
 @PropertySource("classpath:message.properties")
-@Getter
-@Setter
+@Data
 public class ItemPropertyHelper {
 
 	@Value("${drug.save.response}")

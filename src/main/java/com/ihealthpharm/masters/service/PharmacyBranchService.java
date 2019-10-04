@@ -17,7 +17,4 @@ public interface PharmacyBranchService {
 	PharmacyBranchModel findByPharmacyId(int pharmacyId);
 
 	List<PharmacyBranchModel> findAllBranches();
-	
-	
-
 }

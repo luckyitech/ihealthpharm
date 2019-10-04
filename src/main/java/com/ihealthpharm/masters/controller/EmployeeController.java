@@ -52,9 +52,6 @@ public class EmployeeController {
 			@RequestParam("resume") MultipartFile resume,
 			@RequestParam("signedContract") MultipartFile signedContract) throws IOException {
 		
-		log.info(employeeData);
-		
-		log.info("----------------------------------------------------------------------");
 		EmployeeModel employeeModel = null;
 		
 		try {
@@ -71,8 +68,6 @@ public class EmployeeController {
 		}
 		
 		
-		//log.info("Request Object insert is: " + employeeDto.toString());
-
 		EmployeeModel employeeRes = employeeService.saveEmployeeData(employeeModel);
 
 		return new BaseDto<>(employeeRes, employeeHelper.getSaveEmployeeMessage(), OK).respond();
@@ -92,8 +87,7 @@ public class EmployeeController {
 			@RequestParam("resume") MultipartFile resume,
 			@RequestParam("signedContract") MultipartFile signedContract) throws IOException {
 		
-		log.info(employeeData);
-		log.info("----------------------------------------------------------------------");
+		
 		EmployeeModel employeeModel = null;
 		try {
 			employeeModel = new ObjectMapper().readValue(employeeData, EmployeeModel.class);
@@ -127,7 +121,6 @@ public class EmployeeController {
 	@GetMapping("/getallemployeesdata")
 	public ResponseEntity<BaseDto<List<EmployeeModel>>> getEmployeesdata() {
 		List<EmployeeModel> result = employeeService.findAllEmployees();
-		//log.info(result.toString());
 		return new BaseDto<>(result, employeeHelper.getRetrieveEmployeeMessage(), OK).respond();
 	}
 
@@ -149,11 +142,5 @@ public class EmployeeController {
 		EmployeeModel result = employeeService.findLastCreatedEmployeeId();
 		return new BaseDto<>(result, employeeHelper.getRetrieveEmployeeMessage(), OK).respond();
 	}
-	
-	/*@PostMapping("/getemployeebycredential")
-	public ResponseEntity<BaseDto<EmployeeModel>> getEmployeeByEmployeeCredential(EmployeeCredentialsModel employeeCredentialsModel) {
-		EmployeeModel result = employeeService.findEmployeeCredentialsModel(employeeCredentialsModel);
-		return new BaseDto<>(result, employeeHelper.getRetrieveEmployeeMessage(), OK).respond();
-	}*/
 
 }

@@ -23,8 +23,8 @@ public interface ItemDistributorsRepository extends JpaRepository<ItemDistributo
 	List<DistributorModel> getAllUnMappedDistributors(@Param ("itemsModelId")Integer itemsModelId);
 
 
-	@Query("select i from items i where itemId not in (select h.itemsId from items_distributor h where h.distributorsId=:distributorsId)")
-	List<ItemsModel> getAllUnMappedItems(@Param ("distributorsId")Integer distributorId);
+	@Query("select i from items i where itemId not in (select h.itemsId from items_distributor h where h.distributorsId=:distributorsIds)")
+	List<ItemsModel> getAllUnMappedItems(@Param ("distributorsIds")Integer distributorId);
 
 	//d.name,d.distributorId,i.itemName,i.itemId,id.activeS
 	@Query("select id from items_distributor id inner join distributor d on id.distributorsId=d.distributorId inner join items i on i.itemId=id.itemsId")

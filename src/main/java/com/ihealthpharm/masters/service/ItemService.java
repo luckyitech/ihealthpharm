@@ -23,28 +23,20 @@ public interface ItemService {
 	void deleteMultipleItemsById(int[] itemIds);
 
 	List<ItemsModel> findAllItems();
-
 	
-	//searches based on item fields
-
-	//2.based on medical and itemName
+	// based on medical and itemName
 	List<ItemsModel> findAllByMedicalAndItemName(String medicalOrNonMedical, String searchTerm);
 	
-	//.based on medical and itemDescription
+	// based on medical and itemDescription
 	List<ItemsModel> findAllByMedicalAndItemDesc(String medicalOrNonMedical,String searchTerm);
 
 
-
-	//based on itemName
 	List<ItemsModel> findAllByItemName(String searchTerm);
 
-	//.based on ItemDescription
 	List<ItemsModel> findAllByItemDescription(String searchTerm);
 
-	//based on itemgenericname
 	List<ItemsModel> findAllGerericNamesBySearch(String searchTerm);
 
-	//based on itemGroupCode
 	List<ItemsModel> findAllByItemGroupCodeSearch(String searchTerm);
 
 

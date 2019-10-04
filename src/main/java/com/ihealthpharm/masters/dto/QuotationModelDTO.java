@@ -3,7 +3,6 @@ package com.ihealthpharm.masters.dto;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.QuotationStatusModel;
 import com.ihealthpharm.masters.model.UsersModel;
 

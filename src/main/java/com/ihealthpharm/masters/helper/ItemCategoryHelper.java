@@ -13,13 +13,11 @@ public class ItemCategoryHelper {
 	@Value("${itemCategory.save.response}")
 	public String saveItemCategoryMessage;
 	
-	
 	@Value("${itemCategory.update.response}")
 	public String updateItemCategoryMessage;
 	
 	@Value("${itemCategory.delete.response}")
 	public String deleteItemCategoryMessage;
-	
 	
 	@Value("${itemCategory.retrieve.response}")
 	public String retrieveItemCategoryMessage;

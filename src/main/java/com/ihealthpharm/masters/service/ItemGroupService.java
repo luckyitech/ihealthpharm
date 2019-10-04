@@ -20,8 +20,8 @@ public interface ItemGroupService {
 	void deleteItemGroupById( int itemGroupId);
 
 	void deleteMultipleItemGroupsById(int[] itemGroupIds);
-	 
+
 	List<ItemGroupModel> findAllItemGroups();
-	
-	  List<ItemGroupModel> findAllItemGroupData(String medicalOrNonMedical,String searchTerm);
+
+	List<ItemGroupModel> findAllItemGroupData(String medicalOrNonMedical,String searchTerm);
 }

@@ -13,13 +13,11 @@ public class ItemDistributorHelper {
 	@Value("${itemDistributor.save.response}")
 	public String saveItemDistributorMessage;
 	
-	
 	@Value("${itemDistributor.update.response}")
 	public String updateItemDistributorMessage;
 	
 	@Value("${itemDistributor.delete.response}")
 	public String deleteItemDistributorMessage;
-	
 	
 	@Value("${itemDistributor.retrieve.response}")
 	public String retrieveItemDistributorMessage;

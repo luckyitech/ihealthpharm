@@ -9,8 +9,6 @@ import lombok.Data;
 @Configuration
 public class RolesHelper {
 
-	/*Roles Messages*/
-	
 	@Value("${roles.save.response}")
 	public String saveRolesMessage;
 	

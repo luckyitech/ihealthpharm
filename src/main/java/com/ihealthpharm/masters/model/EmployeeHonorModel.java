@@ -12,10 +12,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity(name = "employee_honor")
+@EqualsAndHashCode(of="employeeHonorId",callSuper=false)
 public class EmployeeHonorModel extends AuditModel{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2110027094930024498L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

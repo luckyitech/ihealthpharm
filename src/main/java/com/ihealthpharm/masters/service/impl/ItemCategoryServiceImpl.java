@@ -136,9 +136,6 @@ public class ItemCategoryServiceImpl implements ItemCategoryService {
 	@Override
 	public List<ItemCategoryModel> findAllItemCategoryData(String medicalOrNonMedical, String searchTerm) {
 
-		if("All".equalsIgnoreCase(searchTerm)) {
-			searchTerm = "";
-		}
 		return itemCategoriesRepository.findAllBySearchCriteria(medicalOrNonMedical,searchTerm);
 	}
 

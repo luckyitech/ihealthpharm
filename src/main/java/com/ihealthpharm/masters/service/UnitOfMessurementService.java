@@ -25,13 +25,11 @@ public interface UnitOfMessurementService {
 	void remove(int[] ids);
 
 	List<UnitOfMeasurementModel> findbyActiveS();
-	
-	
+
 	List<UnitOfMeasurementModel> findAllMeasurements();
-	
-	// BASED ON SEARCH
+
 	List<UnitOfMeasurementModel> findAllUOMMethodsOnSerch(String searchTerm);
-	
-	
+
+
 
 }

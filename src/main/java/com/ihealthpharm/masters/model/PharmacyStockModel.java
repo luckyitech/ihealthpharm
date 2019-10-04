@@ -16,7 +16,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @Entity(name="pharmacy_stock_points")
 @EqualsAndHashCode(of="stockPointId",callSuper=false)
-
 public class PharmacyStockModel extends AuditModel {
 	
 	

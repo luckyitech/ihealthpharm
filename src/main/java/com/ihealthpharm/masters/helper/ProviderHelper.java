@@ -9,7 +9,6 @@ import lombok.Data;
 @Configuration
 public class ProviderHelper {
 
-	/* provider messages */
 	@Value("${provider.save.response}")
 	public String saveProviderMessage;
 	
@@ -29,8 +28,6 @@ public class ProviderHelper {
 	public String notFoundProvideMessage;
 
 	
-	/*Distributor Messages*/
-	
 	@Value("${distrubutor.save.response}")
 	public String saveDistrubutorMessage;
 	
@@ -46,8 +43,6 @@ public class ProviderHelper {
 	@Value("${distrubutor.not.found.response}")
 	public String notFoundDistrubutorMessage;
 
-	/*Employee Messages*/
-	
 	@Value("${employee.save.response}")
 	public String saveEmployeeMessage;
 	
