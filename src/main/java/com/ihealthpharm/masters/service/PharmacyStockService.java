@@ -17,7 +17,7 @@ public interface PharmacyStockService {
 	void deleteStock(int stockId);
 
 	PharmacyStockModel findStockById(int stockId);
-	
-	 List<PharmacyStockModel> findAllPharmaStocks();
-	
+
+	List<PharmacyStockModel> findAllPharmaStocks();
+
 }

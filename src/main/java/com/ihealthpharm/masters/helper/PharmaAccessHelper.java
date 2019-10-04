@@ -9,8 +9,6 @@ import lombok.Data;
 @Configuration
 public class PharmaAccessHelper {
 
-	/*PharmaAccess Messages*/
-	
 	@Value("${pharmaaccess.save.response}")
 	public String savePharmaAccessMessage;
 	

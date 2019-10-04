@@ -47,15 +47,13 @@ public class EmployeeSalaryServiceImpl implements EmployeeSalaryService {
 	}
 
 	@Override
-	public EmployeeSalaryModel saveEmployeeSalaryData(
-			EmployeeSalaryModel employeeSalaryModel) {
+	public EmployeeSalaryModel saveEmployeeSalaryData(EmployeeSalaryModel employeeSalaryModel) {
 		employeeSalaryModel = employeeSalaryRepository.save(employeeSalaryModel);
 		return employeeSalaryModel;
 	}
 
 	@Override
-	public EmployeeSalaryModel updateEmployeeSalaryData(
-			EmployeeSalaryModel employeeSalaryModel) {
+	public EmployeeSalaryModel updateEmployeeSalaryData(EmployeeSalaryModel employeeSalaryModel) {
 		EmployeeSalaryModel employeeSalaryRes = getValidEmployeeSalaryModel(employeeSalaryModel.getEmployeeSalaryId());
 
 		if (!Objects.nonNull(employeeSalaryRes)) {

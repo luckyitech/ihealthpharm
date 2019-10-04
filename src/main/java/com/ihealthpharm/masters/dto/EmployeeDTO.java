@@ -16,7 +16,6 @@ public class EmployeeDTO {
 
 	private Integer employeeId;
 
-	/* Employee Type Full Time or Part Time */
 	private String employeeTypeFullTimeOrPartTime;
 
 	private String phoneNumber;

@@ -1,26 +1,14 @@
 package com.ihealthpharm.masters.service.impl;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-
 import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.ihealthpharm.exception.IHealthPharmException;
-import com.ihealthpharm.masters.dao.QuotationItemsRepository;
-import com.ihealthpharm.masters.helper.QuotationItemHelper;
-import com.ihealthpharm.masters.model.QuotationItemsModel;
 import com.ihealthpharm.masters.service.QuotationItemsService;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
-@Slf4j
+//@Slf4j
 public class QuotationItemsServiceImpl implements QuotationItemsService {
 
 	/*@Autowired

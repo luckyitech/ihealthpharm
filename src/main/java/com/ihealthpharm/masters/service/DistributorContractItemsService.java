@@ -8,17 +8,17 @@ public interface DistributorContractItemsService {
 
 public DistributorContractItemsModel saveDistrubutorContractItemData(DistributorContractItemsModel distributorContractItemsModel );
 	
-	public DistributorContractItemsModel updateDistrubutorContractItemData(DistributorContractItemsModel distributorContractItemsModel );
+	 DistributorContractItemsModel updateDistrubutorContractItemData(DistributorContractItemsModel distributorContractItemsModel );
 	
-	public List<DistributorContractItemsModel> updateDistrubutorContractItemsData(List<DistributorContractItemsModel> distributorContractItemsModels );
+	 List<DistributorContractItemsModel> updateDistrubutorContractItemsData(List<DistributorContractItemsModel> distributorContractItemsModels );
 	
-	public List<DistributorContractItemsModel> findDistrubutorContractItemByActive();
+	 List<DistributorContractItemsModel> findDistrubutorContractItemByActive();
 	
-	public DistributorContractItemsModel findDistrubutorContractItemById(int distrubutorContractItemId);
+	 DistributorContractItemsModel findDistrubutorContractItemById(int distrubutorContractItemId);
 	
-	public void deleteDistrubutorContractItemById(int distrubutorContractItemId);
+	 void deleteDistrubutorContractItemById(int distrubutorContractItemId);
 	
-	public void deleteDistrubutorContractItemsById(int[] distrubutorContractItemIds);
+	 void deleteDistrubutorContractItemsById(int[] distrubutorContractItemIds);
 	
-	public List<DistributorContractItemsModel> findAllDistributorContractItems();
+	 List<DistributorContractItemsModel> findAllDistributorContractItems();
 }

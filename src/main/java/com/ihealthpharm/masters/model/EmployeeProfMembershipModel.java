@@ -2,10 +2,8 @@ package com.ihealthpharm.masters.model;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,10 +11,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity(name = "employee_prof_membership")
+@EqualsAndHashCode(of="employeeProfMembershipId",callSuper=false)
 public class EmployeeProfMembershipModel extends AuditModel{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -139613049002182773L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

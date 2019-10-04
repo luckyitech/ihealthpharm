@@ -6,5 +6,5 @@ import com.ihealthpharm.masters.model.EmployeeTypeModel;
 
 public interface EmployeeTypeService {
 
-	public List<EmployeeTypeModel> getAllEmployeeTypes();
+	 List<EmployeeTypeModel> getAllEmployeeTypes();
 }

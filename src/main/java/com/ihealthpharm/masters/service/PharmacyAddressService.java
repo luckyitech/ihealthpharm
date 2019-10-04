@@ -5,8 +5,8 @@ import java.util.List;
 import com.ihealthpharm.masters.model.PharmacyAddressModel;
 
 public interface PharmacyAddressService {
-	
-	
+
+
 	PharmacyAddressModel savePharmacyAddressData(PharmacyAddressModel pharmacyAddrModel);
 
 	PharmacyAddressModel updatePharmacyAddressData(PharmacyAddressModel pharmacyAddrModel);
@@ -16,5 +16,5 @@ public interface PharmacyAddressService {
 	PharmacyAddressModel findPharmacyAddressById(int pharmacyAddressId);
 
 	void deletePharmacyAddressById(int pharmacyAddressId);
-	
+
 }

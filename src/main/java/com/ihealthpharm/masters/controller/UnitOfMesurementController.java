@@ -64,14 +64,12 @@ public class UnitOfMesurementController {
 	@GetMapping("uom/findAll")
 	public ResponseEntity<BaseDto<List<UnitOfMeasurementModel>>> findAllUOM(){
 		List<UnitOfMeasurementModel> response = uomService.findAll();
-		log.info("All uom data size is : ",response.size());
 		return new BaseDto<List<UnitOfMeasurementModel>>(response,uomHelper.getRetrieveUomMessage(), OK).respond();
 	}
 	
 	@GetMapping("uom/findby/staus")
 	public ResponseEntity<BaseDto<List<UnitOfMeasurementModel>>> findByActiveStatus(){
 		List<UnitOfMeasurementModel> response = uomService.findbyActiveS();
-		log.info("All uom data size is : ",response.size());
 		return new BaseDto<List<UnitOfMeasurementModel>>(response,uomHelper.getRetrieveUomMessage(), OK).respond();
 	}
 	
@@ -96,6 +94,4 @@ public class UnitOfMesurementController {
 		return new BaseDto<>(result, uomHelper.getRetrieveUomMessage(), OK).respond();
 	}
 	
-	
-
 }

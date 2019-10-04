@@ -12,9 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.masters.model.EmployeeCredentialsModel;
-import com.ihealthpharm.masters.model.UsersModel;
 import com.ihealthpharm.masters.service.EmployeeCredentialsService;
-import com.ihealthpharm.masters.service.UserService;
 
 @Service
 public class JwtInMemoryUserDetailsService implements UserDetailsService {

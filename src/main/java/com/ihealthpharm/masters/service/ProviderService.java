@@ -6,20 +6,20 @@ import com.ihealthpharm.masters.model.ProviderModel;
 
 public interface ProviderService {
 
-	public ProviderModel saveProviderData(ProviderModel providerModel);
+	 ProviderModel saveProviderData(ProviderModel providerModel);
 	
-	public ProviderModel updateProviderData(ProviderModel providerModel);
+	 ProviderModel updateProviderData(ProviderModel providerModel);
 	
-	public List<ProviderModel> updateProvidersData(List<ProviderModel> providerModels);
+	 List<ProviderModel> updateProvidersData(List<ProviderModel> providerModels);
 	
-	public List<ProviderModel> findProviderByActive();
+	 List<ProviderModel> findProviderByActive();
 	
-	public ProviderModel findProviderById(int providerId);
+	 ProviderModel findProviderById(int providerId);
 	
-	public void deleteProviderById( int providerId);
+	 void deleteProviderById( int providerId);
 	
-	public void deleteProvidersById( int[] providerIds);
+	 void deleteProvidersById( int[] providerIds);
 	
-	public List<ProviderModel> findAllProviders();
+	 List<ProviderModel> findAllProviders();
 	
 }

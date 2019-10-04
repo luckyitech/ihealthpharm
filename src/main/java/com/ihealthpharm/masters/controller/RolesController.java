@@ -72,7 +72,6 @@ public class RolesController {
 	public ResponseEntity<BaseDto<Object>> deleteRolesData(@RequestParam int[] RolesId) {
 
 		log.info("Request Object for delete is: " + RolesId[0]);
-
 		rolesService.deleteRolesById(RolesId);
 		return new BaseDto<>(rolesHelper.getDeleteRolesMessage(), OK).respond();
 	}

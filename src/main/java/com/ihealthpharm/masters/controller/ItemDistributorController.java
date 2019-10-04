@@ -43,8 +43,6 @@ public class ItemDistributorController {
 	private ItemDistributorHelper itemDistributorHelper;
 	
 	
-	
-	
 	@PostMapping("/save/itemdistributor")
 	public ResponseEntity<BaseDto<ItemDistributorModel>> insertDistributorData(@Valid @RequestParam int[] itemsId,@Valid @RequestParam int[] distributorsId ) {
 		log.info("Request Object insert is: "+ itemsId+distributorsId);
