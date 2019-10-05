@@ -2,13 +2,16 @@ package com.ihealthpharm.masters.service;
 
 import java.util.List;
 
+import com.ihealthpharm.masters.dto.ItemDistributorDTO;
+import com.ihealthpharm.masters.model.DistributorModel;
 import com.ihealthpharm.masters.model.ItemDistributorModel;
+import com.ihealthpharm.masters.model.ItemsModel;
 
 public interface ItemDistributorService {
 
-
+    
 	ItemDistributorModel saveItemDistributorData( int[] itemsId,  int[] distributorsId);
-
+	
 	ItemDistributorModel updateItemDistributorData(ItemDistributorModel itemDistributor);
 
 	List<ItemDistributorModel> updateItemDistributorsData(List<ItemDistributorModel> itemDistributorModels);
@@ -23,11 +26,17 @@ public interface ItemDistributorService {
 	
 	List<ItemDistributorModel> findAllItemDistributors();
 
-	List<String> findAllUnMappedItemDistributorsData(int itemId);
+	List<DistributorModel> findAllUnMappedItemDistributorsData(int itemId);
 
-	List<String> findAllUnMappedDistributorItems(int distributorId);
+	List<ItemsModel> findAllUnMappedDistributorItems(int distributorId);
 
-	List<Object[]> findAllMappedItemDistributors();
+	List<ItemDistributorDTO> findAllMappedItemDistributors();
+
+	List<DistributorModel> findAllUnmappedDistributorsNamesSearch(int itemId,String searchTerm);
+
+	List<ItemsModel> finAllUnmppedItemsNameSearch(int distributorId, String searchTerm);
+
+	void saveItemDistributorsById(int itemDistributorId,String activeS);
 
 
 }

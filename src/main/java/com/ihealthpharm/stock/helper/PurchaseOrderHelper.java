@@ -1,4 +1,4 @@
-package com.ihealthpharm.masters.helper;
+package com.ihealthpharm.stock.helper;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -9,8 +9,6 @@ import lombok.Data;
 @Configuration
 public class PurchaseOrderHelper {
 
-	/*PurchaseOrder Messages*/
-	
 	@Value("${purchaseorder.save.response}")
 	public String savePurchaseOrderMessage;
 	

@@ -17,6 +17,4 @@ public interface PharmacyBranchRepository extends JpaRepository<PharmacyBranchMo
 	List<PharmacyBranchModel> findByPharmacy(PharmacyModel pharmacyModel);
 	
 	List<PharmacyBranchModel> findAllByOrderByCreationTimeStampDesc();
-
-	
 }

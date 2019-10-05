@@ -123,7 +123,6 @@ public class HospitalModelServiceImpl implements HospitalModelService{
 
 	@Override
 	public List<HospitalModel> findAllHospitals() {
-		// TODO Auto-generated method stub
 		return hospitalRepository.findAllByOrderByCreationTimeStampDesc();
 	}
 	

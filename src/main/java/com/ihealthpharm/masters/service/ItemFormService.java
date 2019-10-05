@@ -21,7 +21,7 @@ public interface ItemFormService {
 	void deleteItemFormById( int itemFormModel);
 
 	void deleteMultipleItemFormsById(int[] itemFormModels);
-	
+
 	List<ItemFormModel> findAllItemFormsData(String medicalOrNonMedical,String searchTerm);
 
 	List<ItemFormModel> findAllItemForms();

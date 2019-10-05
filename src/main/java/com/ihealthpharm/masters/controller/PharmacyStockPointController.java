@@ -40,7 +40,6 @@ public class PharmacyStockPointController {
 	public ResponseEntity<BaseDto<PharmacyStockModel>> addStock(@Valid @RequestBody PharmacyStockModel pharmacyStockModel){
 		
 		log.info("Request Object for insert is :"+pharmacyStockModel);
-		
 		PharmacyStockModel pharmacyStockRes=stockService.addStock(pharmacyStockModel); 
 		return new BaseDto<>(pharmacyStockRes,pharmacyHelper.getSaveStockResponse(),OK).respond();
 	}
@@ -83,6 +82,4 @@ public class PharmacyStockPointController {
 		return new BaseDto<>(result, pharmacyHelper.getRetrieveStockMessage(), OK).respond();
 	}
 
-	
-	
 }

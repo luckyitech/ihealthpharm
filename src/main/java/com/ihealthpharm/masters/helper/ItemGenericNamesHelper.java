@@ -13,13 +13,11 @@ public class ItemGenericNamesHelper {
 	@Value("${itemGenericName.save.response}")
 	public String saveItemGenericNameMessage;
 	
-	
 	@Value("${itemGenericName.update.response}")
 	public String updateItemGenericNameMessage;
 	
 	@Value("${itemGenericName.delete.response}")
 	public String deleteItemGenericNameMessage;
-	
 	
 	@Value("${itemGenericName.retrieve.response}")
 	public String retrieveItemGenericNameMessage;

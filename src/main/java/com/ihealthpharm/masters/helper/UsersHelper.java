@@ -9,8 +9,6 @@ import lombok.Data;
 @Configuration
 public class UsersHelper {
 
-	/*Distributor Messages*/
-	
 	@Value("${users.save.response}")
 	public String saveUsersMessage;
 	

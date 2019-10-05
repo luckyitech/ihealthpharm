@@ -33,72 +33,71 @@ public class ProviderController {
 
 	@Autowired
 	private ProviderService providerService;
-	
+
 	@Autowired
 	private ProviderLookupTypeService providerLookupTypeService; 
-	
+
 	@Autowired
 	private ProviderHelper providerHelper;
-	
+
 	@PostMapping("/save/provider")
 	public ResponseEntity<BaseDto<ProviderModel>> insertProviderData(@Valid @RequestBody ProviderModel providerModel) {
 		log.info("Request Object insert is: "+ providerModel.toString());
 		ProviderModel providerModelRes = providerService.saveProviderData(providerModel);
 		return new BaseDto<>(providerModelRes,providerHelper.getSaveProviderMessage(),OK).respond();
 	}
-	
+
 	@PutMapping("/update/provider")
 	public ResponseEntity<BaseDto<ProviderModel>> updateProviderData(@Valid @RequestBody ProviderModel providerModel) {
 		log.info("Request Object for update is: ", providerModel);
 		ProviderModel providerModelRes = providerService.updateProviderData(providerModel);
 		return new BaseDto<>(providerModelRes,providerHelper.getUpdateProviderMessage(),OK).respond();
 	}
-	
+
 	@DeleteMapping("/delete/provider")
 	public ResponseEntity<BaseDto<Object>> deleteProviderData(@RequestParam int providerId) {
 		log.info("Request Object for delete is: ", providerId);
 		providerService.deleteProviderById(providerId);
 		return new BaseDto<>(providerHelper.getDeleteProviderMessage(), OK).respond();
 	}
-	
+
 	@GetMapping("/getactiveprovidersdata")
 	public ResponseEntity<BaseDto<List<ProviderModel>>> getProviderData() {
 		List<ProviderModel> result = providerService.findProviderByActive();
 		return new BaseDto<>(result, providerHelper.getRetrieveProvideMessage(), OK).respond();
 	}
-	
+
 	@GetMapping("/getallprovidersdata")
 	public ResponseEntity<BaseDto<List<ProviderModel>>> getAllProviderData() {
 		List<ProviderModel> result = providerService.findAllProviders();
 		return new BaseDto<>(result, providerHelper.getRetrieveProvideMessage(), OK).respond();
 	}
-	
+
 	@GetMapping("/getallprovidertypelookuptypedata")
 	public ResponseEntity<BaseDto<List<ProviderLookupTypeModel>>> getProviderLookupTypeDataData() {
 		List<ProviderLookupTypeModel> result = providerLookupTypeService.findAllProviderLookupTypes();
 		return new BaseDto<>(result, providerHelper.getRetrieveProviderTypeLookupMessage(), OK).respond();
 	}
-	
+
 	@GetMapping("/getproviderdatabyid")
 	public ResponseEntity<BaseDto<ProviderModel>> getProviderDataById(@RequestParam int providerId) {
 		ProviderModel result = providerService.findProviderById(providerId);
 		return new BaseDto<>(result, providerHelper.getRetrieveProvideMessage(), OK).respond();
 	}
-	
+
 	@DeleteMapping("/delete/providers")
 	public ResponseEntity<BaseDto<Object>> deleteProvidersData(@RequestParam int[] providersId) {
-		
-			log.info("Request Object for delete is: "+providersId[0]);
-		
-	providerService.deleteProvidersById(providersId);
-	return new BaseDto<>(providerHelper.getDeleteProviderMessage(), OK).respond();
+
+		log.info("Request Object for delete is: "+providersId[0]);
+		providerService.deleteProvidersById(providersId);
+		return new BaseDto<>(providerHelper.getDeleteProviderMessage(), OK).respond();
 	}
 
 	@PutMapping("/update/providers")
 	public ResponseEntity<BaseDto<List<ProviderModel>>> updateProvidersData(@Valid @RequestBody List<ProviderModel> providersModel) {
-	log.info("Request Object for update is: "+ providersModel.toString());
-	List<ProviderModel> providerModelRes = providerService.updateProvidersData(providersModel);
-	return new BaseDto<>(providerModelRes,providerHelper.getUpdateProviderMessage(),OK).respond();
+		log.info("Request Object for update is: "+ providersModel.toString());
+		List<ProviderModel> providerModelRes = providerService.updateProvidersData(providersModel);
+		return new BaseDto<>(providerModelRes,providerHelper.getUpdateProviderMessage(),OK).respond();
 	}
-	
+
 }

@@ -1,7 +1,5 @@
 package com.ihealthpharm.masters.model;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,16 +8,19 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity (name="PHARMACY_SETUP")
-@Getter
-@Setter
-@ToString
+@Data
+@EqualsAndHashCode(of="setupId",callSuper=false)
 public class PharmacySetupModel extends AuditModel{
     
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6257468984178380279L;
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="SETUP_ID",length=11, columnDefinition = "AUTO_INCREMENT")

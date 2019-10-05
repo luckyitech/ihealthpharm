@@ -9,7 +9,6 @@ import lombok.Data;
 @Configuration
 public class DistributorContractItemsHelper {
 
-	/*distributor contract Messages*/
 	
 	@Value("${distributorcontractitems.save.response}")
 	public String saveDistrubutorContractItemsMessage;

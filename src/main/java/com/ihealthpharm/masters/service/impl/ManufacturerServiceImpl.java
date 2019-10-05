@@ -142,7 +142,4 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 	}
 
 	
-	
-
-
 }

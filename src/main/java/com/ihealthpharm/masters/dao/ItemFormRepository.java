@@ -1,6 +1,5 @@
 package com.ihealthpharm.masters.dao;
 
-import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.ihealthpharm.masters.model.ItemFormModel;
 
 @Repository
-public interface ItemFormRepository extends JpaRepository<ItemFormModel,  Serializable> {
+public interface ItemFormRepository extends JpaRepository<ItemFormModel,  Integer> {
 
 	List<ItemFormModel> findByActiveS(String active);
 	

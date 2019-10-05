@@ -12,7 +12,6 @@ import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.EmployeePharmacyRoleRepository;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.EmployeePharmacyRoleModel;
-import com.ihealthpharm.masters.model.PharmacyRolesModel;
 import com.ihealthpharm.masters.service.EmployeePharmacyRoleService;
 
 import lombok.extern.slf4j.Slf4j;

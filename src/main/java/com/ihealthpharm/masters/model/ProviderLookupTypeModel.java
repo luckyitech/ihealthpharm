@@ -12,9 +12,11 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity(name = "provider_type_lookup")
+@EqualsAndHashCode(of="providerTypeLookupId",callSuper=false)
 public class ProviderLookupTypeModel {
 
 	@Id

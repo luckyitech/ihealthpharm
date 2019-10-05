@@ -9,8 +9,6 @@ import lombok.Data;
 @Configuration
 public class EmployeePublicationHelper {
 
-	/*EmployeePublication Messages*/
-	
 	@Value("${employeepublication.save.response}")
 	public String saveEmployeePublicationMessage;
 	

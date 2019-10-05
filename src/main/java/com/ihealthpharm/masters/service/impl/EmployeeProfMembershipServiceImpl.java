@@ -23,10 +23,10 @@ public class EmployeeProfMembershipServiceImpl implements EmployeeProfMembership
 
 	@Autowired
 	EmployeeProfMembershipRepository employeeProfMembershipRepository;
-	
+
 	@Autowired
 	EmployeeProfMembershipHelper employeeProfMembershipHelper;
-	
+
 	@Override
 	public void deleteEmployeeEmployeeProfMembershipData(Integer employeeProfMembershipId) {
 		EmployeeProfMembershipModel employeeProfMembershipModel = getValidEmployeeProfMembershipModel(employeeProfMembershipId);
@@ -43,30 +43,28 @@ public class EmployeeProfMembershipServiceImpl implements EmployeeProfMembership
 
 	@Override
 	public List<EmployeeProfMembershipModel> findAllEmployeeProfMembershipData() {
-		
+
 		return employeeProfMembershipRepository.findAll();
 	}
 
 	@Override
-	public EmployeeProfMembershipModel saveEmployeeProfMembershipData(
-			EmployeeProfMembershipModel employeeProfMembershipModel) {
+	public EmployeeProfMembershipModel saveEmployeeProfMembershipData(EmployeeProfMembershipModel employeeProfMembershipModel) {
 		employeeProfMembershipModel = employeeProfMembershipRepository.save(employeeProfMembershipModel);
 		return employeeProfMembershipModel;
 	}
 
 	@Override
-	public EmployeeProfMembershipModel updateEmployeeProfMembershipData(
-			EmployeeProfMembershipModel employeeProfMembershipModel) {
+	public EmployeeProfMembershipModel updateEmployeeProfMembershipData(EmployeeProfMembershipModel employeeProfMembershipModel) {
 		EmployeeProfMembershipModel employeeProfMembershipRes = getValidEmployeeProfMembershipModel(employeeProfMembershipModel.getEmployeeProfMembershipId());
 
 		if (!Objects.nonNull(employeeProfMembershipRes)) {
 			throw new IHealthPharmException(employeeProfMembershipHelper.getNotFoundEmployeeProfMembershipMessage(),HttpStatus.NOT_FOUND);
 		}
-		
-		 employeeProfMembershipRes =employeeProfMembershipRepository.save(employeeProfMembershipModel);
+
+		employeeProfMembershipRes =employeeProfMembershipRepository.save(employeeProfMembershipModel);
 		return employeeProfMembershipRes;
 	}
-	
+
 	private EmployeeProfMembershipModel getValidEmployeeProfMembershipModel(Integer employeeProfMembershipId)
 	{
 		EmployeeProfMembershipModel employeeProfMembershipModel = null;

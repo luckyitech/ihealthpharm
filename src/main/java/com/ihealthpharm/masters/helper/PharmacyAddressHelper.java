@@ -13,13 +13,11 @@ public class PharmacyAddressHelper {
 	@Value("${pharmacyAddress.save.response}")
 	public String savePharmaAddrMessage;
 	
-	
 	@Value("${pharmacyAddress.update.response}")
 	public String updatePharmaAddrMessage;
 	
 	@Value("${pharmacyAddress.delete.response}")
 	public String deletePharmaAddrMessage;
-	
 	
 	@Value("${pharmacyAddress.retrieve.response}")
 	public String retrievePharmaAddrMessage;

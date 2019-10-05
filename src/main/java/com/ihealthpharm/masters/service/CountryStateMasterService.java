@@ -7,13 +7,13 @@ import com.ihealthpharm.masters.model.StateModel;
 
 public interface CountryStateMasterService {
 
-	 List<CountryModel> findAllCountries();
-	
-	 List<StateModel> findAllStates();
-	
-	 CountryModel saveCountryData(CountryModel countryModel);
-	
-	 StateModel saveStateData(StateModel stateModel);
-	
-	 List<StateModel> findAllStatesByCountryId(CountryModel countryId);
+	List<CountryModel> findAllCountries();
+
+	List<StateModel> findAllStates();
+
+	CountryModel saveCountryData(CountryModel countryModel);
+
+	StateModel saveStateData(StateModel stateModel);
+
+	List<StateModel> findAllStatesByCountryId(CountryModel countryId);
 }

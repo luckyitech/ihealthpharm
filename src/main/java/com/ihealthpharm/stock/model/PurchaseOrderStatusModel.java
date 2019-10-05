@@ -1,4 +1,4 @@
-package com.ihealthpharm.masters.model;
+package com.ihealthpharm.stock.model;
 
 
 import javax.persistence.Column;

@@ -11,4 +11,6 @@ import com.ihealthpharm.masters.model.PharmacyModel;
 public interface PharmacyRepository extends JpaRepository<PharmacyModel,Integer> {
 
   	List<PharmacyModel> findByActiveS(Character active);
+  	
+  	List<PharmacyModel> findAllByOrderByLastUpdateTimestampDesc();
 }

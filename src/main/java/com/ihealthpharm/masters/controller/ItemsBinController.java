@@ -38,7 +38,6 @@ public class ItemsBinController {
 	@PostMapping("/save/itemsbin")
 	public ResponseEntity<BaseDto<ItemsBinModel>> insertItemsBinData(@Valid @RequestBody ItemsBinModel itemsBinModel) {
 		log.info("Request Object insert is: "+ itemsBinModel);
-		
 		ItemsBinModel itemsBinModelRes = itemsBinService.saveItemsBinData(itemsBinModel);
 		return new BaseDto<>(itemsBinModelRes,binHelper.getSaveItemsBinMessage(),OK).respond();
 	}
@@ -83,12 +82,7 @@ public class ItemsBinController {
 	
 	@GetMapping("/getallitembins")
 	public ResponseEntity<BaseDto<List<ItemsBinModel>>> getAllItemBinsData(){
-		
 		List<ItemsBinModel> result=itemsBinService.findAllBinItems();
 		return new BaseDto<>(result,binHelper.getRetrieveItemsBinMessage(),OK).respond();
 	}
-	
-
-	
-	
 }

@@ -9,7 +9,6 @@ import lombok.Data;
 @Configuration
 public class EmployeeCredentialsHelper {
 
-	/*Employee Credentials Messages*/
 	
 	@Value("${employeecredentials.save.response}")
 	public String saveEmployeeCredentialsMessage;

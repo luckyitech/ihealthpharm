@@ -11,19 +11,15 @@ import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 /**
  * @author Vikas
  *	DrugManufactures Persists the Drug and Manufactures details 
  *	Setter, getters by default added no need to add manually
  */
-@Getter
-@Setter
-@ToString
+@Data
 @Entity(name = "drug_manufactures")
 @EqualsAndHashCode(of = "drugManufactureId", callSuper = false)
 public class DrugManufactures extends AuditModel {

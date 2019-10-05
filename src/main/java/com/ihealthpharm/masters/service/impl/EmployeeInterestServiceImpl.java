@@ -48,15 +48,13 @@ public class EmployeeInterestServiceImpl implements EmployeeInterestService {
 	}
 
 	@Override
-	public EmployeeInterestModel saveEmployeeInterestData(
-			EmployeeInterestModel employeeInterestModel) {
+	public EmployeeInterestModel saveEmployeeInterestData(EmployeeInterestModel employeeInterestModel) {
 		employeeInterestModel = employeeInterestRepository.save(employeeInterestModel);
 		return employeeInterestModel;
 	}
 
 	@Override
-	public EmployeeInterestModel updateEmployeeInterestData(
-			EmployeeInterestModel employeeInterestModel) {
+	public EmployeeInterestModel updateEmployeeInterestData(EmployeeInterestModel employeeInterestModel) {
 		EmployeeInterestModel employeeInterestRes = getValidEmployeeInterestModel(employeeInterestModel.getEmployeeIntrestId());
 
 		if (!Objects.nonNull(employeeInterestRes)) {

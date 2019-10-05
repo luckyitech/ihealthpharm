@@ -133,9 +133,7 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public ItemsModel saveItemsData(ItemsModel itemsModel) {
-		System.out.println("*******************save servixce  impl***********************************");
 		itemsModel = itemRepository.save(itemsModel);
-		System.out.println(itemsModel.toString());
 		log.info("Items data with ID: "+ itemsModel.getItemId()+" saved succesfully");
 		return itemsModel;
 
@@ -143,7 +141,7 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public List<ItemsModel> findAllItems() {
-		return itemRepository.findAllByOrderByCreationTimeStampDesc();
+		return itemRepository.findAllByOrderByLastUpdateTimestampDesc();
 	}
 
 
@@ -157,8 +155,6 @@ public class ItemServiceImpl implements ItemService {
 	public List<ItemsModel> findAllByItemName(String searchTerm) {
 
 		List<ItemsModel> resp =itemRepository.findAllByItemNameSearch(searchTerm);
-
-		System.out.println(resp.toString());
 
 		return resp;
 	}
@@ -175,8 +171,6 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public List<ItemsModel> findAllByItemDescription(String searchTerm) {
 		List<ItemsModel> response=itemRepository.findAllByItemDescription(searchTerm);
-		System.out.println(response.toString());
-
 		return response;
 	}
 

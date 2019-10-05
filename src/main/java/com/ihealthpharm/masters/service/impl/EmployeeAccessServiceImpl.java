@@ -67,7 +67,7 @@ public class EmployeeAccessServiceImpl implements EmployeeAccessService {
 		
 		for(Integer i=0; i<employeeAccessDto.getPharmaAccessids().length;i++) {
 			employeeAccessModel = new EmployeeAccessModel();
-			employeeAccessModel.setEmployeeAccessId(employeeAccessDto.getEmployeeAccessId()[0]);
+			employeeAccessModel.setEmployeeAccessId(employeeAccessDto.getEmployeeAccessId()[i]);
 			
 			employeeAccessRes = getValidEmployeeAccess(employeeAccessModel.getEmployeeAccessId());
 			

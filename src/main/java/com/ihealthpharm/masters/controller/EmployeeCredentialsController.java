@@ -37,11 +37,9 @@ public class EmployeeCredentialsController {
 	EmployeeCredentialsService employeeCredentialsService;
 
 	@PostMapping("save/employeecredentials")
-	public ResponseEntity<BaseDto<EmployeeCredentialsModel>> saveEmployeeCredentials(
-			@RequestBody EmployeeCredentialsModel employeeCredentialsModel) {
+	public ResponseEntity<BaseDto<EmployeeCredentialsModel>> saveEmployeeCredentials(@RequestBody EmployeeCredentialsModel employeeCredentialsModel) {
 		employeeCredentialsModel = employeeCredentialsService.saveEmployeeCredentialsData(employeeCredentialsModel);
-		log.info(employeeCredentialsHelper.getSaveEmployeeCredentialsMessage() + " With Id:"
-				+ employeeCredentialsModel.getEmployeeCredentialsId());
+		log.info(employeeCredentialsHelper.getSaveEmployeeCredentialsMessage() + " With Id:"+ employeeCredentialsModel.getEmployeeCredentialsId());
 		return new BaseDto<>(employeeCredentialsModel, employeeCredentialsHelper.getSaveEmployeeCredentialsMessage(),
 				OK).respond();
 	}
@@ -105,6 +103,7 @@ public class EmployeeCredentialsController {
 				OK).respond();
 	}
 
+
 	@PostMapping("getemployeecredentialsbyEmployeeid")
 	public ResponseEntity<BaseDto<EmployeeCredentialsModel>> getEmployeeCredentialByUserName(@RequestBody EmployeeModel employee) {
 		log.info("----------------------------------------------------------------------"+employee.toString());
@@ -132,4 +131,5 @@ public class EmployeeCredentialsController {
 	 * employeeCredentialsHelper.getDeleteEmployeeCredentialsMessage(),OK).respond()
 	 * ; }
 	 */
+
 }

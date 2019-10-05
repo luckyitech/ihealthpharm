@@ -9,15 +9,18 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity(name = "EMPLOYEE_PHARMACY_ROLE")
-@Getter
-@Setter
-@ToString
+@Data
+@EqualsAndHashCode(of="employeePharmacyRoleId",callSuper=false)
 public class EmployeePharmacyRoleModel extends AuditModel {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4432494869881919254L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -5,13 +5,17 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
+import com.ihealthpharm.masters.dao.DistrubutorRepository;
 import com.ihealthpharm.masters.dao.ItemDistributorsRepository;
+import com.ihealthpharm.masters.dao.ItemsRepository;
+import com.ihealthpharm.masters.dto.ItemDistributorDTO;
 import com.ihealthpharm.masters.helper.ItemDistributorHelper;
 import com.ihealthpharm.masters.model.DistributorModel;
 import com.ihealthpharm.masters.model.ItemDistributorModel;
@@ -31,6 +35,12 @@ public class ItemDistributorServiceImpl implements ItemDistributorService {
 	@Autowired
 	ItemDistributorHelper itemDistributorHelper;
 
+	@Autowired
+	ItemsRepository itemRepo;
+
+	@Autowired
+	DistrubutorRepository distributorRepo;
+
 	private ItemDistributorModel getValidItemDistributor(int itemDistributorId) {
 		ItemDistributorModel itemDistributorRes = null;
 		try {
@@ -45,7 +55,7 @@ public class ItemDistributorServiceImpl implements ItemDistributorService {
 	}
 
 	@Override
-	public ItemDistributorModel saveItemDistributorData(int[] itemsId, int[] distributorsId) {
+	public ItemDistributorModel saveItemDistributorData( int[] itemsId,int[]  distributorsId) {
 
 		ItemDistributorModel itemDistributor = null;
 
@@ -68,6 +78,7 @@ public class ItemDistributorServiceImpl implements ItemDistributorService {
 			}
 
 		}
+
 		log.info("ItemDistributor data with ID: " + itemDistributor.getItemDistributorId() + " saved succesfully");
 		return itemDistributor;
 	}
@@ -160,31 +171,51 @@ public class ItemDistributorServiceImpl implements ItemDistributorService {
 	}
 
 	@Override
-	public List<String> findAllUnMappedItemDistributorsData(int itemId) {
+	public List<DistributorModel> findAllUnMappedItemDistributorsData(int itemId) {
 
-		System.out.println("in service");
-		System.out.println("===============================" + itemId);
-
-		ItemsModel im = new ItemsModel();
-		im.setItemId(itemId);
-		List<String> response = itemDistributorsRepository.getAllUnMappedDistributors(im);
+		List<DistributorModel> response = itemDistributorsRepository.getAllUnMappedDistributors(itemId);
 		return response;
 	}
 
 	@Override
-	public List<String> findAllUnMappedDistributorItems(int distributorId) {
-		System.out.println("In ServiceImpl");
-		DistributorModel dm = new DistributorModel();
-		List<String> result = itemDistributorsRepository.getAllUnMappedItems(dm);
+	public List<ItemsModel> findAllUnMappedDistributorItems(int distributorId) {
+		List<ItemsModel> result = itemDistributorsRepository.getAllUnMappedItems(distributorId);
 		return result;
 	}
 
 	@Override
-	public List<Object[]> findAllMappedItemDistributors() {
-
-		List<Object[]> result = itemDistributorsRepository.getAllItemDistributors();
+	public List<ItemDistributorDTO> findAllMappedItemDistributors() {
 		
+		List<ItemDistributorDTO>  r =itemDistributorsRepository.getAllItemDistributors();
+
+		return r;
+	}
+
+	@Override
+	public List<DistributorModel> findAllUnmappedDistributorsNamesSearch(int itemId, String searchTerm) {
+
+		List<DistributorModel> result=itemDistributorsRepository.getAllItemDistributorsSearchData(itemId,searchTerm);
+
 		return result;
+	}
+
+	@Override
+	public List<ItemsModel> finAllUnmppedItemsNameSearch(int distributorId, String searchTerm) {
+		List<ItemsModel> res=itemDistributorsRepository.getAllItemDistributorsItemSearchData(distributorId,searchTerm);
+		return res;
+	}
+
+	@Override
+	public void saveItemDistributorsById(@Valid int itemDistributorId, @Valid String activeS) {
+		ItemDistributorModel itemDistributorModelModelRes = getValidItemDistributor(itemDistributorId);
+		if (!Objects.nonNull(itemDistributorModelModelRes)) {
+			throw new IHealthPharmException(itemDistributorHelper.getNotFoundItemDistributorMessage(),
+					HttpStatus.NOT_FOUND);
+		}
+
+		itemDistributorsRepository.updateStatus(itemDistributorId,activeS);
+		log.info("ItemDistributor data with ID: " + itemDistributorModelModelRes.getItemDistributorId()
+		+ " Updated succesfully");
 
 	}
 
