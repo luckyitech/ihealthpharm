@@ -1,4 +1,4 @@
-package com.ihealthpharm.masters.helper;
+package com.ihealthpharm.stock.helper;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

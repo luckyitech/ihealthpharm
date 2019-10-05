@@ -1,4 +1,4 @@
-package com.ihealthpharm.masters.model;
+package com.ihealthpharm.stock.model;
 
 
 
@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.ihealthpharm.masters.model.AuditModel;
+import com.ihealthpharm.masters.model.ItemsModel;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

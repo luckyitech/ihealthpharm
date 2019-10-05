@@ -1,8 +1,8 @@
-package com.ihealthpharm.masters.service;
+package com.ihealthpharm.stock.service;
 
 import java.util.List;
 
-import com.ihealthpharm.masters.model.PurchaseOrderModel;
+import com.ihealthpharm.stock.model.PurchaseOrderModel;
 
 
 public interface PurchaseOrderService
