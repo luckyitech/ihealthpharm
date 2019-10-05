@@ -12,6 +12,7 @@ import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.EmployeeEducationRepository;
 import com.ihealthpharm.masters.helper.EmployeeEducationHelper;
 import com.ihealthpharm.masters.model.EmployeeEducationModel;
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.service.EmployeeEducationService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -76,5 +77,11 @@ public class EmployeeEducationServiceImpl implements EmployeeEducationService {
 		}catch(NoSuchElementException noSuchElementException) {
 			throw new IHealthPharmException(employeeEducationHelper.getNotFoundEmployeeEducationMessage(),HttpStatus.NOT_FOUND);
 		}
+	}
+
+	@Override
+	public EmployeeEducationModel findEmployeeEducationDataByEmployee(EmployeeModel employeeModel) {
+		
+		return employeeEducationRepository.findByEmployee(employeeModel);
 	}
 }

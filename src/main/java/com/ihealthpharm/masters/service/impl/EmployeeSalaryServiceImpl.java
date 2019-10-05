@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.EmployeeSalaryRepository;
 import com.ihealthpharm.masters.helper.EmployeeSalaryHelper;
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.EmployeeSalaryModel;
 import com.ihealthpharm.masters.service.EmployeeSalaryService;
 
@@ -75,6 +76,12 @@ public class EmployeeSalaryServiceImpl implements EmployeeSalaryService {
 		}catch(NoSuchElementException noSuchElementException) {
 			throw new IHealthPharmException(employeeSalaryHelper.getNotFoundEmployeeSalaryMessage(),HttpStatus.NOT_FOUND);
 		}
+	}
+
+	@Override
+	public EmployeeSalaryModel findEmployeeSalaryDataByEmployeeId(EmployeeModel employee) {
+		
+		return employeeSalaryRepository.findByEmployee(employee);
 	}
 
 }

@@ -2,6 +2,7 @@ package com.ihealthpharm.masters.service.impl;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -60,9 +61,35 @@ public class EmployeeAccessServiceImpl implements EmployeeAccessService {
 	}
 
 	@Override
-	public EmployeeAccessModel updateEmployeeAccessData(EmployeeAccessModel employeeAccessModel) {
-		EmployeeAccessModel employeeAccessRes = getValidEmployeeAccess(employeeAccessModel.getEmployeeAccessId());
-		employeeAccessRes = employeeAccessRepository.save(employeeAccessModel);
+	public EmployeeAccessModel updateEmployeeAccessData(EmployeeAccessDTO employeeAccessDto) {
+		EmployeeAccessModel employeeAccessRes = null;
+		EmployeeAccessModel employeeAccessModel = null;
+		
+		for(Integer i=0; i<employeeAccessDto.getPharmaAccessids().length;i++) {
+			employeeAccessModel = new EmployeeAccessModel();
+			employeeAccessModel.setEmployeeAccessId(employeeAccessDto.getEmployeeAccessId()[0]);
+			
+			employeeAccessRes = getValidEmployeeAccess(employeeAccessModel.getEmployeeAccessId());
+			
+			if (!Objects.nonNull(employeeAccessRes)) {
+				throw new IHealthPharmException("Employee Access Not Found",
+						HttpStatus.NOT_FOUND);
+			}
+			
+			employeeAccessModel.setEmployeeModel(employeeAccessDto.getEmployee());
+			
+			employeeAccessModel.setPharmaAccessModel(employeeAccessDto.getPharmaAccessids()[i]);
+			if(employeeAccessDto.getFlag()[i])
+			{
+				employeeAccessModel.setActiveS('Y');
+			}
+			else
+			{
+				employeeAccessModel.setActiveS('N');
+			}
+			employeeAccessRes = employeeAccessRepository.save(employeeAccessModel);
+		}
+		
 		return employeeAccessRes;
 	}
 	

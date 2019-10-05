@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.EmployeeProfMembershipRepository;
 import com.ihealthpharm.masters.helper.EmployeeProfMembershipHelper;
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.EmployeeProfMembershipModel;
 import com.ihealthpharm.masters.service.EmployeeProfMembershipService;
 
@@ -75,6 +76,12 @@ public class EmployeeProfMembershipServiceImpl implements EmployeeProfMembership
 		}catch(NoSuchElementException noSuchElementException) {
 			throw new IHealthPharmException(employeeProfMembershipHelper.getNotFoundEmployeeProfMembershipMessage(),HttpStatus.NOT_FOUND);
 		}
+	}
+
+	@Override
+	public EmployeeProfMembershipModel findEmployeeProfMembershipDataByEmployeeId(EmployeeModel employee) {
+		
+		return employeeProfMembershipRepository.findByEmployee(employee);
 	}
 
 }

@@ -12,6 +12,7 @@ import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.EmployeeInterestRepository;
 import com.ihealthpharm.masters.helper.EmployeeInterestHelper;
 import com.ihealthpharm.masters.model.EmployeeInterestModel;
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.service.EmployeeInterestService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -75,6 +76,12 @@ public class EmployeeInterestServiceImpl implements EmployeeInterestService {
 		}catch(NoSuchElementException noSuchElementException) {
 			throw new IHealthPharmException(employeeInterestHelper.getNotFoundEmployeeInterestMessage(),HttpStatus.NOT_FOUND);
 		}
+	}
+
+	@Override
+	public EmployeeInterestModel findEmployeeInterestDataByEmployeeId(EmployeeModel employee) {
+		
+		return employeeInterestRepository.findByEmployee(employee);
 	}
 
 }

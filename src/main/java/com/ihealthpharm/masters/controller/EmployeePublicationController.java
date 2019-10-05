@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.EmployeePublicationModel;
 import com.ihealthpharm.masters.service.EmployeePublicationService;
 
@@ -64,4 +65,9 @@ public class EmployeePublicationController {
 		return new BaseDto<>(result,  "retrived", OK).respond();
 	}
 	
+	@PostMapping("/getemployeepublicationdatabyemployeeid")
+	public ResponseEntity<BaseDto<EmployeePublicationModel>> getEmployeePublicationDataByEmployeeId(@RequestBody EmployeeModel employee) {
+		EmployeePublicationModel result = employeePublicationService.findEmployeePublicationDataByEmployeeId(employee);
+		return new BaseDto<>(result,  "retrived", OK).respond();
+	}
 }

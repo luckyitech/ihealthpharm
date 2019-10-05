@@ -12,6 +12,7 @@ import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.EmployeeHonorRepository;
 import com.ihealthpharm.masters.helper.EmployeeHonorHelper;
 import com.ihealthpharm.masters.model.EmployeeHonorModel;
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.service.EmployeeHonorService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -75,6 +76,12 @@ public class EmployeeHonorServiceImpl implements EmployeeHonorService {
 		}catch(NoSuchElementException noSuchElementException) {
 			throw new IHealthPharmException(employeeHonorHelper.getNotFoundEmployeeHonorMessage(),HttpStatus.NOT_FOUND);
 		}
+	}
+
+	@Override
+	public EmployeeHonorModel findEmployeeHonorDataByEmployee(EmployeeModel employee) {
+		
+		return employeeHonorRepository.findByEmployee(employee);
 	}
 
 }

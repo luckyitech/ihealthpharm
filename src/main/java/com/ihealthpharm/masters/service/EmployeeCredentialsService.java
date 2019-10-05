@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ihealthpharm.masters.model.EmployeeCredentialsModel;
 import com.ihealthpharm.masters.model.EmployeeCredentialsRetriveModel;
+import com.ihealthpharm.masters.model.EmployeeModel;
 
 public interface EmployeeCredentialsService {
 
@@ -23,8 +24,9 @@ public interface EmployeeCredentialsService {
 	
 	public EmployeeCredentialsModel findEmployeeCredentialsById(int employeeCredentialId);
 	
-	
 	public void deleteEmployeeCredentialsById(int employeeCredentialId);
 	
 	public void deleteEmployeesCredentialsById(int[] employeeCredentialIds);
+	
+	public EmployeeCredentialsModel findEmployeeCredentialsByEmployee(EmployeeModel employeeModel);
 }
