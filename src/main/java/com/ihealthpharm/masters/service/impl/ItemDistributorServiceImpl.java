@@ -12,7 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
+import com.ihealthpharm.masters.dao.DistrubutorRepository;
 import com.ihealthpharm.masters.dao.ItemDistributorsRepository;
+import com.ihealthpharm.masters.dao.ItemsRepository;
+import com.ihealthpharm.masters.dto.ItemDistributorDTO;
 import com.ihealthpharm.masters.helper.ItemDistributorHelper;
 import com.ihealthpharm.masters.model.DistributorModel;
 import com.ihealthpharm.masters.model.ItemDistributorModel;
@@ -31,6 +34,12 @@ public class ItemDistributorServiceImpl implements ItemDistributorService {
 
 	@Autowired
 	ItemDistributorHelper itemDistributorHelper;
+
+	@Autowired
+	ItemsRepository itemRepo;
+
+	@Autowired
+	DistrubutorRepository distributorRepo;
 
 	private ItemDistributorModel getValidItemDistributor(int itemDistributorId) {
 		ItemDistributorModel itemDistributorRes = null;
@@ -69,7 +78,7 @@ public class ItemDistributorServiceImpl implements ItemDistributorService {
 			}
 
 		}
-		
+
 		log.info("ItemDistributor data with ID: " + itemDistributor.getItemDistributorId() + " saved succesfully");
 		return itemDistributor;
 	}
@@ -175,25 +184,24 @@ public class ItemDistributorServiceImpl implements ItemDistributorService {
 	}
 
 	@Override
-	public List<ItemDistributorModel> findAllMappedItemDistributors() {
-
-		List<ItemDistributorModel> result = itemDistributorsRepository.getAllItemDistributors();
+	public List<ItemDistributorDTO> findAllMappedItemDistributors() {
 		
-		return result;
+		List<ItemDistributorDTO>  r =itemDistributorsRepository.getAllItemDistributors();
 
+		return r;
 	}
 
 	@Override
 	public List<DistributorModel> findAllUnmappedDistributorsNamesSearch(int itemId, String searchTerm) {
 
 		List<DistributorModel> result=itemDistributorsRepository.getAllItemDistributorsSearchData(itemId,searchTerm);
-		
+
 		return result;
 	}
 
 	@Override
 	public List<ItemsModel> finAllUnmppedItemsNameSearch(int distributorId, String searchTerm) {
-      List<ItemsModel> res=itemDistributorsRepository.getAllItemDistributorsItemSearchData(distributorId,searchTerm);
+		List<ItemsModel> res=itemDistributorsRepository.getAllItemDistributorsItemSearchData(distributorId,searchTerm);
 		return res;
 	}
 
@@ -204,11 +212,11 @@ public class ItemDistributorServiceImpl implements ItemDistributorService {
 			throw new IHealthPharmException(itemDistributorHelper.getNotFoundItemDistributorMessage(),
 					HttpStatus.NOT_FOUND);
 		}
-		
-		 itemDistributorsRepository.updateStatus(itemDistributorId,activeS);
+
+		itemDistributorsRepository.updateStatus(itemDistributorId,activeS);
 		log.info("ItemDistributor data with ID: " + itemDistributorModelModelRes.getItemDistributorId()
 		+ " Updated succesfully");
-		
+
 	}
 
 }
