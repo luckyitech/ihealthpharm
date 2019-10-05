@@ -13,13 +13,11 @@ public class ItemFormsHelper {
 	@Value("${itemForms.save.response}")
 	public String saveItemFormsMessage;
 	
-	
 	@Value("${itemForms.update.response}")
 	public String updateItemFormsMessage;
 	
 	@Value("${itemForms.delete.response}")
 	public String deleteItemFormsMessage;
-	
 	
 	@Value("${itemForms.retrieve.response}")
 	public String retrieveItemFormsMessage;

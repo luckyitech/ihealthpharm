@@ -6,14 +6,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity(name = "PHARMACY_ROLES")
-@Getter
-@Setter
-@ToString
+@Data
+@EqualsAndHashCode(of="roleId",callSuper=false)
 public class PharmacyRolesModel extends AuditModel {
 
 	/**

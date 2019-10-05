@@ -6,17 +6,17 @@ import com.ihealthpharm.masters.model.RolesModel;
 
 public interface RolesService {
 
-	public RolesModel saveRolesData(RolesModel role);
+	RolesModel saveRolesData(RolesModel role);
 
-	public RolesModel updateRolesData(RolesModel role);
-	
-	public List<RolesModel> updateRolesData(List<RolesModel> role);
-	
-	public List<RolesModel> findAllRoles();
-	
-	public RolesModel findRoleById(int roleId);
-	
-	public void deleteRolesById(int roleIds);
-	
-	public void deleteRolesById(int[] roleIds);
+	RolesModel updateRolesData(RolesModel role);
+
+	List<RolesModel> updateRolesData(List<RolesModel> role);
+
+	List<RolesModel> findAllRoles();
+
+	RolesModel findRoleById(int roleId);
+
+	void deleteRolesById(int roleIds);
+
+	void deleteRolesById(int[] roleIds);
 }

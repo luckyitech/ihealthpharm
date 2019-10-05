@@ -110,7 +110,6 @@ public class IndentServiceImpl implements IndentService {
 
 	public IndentModel getValidUsers(int indentId) {
 		IndentModel indentRes = null;
-
 		try {
 			indentRes = indentRepository.findById(indentId).get();
 			return indentRes;

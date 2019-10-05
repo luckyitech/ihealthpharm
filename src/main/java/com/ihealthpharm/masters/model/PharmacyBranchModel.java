@@ -85,9 +85,4 @@ public class PharmacyBranchModel extends AuditModel {
 	@Column(name ="AUDIT_ID",length=11)
 	private Integer auditId;
 
-	//need to have clarity
-	/*@OneToMany(mappedBy="pharmacyBranch",cascade=CascadeType.ALL)
-	@JsonManagedReference
-	private List<PharmacyStockModel> stockPointId;
-*/
 }

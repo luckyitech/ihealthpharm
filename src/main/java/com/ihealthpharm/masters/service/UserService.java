@@ -7,22 +7,20 @@ import com.ihealthpharm.masters.model.UsersModel;
 
 public interface UserService {
 	
-	public UsersModel saveUsersData(UsersModel user);
+	 UsersModel saveUsersData(UsersModel user);
 
-	public UsersModel updateUsersData(UsersModel user);
+	 UsersModel updateUsersData(UsersModel user);
 	
-	public List<UsersModel> updateUsersData(List<UsersModel> users);
+	 List<UsersModel> updateUsersData(List<UsersModel> users);
 	
-	public List<UsersModel> findAllUsers();
+	 List<UsersModel> findAllUsers();
 	
-	public UsersModel findUserById(Long UserId);
+	 UsersModel findUserById(Long UserId);
 	
-	public UsersModel findUserByUserName(String userName);
+	 UsersModel findUserByUserName(String userName);
 	
-	public void deleteUsersById(Long UserIds);
+	 void deleteUsersById(Long UserIds);
 	
-	public void deleteUsersById(Long[] UsersIds);
-	
-	
+	 void deleteUsersById(Long[] UsersIds);
 
 }

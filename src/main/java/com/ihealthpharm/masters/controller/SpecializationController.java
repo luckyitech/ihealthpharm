@@ -41,12 +41,9 @@ public class SpecializationController {
 	@Autowired
 	private SpecializationHelper specializationHelper;
 	
-	
-	
 	@PostMapping("/save/specialization")
 	public ResponseEntity<BaseDto<SpecializationModel>> insertSpecializationData(@Valid @RequestBody SpecializationModel specializationModel) {
 		log.info("Request Object insert is: "+ specializationModel);
-		
 		SpecializationModel specializationModelRes = specializationService.saveSpecializationData(specializationModel);
 		return new BaseDto<>(specializationModelRes,specializationHelper.getSaveSpecializationMessage(),OK).respond();
 	}
@@ -57,8 +54,6 @@ public class SpecializationController {
 		SpecializationModel specializationModelRes = specializationService.updateSpecializationData(specializationModel);
 		return new BaseDto<>(specializationModelRes,specializationHelper.getUpdateSpecializationMessage(),OK).respond();
 	}
-	
-	
 
 	@PutMapping("/update/specializations")
 	public ResponseEntity<BaseDto<List<SpecializationModel>>> updateSpecializationsData(@Valid @RequestBody List<SpecializationModel> specializationModels) {
@@ -105,9 +100,7 @@ public class SpecializationController {
 	
 	@GetMapping("/getallspecializationsbysearch")
 	public ResponseEntity<BaseDto<List<SpecializationModel>>> getAllSpecializationdata(@RequestParam String searchTerm) {
-		log.info(searchTerm);
 		List<SpecializationModel> result = specializationService.findAllSpecializationData(searchTerm);
-		log.info(result.toString());
 		return new BaseDto<>(result, specializationHelper.getRetrieveSpecializationMessage(), OK).respond();
 	}
 	

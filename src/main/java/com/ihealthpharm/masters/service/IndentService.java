@@ -6,18 +6,18 @@ import com.ihealthpharm.masters.model.IndentModel;
 
 public interface IndentService {
 	
-	public IndentModel saveIndentData(IndentModel indent);
+	 IndentModel saveIndentData(IndentModel indent);
 
-	public IndentModel updateIndentData(IndentModel indent);
+	 IndentModel updateIndentData(IndentModel indent);
 	
-	public List<IndentModel> updateIndentsData(List<IndentModel> indents);
+	 List<IndentModel> updateIndentsData(List<IndentModel> indents);
 	
-	public List<IndentModel> findAllIndents();
+	 List<IndentModel> findAllIndents();
 	
-	public IndentModel findIndentById(int indentId);
+	 IndentModel findIndentById(int indentId);
 	
-	public void deleteIndentById(int indentIds);
+	 void deleteIndentById(int indentIds);
 	
-	public void deleteIndentsById(int[] indentIds);
+	 void deleteIndentsById(int[] indentIds);
 
 }

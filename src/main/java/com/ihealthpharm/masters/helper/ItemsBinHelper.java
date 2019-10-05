@@ -13,7 +13,6 @@ public class ItemsBinHelper {
 	@Value("${itemsBin.save.response}")
 	public String saveItemsBinMessage;
 	
-	
 	@Value("${itemsBin.update.response}")
 	public String updateItemsBinMessage;
 	

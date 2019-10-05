@@ -8,18 +8,18 @@ import com.ihealthpharm.stock.model.PurchaseOrderModel;
 public interface PurchaseOrderService
 {
     
-	public PurchaseOrderModel savePurchaseOrderData(PurchaseOrderModel purchaseorder);
+	 PurchaseOrderModel savePurchaseOrderData(PurchaseOrderModel purchaseorder);
 
-	public PurchaseOrderModel updatePurchaseOrderData(PurchaseOrderModel purchaseorder);
+	 PurchaseOrderModel updatePurchaseOrderData(PurchaseOrderModel purchaseorder);
 	
-	public List<PurchaseOrderModel> updatePurchaseOrdersData(List<PurchaseOrderModel> purchaseorders);
+	 List<PurchaseOrderModel> updatePurchaseOrdersData(List<PurchaseOrderModel> purchaseorders);
 	
-	public List<PurchaseOrderModel> findAllPurchaseOrders();
+	 List<PurchaseOrderModel> findAllPurchaseOrders();
 	
-	public PurchaseOrderModel findPurchaseOrderById(int purchaseorderId);
+	 PurchaseOrderModel findPurchaseOrderById(int purchaseorderId);
 	
-	public void deletePurchaseOrderById(int purchaseorderIds);
+	 void deletePurchaseOrderById(int purchaseorderIds);
 	
-	public void deletePurchaseOrdersById(int[] purchaseorderIds);
+	 void deletePurchaseOrdersById(int[] purchaseorderIds);
 
 }

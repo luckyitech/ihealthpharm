@@ -31,15 +31,12 @@ public class PharmacySetupController {
 	@PostMapping("/save/pharmacysetup")
 	public ResponseEntity<BaseDto<PharmacySetupModel>> insertPharmacySetupData(@Valid @RequestBody PharmacySetupModel pharmacySetupModel) {
 		log.info("Request Object insert is: "+ pharmacySetupModel.toString());
-		
 		PharmacySetupModel pharmacySetupRes = pharmacySetupService.savePharmacySetup(pharmacySetupModel);
 		return new BaseDto<>(pharmacySetupRes,"Pharmacy Setup Saved",OK).respond();
 	}
 	
 	@GetMapping("/get/pharmacysetup")
 	public ResponseEntity<BaseDto<List<PharmacySetupModel>>> getAllPharmacySetupData() {
-		
-		
 		List<PharmacySetupModel> pharmacySetupRes = pharmacySetupService.findAllPharmacySetups();
 		return new BaseDto<>(pharmacySetupRes,"Pharmacy Setup Saved",OK).respond();
 	}

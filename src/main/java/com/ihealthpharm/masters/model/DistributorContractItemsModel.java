@@ -9,10 +9,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity(name="distributor_contract_items")
 @Data
+@EqualsAndHashCode(of="distributorContractItemId",callSuper=false)
 public class DistributorContractItemsModel extends AuditModel{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9119445221755155055L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -9,8 +9,6 @@ import lombok.Data;
 @Configuration
 public class EmploymentHistoryHelper {
 
-	/*EmploymentHistory Messages*/
-	
 	@Value("${employeehistory.save.response}")
 	public String saveEmploymentHistoryMessage;
 	

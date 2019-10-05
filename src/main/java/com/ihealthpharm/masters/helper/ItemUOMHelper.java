@@ -12,13 +12,11 @@ public class ItemUOMHelper {
 	@Value("${uom.save.response}")
 	public String saveUomMessage;
 	
-	
 	@Value("${uom.update.response}")
 	public String updateUomMessage;
 	
 	@Value("${uom.delete.response}")
 	public String deleteUomMessage;
-	
 	
 	@Value("${uom.retrieve.response}")
 	public String retrieveUomMessage;

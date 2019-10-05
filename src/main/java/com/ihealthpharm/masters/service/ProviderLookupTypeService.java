@@ -6,5 +6,5 @@ import com.ihealthpharm.masters.model.ProviderLookupTypeModel;
 
 public interface ProviderLookupTypeService {
 
-	public List<ProviderLookupTypeModel> findAllProviderLookupTypes() ;
+	 List<ProviderLookupTypeModel> findAllProviderLookupTypes() ;
 }

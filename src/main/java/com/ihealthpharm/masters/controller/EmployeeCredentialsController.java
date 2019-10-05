@@ -36,11 +36,9 @@ public class EmployeeCredentialsController {
 	EmployeeCredentialsService employeeCredentialsService;
 
 	@PostMapping("save/employeecredentials")
-	public ResponseEntity<BaseDto<EmployeeCredentialsModel>> saveEmployeeCredentials(
-			@RequestBody EmployeeCredentialsModel employeeCredentialsModel) {
+	public ResponseEntity<BaseDto<EmployeeCredentialsModel>> saveEmployeeCredentials(@RequestBody EmployeeCredentialsModel employeeCredentialsModel) {
 		employeeCredentialsModel = employeeCredentialsService.saveEmployeeCredentialsData(employeeCredentialsModel);
-		log.info(employeeCredentialsHelper.getSaveEmployeeCredentialsMessage() + " With Id:"
-				+ employeeCredentialsModel.getEmployeeCredentialsId());
+		log.info(employeeCredentialsHelper.getSaveEmployeeCredentialsMessage() + " With Id:"+ employeeCredentialsModel.getEmployeeCredentialsId());
 		return new BaseDto<>(employeeCredentialsModel, employeeCredentialsHelper.getSaveEmployeeCredentialsMessage(),
 				OK).respond();
 	}
@@ -104,18 +102,4 @@ public class EmployeeCredentialsController {
 				OK).respond();
 	}
 
-	
-	/*@PostMapping("employeelogin")
-	public ResponseEntity<BaseDto<TokenModel>> checkEmployeeCredentials(
-			@RequestParam("userName") String userName, @RequestParam("currentPassword") String currentPassword)
-			throws Exception {
-
-		TokenModel tokenModel = new TokenModel();
-		EmployeeCredentialsModel employeeCredentialsModels = employeeCredentialsService.findEmployeeCredentialsByUserNameAndPassword(userName, currentPassword);
-		String token = Jwts.builder().setSubject(employeeCredentialsModels.getUserName()).claim("roles", "user").setIssuedAt(new Date())
-				.signWith(SignatureAlgorithm.HS256, "secretkey").compact();
-		
-		tokenModel.setToken(token);
-		return new BaseDto<>(tokenModel, employeeCredentialsHelper.getDeleteEmployeeCredentialsMessage(),OK).respond();
-	}*/
 }

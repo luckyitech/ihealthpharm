@@ -7,6 +7,4 @@ public class QuotationDTO {
 
 	QuotationModelDTO quotationModelDTO;
 	
-	
-		
 }
