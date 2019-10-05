@@ -124,9 +124,7 @@ public class ItemController {
 	//based on itemName search
 	@GetMapping("/getallby/ItemNameSearch")
 	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllByItemNameSearch(@RequestParam String searchTerm){
-		System.out.println("in itemname search");
 		List<ItemsModel> results=itemService.findAllByItemName(searchTerm);
-		System.out.println(results);
 		return new BaseDto<>(results,propertyHelper.getRetrieveMessage(),OK).respond();
 	}
 

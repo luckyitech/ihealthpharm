@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.ihealthpharm.masters.dto.ItemDistributorDTO;
 import com.ihealthpharm.masters.model.DistributorModel;
 import com.ihealthpharm.masters.model.ItemDistributorModel;
 import com.ihealthpharm.masters.model.ItemsModel;
@@ -26,9 +27,9 @@ public interface ItemDistributorsRepository extends JpaRepository<ItemDistributo
 	@Query("select i from items i where itemId not in (select h.itemsId from items_distributor h where h.distributorsId=:distributorsIds)")
 	List<ItemsModel> getAllUnMappedItems(@Param ("distributorsIds")Integer distributorId);
 
-	//d.name,d.distributorId,i.itemName,i.itemId,id.activeS
-	@Query("select id from items_distributor id inner join distributor d on id.distributorsId=d.distributorId inner join items i on i.itemId=id.itemsId")
-	List<ItemDistributorModel> getAllItemDistributors();
+	
+	@Query("select new com.ihealthpharm.masters.dto.ItemDistributorDTO(id.itemDistributorId,i.itemId,d.distributorId,id.activeS,d.name,i.itemName) from items_distributor id inner join distributor d on id.distributorsId=d.distributorId inner join items i on i.itemId=id.itemsId")
+	List<ItemDistributorDTO> getAllItemDistributors();
 
 
 	//unmapped dropdown search
