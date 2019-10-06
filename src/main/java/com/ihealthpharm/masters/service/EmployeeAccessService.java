@@ -17,7 +17,7 @@ public interface EmployeeAccessService
     
     EmployeeAccessModel saveEmployeeAccessData(EmployeeAccessDTO employeeAccessDto);
 
-    EmployeeAccessModel updateEmployeeAccessData(EmployeeAccessModel employeeAccessModel);
+    EmployeeAccessModel updateEmployeeAccessData(EmployeeAccessDTO employeeAccessDto);
     
     List<EmployeeAccessModel> findByEmployee(EmployeeModel employee);
 }

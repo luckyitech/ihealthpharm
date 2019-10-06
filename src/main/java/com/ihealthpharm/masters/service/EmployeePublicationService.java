@@ -2,6 +2,7 @@ package com.ihealthpharm.masters.service;
 
 import java.util.List;
 
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.EmployeePublicationModel;
 
 public interface EmployeePublicationService {
@@ -15,4 +16,6 @@ public interface EmployeePublicationService {
     EmployeePublicationModel saveEmployeePublicationData(EmployeePublicationModel employeePublicationModel);
 
     EmployeePublicationModel updateEmployeePublicationData(EmployeePublicationModel employeePublicationModel);
+    
+    EmployeePublicationModel findEmployeePublicationDataByEmployeeId(EmployeeModel employee);
 }
