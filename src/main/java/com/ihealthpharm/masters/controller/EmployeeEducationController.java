@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.model.EmployeeEducationModel;
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.service.EmployeeEducationService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -61,6 +62,12 @@ public class EmployeeEducationController {
 	@GetMapping("/getemployeeeducationdatabyid")
 	public ResponseEntity<BaseDto<EmployeeEducationModel>> getEmployeeEducationDataById(@RequestParam int employeeEducationId) {
 		EmployeeEducationModel result = employeeEducationService.findEmployeeEducationDataById(employeeEducationId);
+		return new BaseDto<>(result,  "retrived", OK).respond();
+	}
+	
+	@PostMapping("/getemployeeeducationdatabyemployeeid")
+	public ResponseEntity<BaseDto<EmployeeEducationModel>> getEmployeeEducationDataByEmployeeId(@RequestBody EmployeeModel employeeModel) {
+		EmployeeEducationModel result = employeeEducationService.findEmployeeEducationDataByEmployee(employeeModel);
 		return new BaseDto<>(result,  "retrived", OK).respond();
 	}
 	

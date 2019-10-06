@@ -67,7 +67,7 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity webSecurity) throws Exception {
 		webSecurity.ignoring().antMatchers(HttpMethod.POST, authenticationPath).
-		and().ignoring().antMatchers("/getCountries","/getProvinces","/getProvincebyid","/swagger-ui.html","/getemployeecredentialsbyusername")
+		and().ignoring().antMatchers("/getCountries","/getProvinces","/getProvincebyid","/swagger-ui.html","/")
 				.antMatchers(HttpMethod.OPTIONS, "/**")
 				.and().ignoring()
 				.antMatchers(HttpMethod.GET, "/" // Other Stuff You want to Ignore
