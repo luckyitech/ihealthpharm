@@ -104,16 +104,16 @@ public class InsuranceModel extends AuditModel {
 	@JoinColumn(name="PHARMACY_ID")
 	private PharmacyModel pharmacyId;
 
-	  public void setDateOfBirth(Date birthDate) throws ParseException {
+	  public void setPolicyStartDate(Date startDate) throws ParseException {
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			String dateOfBirth=simpleDateFormat.format(birthDate);  
-			this.policyStartDate = dateOfBirth;
+			String policyStart=simpleDateFormat.format(startDate);  
+			this.policyStartDate = policyStart;
 	    }
 
-	  public void setPolicyEnd(Date birthDate) throws ParseException {
+	  public void setPolicyEndDate(Date policyEnd)  {
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			String dateOfBirth=simpleDateFormat.format(birthDate);  
-			this.policyEndDate = dateOfBirth;
+			String endDate=simpleDateFormat.format(policyEnd);  
+			this.policyEndDate = endDate;
 	    }
 
 	
