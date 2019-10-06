@@ -133,7 +133,9 @@ public class ItemGroupServiceImpl implements ItemGroupService {
 
 	@Override
 	public List<ItemGroupModel> findAllItemGroupData(String medicalOrNonMedical,String searchTerm) {
-
+      if("ALL".equalsIgnoreCase(searchTerm)) {
+    	  searchTerm="";
+      }
 		return itemGroupRepository.findAllBySearchCriteria(medicalOrNonMedical,searchTerm);
 	}
 
