@@ -9,8 +9,6 @@ import lombok.Data;
 @Configuration
 public class EmployeeHelper {
 
-	/*Employee Messages*/
-	
 	@Value("${employee.save.response}")
 	public String saveEmployeeMessage;
 	

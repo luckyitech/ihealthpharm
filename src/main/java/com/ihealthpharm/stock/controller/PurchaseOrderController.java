@@ -1,4 +1,4 @@
-package com.ihealthpharm.masters.controller;
+package com.ihealthpharm.stock.controller;
 
 import static org.springframework.http.HttpStatus.OK;
 
@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
-import com.ihealthpharm.masters.helper.PurchaseOrderHelper;
-import com.ihealthpharm.masters.model.PurchaseOrderModel;
-import com.ihealthpharm.masters.service.PurchaseOrderService;
+import com.ihealthpharm.stock.helper.PurchaseOrderHelper;
+import com.ihealthpharm.stock.model.PurchaseOrderModel;
+import com.ihealthpharm.stock.service.PurchaseOrderService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,13 +39,11 @@ public class PurchaseOrderController {
 	public ResponseEntity<BaseDto<PurchaseOrderModel>> insertPurchaseOrderData(@Valid @RequestBody PurchaseOrderModel purchaseorderModel) {
 
 		PurchaseOrderModel purchaseorderModelRes = purchaseorderService.savePurchaseOrderData(purchaseorderModel);
-
 		return new BaseDto<>(purchaseorderModelRes, purchaseorderHelper.getSavePurchaseOrderMessage(), OK).respond();
 	}
 
 	@PutMapping("/update/purchaseorder")
-	public ResponseEntity<BaseDto<PurchaseOrderModel>> updatePurchaseOrderData(
-			@Valid @RequestBody PurchaseOrderModel purchaseorderModel) {
+	public ResponseEntity<BaseDto<PurchaseOrderModel>> updatePurchaseOrderData(@Valid @RequestBody PurchaseOrderModel purchaseorderModel) {
 		log.info("Request Object for update is: ", purchaseorderModel);
 		PurchaseOrderModel purchaseorderModelRes = purchaseorderService.updatePurchaseOrderData(purchaseorderModel);
 		return new BaseDto<>(purchaseorderModelRes, purchaseorderHelper.getUpdatePurchaseOrderMessage(), OK).respond();
@@ -79,8 +77,7 @@ public class PurchaseOrderController {
 	}
 
 	@PutMapping("/update/purchaseorders")
-	public ResponseEntity<BaseDto<List<PurchaseOrderModel>>> updatePurchaseOrdersData(
-			@Valid @RequestBody List<PurchaseOrderModel> purchaseorderModel) {
+	public ResponseEntity<BaseDto<List<PurchaseOrderModel>>> updatePurchaseOrdersData(@Valid @RequestBody List<PurchaseOrderModel> purchaseorderModel) {
 		log.info("Request Object for update is: " , purchaseorderModel);
 		List<PurchaseOrderModel> PurchaseOrderModelRes = purchaseorderService.updatePurchaseOrdersData(purchaseorderModel);
 		return new BaseDto<>(PurchaseOrderModelRes, purchaseorderHelper.getUpdatePurchaseOrderMessage(), OK).respond();

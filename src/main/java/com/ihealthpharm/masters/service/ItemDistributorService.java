@@ -2,6 +2,7 @@ package com.ihealthpharm.masters.service;
 
 import java.util.List;
 
+import com.ihealthpharm.masters.dto.ItemDistributorDTO;
 import com.ihealthpharm.masters.model.DistributorModel;
 import com.ihealthpharm.masters.model.ItemDistributorModel;
 import com.ihealthpharm.masters.model.ItemsModel;
@@ -29,7 +30,7 @@ public interface ItemDistributorService {
 
 	List<ItemsModel> findAllUnMappedDistributorItems(int distributorId);
 
-	List<ItemDistributorModel> findAllMappedItemDistributors();
+	List<ItemDistributorDTO> findAllMappedItemDistributors();
 
 	List<DistributorModel> findAllUnmappedDistributorsNamesSearch(int itemId,String searchTerm);
 

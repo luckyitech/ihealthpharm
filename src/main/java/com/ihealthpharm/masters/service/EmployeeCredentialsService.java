@@ -4,27 +4,33 @@ import java.util.List;
 
 import com.ihealthpharm.masters.model.EmployeeCredentialsModel;
 import com.ihealthpharm.masters.model.EmployeeCredentialsRetriveModel;
+import com.ihealthpharm.masters.model.EmployeeModel;
 
 public interface EmployeeCredentialsService {
 
-	public EmployeeCredentialsModel saveEmployeeCredentialsData(EmployeeCredentialsModel employeeCredentialsModel);
+	 EmployeeCredentialsModel saveEmployeeCredentialsData(EmployeeCredentialsModel employeeCredentialsModel);
 	
-	public EmployeeCredentialsModel updateEmployeeCredentialsData(EmployeeCredentialsModel employeeCredentialsModel);
+	 EmployeeCredentialsModel updateEmployeeCredentialsData(EmployeeCredentialsModel employeeCredentialsModel);
 	
-	public List<EmployeeCredentialsModel> updateEmployeeCredentialsData(List<EmployeeCredentialsModel> employeeCredentialsModels);
+	 List<EmployeeCredentialsModel> updateEmployeeCredentialsData(List<EmployeeCredentialsModel> employeeCredentialsModels);
 	
-	public EmployeeCredentialsModel findEmployeeCredentialsByUserNameAndPassword(String userName,String password);
+	 EmployeeCredentialsModel findEmployeeCredentialsByUserNameAndPassword(String userName,String password);
 	
-	public EmployeeCredentialsModel findEmployeeCredentialsByUserName(String userName);
+	 EmployeeCredentialsModel findEmployeeCredentialsByUserName(String userName);
 	
-	public EmployeeCredentialsRetriveModel findEmployeeCredentialByUserName(String userName);
+	 EmployeeCredentialsRetriveModel findEmployeeCredentialByUserName(String userName);
 	
-	public List<EmployeeCredentialsModel> findAllEmployeeCredentials();
+	 List<EmployeeCredentialsModel> findAllEmployeeCredentials();
 	
-	public EmployeeCredentialsModel findEmployeeCredentialsById(int employeeCredentialId);
+	 EmployeeCredentialsModel findEmployeeCredentialsById(int employeeCredentialId);
 	
-	
+
 	public void deleteEmployeeCredentialsById(int employeeCredentialId);
 	
 	public void deleteEmployeesCredentialsById(int[] employeeCredentialIds);
+	
+	public EmployeeCredentialsModel findEmployeeCredentialsByEmployee(EmployeeModel employeeModel);
+
+
+
 }

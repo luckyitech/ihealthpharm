@@ -7,9 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity(name = "roles")
+@EqualsAndHashCode(of="roleId",callSuper=false)
 public class RolesModel extends AuditModel{
 	/**
 	 * 

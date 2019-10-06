@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.helper.EmployeeCredentialsHelper;
 import com.ihealthpharm.masters.model.EmployeeCredentialsModel;
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.service.EmployeeCredentialsService;
 
 //import io.jsonwebtoken.Jwts;
@@ -36,11 +37,9 @@ public class EmployeeCredentialsController {
 	EmployeeCredentialsService employeeCredentialsService;
 
 	@PostMapping("save/employeecredentials")
-	public ResponseEntity<BaseDto<EmployeeCredentialsModel>> saveEmployeeCredentials(
-			@RequestBody EmployeeCredentialsModel employeeCredentialsModel) {
+	public ResponseEntity<BaseDto<EmployeeCredentialsModel>> saveEmployeeCredentials(@RequestBody EmployeeCredentialsModel employeeCredentialsModel) {
 		employeeCredentialsModel = employeeCredentialsService.saveEmployeeCredentialsData(employeeCredentialsModel);
-		log.info(employeeCredentialsHelper.getSaveEmployeeCredentialsMessage() + " With Id:"
-				+ employeeCredentialsModel.getEmployeeCredentialsId());
+		log.info(employeeCredentialsHelper.getSaveEmployeeCredentialsMessage() + " With Id:"+ employeeCredentialsModel.getEmployeeCredentialsId());
 		return new BaseDto<>(employeeCredentialsModel, employeeCredentialsHelper.getSaveEmployeeCredentialsMessage(),
 				OK).respond();
 	}
@@ -95,7 +94,7 @@ public class EmployeeCredentialsController {
 		return new BaseDto<>(employeeCredentialsModel, employeeCredentialsHelper.getDeleteEmployeeCredentialsMessage(),
 				OK).respond();
 	}
-	
+
 	@GetMapping("getallemployeecredentials")
 	public ResponseEntity<BaseDto<List<EmployeeCredentialsModel>>> getAllEmployeeCredentials() {
 		List<EmployeeCredentialsModel> employeeCredentialsModels = employeeCredentialsService
@@ -104,18 +103,33 @@ public class EmployeeCredentialsController {
 				OK).respond();
 	}
 
-	
-	/*@PostMapping("employeelogin")
-	public ResponseEntity<BaseDto<TokenModel>> checkEmployeeCredentials(
-			@RequestParam("userName") String userName, @RequestParam("currentPassword") String currentPassword)
-			throws Exception {
 
-		TokenModel tokenModel = new TokenModel();
-		EmployeeCredentialsModel employeeCredentialsModels = employeeCredentialsService.findEmployeeCredentialsByUserNameAndPassword(userName, currentPassword);
-		String token = Jwts.builder().setSubject(employeeCredentialsModels.getUserName()).claim("roles", "user").setIssuedAt(new Date())
-				.signWith(SignatureAlgorithm.HS256, "secretkey").compact();
-		
-		tokenModel.setToken(token);
-		return new BaseDto<>(tokenModel, employeeCredentialsHelper.getDeleteEmployeeCredentialsMessage(),OK).respond();
-	}*/
+	@PostMapping("getemployeecredentialsbyEmployeeid")
+	public ResponseEntity<BaseDto<EmployeeCredentialsModel>> getEmployeeCredentialByUserName(@RequestBody EmployeeModel employee) {
+		log.info("----------------------------------------------------------------------"+employee.toString());
+		EmployeeCredentialsModel employeeCredentialsModel = employeeCredentialsService.findEmployeeCredentialsByEmployee(employee);
+		return new BaseDto<>(employeeCredentialsModel, employeeCredentialsHelper.getDeleteEmployeeCredentialsMessage(),
+				OK).respond();
+	}
+
+	/*
+	 * @PostMapping("employeelogin") public ResponseEntity<BaseDto<TokenModel>>
+	 * checkEmployeeCredentials(
+	 * 
+	 * @RequestParam("userName") String userName, @RequestParam("currentPassword")
+	 * String currentPassword) throws Exception {
+	 * 
+	 * TokenModel tokenModel = new TokenModel(); EmployeeCredentialsModel
+	 * employeeCredentialsModels =
+	 * employeeCredentialsService.findEmployeeCredentialsByUserNameAndPassword(
+	 * userName, currentPassword); String token =
+	 * Jwts.builder().setSubject(employeeCredentialsModels.getUserName()).claim(
+	 * "roles", "user").setIssuedAt(new Date()) .signWith(SignatureAlgorithm.HS256,
+	 * "secretkey").compact();
+	 * 
+	 * tokenModel.setToken(token); return new BaseDto<>(tokenModel,
+	 * employeeCredentialsHelper.getDeleteEmployeeCredentialsMessage(),OK).respond()
+	 * ; }
+	 */
+
 }

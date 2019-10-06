@@ -16,6 +16,7 @@ import com.ihealthpharm.masters.dao.EmployeeCredentialsRetriveRepository;
 import com.ihealthpharm.masters.helper.EmployeeCredentialsHelper;
 import com.ihealthpharm.masters.model.EmployeeCredentialsModel;
 import com.ihealthpharm.masters.model.EmployeeCredentialsRetriveModel;
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.service.EmployeeCredentialsService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -146,6 +147,12 @@ public class EmployeeCredentialsImpl implements EmployeeCredentialsService {
 	public EmployeeCredentialsRetriveModel findEmployeeCredentialByUserName(String userName) {
 		
 		return employeeCredentialsRetriveRepository.findByUserName(userName);
+	}
+
+	@Override
+	public EmployeeCredentialsModel findEmployeeCredentialsByEmployee(EmployeeModel employeeModel) {
+		
+		return employeeCredentialsRepository.findByEmployee(employeeModel);
 	}
 
 }

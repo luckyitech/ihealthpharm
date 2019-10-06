@@ -12,10 +12,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity(name = "employee_salary")
+@EqualsAndHashCode(of="employeeSalaryId",callSuper=false)
 public class EmployeeSalaryModel extends AuditModel{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1193361444067500969L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

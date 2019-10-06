@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.model.EmployeeInterestModel;
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.service.EmployeeInterestService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -61,6 +62,12 @@ public class EmployeeInterestController {
 	@GetMapping("/getemployeeinterestdatabyid")
 	public ResponseEntity<BaseDto<EmployeeInterestModel>> getEmployeeInterestDataById(@RequestParam int employeeInterestId) {
 		EmployeeInterestModel result = employeeInterestService.findEmployeeInterestDataById(employeeInterestId);
+		return new BaseDto<>(result,  "retrived", OK).respond();
+	}
+	
+	@PostMapping("/getemployeeinterestdatabyemployeeid")
+	public ResponseEntity<BaseDto<EmployeeInterestModel>> getEmployeeInterestDataByEmployeeId(@RequestBody EmployeeModel employee) {
+		EmployeeInterestModel result = employeeInterestService.findEmployeeInterestDataByEmployeeId(employee);
 		return new BaseDto<>(result,  "retrived", OK).respond();
 	}
 	

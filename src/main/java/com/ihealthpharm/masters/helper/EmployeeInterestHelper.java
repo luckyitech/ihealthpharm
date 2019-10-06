@@ -9,8 +9,6 @@ import lombok.Data;
 @Configuration
 public class EmployeeInterestHelper {
 
-	/*EmployeeInterest Messages*/
-	
 	@Value("${employeeinterest.save.response}")
 	public String saveEmployeeInterestMessage;
 	

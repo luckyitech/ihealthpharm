@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.EmployeePharmacyRoleRepository;
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.EmployeePharmacyRoleModel;
-import com.ihealthpharm.masters.model.PharmacyRolesModel;
 import com.ihealthpharm.masters.service.EmployeePharmacyRoleService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -84,6 +84,12 @@ public class EmployeePharmacyRoleServiceImpl implements EmployeePharmacyRoleServ
 			throw new IHealthPharmException("employeePharmacyRoleRes not foulnd",
 					HttpStatus.NOT_FOUND);
 		}
+	}
+
+	@Override
+	public EmployeePharmacyRoleModel findEmployeePharmacyRoleDataByEmployeeId(EmployeeModel employee) {
+		
+		return employeePharmacyRoleRepository.findByEmployee(employee);
 	}
     
 }

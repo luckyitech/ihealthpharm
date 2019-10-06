@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.EmploymentHistoryRepository;
 import com.ihealthpharm.masters.helper.EmploymentHistoryHelper;
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.EmploymentHistoryModel;
 import com.ihealthpharm.masters.service.EmploymentHistoryService;
 
@@ -75,6 +76,12 @@ public class EmploymentHistoryServiceImpl implements EmploymentHistoryService {
 		}catch(NoSuchElementException noSuchElementException) {
 			throw new IHealthPharmException(employmentHistoryHelper.getNotFoundEmploymentHistoryMessage(),HttpStatus.NOT_FOUND);
 		}
+	}
+
+	@Override
+	public EmploymentHistoryModel findEmploymentHistoryDataByEmployeeId(EmployeeModel employee) {
+		
+		return employmentHistoryRepository.findByEmployee(employee);
 	}
 
 }

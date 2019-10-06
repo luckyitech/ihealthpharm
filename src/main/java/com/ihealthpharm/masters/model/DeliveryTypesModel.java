@@ -14,17 +14,13 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(of="deliveryTypeId",callSuper=false)
 public class DeliveryTypesModel {
 
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="DELIVERY_TYPE_ID",length=11)
 	private Integer deliveryTypeId;
 
-	
 	@Column(name="TYPE",length=50)
 	private String type;
 
-	
-	
 
 }

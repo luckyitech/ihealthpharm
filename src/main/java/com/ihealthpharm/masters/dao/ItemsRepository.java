@@ -19,7 +19,6 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 
 	List<ItemsModel> findAllByOrderByLastUpdateTimestampDesc();
 
-	//itemName search
 	@Query("select i from items i where i.itemName like %:searchTerm% order by i.creationTimeStamp desc")
 	List<ItemsModel> findAllByItemNameSearch(@Param("searchTerm") String searchTerm);
 
@@ -35,6 +34,5 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 	List<ItemsModel> findByItemGenericName(ItemGenericNamesModel genericRes);
 
 	List<ItemsModel> findByItemGroup(ItemGroupModel groupCode);
-
 
 }

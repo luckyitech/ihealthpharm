@@ -32,7 +32,6 @@ public class CountryModel {
 	@Column(name = "CREATION_TS")
 	private Date creationTimeStamp;
 	
-	
 	@Column(name = "CREATION_USER_ID")
 	private Integer createdUserId;
 	  

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.EmployeeProfMembershipRepository;
 import com.ihealthpharm.masters.helper.EmployeeProfMembershipHelper;
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.EmployeeProfMembershipModel;
 import com.ihealthpharm.masters.service.EmployeeProfMembershipService;
 
@@ -22,10 +23,10 @@ public class EmployeeProfMembershipServiceImpl implements EmployeeProfMembership
 
 	@Autowired
 	EmployeeProfMembershipRepository employeeProfMembershipRepository;
-	
+
 	@Autowired
 	EmployeeProfMembershipHelper employeeProfMembershipHelper;
-	
+
 	@Override
 	public void deleteEmployeeEmployeeProfMembershipData(Integer employeeProfMembershipId) {
 		EmployeeProfMembershipModel employeeProfMembershipModel = getValidEmployeeProfMembershipModel(employeeProfMembershipId);
@@ -42,30 +43,28 @@ public class EmployeeProfMembershipServiceImpl implements EmployeeProfMembership
 
 	@Override
 	public List<EmployeeProfMembershipModel> findAllEmployeeProfMembershipData() {
-		
+
 		return employeeProfMembershipRepository.findAll();
 	}
 
 	@Override
-	public EmployeeProfMembershipModel saveEmployeeProfMembershipData(
-			EmployeeProfMembershipModel employeeProfMembershipModel) {
+	public EmployeeProfMembershipModel saveEmployeeProfMembershipData(EmployeeProfMembershipModel employeeProfMembershipModel) {
 		employeeProfMembershipModel = employeeProfMembershipRepository.save(employeeProfMembershipModel);
 		return employeeProfMembershipModel;
 	}
 
 	@Override
-	public EmployeeProfMembershipModel updateEmployeeProfMembershipData(
-			EmployeeProfMembershipModel employeeProfMembershipModel) {
+	public EmployeeProfMembershipModel updateEmployeeProfMembershipData(EmployeeProfMembershipModel employeeProfMembershipModel) {
 		EmployeeProfMembershipModel employeeProfMembershipRes = getValidEmployeeProfMembershipModel(employeeProfMembershipModel.getEmployeeProfMembershipId());
 
 		if (!Objects.nonNull(employeeProfMembershipRes)) {
 			throw new IHealthPharmException(employeeProfMembershipHelper.getNotFoundEmployeeProfMembershipMessage(),HttpStatus.NOT_FOUND);
 		}
-		
-		 employeeProfMembershipRes =employeeProfMembershipRepository.save(employeeProfMembershipModel);
+
+		employeeProfMembershipRes =employeeProfMembershipRepository.save(employeeProfMembershipModel);
 		return employeeProfMembershipRes;
 	}
-	
+
 	private EmployeeProfMembershipModel getValidEmployeeProfMembershipModel(Integer employeeProfMembershipId)
 	{
 		EmployeeProfMembershipModel employeeProfMembershipModel = null;
@@ -75,6 +74,12 @@ public class EmployeeProfMembershipServiceImpl implements EmployeeProfMembership
 		}catch(NoSuchElementException noSuchElementException) {
 			throw new IHealthPharmException(employeeProfMembershipHelper.getNotFoundEmployeeProfMembershipMessage(),HttpStatus.NOT_FOUND);
 		}
+	}
+
+	@Override
+	public EmployeeProfMembershipModel findEmployeeProfMembershipDataByEmployeeId(EmployeeModel employee) {
+		
+		return employeeProfMembershipRepository.findByEmployee(employee);
 	}
 
 }

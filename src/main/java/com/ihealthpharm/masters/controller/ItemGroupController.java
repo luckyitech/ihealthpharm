@@ -38,7 +38,6 @@ public class ItemGroupController {
 	@PostMapping("/save/itemgroup")
 	public ResponseEntity<BaseDto<ItemGroupModel>> insertItemGroupData(@Valid @RequestBody ItemGroupModel itemGroupModel) {
 		log.info("Request Object insert is: "+ itemGroupModel);
-		
 		ItemGroupModel itemGroupModelRes = itemGroupService.saveItemGroupData(itemGroupModel);
 		return new BaseDto<>(itemGroupModelRes,itemGroupHelper.getSaveItemGroupMessage(),OK).respond();
 	}
@@ -93,7 +92,9 @@ public class ItemGroupController {
 	
 	@GetMapping("/getallitemgroupsdata")
 	public ResponseEntity<BaseDto<List<ItemGroupModel>>> getAllItemGroupdata(@RequestParam String medicalOrNonMedical,@RequestParam String searchTerm) {
+		log.info(medicalOrNonMedical + " "+searchTerm);
 		List<ItemGroupModel> result = itemGroupService.findAllItemGroupData(medicalOrNonMedical, searchTerm);
+		log.info(result.toString());
 		return new BaseDto<>(result, itemGroupHelper.getRetrieveItemGroupMessage(), OK).respond();
 	}
 	

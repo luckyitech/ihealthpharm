@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.masters.dto.ItemDistributorDTO;
 import com.ihealthpharm.masters.helper.ItemDistributorHelper;
 import com.ihealthpharm.masters.model.DistributorModel;
 import com.ihealthpharm.masters.model.ItemDistributorModel;
@@ -41,8 +42,6 @@ public class ItemDistributorController {
 	
 	@Autowired
 	private ItemDistributorHelper itemDistributorHelper;
-	
-	
 	
 	
 	@PostMapping("/save/itemdistributor")
@@ -149,9 +148,8 @@ public class ItemDistributorController {
 	
 	//Grid Options itemdistributors mapped data
 	@GetMapping("/getitemdistributors/mapppeddata")
-	public ResponseEntity<BaseDto<List<ItemDistributorModel>>> getAllItemDistributorsMapped(){
-		List<ItemDistributorModel> result=itemDistributorService.findAllMappedItemDistributors();
-		
+	public ResponseEntity<BaseDto<List<ItemDistributorDTO>>> getAllItemDistributorsMapped(){
+		List<ItemDistributorDTO> result=itemDistributorService.findAllMappedItemDistributors();
 		return new BaseDto<>(result,itemDistributorHelper.getRetrieveItemDistributorMessage(),OK).respond();
 	}
 	

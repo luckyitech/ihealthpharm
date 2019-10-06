@@ -22,15 +22,15 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 @Slf4j
 public class ItemGroupServiceImpl implements ItemGroupService {
-	
-	
+
+
 	@Autowired
 	ItemGroupRepository itemGroupRepository;
-	
+
 	@Autowired
 	ItemGroupHelper itemGroupHelper;
-	
-	
+
+
 	private ItemGroupModel getValidItemGroup(int itemGroupId)
 	{
 		ItemGroupModel itemGroupRes = null;
@@ -42,10 +42,9 @@ public class ItemGroupServiceImpl implements ItemGroupService {
 			throw new IHealthPharmException(itemGroupHelper.getNotFoundItemGroupMessage(),HttpStatus.NOT_FOUND);
 		}
 
-
 	}
-	
-	
+
+
 	@Override
 	public ItemGroupModel saveItemGroupData(ItemGroupModel itemGroupModel) {
 		itemGroupModel = itemGroupRepository.save(itemGroupModel);
@@ -55,7 +54,7 @@ public class ItemGroupServiceImpl implements ItemGroupService {
 
 	@Override
 	public ItemGroupModel updateItemGroupData(ItemGroupModel itemGroupModel) {
-		
+
 		ItemGroupModel itemGroupModelRes = getValidItemGroup(itemGroupModel.getItemGroupId());
 
 		if(!Objects.nonNull(itemGroupModelRes))
@@ -66,12 +65,12 @@ public class ItemGroupServiceImpl implements ItemGroupService {
 		itemGroupModelRes = itemGroupRepository.save(itemGroupModel);
 		log.info("ItemGroup data with ID : "+ itemGroupModelRes.getItemGroupId()+" updated succesfully");
 		return itemGroupModelRes;
-		
+
 	}
 
 	@Override
 	public List<ItemGroupModel> updateItemGroupsData(List<ItemGroupModel> itemGroupModels) {
-	
+
 		for (ItemGroupModel itemGroup : itemGroupModels) {
 			ItemGroupModel itemGroupRes = getValidItemGroup(itemGroup.getItemGroupId());
 			if (!Objects.nonNull(itemGroupRes)) {
@@ -81,7 +80,7 @@ public class ItemGroupServiceImpl implements ItemGroupService {
 			itemGroupRes = itemGroupRepository.save(itemGroup);
 			log.info("ItemGroup data with Multiple IDs : " + itemGroupRes.getItemGroupId() + " updated succesfully");
 		}
-		
+
 		return itemGroupModels;
 	}
 
@@ -105,7 +104,7 @@ public class ItemGroupServiceImpl implements ItemGroupService {
 
 	@Override
 	public void deleteItemGroupById(int itemGroupId) {
-	
+
 		ItemGroupModel itemGroupModelRes = getValidItemGroup(itemGroupId);
 		if(!Objects.nonNull(itemGroupModelRes))
 		{
@@ -113,7 +112,7 @@ public class ItemGroupServiceImpl implements ItemGroupService {
 		}		
 		itemGroupRepository.delete(itemGroupModelRes);
 		log.info("ItemGroup data with ID: "+ itemGroupModelRes.getItemGroupId()+" deleted succesfully");
-		
+
 	}
 
 	@Override
@@ -134,9 +133,9 @@ public class ItemGroupServiceImpl implements ItemGroupService {
 
 	@Override
 	public List<ItemGroupModel> findAllItemGroupData(String medicalOrNonMedical,String searchTerm) {
-		if("All".equalsIgnoreCase(searchTerm)) {
-			searchTerm = "";
-		}
+      if("ALL".equalsIgnoreCase(searchTerm)) {
+    	  searchTerm="";
+      }
 		return itemGroupRepository.findAllBySearchCriteria(medicalOrNonMedical,searchTerm);
 	}
 

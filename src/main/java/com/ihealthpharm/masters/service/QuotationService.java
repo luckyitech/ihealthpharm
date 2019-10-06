@@ -7,24 +7,33 @@ import com.ihealthpharm.masters.model.QuotationItemsModel;
 import com.ihealthpharm.masters.model.QuotationModel;
 
 public interface QuotationService {
-	
-	public QuotationModel saveQuotationData(QuotationDTO quotation);
-	public QuotationModel updateQuotationData(QuotationModel quotation);	
-	public List<QuotationModel> updateQuotationData(List<QuotationModel> quotations);	
-	public List<QuotationModel> findAllQuotations();	
-	public QuotationModel findQuotationById(int quotationId);	
-	public void deleteQuotationById(int quotationIds);
-	public void deleteQuotationsByIds(int[] quotationIds);	
-	
-	public List<QuotationModel> findQuotationsByQuotationNo(String qNo);	
-	public List<QuotationItemsModel> findQuotationItemByQuotationModel(QuotationModel qid);
-	public List<QuotationModel> findActiveQuotations();
-	
-	public List<QuotationItemsModel> findActiveQuotationItems();
-	
-	public List<QuotationModel> findQuotationSortedByCreationDate();	
-	public List<QuotationItemsModel> findQuotationItemsSortedByCreationDate();
-	
-	public List<QuotationItemsModel> findAllQuotationItems();
+
+	QuotationModel saveQuotationData(QuotationDTO quotation);
+
+	QuotationModel updateQuotationData(QuotationModel quotation);	
+
+	List<QuotationModel> updateQuotationData(List<QuotationModel> quotations);
+
+	List<QuotationModel> findAllQuotations();	
+
+	QuotationModel findQuotationById(int quotationId);	
+
+	void deleteQuotationById(int quotationIds);
+
+	void deleteQuotationsByIds(int[] quotationIds);	
+
+	List<QuotationModel> findQuotationsByQuotationNo(String qNo);	
+
+	List<QuotationItemsModel> findQuotationItemByQuotationModel(QuotationModel qid);
+
+	List<QuotationModel> findActiveQuotations();
+
+	List<QuotationItemsModel> findActiveQuotationItems();
+
+	List<QuotationModel> findQuotationSortedByCreationDate();
+
+	List<QuotationItemsModel> findQuotationItemsSortedByCreationDate();
+
+	List<QuotationItemsModel> findAllQuotationItems();
 
 }

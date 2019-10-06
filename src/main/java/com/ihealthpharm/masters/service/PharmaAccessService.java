@@ -6,14 +6,14 @@ import com.ihealthpharm.masters.model.PharmaAccessModel;
 
 public interface PharmaAccessService
 {
-    
-    void deletePharmaAccessData(Integer pharmaAccessId);
 
-    PharmaAccessModel findPharmaAccessDataById(Integer pharmaAccessId);
-    
-    List<PharmaAccessModel> findAllPharmaAccessData();
+	void deletePharmaAccessData(Integer pharmaAccessId);
 
-    PharmaAccessModel savePharmaAccessData(PharmaAccessModel pharmaAccessModel);
+	PharmaAccessModel findPharmaAccessDataById(Integer pharmaAccessId);
 
-    PharmaAccessModel updatePharmaAccessData(PharmaAccessModel pharmaAccessModel);
+	List<PharmaAccessModel> findAllPharmaAccessData();
+
+	PharmaAccessModel savePharmaAccessData(PharmaAccessModel pharmaAccessModel);
+
+	PharmaAccessModel updatePharmaAccessData(PharmaAccessModel pharmaAccessModel);
 }

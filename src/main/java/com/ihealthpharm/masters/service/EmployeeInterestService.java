@@ -3,6 +3,7 @@ package com.ihealthpharm.masters.service;
 import java.util.List;
 
 import com.ihealthpharm.masters.model.EmployeeInterestModel;
+import com.ihealthpharm.masters.model.EmployeeModel;
 
 public interface EmployeeInterestService {
 	
@@ -15,4 +16,6 @@ public interface EmployeeInterestService {
     EmployeeInterestModel saveEmployeeInterestData(EmployeeInterestModel employeeInterestModel);
 
     EmployeeInterestModel updateEmployeeInterestData(EmployeeInterestModel employeeInterestModel);
+    
+    EmployeeInterestModel findEmployeeInterestDataByEmployeeId(EmployeeModel employee);
 }

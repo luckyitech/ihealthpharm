@@ -6,11 +6,11 @@ import com.ihealthpharm.masters.model.PharmacySetupModel;
 
 public interface PharmacySetupService {
 
-	public PharmacySetupModel savePharmacySetup(PharmacySetupModel pharmacySetupModel);
+	 PharmacySetupModel savePharmacySetup(PharmacySetupModel pharmacySetupModel);
 	
-	public PharmacySetupModel findPharmacySetupById(Integer pharmacySetupId);
+	 PharmacySetupModel findPharmacySetupById(Integer pharmacySetupId);
 	
-	public void deletePharmacySetupById(Integer pharmacySetupId);
+	 void deletePharmacySetupById(Integer pharmacySetupId);
 	
-	public List<PharmacySetupModel> findAllPharmacySetups();
+	 List<PharmacySetupModel> findAllPharmacySetups();
 }

@@ -1,9 +1,5 @@
 package com.ihealthpharm.masters.service;
 
-import java.util.List;
-
-import com.ihealthpharm.masters.model.QuotationItemsModel;
-
 public interface QuotationItemsService {
 	
 	/*void deleteQuotationItemsData(int[] quotationItems);

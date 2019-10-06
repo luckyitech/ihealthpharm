@@ -13,9 +13,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity(name = "employee_education")
+@EqualsAndHashCode(of="employeeEducationId",callSuper=false)
 public class EmployeeEducationModel extends AuditModel implements Serializable{
 	
 

@@ -31,57 +31,56 @@ public class UserRolesController {
 
 	@Autowired
 	UserRolesService userRolesService;
-	
+
 	@Autowired
 	UserRolesHelper userRolesHelper;
-	
+
 	@PostMapping("/save/userroles")
 	public ResponseEntity<BaseDto<UserRolesModel>> insertUserData(@Valid @RequestBody UserRolesModel userRolesModel) {
 		log.info("Request Object insert is: "+ userRolesModel.toString());
 		UserRolesModel userRolesModelRes = userRolesService.saveUserRolesData(userRolesModel);
 		return new BaseDto<>(userRolesModelRes,userRolesHelper.getSaveUserRolesMessage(),OK).respond();
 	}
-	
+
 	@PutMapping("/update/userrole")
 	public ResponseEntity<BaseDto<UserRolesModel>> updateUserData(@Valid @RequestBody UserRolesModel usersModel) {
 		log.info("Request Object for update is: ", usersModel);
 		UserRolesModel usersModelRes = userRolesService.updateUserRolesData(usersModel);
 		return new BaseDto<>(usersModelRes,userRolesHelper.getUpdateUserRolesMessage(),OK).respond();
 	}
-	
+
 	@DeleteMapping("/delete/userrole")
 	public ResponseEntity<BaseDto<Object>> deleteUserRoleData(@RequestParam int userId) {
 		log.info("Request Object for delete is: ", userId);
 		userRolesService.deleteUserRolesById(userId);;
 		return new BaseDto<>(userRolesHelper.getDeleteUserRolesMessage(), OK).respond();
 	}
-	
+
 	@GetMapping("/getuserrolesdata")
 	public ResponseEntity<BaseDto<List<UserRolesModel>>> getUserData() {
 		List<UserRolesModel> result = userRolesService.findAllUserRoles();
 		return new BaseDto<>(result, userRolesHelper.getRetrieveUserRolesMessage(), OK).respond();
 	}
-	
-		
+
+
 	@GetMapping("/getuserrolesdatabyid")
 	public ResponseEntity<BaseDto<UserRolesModel>> getUserDataById(@RequestParam int userRoleId) {
 		UserRolesModel result = userRolesService.findUserRoleById(userRoleId);
 		return new BaseDto<>(result, userRolesHelper.getRetrieveUserRolesMessage(), OK).respond();
 	}
-	
+
 	@DeleteMapping("/delete/userroles")
 	public ResponseEntity<BaseDto<Object>> deleteUserRolesData(@RequestParam int[] userRoleIds) {
-		
-			log.info("Request Object for delete is: "+userRoleIds[0]);
-		
-	userRolesService.deleteUserRolesById(userRoleIds);
-	return new BaseDto<>(userRolesHelper.getDeleteUserRolesMessage(), OK).respond();
+
+		log.info("Request Object for delete is: "+userRoleIds[0]);
+		userRolesService.deleteUserRolesById(userRoleIds);
+		return new BaseDto<>(userRolesHelper.getDeleteUserRolesMessage(), OK).respond();
 	}
 
 	@PutMapping("/update/userroles")
 	public ResponseEntity<BaseDto<List<UserRolesModel>>> updateUserRolesData(@Valid @RequestBody List<UserRolesModel> usersModel) {
-	log.info("Request Object for update is: "+ usersModel.toString());
-	List<UserRolesModel> UserRolesModelRes = userRolesService.updateUserRolesData(usersModel);
-	return new BaseDto<>(UserRolesModelRes,userRolesHelper.getUpdateUserRolesMessage(),OK).respond();
+		log.info("Request Object for update is: "+ usersModel.toString());
+		List<UserRolesModel> UserRolesModelRes = userRolesService.updateUserRolesData(usersModel);
+		return new BaseDto<>(UserRolesModelRes,userRolesHelper.getUpdateUserRolesMessage(),OK).respond();
 	}
 }

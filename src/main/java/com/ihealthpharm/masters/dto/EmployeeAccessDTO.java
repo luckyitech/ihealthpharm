@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class EmployeeAccessDTO {
-
+	private Integer[] employeeAccessId;
 	private Integer[] pharmaAccessids;
 
 	private Boolean[] flag;

@@ -1,4 +1,4 @@
-package com.ihealthpharm.masters.model;
+package com.ihealthpharm.stock.model;
 
 import java.util.Date;
 import java.util.List;
@@ -16,6 +16,13 @@ import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.ihealthpharm.masters.model.AuditModel;
+import com.ihealthpharm.masters.model.DeliveryTypesModel;
+import com.ihealthpharm.masters.model.DistributorModel;
+import com.ihealthpharm.masters.model.EmployeeModel;
+import com.ihealthpharm.masters.model.PharmacyAddressModel;
+import com.ihealthpharm.masters.model.PharmacyModel;
+import com.ihealthpharm.masters.model.QuotationModel;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -73,7 +73,6 @@ public class ManufacturerController {
 		return new BaseDto<>(manufacturerHelper.getDeleteManufacturerMessage(), OK).respond();
 	}
 	
-	
 
 	@GetMapping("/getactivemanufacturersdata")
 	public ResponseEntity<BaseDto<List<ManufacturerModel>>> getActiveManufacturerdata() {
@@ -88,19 +87,16 @@ public class ManufacturerController {
 		return new BaseDto<>(result, manufacturerHelper.getRetrieveManufacturerMessage(), OK).respond();
 	}
 	
-	
 	@GetMapping("/getmanufacturerdatabyid")
 	public ResponseEntity<BaseDto<ManufacturerModel>> getManufacturerDataById(@RequestParam int manufacturerId) {
 		ManufacturerModel result = manufacturerService.findManufacturerById(manufacturerId);
 		return new BaseDto<>(result, manufacturerHelper.getRetrieveManufacturerMessage(), OK).respond();
 	}
 	
-	
 	@GetMapping("/getallmanufacturersdatabysearch")
 	public ResponseEntity<BaseDto<List<ManufacturerModel>>> getAllManufacturersdata(@RequestParam String searchTerm) {
 	   List<ManufacturerModel> result=manufacturerService.findAllManufacturersData(searchTerm);
 		return new BaseDto<>(result, manufacturerHelper.getRetrieveManufacturerMessage(), OK).respond();
 	}
-	
 	
 }

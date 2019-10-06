@@ -46,7 +46,6 @@ public class ItemController {
 	@PostMapping("/save/item")
 	public ResponseEntity<BaseDto<ItemsModel>> insertItemData(@Valid @RequestBody ItemsModel itemsModel) {
 		log.info("Request Object insert is: "+ itemsModel);
-
 		ItemsModel itemModelRes = itemService.saveItemsData(itemsModel);
 		return new BaseDto<>(itemModelRes,propertyHelper.getSaveMessage(),OK).respond();
 	}
@@ -104,7 +103,6 @@ public class ItemController {
 	}
 
 
-	///////////////////////////////////////////////////////////
 	//based on medical search and itemName
 
 	@GetMapping("/getallby/MedicalandItemnameSearch")
@@ -122,17 +120,11 @@ public class ItemController {
 		return new BaseDto<>(result,propertyHelper.getRetrieveMessage(),OK).respond(); 
 	}
 
-	///////////////////////////////////////////////////////////
-
-
-
 
 	//based on itemName search
 	@GetMapping("/getallby/ItemNameSearch")
 	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllByItemNameSearch(@RequestParam String searchTerm){
-		System.out.println("in itemname search");
 		List<ItemsModel> results=itemService.findAllByItemName(searchTerm);
-		System.out.println(results);
 		return new BaseDto<>(results,propertyHelper.getRetrieveMessage(),OK).respond();
 	}
 
@@ -157,8 +149,6 @@ public class ItemController {
 	@GetMapping("/getallby/groupcodeSearch")
 	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllItemsByGroupCodeSearch(@RequestParam String searchTerm){
 
-		System.out.println("in groupcode search controller");
-		System.out.println(searchTerm);
 		List<ItemsModel> response=itemService.findAllByItemGroupCodeSearch(searchTerm);
 		return new BaseDto<>(response,propertyHelper.getRetrieveMessage(),OK).respond();
 	}

@@ -6,5 +6,5 @@ import com.ihealthpharm.masters.model.ReturnCreditTypeModel;
 
 public interface ReturnCreditTypeService {
 
-	public List<ReturnCreditTypeModel> findAllReturnCreditTypes();
+	 List<ReturnCreditTypeModel> findAllReturnCreditTypes();
 }

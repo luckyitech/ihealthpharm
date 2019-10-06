@@ -23,14 +23,14 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 public class ItemFormsServiceImpl implements ItemFormService {
 
-	
+
 	@Autowired
 	ItemFormRepository itemFormRepository;
 
-    @Autowired
-    ItemFormsHelper itemFormsHelper;
-    
-    
+	@Autowired
+	ItemFormsHelper itemFormsHelper;
+
+
 	private ItemFormModel getValidItemForm(int itemFormId)
 	{
 		ItemFormModel itemFormRes = null;
@@ -44,18 +44,18 @@ public class ItemFormsServiceImpl implements ItemFormService {
 
 
 	}
-    
 
-    @Override
+
+	@Override
 	public ItemFormModel saveItemFormData(ItemFormModel itemFormModel) {
-    	itemFormModel = itemFormRepository.save(itemFormModel);
+		itemFormModel = itemFormRepository.save(itemFormModel);
 		log.info("ItemForm data with ID: "+ itemFormModel.getItemformId()+" saved succesfully");
 		return itemFormModel;
 	}
 
 	@Override
 	public ItemFormModel updateItemFormData(ItemFormModel itemFormModel) {
-		
+
 		ItemFormModel itemFormModelRes = getValidItemForm(itemFormModel.getItemformId());
 
 		if(!Objects.nonNull(itemFormModelRes))
@@ -70,7 +70,7 @@ public class ItemFormsServiceImpl implements ItemFormService {
 
 	@Override
 	public List<ItemFormModel> updateItemFormsData(List<ItemFormModel> itemFormModels) {
-		
+
 		for (ItemFormModel itemForms : itemFormModels) {
 			ItemFormModel itemFormRes = getValidItemForm(itemForms.getItemformId());
 			if (!Objects.nonNull(itemFormRes)) {
@@ -80,13 +80,13 @@ public class ItemFormsServiceImpl implements ItemFormService {
 			itemFormRes =  itemFormRepository.save(itemForms);
 			log.info("ItemForm data with Multiple IDs : " + itemFormRes.getItemformId() + " updated succesfully");
 		}
-		
+
 		return itemFormModels;
 	}
 
 	@Override
 	public List<ItemFormModel> findItemFormByActive() {
-		
+
 		return itemFormRepository.findByActiveS("Y");
 	}
 
@@ -105,7 +105,7 @@ public class ItemFormsServiceImpl implements ItemFormService {
 
 	@Override
 	public void deleteItemFormById(int itemFormModelId) {
-		
+
 		ItemFormModel itemFormModelModelRes = getValidItemForm(itemFormModelId);
 		if(!Objects.nonNull(itemFormModelModelRes))
 		{
@@ -113,15 +113,15 @@ public class ItemFormsServiceImpl implements ItemFormService {
 		}		
 		itemFormRepository.delete(itemFormModelModelRes);
 		log.info("ItemForm data with ID: "+ itemFormModelModelRes.getItemformId()+" deleted succesfully");
-		
+
 	}
 
 	@Override
 	public void deleteMultipleItemFormsById(int[] itemFormModelIds) {
-		
+
 		ItemFormModel itemFormsModelRes;
 		for (int itemForm : itemFormModelIds) {
-			
+
 			itemFormsModelRes =  getValidItemForm(itemForm); 
 			if (!Objects.nonNull(itemFormsModelRes)) {
 				throw new IHealthPharmException(itemFormsHelper.getNotFoundItemFormsMessage(), HttpStatus.NOT_FOUND);
@@ -129,20 +129,20 @@ public class ItemFormsServiceImpl implements ItemFormService {
 			itemFormRepository.delete(itemFormsModelRes);
 			log.info("ItemForm data with ID: " + itemFormsModelRes.getItemformId() + " deleted succesfully");
 		}
-		
+
 	}
 
 
 	@Override
 	public List<ItemFormModel> findAllItemFormsData(String medicalOrNonMedical, String searchTerm) {
-          if("All".equalsIgnoreCase(searchTerm)) {
-        	  searchTerm="";
-          }
+		if("ALL".equalsIgnoreCase(searchTerm)) {
+	    	  searchTerm="";
+	      }
 		return itemFormRepository.findAllBySearchCriteria(medicalOrNonMedical, searchTerm);
 	}
 	@Override
-public List<ItemFormModel> findAllItemForms() {
-		
+	public List<ItemFormModel> findAllItemForms() {
+
 		return itemFormRepository.findAllByOrderByLastUpdateTimestampDesc();
 	}
 

@@ -40,7 +40,6 @@ public class PharmacyBranchController {
 	public ResponseEntity<BaseDto<PharmacyBranchModel>> addBranch(@Valid @RequestBody PharmacyBranchModel pharmacyBranchModel){
 		
           log.info("Request Object for insert is: "+ pharmacyBranchModel);
-		
 		PharmacyBranchModel branchModelRes = branchServiceImpl.savePharmacyBranch(pharmacyBranchModel);
 		return new BaseDto<>(branchModelRes,helper.getSavePharmacyBranchMessage(),OK).respond();
 		
@@ -78,7 +77,6 @@ public class PharmacyBranchController {
 		List<PharmacyBranchModel> result = branchServiceImpl.findAllBranches();
 		return new BaseDto<>(result, helper.getRetrievePharmacyBranchMessage(), OK).respond();
 	}
-
 	
 	@GetMapping("/getbranchdatabyid")
 	public ResponseEntity<BaseDto<PharmacyBranchModel>> getBranchDataById(@RequestParam int pharmacyBranchId) {
