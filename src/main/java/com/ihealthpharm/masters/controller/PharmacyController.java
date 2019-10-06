@@ -39,7 +39,7 @@ public class PharmacyController {
 	private PharmacyHelper pharmacyHelper;
 	
 
-	@PostMapping("/save/pharmacy")
+	@PostMapping("/save/pharmacywithlogo")
 	public ResponseEntity<BaseDto<PharmacyModel>> insertPharmacyData(@Valid @RequestParam("pharmacyModel") String pharmacyData,@RequestParam("pharmacyLogoPath") MultipartFile pharmacyLogoPath){
 		log.info("Request Object insert is :",pharmacyData);
 		PharmacyModel pharmacyModel = null;
@@ -54,7 +54,14 @@ public class PharmacyController {
 		return new BaseDto<>(pharmacyModelRes,pharmacyHelper.getSavePharmacyMessage(),OK).respond();
 	}
 	
-	@PutMapping("/update/pharmacy")
+	@PostMapping("/save/pharmacy")
+	public ResponseEntity<BaseDto<PharmacyModel>> insertPharmacyData(@Valid @RequestBody PharmacyModel pharmacyModel){
+		log.info("Request Object insert is :",pharmacyModel);
+		PharmacyModel pharmacyModelRes=pharmacyService.savePharmacyData(pharmacyModel);
+		return new BaseDto<>(pharmacyModelRes,pharmacyHelper.getSavePharmacyMessage(),OK).respond();
+	}
+	
+	@PutMapping("/update/pharmacywithlogo")
 	public ResponseEntity<BaseDto<PharmacyModel>> updatePharmacyData(@Valid @RequestParam("pharmacyModel") String pharmacyData,@RequestParam("pharmacyLogoPath") MultipartFile pharmacyLogoPath){
 		log.info("Request Object for update is: ", pharmacyData);
 		PharmacyModel pharmacyModel = null;
@@ -68,6 +75,14 @@ public class PharmacyController {
 		PharmacyModel pharmacyModelRes = pharmacyService.updatePharmacyData(pharmacyModel);
 		return new BaseDto<>(pharmacyModelRes,pharmacyHelper.getUpdatePharmacyMessage(),OK).respond();
 	}
+	
+	@PutMapping("/update/pharmacy")
+	public ResponseEntity<BaseDto<PharmacyModel>> updatePharmacyData(@Valid @RequestBody PharmacyModel pharmacyModel){
+		log.info("Request Object for update is: ", pharmacyModel);
+		PharmacyModel pharmacyModelRes = pharmacyService.updatePharmacyData(pharmacyModel);
+		return new BaseDto<>(pharmacyModelRes,pharmacyHelper.getUpdatePharmacyMessage(),OK).respond();
+	}
+	
 	
 	@PutMapping("/update/pharmacies")
 	public ResponseEntity<BaseDto<List<PharmacyModel>>> updateHospital(@Valid @RequestBody List<PharmacyModel> pharmacyModel) {
