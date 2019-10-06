@@ -92,7 +92,9 @@ public class ItemGroupController {
 	
 	@GetMapping("/getallitemgroupsdata")
 	public ResponseEntity<BaseDto<List<ItemGroupModel>>> getAllItemGroupdata(@RequestParam String medicalOrNonMedical,@RequestParam String searchTerm) {
+		log.info(medicalOrNonMedical + " "+searchTerm);
 		List<ItemGroupModel> result = itemGroupService.findAllItemGroupData(medicalOrNonMedical, searchTerm);
+		log.info(result.toString());
 		return new BaseDto<>(result, itemGroupHelper.getRetrieveItemGroupMessage(), OK).respond();
 	}
 	

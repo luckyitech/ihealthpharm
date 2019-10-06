@@ -135,7 +135,9 @@ public class ItemFormsServiceImpl implements ItemFormService {
 
 	@Override
 	public List<ItemFormModel> findAllItemFormsData(String medicalOrNonMedical, String searchTerm) {
-
+		if("ALL".equalsIgnoreCase(searchTerm)) {
+	    	  searchTerm="";
+	      }
 		return itemFormRepository.findAllBySearchCriteria(medicalOrNonMedical, searchTerm);
 	}
 	@Override
