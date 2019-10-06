@@ -2,6 +2,7 @@ package com.ihealthpharm.masters.service;
 
 import java.util.List;
 
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.EmploymentHistoryModel;
 
 public interface EmploymentHistoryService {
@@ -15,4 +16,6 @@ public interface EmploymentHistoryService {
     EmploymentHistoryModel saveEmploymentHistoryData(EmploymentHistoryModel employmentHistoryModel);
 
     EmploymentHistoryModel updateEmploymentHistoryData(EmploymentHistoryModel employmentHistoryModel);
+    
+    EmploymentHistoryModel findEmploymentHistoryDataByEmployeeId(EmployeeModel employee);
 }

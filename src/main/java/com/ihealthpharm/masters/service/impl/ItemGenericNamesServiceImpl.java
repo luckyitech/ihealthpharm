@@ -141,7 +141,9 @@ public class ItemGenericNamesServiceImpl implements ItemGenericNamesService {
 			Integer itemGroupId) {
 		ItemGroupModel itemGroupModel = new ItemGroupModel();
 		itemGroupModel.setItemGroupId(itemGroupId);
-
+		if("ALL".equalsIgnoreCase(searchTerm)) {
+	    	  searchTerm="";
+	      }
 		return itemGenericNameRepository.findAllBySearchCriteria(medicalOrNonMedical, searchTerm, itemGroupModel);
 	}
 

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.EmployeePublicationRepository;
 import com.ihealthpharm.masters.helper.EmployeePublicationHelper;
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.EmployeePublicationModel;
 import com.ihealthpharm.masters.service.EmployeePublicationService;
 
@@ -75,6 +76,12 @@ public class EmployeePublicationServiceImpl implements EmployeePublicationServic
 		}catch(NoSuchElementException noSuchElementException) {
 			throw new IHealthPharmException(employeePublicationHelper.getNotFoundEmployeePublicationMessage(),HttpStatus.NOT_FOUND);
 		}
+	}
+
+	@Override
+	public EmployeePublicationModel findEmployeePublicationDataByEmployeeId(EmployeeModel employee) {
+		
+		return employeePublicationRepository.findByEmployee(employee);
 	}
 
 }

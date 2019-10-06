@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.EmployeeProfMembershipModel;
 import com.ihealthpharm.masters.service.EmployeeProfMembershipService;
 
@@ -61,6 +62,12 @@ public class EmployeeProfMembershipController {
 	@GetMapping("/getemployeeprofmembershipdatabyid")
 	public ResponseEntity<BaseDto<EmployeeProfMembershipModel>> getEmployeeProfMembershipDataById(@RequestParam int employeeProfMembershipId) {
 		EmployeeProfMembershipModel result = employeeProfMembershipService.findEmployeeProfMembershipDataById(employeeProfMembershipId);
+		return new BaseDto<>(result,  "retrived", OK).respond();
+	}
+	
+	@PostMapping("/getemployeeprofmembershipdatabyemployeeid")
+	public ResponseEntity<BaseDto<EmployeeProfMembershipModel>> getEmployeeProfMembershipDataByEmployeeId(@RequestBody EmployeeModel employee) {
+		EmployeeProfMembershipModel result = employeeProfMembershipService.findEmployeeProfMembershipDataByEmployeeId(employee);
 		return new BaseDto<>(result,  "retrived", OK).respond();
 	}
 	
