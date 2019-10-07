@@ -2,11 +2,13 @@ package com.ihealthpharm.stock.dao;
 
 import java.util.List;
 
-import com.ihealthpharm.stock.model.InvoiceModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import com.ihealthpharm.masters.model.ItemsModel;
+import com.ihealthpharm.stock.model.InvoiceModel;
 
 @Repository
 public interface InvoiceRepository extends JpaRepository<InvoiceModel, Integer> {
@@ -21,4 +23,8 @@ public interface InvoiceRepository extends JpaRepository<InvoiceModel, Integer> 
 	
 	@Query("select count(*) from invoice i where i.distributorModel.distributorId = :distributorId ")
 	Long getInvoiceCount(@Param("distributorId") Integer distributorId);
+	
+	@Query("select ii.item from invoice i join i.invoiceItems ii where i.invoiceId = :invoiceId ")
+	List<ItemsModel> getInvoiceItems(@Param("invoiceId") Integer invoiceId);
+	
 }

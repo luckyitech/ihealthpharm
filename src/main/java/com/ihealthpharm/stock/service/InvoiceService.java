@@ -2,6 +2,7 @@ package com.ihealthpharm.stock.service;
 
 import java.util.List;
 
+import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.stock.model.InvoiceModel;
 
 public interface InvoiceService {
@@ -25,4 +26,6 @@ public interface InvoiceService {
 	Long getInvoiceCount(Integer distributorId);
 	
 	List<InvoiceModel> findAllInvoicesByPharmacyId(Integer pharmacyId);
+	
+	List<ItemsModel> getInvoiceItems(Integer invoiceId);
 }
