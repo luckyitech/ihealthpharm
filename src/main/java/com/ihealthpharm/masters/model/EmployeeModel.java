@@ -19,11 +19,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity(name = "employee")
 @JsonIgnoreProperties("inspection")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "employeeId")
+@EqualsAndHashCode(of="employeeId",callSuper=false)
 public class EmployeeModel extends AuditModel implements Serializable{
 
 	private static final long serialVersionUID = -3990973417396713887L;
