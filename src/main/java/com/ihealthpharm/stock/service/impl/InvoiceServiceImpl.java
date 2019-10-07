@@ -9,7 +9,6 @@ import javax.transaction.Transactional;
 import com.ihealthpharm.stock.dao.InvoiceItemRepository;
 import com.ihealthpharm.stock.dao.InvoiceRepository;
 import com.ihealthpharm.stock.dao.StockRepository;
-import com.ihealthpharm.stock.model.InvoiceModel;
 import com.ihealthpharm.stock.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +18,7 @@ import  com.ihealthpharm.stock.model.*;
 import com.ihealthpharm.stock.helper.*;
 
 import com.ihealthpharm.exception.IHealthPharmException;
-
+import com.ihealthpharm.masters.model.ItemsModel;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -158,6 +157,11 @@ public class InvoiceServiceImpl implements InvoiceService {
 	@Override
 	public List<InvoiceModel> findAllInvoicesByPharmacyId(Integer pharmacyId) {
 		return invoiceRepository.findAllInvoicesByPharmacyId(pharmacyId);
+	}
+
+	@Override
+	public List<ItemsModel> getInvoiceItems(Integer invoiceId) {
+		return invoiceRepository.getInvoiceItems(invoiceId);
 	}
 
 }

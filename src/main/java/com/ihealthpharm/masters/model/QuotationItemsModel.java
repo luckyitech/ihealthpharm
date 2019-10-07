@@ -6,27 +6,32 @@ import java.time.LocalDateTime;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity (name="QUOTATION_ITEMS")
 @Getter
 @Setter
 @ToString
+@Entity(name="quotation_items")
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class QuotationItemsModel {
     
 	
-	@OneToOne
+	//bi-directional many-to-one association to Invoice
+	@ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="QUOTATION_ID")
     QuotationModel quotationId;
-	
 	
 	@OneToOne
 	@JoinColumn(name="ITEM_ID")

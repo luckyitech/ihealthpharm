@@ -1,7 +1,5 @@
 package com.ihealthpharm.stock.model;
 
-
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,17 +11,20 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Entity(name="purchase_order_items")
-@Data
-@EqualsAndHashCode(of="purchaseOrderItemsId",callSuper=false)
+@Getter
+@Setter
+@ToString
+@Entity(name = "purchase_order_items")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class PurchaseOrderItemsModel extends AuditModel {
-
 
 	/**
 	 * 
@@ -32,59 +33,57 @@ public class PurchaseOrderItemsModel extends AuditModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="purchase_order_item_id",length=11)
+	@Column(name = "purchase_order_item_id", length = 11)
 	private Integer purchaseOrderItemsId;
 
-	@Column(name="AUDIT_ID",length=11)
+	@Column(name = "AUDIT_ID", length = 11)
 	private Integer auditId;
 
-	@Column(name="DISCOUNT_PERCENTAGE")
+	@Column(name = "DISCOUNT_PERCENTAGE")
 	private Float discount_percentage;
 
-	@Column(name="TAX")
+	@Column(name = "TAX")
 	private Double tax;
 
-	@Column(name="DISCOUNT")
+	@Column(name = "DISCOUNT")
 	private Double discount;
 
-
-	@Column(name="QUANTITY",length=11)
+	@Column(name = "QUANTITY", length = 11)
 	private Integer quantity;
 
-	@Column(name="REMARKS",length=200)
+	@Column(name = "REMARKS", length = 200)
 	private String remarks;
 
-	@Column(name="STATUS",length=1)
+	@Column(name = "STATUS", length = 1)
 	private Character status;
 
-	@Column(name="UNIT_RATE")
+	@Column(name = "UNIT_RATE")
 	private Double unitRate;
 
-	@Column(name="UNIT_SALE_RATE")
+	@Column(name = "UNIT_SALE_RATE")
 	private Double unitSaleRate;
 
-	@Column(name="BONUS")
+	@Column(name = "BONUS")
 	private Double bonus;
-	
-	@Column(name="TOTAL_VALUE")
+
+	@Column(name = "TOTAL_VALUE")
 	private Double totalValue;
-	
-	@Column(name="TOTAL_QUANTITY",length=11)
-	private int totalQuantity;
-	
-	@Column(name="ACTUAL_VALUE")
+
+	@Column(name = "TOTAL_QUANTITY", length = 11)
+	private Integer totalQuantity;
+
+	@Column(name = "ACTUAL_VALUE")
 	private Double actualValue;
-	
-	@Column(name="PACK",length=11)
-	private int pack;
-	
+
+	@Column(name = "PACK", length = 11)
+	private Integer pack;
 
 	@OneToOne
-	@JoinColumn(name="ITEM_ID")
+	@JoinColumn(name = "ITEM_ID")
 	private ItemsModel itemsModel;
 
 	@ManyToOne(cascade = CascadeType.DETACH)
-	@JoinColumn(name="PURCHASE_ORDER_ID")
+	@JoinColumn(name = "PURCHASE_ORDER_ID")
 	@JsonBackReference
 	private PurchaseOrderModel purchaseOrderModel;
 }
