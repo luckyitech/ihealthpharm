@@ -34,14 +34,11 @@ public class InsuranceModel extends AuditModel {
 	@Column(name="POLICY_CD",length=100)
 	private String policyCode;
 
-	@Column(name="INSURANCE_NO",length=100)
-	private String insuranceNumber;
+	@Column(name="POLICY_DESC",length=200)
+	private String policyDescription;
 
-	@Column(name="INSURANCE_DESC",length=200)
-	private String insuranceDescription;
-
-	@Column(name="INSURANCE_COMPANY_NM",length=100)
-	private String insuranceCompanyName;
+	@Column(name="COMPANY_NM",length=100)
+	private String companyName;
 
 	@Column(name="POLICY_START")
 	private String policyStartDate;
@@ -66,7 +63,6 @@ public class InsuranceModel extends AuditModel {
 	private byte[] termsAndConditionsFile;
 
 
-
 	@Column(name = "AUDIT_ID",length=11)
 	private Integer auditId;
 
@@ -78,6 +74,19 @@ public class InsuranceModel extends AuditModel {
 
 	@Column(name="ADDRESS_LINE2",length=250)
 	private String addressLine2;
+
+	@Column(name="CONTACT_FIRST_NM")
+	private String contactPersonFirstName;
+
+	@Column(name="CONTACT_LAST_NM")
+	private String conatctPersonLastName;
+
+	@Column(name="CONTACT_PERSON_EMAIL_ID")
+	private String contactPersonEmailId;
+
+	@Column(name="CONTACT_PERSON_PHONE_NBR")
+	private String contactPersonPhoneNumber;
+
 
 	@Column(name="CITY_NM",length=50)
 	private String cityName;
@@ -104,18 +113,18 @@ public class InsuranceModel extends AuditModel {
 	@JoinColumn(name="PHARMACY_ID")
 	private PharmacyModel pharmacyId;
 
-	  public void setPolicyStartDate(Date startDate) throws ParseException {
-			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			String policyStart=simpleDateFormat.format(startDate);  
-			this.policyStartDate = policyStart;
-	    }
+	public void setPolicyStartDate(Date startDate) throws ParseException {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String policyStart=simpleDateFormat.format(startDate);  
+		this.policyStartDate = policyStart;
+	}
 
-	  public void setPolicyEndDate(Date policyEnd)  {
-			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			String endDate=simpleDateFormat.format(policyEnd);  
-			this.policyEndDate = endDate;
-	    }
+	public void setPolicyEndDate(Date policyEnd)  {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String endDate=simpleDateFormat.format(policyEnd);  
+		this.policyEndDate = endDate;
+	}
 
-	
+
 
 }
