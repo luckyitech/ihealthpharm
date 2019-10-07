@@ -118,10 +118,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeRepository.findLastCreatedEmployeeId();
 	}
 
-	/*@Override
-	public EmployeeModel findEmployeeCredentialsModel(EmployeeCredentialsModel employeeCredentialsModel) {
-		
-		return employeeRepository.findEmployeeCredentialsModel(employeeCredentialsModel);
-	}*/
+	
 
 }
