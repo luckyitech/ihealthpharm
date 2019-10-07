@@ -28,11 +28,15 @@ public class ItemAlternativeServiceImpl implements ItemAlternativeService{
 	ItemAlternativeHelper itemAlternativeHelper; 
 	
 	@Override
-	public ItemAlternativeModel saveItemAlternative(List<ItemAlternativeModel> itemAlternativeModels, ItemsModel item) {
+	public ItemAlternativeModel saveItemAlternative(List<ItemsModel> items, ItemsModel item) {
 		ItemAlternativeModel itemAlternativeRes = null;
-		for(ItemAlternativeModel itemAlternativeModel:itemAlternativeModels)
+		ItemAlternativeModel itemAlternativeModel = null;
+		for(ItemsModel itemModel:items)
 		{
+			itemAlternativeModel = new ItemAlternativeModel();
 			itemAlternativeModel.setItemId(item);
+			itemAlternativeModel.setAlternativeItemId(itemModel);
+			log.info(itemAlternativeModel.toString());
 			itemAlternativeRes = itemAlternativeRepository.save(itemAlternativeModel);
 			log.info("Alternative Item Saved with Id:" + itemAlternativeRes.getAlternativeItemId());
 		}

@@ -7,7 +7,7 @@ import com.ihealthpharm.masters.model.ItemsModel;
 
 public interface ItemAlternativeService {
 
-	public ItemAlternativeModel saveItemAlternative(List<ItemAlternativeModel> itemAlternativeModel, ItemsModel item);
+	public ItemAlternativeModel saveItemAlternative(List<ItemsModel> itemAlternativeModel, ItemsModel item);
 	
 	public ItemAlternativeModel updateItemAlternative(List<ItemAlternativeModel> itemAlternativeModel);
 	

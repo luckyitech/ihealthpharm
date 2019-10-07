@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.masters.dto.AlternativeItemsRequestDTO;
 import com.ihealthpharm.masters.helper.ItemAlternativeHelper;
-import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.ItemAlternativeModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.service.ItemAlternativeService;
@@ -38,11 +38,13 @@ public class ItemAlternativeController {
 	ItemAlternativeHelper itemAlternativeHelper;
 	
 	@PostMapping("/save/itemalternative")
-	public ResponseEntity<BaseDto<ItemAlternativeModel>> insertItemAlternativeData(@Valid @RequestBody List<ItemAlternativeModel> itemAlternativeModels,@RequestBody ItemsModel item) {
-		log.info("Request Object insert is: "+itemAlternativeModels.toString());
+	public ResponseEntity<BaseDto<ItemAlternativeModel>> insertItemAlternativeData(@Valid @RequestBody AlternativeItemsRequestDTO alternativeItemsRequestDTO) {
+		log.info("Request Object insert is: "+alternativeItemsRequestDTO);
+		List<ItemsModel> itemAlternativeModels = alternativeItemsRequestDTO.getItemAlternativeModels();
+		ItemsModel item = alternativeItemsRequestDTO.getItem();
 		ItemAlternativeModel itemAlternativeRes = itemAlternativeService.saveItemAlternative(itemAlternativeModels, item);
 		log.info(itemAlternativeHelper.getSaveItemAlternativeMessage());
-		return new BaseDto<>(itemAlternativeRes,itemAlternativeHelper.getRetrieveItemAlternativeMessage(),OK).respond();
+		return new BaseDto<>(itemAlternativeRes,itemAlternativeHelper.getSaveItemAlternativeMessage(),OK).respond();
 	}
 	
 	@PutMapping("/update/itemalternative")
