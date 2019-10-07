@@ -35,5 +35,4 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 
 	List<ItemsModel> findByItemGroup(ItemGroupModel groupCode);
 
-
 }

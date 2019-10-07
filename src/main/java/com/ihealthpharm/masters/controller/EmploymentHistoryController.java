@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.EmploymentHistoryModel;
 import com.ihealthpharm.masters.service.EmploymentHistoryService;
 
@@ -64,4 +65,9 @@ public class EmploymentHistoryController {
 		return new BaseDto<>(result,  "retrived", OK).respond();
 	}
 	
+	@PostMapping("/getemploymenthistorydatabyemployeeid")
+	public ResponseEntity<BaseDto<EmploymentHistoryModel>> getEmploymentHistoryDataByEmployeeId(@RequestBody EmployeeModel employee) {
+		EmploymentHistoryModel result = employmentHistoryService.findEmploymentHistoryDataByEmployeeId(employee);
+		return new BaseDto<>(result,  "retrived", OK).respond();
+	}
 }

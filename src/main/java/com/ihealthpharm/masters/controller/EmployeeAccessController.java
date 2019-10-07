@@ -42,9 +42,9 @@ public class EmployeeAccessController {
 	}
 	
 	@PutMapping("/update/employeeaccess")
-	public ResponseEntity<BaseDto<EmployeeAccessModel>> updateEmployeeAccessData(@Valid @RequestBody EmployeeAccessModel EmployeeAccessModel) {
-		log.info("Request Object for update is: "+ EmployeeAccessModel.toString());
-		EmployeeAccessModel employeeAccessRes = employeeAccessService.updateEmployeeAccessData(EmployeeAccessModel);
+	public ResponseEntity<BaseDto<EmployeeAccessModel>> updateEmployeeAccessData(@Valid @RequestBody EmployeeAccessDTO employeeAccessDto) {
+		log.info("Request Object for update is: "+ employeeAccessDto.toString());
+		EmployeeAccessModel employeeAccessRes = employeeAccessService.updateEmployeeAccessData(employeeAccessDto);
 		return new BaseDto<>(employeeAccessRes,"updated",OK).respond();
 	}
 	

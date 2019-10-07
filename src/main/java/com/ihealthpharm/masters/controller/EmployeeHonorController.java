@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.model.EmployeeHonorModel;
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.service.EmployeeHonorService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -61,6 +62,12 @@ public class EmployeeHonorController {
 	@GetMapping("/getemployeehonordatabyid")
 	public ResponseEntity<BaseDto<EmployeeHonorModel>> getEmployeeHonorDataById(@RequestParam int employeeHonorId) {
 		EmployeeHonorModel result = employeeHonorService.findEmployeeHonorDataById(employeeHonorId);
+		return new BaseDto<>(result,  "retrived", OK).respond();
+	}
+	
+	@PostMapping("/getemployeehonordatabyemployeeid")
+	public ResponseEntity<BaseDto<EmployeeHonorModel>> getEmployeeHonorDataByEmployeeId(@RequestBody EmployeeModel employee) {
+		EmployeeHonorModel result = employeeHonorService.findEmployeeHonorDataByEmployee(employee);
 		return new BaseDto<>(result,  "retrived", OK).respond();
 	}
 	
