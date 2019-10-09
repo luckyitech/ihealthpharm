@@ -24,116 +24,96 @@ public class CustomerServiceImpl implements CustomerService {
 	
 		
 	@Autowired
+	CustomerRepository customerRepository;
+	
+	@Autowired
 	CustomerHelper customerHelper;
 	
-	 @Autowired
-	 CustomerRepository customerRepository;
-
-    
-    @Override
-    public void deleteCustomerData(CustomerModel customerModel)
-    {
-    }
-
-  
-    @Override
-	public CustomerModel findCustomerData(int customerId) {
-		CustomerModel customerRes = getValidCustomers(customerId);
-
-		if(!Objects.nonNull(customerRes))
-		{
-			throw new IHealthPharmException(customerHelper.getNotFoundCustomerMessage(),HttpStatus.NOT_FOUND);
-		}
-		log.info("Customer data with ID : "+ customerRes.getCustomerId()+" retrieved succesfully");
+	@Override
+	public CustomerModel saveCustomerData(CustomerModel customer) {
+		CustomerModel customerRes = customerRepository.save(customer);
+		log.info("Customer data with ID : " + customerRes.getCustomerId() + " Saved succesfully");
 		return customerRes;
-
 	}
-    private CustomerModel getValidCustomers(int customerId)
-	{
-		CustomerModel CustomerRes = null;
-		try {
-			CustomerRes =  customerRepository.findById(customerId).get();
-			return CustomerRes;
 
-		}catch(NoSuchElementException noSuchElementException) {
-			throw new IHealthPharmException(customerHelper.getNotFoundCustomerMessage(),HttpStatus.NOT_FOUND);
+	@Override
+	public CustomerModel updateCustomerData(CustomerModel customer) {
+		CustomerModel customerRes = getValidCustomers(customer.getCustomerId());
+		if (!Objects.nonNull(customerRes)) {
+			throw new IHealthPharmException(customerHelper.getNotFoundCustomerMessage(), HttpStatus.NOT_FOUND);
 		}
 
-
+		customerRes = customerRepository.save(customer);
+		log.info("Customer data with ID : " + customerRes.getCustomerId() + " updated succesfully");
+		return customerRes;
 	}
 
-    @Override
+	@Override
+	public List<CustomerModel> updateCustomersData(List<CustomerModel> customers) {
+		for (CustomerModel customer : customers) {
+			CustomerModel customerRes = getValidCustomers(customer.getCustomerId());
+			if (!Objects.nonNull(customerRes)) {
+				throw new IHealthPharmException(customerHelper.getNotFoundCustomerMessage(), HttpStatus.NOT_FOUND);
+			}
+
+			customerRes = customerRepository.save(customer);
+			log.info("Customer data with ID : " + customerRes.getCustomerId() + " updated succesfully");
+		}
+		return customers;
+	}
+
+	@Override
 	public List<CustomerModel> findAllCustomers() {
 		
 		return customerRepository.findAll();
 	}
-   	@Override
-    public CustomerModel saveCustomerData(CustomerModel customerModel)
-    {
-   		customerModel = customerRepository.save(customerModel);
-   		log.info("Customer data with Id"+customerModel.getCustomerId()+"save successfully");
-		return customerModel;
-    }
-   	
-    @Override
-	public CustomerModel updateCustomerData(CustomerModel customerModel) {
 
-		CustomerModel customerRes = getValidCustomers(customerModel.getCustomerId());
-		if(!Objects.nonNull(customerRes))
-		{
-			throw new IHealthPharmException(customerHelper.getNotFoundCustomerMessage(),HttpStatus.NOT_FOUND);
-		}
-
-		customerRes = customerRepository.save(customerModel);
-		log.info("Customers data with ID : "+ customerRes.getCustomerId()+" updated succesfully");
-		return customerRes;
-		
-	}
-   	
 	@Override
-	public List<CustomerModel> updateCustomerData(List<CustomerModel> customerModels) {
-
-
-		for (CustomerModel cust : customerModels) {
-			CustomerModel customerRes = getValidCustomers(cust.getCustomerId());
-			if (!Objects.nonNull(customerRes)) {
-				throw new IHealthPharmException(customerHelper.getNotFoundCustomerMessage(), HttpStatus.NOT_FOUND);
-			}
-
-			customerRes = customerRepository.save(cust);
-			log.info("Customer data with Multiple IDs : " + customerRes.getCustomerId() + " updated succesfully");
+	public CustomerModel findCustomerById(int customerId) {
+		CustomerModel customerRes = getValidCustomers(customerId);
+		if (!Objects.nonNull(customerRes)) {
+			throw new IHealthPharmException(customerHelper.getNotFoundCustomerMessage(), HttpStatus.NOT_FOUND);
 		}
 		
-		
-		return customerModels;
+		log.info("Customer data with ID : " + customerRes.getCustomerId() + " retrieved succesfully");
+		return customerRes;
 	}
-	
+
 	@Override
 	public void deleteCustomerById(int customerId) {
-
-		CustomerModel customerRes = getValidCustomers(customerId);
-		if(!Objects.nonNull(customerRes))
-		{
-			throw new IHealthPharmException(customerHelper.getNotFoundCustomerMessage(),HttpStatus.NOT_FOUND);
-		}		
+		CustomerModel customerRes = customerRepository.getOne(customerId);
+		if (!Objects.nonNull(customerRes)) {
+			throw new IHealthPharmException(customerHelper.getNotFoundCustomerMessage(), HttpStatus.NOT_FOUND);
+		}
+		
+		log.info("Customer data with ID : " + customerRes.getCustomerId() + " Deleted succesfully");
 		customerRepository.delete(customerRes);
-		log.info("Customer data with ID: "+ customerRes.getCustomerId()+" deleted succesfully");
+		
 	}
-	
-	@Override
-	public void deleteCustomerByIds(int[] customerIds) {
 
+	@Override
+	public void deleteCustomersById(int[] customerIds) {
 		CustomerModel customerRes;
-		for (int customers : customerIds) {
-			customerRes = getValidCustomers(customers);
+		for (int customer : customerIds) {
+			customerRes = getValidCustomers(customer);
 			if (!Objects.nonNull(customerRes)) {
 				throw new IHealthPharmException(customerHelper.getNotFoundCustomerMessage(), HttpStatus.NOT_FOUND);
 			}
 			customerRepository.delete(customerRes);
-			log.info("Customer data with IDs: " + customerRes.getCustomerId() + " deleted succesfully");
+			log.info("Customer data with ID: " + customerRes.getCustomerId() + " deleted succesfully");
 		}
 		
 	}
-
 	
+	public CustomerModel getValidCustomers(int customerId) {
+		CustomerModel customerRes = null;
+
+		try {
+			customerRes =customerRepository.findById(customerId).get();
+			return customerRes;
+		} catch (NoSuchElementException noSuchElementException) {
+			throw new IHealthPharmException(customerHelper.getNotFoundCustomerMessage(), HttpStatus.NOT_FOUND);
+		}
+	}
+
 }

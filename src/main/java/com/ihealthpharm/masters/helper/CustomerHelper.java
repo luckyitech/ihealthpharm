@@ -10,6 +10,7 @@ import lombok.Data;
 @Data
 public class CustomerHelper {
 
+	
 	@Value("${customer.save.response}")
 	public String saveCustomerMessage;
 	
@@ -24,9 +25,6 @@ public class CustomerHelper {
 	
 	@Value("${customer.not.found.response}")
 	public String notFoundCustomerMessage;
-
-	
-	
 	
 	
 }

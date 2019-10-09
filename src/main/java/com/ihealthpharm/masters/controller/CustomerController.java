@@ -22,6 +22,7 @@ import com.ihealthpharm.masters.helper.CustomerHelper;
 import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.masters.service.CustomerService;
 
+
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -30,60 +31,58 @@ import lombok.extern.slf4j.Slf4j;
 public class CustomerController {
 	
 	
+
 	@Autowired
-	private CustomerHelper customerHelper;
-	
+	CustomerService customerService;
+
 	@Autowired
-	private CustomerService customerService;
-	
-	@PostMapping("/save/customersdata")
-	public ResponseEntity<BaseDto<CustomerModel>> insertCustomer(@Valid @RequestBody CustomerModel CustomerModel){
-		log.info("Request Object Insert is:"+CustomerModel.toString());
-		
-		CustomerModel customerRes = customerService.saveCustomerData(CustomerModel);
-		return new BaseDto<>(customerRes,customerHelper.getSaveCustomerMessage(),OK).respond();		
-		
-	}
-	@PutMapping("/update/customerdata")
-	public ResponseEntity<BaseDto<CustomerModel>> updateCustomer(@Valid @RequestBody CustomerModel CustomerModel){
-		log.info("Request Object Updated:"+CustomerModel.toString());
-		
-		CustomerModel customerRes = customerService.updateCustomerData(CustomerModel);
-		return new BaseDto<>(customerRes,customerHelper.getUpdateCustomerMessage(),OK).respond();		
-	}
-	@PutMapping("/update/multiplecustomerdata")
-	public ResponseEntity<BaseDto<List<CustomerModel>>> updateCustomers(@Valid @RequestBody List<CustomerModel> customerModels){
-		log.info("Request Object Updated:"+customerModels.toString());
-		
-		List<CustomerModel> customerResList = customerService.updateCustomerData(customerModels);
-		return new BaseDto<>(customerResList, customerHelper.getUpdateCustomerMessage(), OK).respond();
+	CustomerHelper customerHelper;
+
+	@PostMapping("/save/customer")
+	public ResponseEntity<BaseDto<CustomerModel>> insertCustomerData(@Valid @RequestBody CustomerModel customerModel) {
+
+		CustomerModel customerModelRes = customerService.saveCustomerData(customerModel);
+		return new BaseDto<>(customerModelRes, customerHelper.getSaveCustomerMessage(), OK).respond();
 	}
 
-	@DeleteMapping("/delete/customerdata")
-	public ResponseEntity<BaseDto<Object>> deleteCustomer(@RequestParam int customerId){
-		log.info("Request Object Delete is:", customerId);
-		
+	@PutMapping("/update/customer")
+	public ResponseEntity<BaseDto<CustomerModel>> updateCustomerData(@Valid @RequestBody CustomerModel customerModel) {
+		log.info("Request Object for update is: ", customerModel);
+		CustomerModel customerModelRes = customerService.updateCustomerData(customerModel);
+		return new BaseDto<>(customerModelRes, customerHelper.getUpdateCustomerMessage(), OK).respond();
+	}
+
+	@DeleteMapping("/delete/customer")
+	public ResponseEntity<BaseDto<Object>> deleteCustomerData(@RequestParam int customerId) {
+		log.info("Request Object for delete is: ", customerId);
 		customerService.deleteCustomerById(customerId);
-		return new BaseDto<>(customerHelper.getUpdateCustomerMessage(), OK).respond();
+		return new BaseDto<>(customerHelper.getDeleteCustomerMessage(), OK).respond();
 	}
-	@DeleteMapping("/delete/multiplecustomers")
-	public ResponseEntity<BaseDto<Object>> deleteMultipleCustomerId(@RequestParam int[] customerId){
-		log.info("Request Object delete by multiple id's:" +customerId);
-		
-		customerService.deleteCustomerByIds(customerId);
-		return new BaseDto<>(customerHelper.getUpdateCustomerMessage(), OK).respond();
-	}
-	@GetMapping("/getcustomers")
-	public ResponseEntity<BaseDto<List<CustomerModel>>> getAllCustomers(){
-		
+
+	@GetMapping("/getcustomerdata")
+	public ResponseEntity<BaseDto<List<CustomerModel>>> getCustomerData() {
 		List<CustomerModel> result = customerService.findAllCustomers();
 		return new BaseDto<>(result, customerHelper.getRetrieveCustomerMessage(), OK).respond();
 	}
-	
-	@GetMapping("/getcustomersbyid")
-	public ResponseEntity<BaseDto<CustomerModel>> getCustomerById(@RequestParam int customerId) {
-		CustomerModel result = customerService.findCustomerData(customerId);
+
+	@GetMapping("/getcustomerdatabyid")
+	public ResponseEntity<BaseDto<CustomerModel>> getCustomerDataById(@RequestParam int customerId) {
+		CustomerModel result = customerService.findCustomerById(customerId);
 		return new BaseDto<>(result, customerHelper.getRetrieveCustomerMessage(), OK).respond();
 	}
-	
+
+	@DeleteMapping("/delete/customers")
+	public ResponseEntity<BaseDto<Object>> deleteCustomerData(@RequestParam int[] customerIds) {
+
+		log.info("Request Object for delete is: " + customerIds[0]);
+		customerService.deleteCustomersById(customerIds);
+		return new BaseDto<>(customerHelper.getDeleteCustomerMessage(), OK).respond();
+	}
+
+	@PutMapping("/update/customers")
+	public ResponseEntity<BaseDto<List<CustomerModel>>> updateCustomersData(@Valid @RequestBody List<CustomerModel> customerModel) {
+		log.info("Request Object for update is: " , customerModel);
+		List<CustomerModel> CustomerModelRes = customerService.updateCustomersData(customerModel);
+		return new BaseDto<>(CustomerModelRes, customerHelper.getUpdateCustomerMessage(), OK).respond();
+	}
 }

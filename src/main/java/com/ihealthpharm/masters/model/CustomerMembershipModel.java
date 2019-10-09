@@ -1,9 +1,14 @@
 package com.ihealthpharm.masters.model;
 
-import java.time.LocalDate;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
@@ -17,9 +22,10 @@ import lombok.ToString;
 @ToString
 public class CustomerMembershipModel {
     
-    @OneToOne
-    @JoinColumn(name="MEMBERSHIP_CARD_ID")
-    CustomerMembershipModel customerMembershipModel;
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="MEMBERSHIP_CARD_PERSONAL_ID",length=11, columnDefinition = "AUTO_INCREMENT")
+    private int membershipCardPersonalId;
 
     @Column(name="MEMBERSHIP_CREDIT_DAYS",length=11)
     private int membershipCreditDays;
@@ -36,9 +42,29 @@ public class CustomerMembershipModel {
     @Column(name="MEMBERSHIP_DURATION_IN_MONTHS",length=11)
     private int membershipDurationInMonths;
 
-    @Column(name="MEMBERSHIP_VALIDITY_FROM",length=25)
-    private LocalDate membershipValidityFrom;
+    @Column(name="MEMBERSHIP_START_DATE",length=25)
+    private String membershipStartDate;
 
-    @Column(name="MEMBERSHIP_VALIDITY_TO",length=25)
-    private LocalDate membershipValidityTo;
+    @Column(name="MEMBERSHIP_END_DATE",length=25)
+    private String membershipEndDate;
+    
+    @OneToOne
+    @JoinColumn(name="MEMBERSHIP_CARD_ID")
+  private MembershipModel membershipModel;
+    
+    @OneToOne
+    @JoinColumn(name="CUSTOMER_ID")
+   private CustomerModel customerModel;
+    
+    public void setMembershipStartDate(Date startDate) throws ParseException {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String membershipStart=simpleDateFormat.format(startDate);  
+		this.membershipStartDate = membershipStart;
+    }
+
+  public void setMembershipEndDate(Date membershipEnd)  {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String endDate=simpleDateFormat.format(membershipEnd);  
+		this.membershipEndDate = endDate;
+    }
 }

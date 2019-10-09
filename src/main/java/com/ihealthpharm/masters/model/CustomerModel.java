@@ -1,12 +1,17 @@
 package com.ihealthpharm.masters.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 import lombok.Data;
 
@@ -27,7 +32,7 @@ public class CustomerModel extends AuditModel{
 	    @Column(name="CUSTOMER_ID",length=11, columnDefinition = "AUTO_INCREMENT")
 	    private int customerId;
 	  
-	 @Column(name="ACTIVE_S",length=1, columnDefinition = "'Y'")
+		@Column(name="ACTIVE_S",length=1, columnDefinition = "'Y'")
 	    private char activeS;
 
 	    @Column(name="ADDRESS_LINE1",length=250)
@@ -40,13 +45,10 @@ public class CustomerModel extends AuditModel{
 	    private int age;
 
 	    @Column(name="AUDIT_ID",length=11)
-	    private int auditId;
+	    private Integer auditId;
 
 	    @Column(name="CITY_NM",length=50)
 	    private String cityNm;
-
-	    @Column(name="COUNTRY_NM",length=50)
-	    private String countryNm;
 
 	    @Column(name="CREDIT_LIMIT",length=25)
 	    private float creditLimit;
@@ -79,9 +81,7 @@ public class CustomerModel extends AuditModel{
 	    @Column(name="GENDER",length=6)
 	    private String gender;
 
-	    @Column(name="MAXIMUM_DRUGS_PER_PRESCRIPTION",length=11)
-	    private int maximumDrugsPerPrescription;
-
+	    
 	    @Column(name="ORGANISATION",length=50)
 	    private String organisation;
 
@@ -91,17 +91,28 @@ public class CustomerModel extends AuditModel{
 
 	    @Column(name="PIN_NO",length=20)
 	    private String pinNo;
+	    
+	    @OneToOne
+		@JoinColumn(name="PROVINCES_ID")
+		private StateModel state;
 
-	    @Column(name="STATE",length=50)
-	    private String state;
+		@OneToOne
+		@JoinColumn(name="COUNTRY_ID")
+		private CountryModel country;
 	    
-	    @Column(name="MEMBERSHIP_CARD_PERSONAL_ID",length=11)
-	    private int membershipCardPersonalId;
+	    @OneToOne
+	    @JoinColumn(name="MEMBERSHIP_CARD_PERSONAL_ID")
+	    private CustomerMembershipModel customerMembershipModel;
+	   
+	    @OneToOne
+	    @JoinColumn(name="INSURANCE_POLICY_PERSONAL_ID")
+	    private CustomerInsuranceModel customerInsuranceModel;
+	   
+	    @OneToOne
+		@JoinColumn(name="PHARMACY_ID")
+	    private PharmacyModel pharmacyModel;
 	    
-	    @Column(name="INSURANCE_POLICY_ID",length=11)
-	    private int insurancePolicyId;
-	    
-	    @Column(name="PHARMACY_ID",length=11)
-	    private int pharmacyId;
+
+		 
 
 	}
