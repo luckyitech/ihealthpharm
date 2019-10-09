@@ -2,6 +2,7 @@ package com.ihealthpharm.masters.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,16 +11,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity (name="QUOTATION")
 @Getter
 @Setter
 @ToString
+@Entity (name="quotation")
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class QuotationModel {
     /*
     @OneToOne(cascade=CascadeType.DETACH)
@@ -109,5 +114,8 @@ public class QuotationModel {
     
     @Column(name = "ACTIVE_S",length=1)
 	private String activeS;
+    
+    @OneToMany(mappedBy = "quotationId")
+	private List<QuotationItemsModel> quotationItems;
     
 }
