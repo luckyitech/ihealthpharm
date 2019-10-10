@@ -59,6 +59,12 @@ public class ProviderModel extends AuditModel{
 	@JoinColumn(name="PROVINCES_ID")
 	private StateModel state;
 	
+	
+	@OneToOne
+	@JoinColumn(name="HOSPITAL_ID")
+	private HospitalModel hospitalId;
+	
+	
 	@Column(name = "ZIP_CD")
 	private String zipCode;
 	
