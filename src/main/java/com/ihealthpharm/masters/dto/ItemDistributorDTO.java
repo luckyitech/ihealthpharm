@@ -7,24 +7,28 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @ToString
+@AllArgsConstructor
 public class ItemDistributorDTO {
 	
 	
 	private Integer itemDistributorId;
 	
-	private int itemsId;
-	
-	private int distributorsId;
-	
 	private String activeS;
 	
 	private String distributorName;
-	
+
 	private String itemName;
 	
+	private String manufacturerName;
+	private String manufacturerLicense;
 	
+	private String itemDescription;
 
+	private Integer itemId;
+	
+	private Integer distributorId;
+	
+	private int distributorPriority;
 	
 }
