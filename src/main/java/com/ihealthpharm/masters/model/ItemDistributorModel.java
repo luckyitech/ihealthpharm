@@ -24,11 +24,11 @@ public class ItemDistributorModel extends AuditModel{
 	
 	// Drug Entity mapped 
 	@Column(name="ITEM_ID")
-	private int itemsId;
+	private Integer itemsId;
 	
 	// DistrubutorModel Entity mapped 
     @Column(name="DISTRIBUTOR_ID")
-	private int distributorsId;
+	private Integer distributorsId;
 	
 	@Column(name="ACTIVE_S",length=1)
 	private String activeS;
