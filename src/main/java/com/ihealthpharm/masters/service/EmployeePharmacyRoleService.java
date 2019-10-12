@@ -2,6 +2,7 @@ package com.ihealthpharm.masters.service;
 
 import java.util.List;
 
+import com.ihealthpharm.masters.dto.EmployeePharmacyRoleDTO;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.EmployeePharmacyRoleModel;
 
@@ -14,9 +15,9 @@ public interface EmployeePharmacyRoleService
     
     List<EmployeePharmacyRoleModel> findAllEmployeePharmacyRoleData();
 
-    EmployeePharmacyRoleModel saveEmployeePharmacyRoleData(EmployeePharmacyRoleModel employeePharmacyRoleModel);
+    EmployeePharmacyRoleModel saveEmployeePharmacyRoleData(EmployeePharmacyRoleDTO employeePharmacyRoleDTO);
 
     EmployeePharmacyRoleModel updateEmployeePharmacyRoleData(EmployeePharmacyRoleModel employeePharmacyRoleModel);
     
-    EmployeePharmacyRoleModel findEmployeePharmacyRoleDataByEmployeeId(EmployeeModel employee);
+    List<EmployeePharmacyRoleModel> findEmployeePharmacyRoleDataByEmployeeId(EmployeeModel employee);
 }

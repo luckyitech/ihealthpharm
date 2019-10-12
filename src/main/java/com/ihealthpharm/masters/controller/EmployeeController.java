@@ -45,34 +45,120 @@ public class EmployeeController {
 	private EmployeeTypeService employeeTypeService; 
 
 	@PostMapping("/save/employee")
-	public ResponseEntity<BaseDto<EmployeeModel>> insertEmployeeData(@Valid @RequestParam("employee") String employeeData, 
-			@RequestParam("image") MultipartFile image,
-			@RequestParam("identificationDocument") MultipartFile identificationDocument,
-			@RequestParam("policeGoodConductCertificate") MultipartFile policeGoodConductCertificate,
-			@RequestParam("resume") MultipartFile resume,
+	public ResponseEntity<BaseDto<EmployeeModel>> insertEmployeeData(@Valid @RequestParam("employee") String employeeData 
+			//@RequestParam("image") MultipartFile image,
+			//@RequestParam("identificationDocument") MultipartFile identificationDocument,
+			//@RequestParam("policeGoodConductCertificate") MultipartFile policeGoodConductCertificate,
+			//@RequestParam("resume") MultipartFile resume,
+			//@RequestParam("signedContract") MultipartFile signedContract
+			) throws IOException {
+		
+		EmployeeModel employeeModel = null;
+		log.info(employeeData);
+		try {
+			employeeModel = new ObjectMapper().readValue(employeeData, EmployeeModel.class);
+			//employeeModel.setProfileImage(image.getBytes());
+			//employeeModel.setIdentificationDocument(identificationDocument.getBytes());
+			//employeeModel.setPoliceGoodConductCertificate(policeGoodConductCertificate.getBytes());
+			//employeeModel.setResume(resume.getBytes());
+			//employeeModel.setSignedContract(signedContract.getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		EmployeeModel employeeRes = employeeService.saveEmployeeData(employeeModel);
+		return new BaseDto<>(employeeRes, employeeHelper.getSaveEmployeeMessage(), OK).respond();
+	}
+	
+	@PutMapping("/save/employeewithprofileimage")
+	public ResponseEntity<BaseDto<EmployeeModel>> insertEmployeeDataWithImage(@Valid @RequestParam("employee") String employeeData, 
+			@RequestParam("image") MultipartFile image) throws IOException {
+		
+		EmployeeModel employeeModel = null;
+		
+		log.info("---------------------------------------------------------------------------");
+		log.info(employeeData);
+		try {
+			employeeModel = new ObjectMapper().readValue(employeeData, EmployeeModel.class);
+			employeeModel.setProfileImage(image.getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		EmployeeModel employeeRes = employeeService.saveEmployeeData(employeeModel);
+		return new BaseDto<>(employeeRes, employeeHelper.getSaveEmployeeMessage(), OK).respond();
+	}
+
+	@PutMapping("/save/employeewithidentificationdocument")
+	public ResponseEntity<BaseDto<EmployeeModel>> insertEmployeeDataWithIdentificationDocument(@Valid @RequestParam("employee") String employeeData, 
+			@RequestParam("identificationDocument") MultipartFile identificationDocument) throws IOException {
+		
+		EmployeeModel employeeModel = null;
+		
+		log.info("---------------------------------------------------------------------------");
+		log.info(employeeData);
+		try {
+			employeeModel = new ObjectMapper().readValue(employeeData, EmployeeModel.class);
+			employeeModel.setIdentificationDocument(identificationDocument.getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		EmployeeModel employeeRes = employeeService.saveEmployeeData(employeeModel);
+		return new BaseDto<>(employeeRes, employeeHelper.getSaveEmployeeMessage(), OK).respond();
+	}
+	
+	@PutMapping("/save/employeewithpolicegoodconductcertificate")
+	public ResponseEntity<BaseDto<EmployeeModel>> insertEmployeeDataWithPoliceGoodConductCertificate(@Valid @RequestParam("employee") String employeeData, 
+			@RequestParam("policeGoodConductCertificate") MultipartFile policeGoodConductCertificate) throws IOException {
+		
+		EmployeeModel employeeModel = null;
+		
+		log.info("---------------------------------------------------------------------------");
+		log.info(employeeData);
+		try {
+			employeeModel = new ObjectMapper().readValue(employeeData, EmployeeModel.class);
+			employeeModel.setPoliceGoodConductCertificate(policeGoodConductCertificate.getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		EmployeeModel employeeRes = employeeService.saveEmployeeData(employeeModel);
+		return new BaseDto<>(employeeRes, employeeHelper.getSaveEmployeeMessage(), OK).respond();
+	}
+	
+	@PutMapping("/save/employeewithresume")
+	public ResponseEntity<BaseDto<EmployeeModel>> insertEmployeeDataWithResume(@Valid @RequestParam("employee") String employeeData, 
+			@RequestParam("resume") MultipartFile resume) throws IOException {
+		
+		EmployeeModel employeeModel = null;
+		
+		log.info("---------------------------------------------------------------------------");
+		log.info(employeeData);
+		try {
+			employeeModel = new ObjectMapper().readValue(employeeData, EmployeeModel.class);
+			employeeModel.setResume(resume.getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		EmployeeModel employeeRes = employeeService.saveEmployeeData(employeeModel);
+		return new BaseDto<>(employeeRes, employeeHelper.getSaveEmployeeMessage(), OK).respond();
+	}
+	
+	@PutMapping("/save/employeewithsignedcontract")
+	public ResponseEntity<BaseDto<EmployeeModel>> insertEmployeeDataWithSignedContract(@Valid @RequestParam("employee") String employeeData, 
 			@RequestParam("signedContract") MultipartFile signedContract) throws IOException {
 		
 		EmployeeModel employeeModel = null;
 		
+		log.info("---------------------------------------------------------------------------");
+		log.info(employeeData);
 		try {
 			employeeModel = new ObjectMapper().readValue(employeeData, EmployeeModel.class);
-			
-			employeeModel.setProfileImage(image.getBytes());
-			employeeModel.setIdentificationDocument(identificationDocument.getBytes());
-			employeeModel.setPoliceGoodConductCertificate(policeGoodConductCertificate.getBytes());
-			employeeModel.setResume(resume.getBytes());
 			employeeModel.setSignedContract(signedContract.getBytes());
 		} catch (IOException e) {
-			
 			e.printStackTrace();
 		}
-		
-		
 		EmployeeModel employeeRes = employeeService.saveEmployeeData(employeeModel);
-
 		return new BaseDto<>(employeeRes, employeeHelper.getSaveEmployeeMessage(), OK).respond();
 	}
-
+	
 	@PutMapping("/update/employees")
 	public ResponseEntity<BaseDto<List<EmployeeModel>>> updateEmployeesData(@Valid @RequestBody List<EmployeeModel> EmployeeModels) throws ParseException {
 		log.info("Request Object for update is: "+ EmployeeModels.toString());
