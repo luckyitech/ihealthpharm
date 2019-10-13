@@ -31,4 +31,6 @@ public class ItemDistributorDTO {
 	
 	private int distributorPriority;
 	
+	private String formulation;
+	
 }
