@@ -16,15 +16,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.ihealthpharm.stock.helper.*;
-import com.ihealthpharm.stock.model.*;
-import com.ihealthpharm.stock.utils.*;
+
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.helper.ItemPropertyHelper;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.stock.helper.InvoiceHelper;
 import com.ihealthpharm.stock.model.InvoiceModel;
 import com.ihealthpharm.stock.service.InvoiceService;
+import com.ihealthpharm.stock.service.QuotationService;
 import com.ihealthpharm.stock.utils.GenerateGRNNo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +42,9 @@ public class InvoiceController {
 	
 	@Autowired
 	private InvoiceService invoiceService;
+	
+	@Autowired
+	private QuotationService quotationService;
 	
 	@Autowired
 	private ItemPropertyHelper propertyHelper;
@@ -128,11 +130,11 @@ public class InvoiceController {
 	 * Service is for automatic generation of GRN Number 
 	 */
 	@GetMapping("/generatepurchasegrnno")
-	public ResponseEntity<BaseDto<String>> generatePurchaseGRNNo(@RequestParam Integer distributorId) {
-		String distributorNm = invoiceService.getDistributorNameById(distributorId);
-		Long distributorInvoiceCount = invoiceService.getInvoiceCount(distributorId);
+	public ResponseEntity<BaseDto<String>> generatePurchaseGRNNo(@RequestParam Integer pharmacyId) {
+		String pharmacyNm = quotationService.getPharmacyNm(pharmacyId);
+		Long invoiceCount = invoiceService.getInvoiceCount(pharmacyId);
 		GenerateGRNNo generateGRNNo = new GenerateGRNNo();
-		String grnNumber = generateGRNNo.generateGNR(distributorNm, distributorInvoiceCount);
+		String grnNumber = generateGRNNo.generateGNR(pharmacyNm, invoiceCount);
 		return new BaseDto<>(grnNumber, invoiceHelper.getRetrieveInvoiceMessage(), OK).respond();
 	}
 	

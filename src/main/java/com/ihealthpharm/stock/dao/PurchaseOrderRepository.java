@@ -14,14 +14,14 @@ import com.ihealthpharm.stock.model.PurchaseOrderModel;
 @Repository
 public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrderModel, Integer> {
 	
-	@Query("select count(*) from purchase_order i where i.distributorModel.distributorId = :distributorId ")
-	Long getPurchaseOrderCount(@Param("distributorId") Integer distributorId);
+	@Query("select count(*) from purchase_order i where i.pharmacyModel.pharmacyId = :pharmacyId ")
+	Long getPurchaseOrderCount(@Param("pharmacyId") Integer pharmacyId);
 	
-	@Query("select qi.distributorModel from quotation q join q.quotationItems qi where q.quotationId = :quotationId ")
+	@Query("select qi.distributor from quotation q join q.quotationItems qi where q.quotationId = :quotationId ")
 	List<DistributorModel> getDistributorsByQuotationId(@Param("quotationId") Integer quotationId);
 	
-	@Query("select qi.itemId from quotation q join q.quotationItems qi "
-			+ "where q.quotationId = :quotationId and qi.distributorModel.distributorId = :distributorId ")
+	@Query("select qi.item from quotation q join q.quotationItems qi "
+			+ "where q.quotationId = :quotationId and qi.distributor.distributorId = :distributorId ")
 	List<ItemsModel> getItemsByDistributorAndQuotation(@Param("quotationId") Integer quotationId, @Param("distributorId") Integer distributorId);
 	
 	@Query("select pi.itemsModel from purchase_order p join p.purchaseorderitems pi where p.purchaseOrderId = :purchaseOrderId ")

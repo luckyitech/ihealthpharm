@@ -1,4 +1,4 @@
-package com.ihealthpharm.masters.helper;
+package com.ihealthpharm.stock.helper;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -25,14 +25,5 @@ public class QuotationHelper {
 	
 	@Value("${quotation.not.found.response}")
 	public String notFoundQuotationMessage;
-	
-	@Value("${quotation.save.error.response}")
-	public String errorSavingQuotation;
-
-	@Value("${quotation.retrieve.quotationitem.response}")
-	public String retrieveQuotationItem;
-	
-	@Value("${quotation.retrieve.quotationitem.notfound.response}")
-	public String retrieveQuotationItemNotFound;
 
 }
