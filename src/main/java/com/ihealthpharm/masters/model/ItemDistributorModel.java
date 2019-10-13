@@ -35,5 +35,11 @@ public class ItemDistributorModel extends AuditModel{
 	
 	@Column(name="DISTRIBUTOR_PRIORITY",length=11)
 	private int distributorPriority;
+	
+	@Column(name="UNIT_RATE")
+	private Double unitRate;
+	
+	@Column(name="DISCOUNT_PERCENTAGE")
+	private Double discountPercentage;
 
 }
