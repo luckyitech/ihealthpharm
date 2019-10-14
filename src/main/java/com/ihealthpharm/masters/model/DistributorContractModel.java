@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 
+import com.ihealthpharm.stock.model.QuotationModel;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

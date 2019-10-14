@@ -12,7 +12,7 @@ import lombok.ToString;
 public class ItemDistributorDTO {
 	
 	
-	private Integer itemDistributorId;
+	private int itemDistributorId;
 	
 	private String activeS;
 	
@@ -32,5 +32,32 @@ public class ItemDistributorDTO {
 	private int distributorPriority;
 	
 	private String formulation;
+
+	private String itemCode;
+		
+	private Double percentage;
 	
+	private Double unitRate;
+	
+	private Double discountPercentage;
+		
+	
+	public ItemDistributorDTO(int itemDistributorId, int itemsId, int distributorsId, String activeS, String distributorName, String itemName) {
+		this.itemDistributorId = itemDistributorId;
+		this.itemsId = itemsId;
+		this.distributorsId = distributorsId;
+		this.activeS = activeS;
+		this.distributorName = distributorName;
+		this.itemName = itemName;
+	}
+	
+	public ItemDistributorDTO(Double unitRate, Double discountPercentage, String itemCode, String itemName, String itemDescription, 
+			Double percentage) {
+		this.unitRate = unitRate;
+		this.discountPercentage = discountPercentage;
+		this.itemCode = itemCode;
+		this.itemDescription = itemDescription;
+		this.itemName = itemName;
+		this.percentage = percentage;
+	}
 }

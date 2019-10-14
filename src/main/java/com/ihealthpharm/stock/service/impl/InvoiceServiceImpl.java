@@ -135,6 +135,11 @@ public class InvoiceServiceImpl implements InvoiceService {
 		InvoiceModel invoiceModel = null;
 		try {
 			invoiceModel = invoiceRepository.findById(invoiceId).get();
+			invoiceModel.getDistributorModel();
+			invoiceModel.getInvoiceStatus();
+			for(InvoiceItemModel m : invoiceModel.getInvoiceItems()) {
+				m.getItem();
+			}
 			return invoiceModel;
 		} catch (NoSuchElementException noSuchElementException) {
 			throw new IHealthPharmException(invoiceHelper.getNotFoundInvoiceMessage(), HttpStatus.NOT_FOUND);
@@ -149,9 +154,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 	}
 
 	@Override
-	public Long getInvoiceCount(Integer distributorId) {
-		log.info("Distributor Id: "+ distributorId+" ");
-		return invoiceRepository.getInvoiceCount(distributorId);
+	public Long getInvoiceCount(Integer pharmacyId) {
+		log.info("Pharmacy Id: "+ pharmacyId+" ");
+		return invoiceRepository.getInvoiceCount(pharmacyId);
 	}
 
 	@Override
