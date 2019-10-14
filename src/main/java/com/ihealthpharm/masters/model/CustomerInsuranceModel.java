@@ -24,28 +24,28 @@ public class CustomerInsuranceModel {
     
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="INSURANCE_POLICY_PERSONAL_ID",length=11, columnDefinition = "AUTO_INCREMENT")
-    private int insurancePolicyPersonalId;
+    @Column(name="CUSTOMER_INSURANCE_ID",length=11, columnDefinition = "AUTO_INCREMENT")
+    private int customerInsuranceId;
 	
 	 @Column(name="INSURANCE_POLICY_CODE",length=100)
-	    private String insurancePolicyCode;
+	    private String policyCode;
 	    
 	
     @Column(name="INSURANCE_AMOUNT_LIMIT",length=25)
-    private float insuranceAmountLimit;
+    private float iAmountLimit;
 
     @Column(name="INSURANCE_DURATION_IN_MONTHS",length=11)
-    private int insuranceDurationInMonths;
+    private int iDurationInMonths;
 
     @Column(name="INSURANCE_PERCENTAGE_COVERAGE",length=25)
-    private float insurancePercentageCoverage;
+    private float PercentageCoverage;
     
     @Column(name="INSURANCE_POLICY_START",length=25)
-    private String insurancePolicyStart;
+    private String policyStart;
     
 
     @Column(name="INSURANCE_POLICY_END",length=25)
-    private String insurancePolicyEnd;
+    private String policyEnd;
 
    
     @OneToOne
@@ -59,12 +59,12 @@ public class CustomerInsuranceModel {
     public void setInsuranceStartDate(Date startDate) throws ParseException {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String insuranceStart=simpleDateFormat.format(startDate);  
-		this.insurancePolicyStart = insuranceStart;
+		this.policyStart = insuranceStart;
     }
 
   public void setInsuranceEndDate(Date insuranceEnd)  {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String endDate=simpleDateFormat.format(insuranceEnd);  
-		this.insurancePolicyEnd = endDate;
+		this.policyEnd = endDate;
     }
 }
