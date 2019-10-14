@@ -295,12 +295,12 @@ public class QuotationController {
 	 * @author Gunasekhar 
 	 * Service is to get the items based on the distributor
 	 */
-	/*@GetMapping("/getitemsbydistributoritemcditemname")
+	@GetMapping("/getitemsbydistributoritemcditemname")
 	public ResponseEntity<BaseDto<List<ItemDistributorDTO>>> getItemsByDistributor(@RequestParam Integer distributorId, 
 			@RequestParam(required=false) String itemCode, @RequestParam(required=false) String itemName) {
 		System.out.println(itemCode+" "+itemName);
 		List<ItemDistributorDTO> result = quotationService.getItemsByDistributor(distributorId, itemCode, itemName);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
-	}*/
+	}
 	
 }
