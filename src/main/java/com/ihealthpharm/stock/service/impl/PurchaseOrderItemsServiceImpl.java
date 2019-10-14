@@ -114,6 +114,7 @@ public class PurchaseOrderItemsServiceImpl implements PurchaseOrderItemsService 
 
 		try {
 			purchaseOrderItemsRes = purchaseOrderItemsRepository.findById(purchaseOrderItemsId).get();
+			purchaseOrderItemsRes.getItemsModel();
 			return purchaseOrderItemsRes;
 		} catch (NoSuchElementException noSuchElementException) {
 			throw new IHealthPharmException(purchaseOrderItemsHelper.getNotFoundPurchaseOrderItemsMessage(),

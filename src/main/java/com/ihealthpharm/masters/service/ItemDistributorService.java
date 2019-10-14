@@ -2,6 +2,8 @@ package com.ihealthpharm.masters.service;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.ihealthpharm.masters.dto.ItemDistributorDTO;
 import com.ihealthpharm.masters.model.DistributorModel;
 import com.ihealthpharm.masters.model.ItemDistributorModel;
@@ -37,6 +39,12 @@ public interface ItemDistributorService {
 	List<ItemsModel> finAllUnmppedItemsNameSearch(int distributorId, String searchTerm);
 
 	void saveItemDistributorsById(int itemDistributorId,String activeS);
+
+	List<ItemDistributorDTO> findAllMappedItemDistributorsOnItemName(int  itemId);
+
+	List<ItemDistributorDTO> findAllDistributorItemOnDistributorId(int distributorId);
+
+	ItemDistributorModel saveItemDistributorDataModel(@Valid ItemDistributorModel itemDistributorModel);
 
 
 }

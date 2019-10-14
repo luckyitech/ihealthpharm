@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.masters.dto.EmployeePharmacyRoleDTO;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.EmployeePharmacyRoleModel;
 import com.ihealthpharm.masters.service.EmployeePharmacyRoleService;
@@ -33,9 +34,9 @@ public class EmployeePharmacyRolesController {
 	EmployeePharmacyRoleService employeePharmacyRoleService;
 	
 	@PostMapping("/save/employeepharmacyrole")
-	public ResponseEntity<BaseDto<EmployeePharmacyRoleModel>> insertEmployeePharmacyRoleData(@Valid @RequestBody EmployeePharmacyRoleModel employeePharmacyRoleModel) {
-		log.info("Request Object insert is: "+employeePharmacyRoleModel.toString());
-		EmployeePharmacyRoleModel pharmacyRolesRes = employeePharmacyRoleService.saveEmployeePharmacyRoleData(employeePharmacyRoleModel);
+	public ResponseEntity<BaseDto<EmployeePharmacyRoleModel>> insertEmployeePharmacyRoleData(@Valid @RequestBody EmployeePharmacyRoleDTO employeePharmacyRoleDTO) {
+		log.info("Request Object insert is: "+employeePharmacyRoleDTO.toString());
+		EmployeePharmacyRoleModel pharmacyRolesRes = employeePharmacyRoleService.saveEmployeePharmacyRoleData(employeePharmacyRoleDTO);
 		return new BaseDto<>(pharmacyRolesRes,"saved",OK).respond();
 	}
 	
@@ -66,8 +67,8 @@ public class EmployeePharmacyRolesController {
 	}
 	
 	@PostMapping("/getemployeepharmacyroledatabyemployeeid")
-	public ResponseEntity<BaseDto<EmployeePharmacyRoleModel>> getEmployeePharmacyRoleDataByEmployeeId(@RequestBody EmployeeModel employee) {
-		EmployeePharmacyRoleModel result = employeePharmacyRoleService.findEmployeePharmacyRoleDataByEmployeeId(employee);
+	public ResponseEntity<BaseDto<List<EmployeePharmacyRoleModel>>> getEmployeePharmacyRoleDataByEmployeeId(@RequestBody EmployeeModel employee) {
+		List<EmployeePharmacyRoleModel> result = employeePharmacyRoleService.findEmployeePharmacyRoleDataByEmployeeId(employee);
 		return new BaseDto<>(result,  "retrived", OK).respond();
 	}
 }

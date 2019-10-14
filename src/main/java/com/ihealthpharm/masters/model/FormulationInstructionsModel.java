@@ -32,7 +32,7 @@ public class FormulationInstructionsModel extends AuditModel {
 	@Column(name="INSTRUCTIONS",length=255)
     private String instructions;
 	
-    @Column(name="ITEMS_ID",length=1)
+    @Column(name="ITEM_ID",length=1)
 	private int itemId;
 	
 	@Column(name="TIMES_IN_A_DAY",length=11)
@@ -47,6 +47,9 @@ public class FormulationInstructionsModel extends AuditModel {
 	@Column(name="EVENING",length=1)
 	private char evening;
 	
+	@Column(name="BEFORE_BED",length=1)
+	private char beforeBed;
+	
 	@Column(name="TIMINGS",length=11)
 	private int timings;
 	    
@@ -56,11 +59,12 @@ public class FormulationInstructionsModel extends AuditModel {
     @Column(name="AFTER_MEAL",length=1)
 	private char afterMeal;
     
+    @Column(name="ANY_TIME",length=1)
+    private char anyTime;
+    
     @Column(name="ACTIVE_S",length=1, columnDefinition = "'Y'")
     private char activeS;
     
-    @Column(name="SYRUP_DOSAGE",length=50)
-    private String syrupDosage;
 
     @Column(name="AUDIT_ID",length=11)
     private int auditId;

@@ -44,11 +44,18 @@ public class ItemDistributorController {
 	private ItemDistributorHelper itemDistributorHelper;
 	
 	
-	@PostMapping("/save/itemdistributor")
+/*	@PostMapping("/save/itemdistributor")
 	public ResponseEntity<BaseDto<ItemDistributorModel>> insertDistributorData(@Valid @RequestParam int[] itemsId,@Valid @RequestParam int[] distributorsId ) {
 		log.info("Request Object insert is: "+ itemsId+distributorsId);
 		
 		ItemDistributorModel itemDistributorModelRes = itemDistributorService.saveItemDistributorData(itemsId,distributorsId);
+		return new BaseDto<>(itemDistributorModelRes,itemDistributorHelper.getSaveItemDistributorMessage(),OK).respond();
+	}*/
+	
+	@PostMapping("/save/itemdistributor")
+	public ResponseEntity<BaseDto<ItemDistributorModel>> insertDistributorData(@Valid @RequestBody ItemDistributorModel itemDistributorModel ) {
+		
+		ItemDistributorModel itemDistributorModelRes = itemDistributorService.saveItemDistributorDataModel(itemDistributorModel);
 		return new BaseDto<>(itemDistributorModelRes,itemDistributorHelper.getSaveItemDistributorMessage(),OK).respond();
 	}
 	
@@ -153,6 +160,18 @@ public class ItemDistributorController {
 		return new BaseDto<>(result,itemDistributorHelper.getRetrieveItemDistributorMessage(),OK).respond();
 	}
 	
+	//for getting grid data based on itemId
+	@GetMapping("/getitemdistributors/basedonItemId")
+	public ResponseEntity<BaseDto<List<ItemDistributorDTO>>> getAllItemDistributorsBasedOnItemId(@RequestParam int  itemId){
+		List<ItemDistributorDTO> response=itemDistributorService.findAllMappedItemDistributorsOnItemName(itemId);
+		return new BaseDto<>(response,itemDistributorHelper.getRetrieveItemDistributorMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getitemdistributors/basedonDistributorId")
+	public ResponseEntity<BaseDto<List<ItemDistributorDTO>>> getAllDistributorItemsBasedonDistributorId(@RequestParam int distributorId){
+		List<ItemDistributorDTO> result=itemDistributorService.findAllDistributorItemOnDistributorId(distributorId);
+		return new BaseDto<>(result,itemDistributorHelper.getRetrieveItemDistributorMessage(),OK).respond();
+	}
 	 
 
 }

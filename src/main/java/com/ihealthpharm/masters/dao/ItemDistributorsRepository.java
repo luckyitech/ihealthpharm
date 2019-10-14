@@ -28,7 +28,7 @@ public interface ItemDistributorsRepository extends JpaRepository<ItemDistributo
 	List<ItemsModel> getAllUnMappedItems(@Param ("distributorsIds")Integer distributorId);
 
 	
-	@Query("select new com.ihealthpharm.masters.dto.ItemDistributorDTO(id.itemDistributorId,i.itemId,d.distributorId,id.activeS,d.name,i.itemName) from items_distributor id inner join distributor d on id.distributorsId=d.distributorId inner join items i on i.itemId=id.itemsId")
+	@Query("select new com.ihealthpharm.masters.dto.ItemDistributorDTO(id.itemDistributorId,id.activeS,d.name,i.itemName,m.name,m.licence,i.itemDescription,i.itemId,d.distributorId,id.distributorPriority,f.form) from items_distributor id inner join distributor d on id.distributorsId=d.distributorId inner join items i on i.itemId=id.itemsId inner join items_forms f on i.itemId=f.itemformId inner join manufacturer m on m.manufacturerId=id.itemsId ")
 	List<ItemDistributorDTO> getAllItemDistributors();
 
 
@@ -43,5 +43,12 @@ public interface ItemDistributorsRepository extends JpaRepository<ItemDistributo
 	@Modifying(clearAutomatically = true)
 	Integer updateStatus(@Param("itemDistributorId")Integer itemDistributorId, @Param("activeS") String activeS);
 
+	@Query("select new com.ihealthpharm.masters.dto.ItemDistributorDTO(id.itemDistributorId,id.activeS,d.name,i.itemName,m.name,m.licence,i.itemDescription,i.itemId,d.distributorId,id.distributorPriority,f.form) from items_distributor id inner join distributor d on id.distributorsId=d.distributorId inner join items i on i.itemId=id.itemsId  inner join items_forms f on i.itemId=f.itemformId" + 
+			" inner join manufacturer m on m.manufacturerId=i.manufacturer where i.itemId=:itemId")
+   List<ItemDistributorDTO>	getAllItemDistributorsBasedOnItemId(@Param("itemId")Integer itemId);
+	
+	@Query(" select new com.ihealthpharm.masters.dto.ItemDistributorDTO(id.itemDistributorId,id.activeS,d.name,i.itemName,m.name,m.licence,i.itemDescription,i.itemId,d.distributorId,id.distributorPriority,f.form) from items_distributor id inner join distributor d on id.distributorsId=d.distributorId inner join items i on i.itemId=id.itemsId inner join items_forms f on i.itemId=f.itemformId " + 
+			" inner join manufacturer m on m.manufacturerId=i.manufacturer where d.distributorId=:distributorId")
+	List<ItemDistributorDTO> getAllDistributorItemBasedOnDistId(@Param("distributorId")Integer distributorId);
 
 }
