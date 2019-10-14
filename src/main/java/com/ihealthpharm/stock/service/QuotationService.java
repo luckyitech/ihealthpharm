@@ -31,8 +31,8 @@ public interface QuotationService {
 	
 	String getPharmacyNm(Integer pharmacyId) ;
 	
-	//List<ItemDistributorDTO> getItemsByDistributor(Integer distributorId);
+	List<ItemDistributorDTO> getItemsByDistributor(Integer distributorId);
 	
-//	List<ItemDistributorDTO> getItemsByDistributor(Integer distributorId, String itemCode, String itemName);
+	List<ItemDistributorDTO> getItemsByDistributor(Integer distributorId, String itemCode, String itemName);
 
 }
