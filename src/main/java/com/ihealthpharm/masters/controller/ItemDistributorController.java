@@ -54,7 +54,7 @@ public class ItemDistributorController {
 	
 	@PostMapping("/save/itemdistributor")
 	public ResponseEntity<BaseDto<ItemDistributorModel>> insertDistributorData(@Valid @RequestBody ItemDistributorModel itemDistributorModel ) {
-		
+		log.info("request :"+itemDistributorModel);
 		ItemDistributorModel itemDistributorModelRes = itemDistributorService.saveItemDistributorDataModel(itemDistributorModel);
 		return new BaseDto<>(itemDistributorModelRes,itemDistributorHelper.getSaveItemDistributorMessage(),OK).respond();
 	}

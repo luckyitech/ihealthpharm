@@ -34,19 +34,21 @@ public class ItemDistributorDTO {
 	
 	private String formulation;
 
-//	private String itemCode;
+	private String itemCode;
 		
-//	private Double percentage;
+	private Double percentage;
 	
-//	private Double unitRate;
+	private Double unitRate;
 	
-//	private Double discountPercentage;
+	private Double discountPercentage;
+	
+	private String validity;
 		
 	
-	/*public ItemDistributorDTO(int itemDistributorId, int itemsId, int distributorsId, String activeS, String distributorName, String itemName) {
+	public ItemDistributorDTO(int itemDistributorId, int itemsId, int distributorsId, String activeS, String distributorName, String itemName) {
 		this.itemDistributorId = itemDistributorId;
-		this.itemsId = itemsId;
-		this.distributorsId = distributorsId;
+		this.itemId = itemsId;
+		this.distributorId = distributorsId;
 		this.activeS = activeS;
 		this.distributorName = distributorName;
 		this.itemName = itemName;
@@ -60,5 +62,5 @@ public class ItemDistributorDTO {
 		this.itemDescription = itemDescription;
 		this.itemName = itemName;
 		this.percentage = percentage;
-	}*/
+	}
 }
