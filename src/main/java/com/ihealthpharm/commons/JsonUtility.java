@@ -7,6 +7,7 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.ihealthpharm.reports.dto.HeaderFooterContentDto;
 
 public class JsonUtility {
 
@@ -28,6 +29,11 @@ public class JsonUtility {
 	@SuppressWarnings("rawtypes")
 	public static List jsonToList(String json, Class clazz) {
 		return gson.fromJson(json, TypeToken.getParameterized(ArrayList.class, clazz).getType());
+
+	}
+
+	public static Object jsonToObject(String json,Class clazz) { 
+		return gson.fromJson(json, clazz);
 
 	}
 }

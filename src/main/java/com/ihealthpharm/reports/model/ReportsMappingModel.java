@@ -38,5 +38,14 @@ public class ReportsMappingModel implements Serializable {
 	@Column(name = "STORED_PROCEDURE_NAME")
 	private String storedProcedureName;
 
+	@Column(name = "REPORT_TITLE")
+	private String title;
+
+	@Column(name = "HEADER_CONTENT")
+	private String headerContent;
+
+	@Column(name = "FOOTER_CONTENT")
+	private String footerContent;
+
 	
 }
