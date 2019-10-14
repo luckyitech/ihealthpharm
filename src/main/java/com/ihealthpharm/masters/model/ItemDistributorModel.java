@@ -1,10 +1,15 @@
 package com.ihealthpharm.masters.model;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -41,5 +46,15 @@ public class ItemDistributorModel extends AuditModel{
 	
 	@Column(name="DISCOUNT_PERCENTAGE")
 	private Double discountPercentage;
+	
+	@Column(name="VALIDITY")
+	private String validity;
 
+	
+	public void setValidity(Date date)throws ParseException {
+		SimpleDateFormat simpleDate=new SimpleDateFormat("yyyy-MM-dd");
+		String val=simpleDate.format(date);
+			this.validity = val;
+	}
+	
 }
