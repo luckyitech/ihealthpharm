@@ -179,22 +179,22 @@ public class QuotationServiceImpl implements QuotationService {
 		return quotationRepository.getPharmacyNm(pharmacyId);
 	}
 
-	@Override
+	/*@Override
 	public List<ItemDistributorDTO> getItemsByDistributor(Integer distributorId) {
 		List<ItemDistributorDTO> model = quotationRepository.getItemsByDistributor(distributorId);
-		/*for(ItemDistributorModel i : model) {
+		for(ItemDistributorModel i : model) {
 			i.getItemsModel().getTax();
-		}*/
+		}
 		return model;
 	}
 
 	@Override
 	public List<ItemDistributorDTO> getItemsByDistributor(Integer distributorId, String itemCode, String itemName) {
 		List<ItemDistributorDTO> model = quotationRepository.getItemsByDistributor(distributorId, itemCode, itemName);
-		/*for(ItemDistributorModel i : model) {
+		for(ItemDistributorModel i : model) {
 			i.getItemsModel().getTax();
-		}*/
+		}
 		return model;
-	}
+	}*/
 
 }
