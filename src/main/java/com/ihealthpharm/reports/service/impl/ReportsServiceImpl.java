@@ -50,20 +50,17 @@ public class ReportsServiceImpl implements ReportsService {
 	public File generateReport(HttpServletResponse response, String inputJson,String reportType) throws Exception {
 		File responseFile = null;
 		Date start = new Date();
-		
+
 		if(ObjectUtils.isEmpty(inputJson)) 
 			throw new Exception("Input Parameters can't be blank ");
 
 		Map<String,Object> dataMap= (Map<String, Object>) JsonUtility.jsonToMap(inputJson);
-				
-		if(!dataMap.containsKey("ReportCode"))
-			throw new Exception("Report Code can't be blank ");
 
-		ReportsMappingModel model = reportsMappingRepository.findByReportCode(String.valueOf(dataMap.get("ReportCode")));
-
-		if(ObjectUtils.isEmpty(model))
-			throw new Exception("Reports Mapping Not foung for the given Report code "+ dataMap.get("ReportCode"));
 		
+		ReportsMappingModel model = reportsMappingRepository.findByReportCode(String.valueOf(dataMap.get("ReportCode")));
+		
+		List<Map<String,Object>> responseList =getReportData(model,dataMap);
+
 		String extension =".xls";
 		if(StringUtils.equalsIgnoreCase("PDF", reportType))
 			extension =".pdf";
@@ -73,13 +70,6 @@ public class ReportsServiceImpl implements ReportsService {
 		if (!responseFile.exists())
 			responseFile.createNewFile();
 		
-		String SQL = reportsCommonUtility.prepareSQL(model);
-		String Whereclause = reportsCommonUtility.prepareWhereClause(model,dataMap);
-		
-		log.info("SQL [{}]",SQL);
-		log.info("WhereClause[{}]",Whereclause);
-		
-		List<Map<String,Object>> responseList = jdbcTemplate.queryForList(SQL,Whereclause);
 		
 		if (StringUtils.equalsIgnoreCase("PDF", reportType))
 			reportsPDFUtility.generateReport(responseList, model, responseFile);
@@ -89,6 +79,45 @@ public class ReportsServiceImpl implements ReportsService {
 		log.info("Service Duration [{}]", TimeDurationUtility.duration(start));
 		return responseFile;
 
+	}
+
+	@Override
+	public List<Map<String, Object>> getReportData(String inputJson) throws Exception {
+
+		if(ObjectUtils.isEmpty(inputJson)) 
+			throw new Exception("Input Parameters can't be blank ");
+
+		Map<String,Object> dataMap= (Map<String, Object>) JsonUtility.jsonToMap(inputJson);
+
+		
+		ReportsMappingModel model = reportsMappingRepository.findByReportCode(String.valueOf(dataMap.get("ReportCode")));
+
+		List<Map<String,Object>> responseList =getReportData(model,dataMap);
+		
+		return responseList;
+		
+		
+	}
+	
+	private List<Map<String, Object>> getReportData(ReportsMappingModel model, Map<String, Object> dataMap) throws Exception {
+						
+		if(!dataMap.containsKey("ReportCode"))
+			throw new Exception("Report Code can't be blank ");
+
+
+		if(ObjectUtils.isEmpty(model))
+			throw new Exception("Reports Mapping Not foung for the given Report code "+ dataMap.get("ReportCode"));
+		
+		
+		String SQL = reportsCommonUtility.prepareSQL(model);
+		String Whereclause = reportsCommonUtility.prepareWhereClause(model,dataMap);
+		
+		log.info("SQL [{}]",SQL);
+		log.info("WhereClause[{}]",Whereclause);
+		
+		List<Map<String,Object>> responseList = jdbcTemplate.queryForList(SQL,Whereclause);	
+		
+		return responseList;
 	}
 
 
