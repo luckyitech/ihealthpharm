@@ -214,6 +214,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	}
 	
 	@Override
+	public DistributorModel getDistributorByPurchaseOrder(Integer purchaseOrderId) {
+		log.info("PurchaseOrder Id: "+ purchaseOrderId);
+		return purchaseorderRepository.getDistributorByPurchaseOrder(purchaseOrderId);
+	}
+	
+	@Override
 	public List<PurchaseOrderModel> getPurchaseOrderByPharmacy(Integer pharmacyId) {
 		log.info("Pharmacy Id: "+ pharmacyId);
 		return purchaseorderRepository.getPurchaseOrderByPharmacy(pharmacyId);

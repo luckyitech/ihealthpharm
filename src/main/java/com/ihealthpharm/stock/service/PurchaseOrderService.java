@@ -34,6 +34,8 @@ public interface PurchaseOrderService {
 	
 	List<ItemsModel> getItemsByPurchaseOrder(Integer purchaseOrderId);
 	
+	DistributorModel getDistributorByPurchaseOrder(Integer purchaseOrderId);
+	
 	List<PurchaseOrderModel> getPurchaseOrderByPharmacy(Integer pharmacyId);
 	
 	List<PurchaseOrderModel> getPurchaseOrderByPharmacyAndStatus(Integer pharmacyId, String status);

@@ -29,13 +29,13 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 	List<QuotationModel> getQuotationByPharmacyAndStatus(@Param("pharmacyId") Integer pharmacyId, @Param("status") String status);
 	
 	@Query("select new com.ihealthpharm.masters.dto.ItemDistributorDTO(id.unitRate, id.discountPercentage, i.itemCode, i.itemName, i.itemDescription, "
-			+ " i.tax.percentage) "
+			+ " i.tax.percentage, i.itemId) "
 			+ " from items_distributor id join distributor d on id.distributorsId = d.distributorId join items i on i.itemId = id.itemsId "
 			+ " where id.distributorsId = :distributorId and id.activeS = 'Y' ")
 	List<ItemDistributorDTO> getItemsByDistributor(@Param("distributorId") Integer distributorId);
 	
 	@Query("select new com.ihealthpharm.masters.dto.ItemDistributorDTO(id.unitRate, id.discountPercentage, i.itemCode, i.itemName, i.itemDescription, "
-			+ " i.tax.percentage) "
+			+ " i.tax.percentage, i.itemId) "
 			+ " from items_distributor id join distributor d on id.distributorsId = d.distributorId join items i on i.itemId = id.itemsId "
 			+ " where id.distributorsId = :distributorId and id.activeS = 'Y' and "
 			+ " (i.itemCode like %:itemCode% or  i.itemName like %:itemName% ) ")

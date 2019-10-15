@@ -16,6 +16,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.DistributorModel;
 import com.ihealthpharm.masters.model.EmployeeModel;
@@ -142,13 +143,21 @@ public class InvoiceModel extends AuditModel {
 	private PharmacyModel pharmacy;
 
 	//bi-directional many-to-one association to InvoiceItem
-	@OneToMany(mappedBy="invoice")
+	@OneToMany(mappedBy="invoice", fetch=FetchType.LAZY)
 	private List<InvoiceItemModel> invoiceItems;
 
 	//bi-directional many-to-one association to Stock
-	@OneToMany(mappedBy="invoice")
+	@OneToMany(mappedBy="invoice", fetch=FetchType.LAZY)
 	private List<StockModel> stocks;
 
+	@Column(name="PARCEL_NO")
+	private String parcelNo;
+	
+	@Column(name="BROUGHT_BY")
+	private String broughtBy;
+	
+	@Column(name="TOTAL_REJECTS")
+	private Integer totalRejects;
 	
 
 }

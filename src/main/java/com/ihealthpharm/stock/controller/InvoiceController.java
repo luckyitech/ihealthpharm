@@ -57,6 +57,8 @@ public class InvoiceController {
 	public ResponseEntity<BaseDto<InvoiceModel>> saveInvoice(@Valid @RequestBody InvoiceModel invoiceModel) {
 		log.info("Request Object insert is: "+ invoiceModel.toString());
 		InvoiceModel model = invoiceService.saveInvoice(invoiceModel);
+		model.setInvoiceItems(null);
+		model.setStocks(null);
 		return new BaseDto<>(model, invoiceHelper.getSaveInvoiceMessage(), OK).respond();
 	}
 	
