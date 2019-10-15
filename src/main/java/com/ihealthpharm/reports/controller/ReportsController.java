@@ -1,9 +1,13 @@
 package com.ihealthpharm.reports.controller;
 
+import static org.springframework.http.HttpStatus.OK;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,7 +15,9 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +25,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.commons.TimeDurationUtility;
+import com.ihealthpharm.masters.model.DistributorModel;
 import com.ihealthpharm.reports.helper.ReportsExcelUtility;
+import com.ihealthpharm.reports.helper.ReportsHelper;
 import com.ihealthpharm.reports.helper.ReportsPDFUtility;
 import com.ihealthpharm.reports.service.ReportsService;
 
@@ -40,7 +49,23 @@ public class ReportsController {
 
 	@Autowired
 	private ReportsExcelUtility reportsExcelUtility;
+	
+	@Autowired
+	private ReportsHelper reportsHelper;
 
+	@GetMapping("/getReportData")
+	public ResponseEntity<BaseDto<List<Map<String, Object>>>> getReportData(HttpServletResponse response, String inputJson) {
+		log.info("Reports Search Criteria [{}]", inputJson);
+		List<Map<String, Object>> result =null;
+		try {
+			result = resportsService.getReportData(inputJson);
+			return new BaseDto<>(result, reportsHelper.getReportsDataRetrieveResponse(), OK).respond();
+		} catch (Exception e) {
+			log.error(ExceptionUtils.getStackTrace(e));
+			return new BaseDto<>(result, reportsHelper.getReportsExceptionResponse(), HttpStatus.EXPECTATION_FAILED).respond();
+		}
+		
+	}
 	@GetMapping("/generateReport")
 	public void generateReportExcel(HttpServletResponse response, String inputJson) {
 		log.info("Reports Search Criteria [{}]", inputJson);
