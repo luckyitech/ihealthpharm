@@ -81,7 +81,7 @@ public class JwtAuthenticationRestController {
 			pharmacyModel.add(employeePharmacyRoleModel.getPharmacyModel());
 		}
 		
-		return new BaseDto<>(new JwtTokenResponse(token,users.getEmployee().getEmployeeId(),result,pharmacyModel),"Authondication sucess",OK).respond();
+		return new BaseDto<>(new JwtTokenResponse(token,users.getEmployee().getEmployeeId(),result,pharmacyModel),"Authentication Success",OK).respond();
 	}
 
 	@RequestMapping(value = "${jwt.refresh.token.uri}", method = RequestMethod.GET)

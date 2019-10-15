@@ -166,7 +166,7 @@ public class EmployeeController {
 		return new BaseDto<>(employeeRes, employeeHelper.getUpdateEmployeeMessage(), OK).respond();
 	}
 
-	@PutMapping("/update/employee")
+	@PutMapping("/update/employee/withImages")
 	public ResponseEntity<BaseDto<EmployeeModel>> updateEmployeeData(@Valid @RequestParam("employee") String employeeData, @RequestParam("image") MultipartFile image,
 			@RequestParam("identificationDocument") MultipartFile identificationDocument,
 			@RequestParam("policeGoodConductCertificate") MultipartFile policeGoodConductCertificate,
@@ -188,6 +188,14 @@ public class EmployeeController {
 		}
 		EmployeeModel employeeRes = employeeService.updateEmployeeData(employeeModel);
 		return new BaseDto<>(employeeRes, employeeHelper.getUpdateEmployeeMessage(), OK).respond();
+	}
+	
+	
+	@PutMapping("update/employee")
+	public ResponseEntity<BaseDto<EmployeeModel>> updateEmployeeDataWithoutImage(@Valid @RequestBody EmployeeModel employeeData){
+		log.info("Request Object for Update :"+employeeData);
+		EmployeeModel empModel=employeeService.updateEmployeeData(employeeData);
+		return new BaseDto<>(empModel,employeeHelper.getUpdateEmployeeMessage(),OK).respond();
 	}
 	
 	@DeleteMapping("/delete/employee")

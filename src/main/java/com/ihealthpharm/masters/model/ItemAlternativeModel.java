@@ -11,9 +11,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity(name="item_alternative")
 @Data
+@EqualsAndHashCode(of="itemAlternativeId",callSuper=false)
 public class ItemAlternativeModel extends AuditModel implements Serializable{
 
 	/**
