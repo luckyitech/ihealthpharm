@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dto.ItemDistributorDTO;
 import com.ihealthpharm.masters.model.ItemsModel;
+import com.ihealthpharm.masters.model.TaxModel;
 import com.ihealthpharm.stock.dao.QuotationItemStatusRepository;
 import com.ihealthpharm.stock.dao.QuotationItemsRepository;
 import com.ihealthpharm.stock.dao.QuotationRepository;
@@ -182,18 +183,40 @@ public class QuotationServiceImpl implements QuotationService {
 	@Override
 	public List<ItemDistributorDTO> getItemsByDistributor(Integer distributorId) {
 		List<ItemDistributorDTO> model = quotationRepository.getItemsByDistributor(distributorId);
-		/*for(ItemDistributorModel i : model) {
-			i.getItemsModel().getTax();
-		}*/
+		for(ItemDistributorDTO i : model) {
+			ItemsModel itemsModel = new ItemsModel();
+			
+			itemsModel.setItemId(i.getItemId());
+			itemsModel.setItemCode(i.getItemCode());
+			itemsModel.setItemName(i.getItemName());
+			itemsModel.setItemDescription(i.getItemDescription());
+			
+			TaxModel taxModel = new TaxModel();
+			taxModel.setPercentage(i.getPercentage());
+			
+			itemsModel.setTax(taxModel);
+			i.setItemsModel(itemsModel);
+		}
 		return model;
 	}
 
 	@Override
 	public List<ItemDistributorDTO> getItemsByDistributor(Integer distributorId, String itemCode, String itemName) {
 		List<ItemDistributorDTO> model = quotationRepository.getItemsByDistributor(distributorId, itemCode, itemName);
-		/*for(ItemDistributorModel i : model) {
-			i.getItemsModel().getTax();
-		}*/
+		for(ItemDistributorDTO i : model) {
+			ItemsModel itemsModel = new ItemsModel();
+			
+			itemsModel.setItemId(i.getItemId());
+			itemsModel.setItemCode(i.getItemCode());
+			itemsModel.setItemName(i.getItemName());
+			itemsModel.setItemDescription(i.getItemDescription());
+			
+			TaxModel taxModel = new TaxModel();
+			taxModel.setPercentage(i.getPercentage());
+			
+			itemsModel.setTax(taxModel);
+			i.setItemsModel(itemsModel);
+		}
 		return model;
 	}
 
