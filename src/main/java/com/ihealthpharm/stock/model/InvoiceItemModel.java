@@ -107,7 +107,7 @@ public class InvoiceItemModel extends AuditModel {
 	//bi-directional many-to-one association to Item
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="ITEM_ID")
-	private ItemsModel item;
+	private ItemsModel itemsModel;
 
 	@Transient
 	private Double unitRetailRate;

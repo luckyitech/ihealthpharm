@@ -72,7 +72,7 @@ public class PharmacyModel extends AuditModel{
 	@Column(name="PURCHASE_ORDER_APPROVAL",length=1)
 	private char purchaseOrderApproval;
 	
-	@Column(name="ADDRESS_LINE1",length=250)
+	/*@Column(name="ADDRESS_LINE1",length=250)
 	private String addressLine1;
 	
 	@Column(name="ADDRESS_LINE2",length=250)
@@ -90,10 +90,10 @@ public class PharmacyModel extends AuditModel{
 	private CountryModel country;
 	
 	@Column(name="ZIP_CD",length=10)
-	private String zipCode;
+	private String zipCode;*/
 	
-	@Column(name="24_HOURS",length=1)
-	private char hours;
+	/*@Column(name="24_HOURS",length=1)
+	private char hours;*/
 
 
 }

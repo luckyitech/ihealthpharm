@@ -27,6 +27,9 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrderMode
 	@Query("select pi.itemsModel from purchase_order p join p.purchaseorderitems pi where p.purchaseOrderId = :purchaseOrderId ")
 	List<ItemsModel> getItemsByPurchaseOrder(@Param("purchaseOrderId") Integer purchaseOrderId);
 	
+	@Query("select p.distributorModel from purchase_order p where p.purchaseOrderId = :purchaseOrderId ")
+	DistributorModel getDistributorByPurchaseOrder(@Param("purchaseOrderId") Integer purchaseOrderId);
+	
 	@Query("select i from purchase_order i where i.pharmacyModel.pharmacyId = :pharmacyId ")
 	List<PurchaseOrderModel> getPurchaseOrderByPharmacy(@Param("pharmacyId") Integer pharmacyId);
 	
