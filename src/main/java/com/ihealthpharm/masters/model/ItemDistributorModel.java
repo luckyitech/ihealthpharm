@@ -1,10 +1,15 @@
 package com.ihealthpharm.masters.model;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,16 +29,32 @@ public class ItemDistributorModel extends AuditModel{
 	
 	// Drug Entity mapped 
 	@Column(name="ITEM_ID")
-	private int itemsId;
+	private Integer itemsId;
 	
 	// DistrubutorModel Entity mapped 
     @Column(name="DISTRIBUTOR_ID")
-	private int distributorsId;
+	private Integer distributorsId;
 	
 	@Column(name="ACTIVE_S",length=1)
 	private String activeS;
 	
 	@Column(name="DISTRIBUTOR_PRIORITY",length=11)
 	private int distributorPriority;
+	
+	@Column(name="UNIT_RATE")
+	private Double unitRate;
+	
+	@Column(name="DISCOUNT_PERCENTAGE")
+	private Double discountPercentage;
+	
+	@Column(name="VALIDITY")
+	private String validity;
 
+	
+	public void setValidity(Date date)throws ParseException {
+		SimpleDateFormat simpleDate=new SimpleDateFormat("yyyy-MM-dd");
+		String val=simpleDate.format(date);
+			this.validity = val;
+	}
+	
 }

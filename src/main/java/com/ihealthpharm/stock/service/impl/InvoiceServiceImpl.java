@@ -44,15 +44,16 @@ public class InvoiceServiceImpl implements InvoiceService {
 		
 		List<InvoiceItemModel> invoiceItemModels = invoiceModel.getInvoiceItems();
 		
-		invoiceModel = invoiceRepository.save(invoiceModel);
+		InvoiceModel invoiceModelres = invoiceRepository.save(invoiceModel);
 		
 		for(InvoiceItemModel it : invoiceItemModels) {
 			StockModel stockModel = new StockModel();
-			stockModel.setInvoice(invoiceModel);
+			
+			stockModel.setInvoice(invoiceModelres);
 			stockModel.setBatchNo(it.getBatchNo());
-			stockModel.setPharmacy(invoiceModel.getPharmacy());
-			stockModel.setItem(it.getItem());
-			stockModel.setQuantity(it.getQuantityReceived());
+			stockModel.setPharmacy(invoiceModelres.getPharmacy());
+			stockModel.setItem(it.getItemsModel());
+			stockModel.setQuantity(it.getTotalQuantity());
 			stockModel.setManufactureDt(it.getManufactureDt());
 			stockModel.setExpiryDt(it.getExpiryDt());
 			stockModel.setUnitRetailRate(it.getUnitRetailRate());
@@ -60,12 +61,15 @@ public class InvoiceServiceImpl implements InvoiceService {
 			stockModel.setRetailDiscountPercentage(it.getRetailDiscountPercentage());
 			stockModel.setRetailDiscountAmount(it.getRetailDiscountAmount());
 			stockModel.setMargin(it.getMargin());
+			
+			it.setInvoice(invoiceModelres);
 			invoiceItemRepository.save(it);
+			
 			stockRepository.save(stockModel);
 		}
 		
-		log.info("Invoice data with ID: " + invoiceModel.getInvoiceId() + " saved succesfully");
-		return invoiceModel;
+		log.info("Invoice data with ID: " + invoiceModelres.getInvoiceId() + " saved succesfully");
+		return invoiceModelres;
 	}
 
 	@Override
@@ -135,6 +139,11 @@ public class InvoiceServiceImpl implements InvoiceService {
 		InvoiceModel invoiceModel = null;
 		try {
 			invoiceModel = invoiceRepository.findById(invoiceId).get();
+			invoiceModel.getDistributorModel();
+			invoiceModel.getInvoiceStatus();
+			for(InvoiceItemModel m : invoiceModel.getInvoiceItems()) {
+				m.getItemsModel();
+			}
 			return invoiceModel;
 		} catch (NoSuchElementException noSuchElementException) {
 			throw new IHealthPharmException(invoiceHelper.getNotFoundInvoiceMessage(), HttpStatus.NOT_FOUND);
@@ -149,9 +158,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 	}
 
 	@Override
-	public Long getInvoiceCount(Integer distributorId) {
-		log.info("Distributor Id: "+ distributorId+" ");
-		return invoiceRepository.getInvoiceCount(distributorId);
+	public Long getInvoiceCount(Integer pharmacyId) {
+		log.info("Pharmacy Id: "+ pharmacyId+" ");
+		return invoiceRepository.getInvoiceCount(pharmacyId);
 	}
 
 	@Override

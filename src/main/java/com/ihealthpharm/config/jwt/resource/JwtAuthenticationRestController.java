@@ -2,6 +2,7 @@ package com.ihealthpharm.config.jwt.resource;
 
 import static org.springframework.http.HttpStatus.OK;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,8 +30,11 @@ import com.ihealthpharm.config.jwt.JwtTokenUtil;
 import com.ihealthpharm.config.jwt.JwtUserDetails;
 import com.ihealthpharm.masters.model.EmployeeAccessModel;
 import com.ihealthpharm.masters.model.EmployeeCredentialsModel;
+import com.ihealthpharm.masters.model.EmployeePharmacyRoleModel;
+import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.service.EmployeeAccessService;
 import com.ihealthpharm.masters.service.EmployeeCredentialsService;
+import com.ihealthpharm.masters.service.EmployeePharmacyRoleService;
 
 @RestController
 @CrossOrigin
@@ -54,6 +58,9 @@ public class JwtAuthenticationRestController {
 	@Autowired
 	EmployeeAccessService employeeAccessService;
 	
+	@Autowired
+	EmployeePharmacyRoleService employeePharmacyRoleService;
+	
 	@RequestMapping(value = "${jwt.get.token.uri}", method = RequestMethod.POST)
 	public ResponseEntity<BaseDto<JwtTokenResponse>> createAuthenticationToken(@RequestBody JwtTokenRequest authenticationRequest)
 			throws AuthenticationException {
@@ -62,12 +69,19 @@ public class JwtAuthenticationRestController {
 		EmployeeCredentialsModel users = employeeCredentialsService.findEmployeeCredentialsByUserName(authenticationRequest.getUserName());
 		final UserDetails userDetails = jwtInMemoryUserDetailsService
 				.loadUserByUsername(authenticationRequest.getUserName());
+		List<EmployeePharmacyRoleModel> employeePharmacyRoleModels = employeePharmacyRoleService.findEmployeePharmacyRoleDataByEmployeeId(users.getEmployee());
 		
 		final String token = jwtTokenUtil.generateToken(userDetails);
 		System.out.println("User ID : "+users.getEmployee().getEmployeeId());
 		List<EmployeeAccessModel> result = employeeAccessService.findByEmployee(users.getEmployee());
+		List<PharmacyModel> pharmacyModel = new ArrayList<>();
 		
-		return new BaseDto<>(new JwtTokenResponse(token,users.getEmployee().getEmployeeId(),result),"Authondication sucess",OK).respond();
+		for(EmployeePharmacyRoleModel employeePharmacyRoleModel :employeePharmacyRoleModels)
+		{
+			pharmacyModel.add(employeePharmacyRoleModel.getPharmacyModel());
+		}
+		
+		return new BaseDto<>(new JwtTokenResponse(token,users.getEmployee().getEmployeeId(),result,pharmacyModel),"Authentication Success",OK).respond();
 	}
 
 	@RequestMapping(value = "${jwt.refresh.token.uri}", method = RequestMethod.GET)

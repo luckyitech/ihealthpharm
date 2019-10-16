@@ -24,8 +24,8 @@ import com.ihealthpharm.masters.model.DistributorModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.stock.helper.PurchaseOrderHelper;
 import com.ihealthpharm.stock.model.PurchaseOrderModel;
-import com.ihealthpharm.stock.service.InvoiceService;
 import com.ihealthpharm.stock.service.PurchaseOrderService;
+import com.ihealthpharm.stock.service.QuotationService;
 import com.ihealthpharm.stock.utils.GenerateGRNNo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -39,9 +39,6 @@ public class PurchaseOrderController {
 	PurchaseOrderService purchaseorderService;
 	
 	@Autowired
-	private InvoiceService invoiceService;
-
-	@Autowired
 	PurchaseOrderHelper purchaseorderHelper;
 	
 	@Autowired
@@ -49,6 +46,9 @@ public class PurchaseOrderController {
 	
 	@Autowired
 	private ItemPropertyHelper propertyHelper;
+	
+	@Autowired
+	private QuotationService quotationService;
 
 	@PostMapping("/save/purchaseorder")
 	public ResponseEntity<BaseDto<PurchaseOrderModel>> insertPurchaseOrderData(@Valid @RequestBody PurchaseOrderModel purchaseorderModel) {
@@ -151,11 +151,11 @@ public class PurchaseOrderController {
 	 * Service is for automatic generation of GRN Number 
 	 */
 	@GetMapping("/generatepurchaseno")
-	public ResponseEntity<BaseDto<String>> generatePurchaseNo(@RequestParam Integer distributorId) {
-		String distributorNm = invoiceService.getDistributorNameById(distributorId);
-		Long distributorPurchaseNoCount = purchaseorderService.getPurchaseOrderCount(distributorId);
+	public ResponseEntity<BaseDto<String>> generatePurchaseNo(@RequestParam Integer pharmacyId) {
+		String pharmacyNm = quotationService.getPharmacyNm(pharmacyId);
+		Long purchaseNoCount = purchaseorderService.getPurchaseOrderCount(pharmacyId);
 		GenerateGRNNo generateGRNNo = new GenerateGRNNo();
-		String purchaseNo = generateGRNNo.generateGNR(distributorNm, distributorPurchaseNoCount);
+		String purchaseNo = generateGRNNo.generateGNR(pharmacyNm, purchaseNoCount);
 		return new BaseDto<>(purchaseNo, purchaseorderHelper.getRetrievePurchaseOrderMessage(), OK).respond();
 	}
 	
@@ -187,6 +187,16 @@ public class PurchaseOrderController {
 	public ResponseEntity<BaseDto<List<ItemsModel>>> getItemsByPurchaseOrder(@RequestParam Integer purchaseOrderId) {
 		List<ItemsModel> itemsModels = purchaseorderService.getItemsByPurchaseOrder(purchaseOrderId);
 		return new BaseDto<>(itemsModels, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is for item details based on the purchase order
+	 */
+	@GetMapping("/getdistributorbypurchaseorder")
+	public ResponseEntity<BaseDto<DistributorModel>> getDistributorByPurchaseOrder(@RequestParam Integer purchaseOrderId) {
+		DistributorModel distributorModel = purchaseorderService.getDistributorByPurchaseOrder(purchaseOrderId);
+		return new BaseDto<>(distributorModel, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 	
 	/**

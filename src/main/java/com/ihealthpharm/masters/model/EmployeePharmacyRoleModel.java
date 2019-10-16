@@ -25,7 +25,7 @@ public class EmployeePharmacyRoleModel extends AuditModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "EMPLOYEE_PHARMACY_ROLE_ID", length = 11, columnDefinition = "AUTO_INCREMENT")
-	private int employeePharmacyRoleId;
+	private Integer employeePharmacyRoleId;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "EMPLOYEE_ID")
@@ -40,6 +40,6 @@ public class EmployeePharmacyRoleModel extends AuditModel {
 	PharmacyRolesModel pharmacyRolesModel;
 
 	@Column(name = "AUDIT_ID", length = 11)
-	private int auditId;
+	private Integer auditId;
 
 }

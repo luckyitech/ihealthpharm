@@ -190,9 +190,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	}
 	
 	@Override
-	public Long getPurchaseOrderCount(Integer distributorId) {
-		log.info("Distributor Id: "+ distributorId+" ");
-		return purchaseorderRepository.getPurchaseOrderCount(distributorId);
+	public Long getPurchaseOrderCount(Integer pharmacyId) {
+		log.info("Pharmacy Id: "+ pharmacyId+" ");
+		return purchaseorderRepository.getPurchaseOrderCount(pharmacyId);
 	}
 
 	@Override
@@ -211,6 +211,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	public List<ItemsModel> getItemsByPurchaseOrder(Integer purchaseOrderId) {
 		log.info("PurchaseOrder Id: "+ purchaseOrderId);
 		return purchaseorderRepository.getItemsByPurchaseOrder(purchaseOrderId);
+	}
+	
+	@Override
+	public DistributorModel getDistributorByPurchaseOrder(Integer purchaseOrderId) {
+		log.info("PurchaseOrder Id: "+ purchaseOrderId);
+		return purchaseorderRepository.getDistributorByPurchaseOrder(purchaseOrderId);
 	}
 	
 	@Override

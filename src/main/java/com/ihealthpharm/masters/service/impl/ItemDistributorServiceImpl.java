@@ -93,8 +93,7 @@ public class ItemDistributorServiceImpl implements ItemDistributorService {
 		}
 
 		itemDistributorModelRes = itemDistributorsRepository.save(itemDistributor);
-		log.info("ItemDistributor data with ID : " + itemDistributorModelRes.getItemDistributorId()
-		+ " updated succesfully");
+		log.info("ItemDistributor data with ID : " + itemDistributorModelRes.getItemDistributorId()+ " updated succesfully");
 		return itemDistributorModelRes;
 	}
 
@@ -185,7 +184,7 @@ public class ItemDistributorServiceImpl implements ItemDistributorService {
 
 	@Override
 	public List<ItemDistributorDTO> findAllMappedItemDistributors() {
-		
+
 		List<ItemDistributorDTO>  r =itemDistributorsRepository.getAllItemDistributors();
 
 		return r;
@@ -217,6 +216,29 @@ public class ItemDistributorServiceImpl implements ItemDistributorService {
 		log.info("ItemDistributor data with ID: " + itemDistributorModelModelRes.getItemDistributorId()
 		+ " Updated succesfully");
 
+	}
+
+	@Override
+	public List<ItemDistributorDTO> findAllMappedItemDistributorsOnItemName(int itemId) {
+		List<ItemDistributorDTO> response=itemDistributorsRepository.getAllItemDistributorsBasedOnItemId(itemId);
+
+		return response;
+	}
+
+	@Override
+	public List<ItemDistributorDTO> findAllDistributorItemOnDistributorId(int distributorId) {
+		List<ItemDistributorDTO> response=itemDistributorsRepository.getAllDistributorItemBasedOnDistId(distributorId);
+		return response;
+	}
+
+	
+	
+	@Override
+	public ItemDistributorModel saveItemDistributorDataModel(@Valid ItemDistributorModel itemDistributorModel) {
+
+		itemDistributorModel = itemDistributorsRepository.save(itemDistributorModel);
+		log.info("ItemDistributor data with ID: "+ itemDistributorModel.getItemDistributorId()+" saved succesfully");
+		return itemDistributorModel;
 	}
 
 }

@@ -105,6 +105,7 @@ public class InvoiceItemServiceImpl implements InvoiceItemService {
 		InvoiceItemModel invoiceItemModel = null;
 		try {
 			invoiceItemModel = invoiceItemRepository.findById(invoiceItemId).get();
+			invoiceItemModel.getItemsModel();
 			return invoiceItemModel;
 		} catch (NoSuchElementException noSuchElementException) {
 			throw new IHealthPharmException(invoiceItemHelper.getNotFoundInvoiceItemMessage(), HttpStatus.NOT_FOUND);

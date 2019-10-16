@@ -23,7 +23,6 @@ import com.ihealthpharm.masters.model.DistributorModel;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.PharmacyAddressModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
-import com.ihealthpharm.masters.model.QuotationModel;
 
 import lombok.Getter;
 import lombok.Setter;
