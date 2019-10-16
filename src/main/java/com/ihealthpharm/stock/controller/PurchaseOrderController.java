@@ -191,6 +191,16 @@ public class PurchaseOrderController {
 	
 	/**
 	 * @author Gunasekhar 
+	 * Service is for item details based on the purchase order
+	 */
+	@GetMapping("/getdistributorbypurchaseorder")
+	public ResponseEntity<BaseDto<DistributorModel>> getDistributorByPurchaseOrder(@RequestParam Integer purchaseOrderId) {
+		DistributorModel distributorModel = purchaseorderService.getDistributorByPurchaseOrder(purchaseOrderId);
+		return new BaseDto<>(distributorModel, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
 	 * Service is for purchase orders based on the pharmacyId
 	 */
 	@GetMapping("/getpurchaseordersbypharmacy")
