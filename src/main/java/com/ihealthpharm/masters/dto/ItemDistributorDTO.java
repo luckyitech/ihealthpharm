@@ -51,6 +51,8 @@ public class ItemDistributorDTO {
 	
 	private DistributorModel distributorModel;
 	
+	private int itemsId;
+	
 	public ItemDistributorDTO(int itemDistributorId, int itemsId, int distributorsId, String activeS, String distributorName, String itemName) {
 		this.itemDistributorId = itemDistributorId;
 		this.itemId = itemsId;

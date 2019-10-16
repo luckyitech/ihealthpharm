@@ -2,6 +2,7 @@ package com.ihealthpharm.reports.helper;
 
 import org.springframework.util.ObjectUtils;
 
+import com.ihealthpharm.commons.DateUtility;
 import com.ihealthpharm.commons.JsonUtility;
 import com.ihealthpharm.reports.dto.HeaderFooterContentDetailsDto;
 import com.ihealthpharm.reports.dto.HeaderFooterContentDto;
@@ -26,6 +27,9 @@ import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfTemplate;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class HeaderFooterPageEvent extends PdfPageEventHelper {
 
 	private PdfTemplate t;
@@ -156,6 +160,8 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 			// header.writeSelectedRows(0, -1, 34, 803, writer.getDirectContent());
 			finalFeader.writeSelectedRows(0, -1, document.left(),
 					document.top() + ((document.topMargin() + header.getTotalHeight()) / 2), writer.getDirectContent());
+			 
+			
 			
 			
 		} catch (DocumentException de) {
@@ -180,7 +186,14 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 			// add current page count
 			footer.getDefaultCell().setHorizontalAlignment(Element.ALIGN_RIGHT);
 			// add copyright
-			footer.addCell(new Phrase(" ", title08));			
+
+			PdfPCell dateCell = new PdfPCell(new Phrase("Report Generated Date - "+DateUtility.getDateString(), title08)); 
+			dateCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			dateCell.setBorder(Rectangle.TOP);
+			dateCell.setBorderColor(BaseColor.LIGHT_GRAY);
+			
+			
+			footer.addCell(dateCell);			
 			footer.addCell(new Phrase(String.format("Page %d of", writer.getPageNumber()),title08));
 
 			// add placeholder for total page count
@@ -192,7 +205,7 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 			// write page
 			PdfContentByte canvas = writer.getDirectContent();
 			canvas.beginMarkedContentSequence(PdfName.ARTIFACT);
-			footer.writeSelectedRows(0, -1, 35, 40, canvas);
+			footer.writeSelectedRows(0, -1, 25, 25, canvas);
 			canvas.endMarkedContentSequence();
 		} catch (DocumentException de) {
 			throw new ExceptionConverter(de);
