@@ -9,9 +9,12 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
@@ -24,6 +27,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
+import com.ihealthpharm.commons.DateUtility;
 import com.ihealthpharm.commons.JsonUtility;
 import com.ihealthpharm.reports.dto.HeaderDto;
 import com.ihealthpharm.reports.dto.HeaderFooterContentDetailsDto;
@@ -67,6 +71,29 @@ public class ReportsExcelUtility {
 		borderStyle.setBorderLeft(BorderStyle.THIN);  
 		borderStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());  
 		
+		CellStyle headerStyle = workbook.createCellStyle();
+		
+		Font font = workbook.createFont();
+		font.setFontHeightInPoints((short)11);
+		font.setFontName(HSSFFont.FONT_ARIAL);
+		font.setBold(true);
+		font.setColor(IndexedColors.DARK_BLUE.getIndex()); 
+		
+		headerStyle.setFont(font);
+		headerStyle.setFillForegroundColor(IndexedColors.GOLD.getIndex());
+		headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+		headerStyle.setVerticalAlignment(VerticalAlignment.TOP);
+		headerStyle.setAlignment(HorizontalAlignment.CENTER);
+		headerStyle.setBorderBottom(BorderStyle.THIN);  
+		headerStyle.setBottomBorderColor(IndexedColors.BLACK.getIndex());  
+		headerStyle.setBorderRight(BorderStyle.THIN);  
+		headerStyle.setRightBorderColor(IndexedColors.BLACK.getIndex());  
+		headerStyle.setBorderTop(BorderStyle.THIN);  
+		headerStyle.setTopBorderColor(IndexedColors.BLACK.getIndex());  
+		headerStyle.setBorderLeft(BorderStyle.THIN);  
+		headerStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());  
+		
+		
 		String reportHeader = model.getReportHeader();
 		String headerContent = model.getHeaderContent();
 		List<HeaderDto> headerList = JsonUtility.jsonToList(reportHeader, HeaderDto.class);
@@ -97,6 +124,15 @@ public class ReportsExcelUtility {
 			CellRangeAddress cellRangeAddress = new CellRangeAddress(0, totalMergeRows - 1, 0, totalMergeColumns - 1);
 			sheet.addMergedRegion(cellRangeAddress);
 
+			
+			Row reportDateRow =sheet.createRow(rowNum++);
+			Cell cellReportTime = reportDateRow.createCell(0);
+			cellReportTime.setCellValue("Report Generated Date - "+DateUtility.getDateString());
+			cellReportTime.setCellStyle(wrapStyle);
+			
+			CellRangeAddress cellRangeReportDate= new CellRangeAddress(rowNum - 1, rowNum - 1, 0, totalMergeColumns - 1);
+			sheet.addMergedRegion(cellRangeReportDate);
+			
 			Row headerRow = sheet.createRow(rowNum++);
 			Cell cell = headerRow.createCell(0);
 			cell.setCellValue(model.getTitle());
@@ -105,10 +141,12 @@ public class ReportsExcelUtility {
 			CellRangeAddress cellRangeAddress1 = new CellRangeAddress(rowNum - 2, rowNum - 1, 0, totalMergeColumns - 1);
 			sheet.addMergedRegion(cellRangeAddress1);
 
-			sheet.createRow(rowNum++);
-
-			CellRangeAddress cellRangeAddress2 = new CellRangeAddress(rowNum - 1, rowNum - 1, 0, totalMergeColumns - 1);
-			sheet.addMergedRegion(cellRangeAddress2);
+			
+			/*
+			 * sheet.createRow(rowNum++); CellRangeAddress cellRangeAddress2 = new
+			 * CellRangeAddress(rowNum - 1, rowNum - 1, 0, totalMergeColumns - 1);
+			 * sheet.addMergedRegion(cellRangeAddress2);
+			 */
 
 
 			
@@ -121,9 +159,10 @@ public class ReportsExcelUtility {
 		for (HeaderDto hearder : headerList) {
 			Cell cell = headerRow.createCell(colNum);
 			cell.setCellValue(hearder.getDisplayName());
-			cell.setCellStyle(borderStyle);
+			cell.setCellStyle(headerStyle);
 			colNum++;
 		}
+		sheet.createFreezePane(0, rowNum);
 
 		// populate Date
 		if (!ObjectUtils.isEmpty(responseList)) {
@@ -133,7 +172,7 @@ public class ReportsExcelUtility {
 				for (HeaderDto hearder : headerList) {
 					Object value = rowData.containsKey(hearder.getColumnName()) ? rowData.get(hearder.getColumnName())
 							: "";
-					//sheet.autoSizeColumn(colNum);
+					sheet.autoSizeColumn(colNum);
 					Cell cell = dataRow.createCell(colNum++);
 					cell.setCellValue(String.valueOf(value));
 					cell.setCellStyle(borderStyle);
@@ -153,6 +192,8 @@ public class ReportsExcelUtility {
 		 
 	}
 	
+	
+
 	private void setRegionBorderWithMedium(CellRangeAddress region,Sheet sheet) {
         RegionUtil.setBorderBottom(BorderStyle.THIN, region, sheet);
         RegionUtil.setBorderLeft(BorderStyle.THIN, region, sheet);

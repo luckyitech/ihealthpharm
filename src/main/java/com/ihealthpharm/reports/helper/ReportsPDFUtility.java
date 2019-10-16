@@ -34,6 +34,8 @@ public class ReportsPDFUtility {
 
 	private Font title06 = FontFactory.getFont(Font.FontFamily.HELVETICA.toString(), 6);
 	private Font title08 = FontFactory.getFont(Font.FontFamily.HELVETICA.toString(), 8);
+	private Font headerFont = FontFactory.getFont(Font.FontFamily.HELVETICA.toString(), 8,Font.BOLD);
+
 
 
 	
@@ -101,9 +103,14 @@ public class ReportsPDFUtility {
 		table.setSpacingAfter(50); 
 		PdfPCell cell = null;
 		for (HeaderDto hearder : headerList) {
-			cell = new PdfPCell(new Phrase(hearder.getDisplayName(),title08));
-			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-			table.addCell(cell);
+			//cell = new PdfPCell(new Phrase(hearder.getDisplayName(),title08));
+			//cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+			Paragraph headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add(hearder.getDisplayName());
+
+			table.addCell(headerCell);
 		}
 		table.setHeaderRows(1);
 
