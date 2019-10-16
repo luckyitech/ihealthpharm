@@ -65,7 +65,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public List<CustomerModel> findAllCustomers() {
 		
-		return customerRepository.findAll();
+		return customerRepository.findAllByOrderByLastUpdateTimestampDesc();
 	}
 
 	@Override
@@ -79,6 +79,13 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerRes;
 	}
 
+	  @Override
+		public List<CustomerModel> findCustomerByActive() {
+
+			return customerRepository.findByActiveS('Y');
+	    }
+
+	
 	@Override
 	public void deleteCustomerById(int customerId) {
 		CustomerModel customerRes = customerRepository.getOne(customerId);

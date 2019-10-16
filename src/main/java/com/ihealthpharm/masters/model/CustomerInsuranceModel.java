@@ -56,15 +56,15 @@ public class CustomerInsuranceModel {
     @JoinColumn(name="CUSTOMER_ID")
     private CustomerModel customerModel;
     
-    public void setInsuranceStartDate(Date startDate) throws ParseException {
+    public void setPolicyStart(Date startDate) throws ParseException {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String insuranceStart=simpleDateFormat.format(startDate);  
-		this.policyStart = insuranceStart;
+		String customerStart=simpleDateFormat.format(startDate);  
+		this.policyStart = customerStart;
     }
 
-  public void setInsuranceEndDate(Date insuranceEnd)  {
+  public void setPolicyEnd(Date endDate)  {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String endDate=simpleDateFormat.format(insuranceEnd);  
-		this.policyEnd = endDate;
+		String customerEnd=simpleDateFormat.format(endDate);  
+		this.policyEnd = customerEnd;
     }
 }

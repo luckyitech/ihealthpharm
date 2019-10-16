@@ -94,9 +94,9 @@ public class CustomerModel extends AuditModel{
 		 @Column(name="ORGANISATION",length=50)
 		    private String organisation;
 		 
-		/* @OneToOne
+		 @OneToOne
 		    @JoinColumn(name="PHARMACY_ID")
-		    private PharmacyModel pharmacyModel;*/
+		    private PharmacyModel pharmacyModel;
 		 
 		 @OneToOne
 		    @JoinColumn(name="CUSTOMER_MEMBERSHIP_ID")
