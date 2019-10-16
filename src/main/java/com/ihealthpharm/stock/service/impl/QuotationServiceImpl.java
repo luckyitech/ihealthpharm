@@ -186,7 +186,7 @@ public class QuotationServiceImpl implements QuotationService {
 		for(ItemDistributorDTO i : model) {
 			ItemsModel itemsModel = new ItemsModel();
 			
-			itemsModel.setItemId(i.getItemsId());
+			itemsModel.setItemId(i.getItemId());
 			itemsModel.setItemCode(i.getItemCode());
 			itemsModel.setItemName(i.getItemName());
 			itemsModel.setItemDescription(i.getItemDescription());
@@ -206,7 +206,7 @@ public class QuotationServiceImpl implements QuotationService {
 		for(ItemDistributorDTO i : model) {
 			ItemsModel itemsModel = new ItemsModel();
 			
-			itemsModel.setItemId(i.getItemsId());
+			itemsModel.setItemId(i.getItemId());
 			itemsModel.setItemCode(i.getItemCode());
 			itemsModel.setItemName(i.getItemName());
 			itemsModel.setItemDescription(i.getItemDescription());

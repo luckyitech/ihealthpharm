@@ -70,7 +70,7 @@ public class ItemDistributorDTO {
 		this.itemDescription = itemDescription;
 		this.itemName = itemName;
 		this.percentage = percentage;
-		this.itemsId = itemsId;
+		this.itemId = itemsId;
 	}
 	
 	public ItemDistributorDTO(int itemDistributorId,String activeS,String distributorName,String itemName,String manufacturerName,String manufacturerLicense,String itemDescription,Integer itemId,
