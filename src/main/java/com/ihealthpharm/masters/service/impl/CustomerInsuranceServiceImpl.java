@@ -32,32 +32,32 @@ public class CustomerInsuranceServiceImpl implements CustomerInsuranceService {
 	@Override
 	public CustomerInsuranceModel saveCustomerInsuranceData(CustomerInsuranceModel customerInsurance) {
 		CustomerInsuranceModel customerInsuranceRes = customerInsuranceRepository.save(customerInsurance);
-		log.info("Customer Insurance data with ID : " + customerInsuranceRes.getInsurancePolicyPersonalId() + " Saved succesfully");
+		log.info("Customer Insurance data with ID : " + customerInsuranceRes.getCustomerInsuranceId() + " Saved succesfully");
 		return customerInsuranceRes;
 	}
 
 	@Override
 	public CustomerInsuranceModel updateCustomerInsuranceData(CustomerInsuranceModel customerInsurance) {
-		CustomerInsuranceModel customerInsuranceRes = getValidCustomersInsurance(customerInsurance.getInsurancePolicyPersonalId());
+		CustomerInsuranceModel customerInsuranceRes = getValidCustomersInsurance(customerInsurance.getCustomerInsuranceId());
 		if (!Objects.nonNull(customerInsuranceRes)) {
 			throw new IHealthPharmException(customerInsuranceHelper.notFoundCustomerInsuranceMessage, HttpStatus.NOT_FOUND);
 		}
 
 		customerInsuranceRes = customerInsuranceRepository.save(customerInsurance);
-		log.info("Customer Insurance data with ID : " + customerInsuranceRes.getInsurancePolicyPersonalId() + " updated succesfully");
+		log.info("Customer Insurance data with ID : " + customerInsuranceRes.getCustomerInsuranceId() + " updated succesfully");
 		return customerInsuranceRes;
 	}
 
 	@Override
 	public List<CustomerInsuranceModel> updateCustomersInsuranceData(List<CustomerInsuranceModel> customersInsurance) {
 		for (CustomerInsuranceModel customerInsurance : customersInsurance) {
-			CustomerInsuranceModel customerInsuranceRes = getValidCustomersInsurance(customerInsurance.getInsurancePolicyPersonalId());
+			CustomerInsuranceModel customerInsuranceRes = getValidCustomersInsurance(customerInsurance.getCustomerInsuranceId());
 			if (!Objects.nonNull(customerInsuranceRes)) {
 				throw new IHealthPharmException(customerInsuranceHelper.notFoundCustomerInsuranceMessage, HttpStatus.NOT_FOUND);
 			}
 
 			customerInsuranceRes = customerInsuranceRepository.save(customerInsurance);
-			log.info("Customer Insurance data with ID : " + customerInsuranceRes.getInsurancePolicyPersonalId() + " updated succesfully");
+			log.info("Customer Insurance data with ID : " + customerInsuranceRes.getCustomerInsuranceId() + " updated succesfully");
 		}
 		return customersInsurance;
 	}
@@ -75,7 +75,7 @@ public class CustomerInsuranceServiceImpl implements CustomerInsuranceService {
 			throw new IHealthPharmException(customerInsuranceHelper.notFoundCustomerInsuranceMessage, HttpStatus.NOT_FOUND);
 		}
 		
-		log.info("Customer Insurance data with ID : " + customerInsuranceRes.getInsurancePolicyPersonalId() + " retrieved succesfully");
+		log.info("Customer Insurance data with ID : " + customerInsuranceRes.getCustomerInsuranceId() + " retrieved succesfully");
 		return customerInsuranceRes;
 	}
 
@@ -86,7 +86,7 @@ public class CustomerInsuranceServiceImpl implements CustomerInsuranceService {
 			throw new IHealthPharmException(customerInsuranceHelper.notFoundCustomerInsuranceMessage, HttpStatus.NOT_FOUND);
 		}
 		
-		log.info("Customer Insurance data with ID : " + customerInsuranceRes.getInsurancePolicyPersonalId() + " Deleted succesfully");
+		log.info("Customer Insurance data with ID : " + customerInsuranceRes.getCustomerInsuranceId() + " Deleted succesfully");
 		customerInsuranceRepository.delete(customerInsuranceRes);
 		
 	}
@@ -100,7 +100,7 @@ public class CustomerInsuranceServiceImpl implements CustomerInsuranceService {
 				throw new IHealthPharmException(customerInsuranceHelper.notFoundCustomerInsuranceMessage, HttpStatus.NOT_FOUND);
 			}
 			customerInsuranceRepository.delete(customerInsuranceRes);
-			log.info("Customer Insurance data with ID: " + customerInsuranceRes.getInsurancePolicyPersonalId() + " deleted succesfully");
+			log.info("Customer Insurance data with ID: " + customerInsuranceRes.getCustomerInsuranceId() + " deleted succesfully");
 		}
 		
 	}
