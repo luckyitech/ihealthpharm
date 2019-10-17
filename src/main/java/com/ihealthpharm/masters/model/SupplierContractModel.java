@@ -17,9 +17,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@Entity(name="distributor_contract")
-@EqualsAndHashCode(of="distributorContractId",callSuper=false)
-public class DistributorContractModel extends AuditModel{
+@Entity(name="supplier_contract")
+@EqualsAndHashCode(of="supplierContractId",callSuper=false)
+public class SupplierContractModel extends AuditModel{
 
 	/**
 	 * 
@@ -28,8 +28,8 @@ public class DistributorContractModel extends AuditModel{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="DISTRIBUTOR_CONTRACT_ID", length=11)
-	private Integer distributorContractId;
+	@Column(name="SUPPLIER_CONTRACT_ID", length=11)
+	private Integer supplierContractId;
 	
 	@Column(name="CONTRACT_NO",length = 20)
 	private String contractNumber;
@@ -70,6 +70,6 @@ public class DistributorContractModel extends AuditModel{
 	private QuotationModel quotationId;
 	
 	@OneToOne
-	@JoinColumn(name="DISTRIBUTOR_ID")
-	private DistributorModel distributorId;
+	@JoinColumn(name="SUPPLIER_ID")
+	private SupplierModel supplierId;
 }

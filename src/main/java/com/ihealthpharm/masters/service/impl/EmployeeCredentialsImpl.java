@@ -46,7 +46,7 @@ public class EmployeeCredentialsImpl implements EmployeeCredentialsService {
 
 	@Override
 	public EmployeeCredentialsModel updateEmployeeCredentialsData(EmployeeCredentialsModel employeeCredentialsModel) {
-		EmployeeCredentialsModel employeeCredentialsRes = getValidDistributorContract(
+		EmployeeCredentialsModel employeeCredentialsRes = getValidSupplierContract(
 				employeeCredentialsModel.getEmployeeCredentialsId());
 		if (!Objects.nonNull(employeeCredentialsRes)) {
 			throw new IHealthPharmException(employeeCredentialsHelper.getNotFoundEmployeeCredentialsMessage(),
@@ -63,7 +63,7 @@ public class EmployeeCredentialsImpl implements EmployeeCredentialsService {
 	public List<EmployeeCredentialsModel> updateEmployeeCredentialsData(
 			List<EmployeeCredentialsModel> employeeCredentialsModels) {
 		for (EmployeeCredentialsModel employeeCredentialsModel : employeeCredentialsModels) {
-			EmployeeCredentialsModel employeeCredentialsRes = getValidDistributorContract(
+			EmployeeCredentialsModel employeeCredentialsRes = getValidSupplierContract(
 					employeeCredentialsModel.getEmployeeCredentialsId());
 			if (!Objects.nonNull(employeeCredentialsRes)) {
 				throw new IHealthPharmException(employeeCredentialsHelper.getNotFoundEmployeeCredentialsMessage(),
@@ -85,7 +85,7 @@ public class EmployeeCredentialsImpl implements EmployeeCredentialsService {
 
 	@Override
 	public EmployeeCredentialsModel findEmployeeCredentialsById(int employeeCredentialId) {
-		EmployeeCredentialsModel employeeCredentialsRes = getValidDistributorContract(employeeCredentialId);
+		EmployeeCredentialsModel employeeCredentialsRes = getValidSupplierContract(employeeCredentialId);
 		log.info(
 				employeeCredentialsHelper.getRetrieveEmployeeCredentialsMessage() + " With Id:" + employeeCredentialId);
 		return employeeCredentialsRes;
@@ -94,7 +94,7 @@ public class EmployeeCredentialsImpl implements EmployeeCredentialsService {
 	@Override
 	public void deleteEmployeeCredentialsById(int employeeCredentialId) {
 
-		EmployeeCredentialsModel employeeCredentialsRes = getValidDistributorContract(employeeCredentialId);
+		EmployeeCredentialsModel employeeCredentialsRes = getValidSupplierContract(employeeCredentialId);
 		employeeCredentialsRepository.delete(employeeCredentialsRes);
 		log.info(employeeCredentialsHelper.getDeleteEmployeeCredentialsMessage() + " With Id:" + employeeCredentialId);
 
@@ -104,7 +104,7 @@ public class EmployeeCredentialsImpl implements EmployeeCredentialsService {
 	public void deleteEmployeesCredentialsById(int[] employeeCredentialIds) {
 		EmployeeCredentialsModel employeeCredentialsRes = null;
 		for (int employeeCredentialId : employeeCredentialIds) {
-			employeeCredentialsRes = getValidDistributorContract(employeeCredentialId);
+			employeeCredentialsRes = getValidSupplierContract(employeeCredentialId);
 			employeeCredentialsRepository.delete(employeeCredentialsRes);
 			log.info(employeeCredentialsHelper.getDeleteEmployeeCredentialsMessage() + " With Id:"
 					+ employeeCredentialId);
@@ -131,7 +131,7 @@ public class EmployeeCredentialsImpl implements EmployeeCredentialsService {
 		return employeeCredentialsRes;
 	}
 	
-	public EmployeeCredentialsModel getValidDistributorContract(int employeeCredentialId) {
+	public EmployeeCredentialsModel getValidSupplierContract(int employeeCredentialId) {
 		EmployeeCredentialsModel employeeCredentialsRes = null;
 
 		try {

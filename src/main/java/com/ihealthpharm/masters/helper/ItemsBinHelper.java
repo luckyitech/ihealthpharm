@@ -19,7 +19,6 @@ public class ItemsBinHelper {
 	@Value("${itemsBin.delete.response}")
 	public String deleteItemsBinMessage;
 	
-	
 	@Value("${itemsBin.retrieve.response}")
 	public String retrieveItemsBinMessage;
 	

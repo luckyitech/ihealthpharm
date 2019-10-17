@@ -25,5 +25,4 @@ public interface ManufacturerService {
 	List<ManufacturerModel> findAllManufacturersData(String searchTerm);
 
 
-
 }

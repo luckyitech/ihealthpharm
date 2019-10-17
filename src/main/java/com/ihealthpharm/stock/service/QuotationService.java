@@ -5,7 +5,7 @@ package com.ihealthpharm.stock.service;
 
 import java.util.List;
 
-import com.ihealthpharm.masters.dto.ItemDistributorDTO;
+import com.ihealthpharm.masters.dto.ItemSupplierDTO;
 import com.ihealthpharm.stock.model.QuotationModel;
 
 public interface QuotationService {
@@ -34,8 +34,8 @@ public interface QuotationService {
 	
 	String getPharmacyNm(Integer pharmacyId) ;
 	
-	List<ItemDistributorDTO> getItemsByDistributor(Integer distributorId);
+	List<ItemSupplierDTO> getItemsBySupplier(Integer supplierId);
 	
-	List<ItemDistributorDTO> getItemsByDistributor(Integer distributorId, String itemCode, String itemName);
+	List<ItemSupplierDTO> getItemsBySupplier(Integer supplierId, String itemCode, String itemName);
 
 }

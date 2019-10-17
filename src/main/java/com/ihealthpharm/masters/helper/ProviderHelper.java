@@ -27,36 +27,6 @@ public class ProviderHelper {
 	@Value("${provider.not.found.response}")
 	public String notFoundProvideMessage;
 
-	
-	@Value("${distrubutor.save.response}")
-	public String saveDistrubutorMessage;
-	
-	@Value("${distrubutor.update.response}")
-	public String updateDistrubutorMessage;
-	
-	@Value("${distrubutor.delete.response}")
-	public String deleteDistrubutorMessage;
-	
-	@Value("${distrubutor.retrieve.response}")
-	public String retrieveDistrubutorMessage;
-	
-	@Value("${distrubutor.not.found.response}")
-	public String notFoundDistrubutorMessage;
-
-	@Value("${employee.save.response}")
-	public String saveEmployeeMessage;
-	
-	@Value("${employee.update.response}")
-	public String updateEmployeeMessage;
-	
-	@Value("${employee.delete.response}")
-	public String deleteEmployeeMessage;
-	
-	@Value("${employee.retrieve.response}")
-	public String retrieveEmployeeMessage;
-	
-	@Value("${employee.not.found.response}")
-	public String notFoundEmployeeMessage;
 
 	
 }

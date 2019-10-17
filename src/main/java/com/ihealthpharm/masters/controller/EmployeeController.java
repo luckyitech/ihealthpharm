@@ -168,6 +168,7 @@ public class EmployeeController {
 
 	@PutMapping("/update/employee")
 	public ResponseEntity<BaseDto<EmployeeModel>> updateEmployeeData(@Valid @RequestBody EmployeeModel employeeData) throws IOException {
+
 		
 		
 		//EmployeeModel employeeModel = null;
@@ -179,6 +180,14 @@ public class EmployeeController {
 //		}
 		EmployeeModel employeeRes = employeeService.updateEmployeeData(employeeData);
 		return new BaseDto<>(employeeRes, employeeHelper.getUpdateEmployeeMessage(), OK).respond();
+	}
+	
+	
+	@PutMapping("update/employee")
+	public ResponseEntity<BaseDto<EmployeeModel>> updateEmployeeDataWithoutImage(@Valid @RequestBody EmployeeModel employeeData){
+		log.info("Request Object for Update :"+employeeData);
+		EmployeeModel empModel=employeeService.updateEmployeeData(employeeData);
+		return new BaseDto<>(empModel,employeeHelper.getUpdateEmployeeMessage(),OK).respond();
 	}
 	
 	@DeleteMapping("/delete/employee")

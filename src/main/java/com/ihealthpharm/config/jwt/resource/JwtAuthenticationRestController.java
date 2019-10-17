@@ -75,8 +75,10 @@ public class JwtAuthenticationRestController {
 		final String token = jwtTokenUtil.generateToken(userDetails);
 		System.out.println("User ID : "+users.getEmployee().getEmployeeId());
 		List<EmployeeAccessModel> result = employeeAccessService.findByEmployee(users.getEmployee());
+
 	
-		return new BaseDto<>(new JwtTokenResponse(token,users.getEmployee().getEmployeeId(),result,employeePharmacyRoleModels.getPharmacyModel()),"Authondication sucess",OK).respond();
+		return new BaseDto<>(new JwtTokenResponse(token,users.getEmployee().getEmployeeId(),result,employeePharmacyRoleModels.getPharmacyModel()),"Authentication Success",OK).respond();
+
 	}
 
 	@RequestMapping(value = "${jwt.refresh.token.uri}", method = RequestMethod.GET)

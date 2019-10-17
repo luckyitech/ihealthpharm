@@ -1,6 +1,6 @@
 package com.ihealthpharm.masters.dto;
 
-import com.ihealthpharm.masters.model.DistributorModel;
+import com.ihealthpharm.masters.model.SupplierModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 
 import lombok.AllArgsConstructor;
@@ -12,14 +12,13 @@ import lombok.ToString;
 @Setter
 @ToString
 @AllArgsConstructor
-public class ItemDistributorDTO {
+public class ItemSupplierDTO {
 	
-	
-	private int itemDistributorId;
+	private int itemSupplierId;
 	
 	private String activeS;
 	
-	private String distributorName;
+	private String supplierName;
 
 	private String itemName;
 	
@@ -31,9 +30,9 @@ public class ItemDistributorDTO {
 
 	private Integer itemId;
 	
-	private Integer distributorId;
+	private Integer supplierId;
 	
-	private int distributorPriority;
+	private int supplierPriority;
 	
 	private String formulation;
 
@@ -49,20 +48,20 @@ public class ItemDistributorDTO {
 		
 	private ItemsModel itemsModel;
 	
-	private DistributorModel distributorModel;
+	private SupplierModel supplierModel;
 	
 	private int itemsId;
 	
-	public ItemDistributorDTO(int itemDistributorId, int itemsId, int distributorsId, String activeS, String distributorName, String itemName) {
-		this.itemDistributorId = itemDistributorId;
-		this.itemId = itemsId;
-		this.distributorId = distributorsId;
+	public ItemSupplierDTO(int itemSupplierId, int itemId, int supplierId, String activeS, String supplierName, String itemName) {
+		this.itemSupplierId = itemSupplierId;
+		this.itemId = itemId;
+		this.supplierId = supplierId;
 		this.activeS = activeS;
-		this.distributorName = distributorName;
+		this.supplierName = supplierName;
 		this.itemName = itemName;
 	}
 	
-	public ItemDistributorDTO(Double unitRate, Double discountPercentage, String itemCode, String itemName, String itemDescription, 
+	public ItemSupplierDTO(Double unitRate, Double discountPercentage, String itemCode, String itemName, String itemDescription, 
 			Double percentage, int itemsId) {
 		this.unitRate = unitRate;
 		this.discountPercentage = discountPercentage;
@@ -70,21 +69,21 @@ public class ItemDistributorDTO {
 		this.itemDescription = itemDescription;
 		this.itemName = itemName;
 		this.percentage = percentage;
-		this.itemsId = itemsId;
+		this.itemId = itemsId;
 	}
 	
-	public ItemDistributorDTO(int itemDistributorId,String activeS,String distributorName,String itemName,String manufacturerName,String manufacturerLicense,String itemDescription,Integer itemId,
-			Integer distributorId,int distributorPriority,String formulation,String itemCode,Double unitRate,Double discountPercentage,String validity) {
-		this.itemDistributorId=itemDistributorId;
+	public ItemSupplierDTO(int itemSupplierId,String activeS,String supplierName,String itemName,String manufacturerName,String manufacturerLicense,String itemDescription,Integer itemId,
+			Integer supplierId,int supplierPriority,String formulation,String itemCode,Double unitRate,Double discountPercentage,String validity) {
+		this.itemSupplierId=itemSupplierId;
 		this.activeS=activeS;
-		this.distributorName=distributorName;
+		this.supplierName=supplierName;
 		this.itemName=itemName;
 		this.manufacturerName=manufacturerName;
 		this.manufacturerLicense=manufacturerLicense;
 		this.itemDescription=itemDescription;
 		this.itemId=itemId;
-		this.distributorId=distributorId;
-		this.distributorPriority=distributorPriority;
+		this.supplierId=supplierId;
+		this.supplierPriority=supplierPriority;
 		this.formulation=formulation;
 		this.itemCode=itemCode;
 		this.unitRate=unitRate;

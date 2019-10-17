@@ -52,6 +52,13 @@ public class CustomerController {
 		return new BaseDto<>(customerModelRes, customerHelper.getUpdateCustomerMessage(), OK).respond();
 	}
 
+	@PutMapping("/update/customers")
+	public ResponseEntity<BaseDto<List<CustomerModel>>> updateCustomersData(@Valid @RequestBody List<CustomerModel> customerModel) {
+		log.info("Request Object for update is: " , customerModel);
+		List<CustomerModel> CustomerModelRes = customerService.updateCustomersData(customerModel);
+		return new BaseDto<>(CustomerModelRes, customerHelper.getUpdateCustomerMessage(), OK).respond();
+	}
+	
 	@DeleteMapping("/delete/customer")
 	public ResponseEntity<BaseDto<Object>> deleteCustomerData(@RequestParam int customerId) {
 		log.info("Request Object for delete is: ", customerId);
@@ -59,6 +66,15 @@ public class CustomerController {
 		return new BaseDto<>(customerHelper.getDeleteCustomerMessage(), OK).respond();
 	}
 
+	@DeleteMapping("/delete/customers")
+	public ResponseEntity<BaseDto<Object>> deleteCustomerData(@RequestParam int[] customerIds) {
+
+		log.info("Request Object for delete is: " + customerIds[0]);
+		customerService.deleteCustomersById(customerIds);
+		return new BaseDto<>(customerHelper.getDeleteCustomerMessage(), OK).respond();
+	}
+
+	
 	@GetMapping("/getcustomerdata")
 	public ResponseEntity<BaseDto<List<CustomerModel>>> getCustomerData() {
 		List<CustomerModel> result = customerService.findAllCustomers();
@@ -71,18 +87,6 @@ public class CustomerController {
 		return new BaseDto<>(result, customerHelper.getRetrieveCustomerMessage(), OK).respond();
 	}
 
-	@DeleteMapping("/delete/customers")
-	public ResponseEntity<BaseDto<Object>> deleteCustomerData(@RequestParam int[] customerIds) {
-
-		log.info("Request Object for delete is: " + customerIds[0]);
-		customerService.deleteCustomersById(customerIds);
-		return new BaseDto<>(customerHelper.getDeleteCustomerMessage(), OK).respond();
-	}
-
-	@PutMapping("/update/customers")
-	public ResponseEntity<BaseDto<List<CustomerModel>>> updateCustomersData(@Valid @RequestBody List<CustomerModel> customerModel) {
-		log.info("Request Object for update is: " , customerModel);
-		List<CustomerModel> CustomerModelRes = customerService.updateCustomersData(customerModel);
-		return new BaseDto<>(CustomerModelRes, customerHelper.getUpdateCustomerMessage(), OK).respond();
-	}
+	
+	
 }

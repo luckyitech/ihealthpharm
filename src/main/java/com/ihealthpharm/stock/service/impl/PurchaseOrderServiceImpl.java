@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
-import com.ihealthpharm.masters.model.DistributorModel;
+import com.ihealthpharm.masters.model.SupplierModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.stock.dao.PurchaseOrderItemsRepository;
 import com.ihealthpharm.stock.dao.PurchaseOrderRepository;
@@ -196,15 +196,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	}
 
 	@Override
-	public List<DistributorModel> getDistributorsByQuotationId(Integer quotationId) {
+	public List<SupplierModel> getSuppliersByQuotationId(Integer quotationId) {
 		log.info("QuotationId Id: "+ quotationId+" ");
-		return purchaseorderRepository.getDistributorsByQuotationId(quotationId);
+		return purchaseorderRepository.getSuppliersByQuotationId(quotationId);
 	}
 
 	@Override
-	public List<ItemsModel> getItemsByDistributorAndQuotation(Integer quotationId, Integer distributorId) {
-		log.info("QuotationId Id: "+ quotationId+" Distributor Id "+distributorId);
-		return purchaseorderRepository.getItemsByDistributorAndQuotation(quotationId, distributorId);
+	public List<ItemsModel> getItemsBySupplierAndQuotation(Integer quotationId, Integer supplierId) {
+		log.info("QuotationId Id: "+ quotationId+" Supplier Id "+supplierId);
+		return purchaseorderRepository.getItemsBySupplierAndQuotation(quotationId, supplierId);
 	}
 
 	@Override
@@ -214,9 +214,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	}
 	
 	@Override
-	public DistributorModel getDistributorByPurchaseOrder(Integer purchaseOrderId) {
+	public SupplierModel getSupplierByPurchaseOrder(Integer purchaseOrderId) {
 		log.info("PurchaseOrder Id: "+ purchaseOrderId);
-		return purchaseorderRepository.getDistributorByPurchaseOrder(purchaseOrderId);
+		return purchaseorderRepository.getSupplierByPurchaseOrder(purchaseOrderId);
 	}
 	
 	@Override

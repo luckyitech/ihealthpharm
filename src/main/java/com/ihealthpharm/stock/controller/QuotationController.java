@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
-import com.ihealthpharm.masters.dto.ItemDistributorDTO;
+import com.ihealthpharm.masters.dto.ItemSupplierDTO;
 import com.ihealthpharm.masters.helper.ItemPropertyHelper;
 import com.ihealthpharm.stock.helper.QuotationHelper;
 import com.ihealthpharm.stock.model.QuotationModel;
@@ -283,23 +283,23 @@ public class QuotationController {
 	
 	/**
 	 * @author Gunasekhar 
-	 * Service is to get the items based on the distributor
+	 * Service is to get the items based on the Supplier
 	 */
 	@GetMapping("/getitemsbydistributor")
-	public ResponseEntity<BaseDto<List<ItemDistributorDTO>>> getItemsByDistributor(@RequestParam Integer distributorId) {
-		List<ItemDistributorDTO> result = quotationService.getItemsByDistributor(distributorId);
+	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsBySupplier(@RequestParam Integer supplierId) {
+		List<ItemSupplierDTO> result = quotationService.getItemsBySupplier(supplierId);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 	
 	/**
 	 * @author Gunasekhar 
-	 * Service is to get the items based on the distributor
+	 * Service is to get the items based on the Supplier
 	 */
 	@GetMapping("/getitemsbydistributoritemcditemname")
-	public ResponseEntity<BaseDto<List<ItemDistributorDTO>>> getItemsByDistributor(@RequestParam Integer distributorId, 
+	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsBySupplier(@RequestParam Integer supplierId, 
 			@RequestParam(required=false) String itemCode, @RequestParam(required=false) String itemName) {
 		System.out.println(itemCode+" "+itemName);
-		List<ItemDistributorDTO> result = quotationService.getItemsByDistributor(distributorId, itemCode, itemName);
+		List<ItemSupplierDTO> result = quotationService.getItemsBySupplier(supplierId, itemCode, itemName);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 	

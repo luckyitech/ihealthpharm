@@ -32,32 +32,32 @@ public class CustomerMembershipServiceImpl implements CustomerMembershipService 
 	@Override
 	public CustomerMembershipModel saveCustomerMembershipData(CustomerMembershipModel customerMembership) {
 		CustomerMembershipModel customerMembershipRes = customerMembershipRepository.save(customerMembership);
-		log.info("Customer Membership data with ID : " + customerMembershipRes.getMembershipCardPersonalId() + " Saved succesfully");
+		log.info("Customer Membership data with ID : " + customerMembershipRes.getCustomerMembershipId() + " Saved succesfully");
 		return customerMembershipRes;
 	}
 
 	@Override
 	public CustomerMembershipModel updateCustomerMembershipData(CustomerMembershipModel customerMembership) {
-		CustomerMembershipModel customerMembershipRes = getValidCustomersMembership(customerMembership.getMembershipCardPersonalId());
+		CustomerMembershipModel customerMembershipRes = getValidCustomersMembership(customerMembership.getCustomerMembershipId());
 		if (!Objects.nonNull(customerMembershipRes)) {
 			throw new IHealthPharmException(customerMembershipHelper.notFoundCustomerMembershipMessage, HttpStatus.NOT_FOUND);
 		}
 
 		customerMembershipRes = customerMembershipRepository.save(customerMembership);
-		log.info("Customer Membership data with ID : " + customerMembershipRes.getMembershipCardPersonalId() + " updated succesfully");
+		log.info("Customer Membership data with ID : " + customerMembershipRes.getCustomerMembershipId() + " updated succesfully");
 		return customerMembershipRes;
 	}
 
 	@Override
 	public List<CustomerMembershipModel> updateCustomersMembershipData(List<CustomerMembershipModel> customersMembership) {
 		for (CustomerMembershipModel customerMembership : customersMembership) {
-			CustomerMembershipModel customerMembershipRes = getValidCustomersMembership(customerMembership.getMembershipCardPersonalId());
+			CustomerMembershipModel customerMembershipRes = getValidCustomersMembership(customerMembership.getCustomerMembershipId());
 			if (!Objects.nonNull(customerMembershipRes)) {
 				throw new IHealthPharmException(customerMembershipHelper.notFoundCustomerMembershipMessage, HttpStatus.NOT_FOUND);
 			}
 
 			customerMembershipRes = customerMembershipRepository.save(customerMembership);
-			log.info("Customer Membership data with ID : " + customerMembershipRes.getMembershipCardPersonalId() + " updated succesfully");
+			log.info("Customer Membership data with ID : " + customerMembershipRes.getCustomerMembershipId() + " updated succesfully");
 		}
 		return customersMembership;
 	}
@@ -75,7 +75,7 @@ public class CustomerMembershipServiceImpl implements CustomerMembershipService 
 			throw new IHealthPharmException(customerMembershipHelper.notFoundCustomerMembershipMessage, HttpStatus.NOT_FOUND);
 		}
 		
-		log.info("Customer Membership data with ID : " + customerMembershipRes.getMembershipCardPersonalId() + " retrieved succesfully");
+		log.info("Customer Membership data with ID : " + customerMembershipRes.getCustomerMembershipId() + " retrieved succesfully");
 		return customerMembershipRes;
 	}
 
@@ -86,7 +86,7 @@ public class CustomerMembershipServiceImpl implements CustomerMembershipService 
 			throw new IHealthPharmException(customerMembershipHelper.notFoundCustomerMembershipMessage, HttpStatus.NOT_FOUND);
 		}
 		
-		log.info("Customer Membership data with ID : " + customerMembershipRes.getMembershipCardPersonalId() + " Deleted succesfully");
+		log.info("Customer Membership data with ID : " + customerMembershipRes.getCustomerMembershipId() + " Deleted succesfully");
 		customerMembershipRepository.delete(customerMembershipRes);
 		
 	}
@@ -100,7 +100,7 @@ public class CustomerMembershipServiceImpl implements CustomerMembershipService 
 				throw new IHealthPharmException(customerMembershipHelper.notFoundCustomerMembershipMessage, HttpStatus.NOT_FOUND);
 			}
 			customerMembershipRepository.delete(customerMembershipRes);
-			log.info("Customer Membership data with ID: " + customerMembershipRes.getMembershipCardPersonalId()+ " deleted succesfully");
+			log.info("Customer Membership data with ID: " + customerMembershipRes.getCustomerMembershipId()+ " deleted succesfully");
 		}
 		
 	}

@@ -21,9 +21,9 @@ public interface InvoiceService {
 
 	void deleteInvoiceByTds(Integer[] invoiceIds);
 	
-	String getDistributorNameById(Integer distributorId);
+	String getSupplierNameById(Integer supplierId);
 	
-	Long getInvoiceCount(Integer distributorId);
+	Long getInvoiceCount(Integer supplierId);
 	
 	List<InvoiceModel> findAllInvoicesByPharmacyId(Integer pharmacyId);
 	
