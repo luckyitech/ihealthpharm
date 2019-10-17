@@ -38,6 +38,7 @@ public class EmployeeCredentialsController {
 
 	@PostMapping("save/employeecredentials")
 	public ResponseEntity<BaseDto<EmployeeCredentialsModel>> saveEmployeeCredentials(@RequestBody EmployeeCredentialsModel employeeCredentialsModel) {
+		log.info(employeeCredentialsModel.toString());
 		employeeCredentialsModel = employeeCredentialsService.saveEmployeeCredentialsData(employeeCredentialsModel);
 		log.info(employeeCredentialsHelper.getSaveEmployeeCredentialsMessage() + " With Id:"+ employeeCredentialsModel.getEmployeeCredentialsId());
 		return new BaseDto<>(employeeCredentialsModel, employeeCredentialsHelper.getSaveEmployeeCredentialsMessage(),
