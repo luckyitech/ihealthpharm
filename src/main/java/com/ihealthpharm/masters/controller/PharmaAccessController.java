@@ -57,7 +57,7 @@ public class PharmaAccessController {
 	}
 	
 	@GetMapping("/getallpharmaaccessdata")
-	public ResponseEntity<BaseDto<List<PharmaAccessModel>>> getAllDistributordata() {
+	public ResponseEntity<BaseDto<List<PharmaAccessModel>>> getAllSupplierdata() {
 		List<PharmaAccessModel> result = pharmaAccessService.findAllPharmaAccessData();
 		return new BaseDto<>(result, pharmaAccessHelper.getRetrievePharmaAccessMessage(), OK).respond();
 	}

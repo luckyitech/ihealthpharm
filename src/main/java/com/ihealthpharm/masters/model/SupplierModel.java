@@ -14,10 +14,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@Entity(name = "distributor")
+@Entity(name = "supplier")
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
-@EqualsAndHashCode(of="distributorId",callSuper=false)
-public class DistributorModel extends AuditModel {
+@EqualsAndHashCode(of="supplierId",callSuper=false)
+public class SupplierModel extends AuditModel {
 
 	/**
 	 * 
@@ -26,8 +26,8 @@ public class DistributorModel extends AuditModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name ="DISTRIBUTOR_ID", length=11)
-	private Integer distributorId;
+	@Column(name ="SUPPLIER_ID", length=11)
+	private Integer supplierId;
 	
 	@Column(name = "NAME", length=100)
 	private String name;
@@ -94,7 +94,7 @@ public class DistributorModel extends AuditModel {
 	@Column(name = "PIN_NO", length=20)
 	private String pinNo;
 	
-	@Column(name="DL_NO", length=20)
+	@Column(name="SL_NO", length=20)
 	private String dlNo;
 	
 	@Column(name = "CST_NO", length=20)
@@ -123,8 +123,8 @@ public class DistributorModel extends AuditModel {
 	@Column(name = "ACCEPT_GOOD_RETURNS", length=1)
 	private char acceptGoodReturns;
 	
-	@Column(name = "DISTRIBUTOR_ALSO_MANUFACTURER", length=1)
-	private char distributorAlsoManufacturer;
+	@Column(name = "SUPPLIER_ALSO_MANUFACTURER", length=1)
+	private char supplierAlsoManufacturer;
 	
 	@Column(name = "SUPPLIES_MEDICAL_NON_MEDICAL_BOTH", length=1)
 	private char suppliesMedicalNonMedicalBoth;

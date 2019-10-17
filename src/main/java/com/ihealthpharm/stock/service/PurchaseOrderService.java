@@ -2,7 +2,7 @@ package com.ihealthpharm.stock.service;
 
 import java.util.List;
 
-import com.ihealthpharm.masters.model.DistributorModel;
+import com.ihealthpharm.masters.model.SupplierModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.stock.model.PurchaseOrderModel;
 
@@ -26,15 +26,15 @@ public interface PurchaseOrderService {
 
 	void deletePurchaseOrdersById(Integer[] purchaseorderIds);
 	
-	Long getPurchaseOrderCount(Integer distributorId);
+	Long getPurchaseOrderCount(Integer supplierId);
 
-	List<DistributorModel> getDistributorsByQuotationId(Integer quotationId);
+	List<SupplierModel> getSuppliersByQuotationId(Integer quotationId);
 	
-	List<ItemsModel> getItemsByDistributorAndQuotation(Integer quotationId, Integer distributorId);
+	List<ItemsModel> getItemsBySupplierAndQuotation(Integer quotationId, Integer supplierId);
 	
 	List<ItemsModel> getItemsByPurchaseOrder(Integer purchaseOrderId);
 	
-	DistributorModel getDistributorByPurchaseOrder(Integer purchaseOrderId);
+	SupplierModel getSupplierByPurchaseOrder(Integer purchaseOrderId);
 	
 	List<PurchaseOrderModel> getPurchaseOrderByPharmacy(Integer pharmacyId);
 	

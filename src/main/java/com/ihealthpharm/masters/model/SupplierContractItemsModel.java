@@ -11,10 +11,10 @@ import javax.persistence.OneToOne;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Entity(name="distributor_contract_items")
+@Entity(name="supplier_contract_items")
 @Data
-@EqualsAndHashCode(of="distributorContractItemId",callSuper=false)
-public class DistributorContractItemsModel extends AuditModel{
+@EqualsAndHashCode(of="supplierContractItemId",callSuper=false)
+public class SupplierContractItemsModel extends AuditModel{
 
 	/**
 	 * 
@@ -23,8 +23,8 @@ public class DistributorContractItemsModel extends AuditModel{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name= "DISTRIBUTOR_CONTRACT_ITEM_ID")
-	public Integer distributorContractItemId;
+	@Column(name= "SUPPLIER_CONTRACT_ITEM_ID")
+	public Integer supplierContractItemId;
 	
 	@Column(name="UNIT_PURCHASE_PRICE")
 	private Double unitPurchasePrice;
@@ -35,8 +35,8 @@ public class DistributorContractItemsModel extends AuditModel{
 	@Column(name="AUDIT_ID", length=11)
 	private Integer auditId;
 	
-	@Column(name="CURRENT_DISTRIBUTOR",length=1)
-	private char currentDistributor;
+	@Column(name="CURRENT_SUPPLIER",length=1)
+	private char currentSupplier;
 	
 	@Column(name="UNIT_TAX")
 	private Float unitTax;
@@ -47,17 +47,17 @@ public class DistributorContractItemsModel extends AuditModel{
 	@Column(name="DISCOUNT_PERCENTAGE")
 	private Float discountPurcentage;
 	
-	@Column(name="APPROVED_DISTRIBUTOR",length=1)
-	private char approvedDistributor;
+	@Column(name="APPROVED_SUPPLIER",length=1)
+	private char approvedSupplier;
 	
 	  
 	@OneToOne
-	@JoinColumn(name="DISTRIBUTOR_ID")
-	public DistributorModel distributorId;
+	@JoinColumn(name="SUPPLIER_ID")
+	public SupplierModel supplierId;
 	
 	@OneToOne
-	@JoinColumn(name="DISTRIBUTOR_CONTRACT_ID")
-	private DistributorContractModel distributorContractId;
+	@JoinColumn(name="SUPPLIER_CONTRACT_ID")
+	private SupplierContractModel supplierContractId;
 	
 	@OneToOne
 	@JoinColumn(name="ITEM_ID")

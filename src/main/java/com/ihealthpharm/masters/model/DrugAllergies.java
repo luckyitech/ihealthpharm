@@ -18,7 +18,7 @@ import lombok.ToString;
 
 /**
  * @author Vikas
- *	DrugDistributors Persists the Drug and Distributors details 
+ *	DrugSuppliers Persists the Drug and Suppliers details 
  *	Setter, getters by default added no need to add manually
  * Audit Columns will be added from AuditModel
  */

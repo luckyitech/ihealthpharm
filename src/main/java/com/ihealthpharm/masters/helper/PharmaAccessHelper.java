@@ -23,6 +23,5 @@ public class PharmaAccessHelper {
 	
 	@Value("${pharmaaccess.not.found.response}")
 	public String notFoundPharmaAccessMessage;
-
 	
 }

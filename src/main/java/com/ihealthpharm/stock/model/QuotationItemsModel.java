@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ihealthpharm.masters.model.AuditModel;
-import com.ihealthpharm.masters.model.DistributorModel;
+import com.ihealthpharm.masters.model.SupplierModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.model.TaxModel;
 
@@ -42,10 +42,10 @@ public class QuotationItemsModel extends AuditModel {
 	@JoinColumn(name = "ITEM_ID")
 	ItemsModel item;
 
-	// bi-directional many-to-one association to Distributor
+	// bi-directional many-to-one association to Supplier
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "DISTRIBUTOR_ID")
-	DistributorModel distributor;
+	@JoinColumn(name = "SUPPLIER_ID")
+	SupplierModel supplier;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "STATUS")
