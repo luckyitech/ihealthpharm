@@ -183,7 +183,7 @@ public class EmployeeController {
 	}
 	
 	
-	@PutMapping("update/employee")
+	@PutMapping("update/employee/image")
 	public ResponseEntity<BaseDto<EmployeeModel>> updateEmployeeDataWithoutImage(@Valid @RequestBody EmployeeModel employeeData){
 		log.info("Request Object for Update :"+employeeData);
 		EmployeeModel empModel=employeeService.updateEmployeeData(employeeData);
