@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.config.jwt.JwtTokenUtil;
 import com.ihealthpharm.config.jwt.JwtUserDetails;
+import com.ihealthpharm.masters.dto.EmployeePharmacyRoleDTO;
 import com.ihealthpharm.masters.model.EmployeeAccessModel;
 import com.ihealthpharm.masters.model.EmployeeCredentialsModel;
 import com.ihealthpharm.masters.model.EmployeePharmacyRoleModel;
@@ -69,19 +70,15 @@ public class JwtAuthenticationRestController {
 		EmployeeCredentialsModel users = employeeCredentialsService.findEmployeeCredentialsByUserName(authenticationRequest.getUserName());
 		final UserDetails userDetails = jwtInMemoryUserDetailsService
 				.loadUserByUsername(authenticationRequest.getUserName());
-		List<EmployeePharmacyRoleModel> employeePharmacyRoleModels = employeePharmacyRoleService.findEmployeePharmacyRoleDataByEmployeeId(users.getEmployee());
+		EmployeePharmacyRoleDTO employeePharmacyRoleModels = employeePharmacyRoleService.findEmployeePharmacyRoleDataByEmployeeId(users.getEmployee());
 		
 		final String token = jwtTokenUtil.generateToken(userDetails);
 		System.out.println("User ID : "+users.getEmployee().getEmployeeId());
 		List<EmployeeAccessModel> result = employeeAccessService.findByEmployee(users.getEmployee());
-		List<PharmacyModel> pharmacyModel = new ArrayList<>();
-		
-		for(EmployeePharmacyRoleModel employeePharmacyRoleModel :employeePharmacyRoleModels)
-		{
-			pharmacyModel.add(employeePharmacyRoleModel.getPharmacyModel());
-		}
-		
-		return new BaseDto<>(new JwtTokenResponse(token,users.getEmployee().getEmployeeId(),result,pharmacyModel),"Authentication Success",OK).respond();
+
+	
+		return new BaseDto<>(new JwtTokenResponse(token,users.getEmployee().getEmployeeId(),result,employeePharmacyRoleModels.getPharmacyModel()),"Authentication Success",OK).respond();
+
 	}
 
 	@RequestMapping(value = "${jwt.refresh.token.uri}", method = RequestMethod.GET)

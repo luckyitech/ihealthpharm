@@ -166,27 +166,19 @@ public class EmployeeController {
 		return new BaseDto<>(employeeRes, employeeHelper.getUpdateEmployeeMessage(), OK).respond();
 	}
 
-	@PutMapping("/update/employee/withImages")
-	public ResponseEntity<BaseDto<EmployeeModel>> updateEmployeeData(@Valid @RequestParam("employee") String employeeData, @RequestParam("image") MultipartFile image,
-			@RequestParam("identificationDocument") MultipartFile identificationDocument,
-			@RequestParam("policeGoodConductCertificate") MultipartFile policeGoodConductCertificate,
-			@RequestParam("resume") MultipartFile resume,
-			@RequestParam("signedContract") MultipartFile signedContract) throws IOException {
+	@PutMapping("/update/employee")
+	public ResponseEntity<BaseDto<EmployeeModel>> updateEmployeeData(@Valid @RequestBody EmployeeModel employeeData) throws IOException {
+
 		
 		
-		EmployeeModel employeeModel = null;
-		try {
-			employeeModel = new ObjectMapper().readValue(employeeData, EmployeeModel.class);
-			employeeModel.setProfileImage(image.getBytes());
-			employeeModel.setIdentificationDocument(identificationDocument.getBytes());
-			employeeModel.setPoliceGoodConductCertificate(policeGoodConductCertificate.getBytes());
-			employeeModel.setResume(resume.getBytes());
-			employeeModel.setSignedContract(signedContract.getBytes());
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		}
-		EmployeeModel employeeRes = employeeService.updateEmployeeData(employeeModel);
+		//EmployeeModel employeeModel = null;
+//		try {
+//			employeeModel = new ObjectMapper().readValue(employeeData, EmployeeModel.class);
+//		} catch (IOException e) {
+//			
+//			e.printStackTrace();
+//		}
+		EmployeeModel employeeRes = employeeService.updateEmployeeData(employeeData);
 		return new BaseDto<>(employeeRes, employeeHelper.getUpdateEmployeeMessage(), OK).respond();
 	}
 	

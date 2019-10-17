@@ -41,9 +41,9 @@ public class EmployeePharmacyRolesController {
 	}
 	
 	@PutMapping("/update/employeepharmacyrole")
-	public ResponseEntity<BaseDto<EmployeePharmacyRoleModel>> updateEmployeePharmacyRoleData(@Valid @RequestBody EmployeePharmacyRoleModel employeePharmacyRoleModel) {
-		log.info("Request Object for update is: "+ employeePharmacyRoleModel.toString());
-		EmployeePharmacyRoleModel pharmacyRolesRes = employeePharmacyRoleService.updateEmployeePharmacyRoleData(employeePharmacyRoleModel);
+	public ResponseEntity<BaseDto<EmployeePharmacyRoleModel>> updateEmployeePharmacyRoleData(@Valid @RequestBody EmployeePharmacyRoleDTO employeePharmacyRoleDTO) {
+		//log.info("Request Object for update is: "+ employeePharmacyRoleDTO.toString());
+		EmployeePharmacyRoleModel pharmacyRolesRes = employeePharmacyRoleService.updateEmployeePharmacyRoleData(employeePharmacyRoleDTO);
 		return new BaseDto<>(pharmacyRolesRes,"updated",OK).respond();
 	}
 	
@@ -67,8 +67,9 @@ public class EmployeePharmacyRolesController {
 	}
 	
 	@PostMapping("/getemployeepharmacyroledatabyemployeeid")
-	public ResponseEntity<BaseDto<List<EmployeePharmacyRoleModel>>> getEmployeePharmacyRoleDataByEmployeeId(@RequestBody EmployeeModel employee) {
-		List<EmployeePharmacyRoleModel> result = employeePharmacyRoleService.findEmployeePharmacyRoleDataByEmployeeId(employee);
+	public ResponseEntity<BaseDto<EmployeePharmacyRoleDTO>> getEmployeePharmacyRoleDataByEmployeeId(@RequestBody EmployeeModel employee) {
+		EmployeePharmacyRoleDTO result = employeePharmacyRoleService.findEmployeePharmacyRoleDataByEmployeeId(employee);
+		log.info("Employee Pharmacy Role Data :------------\n"+result.toString());
 		return new BaseDto<>(result,  "retrived", OK).respond();
 	}
 }

@@ -1,5 +1,6 @@
 package com.ihealthpharm.masters.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -80,13 +81,31 @@ public class EmployeePharmacyRoleServiceImpl implements EmployeePharmacyRoleServ
 
 	@Override
 	public EmployeePharmacyRoleModel updateEmployeePharmacyRoleData(
-			EmployeePharmacyRoleModel employeePharmacyRoleModel) {
+			EmployeePharmacyRoleDTO employeePharmacyRoleDTO) {
 		EmployeePharmacyRoleModel employeePharmacyRoleRes = getValidEmployeePharmacyRole(
-				employeePharmacyRoleModel.getEmployeePharmacyRoleId());
+				employeePharmacyRoleDTO.getEmployeePharmacyRoleId());
 		if (!Objects.nonNull(employeePharmacyRoleRes)) {
 			throw new IHealthPharmException("employeePharmacyRole Roles not Found", HttpStatus.NOT_FOUND);
 		}
-		employeePharmacyRoleRes = employeePharmacyRoleRepository.save(employeePharmacyRoleModel);
+		
+		EmployeePharmacyRoleModel employeePharmacyRoleModel = new EmployeePharmacyRoleModel();
+		for (PharmacyModel pharmacy : employeePharmacyRoleDTO.getPharmacyModel()) {
+			employeePharmacyRoleModel = new EmployeePharmacyRoleModel();
+			employeePharmacyRoleRes = new EmployeePharmacyRoleModel();
+		employeePharmacyRoleModel.setAuditId(employeePharmacyRoleDTO.getAuditId());
+		employeePharmacyRoleModel.setCreatedUser(employeePharmacyRoleDTO.getCreatedUser());
+		employeePharmacyRoleModel.setCreationTimeStamp(employeePharmacyRoleDTO.getCreationTimeStamp());
+		employeePharmacyRoleModel.setEmployee(employeePharmacyRoleDTO.getEmployee());
+		employeePharmacyRoleModel.setEmployeePharmacyRoleId(employeePharmacyRoleDTO.getEmployeePharmacyRoleId());
+		employeePharmacyRoleModel.setLastUpdateTimestamp(employeePharmacyRoleDTO.getLastUpdateTimestamp());
+		employeePharmacyRoleModel.setLastUpdateUser(employeePharmacyRoleDTO.getLastUpdateUser());
+		employeePharmacyRoleModel.setPharmacyRolesModel(employeePharmacyRoleDTO.getPharmacyRolesModel());
+
+		
+			employeePharmacyRoleModel.setPharmacyModel(pharmacy);
+			employeePharmacyRoleRes = employeePharmacyRoleRepository.save(employeePharmacyRoleModel);
+		}
+
 		log.info(employeePharmacyRoleRes.getPharmacyRolesModel() + " updated successfully");
 		return employeePharmacyRoleRes;
 	}
@@ -103,9 +122,34 @@ public class EmployeePharmacyRoleServiceImpl implements EmployeePharmacyRoleServ
 	}
 
 	@Override
-	public List<EmployeePharmacyRoleModel> findEmployeePharmacyRoleDataByEmployeeId(EmployeeModel employee) {
-
-		return employeePharmacyRoleRepository.findByEmployee(employee);
+	public EmployeePharmacyRoleDTO findEmployeePharmacyRoleDataByEmployeeId(EmployeeModel employee) {
+		List<EmployeePharmacyRoleModel> listOfEmployeePharmacyRoles = employeePharmacyRoleRepository.findByEmployee(employee);
+		EmployeePharmacyRoleDTO employeePharmacyRoleDTO = new EmployeePharmacyRoleDTO();
+		if (!Objects.nonNull(listOfEmployeePharmacyRoles)) {
+			throw new IHealthPharmException("employeePharmacyRole Roles not Found", HttpStatus.NOT_FOUND);
+		}
+		log.info("Size: "+listOfEmployeePharmacyRoles.size());
+		employeePharmacyRoleDTO.setEmployeePharmacyRoleId(listOfEmployeePharmacyRoles.get(0).getEmployeePharmacyRoleId());
+		employeePharmacyRoleDTO.setEmployee(listOfEmployeePharmacyRoles.get(0).getEmployee());
+		employeePharmacyRoleDTO.setPharmacyRolesModel(listOfEmployeePharmacyRoles.get(0).getPharmacyRolesModel());
+		employeePharmacyRoleDTO.setAuditId(listOfEmployeePharmacyRoles.get(0).getAuditId());
+		employeePharmacyRoleDTO.setCreatedUser(listOfEmployeePharmacyRoles.get(0).getCreatedUser());
+		employeePharmacyRoleDTO.setCreationTimeStamp(listOfEmployeePharmacyRoles.get(0).getCreationTimeStamp());
+		employeePharmacyRoleDTO.setLastUpdateTimestamp(listOfEmployeePharmacyRoles.get(0).getLastUpdateTimestamp());
+		employeePharmacyRoleDTO.setLastUpdateUser(listOfEmployeePharmacyRoles.get(0).getLastUpdateUser());
+		
+		PharmacyModel pharmacyModel = null;
+		List<PharmacyModel> listOfPharmacyModel = new ArrayList<>();
+		for(EmployeePharmacyRoleModel employeePharmacyRole:listOfEmployeePharmacyRoles)
+		{
+			pharmacyModel = new PharmacyModel();
+			pharmacyModel = employeePharmacyRole.getPharmacyModel();
+			listOfPharmacyModel.add(pharmacyModel);
+		}
+		
+		employeePharmacyRoleDTO.setPharmacyModel(listOfPharmacyModel);
+		
+		return employeePharmacyRoleDTO;
 	}
 
 }
