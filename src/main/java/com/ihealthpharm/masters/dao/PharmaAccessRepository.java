@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.ihealthpharm.masters.model.PharmaAccessModel;
 
 @Repository
-public interface PharmaAccessRepository
-extends JpaRepository<PharmaAccessModel,Integer>
+public interface PharmaAccessRepository extends JpaRepository<PharmaAccessModel,Integer>
 {
+	
 }

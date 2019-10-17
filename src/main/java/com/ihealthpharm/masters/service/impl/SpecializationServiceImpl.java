@@ -34,7 +34,6 @@ public class SpecializationServiceImpl implements SpecializationService {
 	@Autowired
 	 SpecializationHelper specializationHelper;
 	
-	
 
 	private SpecializationModel getValidSpecialization(int specializationId)
 	{

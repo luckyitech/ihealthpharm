@@ -15,8 +15,8 @@ public interface InvoiceRepository extends JpaRepository<InvoiceModel, Integer> 
 
 	List<InvoiceModel> findAllByOrderByCreationTimeStampDesc();
 	
-	@Query("select d.name from distributor d where d.distributorId = :distributorId ")
-	String getDistributorNameById(@Param("distributorId") Integer distributorId);
+	@Query("select d.name from supplier d where d.supplierId = :suppliersId ")
+	String getSupplierNameById(@Param("suppliersId") Integer suppliersId);
 	
 	@Query("select i from invoice i where i.pharmacy.pharmacyId = :pharmacyId ")
 	List<InvoiceModel> findAllInvoicesByPharmacyId(@Param("pharmacyId") Integer pharmacyId);

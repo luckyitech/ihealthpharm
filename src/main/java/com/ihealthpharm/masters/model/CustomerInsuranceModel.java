@@ -16,7 +16,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity (name="CUSTOMER_INSURANCE")
+@Entity (name="customer_insurance")
 @Getter
 @Setter
 @ToString

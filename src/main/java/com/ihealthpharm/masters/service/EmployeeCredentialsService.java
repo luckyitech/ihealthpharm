@@ -24,7 +24,6 @@ public interface EmployeeCredentialsService {
 	
 	 EmployeeCredentialsModel findEmployeeCredentialsById(int employeeCredentialId);
 	
-
 	public void deleteEmployeeCredentialsById(int employeeCredentialId);
 	
 	public void deleteEmployeesCredentialsById(int[] employeeCredentialIds);

@@ -17,7 +17,7 @@ public interface EmployeePharmacyRoleService
 
     EmployeePharmacyRoleModel saveEmployeePharmacyRoleData(EmployeePharmacyRoleDTO employeePharmacyRoleDTO);
 
-    EmployeePharmacyRoleModel updateEmployeePharmacyRoleData(EmployeePharmacyRoleModel employeePharmacyRoleModel);
+    EmployeePharmacyRoleModel updateEmployeePharmacyRoleData(EmployeePharmacyRoleDTO employeePharmacyRoleDTO);
     
-    List<EmployeePharmacyRoleModel> findEmployeePharmacyRoleDataByEmployeeId(EmployeeModel employee);
+    EmployeePharmacyRoleDTO findEmployeePharmacyRoleDataByEmployeeId(EmployeeModel employee);
 }

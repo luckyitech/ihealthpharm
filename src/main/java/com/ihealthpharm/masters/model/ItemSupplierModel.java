@@ -16,30 +16,30 @@ import lombok.EqualsAndHashCode;
 
 
 @Data
-@Entity(name = "items_distributor")
-@EqualsAndHashCode(of = "itemDistributorId", callSuper = false)
-public class ItemDistributorModel extends AuditModel{
+@Entity(name = "items_supplier")
+@EqualsAndHashCode(of = "itemSupplierId", callSuper = false)
+public class ItemSupplierModel extends AuditModel{
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ITEM_DISTRIBUTOR_ID",length=11)
-	private Integer itemDistributorId;
+	@Column(name = "ITEM_SUPPLIER_ID",length=11)
+	private Integer itemSupplierId;
 	
 	// Drug Entity mapped 
 	@Column(name="ITEM_ID")
 	private Integer itemsId;
 	
-	// DistrubutorModel Entity mapped 
-    @Column(name="DISTRIBUTOR_ID")
-	private Integer distributorsId;
+	// SupplierModel Entity mapped 
+    @Column(name="SUPPLIER_ID")
+	private Integer suppliersId;
 	
 	@Column(name="ACTIVE_S",length=1)
 	private String activeS;
 	
-	@Column(name="DISTRIBUTOR_PRIORITY",length=11)
-	private int distributorPriority;
+	@Column(name="SUPPLIER_PRIORITY",length=11)
+	private int supplierPriority;
 	
 	@Column(name="UNIT_RATE")
 	private Double unitRate;

@@ -139,7 +139,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 		InvoiceModel invoiceModel = null;
 		try {
 			invoiceModel = invoiceRepository.findById(invoiceId).get();
-			invoiceModel.getDistributorModel();
+			invoiceModel.getSupplierModel();
 			invoiceModel.getInvoiceStatus();
 			for(InvoiceItemModel m : invoiceModel.getInvoiceItems()) {
 				m.getItemsModel();
@@ -152,9 +152,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 	}
 
 	@Override
-	public String getDistributorNameById(Integer distributorId) {
-		log.info("Distributor Id: "+ distributorId+" ");
-		return invoiceRepository.getDistributorNameById(distributorId);
+	public String getSupplierNameById(Integer supplierId) {
+		log.info("Supplier Id: "+ supplierId+" ");
+		return invoiceRepository.getSupplierNameById(supplierId);
 	}
 
 	@Override

@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
-import com.ihealthpharm.masters.helper.DistributorHelper;
+import com.ihealthpharm.masters.helper.SupplierHelper;
 import com.ihealthpharm.masters.helper.ItemPropertyHelper;
-import com.ihealthpharm.masters.model.DistributorModel;
+import com.ihealthpharm.masters.model.SupplierModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.stock.helper.PurchaseOrderHelper;
 import com.ihealthpharm.stock.model.PurchaseOrderModel;
@@ -42,7 +42,7 @@ public class PurchaseOrderController {
 	PurchaseOrderHelper purchaseorderHelper;
 	
 	@Autowired
-	DistributorHelper distributorHelper;
+	SupplierHelper supplierHelper;
 	
 	@Autowired
 	private ItemPropertyHelper propertyHelper;
@@ -161,21 +161,21 @@ public class PurchaseOrderController {
 	
 	/**
 	 * @author Gunasekhar 
-	 * Service is for distributor details based on the quotation id
+	 * Service is for Supplier details based on the quotation id
 	 */
 	@GetMapping("/getdistributorbyquotation")
-	public ResponseEntity<BaseDto<List<DistributorModel>>> getDistributorsByQuotation(@RequestParam Integer quotationId) {
-		List<DistributorModel> distributors = purchaseorderService.getDistributorsByQuotationId(quotationId);
-		return new BaseDto<>(distributors, distributorHelper.getRetrieveDistrubutorMessage(), OK).respond();
+	public ResponseEntity<BaseDto<List<SupplierModel>>> getSuppliersByQuotation(@RequestParam Integer quotationId) {
+		List<SupplierModel> suppliers = purchaseorderService.getSuppliersByQuotationId(quotationId);
+		return new BaseDto<>(suppliers, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
 	}
 	
 	/**
 	 * @author Gunasekhar 
-	 * Service is for item details based on the quotation id and distributor id
+	 * Service is for item details based on the quotation id and Supplier id
 	 */
 	@GetMapping("/getitemsbydistributorandquotation")
-	public ResponseEntity<BaseDto<List<ItemsModel>>> getItemsByDistributorAndQuotation(@RequestParam Integer quotationId, @RequestParam Integer distributorId) {
-		List<ItemsModel> itemsModels = purchaseorderService.getItemsByDistributorAndQuotation(quotationId, distributorId);
+	public ResponseEntity<BaseDto<List<ItemsModel>>> getItemsBySupplierAndQuotation(@RequestParam Integer quotationId, @RequestParam Integer supplierId) {
+		List<ItemsModel> itemsModels = purchaseorderService.getItemsBySupplierAndQuotation(quotationId, supplierId);
 		return new BaseDto<>(itemsModels, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 	
@@ -194,9 +194,9 @@ public class PurchaseOrderController {
 	 * Service is for item details based on the purchase order
 	 */
 	@GetMapping("/getdistributorbypurchaseorder")
-	public ResponseEntity<BaseDto<DistributorModel>> getDistributorByPurchaseOrder(@RequestParam Integer purchaseOrderId) {
-		DistributorModel distributorModel = purchaseorderService.getDistributorByPurchaseOrder(purchaseOrderId);
-		return new BaseDto<>(distributorModel, propertyHelper.getRetrieveMessage(), OK).respond();
+	public ResponseEntity<BaseDto<SupplierModel>> getSupplierByPurchaseOrder(@RequestParam Integer purchaseOrderId) {
+		SupplierModel supplierModel = purchaseorderService.getSupplierByPurchaseOrder(purchaseOrderId);
+		return new BaseDto<>(supplierModel, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 	
 	/**

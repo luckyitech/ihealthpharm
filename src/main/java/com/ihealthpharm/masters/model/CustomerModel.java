@@ -9,11 +9,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 
 
-@Entity (name="CUSTOMER")
+@Entity (name="customer")
 @Data
+@EqualsAndHashCode(of="customerId",callSuper=false)
 public class CustomerModel extends AuditModel{
     
 	

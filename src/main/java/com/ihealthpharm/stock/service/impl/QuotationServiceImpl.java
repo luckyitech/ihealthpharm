@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
-import com.ihealthpharm.masters.dto.ItemDistributorDTO;
+import com.ihealthpharm.masters.dto.ItemSupplierDTO;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.model.TaxModel;
 import com.ihealthpharm.stock.dao.QuotationItemStatusRepository;
@@ -140,7 +140,7 @@ public class QuotationServiceImpl implements QuotationService {
 			quotationModel.getQuotationStatusModel();
 			for(QuotationItemsModel q : quotationModel.getQuotationItems()) {
 				q.setItem(getQuotationItem(q.getQuotationItemId()));
-				q.getDistributor();
+				q.getSupplier();
 				q.getQuotationItemStatus();
 			}
 			return quotationModel;
@@ -181,9 +181,9 @@ public class QuotationServiceImpl implements QuotationService {
 	}
 
 	@Override
-	public List<ItemDistributorDTO> getItemsByDistributor(Integer distributorId) {
-		List<ItemDistributorDTO> model = quotationRepository.getItemsByDistributor(distributorId);
-		for(ItemDistributorDTO i : model) {
+	public List<ItemSupplierDTO> getItemsBySupplier(Integer supplierId) {
+		List<ItemSupplierDTO> model = quotationRepository.getItemsBySupplier(supplierId);
+		for(ItemSupplierDTO i : model) {
 			ItemsModel itemsModel = new ItemsModel();
 			
 			itemsModel.setItemId(i.getItemId());
@@ -201,9 +201,9 @@ public class QuotationServiceImpl implements QuotationService {
 	}
 
 	@Override
-	public List<ItemDistributorDTO> getItemsByDistributor(Integer distributorId, String itemCode, String itemName) {
-		List<ItemDistributorDTO> model = quotationRepository.getItemsByDistributor(distributorId, itemCode, itemName);
-		for(ItemDistributorDTO i : model) {
+	public List<ItemSupplierDTO> getItemsBySupplier(Integer supplierId, String itemCode, String itemName) {
+		List<ItemSupplierDTO> model = quotationRepository.getItemsBySupplier(supplierId, itemCode, itemName);
+		for(ItemSupplierDTO i : model) {
 			ItemsModel itemsModel = new ItemsModel();
 			
 			itemsModel.setItemId(i.getItemId());
