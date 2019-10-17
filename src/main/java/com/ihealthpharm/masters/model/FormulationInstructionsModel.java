@@ -5,6 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -31,9 +35,14 @@ public class FormulationInstructionsModel extends AuditModel {
 
 	@Column(name="INSTRUCTIONS",length=255)
     private String instructions;
+
+	@OneToOne
+	@JoinColumn(name="ITEM_ID")
+	private ItemsModel itemId;
 	
-    @Column(name="ITEM_ID",length=1)
-	private int itemId;
+	@OneToOne
+	@JoinColumn(name="PHARMACY_ID")
+	private PharmacyModel pharmacyId;
 	
 	@Column(name="TIMES_IN_A_DAY",length=11)
 	private int timesInADay;

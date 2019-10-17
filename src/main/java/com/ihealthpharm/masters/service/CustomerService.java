@@ -22,5 +22,8 @@ public interface CustomerService
 	 void deleteCustomerById(int customerIds);
 	
 	 void deleteCustomersById(int[] customerIds);
+	 
+
+	List<CustomerModel> findCustomerByActive();
 
 }

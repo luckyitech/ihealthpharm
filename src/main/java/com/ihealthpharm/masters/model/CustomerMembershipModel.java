@@ -16,7 +16,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity (name="CUSTOMER_MEMBERSHIP")
+@Entity (name="customer_membership")
 @Getter
 @Setter
 @ToString
@@ -24,29 +24,29 @@ public class CustomerMembershipModel {
     
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="MEMBERSHIP_CARD_PERSONAL_ID",length=11, columnDefinition = "AUTO_INCREMENT")
-    private int membershipCardPersonalId;
+    @Column(name="CUSTOMER_MEMBERSHIP_ID",length=11, columnDefinition = "AUTO_INCREMENT")
+    private int customerMembershipId;
 
     @Column(name="MEMBERSHIP_CREDIT_DAYS",length=11)
-    private int membershipCreditDays;
+    private int mCreditDays;
 
     @Column(name="MEMBERSHIP_CREDIT_LIMIT",length=25)
-    private float membershipCreditLimit;
+    private float mCreditLimit;
 
     @Column(name="MEMBERSHIP_DISCOUNT_AMOUNT",length=25)
-    private float membershipDiscountAmount;
+    private float mDiscountAmount;
 
     @Column(name="MEMBERSHIP_DISCOUNT_PERCENTAGE",length=25)
-    private float membershipDiscountPercentage;
+    private float mDiscountPercentage;
 
     @Column(name="MEMBERSHIP_DURATION_IN_MONTHS",length=11)
-    private int membershipDurationInMonths;
+    private int mDurationInMonths;
 
     @Column(name="MEMBERSHIP_START_DATE",length=25)
-    private String membershipStartDate;
+    private String startDate;
 
     @Column(name="MEMBERSHIP_END_DATE",length=25)
-    private String membershipEndDate;
+    private String endDate;
     
     @OneToOne
     @JoinColumn(name="MEMBERSHIP_CARD_ID")
@@ -59,12 +59,12 @@ public class CustomerMembershipModel {
     public void setMembershipStartDate(Date startDate) throws ParseException {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String membershipStart=simpleDateFormat.format(startDate);  
-		this.membershipStartDate = membershipStart;
+		this.startDate = membershipStart;
     }
 
   public void setMembershipEndDate(Date membershipEnd)  {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String endDate=simpleDateFormat.format(membershipEnd);  
-		this.membershipEndDate = endDate;
+		this.endDate = endDate;
     }
 }
