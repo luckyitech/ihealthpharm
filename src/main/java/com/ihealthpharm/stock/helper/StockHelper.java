@@ -25,6 +25,5 @@ public class StockHelper {
 	
 	@Value("${stock.not.found.response}")
 	public String notFoundStockMessage;
-
 	
 }

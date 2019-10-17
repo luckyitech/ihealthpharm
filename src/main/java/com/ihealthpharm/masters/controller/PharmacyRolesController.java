@@ -53,7 +53,7 @@ public class PharmacyRolesController {
 	}
 	
 	@GetMapping("/getallpharmacyrolesdata")
-	public ResponseEntity<BaseDto<List<PharmacyRolesModel>>> getAllDistributordata() {
+	public ResponseEntity<BaseDto<List<PharmacyRolesModel>>> getAllSupplierdata() {
 		List<PharmacyRolesModel> result = pharmacyRolesService.findAllPharmacyRolesData();
 		return new BaseDto<>(result, "retrived", OK).respond();
 	}

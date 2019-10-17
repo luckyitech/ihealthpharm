@@ -25,6 +25,9 @@ public class PharmacyHelper {
 	public String notFoundPharmacyMessage;
 	
 	
+	
+	
+	
 	@Value("${pharmacyBranch.save.response}")
 	public String savePharmacyBranchMessage;
 	
@@ -39,6 +42,9 @@ public class PharmacyHelper {
 	
 	@Value("${pharmacyBranch.not.found.response}")
 	public String notFoundPharmacyBranchMessage;
+	
+	
+	
 	
 	
 	@Value("${pharmacyStock.save.response}")

@@ -1,9 +1,6 @@
 package com.ihealthpharm.masters.model;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,11 +11,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 
 
 @Entity (name="CUSTOMER")
 @Data
+@EqualsAndHashCode(of="customerId",callSuper=false)
 public class CustomerModel extends AuditModel{
     
 	

@@ -16,11 +16,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ihealthpharm.masters.model.AuditModel;
-import com.ihealthpharm.masters.model.DistributorModel;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
+import com.ihealthpharm.masters.model.SupplierModel;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -107,10 +106,10 @@ public class InvoiceModel extends AuditModel {
 	@Column(name="TAX_AMOUNT")
 	private Double taxAmount;
 
-	//bi-directional many-to-one association to Distributor
+	//bi-directional many-to-one association to Supplier
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="DISTRIBUTOR_ID")
-	private DistributorModel distributorModel;
+	@JoinColumn(name="SUPPLIER_ID")
+	private SupplierModel supplierModel;
 
 	//bi-directional many-to-one association to Employee
 	@ManyToOne(fetch=FetchType.LAZY)

@@ -15,8 +15,7 @@ public interface EmployeeEducationService {
 
 	EmployeeEducationModel saveEmployeeEducationData(EmployeeEducationModel employeePharmacyRoleModel);
 
-
-    EmployeeEducationModel updateEmployeeEducationData(EmployeeEducationModel employeePharmacyRoleModel);
+	EmployeeEducationModel updateEmployeeEducationData(EmployeeEducationModel employeePharmacyRoleModel);
     
     EmployeeEducationModel findEmployeeEducationDataByEmployee(EmployeeModel employeeModel);
 

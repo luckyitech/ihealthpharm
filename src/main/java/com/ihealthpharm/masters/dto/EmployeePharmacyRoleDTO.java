@@ -11,6 +11,11 @@ import lombok.Data;
 @Data
 public class EmployeePharmacyRoleDTO extends AuditModel{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2619972126329507970L;
+
 	private Integer employeePharmacyRoleId;
 
 	private EmployeeModel employee;

@@ -100,7 +100,7 @@ public class QuotationItemsServiceImpl implements QuotationItemsService {
 		try {
 			quotationItemsModel = quotationItemsRepository.findById(quotationItemsId).get();
 			quotationItemsModel.getItem();
-			quotationItemsModel.getDistributor();
+			quotationItemsModel.getSupplier();
 			
 			return quotationItemsModel;
 		} catch (NoSuchElementException noSuchElementException) {
