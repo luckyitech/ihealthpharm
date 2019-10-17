@@ -43,10 +43,10 @@ public class CustomerMembershipModel {
     private int mDurationInMonths;
 
     @Column(name="MEMBERSHIP_START_DATE",length=25)
-    private String startDate;
+    private String mStartDate;
 
     @Column(name="MEMBERSHIP_END_DATE",length=25)
-    private String endDate;
+    private String mEndDate;
     
     @OneToOne
     @JoinColumn(name="MEMBERSHIP_CARD_ID")
@@ -55,16 +55,17 @@ public class CustomerMembershipModel {
     @OneToOne
     @JoinColumn(name="CUSTOMER_ID")
    private CustomerModel customerModel;
-    
-    public void setMembershipStartDate(Date startDate) throws ParseException {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String membershipStart=simpleDateFormat.format(startDate);  
-		this.startDate = membershipStart;
-    }
 
-  public void setMembershipEndDate(Date membershipEnd)  {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String endDate=simpleDateFormat.format(membershipEnd);  
-		this.endDate = endDate;
-    }
+	 public void setMStartDate(Date startDate) throws ParseException {
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			String membershipStart=simpleDateFormat.format(startDate);  
+			this.mStartDate = membershipStart;
+		}
+
+		public void setMEndDate(Date membershipEnd)  {
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			String endDate=simpleDateFormat.format(membershipEnd);  
+			this.mEndDate = endDate;
+		}
+		
 }
