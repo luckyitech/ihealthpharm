@@ -135,7 +135,7 @@ public class SpecializationServiceImpl implements SpecializationService {
 
 	@Override
 	public List<SpecializationModel> findAllSpecializations() {
-		return specializationRepository.findAllByOrderByCreationTimeStampDesc();
+		return specializationRepository.findAllByOrderByLastUpdateTimestampDesc();
 	}
 
 
