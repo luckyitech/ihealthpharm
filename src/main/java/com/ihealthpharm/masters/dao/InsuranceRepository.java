@@ -10,5 +10,5 @@ import com.ihealthpharm.masters.model.InsuranceModel;
 @Repository
 public interface InsuranceRepository  extends JpaRepository<InsuranceModel, Integer>{
 
-	List<InsuranceModel> findAllByOrderByCreationTimeStampDesc();
+	List<InsuranceModel> findAllByOrderByLastUpdateTimestampDesc();
 }
