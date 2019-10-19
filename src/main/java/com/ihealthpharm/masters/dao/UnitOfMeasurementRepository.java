@@ -10,7 +10,7 @@ import com.ihealthpharm.masters.model.UnitOfMeasurementModel;
 
 public interface UnitOfMeasurementRepository extends JpaRepository<UnitOfMeasurementModel, Integer> {
 	
-	List<UnitOfMeasurementModel> findAllByOrderByCreationTimeStampDesc();
+	List<UnitOfMeasurementModel> findAllByOrderByLastUpdateTimestampDesc();
 	
 	@Query("select i from unit_of_measurement i where i.measurementName like %:searchTerm% order by i.creationTimeStamp desc")
 	List<UnitOfMeasurementModel> findAllBySearchCriteria(@Param("searchTerm") String searchTerm);
