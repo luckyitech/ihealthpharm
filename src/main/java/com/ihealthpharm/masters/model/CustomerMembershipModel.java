@@ -28,25 +28,28 @@ public class CustomerMembershipModel {
     private int customerMembershipId;
 
     @Column(name="MEMBERSHIP_CREDIT_DAYS",length=11)
-    private int mCreditDays;
+    private int membershipCreditDays;
 
     @Column(name="MEMBERSHIP_CREDIT_LIMIT",length=25)
-    private float mCreditLimit;
+    private float membershipCreditLimit;
 
     @Column(name="MEMBERSHIP_DISCOUNT_AMOUNT",length=25)
-    private float mDiscountAmount;
+    private float membershipDiscountAmount;
 
     @Column(name="MEMBERSHIP_DISCOUNT_PERCENTAGE",length=25)
-    private float mDiscountPercentage;
+    private float membershipDiscountPercentage;
 
     @Column(name="MEMBERSHIP_DURATION_IN_MONTHS",length=11)
-    private int mDurationInMonths;
+    private int membershipDurationInMonths;
+    
+    @Column(name="MEMBERSHIP_CARD_NAME",length=100)
+    private String membershipCardName;
 
     @Column(name="MEMBERSHIP_START_DATE",length=25)
-    private String mStartDate;
+    private String membershipStartDate;
 
     @Column(name="MEMBERSHIP_END_DATE",length=25)
-    private String mEndDate;
+    private String membershipEndDate;
     
     @OneToOne
     @JoinColumn(name="MEMBERSHIP_CARD_ID")
@@ -59,13 +62,13 @@ public class CustomerMembershipModel {
 	 public void setMStartDate(Date startDate) throws ParseException {
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			String membershipStart=simpleDateFormat.format(startDate);  
-			this.mStartDate = membershipStart;
+			this.membershipStartDate = membershipStart;
 		}
 
 		public void setMEndDate(Date membershipEnd)  {
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			String endDate=simpleDateFormat.format(membershipEnd);  
-			this.mEndDate = endDate;
+			this.membershipEndDate = endDate;
 		}
 		
 }

@@ -37,8 +37,8 @@ public class CustomerInsuranceModel {
     @Column(name="INSURANCE_DURATION_IN_MONTHS",length=11)
     private int iDurationInMonths;
 
-    @Column(name="INSURANCE_PERCENTAGE_COVERAGE",length=25)
-    private float PercentageCoverage;
+    @Column(name="INSURANCE_CONTRIBUTION_PERCENTAGE",length=25)
+    private float contributionPercentage;
     
     @Column(name="INSURANCE_POLICY_START",length=25)
     private String policyStart;
