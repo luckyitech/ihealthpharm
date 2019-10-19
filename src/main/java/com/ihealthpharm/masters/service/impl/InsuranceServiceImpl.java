@@ -42,7 +42,7 @@ public class InsuranceServiceImpl implements InsuranceService  {
 
 	@Override
 	public List<InsuranceModel> findAllByInsurances() {
-		return insuranceRepo.findAllByOrderByCreationTimeStampDesc();
+		return insuranceRepo.findAllByOrderByLastUpdateTimestampDesc();
 	}
 
 	@Override
