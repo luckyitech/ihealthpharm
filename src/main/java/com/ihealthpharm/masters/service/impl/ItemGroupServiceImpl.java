@@ -143,7 +143,7 @@ public class ItemGroupServiceImpl implements ItemGroupService {
 	@Override
 	public List<ItemGroupModel> findAllItemGroups() {
 
-		return itemGroupRepository.findAllByOrderByCreationTimeStampDesc();
+		return itemGroupRepository.findAllByOrderByLastUpdateTimestampDesc();
 	}
 
 }
