@@ -6,15 +6,16 @@ import java.util.Objects;
 
 import javax.transaction.Transactional;
 
-import com.ihealthpharm.stock.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
-import  com.ihealthpharm.stock.model.*;
-import com.ihealthpharm.stock.helper.*;
-import com.ihealthpharm.stock.dao.*;
+import com.ihealthpharm.masters.model.ItemsModel;
+import com.ihealthpharm.stock.dao.StockRepository;
+import com.ihealthpharm.stock.helper.StockHelper;
+import com.ihealthpharm.stock.model.StockModel;
+import com.ihealthpharm.stock.service.StockService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -108,6 +109,14 @@ public class StockServiceImpl implements StockService {
 			throw new IHealthPharmException(stockHelper.getNotFoundStockMessage(), HttpStatus.NOT_FOUND);
 		}
 
+	}
+
+	@Override
+	public List<ItemsModel> findAllStockItems() {
+		List<ItemsModel> listOfItems = stockRepository.findAllItem();
+		log.info(listOfItems.toString());
+		log.info("All items in stock retrieved succesfully");
+		return listOfItems;
 	}
 
 }
