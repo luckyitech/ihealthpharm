@@ -2,6 +2,7 @@ package com.ihealthpharm.stock.service;
 
 import java.util.List;
 
+import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.stock.model.StockModel;
 
 public interface StockService {
@@ -20,4 +21,5 @@ public interface StockService {
 
 	void deleteStockByTds(Integer[] stockIds);
 
+	List<ItemsModel> findAllStockItems();
 }
