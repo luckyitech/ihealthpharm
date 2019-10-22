@@ -52,4 +52,7 @@ public interface ItemSuppliersRepository extends JpaRepository<ItemSupplierModel
 			" inner join manufacturer m on m.manufacturerId=i.manufacturer where d.supplierId=:supplierIds")
 	List<ItemSupplierDTO> getAllSupplierItemBasedOnDistId(@Param("supplierIds")Integer supplierIds);
 
+	@Query("select sup from items_supplier items inner join supplier sup on items.suppliersId = sup.supplierId where items.itemsId=:itemsId")
+	List<SupplierModel> getAllSuppliersByItemId(@Param ("itemsId")Integer itemsId);
+	
 }

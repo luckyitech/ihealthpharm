@@ -46,4 +46,5 @@ public interface ItemSupplierService {
 
 	ItemSupplierModel saveItemSupplierDataModel(@Valid ItemSupplierModel itemSupplierModel);
 
+	List<SupplierModel> getAllSuppliersByItemId(Integer itemId);
 }
