@@ -241,4 +241,10 @@ public class ItemSupplierServiceImpl implements ItemSupplierService {
 		return itemSupplierModel;
 	}
 
+	@Override
+	public List<SupplierModel> getAllSuppliersByItemId(Integer itemId) {
+		log.info("given Item id :" + itemId);
+		return itemSuppliersRepository.getAllSuppliersByItemId(itemId);
+	}
+
 }

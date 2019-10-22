@@ -174,4 +174,12 @@ public class ItemSupplierController {
 	}
 	 
 
+	@GetMapping("/getitemsuppliersbyitemid")
+	public ResponseEntity<BaseDto<List<SupplierModel>>> getAllSuppliersItemId(@RequestParam int itemId){
+		List<SupplierModel> result=itemSupplierService.getAllSuppliersByItemId(itemId);
+		log.info("---------------------------------");
+		log.info(result.toString());
+		log.info("---------------------------------");
+		return new BaseDto<>(result,itemSupplierHelper.getRetrieveItemSupplierMessage(),OK).respond();
+	}
 }
