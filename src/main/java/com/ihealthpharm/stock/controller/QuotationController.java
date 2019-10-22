@@ -285,7 +285,7 @@ public class QuotationController {
 	 * @author Gunasekhar 
 	 * Service is to get the items based on the Supplier
 	 */
-	@GetMapping("/getitemsbydistributor")
+	@GetMapping("/getitemsbysupplier")
 	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsBySupplier(@RequestParam Integer supplierId) {
 		List<ItemSupplierDTO> result = quotationService.getItemsBySupplier(supplierId);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
@@ -295,7 +295,7 @@ public class QuotationController {
 	 * @author Gunasekhar 
 	 * Service is to get the items based on the Supplier
 	 */
-	@GetMapping("/getitemsbydistributoritemcditemname")
+	@GetMapping("/getitemsbysupplieritemcditemname")
 	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsBySupplier(@RequestParam Integer supplierId, 
 			@RequestParam(required=false) String itemCode, @RequestParam(required=false) String itemName) {
 		System.out.println(itemCode+" "+itemName);

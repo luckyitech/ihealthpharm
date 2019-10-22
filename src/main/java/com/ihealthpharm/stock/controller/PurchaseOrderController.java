@@ -163,7 +163,7 @@ public class PurchaseOrderController {
 	 * @author Gunasekhar 
 	 * Service is for Supplier details based on the quotation id
 	 */
-	@GetMapping("/getdistributorbyquotation")
+	@GetMapping("/getsupplierbyquotation")
 	public ResponseEntity<BaseDto<List<SupplierModel>>> getSuppliersByQuotation(@RequestParam Integer quotationId) {
 		List<SupplierModel> suppliers = purchaseorderService.getSuppliersByQuotationId(quotationId);
 		return new BaseDto<>(suppliers, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
@@ -173,7 +173,7 @@ public class PurchaseOrderController {
 	 * @author Gunasekhar 
 	 * Service is for item details based on the quotation id and Supplier id
 	 */
-	@GetMapping("/getitemsbydistributorandquotation")
+	@GetMapping("/getitemsbysupplierandquotation")
 	public ResponseEntity<BaseDto<List<ItemsModel>>> getItemsBySupplierAndQuotation(@RequestParam Integer quotationId, @RequestParam Integer supplierId) {
 		List<ItemsModel> itemsModels = purchaseorderService.getItemsBySupplierAndQuotation(quotationId, supplierId);
 		return new BaseDto<>(itemsModels, propertyHelper.getRetrieveMessage(), OK).respond();
@@ -193,7 +193,7 @@ public class PurchaseOrderController {
 	 * @author Gunasekhar 
 	 * Service is for item details based on the purchase order
 	 */
-	@GetMapping("/getdistributorbypurchaseorder")
+	@GetMapping("/getsupplierbypurchaseorder")
 	public ResponseEntity<BaseDto<SupplierModel>> getSupplierByPurchaseOrder(@RequestParam Integer purchaseOrderId) {
 		SupplierModel supplierModel = purchaseorderService.getSupplierByPurchaseOrder(purchaseOrderId);
 		return new BaseDto<>(supplierModel, propertyHelper.getRetrieveMessage(), OK).respond();
