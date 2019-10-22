@@ -107,7 +107,10 @@ public class InsuranceModel extends AuditModel {
 
 	@Column(name="EMAIL_ID",length=50)
 	private String emailId;
-
+	
+	
+	@Column(name="CONTRIBUTION_PERCENTAGE")
+    private Float contributionPercentage;
 
 	@OneToOne
 	@JoinColumn(name="PHARMACY_ID")
