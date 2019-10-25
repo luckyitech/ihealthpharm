@@ -110,7 +110,6 @@ public class SupplierModel extends AuditModel {
 	@Column(name = "ALLOW_MANUAL_ORDERS", length=1)
 	private String allowManualOrders;
 	
-	
 	@Column(name = "ALLOW_PHONE_ORDERS", length=1)
 	private String allowPhoneOrders;
 	

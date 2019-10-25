@@ -79,4 +79,17 @@ public class ItemAlternativeController {
 		List<ItemAlternativeModel> result = itemAlternativeService.findByItemId(item);
 		return new BaseDto<>(result,  itemAlternativeHelper.getRetrieveItemAlternativeMessage(), OK).respond();
 	}
+	
+	@PutMapping("/updateItemAlternativebasedonItem")
+	public ResponseEntity<BaseDto<Object>> postItemAlternativeBasedOnItem(@Valid @RequestBody AlternativeItemsRequestDTO alternativeItemsRequestDTO){
+		log.info("Request Object for update is: "+ alternativeItemsRequestDTO.toString());
+		List<ItemsModel> itemAlternativeModels = alternativeItemsRequestDTO.getItemAlternativeModels();
+		ItemsModel item = alternativeItemsRequestDTO.getItem();
+		  itemAlternativeService.updateItemAlternativeBasedOnItemModel(itemAlternativeModels,item);
+		log.info(itemAlternativeHelper.getUpdateItemAlternativeMessage());
+		return new BaseDto<>(itemAlternativeHelper.getUpdateItemAlternativeMessage(),OK).respond();
+		
+	}
+	
+	
 }
