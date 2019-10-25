@@ -86,6 +86,7 @@ public class SupplierController {
 	@GetMapping("/getallsuppliersdata") 
 	public ResponseEntity<BaseDto<List<SupplierModel>>> getAllSupplierdata() {
 		List<SupplierModel> result = supplierService.findAllSuppliers();
+		
 		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
 	}
 

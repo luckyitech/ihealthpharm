@@ -221,7 +221,7 @@ public class ItemSupplierServiceImpl implements ItemSupplierService {
 	@Override
 	public List<ItemSupplierDTO> findAllMappedItemSuppliersOnItemName(int itemId) {
 		List<ItemSupplierDTO> response=itemSuppliersRepository.getAllItemSuppliersBasedOnItemId(itemId);
-
+        System.out.println(response);
 		return response;
 	}
 
