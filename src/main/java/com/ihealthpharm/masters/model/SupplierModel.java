@@ -42,7 +42,7 @@ public class SupplierModel extends AuditModel {
 	private String emailId;
 		
 	@Column(name = "ACTIVE_S",length=1)
-	private char activeS;
+	private String activeS;
 	
 	@Column(name = "FAX",length=20)
 	private String fax;
@@ -105,28 +105,28 @@ public class SupplierModel extends AuditModel {
 	private CountryModel country;
 	
 	@Column(name = "ALLOW_ONLINE_ORDERS", length=1)
-	private char allowOnlineOrders;
+	private String allowOnlineOrders;
 	
 	@Column(name = "ALLOW_MANUAL_ORDERS", length=1)
-	private char allowManualOrders;
+	private String allowManualOrders;
 	
 	@Column(name = "ALLOW_PHONE_ORDERS", length=1)
-	private char allowPhoneOrders;
+	private String allowPhoneOrders;
 	
 	@Column(name = "ACCEPT_EXPIRY_RETURNS", length=1)
-	private char acceptExpireReturns;
+	private String acceptExpireReturns;
 	
 	@Column(name = "ACCEPT_DAMAGED_RETURNS", length=1)
-	private char acceptDamagedReturns;
+	private String acceptDamagedReturns;
 	
 	@Column(name = "ACCEPT_GOOD_RETURNS", length=1)
-	private char acceptGoodReturns;
+	private String acceptGoodReturns;
 	
 	@Column(name = "SUPPLIER_ALSO_MANUFACTURER", length=1)
-	private char supplierAlsoManufacturer;
+	private String supplierAlsoManufacturer;
 	
 	@Column(name = "SUPPLIES_MEDICAL_NON_MEDICAL_BOTH", length=1)
-	private char suppliesMedicalNonMedicalBoth;
+	private String suppliesMedicalNonMedicalBoth;
 	
 	@OneToOne
 	@JoinColumn(name = "RETURN_CREDIT_TYPE_ID")

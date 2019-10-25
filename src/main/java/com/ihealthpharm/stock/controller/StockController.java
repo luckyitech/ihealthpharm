@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.masters.model.ItemsModel;
 import  com.ihealthpharm.stock.service.*;
 import com.ihealthpharm.stock.helper.*;
 import com.ihealthpharm.stock.model.*;
@@ -112,6 +113,12 @@ public class StockController {
 	@GetMapping("/getstockbyid")
 	public ResponseEntity<BaseDto<StockModel>> getStockById(@RequestParam Integer stockId) {
 		StockModel result = stockService.findStockById(stockId);
+		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
+	}
+	
+	@GetMapping("/getallstockitems")
+	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllStockItems() {
+		List<ItemsModel> result = stockService.findAllStockItems();
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}
 	
