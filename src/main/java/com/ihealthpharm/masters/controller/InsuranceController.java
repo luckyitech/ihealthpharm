@@ -39,7 +39,7 @@ public class InsuranceController {
 	
 	@PostMapping("/save/insurance/image")
 	public ResponseEntity<BaseDto<InsuranceModel>> saveInsuranceData(@Valid @RequestParam ("insuranceModel") String insuranceData,@Valid @RequestParam ("termsAndConditionsFile") MultipartFile termsAndConditionsFile){
-		log.info("Request Object insert is :",insuranceData);
+		log.info("Request Object insert along with image :",insuranceData);
 		InsuranceModel insuranceModel=null;
 		try {
 			insuranceModel=new ObjectMapper().readValue(insuranceData, InsuranceModel.class);

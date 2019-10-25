@@ -98,4 +98,27 @@ public class ItemAlternativeServiceImpl implements ItemAlternativeService{
 			throw new IHealthPharmException(itemAlternativeHelper.getNotFoundItemAlternativeMessage(),HttpStatus.NOT_FOUND);
 		}
 	}
+
+	@Override
+	public void updateItemAlternativeBasedOnItemModel(List<ItemsModel> itemAlternativeModel, ItemsModel item) {
+
+		//ItemAlternativeModel itemAlternativeModel  = getValidItemAlternative(itemAlternativeId);
+
+//		if(!Objects.nonNull(itemAlternativeModel))
+//		{
+//			throw new IHealthPharmException(itemAlternativeHelper.getNotFoundItemAlternativeMessage(),HttpStatus.NOT_FOUND);
+//		}
+		ItemAlternativeModel itemRes = null;
+		for(ItemsModel itemModel:itemAlternativeModel)
+		{
+			
+			System.out.println(itemModel);
+			
+			  itemAlternativeRepository.updateBasedOnItem(itemModel,item);
+		}
+		//itemAlternativeModel = itemAlternativeRepository.updateBasedOnItem(itemAlternativeId,itemModel);
+		log.info("Alternative Item updated with Id:");
+	
+		
+	}
 }
