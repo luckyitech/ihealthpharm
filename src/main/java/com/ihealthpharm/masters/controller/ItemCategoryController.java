@@ -39,6 +39,7 @@ public class ItemCategoryController {
 	
 	@PostMapping("/save/itemcategory")
 	public ResponseEntity<BaseDto<ItemCategoryModel>> insertItemCategoryData(@Valid @RequestBody ItemCategoryModel itemCategoryModel) {
+		System.out.println("item cat save");
 		log.info("Request Object insert is: "+ itemCategoryModel);
 		
 		ItemCategoryModel itemCategoryModelRes =  itemCategoryService.saveItemCategoryData(itemCategoryModel);
