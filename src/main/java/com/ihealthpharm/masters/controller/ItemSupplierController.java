@@ -44,12 +44,12 @@ public class ItemSupplierController {
 	private ItemSupplierHelper itemSupplierHelper;
 	
 	
-/*	@PostMapping("/save/itemdistributor")
-	public ResponseEntity<BaseDto<ItemDistributorModel>> insertDistributorData(@Valid @RequestParam int[] itemsId,@Valid @RequestParam int[] distributorsId ) {
-		log.info("Request Object insert is: "+ itemsId+distributorsId);
+/*	@PostMapping("/save/itemsupplier")
+	public ResponseEntity<BaseDto<ItemsupplierModel>> insertsupplierData(@Valid @RequestParam int[] itemsId,@Valid @RequestParam int[] suppliersId ) {
+		log.info("Request Object insert is: "+ itemsId+suppliersId);
 		
-		ItemDistributorModel itemDistributorModelRes = itemDistributorService.saveItemDistributorData(itemsId,distributorsId);
-		return new BaseDto<>(itemDistributorModelRes,itemDistributorHelper.getSaveItemDistributorMessage(),OK).respond();
+		ItemsupplierModel itemsupplierModelRes = itemsupplierService.saveItemsupplierData(itemsId,suppliersId);
+		return new BaseDto<>(itemsupplierModelRes,itemsupplierHelper.getSaveItemsupplierMessage(),OK).respond();
 	}*/
 	
 	@PostMapping("/save/itemsupplier")
@@ -119,6 +119,7 @@ public class ItemSupplierController {
 	
 	
 	
+	
 	//itemsupplier dropdown item search
 	
 	@GetMapping("/getunmapped/suppliers")
@@ -163,6 +164,7 @@ public class ItemSupplierController {
 	//for getting grid data based on itemId
 	@GetMapping("/getitemsuppliers/basedonItemId")
 	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getAllItemSuppliersBasedOnItemId(@RequestParam int  itemId){
+		System.out.println(itemId);
 		List<ItemSupplierDTO> response=itemSupplierService.findAllMappedItemSuppliersOnItemName(itemId);
 		return new BaseDto<>(response,itemSupplierHelper.getRetrieveItemSupplierMessage(),OK).respond();
 	}
@@ -174,4 +176,12 @@ public class ItemSupplierController {
 	}
 	 
 
+	@GetMapping("/getitemsuppliersbyitemid")
+	public ResponseEntity<BaseDto<List<SupplierModel>>> getAllSuppliersItemId(@RequestParam int itemId){
+		List<SupplierModel> result=itemSupplierService.getAllSuppliersByItemId(itemId);
+		log.info("---------------------------------");
+		log.info(result.toString());
+		log.info("---------------------------------");
+		return new BaseDto<>(result,itemSupplierHelper.getRetrieveItemSupplierMessage(),OK).respond();
+	}
 }
