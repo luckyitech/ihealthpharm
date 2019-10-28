@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -77,7 +76,7 @@ public class ProviderModel extends AuditModel{
 	@Column(name = "DEA_NUMBER")
 	private String deaNumber;
 	
-	@Column(name = "GENDER_CD")
+	@Column(name = "GENDER_CD", length=1)
 	private String   genderCode;
 	 
 	@Column(name = "DOB")
@@ -90,7 +89,7 @@ public class ProviderModel extends AuditModel{
 	@JoinColumn(name="COUNTRY_ID")
 	private CountryModel country;
 	
-	@OneToOne(cascade=CascadeType.DETACH)
+	@OneToOne
 	@JoinColumn(name = "PROVIDER_TYPE_LOOKUP_ID")
 	private ProviderLookupTypeModel providerLookupTypeModel;
 
