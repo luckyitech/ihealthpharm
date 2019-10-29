@@ -129,6 +129,12 @@ public class ItemController {
 	}
 
 
+	//based on itemCode search
+		@GetMapping("/getallby/ItemCodeSearch")
+		public ResponseEntity<BaseDto<List<ItemsModel>>> getAllByItemCodeSearch(@RequestParam String searchTerm){
+			List<ItemsModel> results=itemService.findAllByItemCode(searchTerm);
+			return new BaseDto<>(results,propertyHelper.getRetrieveMessage(),OK).respond();
+		}
 
 	//based on itemDescription
 	@GetMapping("/getallby/ItemDescriptionSearch")
@@ -148,11 +154,12 @@ public class ItemController {
 	//based on groupcode
 	@GetMapping("/getallby/groupcodeSearch")
 	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllItemsByGroupCodeSearch(@RequestParam String searchTerm){
-
+		log.info(searchTerm);
 		List<ItemsModel> response=itemService.findAllByItemGroupCodeSearch(searchTerm);
 		return new BaseDto<>(response,propertyHelper.getRetrieveMessage(),OK).respond();
 	}
 
 
+	
 
 }

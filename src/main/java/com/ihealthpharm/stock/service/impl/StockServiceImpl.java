@@ -1,5 +1,6 @@
 package com.ihealthpharm.stock.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.model.ItemsModel;
+import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.stock.dao.StockRepository;
 import com.ihealthpharm.stock.helper.StockHelper;
 import com.ihealthpharm.stock.model.StockModel;
@@ -117,6 +119,45 @@ public class StockServiceImpl implements StockService {
 		log.info(listOfItems.toString());
 		log.info("All items in stock retrieved succesfully");
 		return listOfItems;
+	}
+
+	@Override
+	public List<String> getBatchNumbersByItemId(ItemsModel itemId) {
+		
+		return stockRepository.getBatchNumbersByItemId(itemId);
+	}
+
+	@Override
+	public StockModel getStockByItemAndBatchNumber(ItemsModel itemId, String batchNo) {
+		
+		return stockRepository.findByItemAndBatchNo(itemId, batchNo);
+	}
+
+	@Override
+	public List<StockModel> findByItem(ItemsModel itemId) {
+		
+		return stockRepository.findByItem(itemId);
+	}
+
+	@Override
+	public List<StockModel> findByItemName(ItemsModel itemName) {
+		
+		return stockRepository.findByItemName(itemName);
+	}
+
+	@Override
+	public List<StockModel> findByItemAndPharmacy(List<ItemsModel> itemList, PharmacyModel pharmacy) {
+		List<StockModel> listOfStock = new ArrayList<>();
+		List<StockModel> listOfStockRes = null;
+		for(ItemsModel item:itemList)
+		{
+			listOfStockRes = stockRepository.findByItemAndPharmacy(item, pharmacy);
+			if(Objects.nonNull(listOfStockRes))
+			{
+				listOfStock.addAll(listOfStockRes);
+			}
+		}
+		return listOfStock;
 	}
 
 }
