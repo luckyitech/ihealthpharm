@@ -60,7 +60,8 @@ public class ReportsServiceImpl implements ReportsService {
 		ReportsMappingModel model = reportsMappingRepository.findByReportCode(String.valueOf(dataMap.get("ReportCode")));
 		
 		List<Map<String,Object>> responseList =getReportData(model,dataMap);
-
+		log.info("------------------------------------");
+		log.info(responseList.toString());
 		String extension =".xls";
 		if(StringUtils.equalsIgnoreCase("PDF", reportType))
 			extension =".pdf";
@@ -111,7 +112,11 @@ public class ReportsServiceImpl implements ReportsService {
 		
 		String SQL = reportsCommonUtility.prepareSQL(model);
 		String Whereclause = reportsCommonUtility.prepareWhereClause(model,dataMap);
+		log.info(SQL);
 		
+		log.info(Whereclause);
+		log.info(model.toString());
+		log.info(dataMap.toString());
 		log.info("SQL [{}]",SQL);
 		log.info("WhereClause[{}]",Whereclause);
 		
@@ -120,6 +125,8 @@ public class ReportsServiceImpl implements ReportsService {
 		return responseList;
 	}
 
-
-
+	@Override
+	public List<ReportsMappingModel> getReportsDetails() {
+		return reportsMappingRepository.findAll();
+	}
 }
