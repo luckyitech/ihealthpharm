@@ -18,4 +18,8 @@ public interface ItemAlternativeService {
 	public List<ItemAlternativeModel> findAll();
 	
 	public void delete(Integer itemAlternativeId);
+
+	 void updateItemAlternativeBasedOnItemModel( List<ItemsModel> itemAlternativeModel, ItemsModel item);
+	
+	
 }

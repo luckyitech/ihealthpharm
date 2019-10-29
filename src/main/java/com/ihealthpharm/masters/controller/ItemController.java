@@ -158,8 +158,4 @@ public class ItemController {
 		List<ItemsModel> response=itemService.findAllByItemGroupCodeSearch(searchTerm);
 		return new BaseDto<>(response,propertyHelper.getRetrieveMessage(),OK).respond();
 	}
-
-
-	
-
 }
