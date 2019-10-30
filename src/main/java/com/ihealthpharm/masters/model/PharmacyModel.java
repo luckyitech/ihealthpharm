@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 
 import lombok.Data;
@@ -60,6 +61,7 @@ public class PharmacyModel extends AuditModel{
 	@Column(name="AUTHORIZED_PERSON_PHONE_NBR",length=20)
 	private String autherizedPersonNumber;
 
+	@Lob
 	@Column(name="PHARMACY_LOGO_PATH",length=500)
 	private byte[] pharmacyLogoPath;
 	
