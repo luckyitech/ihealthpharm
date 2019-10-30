@@ -19,10 +19,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.DeliveryTypesModel;
-import com.ihealthpharm.masters.model.SupplierModel;
 import com.ihealthpharm.masters.model.EmployeeModel;
-import com.ihealthpharm.masters.model.PharmacyAddressModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
+import com.ihealthpharm.masters.model.SupplierModel;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -141,10 +140,6 @@ public class PurchaseOrderModel extends AuditModel {
 	@OneToOne
 	@JoinColumn(name = "SUPPLIER_ID")
 	private SupplierModel supplierModel;
-
-	@OneToOne
-	@JoinColumn(name = "PHARMACY_ADDRESS_ID")
-	private PharmacyAddressModel pharmacyAddressModel;
 
 	@OneToOne
 	@JoinColumn(name = "DELIVERY_TYPE_ID")

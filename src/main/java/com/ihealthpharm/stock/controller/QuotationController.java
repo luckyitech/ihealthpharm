@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.dto.ItemSupplierDTO;
 import com.ihealthpharm.masters.helper.ItemPropertyHelper;
+import com.ihealthpharm.masters.helper.SupplierHelper;
+import com.ihealthpharm.masters.model.SupplierModel;
 import com.ihealthpharm.stock.helper.QuotationHelper;
 import com.ihealthpharm.stock.model.QuotationModel;
 import com.ihealthpharm.stock.service.QuotationService;
@@ -44,6 +46,9 @@ public class QuotationController {
 	
 	@Autowired
 	private ItemPropertyHelper propertyHelper;
+	
+	@Autowired
+	private SupplierHelper supplierHelper;
 	
 	/**
 	 * @author Gunasekhar 
@@ -285,7 +290,7 @@ public class QuotationController {
 	 * @author Gunasekhar 
 	 * Service is to get the items based on the Supplier
 	 */
-	@GetMapping("/getitemsbydistributor")
+	@GetMapping("/getitemsbysupplier")
 	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsBySupplier(@RequestParam Integer supplierId) {
 		List<ItemSupplierDTO> result = quotationService.getItemsBySupplier(supplierId);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
@@ -295,12 +300,42 @@ public class QuotationController {
 	 * @author Gunasekhar 
 	 * Service is to get the items based on the Supplier
 	 */
-	@GetMapping("/getitemsbydistributoritemcditemname")
+	@GetMapping("/getitemsbysupplieritemcditemname")
 	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsBySupplier(@RequestParam Integer supplierId, 
 			@RequestParam(required=false) String itemCode, @RequestParam(required=false) String itemName) {
 		System.out.println(itemCode+" "+itemName);
 		List<ItemSupplierDTO> result = quotationService.getItemsBySupplier(supplierId, itemCode, itemName);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is to get the list of suppliers and items.
+	 */
+	@GetMapping("/getsupplieritemsbyquotation")
+	public ResponseEntity<BaseDto<List<SupplierModel>>> getSupplierItemsByQuotationId(@RequestParam Integer quotationId) {
+		List<SupplierModel> result = quotationService.getSupplierItemsByQuotationId(quotationId);
+		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is to get the list of suppliers and items.
+	 */
+	@GetMapping("/getitemsbysupplierquotation")
+	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsBySupplierQuotationId(@RequestParam Integer supplierId, @RequestParam Integer quotationId) {
+		List<ItemSupplierDTO> result = quotationService.getItemsBySupplierQuotationId(supplierId, quotationId);
+		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is to get the list of suppliers and items.
+	 */
+	@GetMapping("/getsupplierbyitem")
+	public ResponseEntity<BaseDto<List<SupplierModel>>> getSupplierByItem(@RequestParam Integer itemsId) {
+		List<SupplierModel> result = quotationService.getSupplierByItem(itemsId);
+		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
 	}
 	
 }
