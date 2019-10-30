@@ -36,41 +36,43 @@ public class FormulationInstructionsController {
 	public ResponseEntity<BaseDto<FormulationInstructionsModel>>  insertFormulation(@Valid @RequestBody FormulationInstructionsModel formulationModel){
 		log.info("Request Object insert is :",formulationModel);
 		FormulationInstructionsModel formulationModelRes=formulationService.saveFormulationInstructionsData(formulationModel);
-		return new BaseDto<>(formulationModelRes,formulationHelper.saveFormulationinstructionMessage,OK).respond();
+		return new BaseDto<>(formulationModelRes,formulationHelper.getSaveFormulationinstructionMessage(),OK).respond();
 	}
 	
 	@PutMapping("/update/formulation")
 	public ResponseEntity<BaseDto<FormulationInstructionsModel>>  updateFormulation(@Valid @RequestBody FormulationInstructionsModel formulationModel){
 		log.info("Request Object insert is :",formulationModel);
 		FormulationInstructionsModel formulationModelRes=formulationService.updateFormulationInstructionsData(formulationModel);
-    	return new BaseDto<>(formulationModelRes,formulationHelper.updateFormulationinstructionMessage,OK).respond();
+    	return new BaseDto<>(formulationModelRes,formulationHelper.getUpdateFormulationinstructionMessage(),OK).respond();
 	}
 	
 	@PutMapping("/update/formulationlist")
 	public ResponseEntity<BaseDto<List<FormulationInstructionsModel>>>  updateFormulationList(@Valid @RequestBody List<FormulationInstructionsModel> formulationModel){
 		log.info("Request Object insert is :",formulationModel);
 		List<FormulationInstructionsModel> res=formulationService.updateMutipleFormulationInstructionsData(formulationModel);
-		return new BaseDto<>(res, formulationHelper.updateFormulationinstructionMessage, OK).respond();
+		return new BaseDto<>(res, formulationHelper.getUpdateFormulationinstructionMessage(), OK).respond();
 	}
 	
 	@GetMapping("/getallformulationinstructions")
 	public ResponseEntity<BaseDto<List<FormulationInstructionsModel>>> getAllFormulationInstructions()
 	{
+		log.info("Request object for retrieval");
 		List<FormulationInstructionsModel> result=formulationService.getAllFormulationInstructions();
-		return new BaseDto<>(result,formulationHelper.notFoundFormulationinstructionMessage,OK).respond();
+		System.out.println(result);
+		return new BaseDto<>(result,formulationHelper.getRetrieveFormulationinstructionMessage(),OK).respond();
 	}
 	
 	@GetMapping("/getformulationinstructionsid")
 	public ResponseEntity<BaseDto<FormulationInstructionsModel>> getFormulationInstructionsById(@RequestParam int formulationInstructionsId){
 		FormulationInstructionsModel result=formulationService.findFormulationInstructionsById(formulationInstructionsId);
-		return new BaseDto<>(result,formulationHelper.notFoundFormulationinstructionMessage,OK).respond();
+		return new BaseDto<>(result,formulationHelper.getRetrieveFormulationinstructionMessage(),OK).respond();
 	}
 	
 	@DeleteMapping("/delete/formulation")
 	public ResponseEntity<BaseDto<Object>> deleteformulationData(@RequestParam int formulationId){
 		log.info("Request Object for delete is: ", formulationId);
 		formulationService.deleteFormulationInstructionsData(formulationId);
-		return new BaseDto<> (formulationHelper.deleteFormulationinstructionMessage, OK).respond();
+		return new BaseDto<> (formulationHelper.getDeleteFormulationinstructionMessage(), OK).respond();
 	}
 	
 }
