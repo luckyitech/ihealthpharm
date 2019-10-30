@@ -115,4 +115,14 @@ public class QuotationItemsController {
 		return new BaseDto<>(result, quotationItemsHelper.getRetrieveQuotationItemMessage(), OK).respond();
 	}
 	
+	/**
+	 * @author Gunasekhar 
+	 * Service is to reject the QuotationItem
+	 */
+	@GetMapping("/rejectquotationitemsbyid")
+	public ResponseEntity<BaseDto<Object>> rejectQuotationItemsById(@RequestParam Integer quotationItemsId) {
+		quotationItemsService.rejectQuotationItemsById(quotationItemsId);
+		return new BaseDto<>(quotationItemsHelper.getDeleteQuotationItemMessage(), OK).respond();
+	}
+	
 }

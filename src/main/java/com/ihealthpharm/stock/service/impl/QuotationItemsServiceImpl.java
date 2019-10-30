@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.model.ItemsModel;
+import com.ihealthpharm.stock.dao.QuotationItemStatusRepository;
 import com.ihealthpharm.stock.dao.QuotationItemsRepository;
 import com.ihealthpharm.stock.helper.QuotationItemsHelper;
+import com.ihealthpharm.stock.model.QuotationItemStatusModel;
 import com.ihealthpharm.stock.model.QuotationItemsModel;
 import com.ihealthpharm.stock.service.QuotationItemsService;
 
@@ -26,6 +28,9 @@ public class QuotationItemsServiceImpl implements QuotationItemsService {
 
 	@Autowired
 	QuotationItemsRepository  quotationItemsRepository;
+	
+	@Autowired
+	QuotationItemStatusRepository quotationItemStatusRepository;
 
 	@Autowired
 	QuotationItemsHelper quotationItemsHelper;
@@ -118,6 +123,18 @@ public class QuotationItemsServiceImpl implements QuotationItemsService {
 	public ItemsModel getQuotationItem(Integer quotationItemId) {
 		ItemsModel model = quotationItemsRepository.getQuotationItem(quotationItemId);
 		return model;
+	}
+
+	@Override
+	public void rejectQuotationItemsById(Integer quotationItemsId) {
+		QuotationItemsModel quotationItemsModel = getQuotationItemsModel(quotationItemsId);
+		if (!Objects.nonNull(quotationItemsModel)) {
+			throw new IHealthPharmException(quotationItemsHelper.getNotFoundQuotationItemMessage(), HttpStatus.NOT_FOUND);
+		}	
+		QuotationItemStatusModel quotationItemStatusModel  = quotationItemStatusRepository.findByStatus("REJECTED");
+		quotationItemsModel.setQuotationItemStatus(quotationItemStatusModel);
+		quotationItemsRepository.save(quotationItemsModel);
+		
 	}
 
 }

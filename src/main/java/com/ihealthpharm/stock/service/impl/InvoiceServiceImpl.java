@@ -56,11 +56,12 @@ public class InvoiceServiceImpl implements InvoiceService {
 			stockModel.setQuantity(it.getTotalQuantity());
 			stockModel.setManufactureDt(it.getManufactureDt());
 			stockModel.setExpiryDt(it.getExpiryDt());
-			stockModel.setUnitRetailRate(it.getUnitRetailRate());
+			stockModel.setUnitSaleRate(it.getUnitSaleRate());
 			stockModel.setMrp(it.getMrp());
-			stockModel.setRetailDiscountPercentage(it.getRetailDiscountPercentage());
-			stockModel.setRetailDiscountAmount(it.getRetailDiscountAmount());
+			stockModel.setSaleDiscountPercentage(it.getSaleDiscountPercentage());
+			stockModel.setSaleDiscountAmount(it.getSaleDiscountAmount());
 			stockModel.setMargin(it.getMargin());
+			stockModel.setSupplier(invoiceModelres.getSupplierModel());
 			
 			it.setInvoice(invoiceModelres);
 			invoiceItemRepository.save(it);
