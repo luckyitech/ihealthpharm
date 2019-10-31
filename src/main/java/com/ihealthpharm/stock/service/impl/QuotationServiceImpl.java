@@ -275,5 +275,10 @@ public class QuotationServiceImpl implements QuotationService {
 	public EmployeeModel findByEmployeeId(Integer employeeId) {
 		return quotationRepository.findByEmployeeId(employeeId);
 	}
+	
+	@Override
+	public List<ItemSupplierDTO> getItemsByItemCodeOrItemName(String itemCode, String itemName) {
+		return quotationRepository.getItemsByItemCodeOrItemName(itemCode, itemName);
+	}
 
 }

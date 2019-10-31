@@ -99,4 +99,11 @@ public class ItemSupplierDTO {
 		this.itemName = itemName;
 		this.quantity = quantity;
 	}
+	
+	public ItemSupplierDTO(Integer itemId, String itemCode, String itemName, String itemDescription) {
+		this.itemCode = itemCode;
+		this.itemDescription = itemDescription;
+		this.itemName = itemName;
+		this.itemId = itemsId;
+	}
 }
