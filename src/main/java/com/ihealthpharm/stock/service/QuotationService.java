@@ -47,5 +47,9 @@ public interface QuotationService {
 	EmployeeModel findByEmployeeId(Integer employeeId);
 	
 	List<ItemSupplierDTO> getItemsBySupplierQuotationId(Integer supplierId, Integer quotationId);
+	
+	List<ItemSupplierDTO> getItemsByItemCodeOrItemName(String itemCode, String itemName);
+	
+	
 
 }
