@@ -11,5 +11,8 @@ import com.ihealthpharm.finance.model.AccountReceivablesBillsModel;
 public interface AccountReceivablesBillsRepository extends JpaRepository<AccountReceivablesBillsModel,Integer>
 {
 	List<AccountReceivablesBillsModel> findAll();
+	
+	List<AccountReceivablesBillsModel> findAllByOrderByLastUpdateTimestampDesc();
+
 
 }
