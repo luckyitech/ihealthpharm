@@ -2,6 +2,7 @@ package com.ihealthpharm.stock.controller;
 
 import static org.springframework.http.HttpStatus.OK;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -17,11 +18,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.model.ItemsModel;
-import  com.ihealthpharm.stock.service.*;
-import com.ihealthpharm.stock.helper.*;
-import com.ihealthpharm.stock.model.*;
+import com.ihealthpharm.stock.dto.StockItemsListDTO;
+import com.ihealthpharm.stock.helper.StockHelper;
+import com.ihealthpharm.stock.model.StockModel;
+import com.ihealthpharm.stock.service.StockService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -122,5 +126,38 @@ public class StockController {
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}
 	
+	@PostMapping("/getitembatchnumbers")
+	public ResponseEntity<BaseDto<List<String>>> getItemBatchNumberByItemId(@RequestBody ItemsModel item) {
+		List<String> result = stockService.getBatchNumbersByItemId(item);
+		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
+	}
 	
+	@GetMapping("/getstockbyitemandbatch")
+	public ResponseEntity<BaseDto<StockModel>> getStockByItemAndBatch(@RequestParam Integer itemId, @RequestParam String batchNo) {
+		ItemsModel item = new ItemsModel();
+		item.setItemId(itemId);
+		StockModel result = stockService.getStockByItemAndBatchNumber(item,batchNo );
+		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
+	}
+	
+	@PostMapping("/getstockbyitem")
+	public ResponseEntity<BaseDto<List<StockModel>>> getStockByItem(@RequestBody ItemsModel item) {
+		
+		List<StockModel> result = stockService.findByItem(item);
+		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
+	}
+	
+	@PostMapping("/getstockbyitemnamesearch")
+	public ResponseEntity<BaseDto<List<StockModel>>> getStockByItemName(@RequestBody ItemsModel itemName) {
+		
+		List<StockModel> result = stockService.findByItemName(itemName);
+		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
+	}
+	
+	@PostMapping("/getstockbyitemandpharmacy")
+	public ResponseEntity<BaseDto<List<StockModel>>> getStockByItemNameAndPharmacy(@RequestBody StockItemsListDTO stockDto){
+		List<StockModel> result = stockService.findByItemAndPharmacy(stockDto.getListOfItems(),stockDto.getPharmacy());
+		log.info(result.toString());
+		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
+	}
 }

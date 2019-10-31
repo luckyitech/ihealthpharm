@@ -182,6 +182,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 		try {
 			purchaseorderRes = purchaseorderRepository.findById(purchaseorderId).get();
+			purchaseorderRes.getSupplierModel();
+			purchaseorderRes.getDeliveryTypesModel();
+			purchaseorderRes.getPurchaseOrderStatusModel();
+			purchaseorderRes.getQuotationModel();
+			for(PurchaseOrderItemsModel p : purchaseorderRes.getPurchaseorderitems()) {
+				p.getItemsModel().getTax();
+			}
+			
 			return purchaseorderRes;
 		} catch (NoSuchElementException noSuchElementException) {
 			throw new IHealthPharmException(purchaseorderHelper.getNotFoundPurchaseOrderMessage(),

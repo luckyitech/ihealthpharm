@@ -52,6 +52,8 @@ public class ItemSupplierDTO {
 	
 	private int itemsId;
 	
+	private Integer quantity;
+	
 	public ItemSupplierDTO(int itemSupplierId, int itemId, int supplierId, String activeS, String supplierName, String itemName) {
 		this.itemSupplierId = itemSupplierId;
 		this.itemId = itemId;
@@ -89,5 +91,12 @@ public class ItemSupplierDTO {
 		this.unitRate=unitRate;
 		this.discountPercentage=discountPercentage;
 		this.validity=validity;
+	}
+	
+	public ItemSupplierDTO(String itemCode, String itemName, String itemDescription, Integer quantity) {
+		this.itemCode = itemCode;
+		this.itemDescription = itemDescription;
+		this.itemName = itemName;
+		this.quantity = quantity;
 	}
 }

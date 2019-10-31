@@ -40,65 +40,7 @@ public class InvoiceItemModel extends AuditModel {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="INVOICE_ITEM_ID", length=11)
 	private Integer invoiceItemId;
-
-	@Column(name="ACTUAL_VALUE")
-	private Double actualValue;
-
-	@Column(name="AUDIT_ID", length=11)
-	private Integer auditId;
-
-	@Column(name="BATCH_NO", length=20)
-	private String batchNo;
-
-	@Column(name="BONUS", length=11)
-	private Integer bonus;
-
-	@Column(name="DISCOUNT")
-	private Double discount;
-
-	@Column(name="DISCOUNT_PERCENTAGE")
-	private Double discountPercentage;
-
-	@Temporal(TemporalType.DATE)
-	@Column(name="EXPIRY_DT")
-	private Date expiryDt;
-
-	@Temporal(TemporalType.DATE)
-	@Column(name="MANUFACTURE_DT")
-	private Date manufactureDt;
-
-	@Column(name="MRP")
-	private Double mrp;
-
-	@Column(name="ORDER_QUANTITY", length=11)
-	private Integer orderQuantity;
-
-	//bi-directional many-to-one association to Item
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="PURCHASE_ORDER_ID")
-	private PurchaseOrderModel purchaseOrderModel;
-
-	@Column(name="PURCHASE_TAX_AMOUNT")
-	private Double purchaseTaxAmount;
-
-	@Column(name="PURCHASE_TAX_PERCENTAGE")
-	private Double purchaseTaxPercentage;
-
-	@Column(name="PURCHASE_UNIT_RATE")
-	private Double purchaseUnitRate;
-
-	@Column(name="QUANTITY_RECEIVED", length=11)
-	private Integer quantityReceived;
-
-	@Column(name="REMARKS", length=200)
-	private String remarks;
-
-	@Column(name="TOTAL_QUANTITY", length=11)
-	private Integer totalQuantity;
-
-	@Column(name="TOTAL_VALUE")
-	private Double totalValue;
-
+	
 	//bi-directional many-to-one association to Invoice
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="INVOICE_ID")
@@ -108,17 +50,84 @@ public class InvoiceItemModel extends AuditModel {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="ITEM_ID")
 	private ItemsModel itemsModel;
-
-	@Transient
-	private Double unitRetailRate;
 	
+	//bi-directional many-to-one association to Item
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="PURCHASE_ORDER_ID")
+	private PurchaseOrderModel purchaseOrderModel;
+	
+	@Column(name="AUDIT_ID", length=11)
+	private Integer auditId;
+	
+	@Column(name="BATCH_NO", length=20)
+	private String batchNo;
+	
+	@Column(name="ORDER_QUANTITY", length=11)
+	private Integer orderQuantity;
+	
+	@Column(name="QUANTITY_APPROVED", length=11)
+	private Integer quantityApproved;
+	
+	@Column(name="UNIT_RATE")
+	private Double unitRate;
+
+	@Column(name="UNIT_SALE_RATE")
+	private Double unitSaleRate;
+
+	@Column(name="BONUS", length=11)
+	private Integer bonus;
+
+	@Column(name="DISCOUNT_PERCENTAGE")
+	private Double discountPercentage;
+	
+	@Column(name="DISCOUNT")
+	private Double discount;
+	
+	@Column(name="TOTAL_VALUE")
+	private Double totalValue;
+
+	@Column(name="ACTUAL_VALUE")
+	private Double actualValue;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="MANUFACTURE_DT")
+	private Date manufactureDt;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="EXPIRY_DT")
+	private Date expiryDt;
+	
+	@Column(name="PACK")
+	private String pack;
+
+	@Column(name="MRP")
+	private Double mrp;
+	
+	@Column(name="PURCHASE_TAX_AMOUNT")
+	private Double purchaseTaxAmount;
+
+	@Column(name="PURCHASE_TAX_PERCENTAGE")
+	private Double purchaseTaxPercentage;
+	
+	@Column(name="SALE_TAX_AMOUNT")
+	private Double saleTaxAmount;
+
+	@Column(name="SALE_TAX_PERCENTAGE")
+	private Double saleTaxPercentage;
+
+	@Column(name="REMARKS", length=200)
+	private String remarks;
+
+	@Column(name="TOTAL_QUANTITY", length=11)
+	private Integer totalQuantity;
+
 	@Transient
 	private Double margin;
 	
 	@Transient
-	private Double retailDiscountAmount;
+	private Double saleDiscountAmount;
 
 	@Transient
-	private Double retailDiscountPercentage;
+	private Double saleDiscountPercentage;
 
 }
