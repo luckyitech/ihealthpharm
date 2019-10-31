@@ -1,62 +1,117 @@
 package com.ihealthpharm.finance.service.impl;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Objects;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.finance.dao.CreditNoteRepository;
+import com.ihealthpharm.finance.helper.CreditNoteHelper;
 import com.ihealthpharm.finance.model.CreditNoteModel;
 import com.ihealthpharm.finance.service.CreditNoteService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
+@Transactional
 public class CreditNoteServiceImpl implements CreditNoteService {
 	
 	@Autowired
-	private CreditNoteRepository creditNoteRepository;
+	private CreditNoteRepository creditNoteRepo;
+	
+	@Autowired
+	private CreditNoteHelper creditNoteHelper;
 	
 
 	@Override
 	public void deleteCreditById(int creditNoteId) {
-		// TODO Auto-generated method stub
 		
+		CreditNoteModel creditNoteRes = getValidCreditNote(creditNoteId);
+		if (!Objects.nonNull(creditNoteRes)) {
+			throw new IHealthPharmException(creditNoteHelper.getNotFoundCreditNoteMessage(), HttpStatus.NOT_FOUND);
+		}
+		creditNoteRepo.delete(creditNoteRes);
+		log.info("CreditNote data with ID: " + creditNoteRes.getCreditNoteId()+  "Deleted Successfully");
+
 	}
 
 	@Override
 	public void deleteMultipleCredit(int[] creditNoteId) {
-		// TODO Auto-generated method stub
-		
+		CreditNoteModel creditNoteRes;
+		for (int creditNote : creditNoteId) {
+			creditNoteRes = getValidCreditNote(creditNote);
+			if (!Objects.nonNull(creditNoteRes)) {
+				throw new IHealthPharmException(creditNoteHelper.getNotFoundCreditNoteMessage(), HttpStatus.NOT_FOUND);
+			}
+			creditNoteRepo.delete(creditNoteRes);
+			log.info("creditNote data with ID: " + creditNoteRes.getCreditNoteId() + " deleted succesfully");
+		}				
 	}
 
 	@Override
 	public List<CreditNoteModel> findAllCredit() {
-		// TODO Auto-generated method stub
-		return null;
+		return creditNoteRepo.findAll();
 	}
 
 	@Override
 	public CreditNoteModel findCreditById(int creditNoteId) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		CreditNoteModel creditNoteRes = getValidCreditNote(creditNoteId);
+		
+		if(!Objects.nonNull(creditNoteRes)) {
+			throw new IHealthPharmException(creditNoteHelper.getNotFoundCreditNoteMessage(),HttpStatus.NOT_FOUND);
+		}
+		log.info("CreditNote with ID:" +creditNoteRes.getCreditNoteId()+ "retrived successfully");
+		return creditNoteRes;
 	}
 
 	@Override
 	public CreditNoteModel saveCreditData(CreditNoteModel creditNoteModel) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		CreditNoteModel creditNoteRes = creditNoteRepo.save(creditNoteModel);
+		log.info("CreditNote data" +creditNoteRes.getCreditNoteId() + "saved successfully");
+		return creditNoteRes;
+		
 	}
 
 	@Override
 	public CreditNoteModel updateCreditData(CreditNoteModel creditNoteModel) {
-		// TODO Auto-generated method stub
-		return null;
+		CreditNoteModel creditNoteRes = getValidCreditNote(creditNoteModel.getCreditNoteId());
+
+		if (!Objects.nonNull(creditNoteRes)) {
+			throw new IHealthPharmException(creditNoteHelper.getNotFoundCreditNoteMessage(), HttpStatus.NOT_FOUND);
+		}
+		creditNoteRes = creditNoteRepo.save(creditNoteModel);
+		log.info("CreditNote data with ID : " + creditNoteRes.getCreditNoteId() + " updated succesfully");
+
+		return creditNoteRes;
 	}
 
 	@Override
 	public List<CreditNoteModel> updateListOfCreditData(List<CreditNoteModel> creditNoteModel) {
-		// TODO Auto-generated method stub
-		return null;
+		creditNoteModel = creditNoteRepo.saveAll(creditNoteModel);
+
+		log.info("Multiple CreditNote data  updated succesfully");
+
+		return creditNoteModel;
 	}
     
+	private CreditNoteModel getValidCreditNote(int creditNoteId) {
+		
+		CreditNoteModel creditNoteRes= null;
+		try {
+			creditNoteRes = creditNoteRepo.findById(creditNoteId).get();
+			return creditNoteRes;
+		}catch(NoSuchElementException noSuchElementException) {
+			throw new IHealthPharmException(creditNoteHelper.getNotFoundCreditNoteMessage(), HttpStatus.NOT_FOUND);
+		}
+	}
    
 }

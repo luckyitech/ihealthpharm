@@ -16,7 +16,7 @@ public interface DebitNoteService
     
     List<DebitNoteModel> updateMultipleDebit(List<DebitNoteModel> debitNoteModel);
     
-    DebitNoteModel deleteDebitById(int debitNoteId);
+    void deleteDebitById(int debitNoteId);
     
-    List<DebitNoteModel> deleteMultipleDebit(int[] debitNoteId);
+    void deleteMultipleDebit(int[] debitNoteId);
 }

@@ -28,11 +28,7 @@ public class DebitNoteModel {
     @Column(name="BILL_ID",length=11)
     private int billId;
 
-    @Column(name="CREATION_TS",length=25)
-    private LocalDateTime creationTs;
-
-    @Column(name="CREATION_USER_ID",length=50)
-    private String creationUserId;
+   
 
     @Column(name="DEBIT_DATE",length=25)
     private LocalDate debitDate;
@@ -48,12 +44,7 @@ public class DebitNoteModel {
     @Column(name="INVOICE_ID",length=11)
     private int invoiceId;
 
-    @Column(name="LAST_UPDATE_TS",length=25)
-    private LocalDateTime lastUpdateTs;
-
-    @Column(name="LAST_UPDATE_USER_ID",length=50)
-    private String lastUpdateUserId;
-
+  
     @Column(name="REMARKS",length=200)
     private String remarks;
 
