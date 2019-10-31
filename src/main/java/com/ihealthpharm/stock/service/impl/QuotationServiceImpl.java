@@ -11,8 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
+import com.ihealthpharm.masters.dao.EmployeeRepository;
 import com.ihealthpharm.masters.dto.ItemSupplierDTO;
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.ItemsModel;
+import com.ihealthpharm.masters.model.SupplierModel;
 import com.ihealthpharm.masters.model.TaxModel;
 import com.ihealthpharm.stock.dao.QuotationItemStatusRepository;
 import com.ihealthpharm.stock.dao.QuotationItemsRepository;
@@ -46,6 +49,9 @@ public class QuotationServiceImpl implements QuotationService {
 	
 	@Autowired
 	QuotationItemStatusRepository quotationItemStatusRepository;
+	
+	@Autowired
+	EmployeeRepository employeeRepository;
 
 	@Override
 	public QuotationModel saveQuotation(QuotationModel quotationModel) {
@@ -62,17 +68,36 @@ public class QuotationServiceImpl implements QuotationService {
 		QuotationStatusModel quotationStatusModel  = quotationStatusRepository.findByStatus(quotationstatus);
 		quotationModel.setQuotationStatusModel(quotationStatusModel);
 		
-		quotationModel = quotationRepository.save(quotationModel);
+		EmployeeModel createdBy = quotationRepository.findByEmployeeId(quotationModel.getCreatedId());
+		quotationModel.setCreatedBy(createdBy);
+		
+		EmployeeModel modifiedBy = quotationRepository.findByEmployeeId(quotationModel.getModifiedId());
+		quotationModel.setModifiedBy(modifiedBy);
+		
+		EmployeeModel approvedBy = quotationRepository.findByEmployeeId(quotationModel.getApprovedId());
+		quotationModel.setApprovedBy(approvedBy);
+		
+		EmployeeModel requestedBy = quotationRepository.findByEmployeeId(quotationModel.getRequestedId());
+		quotationModel.setRequestedby(requestedBy);
+		
+		EmployeeModel rejectedBy = quotationRepository.findByEmployeeId(quotationModel.getRejectedId());
+		quotationModel.setRejectedBy(rejectedBy);
+		
+		EmployeeModel cancelledBy = quotationRepository.findByEmployeeId(quotationModel.getCancelledId());
+		quotationModel.setCancelledBy(cancelledBy);
+		
+		QuotationModel quotationres = quotationRepository.save(quotationModel);
 		
 		for(QuotationItemsModel q : quotationItemsModels) {
-			q.setQuotation(quotationModel);
+			q.setQuotation(quotationres);
 			QuotationItemStatusModel quotationItemStatusModel  = quotationItemStatusRepository.findByStatus(quotationItemstatus);
 			q.setQuotationItemStatus(quotationItemStatusModel);
 			quotationItemsRepository.save(q);
 		}
 		
 		log.info("Quotation data with ID: " + quotationModel.getQuotationId() + " saved succesfully");
-		return quotationModel;
+		quotationres.setQuotationItems(null);
+		return quotationres;
 	}
 
 	@Override
@@ -137,6 +162,8 @@ public class QuotationServiceImpl implements QuotationService {
 		QuotationModel quotationModel = null;
 		try {
 			quotationModel = quotationRepository.findById(quotationId).get();
+			quotationModel.getCreatedBy();
+			quotationModel.getRequestedby();
 			quotationModel.getQuotationStatusModel();
 			for(QuotationItemsModel q : quotationModel.getQuotationItems()) {
 				q.setItem(getQuotationItem(q.getQuotationItemId()));
@@ -218,6 +245,40 @@ public class QuotationServiceImpl implements QuotationService {
 			i.setItemsModel(itemsModel);
 		}
 		return model;
+	}
+
+	@Override
+	public List<SupplierModel> getSupplierItemsByQuotationId(Integer quotationId) {
+		
+		List<SupplierModel> supplierModels = quotationRepository.getSupplierQuotationId(quotationId);
+		
+		for(SupplierModel d : supplierModels) {
+			List<ItemSupplierDTO> itemsModels = quotationRepository.getSupplierItemsQuotationId(quotationId, d.getSupplierId());
+		}
+		
+		return supplierModels;
+	}
+	
+	@Override
+	public List<ItemSupplierDTO> getItemsBySupplierQuotationId(Integer supplierId, Integer quotationId) {
+		List<ItemSupplierDTO> itemsModels = quotationRepository.getSupplierItemsQuotationId(supplierId, quotationId);
+		
+		return itemsModels;
+	}
+
+	@Override
+	public List<SupplierModel> getSupplierByItem(Integer itemsId) {
+		return quotationRepository.getSupplierByItem(itemsId);
+	}
+
+	@Override
+	public EmployeeModel findByEmployeeId(Integer employeeId) {
+		return quotationRepository.findByEmployeeId(employeeId);
+	}
+	
+	@Override
+	public List<ItemSupplierDTO> getItemsByItemCodeOrItemName(String itemCode, String itemName) {
+		return quotationRepository.getItemsByItemCodeOrItemName(itemCode, itemName);
 	}
 
 }

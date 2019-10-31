@@ -8,6 +8,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.ihealthpharm.masters.dto.ItemSupplierDTO;
+import com.ihealthpharm.masters.model.EmployeeModel;
+import com.ihealthpharm.masters.model.SupplierModel;
 import com.ihealthpharm.stock.model.QuotationModel;
 
 
@@ -41,5 +43,27 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 			+ " (i.itemCode like %:itemCode% or  i.itemName like %:itemName% ) ")
 	List<ItemSupplierDTO> getItemsBySupplier(@Param("supplierId") Integer supplierId, @Param("itemCode") String itemCode, 
 			@Param("itemName") String itemName);
+	
+	@Query("select qi.supplier from quotation q join q.quotationItems qi where q.quotationId = :quotationId group by qi.supplier ")
+	List<SupplierModel> getSupplierQuotationId(@Param("quotationId") Integer quotationId );
+	
+	@Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(i.itemCode, i.itemName, i.itemDescription, qi.quantity) "
+			+ " from quotation q join q.quotationItems qi join qi.item i where q.quotationId = :quotationId and "
+			+ " qi.supplier.supplierId = :supplierId ")
+	List<ItemSupplierDTO> getSupplierItemsQuotationId(@Param("quotationId") Integer quotationId, @Param("supplierId") Integer supplierId );
+	
+	@Query("select e from employee e where e.employeeId = :employeeId ")
+	EmployeeModel findByEmployeeId(@Param("employeeId") Integer employeeId);
+	
+	@Query("select d "
+			+ " from items_supplier id join supplier d on id.suppliersId = d.supplierId join items i on i.itemId = id.itemsId "
+			+ " where id.itemsId = :itemsId and id.activeS = 'Y' ")
+	List<SupplierModel> getSupplierByItem(@Param("itemsId") Integer itemsId);
+	
+	@Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(i.itemId, i.itemCode, i.itemName, i.itemDescription) "
+			+ " from items i where i.itemCode like %:itemCode% or  i.itemName like %:itemName%  ")
+	List<ItemSupplierDTO> getItemsByItemCodeOrItemName(@Param("itemCode") String itemCode, @Param("itemName") String itemName);
+	
+
 
 }
