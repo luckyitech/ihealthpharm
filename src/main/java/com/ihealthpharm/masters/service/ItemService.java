@@ -39,5 +39,7 @@ public interface ItemService {
 
 	List<ItemsModel> findAllByItemGroupCodeSearch(String searchTerm);
 
+	List<ItemsModel> findAllByItemCode(String searchTerm);
+
 
 }
