@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import com.ihealthpharm.masters.model.AuditModel;
+import com.ihealthpharm.masters.model.PharmacyModel;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -66,5 +67,9 @@ public class AccountReceivablesBillsModel extends AuditModel{
     @OneToOne
     @JoinColumn(name="ACCOUNT_RECEIVABLES_ID")
     AccountReceivablesModel accountReceivablesModel;
+    
+    @OneToOne
+    @JoinColumn(name="PHARMACY_ID")
+    private PharmacyModel pharmacyModel;
 
 }

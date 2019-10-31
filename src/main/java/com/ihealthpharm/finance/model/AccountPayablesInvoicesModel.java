@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import com.ihealthpharm.masters.model.AuditModel;
+import com.ihealthpharm.masters.model.PharmacyModel;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -64,5 +65,9 @@ public class AccountPayablesInvoicesModel extends AuditModel{
     @OneToOne
     @JoinColumn(name="ACCOUNT_PAYABLES_ID")
     AccountPayablesModel accountPayablesModel;
+    
+    @OneToOne
+    @JoinColumn(name="PHARMACY_ID")
+    private PharmacyModel pharmacyModel;
 
 }

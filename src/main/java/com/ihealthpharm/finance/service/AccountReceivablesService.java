@@ -7,7 +7,7 @@ import com.ihealthpharm.finance.model.AccountReceivablesModel;
 public interface AccountReceivablesService
 {
     
-	AccountReceivablesModel saveAccountReceivables(AccountReceivablesModel accountReceivables);
+	AccountReceivablesModel saveAccountReceivablesData(AccountReceivablesModel accountReceivables);
 
 	AccountReceivablesModel updateAccountReceivablesData(AccountReceivablesModel accountReceivables);
 	
@@ -22,5 +22,4 @@ public interface AccountReceivablesService
 	 void deleteAccountsReceivablesById(int[] accountReceivablesIds);
 	 
 
-	List<AccountReceivablesModel> findAccountReceivablesByActive();
 }
