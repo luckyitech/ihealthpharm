@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import com.ihealthpharm.masters.model.AuditModel;
+import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.SupplierModel;
 import com.ihealthpharm.stock.model.InvoiceModel;
 
@@ -58,4 +59,8 @@ public class AccountPayablesModel extends AuditModel {
     @OneToOne
     @JoinColumn(name="SUPPLIER_ID")
     SupplierModel supplierModel;
+    
+    @OneToOne
+    @JoinColumn(name="PHARMACY_ID")
+    private PharmacyModel pharmacyModel;
 }

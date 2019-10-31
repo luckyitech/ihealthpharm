@@ -7,7 +7,7 @@ import com.ihealthpharm.finance.model.AccountPayablesModel;
 public interface AccountPayablesService
 {
     
-	AccountPayablesModel saveAccountPayables(AccountPayablesModel accountPayables);
+	AccountPayablesModel saveAccountPayablesData(AccountPayablesModel accountPayables);
 
 	AccountPayablesModel updateAccountPayablesData(AccountPayablesModel accountPayables);
 	
@@ -22,5 +22,5 @@ public interface AccountPayablesService
 	 void deleteAccountsPayablesById(int[] accountPayablesIds);
 	 
 
-	List<AccountPayablesModel> findAccountPayablesByActive();
+	
 }
