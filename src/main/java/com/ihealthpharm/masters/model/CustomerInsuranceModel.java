@@ -30,22 +30,27 @@ public class CustomerInsuranceModel {
 	 @Column(name="INSURANCE_POLICY_CODE",length=100)
 	    private String policyCode;
 	    
-	
+	 @Column(name="CUSTOMER_POLICY_NO",length=100)
+	    private String customerPolicyNumber;
+	 
+	 @Column(name="CUSTOMER_NAME",length=25)
+		private String customerName;
+	 
     @Column(name="INSURANCE_AMOUNT_LIMIT",length=25)
-    private float iAmountLimit;
+    private float policyAmountLimit;
 
     @Column(name="INSURANCE_DURATION_IN_MONTHS",length=11)
-    private int iDurationInMonths;
+    private int policyDurationInMonths;
 
     @Column(name="INSURANCE_CONTRIBUTION_PERCENTAGE",length=25)
     private float contributionPercentage;
     
     @Column(name="INSURANCE_POLICY_START",length=25)
-    private String policyStart;
+    private String policyStartDate;
     
 
     @Column(name="INSURANCE_POLICY_END",length=25)
-    private String policyEnd;
+    private String policyEndDate;
 
    
     @OneToOne
@@ -59,12 +64,12 @@ public class CustomerInsuranceModel {
     public void setPolicyStart(Date startDate) throws ParseException {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String customerStart=simpleDateFormat.format(startDate);  
-		this.policyStart = customerStart;
+		this.policyStartDate = customerStart;
     }
 
   public void setPolicyEnd(Date endDate)  {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String customerEnd=simpleDateFormat.format(endDate);  
-		this.policyEnd = customerEnd;
+		this.policyEndDate = customerEnd;
     }
 }

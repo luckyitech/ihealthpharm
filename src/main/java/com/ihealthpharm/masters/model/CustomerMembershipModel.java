@@ -29,6 +29,12 @@ public class CustomerMembershipModel {
 
     @Column(name="MEMBERSHIP_CREDIT_DAYS",length=11)
     private int membershipCreditDays;
+    
+	@Column(name="MEMBERSHIP_CARD_NO",length=100)
+	private String membershipCardNumber;
+	
+	@Column(name="CUSTOMER_NAME",length=25)
+	private String customerName;
 
     @Column(name="MEMBERSHIP_BONUS_PERCENTAGE",length=25)
     private float membershipBonusPercentage;
