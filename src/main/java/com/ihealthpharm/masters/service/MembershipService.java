@@ -22,4 +22,6 @@ public interface MembershipService {
 
 	void deleteMultipleMemberships(int[] membershipId);
 	
+
+	
 }
