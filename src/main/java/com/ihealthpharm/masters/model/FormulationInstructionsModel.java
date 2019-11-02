@@ -8,8 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

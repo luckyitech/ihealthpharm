@@ -87,6 +87,5 @@ public class StockModel extends AuditModel {
 	@JoinColumn(name="PHARMACY_ID")
 	private PharmacyModel pharmacy;
 
-	
 
 }
