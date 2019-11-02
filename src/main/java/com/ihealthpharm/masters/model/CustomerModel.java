@@ -34,7 +34,7 @@ public class CustomerModel extends AuditModel{
 		
 		
 		@Column( name = "FIRST_NM",length=50)
-		private String firstName;
+		private String customerName;
 		
 		
 		@Column( name = "LAST_NM",length=50)

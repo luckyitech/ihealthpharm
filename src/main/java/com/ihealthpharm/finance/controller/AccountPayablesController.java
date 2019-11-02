@@ -1,0 +1,89 @@
+package com.ihealthpharm.finance.controller;
+
+import static org.springframework.http.HttpStatus.OK;
+
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.finance.helper.AccountPayablesHelper;
+import com.ihealthpharm.finance.model.AccountPayablesModel;
+import com.ihealthpharm.finance.service.AccountPayablesService;
+
+import lombok.extern.slf4j.Slf4j;
+
+@RestController
+@CrossOrigin
+@Slf4j
+public class AccountPayablesController {
+
+	@Autowired
+	AccountPayablesService accountPayablesService;
+
+	@Autowired
+	AccountPayablesHelper accountPayablesHelper;
+
+	@PostMapping("/save/accountPayables")
+	public ResponseEntity<BaseDto<AccountPayablesModel>> insertAccountPayablesData(@Valid @RequestBody AccountPayablesModel accountPayablesModel) {
+
+		AccountPayablesModel accountPayablesModelRes = accountPayablesService.saveAccountPayablesData(accountPayablesModel);
+		return new BaseDto<>(accountPayablesModelRes, accountPayablesHelper.getSaveAccountPayablesMessage(), OK).respond();
+	}
+
+	@PutMapping("/update/accountPayables")
+	public ResponseEntity<BaseDto<AccountPayablesModel>> updateAccountPayablesData(@Valid @RequestBody AccountPayablesModel accountPayablesModel) {
+		log.info("Request Object for update is: ", accountPayablesModel);
+		AccountPayablesModel accountPayablesModelRes = accountPayablesService.updateAccountPayablesData(accountPayablesModel);
+		return new BaseDto<>(accountPayablesModelRes, accountPayablesHelper.getUpdateAccountPayablesMessage(), OK).respond();
+	}
+
+	@PutMapping("/update/accountsPayables")
+	public ResponseEntity<BaseDto<List<AccountPayablesModel>>> updateAccountsPayablesData(@Valid @RequestBody List<AccountPayablesModel> accountPayablesModel) {
+		log.info("Request Object for update is: " , accountPayablesModel);
+		List<AccountPayablesModel> AccountPayablesModelRes = accountPayablesService.updateAccountsPayablesData(accountPayablesModel);
+		return new BaseDto<>(AccountPayablesModelRes, accountPayablesHelper.getUpdateAccountPayablesMessage(), OK).respond();
+	}
+	
+	@DeleteMapping("/delete/accountPayables")
+	public ResponseEntity<BaseDto<Object>> deleteAccountPayablesData(@RequestParam int accountPayablesId) {
+		log.info("Request Object for delete is: ", accountPayablesId);
+		accountPayablesService.deleteAccountPayablesById(accountPayablesId);
+		return new BaseDto<>(accountPayablesHelper.getDeleteAccountPayablesMessage(), OK).respond();
+	}
+
+	@DeleteMapping("/delete/accountsPayables")
+	public ResponseEntity<BaseDto<Object>> deleteAccountPayablesData(@RequestParam int[] accountPayablesIds) {
+
+		log.info("Request Object for delete is: " + accountPayablesIds[0]);
+		accountPayablesService.deleteAccountsPayablesById(accountPayablesIds);
+		return new BaseDto<>(accountPayablesHelper.getDeleteAccountPayablesMessage(), OK).respond();
+	}
+
+	
+	@GetMapping("/getaccountPayablesdata")
+	public ResponseEntity<BaseDto<List<AccountPayablesModel>>> getAccountPayablesData() {
+		List<AccountPayablesModel> result = accountPayablesService.findAllAccountsPayables();
+		return new BaseDto<>(result, accountPayablesHelper.getRetrieveAccountPayablesMessage(), OK).respond();
+	}
+
+	@GetMapping("/getaccountPayablesdatabyid")
+	public ResponseEntity<BaseDto<AccountPayablesModel>> getAccountPayablesDataById(@RequestParam int accountPayablesId) {
+		AccountPayablesModel result = accountPayablesService.findAccountPayablesById(accountPayablesId);
+		return new BaseDto<>(result, accountPayablesHelper.getRetrieveAccountPayablesMessage(), OK).respond();
+	}
+
+	
+	
+}

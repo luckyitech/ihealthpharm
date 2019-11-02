@@ -37,6 +37,8 @@ public class MembershipModel extends AuditModel{
 	@Column(name="MEMBERSHIP_CARD_NAME",length=100)
 	private String membershipCardName;
 	
+
+	
 	@Column(name="START_DATE")
 	private String membershipStartDate;
 

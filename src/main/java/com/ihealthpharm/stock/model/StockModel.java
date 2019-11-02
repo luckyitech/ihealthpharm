@@ -1,3 +1,4 @@
+
 package com.ihealthpharm.stock.model;
 
 import java.util.Date;
@@ -17,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
+import com.ihealthpharm.masters.model.SupplierModel;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -39,7 +41,45 @@ public class StockModel extends AuditModel {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="STOCK_ID", length=11)
 	private Integer stockId;
+	
+	//bi-directional many-to-one association to Invoice
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="INVOICE_ID")
+	private InvoiceModel invoice;
+	
+	//bi-directional many-to-one association to Item
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="ITEM_ID")
+	private ItemsModel item;
 
+	//bi-directional many-to-one association to Pharmacy
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="PHARMACY_ID")
+	private PharmacyModel pharmacy;
+	
+	//bi-directional many-to-one association to Invoice
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="SUPPLIER_ID")
+	private SupplierModel supplier;
+	
+	@Column(name="QUANTITY", length=11)
+	private Integer quantity;
+
+	@Column(name="UNIT_SALE_RATE")
+	private Double unitSaleRate;
+	
+	@Column(name="MRP")
+	private Double mrp;
+	
+	@Column(name="MARGIN")
+	private Double margin;
+	
+	@Column(name="SALE_DISCOUNT_AMOUNT")
+	private Double saleDiscountAmount;
+
+	@Column(name="SALE_DISCOUNT_PERCENTAGE")
+	private Double saleDiscountPercentage;
+	
 	@Column(name="AUDIT_ID", length=11)
 	private Integer auditId;
 
@@ -54,38 +94,23 @@ public class StockModel extends AuditModel {
 	@Column(name="MANUFACTURE_DT")
 	private Date manufactureDt;
 
-	@Column(name="MARGIN")
-	private Double margin;
+	@Column(name="PURCHASE_DISCOUNT_AMOUNT")
+	private Double purchaseDiscountAmount;
 
-	@Column(name="MRP")
-	private Double mrp;
+	@Column(name="PURCHASE_DISCOUNT_PERCENTAGE")
+	private Double purchaseDiscountPercentage;
 
-	@Column(name="QUANTITY", length=11)
-	private Integer quantity;
+	@Column(name="UNIT_PURCHASE_RATE")
+	private Double unitPurchaseRate;
 
-	@Column(name="RETAIL_DISCOUNT_AMOUNT")
-	private Double retailDiscountAmount;
-
-	@Column(name="RETAIL_DISCOUNT_PERCENTAGE")
-	private Double retailDiscountPercentage;
-
-	@Column(name="UNIT_RETAIL_RATE")
-	private Double unitRetailRate;
-
-	//bi-directional many-to-one association to Invoice
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="INVOICE_ID")
-	private InvoiceModel invoice;
-
-	//bi-directional many-to-one association to Item
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="ITEM_ID")
-	private ItemsModel item;
-
-	//bi-directional many-to-one association to Pharmacy
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="PHARMACY_ID")
-	private PharmacyModel pharmacy;
-
+	@Column(name="RACK")
+	private String rack;
+	
+	@Column(name="SELF")
+	private String self;
+	
+	@Column(name="BARCODE")
+	private String barcode;
+	
 
 }

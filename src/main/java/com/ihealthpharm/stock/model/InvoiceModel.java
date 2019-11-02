@@ -42,95 +42,45 @@ public class InvoiceModel extends AuditModel {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="INVOICE_ID", length=11)
 	private Integer invoiceId;
-
-	@Column(name="ADVANCE")
-	private Double advance;
 	
-	@Temporal(TemporalType.DATE)
-	@Column(name="APPROVED_DT")
-	private Date approvedDt;
-
-	@Column(name="AUDIT_ID", length=11)
-	private Integer auditId;
-
-	@Column(name="BALANCE")
-	private Double balance;
-
-	@Column(name="CREDIT_PERIOD", length=11)
-	private Integer creditPeriod;
-
-	@Column(name="DISCOUNT")
-	private Double discount;
-
-	@Column(name="DISCOUNT_PERCENTAGE")
-	private Double discountPercentage;
-
-	@Column(name="INVOICE")
-	private byte[] invoice;
-
-	@Column(name="INVOICE_ACTUAL_AMOUNT")
-	private Double invoiceActualAmount;
-
-	@Column(name="INVOICE_AMOUNT")
-	private Double invoiceAmount;
-
-	@Temporal(TemporalType.DATE)
-	@Column(name="INVOICE_DT")
-	private Date invoiceDt;
-
 	@Column(name="INVOICE_NO", length=20)
 	private String invoiceNo;
 	
-	@Column(name="GRN_NO", length=20)
-	private String grnNo;
-	
-	@Column(name="MEDICAL_OR_NON_MEDICAL", length=1)
-	private String medicalOrNonMedical;
-
-	@Temporal(TemporalType.DATE)
-	@Column(name="MODIFIED_DT")
-	private Date modifiedDt;
-
-	@Column(name="PAID_AMOUNT")
-	private Double paidAmount;
-
-	@Column(name="REMARKS", length=200)
-	private String remarks;
-
-	@Column(name="ROUND_OFF")
-	private Double roundOff;
-
-	@Column(name="SERVICE_CHARGES")
-	private Double serviceCharges;
-
-	@Column(name="TAX_AMOUNT")
-	private Double taxAmount;
-
 	//bi-directional many-to-one association to Supplier
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="SUPPLIER_ID")
 	private SupplierModel supplierModel;
-
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="INVOICE_DT")
+	private Date invoiceDt;
+	
+	@Column(name="REMARKS", length=200)
+	private String remarks;
+	
 	//bi-directional many-to-one association to Employee
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="CREATED_BY")
 	private EmployeeModel createdBy;
-
-	//bi-directional many-to-one association to Employee
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="MODIFIED_BY")
-	private EmployeeModel modifiedBy;
-
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="APPROVED_DT")
+	private Date approvedDt;
+	
 	//bi-directional many-to-one association to Employee
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="APPROVED_BY")
 	private EmployeeModel approvedBy;
-
-	//bi-directional many-to-one association to InvoiceStatus
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="MODIFIED_DT")
+	private Date modifiedDt;
+	
+	//bi-directional many-to-one association to Employee
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="INVOICE_STATUS_ID")
-	private InvoiceStatusModel invoiceStatus;
-
+	@JoinColumn(name="MODIFIED_BY")
+	private EmployeeModel modifiedBy;
+	
 	//bi-directional many-to-one association to PaymentType
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="PAYMENT_TYPE_ID")
@@ -140,6 +90,62 @@ public class InvoiceModel extends AuditModel {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="PHARMACY_ID")
 	private PharmacyModel pharmacy;
+	
+	@Column(name="CREDIT_DAYS", length=11)
+	private Integer creditDays;
+	
+	//bi-directional many-to-one association to InvoiceStatus
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="INVOICE_STATUS_ID")
+	private InvoiceStatusModel invoiceStatus;
+	
+	@Column(name="INVOICE")
+	private byte[] invoice;
+
+	@Column(name="INVOICE_ACTUAL_AMOUNT")
+	private Double invoiceActualAmount;
+
+	@Column(name="INVOICE_AMOUNT")
+	private Double invoiceAmount;
+	
+	@Column(name="AUDIT_ID", length=11)
+	private Integer auditId;
+	
+	@Column(name="MEDICAL_OR_NON_MEDICAL", length=1)
+	private String medicalOrNonMedical;
+
+	@Column(name="PAID_AMOUNT")
+	private Double paidAmount;
+
+	@Column(name="ADVANCE")
+	private Double advance;
+
+	@Column(name="BALANCE")
+	private Double balance;
+
+	@Column(name="TAX_AMOUNT")
+	private Double taxAmount;
+
+	@Column(name="DISCOUNT")
+	private Double discount;
+
+	@Column(name="DISCOUNT_PERCENTAGE")
+	private Double discountPercentage;
+
+	@Column(name="HANDLING_CHARGES")
+	private Double handlingCharges;
+
+	@Column(name="TAX_PERCENTAGE")
+	private Double taxPercentage;
+	
+	@Column(name="PURCHASE_TAX_AMOUNT")
+	private Double purchaseTaxAmount;
+
+	@Column(name="GRN_NO", length=20)
+	private String grnNo;
+
+	@Column(name="ROUND_OFF")
+	private Double roundOff;
 
 	//bi-directional many-to-one association to InvoiceItem
 	@OneToMany(mappedBy="invoice", fetch=FetchType.LAZY)

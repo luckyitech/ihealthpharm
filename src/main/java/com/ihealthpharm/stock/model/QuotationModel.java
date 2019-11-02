@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ihealthpharm.masters.model.AuditModel;
@@ -118,5 +119,23 @@ public class QuotationModel extends AuditModel {
 
 	@OneToMany(mappedBy = "quotation")
 	private List<QuotationItemsModel> quotationItems;
+	
+	@Transient
+	private Integer createdId;
+	
+	@Transient
+	private Integer modifiedId;
+	
+	@Transient
+	private Integer requestedId;
+	
+	@Transient
+	private Integer approvedId;
+	
+	@Transient
+	private Integer rejectedId;
+	
+	@Transient
+	private Integer cancelledId;
 
 }
