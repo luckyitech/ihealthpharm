@@ -83,5 +83,11 @@ public class CustomerInsuranceController {
 		return new BaseDto<>(CustomerInsuranceModelRes, customerInsuranceHelper.updateCustomerInsuranceMessage, OK).respond();
 	}
 	
+	@GetMapping("/getcustomerinsurancedatabypolicycode")
+	public ResponseEntity<BaseDto<CustomerInsuranceModel>> getCustomerInsuranceDataByPolicyCode(@RequestParam String policyCode) {
+		CustomerInsuranceModel result = customerInsuranceService.findCustomerInsuranceByPolicyCode(policyCode);
+		return new BaseDto<>(result, customerInsuranceHelper.retrieveCustomerInsuranceMessage, OK).respond();
+	}
+
 	
 }
