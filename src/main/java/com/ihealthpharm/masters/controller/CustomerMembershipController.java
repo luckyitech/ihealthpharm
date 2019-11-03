@@ -84,7 +84,7 @@ public class CustomerMembershipController {
 		return new BaseDto<>(CustomerMembershipModelRes, customerMembershipHelper.updateCustomerMembershipMessage, OK).respond();
 	}
 	
-	@GetMapping("/getuniqueid")
+	@GetMapping("/getbymembershipcardnumber")
 	public ResponseEntity<BaseDto<CustomerMembershipModel>> getUniqueCardNumberId(String membershipCardNumber) {
 		CustomerMembershipModel result = customerMembershipService.findByMembershipCardNumber(membershipCardNumber);
 		return new BaseDto<>(result, customerMembershipHelper.getRetrieveCustomerMembershipMessage(), OK).respond();
