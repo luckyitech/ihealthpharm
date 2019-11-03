@@ -1,13 +1,21 @@
 package com.ihealthpharm.finance.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+
+import com.ihealthpharm.masters.model.AuditModel;
+import com.ihealthpharm.masters.model.PharmacyModel;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +25,18 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class DebitNoteModel {
+public class DebitNoteModel extends AuditModel{
+	
+	private static final long serialVersionUID = 1L;
+	
+	@OneToOne
+    @JoinColumn(name="PHARMACY_ID")
+    PharmacyModel pharmacyModel;
+	
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="DEBIT_NOTE_ID",length=11, columnDefinition = "AUTO_INCREMENT")
+    private int debitNoteId;
     
     @Column(name="AMOUNT",length=25)
     private float amount;
@@ -27,17 +46,10 @@ public class DebitNoteModel {
 
     @Column(name="BILL_ID",length=11)
     private int billId;
-
-   
-
+  
     @Column(name="DEBIT_DATE",length=25)
-    private LocalDate debitDate;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="DEBIT_NOTE_ID",length=11, columnDefinition = "AUTO_INCREMENT")
-    private int debitNoteId;
-
+    private String debitDate;
+    
     @Column(name="DEBIT_NOTE_NO",length=20)
     private String debitNoteNo;
 
@@ -51,9 +63,21 @@ public class DebitNoteModel {
     @Column(name="RETURN_CODE",length=50)
     private String returnCode;
 
-    @Column(name="RETURN_TYPE",length=20)
-    private String returnType;
-
+    @Column(name="PURCHASE_RETURN_TYPE",length=20)
+    private String purchaseReturnType;
+    
+    @Column(name="SALES_RETURN_TYPE",length=20)
+    private String salesReturnType;
+    
     @Column(name="SUPPLIER_OR_CUSTOMER",length=50)
     private String supplierOrCustomer;
+    
+    @Column(name = "ACTIVE_S",  columnDefinition = "default 'Y'")
+	private String activeS = "Y";
+    
+    public void setDebitDate(Date debitDate) throws ParseException {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String debitDates=simpleDateFormat.format(debitDate);  
+		this.debitDate = debitDates;
+	}
 }
