@@ -15,6 +15,7 @@ import com.ihealthpharm.finance.dao.AccountReceivablesRepository;
 import com.ihealthpharm.finance.helper.AccountReceivablesHelper;
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.finance.service.AccountReceivablesService;
+import com.ihealthpharm.sales.model.SalesModel;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -118,5 +119,12 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 			throw new IHealthPharmException(accountReceivablesHelper.getNotFoundAccountReceivablesMessage(), HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	@Override
+	public List<SalesModel> getAllBillsByCustomerId(Integer customerId) {
+		log.info("given  id :" + customerId);
+		return accountReceivablesRepository.getAllBillsByCustomerId(customerId);
+	}
+	
 
 }

@@ -21,6 +21,7 @@ import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.finance.helper.AccountReceivablesHelper;
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.finance.service.AccountReceivablesService;
+import com.ihealthpharm.sales.model.SalesModel;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -84,6 +85,14 @@ public class AccountReceivablesController {
 		return new BaseDto<>(result, accountReceivablesHelper.getRetrieveAccountReceivablesMessage(), OK).respond();
 	}
 
-	
+	@GetMapping("/getbillsbycustomerid")
+	public ResponseEntity<BaseDto<List<SalesModel>>> getAllBillssBasedOnCustomerId(@RequestParam int customerId){
+		System.out.println("in grid"+customerId);
+		List<SalesModel> result=accountReceivablesService.getAllBillsByCustomerId(customerId);
+		log.info("---------------------------------");
+		log.info(result.toString());
+		log.info("---------------------------------");
+		return new BaseDto<>(result,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
+	}
 	
 }

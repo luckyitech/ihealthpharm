@@ -21,6 +21,7 @@ import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.finance.helper.AccountPayablesHelper;
 import com.ihealthpharm.finance.model.AccountPayablesModel;
 import com.ihealthpharm.finance.service.AccountPayablesService;
+import com.ihealthpharm.stock.model.InvoiceModel;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -84,6 +85,16 @@ public class AccountPayablesController {
 		return new BaseDto<>(result, accountPayablesHelper.getRetrieveAccountPayablesMessage(), OK).respond();
 	}
 
+	@GetMapping("/getinvoicesbysupplierid")
+	public ResponseEntity<BaseDto<List<InvoiceModel>>> getAllInvoicesBasedOnSupplierId(@RequestParam int supplierId){
+		System.out.println("in grid"+supplierId);
+		List<InvoiceModel> result=accountPayablesService.getAllInvoicesBySupplierId(supplierId);
+		log.info("---------------------------------");
+		log.info(result.toString());
+		log.info("---------------------------------");
+		return new BaseDto<>(result,accountPayablesHelper.getRetrieveAccountPayablesMessage(),OK).respond();
+	}
+	
 	
 	
 }

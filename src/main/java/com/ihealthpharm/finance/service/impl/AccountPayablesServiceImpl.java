@@ -15,6 +15,7 @@ import com.ihealthpharm.finance.dao.AccountPayablesRepository;
 import com.ihealthpharm.finance.helper.AccountPayablesHelper;
 import com.ihealthpharm.finance.model.AccountPayablesModel;
 import com.ihealthpharm.finance.service.AccountPayablesService;
+import com.ihealthpharm.stock.model.InvoiceModel;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -118,4 +119,10 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 		}
 	}
 
+	@Override
+	public List<InvoiceModel> getAllInvoicesBySupplierId(Integer supplierId) {
+		log.info("given  id :" + supplierId);
+		return accountPayablesRepository.getAllInvoicesBySupplierId(supplierId);
+	}
+	
 }
