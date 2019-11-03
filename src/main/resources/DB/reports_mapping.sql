@@ -3,7 +3,7 @@
 -- Server version:               8.0.18 - MySQL Community Server - GPL
 -- Server OS:                    Win64
 -- HeidiSQL Version:             10.2.0.5701
--- --------------------------------------------------------
+-- ---------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
