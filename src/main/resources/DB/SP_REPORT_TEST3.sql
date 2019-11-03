@@ -1,9 +1,9 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               8.0.17 - MySQL Community Server - GPL
+-- Server version:               8.0.18 - MySQL Community Server - GPL
 -- Server OS:                    Win64
 -- HeidiSQL Version:             10.2.0.5701
--- --------------------------------------------------------
+-- ---------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
@@ -18,7 +18,19 @@ CREATE DEFINER=`ihealthpharm`@`%` PROCEDURE `SP_REPORT_TEST3`(
 	IN `WhereClause` VARCHAR(500)
 )
 BEGIN
-select * from sales_by_product_details where WhereClause;
+
+DECLARE BASE_SQL  VARCHAR(5000) DEFAULT '';
+
+SET BASE_SQL=  'SELECT * FROM sales_by_product_details a ';
+
+
+SET @FINAL_SQL= CONCAT(BASE_SQL,WHERECLAUSE);
+
+PREPARE stmt FROM @FINAL_SQL;
+EXECUTE  stmt;
+deallocate PREPARE stmt;
+
+
 END//
 DELIMITER ;
 

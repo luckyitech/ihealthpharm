@@ -61,7 +61,7 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 
 	@Override
 	public void onEndPage(PdfWriter writer, Document document) {
-		addFooter(writer);
+		addFooter(writer,document);
 	}
 
 	private void addHeader(PdfWriter writer, Document document) {
@@ -170,8 +170,77 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 			throw new ExceptionConverter(e);
 		}
 	}
+	
+	private void addFooter(PdfWriter writer, Document document) {
+		PdfPTable footer = new PdfPTable(4);
+		try {
+			// set defaults
+			footer.setWidths(new int[] { 25,30 ,5,2});
+			footer.setTotalWidth(550);
+			footer.setLockedWidth(true);
+			
+			// add text
+			PdfPCell leftContent = new PdfPCell();
+			leftContent.setBorder(Rectangle.NO_BORDER);
+			
+			PdfPCell centerContent = new PdfPCell();
+			centerContent.setBorder(Rectangle.NO_BORDER);
+						
+			PdfPCell rightContent = new PdfPCell();
+			rightContent.setBorder(Rectangle.NO_BORDER);
+			
+			String footerContent = reportsMappingModel.getFooterContent();
+			if(!ObjectUtils.isEmpty(footerContent)) {
+				HeaderFooterContentDto contentDto = (HeaderFooterContentDto) JsonUtility.jsonToObject(footerContent,HeaderFooterContentDto.class);				
+				for(HeaderFooterContentDetailsDto dto:contentDto.getLeftContent()) {					
+					leftContent.addElement(new Phrase(DateUtility.getDateString(), FontFactory.getFont(dto.getFontName(), dto.getSize())));
+					
+				}
+				
+				for(HeaderFooterContentDetailsDto dto:contentDto.getCenterContent()) {					
+					centerContent.addElement(new Phrase(dto.getText(), FontFactory.getFont(dto.getFontName(), dto.getSize())));
+					
+				}
+				
+				for(HeaderFooterContentDetailsDto dto:contentDto.getRightContent()) {					
+					rightContent.addElement(new Phrase(String.format("Page %d of", writer.getPageNumber()), FontFactory.getFont(dto.getFontName(), dto.getSize())));
+					
+				}
+				
+			}
+			footer.addCell(leftContent);
+			footer.addCell(centerContent);
+			footer.addCell(rightContent);
+			
+			// add placeholder for total page count
+			PdfPCell totalPageCount = new PdfPCell(total);
+			totalPageCount.setBorder(0);
+			//totalPageCount.setBorderColor(BaseColor.LIGHT_GRAY);
+			footer.addCell(totalPageCount);		 	
+			
+			PdfPTable finalFooter = new PdfPTable(1);
+			finalFooter.setTotalWidth(550);
+			finalFooter.setWidthPercentage(100);
+			finalFooter.getDefaultCell().setBorder(0);
+			finalFooter.setLockedWidth(true);
+			footer.getDefaultCell().setBorder(0);
 
-	private void addFooter(PdfWriter writer) {
+
+			
+			finalFooter.addCell(footer);
+			PdfContentByte canvas = writer.getDirectContent();
+			canvas.beginMarkedContentSequence(PdfName.ARTIFACT);
+			finalFooter.writeSelectedRows(0, -1, 25, 25,canvas);
+			canvas.endMarkedContentSequence();
+			
+		} catch (DocumentException de) {
+			throw new ExceptionConverter(de);
+		} catch (Exception e) {
+			throw new ExceptionConverter(e);
+		}
+	}
+
+	private void addFooter1(PdfWriter writer) {
 		PdfPTable footer = new PdfPTable(3);
 		try {
 			// set defaults
@@ -187,7 +256,7 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 			footer.getDefaultCell().setHorizontalAlignment(Element.ALIGN_RIGHT);
 			// add copyright
 
-			PdfPCell dateCell = new PdfPCell(new Phrase("Report Generated Date - "+DateUtility.getDateString(), title08)); 
+			PdfPCell dateCell = new PdfPCell(new Phrase(DateUtility.getDateString(), title08)); 
 			dateCell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			dateCell.setBorder(Rectangle.TOP);
 			dateCell.setBorderColor(BaseColor.LIGHT_GRAY);
@@ -215,7 +284,7 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 	public void onCloseDocument(PdfWriter writer, Document document) {
 		int totalLength = String.valueOf(writer.getPageNumber()).length();
 		int totalWidth = totalLength * 5;
-		ColumnText.showTextAligned(t, Element.ALIGN_RIGHT,new Phrase(String.valueOf(writer.getPageNumber()), title08), totalWidth,6, 0);
+		ColumnText.showTextAligned(t, Element.ALIGN_RIGHT,new Phrase(String.valueOf(writer.getPageNumber()), title08), totalWidth,2, 0);
 	}
 
 		
