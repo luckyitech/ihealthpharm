@@ -30,7 +30,7 @@ public class ReportsCommonUtility {
 	@SuppressWarnings("unchecked")
 	public String prepareWhereClause(ReportsMappingModel model, Map<String, Object> dataMap) {
 		StringBuffer stringBuffer = new StringBuffer();
-		stringBuffer.append(" 1 = 1 ");
+		stringBuffer.append(" WHERE 1 = 1 ");
 
 		try {
 			String inputParameters = model.getInputParameters();

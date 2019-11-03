@@ -133,6 +133,14 @@
 			<artifactId>jackson-core</artifactId>
 		</dependency>
 		
+		<!--  <dependency>
+            <groupId>org.jfree</groupId>
+            <artifactId>jcommon</artifactId>
+            <version>1.0.23</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/src/main/respources/Jars/jcommon-1.0.23.jar</systemPath>
+        </dependency> -->
+		
 	</dependencies>
 
 	<build>
