@@ -30,10 +30,7 @@ public class SalesModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "BILL_ID", length = 11, columnDefinition = "AUTO_INCREMENT")
-	private Integer billId;
-
-	@Column(name = "ADJUSTED_AMOUNT", length = 25)
-	private Double adjustedAmount; 
+	private Integer billId; 
 
 	@Column(name = "ADJUSTED_QTY", length = 11)
 	private Integer adjustedQty;
@@ -59,9 +56,16 @@ public class SalesModel {
 	@Column(name = "CREDIT_AMOUNT", length = 25)
 	private Double creditAmount;
 
+	@Column(name = "TOTAL_AMOUNT", length = 25)
+	private Double totalAmount;
+
+	@Column(name = "PAID_AMOUNT", length = 25)
+	private Double paidAmount;
+	
 	@Column(name = "CREDIT_CARD_AMOUNT", length = 25)
 	private Double creditCardAmount;
 
+	
 	@Column(name = "CREDIT_CARD_NO", length = 20)
 	private String creditCardNo;
 

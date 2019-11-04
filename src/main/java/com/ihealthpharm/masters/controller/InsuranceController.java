@@ -110,6 +110,10 @@ public class InsuranceController {
 		return new BaseDto<>(insuranceRes,insuranceHelper.getRetrieveInsuranceMessage(),OK).respond();
 	}
 	
-	
+	@GetMapping("/getinsurance/bypolicycode")
+	public ResponseEntity<BaseDto<InsuranceModel>> getInsuranceByPolicyCode(@Valid @RequestParam String policyCode){
+		InsuranceModel insuranceRes=insuranceService.findInsuranceByPolicyCode(policyCode);
+		return new BaseDto<>(insuranceRes,insuranceHelper.getRetrieveInsuranceMessage(),OK).respond();
+	}
 
 }
