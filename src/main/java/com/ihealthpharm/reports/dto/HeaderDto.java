@@ -14,4 +14,6 @@ public class HeaderDto implements Serializable{
 	private String columnName;
 	private String displayName;
 	private int position;
+	private float width;
+	private String format;
 }

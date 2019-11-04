@@ -46,6 +46,14 @@ public class ReportsMappingModel implements Serializable {
 
 	@Column(name = "FOOTER_CONTENT")
 	private String footerContent;
+	
+	@Column(name = "SHOW_VERTICAL_LINES")
+	private boolean showVerticalLines;
+	
+	@Column(name = "SHOW_BAR_CHARTS")
+	private boolean showBarCharts;
+	
+	
 
 	
 }
