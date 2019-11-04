@@ -3,6 +3,7 @@ package com.ihealthpharm.finance.service;
 import java.util.List;
 
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
+import com.ihealthpharm.masters.model.CustomerInsuranceModel;
 import com.ihealthpharm.sales.model.SalesModel;
 
 public interface AccountReceivablesService
@@ -22,5 +23,5 @@ public interface AccountReceivablesService
 	
 	 void deleteAccountsReceivablesById(int[] accountReceivablesIds);
 	 
-	 List<SalesModel> getAllBillsByCustomerId(Integer customerId);
+	 List<SalesModel> getAllBillsByCustomerId(CustomerInsuranceModel customerId);
 }

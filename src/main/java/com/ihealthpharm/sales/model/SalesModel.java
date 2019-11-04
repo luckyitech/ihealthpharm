@@ -11,7 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import com.ihealthpharm.masters.model.CustomerInsuranceModel;
 import com.ihealthpharm.masters.model.CustomerMembershipModel;
+import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.InsuranceModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
@@ -21,7 +23,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity(name = "SALES")
+@Entity(name = "sales")
 @Getter
 @Setter
 @ToString
@@ -131,9 +133,14 @@ public class SalesModel {
 	@JoinColumn(name = "EMPLOYEE_ID")
 	EmployeeModel employeeModel;
 
+	
 	@OneToOne
 	@JoinColumn(name = "INSURANCE_POLICY_ID")
-	InsuranceModel insuranceModel;
+	CustomerInsuranceModel customerInsuranceModel;
+	
+	@OneToOne
+	@JoinColumn(name = "CUSTOMER_ID")
+	CustomerModel customerModel;
 
 	@OneToOne
 	@JoinColumn(name = "PHARMACY_ID")
