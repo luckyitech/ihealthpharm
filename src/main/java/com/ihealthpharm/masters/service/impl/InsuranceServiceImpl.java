@@ -116,4 +116,10 @@ public class InsuranceServiceImpl implements InsuranceService  {
 		}
 	}
 
+	@Override
+	public InsuranceModel findInsuranceByPolicyCode(String policyCode) {
+		
+		return insuranceRepo.findByPolicyCode(policyCode);
+	}
+
 }

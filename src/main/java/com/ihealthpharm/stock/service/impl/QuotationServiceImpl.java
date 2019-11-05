@@ -83,8 +83,8 @@ public class QuotationServiceImpl implements QuotationService {
 		EmployeeModel rejectedBy = quotationRepository.findByEmployeeId(quotationModel.getRejectedId());
 		quotationModel.setRejectedBy(rejectedBy);
 		
-		EmployeeModel cancelledBy = quotationRepository.findByEmployeeId(quotationModel.getCancelledId());
-		quotationModel.setCancelledBy(cancelledBy);
+		EmployeeModel sentBy = quotationRepository.findByEmployeeId(quotationModel.getSentId());
+		quotationModel.setSentBy(sentBy);
 		
 		QuotationModel quotationres = quotationRepository.save(quotationModel);
 		
@@ -164,6 +164,9 @@ public class QuotationServiceImpl implements QuotationService {
 			quotationModel = quotationRepository.findById(quotationId).get();
 			quotationModel.getCreatedBy();
 			quotationModel.getRequestedby();
+			quotationModel.getApprovedBy();
+			quotationModel.getSentBy();
+			quotationModel.getRejectedBy();
 			quotationModel.getQuotationStatusModel();
 			for(QuotationItemsModel q : quotationModel.getQuotationItems()) {
 				q.setItem(getQuotationItem(q.getQuotationItemId()));
@@ -198,8 +201,13 @@ public class QuotationServiceImpl implements QuotationService {
 
 	@Override
 	public List<QuotationModel> getQuotationByPharmacyAndStatus(Integer pharmacyId, String status) {
-		//List<QuotationModel> quotationModels = quotationRepository.getQuotationByPharmacyAndStatus(pharmacyId, status);
 		return quotationRepository.getQuotationByPharmacyAndStatus(pharmacyId, status);
+	}
+	
+	@Override
+	public List<QuotationModel> getQuotationByPharmacyAndStatus(Integer pharmacyId, String status, String quotationNo,
+			String description) {
+		return quotationRepository.getQuotationByPharmacyAndStatus(pharmacyId, status, quotationNo, description);
 	}
 
 	@Override
@@ -279,6 +287,12 @@ public class QuotationServiceImpl implements QuotationService {
 	@Override
 	public List<ItemSupplierDTO> getItemsByItemCodeOrItemName(String itemCode, String itemName) {
 		return quotationRepository.getItemsByItemCodeOrItemName(itemCode, itemName);
+	}
+
+	@Override
+	public List<ItemSupplierDTO> getItemsByItemCodeOrItemNameorItemDesc(String itemCode, String itemName,
+			String itemDescription) {
+		return quotationRepository.getItemsByItemCodeOrItemNameorItemDesc(itemCode, itemName, itemDescription);
 	}
 
 }

@@ -69,7 +69,7 @@
 			<scope>compile</scope>
 		</dependency>
 
-		  <dependency>
+		 <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
@@ -132,6 +132,19 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
 		</dependency>
+		
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+		
+		<!--  <dependency>
+            <groupId>org.jfree</groupId>
+            <artifactId>jcommon</artifactId>
+            <version>1.0.23</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/src/main/respources/Jars/jcommon-1.0.23.jar</systemPath>
+        </dependency> -->
 		
 	</dependencies>
 

@@ -52,8 +52,8 @@ public class QuotationModel extends AuditModel {
 	EmployeeModel createdBy;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CANCELLED_BY")
-	EmployeeModel cancelledBy;
+	@JoinColumn(name = "SENT_BY")
+	EmployeeModel sentBy;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "REQUESTED_BY")
@@ -78,8 +78,8 @@ public class QuotationModel extends AuditModel {
 	@Column(name = "AUDIT_ID", length = 11)
 	private Integer auditId;
 
-	@Column(name = "CANCELLED_DT", length = 25)
-	private LocalDate cancelledDt;
+	@Column(name = "SENT_DT", length = 25)
+	private LocalDate sentDt;
 
 	@Column(name = "CANCELLED_REASON", length = 200)
 	private String cancelledReason;
@@ -136,6 +136,6 @@ public class QuotationModel extends AuditModel {
 	private Integer rejectedId;
 	
 	@Transient
-	private Integer cancelledId;
+	private Integer sentId;
 
 }
