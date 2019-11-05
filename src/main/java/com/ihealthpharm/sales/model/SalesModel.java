@@ -11,7 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import com.ihealthpharm.masters.model.CustomerInsuranceModel;
 import com.ihealthpharm.masters.model.CustomerMembershipModel;
+import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.InsuranceModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
@@ -21,7 +23,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity(name = "SALES")
+@Entity(name = "sales")
 @Getter
 @Setter
 @ToString
@@ -30,10 +32,7 @@ public class SalesModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "BILL_ID", length = 11, columnDefinition = "AUTO_INCREMENT")
-	private Integer billId;
-
-	@Column(name = "ADJUSTED_AMOUNT", length = 25)
-	private Double adjustedAmount; 
+	private Integer billId; 
 
 	@Column(name = "ADJUSTED_QTY", length = 11)
 	private Integer adjustedQty;
@@ -59,9 +58,16 @@ public class SalesModel {
 	@Column(name = "CREDIT_AMOUNT", length = 25)
 	private Double creditAmount;
 
+	@Column(name = "TOTAL_AMOUNT", length = 25)
+	private Double totalAmount;
+
+	@Column(name = "PAID_AMOUNT", length = 25)
+	private Double paidAmount;
+	
 	@Column(name = "CREDIT_CARD_AMOUNT", length = 25)
 	private Double creditCardAmount;
 
+	
 	@Column(name = "CREDIT_CARD_NO", length = 20)
 	private String creditCardNo;
 
@@ -127,9 +133,14 @@ public class SalesModel {
 	@JoinColumn(name = "EMPLOYEE_ID")
 	EmployeeModel employeeModel;
 
+	
 	@OneToOne
 	@JoinColumn(name = "INSURANCE_POLICY_ID")
-	InsuranceModel insuranceModel;
+	CustomerInsuranceModel customerInsuranceModel;
+	
+	@OneToOne
+	@JoinColumn(name = "CUSTOMER_ID")
+	CustomerModel customerModel;
 
 	@OneToOne
 	@JoinColumn(name = "PHARMACY_ID")

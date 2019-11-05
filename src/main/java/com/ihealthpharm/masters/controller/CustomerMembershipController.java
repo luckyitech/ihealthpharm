@@ -44,7 +44,8 @@ public class CustomerMembershipController {
 
 	@PutMapping("/update/customermembership")
 	public ResponseEntity<BaseDto<CustomerMembershipModel>> updateCustomerMembershipData(@Valid @RequestBody CustomerMembershipModel customerMembershipModel) {
-		log.info("Request Object for update is: ", customerMembershipModel);
+		log.info("------------------------------------");
+		log.info("Request Object for update is: ", customerMembershipModel.toString());
 		CustomerMembershipModel customerMembershipModelRes = customerMembershipService.updateCustomerMembershipData(customerMembershipModel);
 		return new BaseDto<>(customerMembershipModelRes, customerMembershipHelper.updateCustomerMembershipMessage, OK).respond();
 	}
@@ -83,6 +84,11 @@ public class CustomerMembershipController {
 		return new BaseDto<>(CustomerMembershipModelRes, customerMembershipHelper.updateCustomerMembershipMessage, OK).respond();
 	}
 	
-	
+	@GetMapping("/getbymembershipcardnumber")
+	public ResponseEntity<BaseDto<CustomerMembershipModel>> getUniqueCardNumberId(String membershipCardNumber) {
+		CustomerMembershipModel result = customerMembershipService.findByMembershipCardNumber(membershipCardNumber);
+		return new BaseDto<>(result, customerMembershipHelper.getRetrieveCustomerMembershipMessage(), OK).respond();
+	}
+
 	
 }

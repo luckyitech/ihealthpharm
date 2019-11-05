@@ -18,6 +18,8 @@ public interface QuotationItemsService {
 	QuotationItemsModel findQuotationItemsById(Integer quotationItemsId);
 
 	void deleteQuotationItemsById(Integer quotationItemsId);
+	
+	void rejectQuotationItemsById(Integer quotationItemsId);
 
 	void deleteQuotationItemsByTds(Integer[] quotationItemsIds);
 

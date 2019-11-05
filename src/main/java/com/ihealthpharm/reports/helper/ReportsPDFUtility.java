@@ -5,9 +5,11 @@ import java.io.FileOutputStream;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.border.Border;
-
 import org.apache.commons.lang3.exception.ExceptionUtils;
+/*import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;*/
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
@@ -22,6 +24,7 @@ import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -51,8 +54,11 @@ public class ReportsPDFUtility {
 			document.open();
 			if (ObjectUtils.isEmpty(responseList))
 				addMessage(document, "No data Found");
-			else
+			else {
 				createTable(document, model, responseList);
+				if(model.isShowBarCharts())
+				  createBarChart(writer,document);
+			}
 			
 
 		} catch (Exception e) {
@@ -66,6 +72,33 @@ public class ReportsPDFUtility {
 			document.close();
 		}
 	}
+
+	//TODO Bar Chart Logic goes here
+	private void createBarChart(PdfWriter writer, Document document) {
+		/*
+		 * document.newPage(); DefaultCategoryDataset dataSet = new
+		 * DefaultCategoryDataset(); dataSet.setValue(791, "Populastion", "1750 AD");
+		 * dataSet.setValue(978, "Populastion", "1800 AD"); dataSet.setValue(1262,
+		 * "Populastion", "1850 AD"); dataSet.setValue(1650, "Populastion", "1900 AD");
+		 * dataSet.setValue(2519, "Populastion", "1950 AD"); dataSet.setValue(6070,
+		 * "Populastion", "2000 AD");
+		 * 
+		 * JFreeChart chart = ChartFactory.createBarChart("World Population growth",
+		 * "Year", "Population in millions", dataSet, PlotOrientation.VERTICAL, false,
+		 * true, false);
+		 * 
+		 * PdfContentByte contentByte = writer.getDirectContent(); PdfTemplate template
+		 * = contentByte.createTemplate(500, 500); Graphics2D graphics2d =
+		 * template.createGraphics(500, 500, new DefaultFontMapper()); Rectangle2D
+		 * rectangle2d = new Rectangle2D.Double(0, 0, 500, 500);
+		 * 
+		 * chart.draw(graphics2d, rectangle2d);
+		 * 
+		 * graphics2d.dispose(); contentByte.addTemplate(template, 0, 0);
+		 */
+
+	}
+	 
 
 	public void generateErrorReport(File responseFile, String errorMessage) {
 
@@ -102,15 +135,23 @@ public class ReportsPDFUtility {
 		table.setSpacingBefore(30);
 		table.setSpacingAfter(50); 
 		PdfPCell cell = null;
+		
+		
+		
 		for (HeaderDto hearder : headerList) {
-			//cell = new PdfPCell(new Phrase(hearder.getDisplayName(),title08));
-			//cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-
+			
 			Paragraph headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
 			headerCell.add(hearder.getDisplayName());
+			
+			
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if(!model.isShowVerticalLines())
+			  cell.setBorder(Rectangle.BOTTOM);
+			
 
-			table.addCell(headerCell);
+			table.addCell(cell);
 		}
 		table.setHeaderRows(1);
 
@@ -120,8 +161,14 @@ public class ReportsPDFUtility {
 				for (HeaderDto hearder : headerList) {
 					Object value = rowData.containsKey(hearder.getColumnName()) ? rowData.get(hearder.getColumnName())
 							: "";
+					
+					value = formatData(hearder,value); 
+					
 					cell = new PdfPCell(new Phrase(String.valueOf(value),title06));
-					cell.setHorizontalAlignment(Element.ALIGN_LEFT);					
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					if(!model.isShowVerticalLines())
+					 cell.setBorder(Rectangle.BOTTOM);
+					
 					table.addCell(cell);
 
 				}
@@ -130,5 +177,17 @@ public class ReportsPDFUtility {
 		log.info("table width [{}]",table.getTotalWidth());
 		document.add(table);
 
+	}
+
+	private Object formatData(HeaderDto hearder, Object value) {
+		
+		if(ObjectUtils.isEmpty(hearder.getFormat()))
+		 return value;
+		
+		//getDateStringwithouKnowingInputFormat
+		
+		return value;
+		
+		
 	}
 }

@@ -5,7 +5,11 @@ package com.ihealthpharm.stock.service;
 
 import java.util.List;
 
+import org.springframework.data.repository.query.Param;
+
 import com.ihealthpharm.masters.dto.ItemSupplierDTO;
+import com.ihealthpharm.masters.model.EmployeeModel;
+import com.ihealthpharm.masters.model.SupplierModel;
 import com.ihealthpharm.stock.model.QuotationModel;
 
 public interface QuotationService {
@@ -32,10 +36,26 @@ public interface QuotationService {
 	
 	List<QuotationModel> getQuotationByPharmacyAndStatus(Integer pharmacyId, String status);
 	
+	List<QuotationModel> getQuotationByPharmacyAndStatus(Integer pharmacyId, String status, String quotationNo, String description);
+	
 	String getPharmacyNm(Integer pharmacyId) ;
 	
 	List<ItemSupplierDTO> getItemsBySupplier(Integer supplierId);
 	
 	List<ItemSupplierDTO> getItemsBySupplier(Integer supplierId, String itemCode, String itemName);
+	
+	List<SupplierModel> getSupplierItemsByQuotationId(Integer quotationId );
+	
+	List<SupplierModel> getSupplierByItem(Integer itemsId);
+	
+	EmployeeModel findByEmployeeId(Integer employeeId);
+	
+	List<ItemSupplierDTO> getItemsBySupplierQuotationId(Integer supplierId, Integer quotationId);
+	
+	List<ItemSupplierDTO> getItemsByItemCodeOrItemName(String itemCode, String itemName);
+	
+	List<ItemSupplierDTO> getItemsByItemCodeOrItemNameorItemDesc(String itemCode, String itemName, String itemDescription);
+	
+	
 
 }

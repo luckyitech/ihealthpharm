@@ -18,8 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.mail.service.impl.SendQuotationMailService;
 import com.ihealthpharm.masters.dto.ItemSupplierDTO;
 import com.ihealthpharm.masters.helper.ItemPropertyHelper;
+import com.ihealthpharm.masters.helper.SupplierHelper;
+import com.ihealthpharm.masters.model.SupplierModel;
 import com.ihealthpharm.stock.helper.QuotationHelper;
 import com.ihealthpharm.stock.model.QuotationModel;
 import com.ihealthpharm.stock.service.QuotationService;
@@ -44,6 +47,12 @@ public class QuotationController {
 	
 	@Autowired
 	private ItemPropertyHelper propertyHelper;
+	
+	@Autowired
+	private SupplierHelper supplierHelper;
+	
+	@Autowired
+	private SendQuotationMailService sendQuotationMailService;
 	
 	/**
 	 * @author Gunasekhar 
@@ -270,6 +279,83 @@ public class QuotationController {
 	
 	/**
 	 * @author Gunasekhar 
+	 * Service is for Search Request New Quotation based on the pharmacyId and Quotation No or Description
+	 */
+	@GetMapping("/searchrequestnewquotationbypharmacy")
+	public ResponseEntity<BaseDto<List<QuotationModel>>> searchRequestNewQuotationByPharmacy(@RequestParam Integer pharmacyId, 
+			@RequestParam(required=false) String quotationNo, @RequestParam(required=false) String description) {
+		List<QuotationModel> quotationModels = quotationService.getQuotationByPharmacyAndStatus(pharmacyId, "REQUEST NEW", quotationNo, description);
+		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is for Search Request Pending Quotation based on the pharmacyId and Quotation No or Description
+	 */
+	@GetMapping("/searchrequestpendingquotationbypharmacy")
+	public ResponseEntity<BaseDto<List<QuotationModel>>> searchRequestpendingQuotationByPharmacy(@RequestParam Integer pharmacyId, 
+			@RequestParam(required=false) String quotationNo, @RequestParam(required=false) String description) {
+		List<QuotationModel> quotationModels = quotationService.getQuotationByPharmacyAndStatus(pharmacyId, "REQUEST PENDING", quotationNo, description);
+		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is for Search Request Approved Quotation based on the pharmacyId and Quotation No or Description
+	 */
+	@GetMapping("/searchrequestapprovedquotationbypharmacy")
+	public ResponseEntity<BaseDto<List<QuotationModel>>> searchRequestApprovedQuotationByPharmacy(@RequestParam Integer pharmacyId, 
+			@RequestParam(required=false) String quotationNo, @RequestParam(required=false) String description) {
+		List<QuotationModel> quotationModels = quotationService.getQuotationByPharmacyAndStatus(pharmacyId, "REQUEST APPROVED", quotationNo, description);
+		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is for Search Request Rejected Quotation based on the pharmacyId and Quotation No or Description
+	 */
+	@GetMapping("/searchrequestrejectedquotationbypharmacy")
+	public ResponseEntity<BaseDto<List<QuotationModel>>> searchRequestRejectedQuotationByPharmacy(@RequestParam Integer pharmacyId, 
+			@RequestParam(required=false) String quotationNo, @RequestParam(required=false) String description) {
+		List<QuotationModel> quotationModels = quotationService.getQuotationByPharmacyAndStatus(pharmacyId, "REQUEST REJECTED", quotationNo, description);
+		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is for Search Received Pending Quotation based on the pharmacyId and Quotation No or Description
+	 */
+	@GetMapping("/searchreceivedpendingquotationbypharmacy")
+	public ResponseEntity<BaseDto<List<QuotationModel>>> searchReceivedPendingQuotationByPharmacy(@RequestParam Integer pharmacyId, 
+			@RequestParam(required=false) String quotationNo, @RequestParam(required=false) String description) {
+		List<QuotationModel> quotationModels = quotationService.getQuotationByPharmacyAndStatus(pharmacyId, "RECEIVED PENDING", quotationNo, description);
+		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is for Search Received Approved Quotation based on the pharmacyId and Quotation No or Description
+	 */
+	@GetMapping("/searchreceivedapprovedquotationbypharmacy")
+	public ResponseEntity<BaseDto<List<QuotationModel>>> searchReceivedApprovedQuotationByPharmacy(@RequestParam Integer pharmacyId, 
+			@RequestParam(required=false) String quotationNo, @RequestParam(required=false) String description) {
+		List<QuotationModel> quotationModels = quotationService.getQuotationByPharmacyAndStatus(pharmacyId, "RECEIVED APPROVED", quotationNo, description);
+		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is for Search Received Rejected Quotation based on the pharmacyId and Quotation No or Description
+	 */
+	@GetMapping("/searchreceivedrejectedquotationbypharmacy")
+	public ResponseEntity<BaseDto<List<QuotationModel>>> searchReceivedRejectedQuotationByPharmacy(@RequestParam Integer pharmacyId, 
+			@RequestParam(required=false) String quotationNo, @RequestParam(required=false) String description) {
+		List<QuotationModel> quotationModels = quotationService.getQuotationByPharmacyAndStatus(pharmacyId, "RECEIVED REJECTED", quotationNo, description);
+		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
 	 * Service is for automatic generation of Quotation Number 
 	 */
 	@GetMapping("/generatequotationno")
@@ -303,8 +389,67 @@ public class QuotationController {
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 	
+	/**
+	 * @author Gunasekhar 
+	 * Service is to get the list of suppliers and items.
+	 */
+	@GetMapping("/getsupplieritemsbyquotation")
+	public ResponseEntity<BaseDto<List<SupplierModel>>> getSupplierItemsByQuotationId(@RequestParam Integer quotationId) {
+		List<SupplierModel> result = quotationService.getSupplierItemsByQuotationId(quotationId);
+		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is to get the list of suppliers and items.
+	 */
+	@GetMapping("/getitemsbysupplierquotation")
+	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsBySupplierQuotationId(@RequestParam Integer supplierId, @RequestParam Integer quotationId) {
+		List<ItemSupplierDTO> result = quotationService.getItemsBySupplierQuotationId(supplierId, quotationId);
+		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is to get the list of suppliers and items.
+	 */
+	@GetMapping("/getsupplierbyitem")
+	public ResponseEntity<BaseDto<List<SupplierModel>>> getSupplierByItem(@RequestParam Integer itemsId) {
+		List<SupplierModel> result = quotationService.getSupplierByItem(itemsId);
+		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is to get the items based on the itemcode or itemname
+	 */
+	@GetMapping("/getitemsbyitemcodeoritemname")
+	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsByItemCodeOrItemName(@RequestParam(required=false) String itemCode, 
+			@RequestParam(required=false) String itemName) {
+		List<ItemSupplierDTO> result = quotationService.getItemsByItemCodeOrItemName(itemCode, itemName);
+		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is to get the items based on the item code or item name or item description
+	 */
+	@GetMapping("/getitemsbyitemcodeoritemnameoritemdesc")
+	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsByItemCodeOrItemNameOrItemDesc(@RequestParam(required=false) String itemCode, 
+			@RequestParam(required=false) String itemName, @RequestParam(required=false) String itemDescription) {
+		List<ItemSupplierDTO> result = quotationService.getItemsByItemCodeOrItemNameorItemDesc(itemCode, itemName, itemDescription);
+		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is to get the items based on the item code or item name
+	 */
+	@GetMapping("/sendmail")
+	public ResponseEntity<BaseDto<String>> sendMail() {
+		sendQuotationMailService.attachFileToMail();
+		return new BaseDto<>("", propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+	
+	
 }
-
-
-
-

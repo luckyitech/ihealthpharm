@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ihealthpharm.masters.model.AuditModel;
@@ -51,8 +52,8 @@ public class QuotationModel extends AuditModel {
 	EmployeeModel createdBy;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CANCELLED_BY")
-	EmployeeModel cancelledBy;
+	@JoinColumn(name = "SENT_BY")
+	EmployeeModel sentBy;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "REQUESTED_BY")
@@ -77,8 +78,8 @@ public class QuotationModel extends AuditModel {
 	@Column(name = "AUDIT_ID", length = 11)
 	private Integer auditId;
 
-	@Column(name = "CANCELLED_DT", length = 25)
-	private LocalDate cancelledDt;
+	@Column(name = "SENT_DT", length = 25)
+	private LocalDate sentDt;
 
 	@Column(name = "CANCELLED_REASON", length = 200)
 	private String cancelledReason;
@@ -118,5 +119,23 @@ public class QuotationModel extends AuditModel {
 
 	@OneToMany(mappedBy = "quotation")
 	private List<QuotationItemsModel> quotationItems;
+	
+	@Transient
+	private Integer createdId;
+	
+	@Transient
+	private Integer modifiedId;
+	
+	@Transient
+	private Integer requestedId;
+	
+	@Transient
+	private Integer approvedId;
+	
+	@Transient
+	private Integer rejectedId;
+	
+	@Transient
+	private Integer sentId;
 
 }
