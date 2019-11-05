@@ -37,8 +37,9 @@ public class StockAdjustmentServiceImpl implements StockAdjustmentService {
 	}
 
 	@Override
-	public List<StockAdjustmentDTO> findBasedOnItemCode(String searchTerm) {
+	public List<StockAdjustmentDTO > findBasedOnItemCode(String searchTerm) {
 		List<StockAdjustmentDTO> result= stockAdjustmentRepo.getStockItemsOnItemCodes(searchTerm);
+		System.out.println(result);
 		return result;
 	}
 

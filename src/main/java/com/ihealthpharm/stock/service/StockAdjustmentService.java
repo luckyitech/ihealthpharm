@@ -13,7 +13,7 @@ public interface StockAdjustmentService {
 	
 	List<StockAdjustmentDTO> findBasedOnItemCode(String searchTerm);
 	
-	List<StockAdjustmentDTO> findBasedOnItemNameSearch(String searchTerm);
+     List<StockAdjustmentDTO> findBasedOnItemNameSearch(String searchTerm);
 	
 	List<StockAdjustmentDTO> findBasedOnItemDesc(String searchTerm);
 	

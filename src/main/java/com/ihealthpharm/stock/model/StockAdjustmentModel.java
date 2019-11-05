@@ -36,7 +36,7 @@ public class StockAdjustmentModel extends AuditModel{
 	
 	@OneToOne
 	@JoinColumn(name="ITEM_ID")
-	private ItemsModel items;
+	private ItemsModel item;
 	
 	@Column(name="BATCH_NO",length=20)
 	private String batchNo;
@@ -51,9 +51,9 @@ public class StockAdjustmentModel extends AuditModel{
 	private Float onHandStockValue;
 	
 	@Column(name="ADJUSTEMENT_STOCK",length=11)
-	private Integer adjustmentStock;
+	private Integer adjustedStock;
 	
-	@Column(name="ADJUSTEMENT_STOCK_VALUE")
+	@Column(name="ADJUSTED_STOCK_VALUE")
 	private Float adjustmentStockValue;
 	
 	@Column(name="PHYSICAL_STOCK",length=11)
@@ -73,7 +73,12 @@ public class StockAdjustmentModel extends AuditModel{
 	
 	@OneToOne
 	@JoinColumn(name="PHARMACY_ID")
-	private PharmacyModel pharmacyId;
+	private PharmacyModel pharmacy;
+	
+	
+	@OneToOne
+	@JoinColumn(name="STOCK_ID")
+	private StockModel stock; 
 
     public void setExpiryDt(Date date) throws ParseException {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
