@@ -1,3 +1,4 @@
+
 package com.ihealthpharm.stock.model;
 
 import java.util.Date;
