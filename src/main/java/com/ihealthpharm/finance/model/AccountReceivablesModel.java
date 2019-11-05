@@ -14,14 +14,10 @@ import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.sales.model.SalesModel;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 @Entity (name="ACCOUNT_RECEIVABLES")
-@Getter
-@Setter
-@ToString
+@Data
 public class AccountReceivablesModel extends AuditModel{
     
     /**
