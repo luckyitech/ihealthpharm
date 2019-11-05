@@ -98,7 +98,7 @@ public class ReportsServiceImpl implements ReportsService {
 		
 
 		ReportsMappingModel model = reportsMappingRepository.findByReportCode(String.valueOf(dataMap.get("ReportCode")));
-
+		System.out.println("MODEL"+model);
 		List<Map<String,Object>> responseList =getReportData(model,dataMap);
 		
 		return responseList;
