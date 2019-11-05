@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.masters.model.CustomerInsuranceModel;
 import com.ihealthpharm.sales.model.SalesModel;
+import com.ihealthpharm.stock.model.InvoiceModel;
 
 @Repository
 public interface AccountReceivablesRepository extends JpaRepository<AccountReceivablesModel,Integer>
@@ -17,7 +18,10 @@ public interface AccountReceivablesRepository extends JpaRepository<AccountRecei
 	List<AccountReceivablesModel> findAll();
 	List<AccountReceivablesModel> findAllByOrderByLastUpdateTimestampDesc();
 	 
-	@Query("select i from sales i inner join customer_insurance d on i.customerInsuranceModel=d where i.customerInsuranceModel=:insurances")
-	List<SalesModel> getAllBillsByCustomerId(@Param ("insurances") CustomerInsuranceModel insurances);
+	/*@Query("select i from sales i inner join customer_insurance d on i.customerInsuranceModel=d where i.customerInsuranceModel=:insurances")
+	List<SalesModel> getAllBillsByCustomerId(@Param ("insurances") CustomerInsuranceModel insurances);*/
+	
+	@Query("select i from sales i inner join customer_insurance d on i.customerInsuranceModel.customerInsuranceId=d.customerInsuranceId where d.insuranceModel.insurancePolicyId=:customersId")
+	List<SalesModel> getAllBillsByCustomerId(@Param ("customersId")Integer customersId);
 	
 }

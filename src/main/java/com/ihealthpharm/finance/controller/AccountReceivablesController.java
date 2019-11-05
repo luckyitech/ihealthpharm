@@ -23,6 +23,7 @@ import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.finance.service.AccountReceivablesService;
 import com.ihealthpharm.masters.model.CustomerInsuranceModel;
 import com.ihealthpharm.sales.model.SalesModel;
+import com.ihealthpharm.stock.model.InvoiceModel;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -86,8 +87,18 @@ public class AccountReceivablesController {
 		return new BaseDto<>(result, accountReceivablesHelper.getRetrieveAccountReceivablesMessage(), OK).respond();
 	}
 
+/*	@GetMapping("/getbillsbycustomerid")
+	public ResponseEntity<BaseDto<List<SalesModel>>> getAllBillsBasedOnCustomerId(@RequestParam CustomerInsuranceModel customerInsuranceModel){
+		System.out.println("in grid"+customerInsuranceModel);
+		List<SalesModel> result=accountReceivablesService.getAllBillsByCustomerId(customerInsuranceModel);
+		log.info("---------------------------------");
+		log.info(result.toString());
+		log.info("---------------------------------");
+		return new BaseDto<>(result,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
+	}*/
+	
 	@GetMapping("/getbillsbycustomerid")
-	public ResponseEntity<BaseDto<List<SalesModel>>> getAllBillssBasedOnCustomerId(@RequestParam CustomerInsuranceModel customerId){
+	public ResponseEntity<BaseDto<List<SalesModel>>> getAllBillsBasedOnCustomerId(@RequestParam int customerId){
 		System.out.println("in grid"+customerId);
 		List<SalesModel> result=accountReceivablesService.getAllBillsByCustomerId(customerId);
 		log.info("---------------------------------");

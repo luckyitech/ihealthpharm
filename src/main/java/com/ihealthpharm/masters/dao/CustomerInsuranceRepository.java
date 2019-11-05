@@ -11,6 +11,7 @@ public interface CustomerInsuranceRepository extends JpaRepository<CustomerInsur
 	List<CustomerInsuranceModel> findAll();
 
 	CustomerInsuranceModel findByPolicyCode(String policyCode);
-	
-	
+
+	CustomerInsuranceModel findByCustomerPolicyNumber(String customerPolicyNumber);
+
 }
