@@ -18,6 +18,7 @@ import com.ihealthpharm.finance.service.AccountReceivablesService;
 import com.ihealthpharm.masters.dao.CustomerInsuranceRepository;
 import com.ihealthpharm.masters.model.CustomerInsuranceModel;
 import com.ihealthpharm.sales.model.SalesModel;
+import com.ihealthpharm.stock.model.InvoiceModel;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -125,11 +126,19 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 		}
 	}
 	
-	@Override
+	/*@Override
 	public List<SalesModel> getAllBillsByCustomerId(CustomerInsuranceModel customerId) {
 		log.info("given  id :" + customerId);
 		CustomerInsuranceModel id=customerInsuranceRepository.findByPolicyCode(customerId.getPolicyCode());
 		return accountReceivablesRepository.getAllBillsByCustomerId(id);
+	}*/
+	
+	@Override
+	public List<SalesModel> getAllBillsByCustomerId(Integer customerId) {
+		log.info("given  id :" + customerId);
+	List<SalesModel> res=accountReceivablesRepository.getAllBillsByCustomerId(customerId);
+		System.out.println(res);
+		return res;
 	}
 	
 

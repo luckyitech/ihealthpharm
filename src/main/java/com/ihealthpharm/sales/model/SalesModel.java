@@ -135,7 +135,7 @@ public class SalesModel {
 
 	
 	@OneToOne
-	@JoinColumn(name = "INSURANCE_POLICY_ID")
+	@JoinColumn(name = "CUSTOMER_INSURANCE_ID")
 	CustomerInsuranceModel customerInsuranceModel;
 	
 	@OneToOne
