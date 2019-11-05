@@ -31,6 +31,7 @@ import com.ihealthpharm.masters.model.SupplierModel;
 import com.ihealthpharm.reports.helper.ReportsExcelUtility;
 import com.ihealthpharm.reports.helper.ReportsHelper;
 import com.ihealthpharm.reports.helper.ReportsPDFUtility;
+import com.ihealthpharm.reports.model.ReportsMappingModel;
 import com.ihealthpharm.reports.service.ReportsService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -163,5 +164,11 @@ public class ReportsController {
 		// Copy the stream to the response's output stream.
 		IOUtils.copy(inputStream, response.getOutputStream());
 		response.flushBuffer();
+	}
+	
+	@GetMapping("/getReports")
+	public List<ReportsMappingModel> getAllReports(){
+		return resportsService.getReportsDetails();
+		
 	}
 }

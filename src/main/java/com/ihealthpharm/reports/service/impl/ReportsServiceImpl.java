@@ -122,6 +122,9 @@ public class ReportsServiceImpl implements ReportsService {
 		return responseList;
 	}
 
-
+	@Override
+	public List<ReportsMappingModel> getReportsDetails() {
+		return reportsMappingRepository.findAll();
+	}
 
 }
