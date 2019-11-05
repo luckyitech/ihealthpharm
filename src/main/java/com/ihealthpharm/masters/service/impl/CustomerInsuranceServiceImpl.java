@@ -117,9 +117,9 @@ public class CustomerInsuranceServiceImpl implements CustomerInsuranceService {
 	}
 
 	@Override
-	public CustomerInsuranceModel findCustomerInsuranceByPolicyCode(String policyCode) {
+	public CustomerInsuranceModel findCustomerInsuranceByPolicyCode(String customerPolicyNumber) {
 		
-		return customerInsuranceRepository.findByPolicyCode(policyCode);
+		return customerInsuranceRepository.findByCustomerPolicyNumber(customerPolicyNumber);
 	}
 
 }
