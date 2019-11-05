@@ -74,7 +74,6 @@ public class ItemsModel extends AuditModel {
 	@JoinColumn(name = "ITEM_GROUP_ID")
 	private ItemGroupModel itemGroup;
 
-
 	@OneToOne
 	@JoinColumn(name = "ITEM_GENERIC_NAME_ID")
 	private ItemGenericNamesModel itemGenericName;
@@ -164,7 +163,7 @@ public class ItemsModel extends AuditModel {
 	@JoinColumn(name="ISSUE_UNIT_OF_MEASUREMENT_ID")
 	private UnitOfMeasurementModel issueUnitOfMeasurementId;
 
-	@Column(name="PACK",length=20)
+	@Column(name="PACK",length=50)
 	private String pack;
 
 	@Column(name="HSN_CODE",length=20)

@@ -15,7 +15,6 @@ import lombok.EqualsAndHashCode;
  * @author Tarun
  *	Setter, getters by default added no need to add manually
  */
-
 @Data
 @Entity(name = "items_generic_names")
 @EqualsAndHashCode(of = "itemGenericNameId", callSuper = false)

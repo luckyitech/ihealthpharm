@@ -33,6 +33,7 @@ import com.ihealthpharm.reports.helper.ReportsHelper;
 import com.ihealthpharm.reports.helper.ReportsPDFUtility;
 import com.ihealthpharm.reports.model.ReportsMappingModel;
 import com.ihealthpharm.reports.service.ReportsService;
+import com.ihealthpharm.stock.helper.InvoiceStatusHelper;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -165,10 +166,12 @@ public class ReportsController {
 		IOUtils.copy(inputStream, response.getOutputStream());
 		response.flushBuffer();
 	}
-	
+
 	@GetMapping("/getReports")
-	public List<ReportsMappingModel> getAllReports(){
-		return resportsService.getReportsDetails();
+	public ResponseEntity<List<ReportsMappingModel>> getAllReports(){
+		List<ReportsMappingModel> res=resportsService.getReportsDetails();
+		return ResponseEntity.ok(res);
 		
 	}
+	
 }

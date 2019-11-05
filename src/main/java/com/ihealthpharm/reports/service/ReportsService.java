@@ -13,7 +13,8 @@ public interface ReportsService {
 	public File generateReport(HttpServletResponse response, String inputJson,String reportType) throws Exception;
 
 	List<Map<String, Object>> getReportData(String inputJson) throws Exception; 
-	public List<ReportsMappingModel> getReportsDetails();
 
+	
+	public List<ReportsMappingModel> getReportsDetails();
 	
 }
