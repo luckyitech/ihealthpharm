@@ -22,7 +22,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity(name = "SALES")
+@Entity(name = "sales")
 @Getter
 @Setter
 @ToString
@@ -158,9 +158,11 @@ public class SalesModel {
 	@JoinColumn(name = "CUSTOMER_ID")
 	CustomerModel customerModel;
 
+	
 	@OneToOne
 	@JoinColumn(name = "EMPLOYEE_ID")
 	EmployeeModel employeeModel;
+
 
 	@OneToOne
 	@JoinColumn(name = "PHARMACY_ID")

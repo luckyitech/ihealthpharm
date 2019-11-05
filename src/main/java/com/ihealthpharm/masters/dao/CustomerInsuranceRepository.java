@@ -13,4 +13,5 @@ public interface CustomerInsuranceRepository extends JpaRepository<CustomerInsur
 	CustomerInsuranceModel findByPolicyCode(String policyCode);
 
 	CustomerInsuranceModel findByCustomerPolicyNumber(String customerPolicyNumber);
+
 }

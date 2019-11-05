@@ -104,6 +104,17 @@ public class ItemSupplierDTO {
 		this.itemCode = itemCode;
 		this.itemDescription = itemDescription;
 		this.itemName = itemName;
-		this.itemId = itemsId;
+		this.itemId = itemId;
+	}
+	
+	public ItemSupplierDTO(Integer itemId, String itemCode, String itemName, String itemDescription, 
+			String formulation, Integer supplierId, String supplierName) {
+		this.itemCode = itemCode;
+		this.itemDescription = itemDescription;
+		this.itemName = itemName;
+		this.itemId = itemId;
+		this.formulation = formulation;
+		this.supplierId = supplierId;
+		this.supplierName = supplierName;
 	}
 }
