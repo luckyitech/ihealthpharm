@@ -166,6 +166,7 @@ public class ReportsController {
 		IOUtils.copy(inputStream, response.getOutputStream());
 		response.flushBuffer();
 	}
+
 	@GetMapping("/getReports")
 	public ResponseEntity<List<ReportsMappingModel>> getAllReports(){
 		List<ReportsMappingModel> res=resportsService.getReportsDetails();
