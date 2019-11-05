@@ -100,12 +100,6 @@ public class CustomerModel extends AuditModel{
 		    @JoinColumn(name="PHARMACY_ID")
 		    private PharmacyModel pharmacyModel;
 		 
-		 @OneToOne
-		    @JoinColumn(name="CUSTOMER_MEMBERSHIP_ID")
-		    private CustomerMembershipModel customerMembershipModel;
-		   
-		    @OneToOne
-		    @JoinColumn(name="CUSTOMER_INSURANCE_ID")
-		    private CustomerInsuranceModel customerInsuranceModel;
+		
 		
 	}
