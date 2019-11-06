@@ -53,7 +53,8 @@ public class ReportsMappingModel implements Serializable {
 	@Column(name = "SHOW_BAR_CHARTS")
 	private boolean showBarCharts;
 	
-	
+	@Column(name = "CUSTOM_REPORT_GENERATOR")
+	private String customReportGeneratorClazz;
 
 	
 }

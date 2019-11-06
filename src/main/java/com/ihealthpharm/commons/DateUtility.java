@@ -8,12 +8,18 @@ import java.util.Date;
 public class DateUtility {
 
 	private static SimpleDateFormat DATE_TO_STRING_DAY_MONTH_YEAR_FORMAT = new SimpleDateFormat("EEEE dd MMMMM YYYY");
+	private static SimpleDateFormat DATE_TO_STRING_DAY_MONTH_YEAR_FORMAT_HH = new SimpleDateFormat("dd/MM/YY|hh:MM aa");
 
 	private static String[] DATE_FORMATS = new String[] {""};
 
 	
 	public static String getDateString() {
 		return DATE_TO_STRING_DAY_MONTH_YEAR_FORMAT.format(new Date());
+	}
+	
+	
+	public static String getDateStringHH() {
+		return DATE_TO_STRING_DAY_MONTH_YEAR_FORMAT_HH.format(new Date());
 	}
 	
 	public static String formatDate(String date,String format) {
