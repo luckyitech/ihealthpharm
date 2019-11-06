@@ -64,6 +64,10 @@ public class CustomerMembershipModel {
     @OneToOne
     @JoinColumn(name="CUSTOMER_ID")
    private CustomerModel customerModel;
+    
+    @OneToOne
+    @JoinColumn(name="PHARMACY_ID")
+    private PharmacyModel pharmacyModel;
 
 	 public void setMStartDate(Date startDate) throws ParseException {
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
