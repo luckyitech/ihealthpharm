@@ -3,9 +3,9 @@ package com.ihealthpharm.stock.model;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -58,11 +59,11 @@ public class PurchaseOrderModel extends AuditModel {
 	private Integer auditId;
 
 	@OneToOne
-	@JoinColumn(name = "CANCELLED_BY")
-	private EmployeeModel cancelledBy;
+	@JoinColumn(name = "SENT_BY")
+	private EmployeeModel sentBy;
 
-	@Column(name = "CANCELLED_DT")
-	private Date cancelledDate;
+	@Column(name = "SENT_DT")
+	private Date sentDate;
 
 	@OneToOne
 	@JoinColumn(name = "CREATED_BY")
@@ -79,6 +80,9 @@ public class PurchaseOrderModel extends AuditModel {
 
 	@Column(name = "EMERGENCY", length = 1)
 	private String emergency;
+	
+	@Column(name = "SHIPPING_ADDRESS", length = 500)
+	private String shippingAddress;
 
 	@OneToOne
 	@JoinColumn(name = "MODIFIED_BY")
@@ -115,21 +119,14 @@ public class PurchaseOrderModel extends AuditModel {
 	private String remarks;
 
 	@OneToOne
-	@JoinColumn(name = "REQUESTED_BY")
-	private EmployeeModel requestedBy;
+	@JoinColumn(name = "REJECTED_BY")
+	private EmployeeModel rejectedBy;
 
-	@Column(name = "REQUEST_DT")
-	private Date requestDate;
+	@Column(name = "REJECTED_DT")
+	private Date rejectedDate;
 
 	@Column(name = "VARIATION_TYPE", length = 20)
 	private String variationType;
-
-	@OneToOne
-	@JoinColumn(name = "VERIFY_BY")
-	private EmployeeModel verifyBy;
-
-	@Column(name = "VERIFY_DT")
-	private Date verifyDate;
 
 	@Column(name = "MEDICAL_OR_NON_MEDICAL", length = 1)
 	private String medicalOrNonMedical;
@@ -145,9 +142,8 @@ public class PurchaseOrderModel extends AuditModel {
 	@JoinColumn(name = "DELIVERY_TYPE_ID")
 	private DeliveryTypesModel deliveryTypesModel;
 
-	@ManyToOne(cascade = CascadeType.DETACH)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "PHARMACY_ID")
-	@JsonBackReference
 	PharmacyModel pharmacyModel;
 
 	@OneToOne
@@ -161,5 +157,20 @@ public class PurchaseOrderModel extends AuditModel {
 	@OneToMany(mappedBy = "purchaseOrderModel")
 	@JsonManagedReference
 	private List<PurchaseOrderItemsModel> purchaseorderitems;
+	
+	@Transient
+	private Integer createdId;
+	
+	@Transient
+	private Integer modifiedId;
+	
+	@Transient
+	private Integer approvedId;
+	
+	@Transient
+	private Integer rejectedId;
+	
+	@Transient
+	private Integer sentId;
 
 }
