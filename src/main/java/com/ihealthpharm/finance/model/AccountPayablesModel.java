@@ -44,7 +44,7 @@ public class AccountPayablesModel extends AuditModel {
     private LocalDate paymentDate;
 
     @Column(name="PAYMENT_NO",length=30)
-    private String paymentNo;
+    private String paymentNumber;
 
     @Column(name="PAYMENT_TYPE",length=30)
     private String paymentType;
