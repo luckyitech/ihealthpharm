@@ -13,7 +13,7 @@ public interface SalesItemsService
     
     List<SalesItemsModel> findAllSalesItemsData();
 
-    SalesItemsModel saveSalesItemsData(SalesItemsModel salesItemsModel);
+    List<SalesItemsModel> saveSalesItemsData(List<SalesItemsModel> salesItemsModel);
 
     SalesItemsModel updateSalesItemsData(SalesItemsModel salesItemsModel);
 }
