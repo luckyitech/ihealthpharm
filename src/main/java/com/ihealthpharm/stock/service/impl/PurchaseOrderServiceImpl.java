@@ -12,10 +12,13 @@ import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.model.SupplierModel;
+import com.ihealthpharm.masters.dto.ItemSupplierDTO;
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.stock.dao.PurchaseOrderItemsRepository;
 import com.ihealthpharm.stock.dao.PurchaseOrderRepository;
 import com.ihealthpharm.stock.dao.PurchaseOrderStatusRepository;
+import com.ihealthpharm.stock.dao.QuotationRepository;
 import com.ihealthpharm.stock.helper.PurchaseOrderHelper;
 import com.ihealthpharm.stock.model.PurchaseOrderItemsModel;
 import com.ihealthpharm.stock.model.PurchaseOrderModel;
@@ -34,6 +37,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	
 	@Autowired
 	PurchaseOrderItemsRepository purchaseOrderItemsRepository;
+	
+	@Autowired
+	QuotationRepository  quotationRepository;
 	
 	@Autowired
 	PurchaseOrderStatusRepository  purchaseOrderStatusRepository;
@@ -64,9 +70,25 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		PurchaseOrderStatusModel orderStatusModel  = purchaseOrderStatusRepository.findByStatus(status);
 		purchaseorder.setPurchaseOrderStatusModel(orderStatusModel);
 		
+		EmployeeModel createdBy = quotationRepository.findByEmployeeId(purchaseorder.getCreatedId());
+		purchaseorder.setCreatedBy(createdBy);
+		
+		EmployeeModel modifiedBy = quotationRepository.findByEmployeeId(purchaseorder.getModifiedId());
+		purchaseorder.setModifiedBy(modifiedBy);
+		
+		EmployeeModel approvedBy = quotationRepository.findByEmployeeId(purchaseorder.getApprovedId());
+		purchaseorder.setApprovedBy(approvedBy);
+		
+		EmployeeModel rejectedBy = quotationRepository.findByEmployeeId(purchaseorder.getRejectedId());
+		purchaseorder.setRejectedBy(rejectedBy);
+		
+		EmployeeModel sentBy = quotationRepository.findByEmployeeId(purchaseorder.getSentId());
+		purchaseorder.setSentBy(sentBy);
+		
 		PurchaseOrderModel purchaseorderRes = purchaseorderRepository.save(purchaseorder);
 		
 		for(PurchaseOrderItemsModel p : itemsModels) {
+			p.setPurchaseOrderModel(purchaseorderRes);
 			purchaseOrderItemsRepository.save(p);
 		}
 		
@@ -186,6 +208,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			purchaseorderRes.getDeliveryTypesModel();
 			purchaseorderRes.getPurchaseOrderStatusModel();
 			purchaseorderRes.getQuotationModel();
+			purchaseorderRes.getCreatedBy();
+			purchaseorderRes.getApprovedBy();
+			purchaseorderRes.getSentBy();
+			purchaseorderRes.getRejectedBy();
+			purchaseorderRes.getModifiedBy();
 			for(PurchaseOrderItemsModel p : purchaseorderRes.getPurchaseorderitems()) {
 				p.getItemsModel().getTax();
 			}
@@ -210,9 +237,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	}
 
 	@Override
-	public List<ItemsModel> getItemsBySupplierAndQuotation(Integer quotationId, Integer supplierId) {
+	public List<ItemSupplierDTO> getItemsBySupplierAndQuotation(Integer quotationId, Integer supplierId) {
 		log.info("QuotationId Id: "+ quotationId+" Supplier Id "+supplierId);
 		return purchaseorderRepository.getItemsBySupplierAndQuotation(quotationId, supplierId);
+	}
+	
+	@Override
+	public List<ItemSupplierDTO> getItemsBySupplierAndQuotation(Integer quotationId, Integer supplierId, String itemCode, String itemName) {
+		log.info("QuotationId Id: "+ quotationId+" Supplier Id "+supplierId);
+		return purchaseorderRepository.getItemsBySupplierAndQuotation(quotationId, supplierId, itemCode, itemName);
 	}
 
 	@Override
@@ -237,6 +270,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	public List<PurchaseOrderModel> getPurchaseOrderByPharmacyAndStatus(Integer pharmacyId, String status) {
 		log.info("Pharmacy Id: "+ pharmacyId+" Status "+status);
 		return purchaseorderRepository.getPurchaseOrderByPharmacyAndStatus(pharmacyId, status);
+	}
+
+	@Override
+	public List<PurchaseOrderModel> getPurchaseOrderByPharmacyAndStatus(Integer pharmacyId, String status,
+			String purchaseOrderNo) {
+		log.info("Pharmacy Id: "+ pharmacyId+" Status "+status);
+		return purchaseorderRepository.getPurchaseOrderByPharmacyAndStatus(pharmacyId, status, purchaseOrderNo);
 	}
 
 }

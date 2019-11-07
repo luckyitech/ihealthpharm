@@ -16,6 +16,7 @@ import org.springframework.util.ObjectUtils;
 import com.ihealthpharm.commons.JsonUtility;
 import com.ihealthpharm.reports.dto.HeaderDto;
 import com.ihealthpharm.reports.model.ReportsMappingModel;
+import com.ihealthpharm.reports.service.ReportGenerator;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -33,16 +34,16 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-public class ReportsPDFUtility {
+public class ReportsPDFUtility implements ReportGenerator{
 
-	private Font title06 = FontFactory.getFont(Font.FontFamily.HELVETICA.toString(), 6);
-	private Font title08 = FontFactory.getFont(Font.FontFamily.HELVETICA.toString(), 8);
-	private Font headerFont = FontFactory.getFont(Font.FontFamily.HELVETICA.toString(), 8,Font.BOLD);
+	protected static  Font title06 = FontFactory.getFont(Font.FontFamily.HELVETICA.toString(), 6);
+	protected static  Font title08 = FontFactory.getFont(Font.FontFamily.HELVETICA.toString(), 8);
+	protected static  Font headerFont = FontFactory.getFont(Font.FontFamily.HELVETICA.toString(), 8,Font.BOLD);
 
 
 
 	
-	public void generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile) {
+	public Document generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile) {
 
 		//Document document = new Document();
         HeaderFooterPageEvent event =new HeaderFooterPageEvent(model);
@@ -71,6 +72,8 @@ public class ReportsPDFUtility {
 		} finally {
 			document.close();
 		}
+		
+		return document;
 	}
 
 	//TODO Bar Chart Logic goes here
@@ -114,7 +117,7 @@ public class ReportsPDFUtility {
 		}
 	}
 
-	private void addMessage(Document document, String message) throws DocumentException {
+	public void addMessage(Document document, String message) throws DocumentException {
 		Paragraph paragraph = new Paragraph();
 		paragraph.add(new Paragraph(message));
 		document.add(paragraph);
@@ -123,7 +126,7 @@ public class ReportsPDFUtility {
 
 	
 	
-	private void createTable(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList)
+	public void createTable(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList)
 			throws DocumentException {
 
 		String reportHeader = model.getReportHeader();

@@ -36,13 +36,13 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 			@Param("quotationNo") String quotationNo, @Param("description") String description);
 	
 	@Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(id.unitRate, id.discountPercentage, i.itemCode, i.itemName, i.itemDescription, "
-			+ " i.tax.percentage, i.itemId) "
+			+ " i.tax.percentage, i.itemId, i.itemForm.form, i.manufacturer.name) "
 			+ " from items_supplier id join supplier d on id.suppliersId = d.supplierId join items i on i.itemId = id.itemsId "
 			+ " where id.suppliersId = :supplierId and id.activeS = 'Y' ")
 	List<ItemSupplierDTO> getItemsBySupplier(@Param("supplierId") Integer supplierId);
 	
 	@Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(id.unitRate, id.discountPercentage, i.itemCode, i.itemName, i.itemDescription, "
-			+ " i.tax.percentage, i.itemId) "
+			+ " i.tax.percentage, i.itemId, i.itemForm.form, i.manufacturer.name) "
 			+ " from items_supplier id join supplier d on id.suppliersId = d.supplierId join items i on i.itemId = id.itemsId "
 			+ " where id.suppliersId = :supplierId and id.activeS = 'Y' and "
 			+ " (i.itemCode like %:itemCode% or  i.itemName like %:itemName% ) ")
@@ -70,7 +70,7 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 	List<ItemSupplierDTO> getItemsByItemCodeOrItemName(@Param("itemCode") String itemCode, @Param("itemName") String itemName);
 	
 	@Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(i.itemId, i.itemCode, i.itemName, i.itemDescription, i.itemForm.form, "
-			+ " d.supplierId, d.name) "
+			+ " d.supplierId, d.name, i.manufacturer.name) "
 			+ " from items_supplier id join supplier d on id.suppliersId = d.supplierId "
 			+ " join items i on i.itemId = id.itemsId "
 			+ " where id.activeS = 'Y' and "

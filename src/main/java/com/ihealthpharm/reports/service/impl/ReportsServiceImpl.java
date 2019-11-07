@@ -16,11 +16,13 @@ import org.springframework.util.ObjectUtils;
 
 import com.ihealthpharm.commons.JsonUtility;
 import com.ihealthpharm.commons.TimeDurationUtility;
+import com.ihealthpharm.config.SpringContextUtility;
 import com.ihealthpharm.reports.dao.ReportsMappingRepository;
 import com.ihealthpharm.reports.helper.ReportsCommonUtility;
 import com.ihealthpharm.reports.helper.ReportsExcelUtility;
 import com.ihealthpharm.reports.helper.ReportsPDFUtility;
 import com.ihealthpharm.reports.model.ReportsMappingModel;
+import com.ihealthpharm.reports.service.ReportGenerator;
 import com.ihealthpharm.reports.service.ReportsService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -63,8 +65,7 @@ public class ReportsServiceImpl implements ReportsService {
 		ReportsMappingModel model = reportsMappingRepository.findByReportCode(String.valueOf(dataMap.get("ReportCode")));
 		
 		List<Map<String,Object>> responseList =getReportData(model,dataMap);
-		log.info("------------------------------------");
-		log.info(responseList.toString());
+
 		String extension =".xls";
 		if(StringUtils.equalsIgnoreCase("PDF", reportType))
 			extension =".pdf";
@@ -75,9 +76,17 @@ public class ReportsServiceImpl implements ReportsService {
 			responseFile.createNewFile();
 		
 		
-		if (StringUtils.equalsIgnoreCase("PDF", reportType))
-			reportsPDFUtility.generateReport(responseList, model, responseFile);
-		else
+		if (StringUtils.equalsIgnoreCase("PDF", reportType)) {
+			
+			if (StringUtils.isEmpty(model.getCustomReportGeneratorClazz()))
+				reportsPDFUtility.generateReport(responseList, model, responseFile);
+			else {
+				Class beanClass = Class.forName(model.getCustomReportGeneratorClazz());
+				ReportGenerator reportGenerator = (ReportGenerator) SpringContextUtility.getBean(beanClass);
+				reportGenerator.generateReport(responseList, model, responseFile);
+			}				
+		
+		}else
 			reportsExcelUtility.generateReport(responseList, model, responseFile);
 
 		log.info("Service Duration [{}]", TimeDurationUtility.duration(start));
@@ -98,7 +107,7 @@ public class ReportsServiceImpl implements ReportsService {
 		
 
 		ReportsMappingModel model = reportsMappingRepository.findByReportCode(String.valueOf(dataMap.get("ReportCode")));
-		System.out.println("MODEL"+model);
+
 		List<Map<String,Object>> responseList =getReportData(model,dataMap);
 		
 		return responseList;
@@ -114,11 +123,7 @@ public class ReportsServiceImpl implements ReportsService {
 		
 		String SQL = reportsCommonUtility.prepareSQL(model);
 		String Whereclause = reportsCommonUtility.prepareWhereClause(model,dataMap);
-		log.info(SQL);
 		
-		log.info(Whereclause);
-		log.info(model.toString());
-		log.info(dataMap.toString());
 		log.info("SQL [{}]",SQL);
 		log.info("WhereClause[{}]",Whereclause);
 		
@@ -131,4 +136,5 @@ public class ReportsServiceImpl implements ReportsService {
 	public List<ReportsMappingModel> getReportsDetails() {
 		return reportsMappingRepository.findAll();
 	}
+
 }
