@@ -48,7 +48,7 @@ public class DebitNoteModel extends AuditModel{
     private int billId;
   
     @Column(name="DEBIT_DATE",length=25)
-    private String debitDate;
+    private LocalDate debitDate;
     
     @Column(name="DEBIT_NOTE_NO",length=20)
     private String debitNoteNo;
@@ -75,9 +75,9 @@ public class DebitNoteModel extends AuditModel{
     @Column(name = "ACTIVE_S",  columnDefinition = "default 'Y'")
 	private String activeS = "Y";
     
-    public void setDebitDate(Date debitDate) throws ParseException {
+   /* public void setDates(Date debitDate) throws ParseException {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String debitDates=simpleDateFormat.format(debitDate);  
-		this.debitDate = debitDates;
-	}
+		this.dates = debitDates;
+	}*/
 }

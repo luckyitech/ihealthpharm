@@ -38,6 +38,7 @@ public class DebitNoteController {
 	@PostMapping("/save/debitNote")
 	public ResponseEntity<BaseDto<DebitNoteModel>> saveDebitNote(@Valid @RequestBody  DebitNoteModel debitNoteModel ){
 		log.info("Request Object to insert is :"+debitNoteModel);
+		log.info("-------------------------------------------------------------------");
 		System.out.println(debitNoteModel.toString());
 		DebitNoteModel debitNote= debitNoteService.saveDebitData(debitNoteModel);
 		System.out.println(debitNote);

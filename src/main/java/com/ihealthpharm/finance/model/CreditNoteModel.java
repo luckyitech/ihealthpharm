@@ -52,7 +52,7 @@ public class CreditNoteModel extends AuditModel{
     private int billId;
 
     @Column(name="CREDIT_DATE",length=25)
-    private String creditDate;
+    private LocalDate creditDate;
 
     @Column(name="CREDIT_NOTE_NO",length=20)
     private String creditNoteNo;
@@ -78,11 +78,11 @@ public class CreditNoteModel extends AuditModel{
     @Column(name = "ACTIVE_S",  columnDefinition = "default 'Y'")
 	private String activeS = "Y";
     
-    public void setCreditDate(Date creditDate) throws ParseException {
+   /* public void setCreditDate(Date creditDate) throws ParseException {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String creditDates=simpleDateFormat.format(creditDate);  
 		this.creditDate = creditDates;
 	}
-
+*/
 	
 }
