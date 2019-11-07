@@ -43,7 +43,7 @@ public class EmployeeCredentialsModel extends AuditModel implements Serializable
 	@Column(name="CURRENT_PASSWORD", length=50)
 	private String currentPassword;
 	
-	@Column(name="APPROVAL_ACCESS_PIN", length=50)
+	@Column(name="APPROVAL_ACCESS_PIN", length=4)
 	private String approvalAccessPin;
 	
 	@Column(name="PREVIOUS_PASSWORD1", length=50)
