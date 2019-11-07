@@ -29,7 +29,7 @@ public class SupplierModel extends AuditModel {
 	@Column(name ="SUPPLIER_ID", length=11)
 	private Integer supplierId;
 	
-	@Column(name = "NAME", length=100)
+	@Column(name = "SP_NAME", length=100)
 	private String name;
 	
 	@Column(name = "LICENSE", length=100)
