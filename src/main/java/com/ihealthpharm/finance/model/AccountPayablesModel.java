@@ -52,9 +52,20 @@ public class AccountPayablesModel extends AuditModel {
     @Column(name="STATUS",length=20)
     private String status;
     
-    @OneToOne
-    @JoinColumn(name="INVOICE_ID")
-    InvoiceModel invoiceModel;
+    @Column(name="TOTAL_INVOICE_AMOUNT",length=25)
+    private float totalInvoiceAmount;
+    
+    @Column(name="TOTAL_ADVANCE_AMOUNT",length=25)
+    private float totalAdvanceAmount;
+    
+    @Column(name="TOTAL_DEBIT_AMOUNT",length=25)
+    private float totalDebitAmount;
+    
+    @Column(name="TOTAL_CREDIT_AMOUNT",length=25)
+    private float totalCreditAmount;
+    
+    @Column(name="TOTAL_AMOUNT_TO_BE_PAID",length=25)
+    private float totalAmountToBePaid;
 
     @OneToOne
     @JoinColumn(name="SUPPLIER_ID")
