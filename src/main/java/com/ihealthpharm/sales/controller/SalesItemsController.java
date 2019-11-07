@@ -36,9 +36,9 @@ public class SalesItemsController {
 	SalesItemsHelper salesItemsHelper;
 	
 	@PostMapping("/save/salesItems")
-	public ResponseEntity<BaseDto<SalesItemsModel>> insertSalesItemsData(@Valid @RequestBody SalesItemsModel salesItemsModel) {
+	public ResponseEntity<BaseDto<List<SalesItemsModel>>> insertSalesItemsData(@Valid @RequestBody List<SalesItemsModel> salesItemsModel) {
 		log.info("Request Object insert is: "+ salesItemsModel.toString());
-		SalesItemsModel salesItemsModelRes = salesItemsService.saveSalesItemsData(salesItemsModel);
+		List<SalesItemsModel> salesItemsModelRes = salesItemsService.saveSalesItemsData(salesItemsModel);
 		return new BaseDto<>(salesItemsModelRes,salesItemsHelper.getSaveSalesItemsMessage(),OK).respond();
 	}
 
