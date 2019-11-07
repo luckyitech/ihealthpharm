@@ -18,7 +18,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
@@ -41,34 +43,42 @@ public class QuotationModel extends AuditModel {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "PHARMACY_ID")
+	@JsonManagedReference
 	PharmacyModel pharmacyModel;
 
 	@OneToOne
 	@JoinColumn(name = "QUOTATION_STATUS_ID")
+	@JsonManagedReference
 	QuotationStatusModel quotationStatusModel;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CREATED_BY")
+	@JsonManagedReference
 	EmployeeModel createdBy;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SENT_BY")
+	@JsonManagedReference
 	EmployeeModel sentBy;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "REQUESTED_BY")
+	@JsonManagedReference
 	EmployeeModel requestedby;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "MODIFIED_BY")
+	@JsonManagedReference
 	EmployeeModel modifiedBy;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "APPROVED_BY")
+	@JsonManagedReference
 	EmployeeModel approvedBy;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "REJECTED_BY")
+	@JsonManagedReference
 	EmployeeModel rejectedBy;
 
 	@Temporal(TemporalType.DATE)
@@ -118,6 +128,7 @@ public class QuotationModel extends AuditModel {
 	private String description;
 
 	@OneToMany(mappedBy = "quotation")
+	@JsonBackReference
 	private List<QuotationItemsModel> quotationItems;
 	
 	@Transient

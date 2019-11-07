@@ -5,8 +5,6 @@ package com.ihealthpharm.stock.service;
 
 import java.util.List;
 
-import org.springframework.data.repository.query.Param;
-
 import com.ihealthpharm.masters.dto.ItemSupplierDTO;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.SupplierModel;
@@ -45,6 +43,8 @@ public interface QuotationService {
 	List<ItemSupplierDTO> getItemsBySupplier(Integer supplierId, String itemCode, String itemName);
 	
 	List<SupplierModel> getSupplierItemsByQuotationId(Integer quotationId );
+	
+	List<SupplierModel> getSuppliersByQuotationId(Integer quotationId );
 	
 	List<SupplierModel> getSupplierByItem(Integer itemsId);
 	
