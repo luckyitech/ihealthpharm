@@ -37,13 +37,13 @@ public class CustomerInsuranceModel {
 		private String customerName;
 	 
     @Column(name="INSURANCE_AMOUNT_LIMIT",length=25)
-    private float policyAmountLimit;
+    private Float policyAmountLimit;
 
     @Column(name="INSURANCE_DURATION_IN_MONTHS",length=11)
-    private int policyDurationInMonths;
+    private Integer policyDurationInMonths;
 
     @Column(name="INSURANCE_CONTRIBUTION_PERCENTAGE",length=25)
-    private float contributionPercentage;
+    private Float contributionPercentage;
     
     @Column(name="INSURANCE_POLICY_START",length=25)
     private String policyStartDate;

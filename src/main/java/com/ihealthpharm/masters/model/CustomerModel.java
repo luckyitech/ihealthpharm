@@ -82,16 +82,16 @@ public class CustomerModel extends AuditModel{
 		
 	
 		 @Column(name="CREDIT_LIMIT",length=25)
-		    private float creditLimit;
+		    private Float creditLimit;
 
 		 @Column(name="CREDIT_DAYS",length=11)
-		    private float creditDays;
+		    private Float creditDays;
 		    
 		 @Column(name="DISCOUNT_PERCENTAGE",length=25)
-		    private float discountPercentage;
+		    private Float discountPercentage;
 
 		 @Column(name="DISCOUNT_AMOUNT",length=25)
-		    private float discountAmount;
+		    private Float discountAmount;
 		
 		 @Column(name="ORGANISATION",length=50)
 		    private String organisation;
