@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.SupplierModel;
 import com.ihealthpharm.masters.model.ItemsModel;
@@ -36,23 +37,28 @@ public class QuotationItemsModel extends AuditModel {
 	// bi-directional many-to-one association to Invoice
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "QUOTATION_ID")
+	@JsonManagedReference
 	QuotationModel quotation;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ITEM_ID")
+	@JsonManagedReference
 	ItemsModel item;
 
 	// bi-directional many-to-one association to Supplier
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SUPPLIER_ID")
+	@JsonManagedReference
 	SupplierModel supplier;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "STATUS")
+	@JsonManagedReference
 	QuotationItemStatusModel quotationItemStatus;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "TAX_ID")
+	@JsonManagedReference
 	TaxModel tax;
 	
 	@Column(name = "ADVANCE")

@@ -52,6 +52,19 @@ public class QuotationItemsServiceImpl implements QuotationItemsService {
 		log.info("QuotationItems data with ID : " + model.getQuotationItemId() + " updated succesfully");
 		return model;
 	}
+	
+	@Override
+	public QuotationItemsModel updateQuotationItems(QuotationItemsModel quotationItemsModel, String status) {
+		QuotationItemStatusModel quotationItemStatusModel  = quotationItemStatusRepository.findByStatus(status);
+		quotationItemsModel.setQuotationItemStatus(quotationItemStatusModel);
+		QuotationItemsModel model = getQuotationItemsModel(quotationItemsModel.getQuotationItemId());
+		if (!Objects.nonNull(model)) {
+			throw new IHealthPharmException(quotationItemsHelper.getNotFoundQuotationItemMessage(), HttpStatus.NOT_FOUND);
+		}
+		model = quotationItemsRepository.save(quotationItemsModel);
+		log.info("QuotationItems data with ID : " + model.getQuotationItemId() + " updated succesfully");
+		return model;
+	}
 
 	@Override
 	public List<QuotationItemsModel> updateQuotationItems(List<QuotationItemsModel> quotationItemsModels) {
@@ -135,6 +148,17 @@ public class QuotationItemsServiceImpl implements QuotationItemsService {
 		quotationItemsModel.setQuotationItemStatus(quotationItemStatusModel);
 		quotationItemsRepository.save(quotationItemsModel);
 		
+	}
+
+	@Override
+	public List<QuotationItemsModel> getQuotaionItemsByStatus(String status) {
+		List<QuotationItemsModel> quotationItemsModels = quotationItemsRepository.getQuotaionItemsByStatus(status);
+		for(QuotationItemsModel q : quotationItemsModels) {
+			q.getSupplier();
+			q.getItem();
+			q.getQuotation();
+		}
+		return quotationItemsModels;
 	}
 
 }
