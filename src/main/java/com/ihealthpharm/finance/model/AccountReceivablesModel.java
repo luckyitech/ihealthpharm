@@ -41,7 +41,7 @@ public class AccountReceivablesModel extends AuditModel{
     private LocalDate receiptDate;
 
     @Column(name="RECEIPT_NO",length=25)
-    private float receiptNo;
+    private Float receiptNo;
 
     @Column(name="SOURCE_TYPE",length=20)
     private String sourceType;
