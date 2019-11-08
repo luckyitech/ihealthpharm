@@ -15,7 +15,6 @@ import javax.persistence.OneToOne;
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.SupplierModel;
-import com.ihealthpharm.stock.model.InvoiceModel;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -53,19 +52,19 @@ public class AccountPayablesModel extends AuditModel {
     private String status;
     
     @Column(name="TOTAL_INVOICE_AMOUNT",length=25)
-    private float totalInvoiceAmount;
+    private Float totalInvoiceAmount;
     
     @Column(name="TOTAL_ADVANCE_AMOUNT",length=25)
-    private float totalAdvanceAmount;
+    private Float totalAdvanceAmount;
     
     @Column(name="TOTAL_DEBIT_AMOUNT",length=25)
-    private float totalDebitAmount;
+    private Float totalDebitAmount;
     
     @Column(name="TOTAL_CREDIT_AMOUNT",length=25)
-    private float totalCreditAmount;
+    private Float totalCreditAmount;
     
     @Column(name="TOTAL_AMOUNT_TO_BE_PAID",length=25)
-    private float totalAmountToBePaid;
+    private Float totalAmountToBePaid;
 
     @OneToOne
     @JoinColumn(name="SUPPLIER_ID")
