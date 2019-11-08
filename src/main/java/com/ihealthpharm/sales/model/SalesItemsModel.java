@@ -11,12 +11,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import com.ihealthpharm.masters.model.ItemsModel;
+import com.ihealthpharm.stock.model.StockModel;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity (name="SALES_ITEMS")
+@Entity (name="sales_items")
 @Getter
 @Setter
 @ToString
@@ -24,8 +25,8 @@ public class SalesItemsModel {
     
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "BILL_ID", length = 11, columnDefinition = "AUTO_INCREMENT")
-	private Integer billId;
+	@Column(name = "SALES_ITEMS_ID", length = 11, columnDefinition = "AUTO_INCREMENT")
+	private Integer salesItemsId;
 
     @Column(name="BARCODE",length=100)
     private String barcode;
@@ -84,4 +85,12 @@ public class SalesItemsModel {
     @OneToOne
     @JoinColumn(name="ITEM_ID")
     ItemsModel itemsModel;
+    
+    @OneToOne
+    @JoinColumn(name="BILL_ID")
+    private SalesModel billId;
+    
+    @OneToOne
+    @JoinColumn(name="STOCK_ID")
+    private StockModel stockId;
 }

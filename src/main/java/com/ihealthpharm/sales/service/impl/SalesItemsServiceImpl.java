@@ -1,5 +1,6 @@
 package com.ihealthpharm.sales.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -40,14 +41,19 @@ public class SalesItemsServiceImpl implements SalesItemsService {
 	}
 
 	@Override
-	public SalesItemsModel saveSalesItemsData(SalesItemsModel salesItemsModel) {
-		salesItemsModel = salesItemsRepository.save(salesItemsModel);
-		return salesItemsModel;
+	public List<SalesItemsModel> saveSalesItemsData(List<SalesItemsModel> salesItemsModels) {
+		System.out.println(salesItemsModels.toString());
+		List<SalesItemsModel> salesItemsRes = new ArrayList<>();
+		for(SalesItemsModel saleItemModel:salesItemsModels)
+		{	saleItemModel.setSalesItemsId(null);
+			salesItemsRes.add(salesItemsRepository.save(saleItemModel));
+		}
+		return salesItemsRes;
 	}
 
 	@Override
 	public SalesItemsModel updateSalesItemsData(SalesItemsModel salesItemsModel) {
-		SalesItemsModel salesItemsRes = getValidSalesItem(salesItemsModel.getBillId());
+		SalesItemsModel salesItemsRes = getValidSalesItem(salesItemsModel.getSalesItemsId());
 		if (!Objects.nonNull(salesItemsRes)) {
 			throw new IHealthPharmException(salesItemsHelper.getNotFoundMessage(),HttpStatus.NOT_FOUND);
 		}

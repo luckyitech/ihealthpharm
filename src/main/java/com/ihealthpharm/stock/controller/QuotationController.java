@@ -403,6 +403,16 @@ public class QuotationController {
 	 * @author Gunasekhar 
 	 * Service is to get the list of suppliers and items.
 	 */
+	@GetMapping("/getsuppliersbyquotation")
+	public ResponseEntity<BaseDto<List<SupplierModel>>> getSuppliersByQuotationId(@RequestParam Integer quotationId) {
+		List<SupplierModel> result = quotationService.getSuppliersByQuotationId(quotationId);
+		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is to get the list of suppliers and items.
+	 */
 	@GetMapping("/getitemsbysupplierquotation")
 	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsBySupplierQuotationId(@RequestParam Integer supplierId, @RequestParam Integer quotationId) {
 		List<ItemSupplierDTO> result = quotationService.getItemsBySupplierQuotationId(supplierId, quotationId);

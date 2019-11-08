@@ -33,7 +33,7 @@ public class ManufacturerModel extends AuditModel {
 	@Column(name="MANUFACTURER_ID",length=11)
 	private int manufacturerId;
 	
-	@Column(name="NAME",length=100)
+	@Column(name="MFR_NAME",length=100)
 	private String name;
 	
 	@Column(name="LICENSE",length=100)

@@ -4,7 +4,12 @@ public class GenerateGRNNo {
 
 	public String generateGNR(String pharmacyNm, Long invoiceCount) {
 		String grnNumber = pharmacyNm.substring(0, 2).toUpperCase() + invoiceCount;
-		return grnNumber;
+		return "INV" + grnNumber;
+	}
+	
+	public String generatePONumber(String pharmacyNm, Long invoiceCount) {
+		String grnNumber = pharmacyNm.substring(0, 2).toUpperCase() + invoiceCount;
+		return "PO" + grnNumber;
 	}
 	
 	public static void main(String a[]) {

@@ -15,6 +15,7 @@ import com.ihealthpharm.masters.model.CustomerInsuranceModel;
 import com.ihealthpharm.masters.model.CustomerMembershipModel;
 import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.masters.model.EmployeeModel;
+import com.ihealthpharm.masters.model.HospitalModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.ProviderModel;
 
@@ -56,8 +57,8 @@ public class SalesModel {
 	@Column(name = "CREATION_USER_ID", length = 50)
 	private String creationUserId;
 
-	@Column(name = "CREDIT_AMOUNT", length = 25)
-	private float creditAmount;
+	@Column(name = "CREDIT_DAYS", length = 25)
+	private float creditDays;
 
 	@Column(name = "CREDIT_CARD_AMOUNT", length = 25)
 	private float creditCardAmount;
@@ -146,6 +147,12 @@ public class SalesModel {
 	@Column(name = "VAT_AMT", length = 25)
 	private float vatAmt;
 	
+	@Column(name="CHEQUE_NUMBER")
+	private Integer chequeNumber;
+	
+	@Column(name="CHEQUE_AMT")
+	private Double chequeAmount;
+	
 	@OneToOne
 	@JoinColumn(name = "CUSTOMER_INSURANCE_ID")
 	CustomerInsuranceModel customerInsuranceModel;
@@ -171,4 +178,8 @@ public class SalesModel {
 	@OneToOne
 	@JoinColumn(name = "PROVIDER_ID")
 	ProviderModel providerModel;
+
+	@OneToOne
+	@JoinColumn(name = "HOSPITAL_ID")	
+	HospitalModel hospitalModel;
 }

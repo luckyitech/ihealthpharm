@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.ihealthpharm.masters.model.SupplierModel;
+import com.ihealthpharm.masters.dto.ItemSupplierDTO;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.stock.model.PurchaseOrderModel;
 
@@ -20,9 +21,21 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrderMode
 	@Query("select qi.supplier from quotation q join q.quotationItems qi where q.quotationId = :quotationId ")
 	List<SupplierModel> getSuppliersByQuotationId(@Param("quotationId") Integer quotationId);
 	
-	@Query("select qi.item from quotation q join q.quotationItems qi "
-			+ "where q.quotationId = :quotationId and qi.supplier.supplierId = :supplierId ")
-	List<ItemsModel> getItemsBySupplierAndQuotation(@Param("quotationId") Integer quotationId, @Param("supplierId") Integer supplierId);
+	@Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(qi.unitPurchasePrice, qi.discountPercentage, i.itemCode, i.itemName, i.itemDescription, "
+			+ " i.tax.percentage, i.itemId, i.itemForm.form, i.manufacturer.name) from quotation q join q.quotationItems qi "
+			+ " join qi.supplier d "
+			+ " join qi.item i "
+			+ " where q.quotationId = :quotationId and d.supplierId = :supplierId ")
+	List<ItemSupplierDTO> getItemsBySupplierAndQuotation(@Param("quotationId") Integer quotationId, @Param("supplierId") Integer supplierId);
+	
+	@Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(qi.unitPurchasePrice, qi.discountPercentage, i.itemCode, i.itemName, i.itemDescription, "
+			+ " i.tax.percentage, i.itemId, i.itemForm.form, i.manufacturer.name) from quotation q join q.quotationItems qi "
+			+ " join qi.supplier d "
+			+ " join qi.item i "
+			+ " where q.quotationId = :quotationId and d.supplierId = :supplierId and "
+			+ " (i.itemCode like %:itemCode% or  i.itemName like %:itemName% ) ")
+	List<ItemSupplierDTO> getItemsBySupplierAndQuotation(@Param("quotationId") Integer quotationId, @Param("supplierId") Integer supplierId, 
+			@Param("itemCode") String itemCode, @Param("itemName") String itemName);
 	
 	@Query("select pi.itemsModel from purchase_order p join p.purchaseorderitems pi where p.purchaseOrderId = :purchaseOrderId ")
 	List<ItemsModel> getItemsByPurchaseOrder(@Param("purchaseOrderId") Integer purchaseOrderId);
@@ -35,5 +48,10 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrderMode
 	
 	@Query("select i from purchase_order i where i.pharmacyModel.pharmacyId = :pharmacyId and i.purchaseOrderStatusModel.status = :status ")
 	List<PurchaseOrderModel> getPurchaseOrderByPharmacyAndStatus(@Param("pharmacyId") Integer pharmacyId, @Param("status") String status);
+	
+	@Query("select i from purchase_order i where i.pharmacyModel.pharmacyId = :pharmacyId and i.purchaseOrderStatusModel.status = :status and "
+			+ " (i.purchaseOrderNo = :purchaseOrderNo) ")
+	List<PurchaseOrderModel> getPurchaseOrderByPharmacyAndStatus(@Param("pharmacyId") Integer pharmacyId, @Param("status") String status, 
+			@Param("purchaseOrderNo") String purchaseOrderNo);
 	
 }

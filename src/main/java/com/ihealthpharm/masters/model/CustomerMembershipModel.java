@@ -37,13 +37,13 @@ public class CustomerMembershipModel {
 	private String customerName;
 
     @Column(name="MEMBERSHIP_BONUS_PERCENTAGE",length=25)
-    private float membershipBonusPercentage;
+    private Float membershipBonusPercentage;
 
     @Column(name="MEMBERSHIP_CREDIT_AMOUNT",length=25)
-    private float membershipCreditAmount;
+    private Float membershipCreditAmount;
 
     @Column(name="MEMBERSHIP_DISCOUNT_PERCENTAGE",length=25)
-    private float membershipDiscountPercentage;
+    private Float membershipDiscountPercentage;
 
     @Column(name="MEMBERSHIP_DURATION_IN_MONTHS",length=11)
     private int membershipDurationInMonths;
@@ -64,6 +64,10 @@ public class CustomerMembershipModel {
     @OneToOne
     @JoinColumn(name="CUSTOMER_ID")
    private CustomerModel customerModel;
+    
+    @OneToOne
+    @JoinColumn(name="PHARMACY_ID")
+    private PharmacyModel pharmacyModel;
 
 	 public void setMStartDate(Date startDate) throws ParseException {
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");

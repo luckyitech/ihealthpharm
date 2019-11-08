@@ -268,6 +268,12 @@ public class QuotationServiceImpl implements QuotationService {
 	}
 	
 	@Override
+	public List<SupplierModel> getSuppliersByQuotationId(Integer quotationId) {
+		List<SupplierModel> supplierModels = quotationRepository.getSupplierQuotationId(quotationId);
+		return supplierModels;
+	}
+	
+	@Override
 	public List<ItemSupplierDTO> getItemsBySupplierQuotationId(Integer supplierId, Integer quotationId) {
 		List<ItemSupplierDTO> itemsModels = quotationRepository.getSupplierItemsQuotationId(supplierId, quotationId);
 		

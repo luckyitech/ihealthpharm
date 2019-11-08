@@ -14,14 +14,10 @@ import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.sales.model.SalesModel;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 @Entity (name="ACCOUNT_RECEIVABLES")
-@Getter
-@Setter
-@ToString
+@Data
 public class AccountReceivablesModel extends AuditModel{
     
     /**
@@ -45,7 +41,7 @@ public class AccountReceivablesModel extends AuditModel{
     private LocalDate receiptDate;
 
     @Column(name="RECEIPT_NO",length=25)
-    private float receiptNo;
+    private Float receiptNo;
 
     @Column(name="SOURCE_TYPE",length=20)
     private String sourceType;

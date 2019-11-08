@@ -16,11 +16,13 @@ import org.springframework.util.ObjectUtils;
 
 import com.ihealthpharm.commons.JsonUtility;
 import com.ihealthpharm.commons.TimeDurationUtility;
+import com.ihealthpharm.config.SpringContextUtility;
 import com.ihealthpharm.reports.dao.ReportsMappingRepository;
 import com.ihealthpharm.reports.helper.ReportsCommonUtility;
 import com.ihealthpharm.reports.helper.ReportsExcelUtility;
 import com.ihealthpharm.reports.helper.ReportsPDFUtility;
 import com.ihealthpharm.reports.model.ReportsMappingModel;
+import com.ihealthpharm.reports.service.ReportGenerator;
 import com.ihealthpharm.reports.service.ReportsService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -74,9 +76,17 @@ public class ReportsServiceImpl implements ReportsService {
 			responseFile.createNewFile();
 		
 		
-		if (StringUtils.equalsIgnoreCase("PDF", reportType))
-			reportsPDFUtility.generateReport(responseList, model, responseFile);
-		else
+		if (StringUtils.equalsIgnoreCase("PDF", reportType)) {
+			
+			if (StringUtils.isEmpty(model.getCustomReportGeneratorClazz()))
+				reportsPDFUtility.generateReport(responseList, model, responseFile);
+			else {
+				Class beanClass = Class.forName(model.getCustomReportGeneratorClazz());
+				ReportGenerator reportGenerator = (ReportGenerator) SpringContextUtility.getBean(beanClass);
+				reportGenerator.generateReport(responseList, model, responseFile);
+			}				
+		
+		}else
 			reportsExcelUtility.generateReport(responseList, model, responseFile);
 
 		log.info("Service Duration [{}]", TimeDurationUtility.duration(start));
@@ -122,6 +132,9 @@ public class ReportsServiceImpl implements ReportsService {
 		return responseList;
 	}
 
-
+	@Override
+	public List<ReportsMappingModel> getReportsDetails() {
+		return reportsMappingRepository.findAll();
+	}
 
 }

@@ -13,8 +13,8 @@ import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ihealthpharm.masters.model.AuditModel;
-import com.ihealthpharm.masters.model.SupplierModel;
 import com.ihealthpharm.masters.model.ItemsModel;
+import com.ihealthpharm.masters.model.SupplierModel;
 import com.ihealthpharm.masters.model.TaxModel;
 
 import lombok.Getter;
