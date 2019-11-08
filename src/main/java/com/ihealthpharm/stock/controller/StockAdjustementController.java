@@ -40,17 +40,28 @@ public class StockAdjustementController {
 		StockAdjustmentModel stockAdjustModelRes = stockAdjustmentService.saveStockAdjustment(stockAdjustmentModel);
 		return new BaseDto<>(stockAdjustModelRes,stockHelper.getUpdateStockAdjustmentMessage(),OK).respond();
 	}
+	
+	
+	@PostMapping("/save/stockadjustments")
+	public ResponseEntity<BaseDto<List<StockAdjustmentModel>>> saveMultipleStocksAdjustData(@Valid @RequestBody List<StockAdjustmentModel> stockAdjustmentModels) {
+		log.info("Request Object for update is: "+ stockAdjustmentModels);
+		List<StockAdjustmentModel> stockAdjustModelRes = stockAdjustmentService.saveStockAdjustementsData(stockAdjustmentModels);
+		return new BaseDto<>(stockAdjustModelRes,stockHelper.getUpdateStockAdjustmentMessage(),OK).respond();
+	}
 
-	@GetMapping("/get/stockitems/basedonitemcode")
-	public ResponseEntity<BaseDto<List<StockAdjustmentDTO>>> getStockItemDataBasedOnItemCode(@RequestParam String searchTerm){
+	@PostMapping("/get/stockitems/basedonitemcode")
+	public ResponseEntity<BaseDto<List<StockAdjustmentDTO>>> getStockItemDataBasedOnItemCode(@RequestParam String searchTerm,@RequestParam String batch,@RequestParam String  expiry,@RequestParam("pharmacyId") int pharmacyId ){
 		log.info(searchTerm);
-		List<StockAdjustmentDTO> result=stockAdjustmentService.findBasedOnItemCode(searchTerm);
+		
+		
+		List<StockAdjustmentDTO> result=stockAdjustmentService.findBasedOnItemCode(searchTerm,batch,expiry,pharmacyId);
 		return new BaseDto<>(result,stockHelper.getRetrieveStockAdjustmentMessage(),OK).respond();
 		
 	}
 	
 	@GetMapping("/get/stockitems/basedonitemname")
 	public ResponseEntity<BaseDto<List<StockAdjustmentDTO>>> getStockItemDataBasedOnItemName(@RequestParam String searchTerm){
+		System.out.println(searchTerm);
 		List<StockAdjustmentDTO> response=stockAdjustmentService.findBasedOnItemNameSearch(searchTerm);
 		return new BaseDto<>(response,stockHelper.getRetrieveStockAdjustmentMessage(),OK).respond();
 				

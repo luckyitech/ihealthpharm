@@ -11,7 +11,9 @@ public interface StockAdjustmentService {
 
 	StockAdjustmentModel saveStockAdjustment(@Valid StockAdjustmentModel stockAdjustmentModel);
 	
-	List<StockAdjustmentDTO> findBasedOnItemCode(String searchTerm);
+	List<StockAdjustmentModel> saveStockAdjustementsData(List<StockAdjustmentModel> stockAdjustmentModels);
+	
+	List<StockAdjustmentDTO> findBasedOnItemCode(String searchTerm,String batch,String expiry,int pharmacyId);
 	
      List<StockAdjustmentDTO> findBasedOnItemNameSearch(String searchTerm);
 	
