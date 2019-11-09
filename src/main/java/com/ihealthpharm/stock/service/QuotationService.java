@@ -56,6 +56,10 @@ public interface QuotationService {
 	
 	List<ItemSupplierDTO> getItemsByItemCodeOrItemNameorItemDesc(String itemCode, String itemName, String itemDescription);
 	
-	public List<SupplierModel> getSupplierItemsByQuotationIdAndSupplierId(Integer quotationId, List<Integer> suppliersId);
+	List<SupplierModel> getSupplierItemsByQuotationIdAndSupplierId(Integer quotationId, List<Integer> suppliersId);
+	
+	List<QuotationModel> getSentQuotationByPharmacy(Integer pharmacyId);
+	
+	List<QuotationModel> getSentQuotationByPharmacy(Integer pharmacyId, String quotationNo, String description);
 
 }
