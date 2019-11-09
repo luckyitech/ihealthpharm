@@ -24,6 +24,9 @@ public interface InvoiceRepository extends JpaRepository<InvoiceModel, Integer> 
 	@Query("select count(*) from invoice i where i.pharmacy.pharmacyId = :pharmacyId ")
 	Long getInvoiceCount(@Param("pharmacyId") Integer pharmacyId);
 	
+	@Query("select count(*) from purchase_return p ")
+	Long getPurchaseReturnCount();
+	
 	@Query("select ii.itemsModel from invoice i join i.invoiceItems ii where i.invoiceId = :invoiceId ")
 	List<ItemsModel> getInvoiceItems(@Param("invoiceId") Integer invoiceId);
 	

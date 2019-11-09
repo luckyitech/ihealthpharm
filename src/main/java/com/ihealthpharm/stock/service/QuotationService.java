@@ -56,6 +56,6 @@ public interface QuotationService {
 	
 	List<ItemSupplierDTO> getItemsByItemCodeOrItemNameorItemDesc(String itemCode, String itemName, String itemDescription);
 	
-	
+	public List<SupplierModel> getSupplierItemsByQuotationIdAndSupplierId(Integer quotationId, List<Integer> suppliersId);
 
 }

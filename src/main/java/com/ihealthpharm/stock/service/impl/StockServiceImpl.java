@@ -160,4 +160,9 @@ public class StockServiceImpl implements StockService {
 		return listOfStock;
 	}
 
+	@Override
+	public StockModel getStockByItemIdandInvoiceId(Integer itemId, Integer invoiceId) {
+		return stockRepository.getStockByItemIdandInvoiceId(itemId, invoiceId);
+	}
+
 }

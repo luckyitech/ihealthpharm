@@ -1,5 +1,6 @@
 package com.ihealthpharm.stock.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.EmployeeRepository;
+import com.ihealthpharm.masters.dao.SupplierRepository;
 import com.ihealthpharm.masters.dto.ItemSupplierDTO;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.ItemsModel;
@@ -52,6 +54,9 @@ public class QuotationServiceImpl implements QuotationService {
 	
 	@Autowired
 	EmployeeRepository employeeRepository;
+	
+	@Autowired
+	SupplierRepository supplierRepository;
 
 	@Override
 	public QuotationModel saveQuotation(QuotationModel quotationModel) {
@@ -257,13 +262,28 @@ public class QuotationServiceImpl implements QuotationService {
 
 	@Override
 	public List<SupplierModel> getSupplierItemsByQuotationId(Integer quotationId) {
-		
 		List<SupplierModel> supplierModels = quotationRepository.getSupplierQuotationId(quotationId);
+		for(SupplierModel d : supplierModels) {
+			List<ItemSupplierDTO> itemsModels = quotationRepository.getSupplierItemsQuotationId(quotationId, d.getSupplierId());
+			d.setItemsModels(itemsModels);
+		}
+		return supplierModels;
+	}
+	
+	@Override
+	public List<SupplierModel> getSupplierItemsByQuotationIdAndSupplierId(Integer quotationId, List<Integer> suppliersId) {
+		List<SupplierModel> supplierModels = new ArrayList<>();
+		
+		for(Integer s : suppliersId) {
+			SupplierModel supplierModel = new SupplierModel();
+			supplierModel = supplierRepository.getOne(s);
+			supplierModels.add(supplierModel);
+		}
 		
 		for(SupplierModel d : supplierModels) {
 			List<ItemSupplierDTO> itemsModels = quotationRepository.getSupplierItemsQuotationId(quotationId, d.getSupplierId());
+			d.setItemsModels(itemsModels);
 		}
-		
 		return supplierModels;
 	}
 	
