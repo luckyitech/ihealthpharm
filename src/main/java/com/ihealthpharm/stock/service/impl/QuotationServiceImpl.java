@@ -321,4 +321,14 @@ public class QuotationServiceImpl implements QuotationService {
 		return quotationRepository.getItemsByItemCodeOrItemNameorItemDesc(itemCode, itemName, itemDescription);
 	}
 
+	@Override
+	public List<QuotationModel> getSentQuotationByPharmacy(Integer pharmacyId) {
+		return quotationRepository.getSentQuotationByPharmacy(pharmacyId);
+	}
+
+	@Override
+	public List<QuotationModel> getSentQuotationByPharmacy(Integer pharmacyId, String quotationNo, String description) {
+		return quotationRepository.getSentQuotationByPharmacy(pharmacyId, quotationNo, description);
+	}
+
 }

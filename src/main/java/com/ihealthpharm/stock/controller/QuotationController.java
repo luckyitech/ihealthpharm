@@ -290,6 +290,16 @@ public class QuotationController {
 	
 	/**
 	 * @author Gunasekhar 
+	 * Service is for Request Pending Quotation based on the pharmacyId
+	 */
+	@GetMapping("/getsentquotationbypharmacy")
+	public ResponseEntity<BaseDto<List<QuotationModel>>> getSentQuotationByPharmacy(@RequestParam Integer pharmacyId) {
+		List<QuotationModel> quotationModels = quotationService.getSentQuotationByPharmacy(pharmacyId);
+		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
 	 * Service is for Search Request New Quotation based on the pharmacyId and Quotation No or Description
 	 */
 	@GetMapping("/searchrequestnewquotationbypharmacy")
@@ -362,6 +372,17 @@ public class QuotationController {
 	public ResponseEntity<BaseDto<List<QuotationModel>>> searchReceivedRejectedQuotationByPharmacy(@RequestParam Integer pharmacyId, 
 			@RequestParam(required=false) String quotationNo, @RequestParam(required=false) String description) {
 		List<QuotationModel> quotationModels = quotationService.getQuotationByPharmacyAndStatus(pharmacyId, "RECEIVED REJECTED", quotationNo, description);
+		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is for Request Pending Quotation based on the pharmacyId
+	 */
+	@GetMapping("/searchsentquotationbypharmacy")
+	public ResponseEntity<BaseDto<List<QuotationModel>>> getSentQuotationByPharmacy(@RequestParam Integer pharmacyId, 
+			@RequestParam(required=false) String quotationNo, @RequestParam(required=false) String description) {
+		List<QuotationModel> quotationModels = quotationService.getSentQuotationByPharmacy(pharmacyId, quotationNo, description);
 		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
 	
