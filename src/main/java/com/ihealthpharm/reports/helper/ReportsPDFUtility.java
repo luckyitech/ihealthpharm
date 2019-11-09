@@ -2,6 +2,7 @@ package com.ihealthpharm.reports.helper;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +40,7 @@ public class ReportsPDFUtility implements ReportGenerator{
 	protected static  Font title06 = FontFactory.getFont(Font.FontFamily.HELVETICA.toString(), 6);
 	protected static  Font title08 = FontFactory.getFont(Font.FontFamily.HELVETICA.toString(), 8);
 	protected static  Font headerFont = FontFactory.getFont(Font.FontFamily.HELVETICA.toString(), 8,Font.BOLD);
+	protected static  DecimalFormat decilFormatter = new DecimalFormat("#.00");
 
 
 
