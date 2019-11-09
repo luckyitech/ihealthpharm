@@ -1,13 +1,16 @@
 package com.ihealthpharm.stock.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -69,5 +72,8 @@ public class PurchaseReturnModel extends AuditModel {
 
 	@Column(name="ACTIVE_S",length=1, columnDefinition = "'Y'")
     private char activeS;
+	
+	@OneToMany(mappedBy="purchaseReturnModel", fetch=FetchType.LAZY)
+	private List<PurchaseReturnItemModel> purchaseReturnItemModels;
 	
 }

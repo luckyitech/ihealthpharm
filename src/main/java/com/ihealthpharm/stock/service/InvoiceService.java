@@ -4,10 +4,11 @@ import java.util.List;
 
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.stock.model.InvoiceModel;
+import com.ihealthpharm.stock.model.PurchaseReturnModel;
 
 public interface InvoiceService {
 
-	InvoiceModel saveInvoice(InvoiceModel invoiceModel);
+	InvoiceModel saveInvoice(InvoiceModel invoiceModel, PurchaseReturnModel purchaseReturnModel);
 
 	InvoiceModel updateInvoice(InvoiceModel invoiceModel);
 
@@ -28,4 +29,6 @@ public interface InvoiceService {
 	List<InvoiceModel> findAllInvoicesByPharmacyId(Integer pharmacyId);
 	
 	List<ItemsModel> getInvoiceItems(Integer invoiceId);
+	
+	Long getPurchaseReturnCount();
 }
