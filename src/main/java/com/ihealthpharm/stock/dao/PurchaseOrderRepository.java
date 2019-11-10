@@ -50,8 +50,16 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrderMode
 	List<PurchaseOrderModel> getPurchaseOrderByPharmacyAndStatus(@Param("pharmacyId") Integer pharmacyId, @Param("status") String status);
 	
 	@Query("select i from purchase_order i where i.pharmacyModel.pharmacyId = :pharmacyId and i.purchaseOrderStatusModel.status = :status and "
-			+ " (i.purchaseOrderNo = :purchaseOrderNo) ")
+			+ " (i.purchaseOrderNo like %:purchaseOrderNo%) ")
 	List<PurchaseOrderModel> getPurchaseOrderByPharmacyAndStatus(@Param("pharmacyId") Integer pharmacyId, @Param("status") String status, 
+			@Param("purchaseOrderNo") String purchaseOrderNo);
+	
+	@Query("select i from purchase_order i where i.pharmacyModel.pharmacyId = :pharmacyId and i.sentDate is not null ")
+	List<PurchaseOrderModel> getSentPurchaseOrderByPharmacy(@Param("pharmacyId") Integer pharmacyId);
+	
+	@Query("select i from purchase_order i where i.pharmacyModel.pharmacyId = :pharmacyId and i.sentDate is not null and "
+			+ " (i.purchaseOrderNo like %:purchaseOrderNo%) ")
+	List<PurchaseOrderModel> getSentPurchaseOrderByPharmacy(@Param("pharmacyId") Integer pharmacyId, 
 			@Param("purchaseOrderNo") String purchaseOrderNo);
 	
 }
