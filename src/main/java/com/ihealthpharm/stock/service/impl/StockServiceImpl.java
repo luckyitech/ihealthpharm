@@ -165,4 +165,6 @@ public class StockServiceImpl implements StockService {
 		return stockRepository.getStockByItemIdandInvoiceId(itemId, invoiceId);
 	}
 
+	
+	
 }

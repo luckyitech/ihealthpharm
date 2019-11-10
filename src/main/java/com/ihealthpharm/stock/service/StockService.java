@@ -35,4 +35,5 @@ public interface StockService {
 	List<StockModel> findByItemName(ItemsModel itemName);
 	
 	StockModel getStockByItemIdandInvoiceId(Integer itemId, Integer invoiceId);
+	
 }
