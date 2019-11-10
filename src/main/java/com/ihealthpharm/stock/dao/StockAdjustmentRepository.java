@@ -42,15 +42,16 @@ public interface StockAdjustmentRepository extends JpaRepository<StockAdjustment
 
 	
 	
-	
 	@Query("select sum(b.quantity) from stock b inner join items i on b.item=i.itemId inner join items_forms f on i.itemForm=f.itemformId inner join supplier s on b.supplier=s.supplierId " + 
 			" where  b.batchNo=:batchNo and b.expiryDt=:dates and b.pharmacy.pharmacyId=:pharmacyId")	
 	Integer getAllStockQuantity(@Param("batchNo")String batchNo,@Param("dates")Date  dates,@Param("pharmacyId")int pharmacyId);
 
 	
 	
-	@Query("select i from stock b inner join items i on b.item=i.itemId inner join items_forms f on i.itemForm=f.itemformId inner join supplier s on b.supplier=s.supplierId " + 
-			" where  b.batchNo=:batchNo and b.expiryDt=:expiry and b.pharmacy.pharmacyId=:pharmacyId")	
-	List<StockModel> getAllStocksMatchWithStockAdjId(@Param("batchNo")String batchNo,@Param("expiry")Date  expiry,@Param("pharmacyId")int pharmacyId);
+	@Query("select b from stock b inner join items i on b.item=i.itemId inner join items_forms f on i.itemForm=f.itemformId inner join supplier s on b.supplier=s.supplierId " + 
+			" where  b.batchNo=:batchNo and b.expiryDt=:date and b.pharmacy.pharmacyId=:pharmacyId")	
+	List<StockModel> getAllStocksMatchWithStockAdjId(@Param("batchNo")String batchNo,@Param("date")Date date,@Param("pharmacyId")int pharmacyId);
+
+
 
 }

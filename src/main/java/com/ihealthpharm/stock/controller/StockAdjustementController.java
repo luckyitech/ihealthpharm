@@ -2,7 +2,6 @@ package com.ihealthpharm.stock.controller;
 
 import static org.springframework.http.HttpStatus.OK;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -35,7 +34,7 @@ public class StockAdjustementController {
 
 	@Autowired
 	private StockHelper stockHelper;
-
+	
 	@PostMapping("/save/stockadjustment")
 	public ResponseEntity<BaseDto<StockAdjustmentModel>> insertItemData(@Valid @RequestBody StockAdjustmentModel stockAdjustmentModel) {
 		log.info("Request Object insert is: "+ stockAdjustmentModel);

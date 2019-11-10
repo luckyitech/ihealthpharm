@@ -3,11 +3,8 @@ package com.ihealthpharm.stock.service.impl;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 import javax.transaction.Transactional;
@@ -155,35 +152,42 @@ public class StockAdjustmentServiceImpl implements StockAdjustmentService {
 		return  response;
 	}
 
-	@Override
-	public List<StockModel> getAllStockMatched(String batch, String expiry, int pharmacyId) {
+	//stockadjustement
+	
+		@Override
+		public List<StockModel> getAllStockMatched(String batch, String expiry, int pharmacyId) {
 
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:00.000 0000");
-		 Date date = null;
-		try {
-			date = dateFormat.parse(expiry);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		 DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); 
-		 String dateStr = formatter.format(date);
-		System.out.println(dateStr);
-		
 
-		DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
-		Date dateConv=null;
-		try {
-			dateConv = inputFormat.parse(dateStr);
-		} catch (ParseException e) {
-			e.printStackTrace();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+			
+			Date d=null;
+			try {
+				d = sdf.parse(expiry);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			System.out.println(d);
+			
+			SimpleDateFormat output = new SimpleDateFormat("yyyy-MM-dd");
+			String st=  output.format(d);
+			System.out.println("------");
+			System.out.println(st);
+			System.out.println("------");
+			DateFormat formatters = new SimpleDateFormat("yyyy-MM-dd"); 
+			Date date=null;
+			try {
+				System.out.println("inside");
+				 date = (Date)formatters.parse(st);
+				 DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); 
+				 System.out.println(formatter.format(date));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
+			List<StockModel> response=stockAdjustmentRepo.getAllStocksMatchWithStockAdjId(batch,date,pharmacyId);
+			System.out.println(response);
+			return response;
 		}
-		System.out.println("[][]");
-		System.out.println(dateConv);
-        Date dates = null;
-		List<StockModel> response=stockAdjustmentRepo.getAllStocksMatchWithStockAdjId(batch,dates,pharmacyId);
-		System.out.println(response);
-		return response;
-	}
 
 	
 }

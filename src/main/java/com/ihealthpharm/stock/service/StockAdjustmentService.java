@@ -1,6 +1,5 @@
 package com.ihealthpharm.stock.service;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -25,6 +24,7 @@ public interface StockAdjustmentService {
 	
     Integer	getStockQuantity(String batch,String expiry,int pharmacyId);	
     
-    List<StockModel> getAllStockMatched(String batch,String expiry,int pharmacyId);
+  //stockAdjustment
+  	 List<StockModel> getAllStockMatched(String batch,String expiry,int pharmacyId);
 	
 }
