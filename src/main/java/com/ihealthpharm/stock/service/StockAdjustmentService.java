@@ -1,11 +1,13 @@
 package com.ihealthpharm.stock.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import com.ihealthpharm.stock.dto.StockAdjustmentDTO;
 import com.ihealthpharm.stock.model.StockAdjustmentModel;
+import com.ihealthpharm.stock.model.StockModel;
 
 public interface StockAdjustmentService {
 
@@ -15,11 +17,14 @@ public interface StockAdjustmentService {
 	
 	List<StockAdjustmentDTO> findBasedOnItemCode(String searchTerm,String batch,String expiry,int pharmacyId);
 	
-     List<StockAdjustmentDTO> findBasedOnItemNameSearch(String searchTerm);
+     List<StockAdjustmentDTO> findBasedOnItemNameSearch(String searchTerm,String batch,String expiry,int pharmacyId);
 	
-	List<StockAdjustmentDTO> findBasedOnItemDesc(String searchTerm);
+	List<StockAdjustmentDTO> findBasedOnItemDesc(String searchTerm,String batch,String expiry,int pharmacyId);
 	
-	List<StockAdjustmentDTO> findBasedOnItemGenericName(String searchTerm);
+	List<StockAdjustmentDTO> findBasedOnItemGenericName(String searchTerm,String batch,String expiry,int pharmacyId);
 	
+    Integer	getStockQuantity(String batch,String expiry,int pharmacyId);	
+    
+    List<StockModel> getAllStockMatched(String batch,String expiry,int pharmacyId);
 	
 }
