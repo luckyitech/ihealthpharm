@@ -274,6 +274,16 @@ public class PurchaseOrderController {
 	
 	/**
 	 * @author Gunasekhar 
+	 * Service is for sent purchase orders based on the pharmacyId
+	 */
+	@GetMapping("/getsentpurchaseordersbypharmacy")
+	public ResponseEntity<BaseDto<List<PurchaseOrderModel>>> getSentPurchaseOrderByPharmacy(@RequestParam Integer pharmacyId) {
+		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderService.getSentPurchaseOrderByPharmacy(pharmacyId);
+		return new BaseDto<>(purchaseOrderModels, purchaseorderHelper.getRetrievePurchaseOrderMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
 	 * Service is for search pending purchase orders based on the pharmacyId
 	 */
 	@GetMapping("/searchpendingpurchaseordersbypharmacy")
@@ -319,6 +329,16 @@ public class PurchaseOrderController {
 	@GetMapping("/searchcompletedpurchaseordersbypharmacy")
 	public ResponseEntity<BaseDto<List<PurchaseOrderModel>>> searchCompletedPurchaseOrderByPharmacy(@RequestParam Integer pharmacyId, @RequestParam String purchaseOrderNo ) {
 		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderService.getPurchaseOrderByPharmacyAndStatus(pharmacyId, "COMPLETED", purchaseOrderNo);
+		return new BaseDto<>(purchaseOrderModels, purchaseorderHelper.getRetrievePurchaseOrderMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is for search sent purchase orders based on the pharmacyId
+	 */
+	@GetMapping("/searchsentpurchaseordersbypharmacy")
+	public ResponseEntity<BaseDto<List<PurchaseOrderModel>>> searchSentPurchaseOrderByPharmacy(@RequestParam Integer pharmacyId, @RequestParam String purchaseOrderNo) {
+		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderService.getSentPurchaseOrderByPharmacy(pharmacyId, purchaseOrderNo);
 		return new BaseDto<>(purchaseOrderModels, purchaseorderHelper.getRetrievePurchaseOrderMessage(), OK).respond();
 	}
 }

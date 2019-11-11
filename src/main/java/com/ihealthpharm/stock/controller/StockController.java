@@ -2,7 +2,6 @@ package com.ihealthpharm.stock.controller;
 
 import static org.springframework.http.HttpStatus.OK;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.stock.dto.StockItemsListDTO;

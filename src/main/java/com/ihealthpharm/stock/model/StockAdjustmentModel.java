@@ -1,7 +1,5 @@
 package com.ihealthpharm.stock.model;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.ItemsModel;
@@ -41,8 +41,9 @@ public class StockAdjustmentModel extends AuditModel{
 	@Column(name="BATCH_NO",length=20)
 	private String batchNo;
 	
+	@Temporal(TemporalType.DATE)
 	@Column(name="EXPIRY_DT")
-	private String expiryDt;
+	private Date expiryDt;
 	
 	@Column(name="ON_HAND_STOCK",length=11)
 	private Integer onHandStock;
@@ -50,7 +51,7 @@ public class StockAdjustmentModel extends AuditModel{
 	@Column(name="ON_HAND_STOCK_VALUE")
 	private Float onHandStockValue;
 	
-	@Column(name="ADJUSTEMENT_STOCK",length=11)
+	@Column(name="ADJUSTMENT_STOCK",length=11)
 	private Integer adjustedStock;
 	
 	@Column(name="ADJUSTED_STOCK_VALUE")
@@ -79,11 +80,15 @@ public class StockAdjustmentModel extends AuditModel{
 	@OneToOne
 	@JoinColumn(name="STOCK_ID")
 	private StockModel stock; 
+	
+	
+	@Column(name="SYSTEM_DATE")
+	private Date date;
 
-    public void setExpiryDt(Date date) throws ParseException {
+   /* public void setExpiryDt(Date date) throws ParseException {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String expiryDate=simpleDateFormat.format(date);  
 		this.expiryDt = expiryDate;
     }
-    
+    */
 }

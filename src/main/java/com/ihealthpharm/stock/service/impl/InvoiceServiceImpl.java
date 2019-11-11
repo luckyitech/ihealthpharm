@@ -8,6 +8,9 @@ import javax.transaction.Transactional;
 
 import com.ihealthpharm.stock.dao.InvoiceItemRepository;
 import com.ihealthpharm.stock.dao.InvoiceRepository;
+import com.ihealthpharm.stock.dao.PurchaseReturnItemRepository;
+import com.ihealthpharm.stock.dao.PurchaseReturnRepository;
+import com.ihealthpharm.stock.dao.StockHistoryRepository;
 import com.ihealthpharm.stock.dao.StockRepository;
 import com.ihealthpharm.stock.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,12 +38,21 @@ public class InvoiceServiceImpl implements InvoiceService {
 	
 	@Autowired
 	StockRepository stockRepository;
+	
+	@Autowired
+	StockHistoryRepository stockHistoryRepository;
+	
+	@Autowired
+	PurchaseReturnRepository purchaseReturnRepository;
 
+	@Autowired
+	PurchaseReturnItemRepository purchaseReturnItemRepository;
+	
 	@Autowired
 	InvoiceHelper invoiceHelper;
 
 	@Override
-	public InvoiceModel saveInvoice(InvoiceModel invoiceModel) {
+	public InvoiceModel saveInvoice(InvoiceModel invoiceModel, PurchaseReturnModel purchaseReturnModel) {
 		
 		List<InvoiceItemModel> invoiceItemModels = invoiceModel.getInvoiceItems();
 		
@@ -48,6 +60,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 		
 		for(InvoiceItemModel it : invoiceItemModels) {
 			StockModel stockModel = new StockModel();
+			StockHistoryModel historyModel = new StockHistoryModel();
 			
 			stockModel.setInvoice(invoiceModelres);
 			stockModel.setBatchNo(it.getBatchNo());
@@ -63,10 +76,61 @@ public class InvoiceServiceImpl implements InvoiceService {
 			stockModel.setMargin(it.getMargin());
 			stockModel.setSupplier(invoiceModelres.getSupplierModel());
 			
+			historyModel.setInvoice(invoiceModelres);
+			historyModel.setBatchNo(it.getBatchNo());
+			historyModel.setPharmacy(invoiceModelres.getPharmacy());
+			historyModel.setItem(it.getItemsModel());
+			historyModel.setQuantity(it.getTotalQuantity());
+			historyModel.setManufactureDt(it.getManufactureDt());
+			historyModel.setExpiryDt(it.getExpiryDt());
+			historyModel.setUnitSaleRate(it.getUnitSaleRate());
+			historyModel.setMrp(it.getMrp());
+			historyModel.setSaleDiscountPercentage(it.getSaleDiscountPercentage());
+			historyModel.setSaleDiscountAmount(it.getSaleDiscountAmount());
+			historyModel.setMargin(it.getMargin());
+			historyModel.setSupplier(invoiceModelres.getSupplierModel());
+			
 			it.setInvoice(invoiceModelres);
 			invoiceItemRepository.save(it);
 			
 			stockRepository.save(stockModel);
+			stockHistoryRepository.save(historyModel);
+		}
+		
+		if(purchaseReturnModel != null && purchaseReturnModel.getPurchaseReturnNo() != null) {
+			
+			purchaseReturnModel.setInvoiceModel(invoiceModelres);
+			PurchaseReturnModel returnModel = purchaseReturnRepository.save(purchaseReturnModel);
+			
+			for(PurchaseReturnItemModel p : purchaseReturnModel.getPurchaseReturnItemModels()) {
+				ItemsModel i = p.getItemsModel();
+				p.setPurchaseReturnModel(returnModel);
+				purchaseReturnItemRepository.save(p);
+				
+				StockModel s = stockRepository.getStockByItemIdandInvoiceId(i.getItemId(), invoiceModelres.getInvoiceId());
+				s.setQuantity(s.getQuantity() - p.getReturnQuantity());
+				
+				stockRepository.save(s);
+				
+				StockHistoryModel historyModel = new StockHistoryModel();
+				
+				historyModel.setInvoice(invoiceModelres);
+				historyModel.setBatchNo(s.getBatchNo());
+				historyModel.setPharmacy(invoiceModelres.getPharmacy());
+				historyModel.setItem(s.getItem());
+				historyModel.setQuantity(p.getReturnQuantity());
+				historyModel.setManufactureDt(s.getManufactureDt());
+				historyModel.setExpiryDt(s.getExpiryDt());
+				historyModel.setUnitSaleRate(s.getUnitSaleRate());
+				historyModel.setMrp(s.getMrp());
+				historyModel.setSaleDiscountPercentage(s.getSaleDiscountPercentage());
+				historyModel.setSaleDiscountAmount(s.getSaleDiscountAmount());
+				historyModel.setMargin(s.getMargin());
+				historyModel.setSupplier(invoiceModelres.getSupplierModel());
+				
+				stockHistoryRepository.save(historyModel);
+			}
+			
 		}
 		
 		log.info("Invoice data with ID: " + invoiceModelres.getInvoiceId() + " saved succesfully");
@@ -172,6 +236,11 @@ public class InvoiceServiceImpl implements InvoiceService {
 	@Override
 	public List<ItemsModel> getInvoiceItems(Integer invoiceId) {
 		return invoiceRepository.getInvoiceItems(invoiceId);
+	}
+
+	@Override
+	public Long getPurchaseReturnCount() {
+		return invoiceRepository.getPurchaseReturnCount();
 	}
 
 }

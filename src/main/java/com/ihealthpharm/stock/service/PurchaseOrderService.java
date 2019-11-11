@@ -2,11 +2,9 @@ package com.ihealthpharm.stock.service;
 
 import java.util.List;
 
-import org.springframework.data.repository.query.Param;
-
-import com.ihealthpharm.masters.model.SupplierModel;
 import com.ihealthpharm.masters.dto.ItemSupplierDTO;
 import com.ihealthpharm.masters.model.ItemsModel;
+import com.ihealthpharm.masters.model.SupplierModel;
 import com.ihealthpharm.stock.model.PurchaseOrderModel;
 
 public interface PurchaseOrderService {
@@ -46,4 +44,8 @@ public interface PurchaseOrderService {
 	List<PurchaseOrderModel> getPurchaseOrderByPharmacyAndStatus(Integer pharmacyId, String status);
 	
 	List<PurchaseOrderModel> getPurchaseOrderByPharmacyAndStatus(Integer pharmacyId, String status, String purchaseOrderNo);
+	
+	List<PurchaseOrderModel> getSentPurchaseOrderByPharmacy(Integer pharmacyId);
+	
+	List<PurchaseOrderModel> getSentPurchaseOrderByPharmacy(Integer pharmacyId, String purchaseOrderNo);
 }

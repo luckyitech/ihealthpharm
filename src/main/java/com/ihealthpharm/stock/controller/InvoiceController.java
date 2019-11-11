@@ -21,7 +21,9 @@ import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.helper.ItemPropertyHelper;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.stock.helper.InvoiceHelper;
+import com.ihealthpharm.stock.helper.PurchaseReturnHelper;
 import com.ihealthpharm.stock.model.InvoiceModel;
+import com.ihealthpharm.stock.model.PurchaseReturnModel;
 import com.ihealthpharm.stock.service.InvoiceService;
 import com.ihealthpharm.stock.service.QuotationService;
 import com.ihealthpharm.stock.utils.GenerateGRNNo;
@@ -41,6 +43,9 @@ public class InvoiceController {
 	private InvoiceHelper invoiceHelper;
 	
 	@Autowired
+	private PurchaseReturnHelper purchaseReturnHelper;
+	
+	@Autowired
 	private InvoiceService invoiceService;
 	
 	@Autowired
@@ -56,9 +61,11 @@ public class InvoiceController {
 	@PostMapping("/save/invoice")
 	public ResponseEntity<BaseDto<InvoiceModel>> saveInvoice(@Valid @RequestBody InvoiceModel invoiceModel) {
 		log.info("Request Object insert is: "+ invoiceModel.toString());
-		InvoiceModel model = invoiceService.saveInvoice(invoiceModel);
+		PurchaseReturnModel purchaseReturnModel = invoiceModel.getPurchaseReturnModel();
+		InvoiceModel model = invoiceService.saveInvoice(invoiceModel, purchaseReturnModel);
 		model.setInvoiceItems(null);
 		model.setStocks(null);
+		model.setPurchaseReturnModel(null);
 		return new BaseDto<>(model, invoiceHelper.getSaveInvoiceMessage(), OK).respond();
 	}
 	
@@ -138,6 +145,19 @@ public class InvoiceController {
 		GenerateGRNNo generateGRNNo = new GenerateGRNNo();
 		String grnNumber = generateGRNNo.generateGNR(pharmacyNm, invoiceCount);
 		return new BaseDto<>(grnNumber, invoiceHelper.getRetrieveInvoiceMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is for automatic generation of Purchase return Number 
+	 */
+	@GetMapping("/generatepurchasereturnno")
+	public ResponseEntity<BaseDto<String>> generatePurchaseReturnNo(@RequestParam Integer pharmacyId) {
+		String pharmacyNm = quotationService.getPharmacyNm(pharmacyId);
+		Long invoiceCount = invoiceService.getPurchaseReturnCount();
+		GenerateGRNNo generateGRNNo = new GenerateGRNNo();
+		String grnNumber = generateGRNNo.generatePRNumber(pharmacyNm, invoiceCount);
+		return new BaseDto<>(grnNumber, purchaseReturnHelper.getRetrievePurchaseReturnMessage(), OK).respond();
 	}
 	
 	/**

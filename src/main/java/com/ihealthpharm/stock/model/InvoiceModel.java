@@ -14,8 +14,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
@@ -163,6 +166,9 @@ public class InvoiceModel extends AuditModel {
 	
 	@Column(name="TOTAL_REJECTS")
 	private Integer totalRejects;
+	
+	@Transient
+	private PurchaseReturnModel purchaseReturnModel;
 	
 
 }
