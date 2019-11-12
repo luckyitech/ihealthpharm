@@ -43,7 +43,7 @@ public interface StockAdjustmentRepository extends JpaRepository<StockAdjustment
 	
 	
 	@Query("select sum(b.quantity) from stock b inner join items i on b.item=i.itemId inner join items_forms f on i.itemForm=f.itemformId inner join supplier s on b.supplier=s.supplierId " + 
-			" where  b.batchNo=:batchNo and b.expiryDt=:dates and b.pharmacy.pharmacyId=:pharmacyId")	
+			" where  b.batchNo=:batchNo and b.expiryDt=:dates and b.pharmacy.pharmacyId=:pharmacyId ")	
 	Integer getAllStockQuantity(@Param("batchNo")String batchNo,@Param("dates")Date  dates,@Param("pharmacyId")int pharmacyId);
 
 	
