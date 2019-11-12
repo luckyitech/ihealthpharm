@@ -19,4 +19,11 @@ public interface QuotationItemsRepository extends JpaRepository<QuotationItemsMo
 	@Query("select i from quotation_items q join q.item i where q.quotationItemId = :quotationItemId "
 			+ "and ( q.quotationItemStatus.status = 'PENDING' or q.quotationItemStatus.status = 'APPROVED' ) ")
 	ItemsModel getQuotationItem(@Param("quotationItemId") Integer quotationItemId);
+	
+	@Query("select q from quotation_items q where q.quotationItemStatus.status = :status ")
+	List<QuotationItemsModel> getQuotaionItemsByStatus(@Param("status") String status);
+	
+	@Query("select q from quotation_items q where q.quotationItemStatus.status = :status and "
+			+ " q.supplier.name like %:name% ")
+	List<QuotationItemsModel> getQuotaionItemsByStatus(@Param("status") String status, @Param("name") String name);
 }

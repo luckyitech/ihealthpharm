@@ -6,18 +6,25 @@ import javax.validation.Valid;
 
 import com.ihealthpharm.stock.dto.StockAdjustmentDTO;
 import com.ihealthpharm.stock.model.StockAdjustmentModel;
+import com.ihealthpharm.stock.model.StockModel;
 
 public interface StockAdjustmentService {
 
 	StockAdjustmentModel saveStockAdjustment(@Valid StockAdjustmentModel stockAdjustmentModel);
 	
-	List<StockAdjustmentDTO> findBasedOnItemCode(String searchTerm);
+	List<StockAdjustmentModel> saveStockAdjustementsData(List<StockAdjustmentModel> stockAdjustmentModels);
 	
-     List<StockAdjustmentDTO> findBasedOnItemNameSearch(String searchTerm);
+	List<StockAdjustmentDTO> findBasedOnItemCode(String searchTerm,String batch,String expiry,int pharmacyId);
 	
-	List<StockAdjustmentDTO> findBasedOnItemDesc(String searchTerm);
+     List<StockAdjustmentDTO> findBasedOnItemNameSearch(String searchTerm,String batch,String expiry,int pharmacyId);
 	
-	List<StockAdjustmentDTO> findBasedOnItemGenericName(String searchTerm);
+	List<StockAdjustmentDTO> findBasedOnItemDesc(String searchTerm,String batch,String expiry,int pharmacyId);
 	
+	List<StockAdjustmentDTO> findBasedOnItemGenericName(String searchTerm,String batch,String expiry,int pharmacyId);
+	
+    Integer	getStockQuantity(String batch,String expiry,int pharmacyId);	
+    
+  //stockAdjustment
+  	 List<StockModel> getAllStockMatched(String batch,String expiry,int pharmacyId);
 	
 }

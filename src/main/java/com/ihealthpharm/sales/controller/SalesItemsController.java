@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.sales.helper.SalesItemsHelper;
 import com.ihealthpharm.sales.model.SalesItemsModel;
+import com.ihealthpharm.sales.model.SalesModel;
 import com.ihealthpharm.sales.service.SalesItemsService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -36,9 +37,9 @@ public class SalesItemsController {
 	SalesItemsHelper salesItemsHelper;
 	
 	@PostMapping("/save/salesItems")
-	public ResponseEntity<BaseDto<SalesItemsModel>> insertSalesItemsData(@Valid @RequestBody SalesItemsModel salesItemsModel) {
+	public ResponseEntity<BaseDto<List<SalesItemsModel>>> insertSalesItemsData(@Valid @RequestBody List<SalesItemsModel> salesItemsModel) {
 		log.info("Request Object insert is: "+ salesItemsModel.toString());
-		SalesItemsModel salesItemsModelRes = salesItemsService.saveSalesItemsData(salesItemsModel);
+		List<SalesItemsModel> salesItemsModelRes = salesItemsService.saveSalesItemsData(salesItemsModel);
 		return new BaseDto<>(salesItemsModelRes,salesItemsHelper.getSaveSalesItemsMessage(),OK).respond();
 	}
 
@@ -66,6 +67,12 @@ public class SalesItemsController {
 	@GetMapping("/get/allsalesItems")
 	public ResponseEntity<BaseDto<List<SalesItemsModel>>> getAllSalesItemsData() {
 		List<SalesItemsModel> salesItemsModelRes = salesItemsService.findAllSalesItemsData();
+		return new BaseDto<>(salesItemsModelRes,salesItemsHelper.getUpdateSalesItemsMessage(),OK).respond();
+	}
+	
+	@PostMapping("/get/salesitemsbystockid")
+	public ResponseEntity<BaseDto<List<SalesItemsModel>>> getSalesItemsByStockId(@RequestBody SalesModel sales) {
+		List<SalesItemsModel> salesItemsModelRes = salesItemsService.getByBillId(sales);
 		return new BaseDto<>(salesItemsModelRes,salesItemsHelper.getUpdateSalesItemsMessage(),OK).respond();
 	}
 }

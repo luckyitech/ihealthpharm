@@ -18,7 +18,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
@@ -31,6 +35,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity(name = "quotation")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "quotationId")
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class QuotationModel extends AuditModel {
 

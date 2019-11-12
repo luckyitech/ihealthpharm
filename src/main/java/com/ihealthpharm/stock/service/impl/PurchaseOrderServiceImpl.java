@@ -279,4 +279,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		return purchaseorderRepository.getPurchaseOrderByPharmacyAndStatus(pharmacyId, status, purchaseOrderNo);
 	}
 
+	@Override
+	public List<PurchaseOrderModel> getSentPurchaseOrderByPharmacy(Integer pharmacyId) {
+		return purchaseorderRepository.getSentPurchaseOrderByPharmacy(pharmacyId);
+	}
+
+	@Override
+	public List<PurchaseOrderModel> getSentPurchaseOrderByPharmacy(Integer pharmacyId, String purchaseOrderNo) {
+		return purchaseorderRepository.getSentPurchaseOrderByPharmacy(pharmacyId, purchaseOrderNo);
+	}
+
 }

@@ -63,6 +63,28 @@ public class QuotationItemsController {
 	
 	/**
 	 * @author Gunasekhar 
+	 * Service is to update the QuotationItems by status
+	 */
+	@PutMapping("/update/approvedquotationitem")
+	public ResponseEntity<BaseDto<QuotationItemsModel>> updateApprovedQuotationItems(@Valid @RequestBody QuotationItemsModel quotationItemsModel) {
+		log.info("Request Object for update is: ",quotationItemsModel.toString());
+		QuotationItemsModel model = quotationItemsService.updateQuotationItems(quotationItemsModel, "APPROVED");
+		return new BaseDto<>(model, quotationItemsHelper.getUpdateQuotationItemMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is to update the QuotationItems by status
+	 */
+	@PutMapping("/update/rejectedquotationitem")
+	public ResponseEntity<BaseDto<QuotationItemsModel>> updateRejectedQuotationItems(@Valid @RequestBody QuotationItemsModel quotationItemsModel) {
+		log.info("Request Object for update is: ",quotationItemsModel.toString());
+		QuotationItemsModel model = quotationItemsService.updateQuotationItems(quotationItemsModel, "REJECTED");
+		return new BaseDto<>(model, quotationItemsHelper.getUpdateQuotationItemMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
 	 * Service is to update the QuotationItemss
 	 */
 	@PutMapping("/update/multiplequotationitems")
@@ -112,6 +134,66 @@ public class QuotationItemsController {
 	@GetMapping("/getquotationitemsbyid")
 	public ResponseEntity<BaseDto<QuotationItemsModel>> getQuotationItemsById(@RequestParam Integer quotationItemsId) {
 		QuotationItemsModel result = quotationItemsService.findQuotationItemsById(quotationItemsId);
+		return new BaseDto<>(result, quotationItemsHelper.getRetrieveQuotationItemMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is to get the pending QuotationItems
+	 */
+	@GetMapping("/getpendingquotationitems")
+	public ResponseEntity<BaseDto<List<QuotationItemsModel>>> getPendingQuotationItems() {
+		List<QuotationItemsModel> result = quotationItemsService.getQuotaionItemsByStatus("PENDING");
+		return new BaseDto<>(result, quotationItemsHelper.getRetrieveQuotationItemMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is to get the approved QuotationItems
+	 */
+	@GetMapping("/getapprovedquotationitems")
+	public ResponseEntity<BaseDto<List<QuotationItemsModel>>> getApprovedQuotationItems() {
+		List<QuotationItemsModel> result = quotationItemsService.getQuotaionItemsByStatus("APPROVED");
+		return new BaseDto<>(result, quotationItemsHelper.getRetrieveQuotationItemMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is to get the rejected QuotationItems
+	 */
+	@GetMapping("/getrejectedquotationitems")
+	public ResponseEntity<BaseDto<List<QuotationItemsModel>>> getRejectedQuotationItems() {
+		List<QuotationItemsModel> result = quotationItemsService.getQuotaionItemsByStatus("REJECTED");
+		return new BaseDto<>(result, quotationItemsHelper.getRetrieveQuotationItemMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is to search the pending QuotationItems
+	 */
+	@GetMapping("/searchpendingquotationitems")
+	public ResponseEntity<BaseDto<List<QuotationItemsModel>>> searchPendingQuotationItems(@RequestParam String name) {
+		List<QuotationItemsModel> result = quotationItemsService.getQuotaionItemsByStatus("PENDING", name);
+		return new BaseDto<>(result, quotationItemsHelper.getRetrieveQuotationItemMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is to search the approved QuotationItems
+	 */
+	@GetMapping("/searchapprovedquotationitems")
+	public ResponseEntity<BaseDto<List<QuotationItemsModel>>> searchApprovedQuotationItems(@RequestParam String name) {
+		List<QuotationItemsModel> result = quotationItemsService.getQuotaionItemsByStatus("APPROVED", name);
+		return new BaseDto<>(result, quotationItemsHelper.getRetrieveQuotationItemMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is to search the rejected QuotationItems
+	 */
+	@GetMapping("/searchrejectedquotationitems")
+	public ResponseEntity<BaseDto<List<QuotationItemsModel>>> searchRejectedQuotationItems(@RequestParam String name) {
+		List<QuotationItemsModel> result = quotationItemsService.getQuotaionItemsByStatus("REJECTED", name);
 		return new BaseDto<>(result, quotationItemsHelper.getRetrieveQuotationItemMessage(), OK).respond();
 	}
 	

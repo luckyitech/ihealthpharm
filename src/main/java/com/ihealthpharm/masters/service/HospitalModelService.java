@@ -14,7 +14,7 @@ public interface HospitalModelService {
 
 	List<HospitalModel> findAllByActive();
 
-	HospitalModel updateHospitalData(@Valid HospitalModel hospitalModel);
+	HospitalModel updateHospitalData(@Valid HospitalModel hospitalModel); 
 
 	void updateMultipleHospitals(@Valid List<HospitalModel> hospitalModels);
 	

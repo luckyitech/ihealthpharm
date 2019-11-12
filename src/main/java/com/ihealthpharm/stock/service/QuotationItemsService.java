@@ -10,6 +10,8 @@ public interface QuotationItemsService {
 	QuotationItemsModel saveQuotationItems(QuotationItemsModel quotationItemsModel);
 
 	QuotationItemsModel updateQuotationItems(QuotationItemsModel quotationItemsModel);
+	
+	QuotationItemsModel updateQuotationItems(QuotationItemsModel quotationItemsModel, String status);
 
 	List<QuotationItemsModel> updateQuotationItems(List<QuotationItemsModel> quotationItemsModels);
 
@@ -24,4 +26,8 @@ public interface QuotationItemsService {
 	void deleteQuotationItemsByTds(Integer[] quotationItemsIds);
 
 	ItemsModel getQuotationItem(Integer quotationItemId);
+	
+	List<QuotationItemsModel> getQuotaionItemsByStatus(String status);
+	
+	List<QuotationItemsModel> getQuotaionItemsByStatus(String status, String name);
 }

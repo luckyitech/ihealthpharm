@@ -36,29 +36,29 @@ public class AccountReceivablesBillsModel extends AuditModel{
 	 
 	
     @Column(name="ADVANCE",length=25)
-    private float advance;
+    private Float advance;
 
     @Column(name="AMOUNT_TO_BE_RECEIVED",length=25)
-    private float amountToBeReceived;
+    private Float amountToBeReceived;
 
     @Column(name="AUDIT_ID",length=11)
     private int auditId;
 
     @Column(name="BILL_AMOUNT",length=25)
-    private float billAmount;
+    private Float billAmount;
 
     @Column(name="BILL_DATE",length=25)
     private LocalDate billDate;
 
     @Column(name="BILL_NUMBER",length=25)
-    private float billNumber;
+    private Float billNumber;
 
 
     @Column(name="CREDIT_NOTE_AMOUNT",length=25)
-    private float creditNoteAmount;
+    private Float creditNoteAmount;
 
     @Column(name="DEBIT_NOTE_AMOUNT",length=25)
-    private float debitNoteAmount;
+    private Float debitNoteAmount;
 
    
     @Column(name="REMARKS",length=50)

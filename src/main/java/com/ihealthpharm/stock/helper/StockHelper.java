@@ -34,7 +34,8 @@ public class StockHelper {
 	@Value("${stockadjustment.retrieve.response}")
 	public String retrieveStockAdjustmentMessage;
 	 
-	
+	@Value("${stockadjustment.not.found.response}")
+	public String notFoundStockAdjustMessage;
 	
 	
 }

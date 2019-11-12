@@ -3,6 +3,7 @@ package com.ihealthpharm.sales.service;
 import java.util.List;
 
 import com.ihealthpharm.sales.model.SalesItemsModel;
+import com.ihealthpharm.sales.model.SalesModel;
 
 public interface SalesItemsService
 {
@@ -13,7 +14,9 @@ public interface SalesItemsService
     
     List<SalesItemsModel> findAllSalesItemsData();
 
-    SalesItemsModel saveSalesItemsData(SalesItemsModel salesItemsModel);
+    List<SalesItemsModel> saveSalesItemsData(List<SalesItemsModel> salesItemsModel);
 
     SalesItemsModel updateSalesItemsData(SalesItemsModel salesItemsModel);
+    
+    List<SalesItemsModel> getByBillId(SalesModel sales);
 }

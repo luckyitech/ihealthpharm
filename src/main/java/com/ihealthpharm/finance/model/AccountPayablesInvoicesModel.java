@@ -12,6 +12,7 @@ import javax.persistence.OneToOne;
 
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
+import com.ihealthpharm.masters.model.SupplierModel;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -34,29 +35,29 @@ public class AccountPayablesInvoicesModel extends AuditModel{
 	    private int accountPayablesInvoicesId;
 	 
     @Column(name="ADVANCE",length=25)
-    private float advance;
+    private Float advance;
 
     @Column(name="AMOUNT_TO_BE_PAID",length=25)
-    private float amountToBePaid;
+    private Float amountToBePaid;
 
     @Column(name="AUDIT_ID",length=11)
     private int auditId;
 
   
     @Column(name="CREDIT_NOTE_AMOUNT",length=25)
-    private float creditNoteAmount;
+    private Float creditNoteAmount;
 
     @Column(name="DEBIT_NOTE_AMOUNT",length=25)
-    private float debitNoteAmount;
+    private Float debitNoteAmount;
 
     @Column(name="INVOICE_AMOUNT",length=25)
-    private float invoiceAmount;
+    private Float invoiceAmount;
 
     @Column(name="INVOICE_DATE",length=25)
     private LocalDate invoiceDate;
 
     @Column(name="INVOICE_NUMBER",length=25)
-    private float invoiceNumber;
+    private Float invoiceNumber;
 
 
     @Column(name="REMARKS",length=50)
@@ -69,5 +70,9 @@ public class AccountPayablesInvoicesModel extends AuditModel{
     @OneToOne
     @JoinColumn(name="PHARMACY_ID")
     private PharmacyModel pharmacyModel;
+    
+    @OneToOne
+    @JoinColumn(name="SUPPLIER_ID")
+    SupplierModel supplierModel;
 
 }

@@ -2,10 +2,12 @@ package com.ihealthpharm.stock.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -33,8 +35,9 @@ public class PurchaseReturnItemModel extends AuditModel {
 	@Column(name = "PURCHASE_RETURN_ITEM_ID", length = 11)
 	private Integer purchaseReturnItemId;
 	
-	@Column(name="PURCHASE_RETURN_ID",length=11)
-    private Integer purchaseReturnId;
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="PURCHASE_RETURN_ID")
+    private PurchaseReturnModel purchaseReturnModel;
 	
 	@Column(name="PURCHASE_RETURN_TYPE",length=30)
     private String purchaseReturnType;
