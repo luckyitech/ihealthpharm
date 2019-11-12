@@ -18,4 +18,10 @@ public interface HospitalModelRepository extends JpaRepository<HospitalModel, Se
 	List<HospitalModel> findAllByOrderByCreationTimeStampDesc();
 
 	
+
+	List<HospitalModel> findFirst100ByOrderByLastUpdatedTimeStampDesc();
+
+	List<HospitalModel> findByHospitalNameIgnoreCaseContaining(String hospitalName);
+
+	
 }

@@ -12,7 +12,9 @@ public interface SalesService
     SalesModel findSalesData(Integer billId);
     
     List<SalesModel> findAllSalesData();
-
+    
+    List<SalesModel> findLimitedSalesData();
+    
     SalesModel saveSalesData(SalesModel salesModel);
 
     SalesModel updateSalesData(SalesModel salesModel);

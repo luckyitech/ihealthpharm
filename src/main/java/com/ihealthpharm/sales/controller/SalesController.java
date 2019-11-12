@@ -82,4 +82,10 @@ public class SalesController {
 		
 		return new BaseDto<>(salesModelRes,salesHelper.getUpdateSalesMessage(),OK).respond();
 	}
+	
+	@GetMapping("/get/limitedsales")
+	public ResponseEntity<BaseDto<List<SalesModel>>> getFirt100SalesDataByBillDate() {
+		List<SalesModel> salesModelRes = salesService.findLimitedSalesData();
+		return new BaseDto<>(salesModelRes,salesHelper.getUpdateSalesMessage(),OK).respond();
+	}
 }

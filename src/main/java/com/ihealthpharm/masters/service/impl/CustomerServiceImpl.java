@@ -123,4 +123,15 @@ public class CustomerServiceImpl implements CustomerService {
 		}
 	}
 
+	@Override
+	public List<CustomerModel> findLimitedCustomers() {
+		
+		return customerRepository.findFirst100ByOrderByCustomerNameAsc();
+	}
+
+	@Override
+	public List<CustomerModel> findCustomersByName(String customerName) {
+		return customerRepository.findByCustomerNameIgnoreCaseContaining(customerName);
+	}
+
 }

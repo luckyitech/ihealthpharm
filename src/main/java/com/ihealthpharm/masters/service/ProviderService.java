@@ -21,5 +21,9 @@ public interface ProviderService {
 	 void deleteProvidersById( int[] providerIds);
 	
 	 List<ProviderModel> findAllProviders();
+	 
+	 List<ProviderModel> findLimitProviders();
+
+	List<ProviderModel> findProvidersDataByName(String providerName);
 	
 }
