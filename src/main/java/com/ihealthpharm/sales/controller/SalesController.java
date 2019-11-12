@@ -68,4 +68,18 @@ public class SalesController {
 		List<SalesModel> salesModelRes = salesService.findAllSalesData();
 		return new BaseDto<>(salesModelRes,salesHelper.getUpdateSalesMessage(),OK).respond();
 	}
+	
+	@PostMapping("/get/bysalessearchkeys")
+	public ResponseEntity<BaseDto<List<SalesModel>>> getByStatus(@RequestParam("status") String status,
+			@RequestParam("code")  String code,@RequestParam("codeValue") String codeValue,@RequestParam("startDate") String startDate,@RequestParam("endDate") String endDate) {
+		log.info("Status=: "+status);
+		log.info("Code=: "+code);
+		log.info("code Value=: "+codeValue);
+		log.info("start=:"+startDate);
+		log.info("end=:"+endDate);
+		
+		List<SalesModel> salesModelRes = salesService.findByCriteria(status,code,codeValue,startDate,endDate);
+		
+		return new BaseDto<>(salesModelRes,salesHelper.getUpdateSalesMessage(),OK).respond();
+	}
 }
