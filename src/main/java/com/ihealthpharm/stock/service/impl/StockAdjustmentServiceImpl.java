@@ -18,6 +18,7 @@ import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.ItemGenericNameRepository;
 import com.ihealthpharm.masters.model.ItemGenericNamesModel;
 import com.ihealthpharm.stock.dao.StockAdjustmentRepository;
+import com.ihealthpharm.stock.dao.StockRepository;
 import com.ihealthpharm.stock.dto.StockAdjustmentDTO;
 import com.ihealthpharm.stock.helper.StockHelper;
 import com.ihealthpharm.stock.model.StockAdjustmentModel;
@@ -26,6 +27,13 @@ import com.ihealthpharm.stock.service.StockAdjustmentService;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * @author Tarun
+ * All the StockAdjustment related API's available here..
+ *
+ */
+
+
 @Service
 @Slf4j
 @Transactional
@@ -33,24 +41,27 @@ public class StockAdjustmentServiceImpl implements StockAdjustmentService {
 
 	@Autowired
 	private StockAdjustmentRepository stockAdjustmentRepo;
-	
+
 	@Autowired
 	public ItemGenericNameRepository genericRepo;
-	
+
 	@Autowired
 	public StockHelper helper;
-	
+
+	@Autowired
+	public StockRepository stockRepo;
+
 	@Override
 	public StockAdjustmentModel saveStockAdjustment(@Valid StockAdjustmentModel stockAdjustmentModel) {
-			StockAdjustmentModel stockAdjusRes = stockAdjustmentRepo.save(stockAdjustmentModel);
-			log.info("Stock Ajustment data with ID: " + stockAdjusRes.getStockAdjustmentId() + " saved succesfully");
-			return stockAdjusRes;
+		StockAdjustmentModel stockAdjusRes = stockAdjustmentRepo.save(stockAdjustmentModel);
+		log.info("Stock Ajustment data with ID: " + stockAdjusRes.getStockAdjustmentId() + " saved succesfully");
+		return stockAdjusRes;
 	}
 
 	@Override
 	public List<StockAdjustmentDTO> findBasedOnItemCode(String searchTerm,String batch,String  expiry,int pharmacyId) {
-		
-	String expiryDate=expiry;
+
+		String expiryDate=expiry;
 		SimpleDateFormat fm=new SimpleDateFormat("yyyy-MM-dd");
 		Date dates = null;
 		try {
@@ -58,11 +69,9 @@ public class StockAdjustmentServiceImpl implements StockAdjustmentService {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
-		
+
+
 		List<StockAdjustmentDTO> result= stockAdjustmentRepo.getStockItemsOnItemCodes(searchTerm,batch,dates,pharmacyId);
-	    System.out.println("-------------------------------------------");
-		System.out.println(result);
 		return result;
 	}
 
@@ -76,8 +85,11 @@ public class StockAdjustmentServiceImpl implements StockAdjustmentService {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+
+		List<StockAdjustmentDTO> result =stockAdjustmentRepo.getStockItemsOnItemNames(searchTerm,batch,dates,pharmacyId);
+		System.out.println(result);
 		
-		return stockAdjustmentRepo.getStockItemsOnItemNames(searchTerm,batch,dates,pharmacyId);
+		return result;
 	}
 
 	@Override
@@ -92,10 +104,10 @@ public class StockAdjustmentServiceImpl implements StockAdjustmentService {
 		}
 		return stockAdjustmentRepo.getStockItemsOnItemDesc(searchTerm,batch,dates,pharmacyId);
 	}
-	
+
 	@Override
 	public List<StockAdjustmentDTO> findBasedOnItemGenericName(String searchTerm,String batch,String  expiry,int pharmacyId) {
-		
+
 		ItemGenericNamesModel genericRes= genericRepo.findByGenericName(searchTerm);
 		String expiryDate=expiry;
 		SimpleDateFormat fm=new SimpleDateFormat("yyyy-MM-dd");
@@ -107,7 +119,7 @@ public class StockAdjustmentServiceImpl implements StockAdjustmentService {
 		}
 		List<StockAdjustmentDTO> resp=stockAdjustmentRepo.findByItemGenericNames(genericRes.getGenericName(),batch,dates,pharmacyId);
 		return resp;
-		
+
 	}
 
 	@Override
@@ -120,22 +132,8 @@ public class StockAdjustmentServiceImpl implements StockAdjustmentService {
 			log.info("Manufacturer data with Multiple IDs : " + stocks.getStockAdjustmentId() + " updated succesfully");
 		}
 		return stockAdjustmentModels;
-		
+
 	}
-
-
-/*	private StockAdjustmentModel getValidStocksAdjustId(int stockAdjustementId)
-	{
-		StockAdjustmentModel stockAdjRes = null;
-		try {
-			stockAdjRes =  stockAdjustmentRepo.findById(stockAdjustementId).get();
-			return stockAdjRes;
-
-		}catch(NoSuchElementException noSuchElementException) {
-			throw new IHealthPharmException(helper.getNotFoundStockAdjustMessage(),HttpStatus.NOT_FOUND);
-		}
-
-	}*/
 
 	@Override
 	public Integer getStockQuantity(String batch,String  expiry,int pharmacyId) {
@@ -147,47 +145,41 @@ public class StockAdjustmentServiceImpl implements StockAdjustmentService {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-	 int response=stockAdjustmentRepo.getAllStockQuantity(batch,dates,pharmacyId);
-		System.out.println(response);
+		int response=stockAdjustmentRepo.getAllStockQuantity(batch,dates,pharmacyId);
 		return  response;
 	}
 
-	//stockadjustement
-	
-		@Override
-		public List<StockModel> getAllStockMatched(String batch, String expiry, int pharmacyId) {
 
+	@Override
+	public List<StockModel> getAllStockMatched(String batch, String expiry, int pharmacyId) {
 
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-			
-			Date d=null;
-			try {
-				d = sdf.parse(expiry);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			System.out.println(d);
-			
-			SimpleDateFormat output = new SimpleDateFormat("yyyy-MM-dd");
-			String st=  output.format(d);
-			System.out.println("------");
-			System.out.println(st);
-			System.out.println("------");
-			DateFormat formatters = new SimpleDateFormat("yyyy-MM-dd"); 
-			Date date=null;
-			try {
-				System.out.println("inside");
-				 date = (Date)formatters.parse(st);
-				 DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); 
-				 System.out.println(formatter.format(date));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			
-			List<StockModel> response=stockAdjustmentRepo.getAllStocksMatchWithStockAdjId(batch,date,pharmacyId);
-			System.out.println(response);
-			return response;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		Date d=null;
+		try {
+			d = sdf.parse(expiry);
+		} catch (ParseException e) {
+			e.printStackTrace();
 		}
 
-	
+		SimpleDateFormat output = new SimpleDateFormat("yyyy-MM-dd");
+		String st=  output.format(d);
+		DateFormat formatters = new SimpleDateFormat("yyyy-MM-dd"); 
+		Date date=null;
+		try {
+			date = (Date)formatters.parse(st);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		List<StockModel> response=stockAdjustmentRepo.getAllStocksMatchWithStockAdjId(batch,date,pharmacyId);
+		return response;
+	}
+
+	@Override
+	public void  updateStocksData(@Valid List<StockModel> stockModels) {
+		stockRepo.saveAll(stockModels);
+
+	}
+
+
 }
