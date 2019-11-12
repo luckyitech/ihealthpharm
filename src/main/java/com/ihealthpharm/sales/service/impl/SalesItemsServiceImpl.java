@@ -13,6 +13,7 @@ import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.sales.dao.SalesItemsRepository;
 import com.ihealthpharm.sales.helper.SalesItemsHelper;
 import com.ihealthpharm.sales.model.SalesItemsModel;
+import com.ihealthpharm.sales.model.SalesModel;
 import com.ihealthpharm.sales.service.SalesItemsService;
 
 @Service
@@ -45,7 +46,7 @@ public class SalesItemsServiceImpl implements SalesItemsService {
 		System.out.println(salesItemsModels.toString());
 		List<SalesItemsModel> salesItemsRes = new ArrayList<>();
 		for(SalesItemsModel saleItemModel:salesItemsModels)
-		{	saleItemModel.setSalesItemsId(null);
+		{	//saleItemModel.setSalesItemsId(null);
 			salesItemsRes.add(salesItemsRepository.save(saleItemModel));
 		}
 		return salesItemsRes;
@@ -76,5 +77,11 @@ public class SalesItemsServiceImpl implements SalesItemsService {
 	public List<SalesItemsModel> findAllSalesItemsData() {
 		
 		return salesItemsRepository.findAll();
+	}
+
+	@Override
+	public List<SalesItemsModel> getByBillId(SalesModel sales){
+		
+		return salesItemsRepository.findByBillId(sales);
 	}
 }
