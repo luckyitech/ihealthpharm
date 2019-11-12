@@ -2,11 +2,18 @@ package com.ihealthpharm.stock.controller;
 
 import static org.springframework.http.HttpStatus.OK;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,6 +30,7 @@ import com.ihealthpharm.masters.dto.ItemSupplierDTO;
 import com.ihealthpharm.masters.helper.ItemPropertyHelper;
 import com.ihealthpharm.masters.helper.SupplierHelper;
 import com.ihealthpharm.masters.model.SupplierModel;
+import com.ihealthpharm.stock.helper.MediaTypeUtils;
 import com.ihealthpharm.stock.helper.QuotationHelper;
 import com.ihealthpharm.stock.model.QuotationModel;
 import com.ihealthpharm.stock.service.QuotationService;
@@ -53,6 +61,9 @@ public class QuotationController {
 	
 	@Autowired
 	private SendQuotationMailService sendQuotationMailService;
+	
+	@Autowired
+    private ServletContext servletContext;
 	
 	/**
 	 * @author Gunasekhar 
@@ -279,6 +290,16 @@ public class QuotationController {
 	
 	/**
 	 * @author Gunasekhar 
+	 * Service is for Request Pending Quotation based on the pharmacyId
+	 */
+	@GetMapping("/getsentquotationbypharmacy")
+	public ResponseEntity<BaseDto<List<QuotationModel>>> getSentQuotationByPharmacy(@RequestParam Integer pharmacyId) {
+		List<QuotationModel> quotationModels = quotationService.getSentQuotationByPharmacy(pharmacyId);
+		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
 	 * Service is for Search Request New Quotation based on the pharmacyId and Quotation No or Description
 	 */
 	@GetMapping("/searchrequestnewquotationbypharmacy")
@@ -356,6 +377,17 @@ public class QuotationController {
 	
 	/**
 	 * @author Gunasekhar 
+	 * Service is for Request Pending Quotation based on the pharmacyId
+	 */
+	@GetMapping("/searchsentquotationbypharmacy")
+	public ResponseEntity<BaseDto<List<QuotationModel>>> getSentQuotationByPharmacy(@RequestParam Integer pharmacyId, 
+			@RequestParam(required=false) String quotationNo, @RequestParam(required=false) String description) {
+		List<QuotationModel> quotationModels = quotationService.getSentQuotationByPharmacy(pharmacyId, quotationNo, description);
+		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
 	 * Service is for automatic generation of Quotation Number 
 	 */
 	@GetMapping("/generatequotationno")
@@ -396,6 +428,16 @@ public class QuotationController {
 	@GetMapping("/getsupplieritemsbyquotation")
 	public ResponseEntity<BaseDto<List<SupplierModel>>> getSupplierItemsByQuotationId(@RequestParam Integer quotationId) {
 		List<SupplierModel> result = quotationService.getSupplierItemsByQuotationId(quotationId);
+		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is to get the list of suppliers and items.
+	 */
+	@GetMapping("/getsupplieritemsbyquotationandsupplier")
+	public ResponseEntity<BaseDto<List<SupplierModel>>> getSupplierItemsByQuotationId(@RequestParam Integer quotationId, @RequestParam List<Integer> suppliersId) {
+		List<SupplierModel> result = quotationService.getSupplierItemsByQuotationIdAndSupplierId(quotationId, suppliersId);
 		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
 	}
 	
@@ -460,6 +502,28 @@ public class QuotationController {
 		sendQuotationMailService.attachFileToMail();
 		return new BaseDto<>("", propertyHelper.getRetrieveMessage(), OK).respond();
 	}
+	
+	 // http://localhost:8080/download1?fileName=abc.zip
+    // Using ResponseEntity<InputStreamResource>
+	@GetMapping("/download1")
+    public ResponseEntity<InputStreamResource> downloadFile1() throws IOException {
+ 
+        MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(this.servletContext, "guna");
+        System.out.println("fileName: " + "guna");
+        System.out.println("mediaType: " + mediaType);
+ 
+        File file = new File("d://guna.pdf");
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+ 
+        return ResponseEntity.ok()
+                // Content-Disposition
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getName())
+                // Content-Type
+                .contentType(mediaType)
+                // Contet-Length
+                .contentLength(file.length()) //
+                .body(resource);
+    }
 	
 	
 }

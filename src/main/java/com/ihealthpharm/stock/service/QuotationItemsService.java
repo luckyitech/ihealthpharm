@@ -28,4 +28,6 @@ public interface QuotationItemsService {
 	ItemsModel getQuotationItem(Integer quotationItemId);
 	
 	List<QuotationItemsModel> getQuotaionItemsByStatus(String status);
+	
+	List<QuotationItemsModel> getQuotaionItemsByStatus(String status, String name);
 }

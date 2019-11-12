@@ -161,4 +161,15 @@ public class QuotationItemsServiceImpl implements QuotationItemsService {
 		return quotationItemsModels;
 	}
 
+	@Override
+	public List<QuotationItemsModel> getQuotaionItemsByStatus(String status, String name) {
+		List<QuotationItemsModel> quotationItemsModels = quotationItemsRepository.getQuotaionItemsByStatus(status, name);
+		for(QuotationItemsModel q : quotationItemsModels) {
+			q.getSupplier();
+			q.getItem();
+			q.getQuotation();
+		}
+		return quotationItemsModels;
+	}
+
 }

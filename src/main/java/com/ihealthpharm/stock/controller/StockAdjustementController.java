@@ -19,6 +19,7 @@ import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.stock.dto.StockAdjustmentDTO;
 import com.ihealthpharm.stock.helper.StockHelper;
 import com.ihealthpharm.stock.model.StockAdjustmentModel;
+import com.ihealthpharm.stock.model.StockModel;
 import com.ihealthpharm.stock.service.StockAdjustmentService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,10 +28,10 @@ import lombok.extern.slf4j.Slf4j;
 @CrossOrigin
 @Slf4j
 public class StockAdjustementController {
-	
+
 	@Autowired
 	private StockAdjustmentService stockAdjustmentService;
-	
+
 	@Autowired
 	private StockHelper stockHelper;
 	
@@ -41,30 +42,53 @@ public class StockAdjustementController {
 		return new BaseDto<>(stockAdjustModelRes,stockHelper.getUpdateStockAdjustmentMessage(),OK).respond();
 	}
 
-	@GetMapping("/get/stockitems/basedonitemcode")
-	public ResponseEntity<BaseDto<List<StockAdjustmentDTO>>> getStockItemDataBasedOnItemCode(@RequestParam String searchTerm){
-		log.info(searchTerm);
-		List<StockAdjustmentDTO> result=stockAdjustmentService.findBasedOnItemCode(searchTerm);
+	@GetMapping("/get/stockstotal/matchedstockadjustid")
+	public ResponseEntity<BaseDto<Integer>> getStockAdjustmentTotalData(@RequestParam String batch,@RequestParam String  expiry,@RequestParam("pharmacyId") int pharmacyId ){
+		Integer result = stockAdjustmentService.getStockQuantity(batch,expiry,pharmacyId);
+		return new BaseDto<>(result, stockHelper.getRetrieveStockAdjustmentMessage(), OK).respond();
+	}
+
+	@GetMapping("/get/stocks/matchedIds")
+	public ResponseEntity<BaseDto<List<StockModel>>> getAllStocksMatchedWithStockAdjustId(@RequestParam String batch,@RequestParam String  expiry,@RequestParam("pharmacyId") int pharmacyId){
+		List<StockModel> result=stockAdjustmentService.getAllStockMatched(batch,expiry,pharmacyId);
+		return new BaseDto<>(result,stockHelper.getRetrieveStockMessage(),OK).respond();
+	}
+
+	//update/stock
+
+
+	/*	//NOT NEEDED THING
+	@PostMapping("/save/stockadjustments")
+	public ResponseEntity<BaseDto<List<StockAdjustmentModel>>> saveMultipleStocksAdjustData(@Valid @RequestBody List<StockAdjustmentModel> stockAdjustmentModels) {
+		log.info("Request Object for update is: "+ stockAdjustmentModels);
+		List<StockAdjustmentModel> stockAdjustModelRes = stockAdjustmentService.saveStockAdjustementsData(stockAdjustmentModels);
+		return new BaseDto<>(stockAdjustModelRes,stockHelper.getUpdateStockAdjustmentMessage(),OK).respond();
+	}
+	 */
+
+	//based on itemcode
+	@PostMapping("/get/stockitems/basedonitemcode")
+	public ResponseEntity<BaseDto<List<StockAdjustmentDTO>>> getStockItemDataBasedOnItemCode(@RequestParam String searchTerm,@RequestParam String batch,@RequestParam String  expiry,@RequestParam("pharmacyId") int pharmacyId ){
+		List<StockAdjustmentDTO> result=stockAdjustmentService.findBasedOnItemCode(searchTerm,batch,expiry,pharmacyId);
 		return new BaseDto<>(result,stockHelper.getRetrieveStockAdjustmentMessage(),OK).respond();
-		
+
 	}
-	
+
 	@GetMapping("/get/stockitems/basedonitemname")
-	public ResponseEntity<BaseDto<List<StockAdjustmentDTO>>> getStockItemDataBasedOnItemName(@RequestParam String searchTerm){
-		List<StockAdjustmentDTO> response=stockAdjustmentService.findBasedOnItemNameSearch(searchTerm);
-		return new BaseDto<>(response,stockHelper.getRetrieveStockAdjustmentMessage(),OK).respond();
-				
-	}
-	
-		@GetMapping("/get/stockitems/basedonitemdesc")
-	public ResponseEntity<BaseDto<List<StockAdjustmentDTO>>> getStockItemDataSearchByItemDesc(@RequestParam String searchTerm){
-			List<StockAdjustmentDTO> response=stockAdjustmentService.findBasedOnItemDesc(searchTerm);
+	public ResponseEntity<BaseDto<List<StockAdjustmentDTO>>> getStockItemDataBasedOnItemName(@RequestParam String searchTerm,@RequestParam String batch,@RequestParam String  expiry,@RequestParam("pharmacyId") int pharmacyId ){
+		List<StockAdjustmentDTO> response=stockAdjustmentService.findBasedOnItemNameSearch(searchTerm,batch,expiry,pharmacyId);
 		return new BaseDto<>(response,stockHelper.getRetrieveStockAdjustmentMessage(),OK).respond();
 	}
-		
+
+	@GetMapping("/get/stockitems/basedonitemdesc")
+	public ResponseEntity<BaseDto<List<StockAdjustmentDTO>>> getStockItemDataSearchByItemDesc(@RequestParam String searchTerm,@RequestParam String batch,@RequestParam String  expiry,@RequestParam("pharmacyId") int pharmacyId ){
+		List<StockAdjustmentDTO> response=stockAdjustmentService.findBasedOnItemDesc(searchTerm,batch,expiry,pharmacyId);
+		return new BaseDto<>(response,stockHelper.getRetrieveStockAdjustmentMessage(),OK).respond();
+	}
+
 	@GetMapping("/get/stockitems/basedonitemgeneric")
-	public ResponseEntity<BaseDto<List<StockAdjustmentDTO>>> getStockItemDataBasedOnItemGenericName(@RequestParam String searchTerm){
-		List<StockAdjustmentDTO> resp=stockAdjustmentService.findBasedOnItemGenericName(searchTerm);
+	public ResponseEntity<BaseDto<List<StockAdjustmentDTO>>> getStockItemDataBasedOnItemGenericName(@RequestParam String searchTerm,@RequestParam String batch,@RequestParam String  expiry,@RequestParam("pharmacyId") int pharmacyId ){
+		List<StockAdjustmentDTO> resp=stockAdjustmentService.findBasedOnItemGenericName(searchTerm,batch,expiry,pharmacyId);
 		return new BaseDto<>(resp,stockHelper.getRetrieveStockAdjustmentMessage(),OK).respond();
 	}
 

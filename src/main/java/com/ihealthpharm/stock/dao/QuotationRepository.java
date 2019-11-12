@@ -30,6 +30,14 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 	@Query("select q from quotation q where q.pharmacyModel.pharmacyId = :pharmacyId and q.quotationStatusModel.status = :status ")
 	List<QuotationModel> getQuotationByPharmacyAndStatus(@Param("pharmacyId") Integer pharmacyId, @Param("status") String status);
 	
+	@Query("select q from quotation q where q.pharmacyModel.pharmacyId = :pharmacyId and q.sentDt is not null ")
+	List<QuotationModel> getSentQuotationByPharmacy(@Param("pharmacyId") Integer pharmacyId);
+	
+	@Query("select q from quotation q where q.pharmacyModel.pharmacyId = :pharmacyId and q.sentDt is not null and "
+			+ "(q.quotationNo like %:quotationNo% or q.description like %:description% ) ")
+	List<QuotationModel> getSentQuotationByPharmacy(@Param("pharmacyId") Integer pharmacyId, 
+			@Param("quotationNo") String quotationNo, @Param("description") String description);
+	
 	@Query("select q from quotation q where q.pharmacyModel.pharmacyId = :pharmacyId and q.quotationStatusModel.status = :status and "
 			+ "(q.quotationNo like %:quotationNo% or q.description like %:description% ) ")
 	List<QuotationModel> getQuotationByPharmacyAndStatus(@Param("pharmacyId") Integer pharmacyId, @Param("status") String status, 

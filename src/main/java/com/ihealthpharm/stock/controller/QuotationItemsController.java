@@ -169,6 +169,36 @@ public class QuotationItemsController {
 	
 	/**
 	 * @author Gunasekhar 
+	 * Service is to search the pending QuotationItems
+	 */
+	@GetMapping("/searchpendingquotationitems")
+	public ResponseEntity<BaseDto<List<QuotationItemsModel>>> searchPendingQuotationItems(@RequestParam String name) {
+		List<QuotationItemsModel> result = quotationItemsService.getQuotaionItemsByStatus("PENDING", name);
+		return new BaseDto<>(result, quotationItemsHelper.getRetrieveQuotationItemMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is to search the approved QuotationItems
+	 */
+	@GetMapping("/searchapprovedquotationitems")
+	public ResponseEntity<BaseDto<List<QuotationItemsModel>>> searchApprovedQuotationItems(@RequestParam String name) {
+		List<QuotationItemsModel> result = quotationItemsService.getQuotaionItemsByStatus("APPROVED", name);
+		return new BaseDto<>(result, quotationItemsHelper.getRetrieveQuotationItemMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
+	 * Service is to search the rejected QuotationItems
+	 */
+	@GetMapping("/searchrejectedquotationitems")
+	public ResponseEntity<BaseDto<List<QuotationItemsModel>>> searchRejectedQuotationItems(@RequestParam String name) {
+		List<QuotationItemsModel> result = quotationItemsService.getQuotaionItemsByStatus("REJECTED", name);
+		return new BaseDto<>(result, quotationItemsHelper.getRetrieveQuotationItemMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Gunasekhar 
 	 * Service is to reject the QuotationItem
 	 */
 	@GetMapping("/rejectquotationitemsbyid")

@@ -33,4 +33,7 @@ public interface StockService {
 	List<StockModel> findByItemAndPharmacy(List<ItemsModel> itemId, PharmacyModel pharmacy);
 	
 	List<StockModel> findByItemName(ItemsModel itemName);
+	
+	StockModel getStockByItemIdandInvoiceId(Integer itemId, Integer invoiceId);
+	
 }
