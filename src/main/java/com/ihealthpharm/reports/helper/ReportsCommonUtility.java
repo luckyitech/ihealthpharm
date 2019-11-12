@@ -33,7 +33,9 @@ public class ReportsCommonUtility {
 		stringBuffer.append(" WHERE 1 = 1 ");
 
 		try {
-			String inputParameters = model.getInputParameters();
+		 
+		String inputParameters = model.getInputParameters();
+		  if(ObjectUtils.isEmpty(inputParameters)) {
 			List<ReportsSearchCriteria> list = JsonUtility.jsonToList(inputParameters, ReportsSearchCriteria.class);
 
 			if (!ObjectUtils.isEmpty(list)) {
@@ -123,6 +125,7 @@ public class ReportsCommonUtility {
 						}
 					}
 				}
+			  }
 
 			}
 		} catch (Exception e) {
