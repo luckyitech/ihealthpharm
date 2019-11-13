@@ -12,12 +12,14 @@ public interface SalesService
     SalesModel findSalesData(Integer billId);
     
     List<SalesModel> findAllSalesData();
-
+    
+    List<SalesModel> findLimitedSalesData();
+    
     SalesModel saveSalesData(SalesModel salesModel);
 
     SalesModel updateSalesData(SalesModel salesModel);
     
-    public List<SalesModel> findByCriteria(String status,String code, String codeValue, String startDate, String endDate);
+     List<SalesModel> findByCriteria(String status,String code, String codeValue, String startDate, String endDate);
 
 	SalesModel getSaleByBillCode(String searchTerm);
 }

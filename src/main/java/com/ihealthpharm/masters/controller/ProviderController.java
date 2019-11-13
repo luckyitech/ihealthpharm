@@ -73,11 +73,25 @@ public class ProviderController {
 		return new BaseDto<>(result, providerHelper.getRetrieveProvideMessage(), OK).respond();
 	}
 
+	@GetMapping("/getlimitedprovidersdata")
+	public ResponseEntity<BaseDto<List<ProviderModel>>> getLimitProviderData() {
+		List<ProviderModel> result = providerService.findLimitProviders();
+		return new BaseDto<>(result, providerHelper.getRetrieveProvideMessage(), OK).respond();
+	}
+	
+	@GetMapping("/getprovidersdatabyname")
+	public ResponseEntity<BaseDto<List<ProviderModel>>> getProviderDataByName(@RequestParam("key") String firstName) {
+		List<ProviderModel> result = providerService.findProvidersDataByName(firstName);
+		return new BaseDto<>(result, providerHelper.getRetrieveProvideMessage(), OK).respond();
+	}
+	
 	@GetMapping("/getallprovidertypelookuptypedata")
 	public ResponseEntity<BaseDto<List<ProviderLookupTypeModel>>> getProviderLookupTypeDataData() {
 		List<ProviderLookupTypeModel> result = providerLookupTypeService.findAllProviderLookupTypes();
 		return new BaseDto<>(result, providerHelper.getRetrieveProviderTypeLookupMessage(), OK).respond();
 	}
+	
+	
 
 	@GetMapping("/getproviderdatabyid")
 	public ResponseEntity<BaseDto<ProviderModel>> getProviderDataById(@RequestParam int providerId) {

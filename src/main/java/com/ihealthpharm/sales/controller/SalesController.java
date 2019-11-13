@@ -83,6 +83,7 @@ public class SalesController {
 		return new BaseDto<>(salesModelRes,salesHelper.getUpdateSalesMessage(),OK).respond();
 	}
 	
+
 	
 	//to get billcode based on searchterm 
 	@GetMapping("/getbillcode/basedonsearch")
@@ -90,8 +91,10 @@ public class SalesController {
 		SalesModel salesModel=salesService.getSaleByBillCode(searchTerm);
 		return new BaseDto<>(salesModel,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
-	
-	
-	
-	
+
+	@GetMapping("/get/limitedsales")
+	public ResponseEntity<BaseDto<List<SalesModel>>> getFirt100SalesDataByBillDate() {
+		List<SalesModel> salesModelRes = salesService.findLimitedSalesData();
+		return new BaseDto<>(salesModelRes,salesHelper.getUpdateSalesMessage(),OK).respond();
+	}
 }

@@ -123,4 +123,16 @@ public class ProviderServiceImpl implements ProviderService {
 
 		return providerRepository.findAllByOrderByLastUpdateTimestampDesc();
 	}
+
+	@Override
+	public List<ProviderModel> findLimitProviders() {
+		
+		return providerRepository.findFirst100ByOrderByLastUpdateTimestampDesc();
+	}
+
+	@Override
+	public List<ProviderModel> findProvidersDataByName(String firstName) {
+		
+		return providerRepository.findByFirstNameIgnoreCaseContaining(firstName);
+	}
 }

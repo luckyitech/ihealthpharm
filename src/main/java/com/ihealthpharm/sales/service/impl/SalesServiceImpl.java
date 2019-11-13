@@ -128,11 +128,16 @@ public class SalesServiceImpl implements SalesService {
 		});
 	}
 	
-	
 	@Override
 	public SalesModel getSaleByBillCode(String searchTerm) {
 
 		return salesRepository.findByBillCode(searchTerm);
 	}
 	
+
+	@Override
+	public List<SalesModel> findLimitedSalesData() {
+		
+		return salesRepository.findFirst100ByOrderByBillCodeDesc();
+	}
 }

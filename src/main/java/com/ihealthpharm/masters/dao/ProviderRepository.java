@@ -12,4 +12,8 @@ public interface ProviderRepository extends JpaRepository<ProviderModel, Integer
 	
 	List<ProviderModel> findAllByOrderByLastUpdateTimestampDesc();
 
+	List<ProviderModel> findFirst100ByOrderByLastUpdateTimestampDesc();
+
+	List<ProviderModel> findByFirstNameIgnoreCaseContaining(String firstName);
+
 }

@@ -13,5 +13,9 @@ public interface CustomerRepository extends JpaRepository<CustomerModel,Integer>
 	List<CustomerModel> findByActiveS(Character active);
 	
 	 List<CustomerModel> findAllByOrderByLastUpdateTimestampDesc();
+
+	List<CustomerModel> findFirst100ByOrderByCustomerNameAsc();
+
+	List<CustomerModel> findByCustomerNameIgnoreCaseContaining(String customerName);
 	
 }
