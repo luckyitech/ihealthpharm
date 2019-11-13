@@ -66,7 +66,7 @@ public class SalesController {
 	@GetMapping("/get/allsales")
 	public ResponseEntity<BaseDto<List<SalesModel>>> getAllSalesData() {
 		List<SalesModel> salesModelRes = salesService.findAllSalesData();
-		return new BaseDto<>(salesModelRes,salesHelper.getUpdateSalesMessage(),OK).respond();
+		return new BaseDto<>(salesModelRes,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
 	
 	@PostMapping("/get/bysalessearchkeys")
