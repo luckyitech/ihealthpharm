@@ -44,7 +44,6 @@ public class CustomerMembershipController {
 
 	@PutMapping("/update/customermembership")
 	public ResponseEntity<BaseDto<CustomerMembershipModel>> updateCustomerMembershipData(@Valid @RequestBody CustomerMembershipModel customerMembershipModel) {
-		log.info("------------------------------------");
 		log.info("Request Object for update is: ", customerMembershipModel.toString());
 		CustomerMembershipModel customerMembershipModelRes = customerMembershipService.updateCustomerMembershipData(customerMembershipModel);
 		return new BaseDto<>(customerMembershipModelRes, customerMembershipHelper.updateCustomerMembershipMessage, OK).respond();
@@ -71,7 +70,6 @@ public class CustomerMembershipController {
 
 	@DeleteMapping("/delete/customersmembership")
 	public ResponseEntity<BaseDto<Object>> deleteCustomerMembershipData(@RequestParam int[] customerMembershipIds) {
-
 		log.info("Request Object for delete is: " + customerMembershipIds[0]);
 		customerMembershipService.deleteCustomersMembershipById(customerMembershipIds);
 		return new BaseDto<>(customerMembershipHelper.deleteCustomerMembershipMessage, OK).respond();

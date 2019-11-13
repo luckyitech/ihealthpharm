@@ -64,7 +64,7 @@ public class AccountPayablesModel extends AuditModel {
     private Float totalCreditAmount;
     
     @Column(name="TOTAL_AMOUNT_TO_BE_PAID",length=25)
-    private Float totalAmountToBePaid;
+    private Double totalAmountToBePaid;
 
     @OneToOne
     @JoinColumn(name="SUPPLIER_ID")
