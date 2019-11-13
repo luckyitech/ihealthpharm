@@ -127,4 +127,12 @@ public class SalesServiceImpl implements SalesService {
 			}
 		});
 	}
+	
+	
+	@Override
+	public SalesModel getSaleByBillCode(String searchTerm) {
+
+		return salesRepository.findByBillCode(searchTerm);
+	}
+	
 }

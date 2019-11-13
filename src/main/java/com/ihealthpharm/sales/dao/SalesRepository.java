@@ -14,4 +14,6 @@ extends JpaRepository<SalesModel,Integer>
 {
 
 	List<SalesModel> findAll(Specification<SalesModel> specification);
+	
+	SalesModel findByBillCode(String searchTerm);
 }

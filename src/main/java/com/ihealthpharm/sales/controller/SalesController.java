@@ -82,4 +82,16 @@ public class SalesController {
 		
 		return new BaseDto<>(salesModelRes,salesHelper.getUpdateSalesMessage(),OK).respond();
 	}
+	
+	
+	//to get billcode based on searchterm 
+	@GetMapping("/getbillcode/basedonsearch")
+	public ResponseEntity<BaseDto<SalesModel>> getSalesRecordBySearch(@RequestParam String searchTerm){
+		SalesModel salesModel=salesService.getSaleByBillCode(searchTerm);
+		return new BaseDto<>(salesModel,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	
+	
+	
 }
