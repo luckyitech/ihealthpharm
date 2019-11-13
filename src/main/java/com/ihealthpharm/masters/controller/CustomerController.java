@@ -87,6 +87,15 @@ public class CustomerController {
 		return new BaseDto<>(result, customerHelper.getRetrieveCustomerMessage(), OK).respond();
 	}
 
-	
+	@GetMapping("/getlimitedcustomerdata")
+	public ResponseEntity<BaseDto<List<CustomerModel>>> getLimitedCustomerData() {
+		List<CustomerModel> result = customerService.findLimitedCustomers();
+		return new BaseDto<>(result, customerHelper.getRetrieveCustomerMessage(), OK).respond();
+	}
+	@GetMapping("/getcustomerdatabyname")
+	public ResponseEntity<BaseDto<List<CustomerModel>>> getCustomerDataByName(@RequestParam("key") String customerName) {
+		List<CustomerModel> result = customerService.findCustomersByName(customerName);
+		return new BaseDto<>(result, customerHelper.getRetrieveCustomerMessage(), OK).respond();
+	}
 	
 }

@@ -68,4 +68,33 @@ public class SalesController {
 		List<SalesModel> salesModelRes = salesService.findAllSalesData();
 		return new BaseDto<>(salesModelRes,salesHelper.getUpdateSalesMessage(),OK).respond();
 	}
+	
+	@PostMapping("/get/bysalessearchkeys")
+	public ResponseEntity<BaseDto<List<SalesModel>>> getByStatus(@RequestParam("status") String status,
+			@RequestParam("code")  String code,@RequestParam("codeValue") String codeValue,@RequestParam("startDate") String startDate,@RequestParam("endDate") String endDate) {
+		log.info("Status=: "+status);
+		log.info("Code=: "+code);
+		log.info("code Value=: "+codeValue);
+		log.info("start=:"+startDate);
+		log.info("end=:"+endDate);
+		
+		List<SalesModel> salesModelRes = salesService.findByCriteria(status,code,codeValue,startDate,endDate);
+		
+		return new BaseDto<>(salesModelRes,salesHelper.getUpdateSalesMessage(),OK).respond();
+	}
+	
+
+	
+	//to get billcode based on searchterm 
+	@GetMapping("/getbillcode/basedonsearch")
+	public ResponseEntity<BaseDto<SalesModel>> getSalesRecordBySearch(@RequestParam String searchTerm){
+		SalesModel salesModel=salesService.getSaleByBillCode(searchTerm);
+		return new BaseDto<>(salesModel,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+
+	@GetMapping("/get/limitedsales")
+	public ResponseEntity<BaseDto<List<SalesModel>>> getFirt100SalesDataByBillDate() {
+		List<SalesModel> salesModelRes = salesService.findLimitedSalesData();
+		return new BaseDto<>(salesModelRes,salesHelper.getUpdateSalesMessage(),OK).respond();
+	}
 }

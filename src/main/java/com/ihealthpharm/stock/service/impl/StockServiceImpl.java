@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.model.ItemsModel;
+import com.ihealthpharm.masters.model.MembershipModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.stock.dao.StockRepository;
 import com.ihealthpharm.stock.helper.StockHelper;
@@ -164,6 +166,8 @@ public class StockServiceImpl implements StockService {
 	public StockModel getStockByItemIdandInvoiceId(Integer itemId, Integer invoiceId) {
 		return stockRepository.getStockByItemIdandInvoiceId(itemId, invoiceId);
 	}
+
+	
 
 	
 	

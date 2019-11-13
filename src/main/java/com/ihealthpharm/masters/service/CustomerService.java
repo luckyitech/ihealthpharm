@@ -16,6 +16,8 @@ public interface CustomerService
 	 List<CustomerModel> updateCustomersData(List<CustomerModel> customers);
 	
 	 List<CustomerModel> findAllCustomers();
+	 
+	 List<CustomerModel> findLimitedCustomers();
 	
 	 CustomerModel findCustomerById(int customerId);
 	
@@ -25,5 +27,7 @@ public interface CustomerService
 	 
 
 	List<CustomerModel> findCustomerByActive();
+
+	List<CustomerModel> findCustomersByName(String customerName);
 
 }

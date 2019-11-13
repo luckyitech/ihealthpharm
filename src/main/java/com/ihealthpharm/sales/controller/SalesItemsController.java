@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.sales.helper.SalesItemsHelper;
 import com.ihealthpharm.sales.model.SalesItemsModel;
+import com.ihealthpharm.sales.model.SalesModel;
 import com.ihealthpharm.sales.service.SalesItemsService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -66,6 +67,12 @@ public class SalesItemsController {
 	@GetMapping("/get/allsalesItems")
 	public ResponseEntity<BaseDto<List<SalesItemsModel>>> getAllSalesItemsData() {
 		List<SalesItemsModel> salesItemsModelRes = salesItemsService.findAllSalesItemsData();
+		return new BaseDto<>(salesItemsModelRes,salesItemsHelper.getUpdateSalesItemsMessage(),OK).respond();
+	}
+	
+	@PostMapping("/get/salesitemsbybillid")
+	public ResponseEntity<BaseDto<List<SalesItemsModel>>> getSalesItemsByStockId(@RequestBody SalesModel sales) {
+		List<SalesItemsModel> salesItemsModelRes = salesItemsService.getByBillId(sales);
 		return new BaseDto<>(salesItemsModelRes,salesItemsHelper.getUpdateSalesItemsMessage(),OK).respond();
 	}
 }
