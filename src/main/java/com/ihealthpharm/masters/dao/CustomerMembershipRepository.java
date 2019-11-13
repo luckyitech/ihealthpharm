@@ -8,10 +8,12 @@ import com.ihealthpharm.masters.model.CustomerMembershipModel;
 
 public interface CustomerMembershipRepository extends JpaRepository<CustomerMembershipModel,Integer>
 {
-	List<CustomerMembershipModel> findAll();
+	//List<CustomerMembershipModel> findAll();
 	
 	
 	 CustomerMembershipModel findByMembershipCardNumber(String membershipCardNumber);
+	 
+	 List<CustomerMembershipModel> findAllByOrderByLastUpdateTimestampDesc();
 	
 
 }
