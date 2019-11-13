@@ -19,4 +19,5 @@ public interface SalesItemsService
     SalesItemsModel updateSalesItemsData(SalesItemsModel salesItemsModel);
     
     List<SalesItemsModel> getByBillId(SalesModel sales);
+
 }
