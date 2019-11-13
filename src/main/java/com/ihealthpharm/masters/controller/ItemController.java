@@ -158,4 +158,12 @@ public class ItemController {
 		List<ItemsModel> response=itemService.findAllByItemGroupCodeSearch(searchTerm);
 		return new BaseDto<>(response,propertyHelper.getRetrieveMessage(),OK).respond();
 	}
+	
+	//based on search key
+		@GetMapping("/getallby/searchkey")
+		public ResponseEntity<BaseDto<List<ItemsModel>>> getAllItemsBySearchkey(@RequestParam String searchTerm){
+			log.info(searchTerm);
+			List<ItemsModel> response=itemService.findBySearchKey(searchTerm);
+			return new BaseDto<>(response,propertyHelper.getRetrieveMessage(),OK).respond();
+		}
 }

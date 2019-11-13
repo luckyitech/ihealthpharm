@@ -199,5 +199,11 @@ public class ItemServiceImpl implements ItemService {
 		return itemRepository.findByItemCode(searchTerm);
 	}
 
+	@Override
+	public List<ItemsModel> findBySearchKey(String searchTerm) {
+		
+		return itemRepository.findByItemCodeOrItemNameOrItemDescription(searchTerm);
+	}
+
 
 }
