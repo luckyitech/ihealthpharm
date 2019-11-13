@@ -37,4 +37,7 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 
 	public List<ItemsModel> findByItemCode(String searchTerm);
 
+	@Query("select i from items i where i.itemDescription=:searchTerm OR  i.itemCode=:searchTerm OR  i.itemName=:searchTerm")
+	public List<ItemsModel> findByItemCodeOrItemNameOrItemDescription(@Param("searchTerm") String searchTerm);
+
 }

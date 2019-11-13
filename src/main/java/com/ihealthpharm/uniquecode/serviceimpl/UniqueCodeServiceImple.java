@@ -36,7 +36,7 @@ public class UniqueCodeServiceImple implements UniqueCodeService {
 			throw new IHealthPharmException(uniqueCodeName+" Generation Exception", HttpStatus.NOT_FOUND);
 		}
 		
-		String uniqueNumber ="DP"+uniqueCodeName.substring(0, 2).toUpperCase();
+		String uniqueNumber ="DP"+uniqueCodeName.toUpperCase();
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yy");  
 	    Date date = new Date();  
 	    String currentDate[] = formatter.format(date).split("-");
