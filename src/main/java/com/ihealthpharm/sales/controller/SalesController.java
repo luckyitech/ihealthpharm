@@ -66,7 +66,7 @@ public class SalesController {
 	@GetMapping("/get/allsales")
 	public ResponseEntity<BaseDto<List<SalesModel>>> getAllSalesData() {
 		List<SalesModel> salesModelRes = salesService.findAllSalesData();
-		return new BaseDto<>(salesModelRes,salesHelper.getUpdateSalesMessage(),OK).respond();
+		return new BaseDto<>(salesModelRes,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
 	
 	@PostMapping("/get/bysalessearchkeys")
@@ -83,6 +83,15 @@ public class SalesController {
 		return new BaseDto<>(salesModelRes,salesHelper.getUpdateSalesMessage(),OK).respond();
 	}
 	
+
+	
+	//to get billcode based on searchterm 
+	@GetMapping("/getbillcode/basedonsearch")
+	public ResponseEntity<BaseDto<SalesModel>> getSalesRecordBySearch(@RequestParam String searchTerm){
+		SalesModel salesModel=salesService.getSaleByBillCode(searchTerm);
+		return new BaseDto<>(salesModel,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+
 	@GetMapping("/get/limitedsales")
 	public ResponseEntity<BaseDto<List<SalesModel>>> getFirt100SalesDataByBillDate() {
 		List<SalesModel> salesModelRes = salesService.findLimitedSalesData();

@@ -46,8 +46,6 @@ public class SalesModel {
 	@Column(name = "BILL_DATE", length = 25)
 	private LocalDate billDate;
 
-	
-
 	@Column(name = "CASH_AMOUNT", length = 25)
 	private float cashAmount;
 
@@ -164,12 +162,10 @@ public class SalesModel {
 	@OneToOne
 	@JoinColumn(name = "CUSTOMER_ID")
 	CustomerModel customerModel;
-
 	
 	@OneToOne
 	@JoinColumn(name = "EMPLOYEE_ID")
 	EmployeeModel employeeModel;
-
 
 	@OneToOne
 	@JoinColumn(name = "PHARMACY_ID")

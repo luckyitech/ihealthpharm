@@ -19,5 +19,7 @@ public interface SalesService
 
     SalesModel updateSalesData(SalesModel salesModel);
     
-    public List<SalesModel> findByCriteria(String status,String code, String codeValue, String startDate, String endDate);
+     List<SalesModel> findByCriteria(String status,String code, String codeValue, String startDate, String endDate);
+
+	SalesModel getSaleByBillCode(String searchTerm);
 }

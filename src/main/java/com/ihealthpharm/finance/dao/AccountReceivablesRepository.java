@@ -8,9 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
-import com.ihealthpharm.masters.model.CustomerInsuranceModel;
 import com.ihealthpharm.sales.model.SalesModel;
-import com.ihealthpharm.stock.model.InvoiceModel;
 
 @Repository
 public interface AccountReceivablesRepository extends JpaRepository<AccountReceivablesModel,Integer>

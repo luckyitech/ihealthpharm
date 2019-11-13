@@ -12,16 +12,19 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity (name="customer_insurance")
-@Getter
-@Setter
-@ToString
-public class CustomerInsuranceModel {
+@Data
+@EqualsAndHashCode(of="customerInsuranceId",callSuper=false)
+public class CustomerInsuranceModel extends AuditModel{
     
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7803379230298216607L;
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="CUSTOMER_INSURANCE_ID",length=11, columnDefinition = "AUTO_INCREMENT")

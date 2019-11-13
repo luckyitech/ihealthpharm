@@ -195,7 +195,6 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public List<ItemsModel> findAllByItemCode(String searchTerm) {
-		// TODO Auto-generated method stub
 		return itemRepository.findByItemCode(searchTerm);
 	}
 
