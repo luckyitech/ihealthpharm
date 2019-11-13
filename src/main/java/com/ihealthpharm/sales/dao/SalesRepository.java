@@ -14,4 +14,7 @@ extends JpaRepository<SalesModel,Integer>
 {
 
 	List<SalesModel> findAll(Specification<SalesModel> specification);
+
+	//@Query("select s from sales s order by s.billDate desc limit 100")
+	List<SalesModel> findFirst100ByOrderByBillCodeDesc();
 }

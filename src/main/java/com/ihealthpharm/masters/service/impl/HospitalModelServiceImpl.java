@@ -125,6 +125,18 @@ public class HospitalModelServiceImpl implements HospitalModelService{
 	public List<HospitalModel> findAllHospitals() {
 		return hospitalRepository.findAllByOrderByCreationTimeStampDesc();
 	}
+
+	@Override
+	public List<HospitalModel> findLimitedHospitals() {
+		
+		return hospitalRepository.findFirst100ByOrderByLastUpdatedTimeStampDesc();
+	}
+
+	@Override
+	public List<HospitalModel> findHospitalsByHospitalName(String hospitalName) {
+		
+		return hospitalRepository.findByHospitalNameIgnoreCaseContaining(hospitalName);
+	}
 	
 	
 }

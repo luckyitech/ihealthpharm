@@ -127,4 +127,10 @@ public class SalesServiceImpl implements SalesService {
 			}
 		});
 	}
+
+	@Override
+	public List<SalesModel> findLimitedSalesData() {
+		
+		return salesRepository.findFirst100ByOrderByBillCodeDesc();
+	}
 }
