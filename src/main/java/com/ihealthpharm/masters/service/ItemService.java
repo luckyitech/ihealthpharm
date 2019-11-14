@@ -43,5 +43,5 @@ public interface ItemService {
 	
 	List<ItemsModel> findBySearchKey(String searchTerm);
 
-
+	
 }
