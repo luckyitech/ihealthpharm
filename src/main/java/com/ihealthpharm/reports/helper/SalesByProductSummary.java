@@ -239,7 +239,7 @@ public class SalesByProductSummary extends ReportsPDFUtility {
 
 				table.addCell(cell);
 
-				value = rowData.containsKey("BILL_NO") ? rowData.get("BILL_NO") : "";
+				value = rowData.containsKey("BILL_CODE") ? rowData.get("BILL_CODE") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())

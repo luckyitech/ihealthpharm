@@ -2,6 +2,7 @@ package com.ihealthpharm.reports.helper;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -42,14 +43,15 @@ public class SupplierWiseSales extends ReportsPDFUtility{
 			writer.setPageEvent(event); 
 			document.open();
 			
-			Map<String, List<Map<String, Object>>> supplierWiseSalesMap = responseList.stream()
-					.collect(Collectors.groupingBy(map -> (String) map.get("INVOICE_DT")));			
+			Map<Date, List<Map<String, Object>>> supplierWiseSalesMap = responseList.stream()
+					.collect(Collectors.groupingBy(map -> (Date) map.get("BILL_DATE")));			
 			
 			
 			if(!ObjectUtils.isEmpty(supplierWiseSalesMap)) { 
 				
-				for(String fromDate :supplierWiseSalesMap.keySet()) {					
+				for(Date fromDate :supplierWiseSalesMap.keySet()) {					
 					List<Map<String, Object>> supplierWiseSalesDetails = supplierWiseSalesMap.get(fromDate);
+					
 					createTable(document,model,supplierWiseSalesDetails,fromDate);
 				}
 				
@@ -73,7 +75,7 @@ public class SupplierWiseSales extends ReportsPDFUtility{
 
 
 	private void createTable(Document document, ReportsMappingModel model, List<Map<String, Object>> supplierWiseSalesList,
-			String fromDate) throws DocumentException {
+			Date fromDate) throws DocumentException {
 
 		String reportHeader = model.getReportHeader();
 		List<HeaderDto> headerList = JsonUtility.jsonToList(reportHeader, HeaderDto.class);
