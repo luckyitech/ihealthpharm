@@ -117,18 +117,31 @@ public class StockController {
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}
 	
+	
+	/**
+	 * @author Jagadeesh 
+	 * Service is to get the stock
+	 */
 	@GetMapping("/getallstockitems")
 	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllStockItems() {
 		List<ItemsModel> result = stockService.findAllStockItems();
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}
 	
+	/**
+	 * @author Jagadeesh 
+	 * Service is to get the stock
+	 */
 	@PostMapping("/getitembatchnumbers")
 	public ResponseEntity<BaseDto<List<String>>> getItemBatchNumberByItemId(@RequestBody ItemsModel item) {
 		List<String> result = stockService.getBatchNumbersByItemId(item);
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}
 	
+	/**
+	 * @author Jagadeesh 
+	 * Service is to get the stock
+	 */
 	@GetMapping("/getstockbyitemandbatch")
 	public ResponseEntity<BaseDto<StockModel>> getStockByItemAndBatch(@RequestParam Integer itemId, @RequestParam String batchNo) {
 		ItemsModel item = new ItemsModel();
@@ -137,6 +150,10 @@ public class StockController {
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}
 	
+	/**
+	 * @author Jagadeesh 
+	 * Service is to get the stock
+	 */
 	@PostMapping("/getstockbyitem")
 	public ResponseEntity<BaseDto<List<StockModel>>> getStockByItem(@RequestBody ItemsModel item) {
 		
@@ -144,6 +161,10 @@ public class StockController {
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}
 	
+	/**
+	 * @author Jagadeesh 
+	 * Service is to get the stock
+	 */
 	@PostMapping("/getstockbyitemnamesearch")
 	public ResponseEntity<BaseDto<List<StockModel>>> getStockByItemName(@RequestBody ItemsModel itemName) {
 		
@@ -151,6 +172,10 @@ public class StockController {
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}
 	
+	/**
+	 * @author Jagadeesh 
+	 * Service is to get the stock
+	 */
 	@PostMapping("/getstockbyitemandpharmacy")
 	public ResponseEntity<BaseDto<List<StockModel>>> getStockByItemNameAndPharmacy(@RequestBody StockItemsListDTO stockDto){
 		List<StockModel> result = stockService.findByItemAndPharmacy(stockDto.getListOfItems(),stockDto.getPharmacy());
