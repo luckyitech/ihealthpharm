@@ -10,4 +10,8 @@ public interface SalesReturnService {
 	
 	List<SalesReturnModel> findAllSalesReturns();
 
+	SalesReturnModel updateSalesReturns(SalesReturnModel salesReturnModel);
+
+	void deleteSalesReturnById(Integer salesReturnId);
+
 }
