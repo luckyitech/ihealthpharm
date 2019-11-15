@@ -35,13 +35,13 @@ public class ReportsCommonUtility {
 		try {
 		 
 		String inputParameters = model.getInputParameters();
-		  if(ObjectUtils.isEmpty(inputParameters)) {
+		  if(!ObjectUtils.isEmpty(inputParameters)) {
 			List<ReportsSearchCriteria> list = JsonUtility.jsonToList(inputParameters, ReportsSearchCriteria.class);
 
 			if (!ObjectUtils.isEmpty(list)) {
 				for (ReportsSearchCriteria criteria : list) {
-					if(dataMap.containsKey(criteria.getColumnName())) {
-						Object value = dataMap.get(criteria.getColumnName());
+					if(dataMap.containsKey(criteria.getFieldName())) {
+						Object value = dataMap.get(criteria.getFieldName());
 						
 						stringBuffer.append(" AND ");
 						
