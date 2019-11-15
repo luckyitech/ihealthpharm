@@ -9,13 +9,20 @@ import lombok.Data;
 @Data
 public class SalesReturnHelper {
 
-	@Value("${salesReturn.retrieve.response}")
-	public String retrieveSalesReturnMessage;
 	
 	@Value("${salesReturn.save.response}")
 	public String saveSalesReturnMessage;
 	
+	@Value("${salesReturn.delete.response}")
+	public String deleteSalesReturnMessage;
+	
+	@Value("${salesReturn.update.response}")
+	public String updateSalesReturnMessage;
+	
 	@Value("${salesReturn.not.found.response}")
 	public String notFoundMessage;	
+	
+	@Value("${salesReturn.retrieve.response}")
+	public String retrieveSalesReturnMessage;
 	
 }
