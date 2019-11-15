@@ -9,9 +9,12 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
@@ -43,6 +46,19 @@ public class SalesReturnController {
 		return new BaseDto<>(salesReturn,salesReturnHelper.getSaveSalesReturnMessage(),OK).respond();
 	}
 		
+	@PutMapping("/update/salesreturn")
+	public ResponseEntity<BaseDto<SalesReturnModel>> updateSalesReturnData(@Valid @RequestBody SalesReturnModel salesReturnModel) {
+		log.info("Request Object for update is: ", salesReturnModel);
+		SalesReturnModel salesRetrunModelRes = salesReturnService.updateSalesReturns(salesReturnModel);
+		return new BaseDto<>(salesRetrunModelRes, salesReturnHelper.getUpdateSalesReturnMessage(), OK).respond();
+	}
+	
+	@DeleteMapping("/delete/salesreturn")
+	public ResponseEntity<BaseDto<Object>> deleteSalesReturnData(@RequestParam Integer salesReturnId) {
+		log.info("Request Object for delete is: ", salesReturnId);
+		salesReturnService.deleteSalesReturnById(salesReturnId);
+		return new BaseDto<>(salesReturnHelper.getDeleteSalesReturnMessage(), OK).respond();
+	}
 	
 	@GetMapping("/getsalesreturn")
 	public ResponseEntity<BaseDto<List<SalesReturnModel>>> getAllSalesReturnsData(){

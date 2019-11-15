@@ -15,39 +15,42 @@ import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.sales.model.SalesModel;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity (name="ACCOUNT_RECEIVABLES")
 @Data
+@EqualsAndHashCode(of = "accountReceivablesId", callSuper = false)
 public class AccountReceivablesModel extends AuditModel{
-    
-    /**
+
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	 	@Id
-	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    @Column(name="ACCOUNT_RECEIVABLES_ID")
-	    private int accountReceivablesId;
-	 
 	
-    @Column(name="AUDIT_ID",length=11)
-    private int auditId;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="ACCOUNT_RECEIVABLES_ID")
+	private int accountReceivablesId;
+
+	@Column(name="AUDIT_ID",length=11)
+	private int auditId;
+
+	@Column(name="PAYMENT_TYPE",length=30)
+	private String paymentType;
+
+	@Column(name="RECEIPT_DATE",length=25)
+	private LocalDate receiptDate;
+
+	@Column(name="RECEIPT_NO",length=25)
+	private String receiptNumber;
+
+	@Column(name="SOURCE_TYPE",length=20)
+	private String sourceType;
 
 
-    @Column(name="PAYMENT_TYPE",length=30)
-    private String paymentType;
-
-    @Column(name="RECEIPT_DATE",length=25)
-    private LocalDate receiptDate;
-
-    @Column(name="RECEIPT_NO",length=25)
-    private String receiptNo;
-
-    @Column(name="SOURCE_TYPE",length=20)
-    private String sourceType;
-
-    @Column(name="SOURCE_VALUE",length=20)
-    private String sourceValue;
+	@Column(name="SOURCE_VALUE",length=20)
+	private String sourceValue;
 
     @Column(name="STATUS",length=20)
     private String status;
@@ -77,4 +80,5 @@ public class AccountReceivablesModel extends AuditModel{
     @OneToOne
     @JoinColumn(name="PHARMACY_ID")
     private PharmacyModel pharmacyModel;
+
 }

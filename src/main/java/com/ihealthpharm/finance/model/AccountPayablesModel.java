@@ -16,15 +16,13 @@ import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.SupplierModel;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 
 @Entity (name="ACCOUNT_PAYABLES")
-@Getter
-@Setter
-@ToString
+@Data
+@EqualsAndHashCode(of = "accountPayablesId", callSuper = false)
 public class AccountPayablesModel extends AuditModel {
     
     /**
@@ -39,7 +37,7 @@ public class AccountPayablesModel extends AuditModel {
     @Column(name="AUDIT_ID",length=11)
     private int auditId;
 
-    @Column(name="PAYMENT_DATE",length=25)
+    @Column(name="PAYMENT_DATE")
     private LocalDate paymentDate;
 
     @Column(name="PAYMENT_NO",length=30)
@@ -51,19 +49,19 @@ public class AccountPayablesModel extends AuditModel {
     @Column(name="STATUS",length=20)
     private String status;
     
-    @Column(name="TOTAL_INVOICE_AMOUNT",length=25)
+    @Column(name="TOTAL_INVOICE_AMOUNT")
     private Float totalInvoiceAmount;
     
-    @Column(name="TOTAL_ADVANCE_AMOUNT",length=25)
+    @Column(name="TOTAL_ADVANCE_AMOUNT")
     private Float totalAdvanceAmount;
     
-    @Column(name="TOTAL_DEBIT_AMOUNT",length=25)
+    @Column(name="TOTAL_DEBIT_AMOUNT")
     private Float totalDebitAmount;
     
-    @Column(name="TOTAL_CREDIT_AMOUNT",length=25)
+    @Column(name="TOTAL_CREDIT_AMOUNT")
     private Float totalCreditAmount;
     
-    @Column(name="TOTAL_AMOUNT_TO_BE_PAID",length=25)
+    @Column(name="TOTAL_AMOUNT_TO_BE_PAID")
     private Double totalAmountToBePaid;
 
     @OneToOne
