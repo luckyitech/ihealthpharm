@@ -21,6 +21,8 @@ public interface SupplierService {
 	 void deleteSuppliersById(int[] supplierIds);
 	
 	 List<SupplierModel> findAllSuppliers();
+	 
+	 List<SupplierModel> findLimitedSuppliers();
 
 	 List<SupplierModel> findAllSuppliersByName(String searchTerm);
 }
