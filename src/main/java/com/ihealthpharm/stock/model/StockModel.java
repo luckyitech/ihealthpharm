@@ -3,6 +3,7 @@ package com.ihealthpharm.stock.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -42,10 +43,14 @@ public class StockModel extends AuditModel {
 	@Column(name="STOCK_ID", length=11)
 	private Integer stockId;
 	
+	@Column(name="STOCK_NO")
+	private String stockNumber;
+	
+	
 	//bi-directional many-to-one association to Invoice
-	/*@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="INVOICE_ID")
-	private InvoiceModel invoice;*/
+	private InvoiceModel invoice;
 	
 	//bi-directional many-to-one association to Item
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -111,6 +116,10 @@ public class StockModel extends AuditModel {
 
 	@Column(name="RACK")
 	private String rack;
+	
+	@Column(name="STATUS")
+	private String status ;
+	
 	
 	@Column(name="SELF")
 	private String self;

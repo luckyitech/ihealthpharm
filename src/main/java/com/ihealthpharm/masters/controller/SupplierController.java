@@ -89,6 +89,13 @@ public class SupplierController {
 		
 		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
 	}
+	
+	@GetMapping("/getlimitedsuppliersdata") 
+	public ResponseEntity<BaseDto<List<SupplierModel>>> getLimitedSupplierdata() {
+		List<SupplierModel> result = supplierService.findLimitedSuppliers();
+		
+		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
+	}
 
 	@GetMapping("/getsupplierdatabyid")
 	public ResponseEntity<BaseDto<SupplierModel>> getSupplierDataById(@RequestParam int supplierId) {
