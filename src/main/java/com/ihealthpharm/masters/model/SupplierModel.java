@@ -104,6 +104,18 @@ public class SupplierModel extends AuditModel {
 	@Column(name = "CST_NO", length=20)
 	private String cstNo;
 	
+	@Column(name = "BANK_NAME", length=50)
+	private String bankName;
+	
+	@Column(name = "ACCOUNT_NUMBER")
+	private Float accountNumber;
+	
+	@Column(name = "IFSC_CODE")
+	private Float ifscCode;
+	
+	@Column(name = "MICR_CODE")
+	private Float micrCode;
+	
 	@OneToOne
 	@JoinColumn(name="COUNTRY_ID")
 	private CountryModel country;
