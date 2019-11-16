@@ -134,6 +134,12 @@ public class InvoiceController {
 		return new BaseDto<>(result, invoiceHelper.getRetrieveInvoiceMessage(), OK).respond();
 	}
 	
+	@GetMapping("/getinvoicebynum")
+	public ResponseEntity<BaseDto<InvoiceModel>> getInvoiceByNum(@RequestParam String invoiceNo) {
+		InvoiceModel result = invoiceService.findInvoiceByNum(invoiceNo);
+		return new BaseDto<>(result, invoiceHelper.getRetrieveInvoiceMessage(), OK).respond();
+	}
+	
 	/**
 	 * @author Gunasekhar 
 	 * Service is for automatic generation of GRN Number 
