@@ -1,6 +1,7 @@
 package com.ihealthpharm.stock.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,8 +12,8 @@ import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.stock.model.InvoiceModel;
 
 @Repository
-public interface InvoiceRepository extends JpaRepository<InvoiceModel, Integer> {
 
+public interface InvoiceRepository extends JpaRepository<InvoiceModel, Integer> {
 	List<InvoiceModel> findAllByOrderByCreationTimeStampDesc();
 	
 	@Query("select d.name from supplier d where d.supplierId = :suppliersId ")
@@ -29,5 +30,7 @@ public interface InvoiceRepository extends JpaRepository<InvoiceModel, Integer> 
 	
 	@Query("select ii.itemsModel from invoice i join i.invoiceItems ii where i.invoiceId = :invoiceId ")
 	List<ItemsModel> getInvoiceItems(@Param("invoiceId") Integer invoiceId);
+	
+	Optional<InvoiceModel> findByInvoiceNo(String invoiceNo);
 	
 }
