@@ -43,9 +43,9 @@ public class StockModel extends AuditModel {
 	private Integer stockId;
 	
 	//bi-directional many-to-one association to Invoice
-	@ManyToOne(fetch=FetchType.LAZY)
+	/*@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="INVOICE_ID")
-	private InvoiceModel invoice;
+	private InvoiceModel invoice;*/
 	
 	//bi-directional many-to-one association to Item
 	@ManyToOne(fetch=FetchType.LAZY)

@@ -43,22 +43,42 @@ public class AccountReceivablesModel extends AuditModel{
 	private LocalDate receiptDate;
 
 	@Column(name="RECEIPT_NO",length=25)
-	private String receiptNo;
+	private String receiptNumber;
 
 	@Column(name="SOURCE_TYPE",length=20)
 	private String sourceType;
 
+
 	@Column(name="SOURCE_VALUE",length=20)
 	private String sourceValue;
 
-	@Column(name="STATUS",length=20)
-	private String status;
+    @Column(name="STATUS",length=20)
+    private String status;
+    
+    @Column(name="UPI_PHONE_NO",length=20)
+    private String upiPhoneNo;
+    
+    @Column(name="UPI_AMOUNT")
+    private Float upiAmount;
+    
+    @Column(name="CASH_AMOUNT")
+    private Float cashAmount;
+    
+    @Column(name="CREDIT_DAYS",length=11)
+    private Integer creditDays;
+    
+    @Column(name="CHEQUE_NUMBER",length=11)
+    private Integer chequeNumber;
+    
+    @Column(name="CHEQUE_AMOUNT",length=20)
+    private Float chequeAmount;
+    
+    @OneToOne
+    @JoinColumn(name="BILL_ID")
+    SalesModel salesModel;
+    
+    @OneToOne
+    @JoinColumn(name="PHARMACY_ID")
+    private PharmacyModel pharmacyModel;
 
-	@OneToOne
-	@JoinColumn(name="BILL_ID")
-	private SalesModel salesModel;
-
-	@OneToOne
-	@JoinColumn(name="PHARMACY_ID")
-	private PharmacyModel pharmacyModel;
 }
