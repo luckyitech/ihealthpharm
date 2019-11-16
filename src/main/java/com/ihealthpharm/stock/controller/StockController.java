@@ -53,6 +53,17 @@ public class StockController {
 	}
 	
 	/**
+	 * @author Jagadeesh 
+	 * Service is to save the stock
+	 */
+	@PostMapping("/save/multiplestocks")
+	public ResponseEntity<BaseDto<List<StockModel>>> saveStock(@Valid @RequestBody List<StockModel> stockModel) {
+		log.info("Request Object insert is: "+ stockModel.toString());
+		List<StockModel> model = stockService.saveStock(stockModel);
+		return new BaseDto<>(model, stockHelper.getSaveStockMessage(), OK).respond();
+	}
+	
+	/**
 	 * @author Gunasekhar 
 	 * Service is to update the stock
 	 */

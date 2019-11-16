@@ -6,22 +6,26 @@ import java.util.Objects;
 
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
+import com.ihealthpharm.exception.IHealthPharmException;
+import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.stock.dao.InvoiceItemRepository;
 import com.ihealthpharm.stock.dao.InvoiceRepository;
 import com.ihealthpharm.stock.dao.PurchaseReturnItemRepository;
 import com.ihealthpharm.stock.dao.PurchaseReturnRepository;
 import com.ihealthpharm.stock.dao.StockHistoryRepository;
 import com.ihealthpharm.stock.dao.StockRepository;
+import com.ihealthpharm.stock.helper.InvoiceHelper;
+import com.ihealthpharm.stock.model.InvoiceItemModel;
+import com.ihealthpharm.stock.model.InvoiceModel;
+import com.ihealthpharm.stock.model.PurchaseReturnItemModel;
+import com.ihealthpharm.stock.model.PurchaseReturnModel;
+import com.ihealthpharm.stock.model.StockHistoryModel;
+import com.ihealthpharm.stock.model.StockModel;
 import com.ihealthpharm.stock.service.InvoiceService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-
-import  com.ihealthpharm.stock.model.*;
-import com.ihealthpharm.stock.helper.*;
-
-import com.ihealthpharm.exception.IHealthPharmException;
-import com.ihealthpharm.masters.model.ItemsModel;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -62,7 +66,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 			StockModel stockModel = new StockModel();
 			StockHistoryModel historyModel = new StockHistoryModel();
 			
-			stockModel.setInvoice(invoiceModelres);
+			//stockModel.setInvoice(invoiceModelres);
 			stockModel.setBatchNo(it.getBatchNo());
 			stockModel.setPharmacy(invoiceModelres.getPharmacy());
 			stockModel.setItem(it.getItemsModel());
@@ -107,28 +111,28 @@ public class InvoiceServiceImpl implements InvoiceService {
 				p.setPurchaseReturnModel(returnModel);
 				purchaseReturnItemRepository.save(p);
 				
-				StockModel s = stockRepository.getStockByItemIdandInvoiceId(i.getItemId(), invoiceModelres.getInvoiceId());
-				s.setQuantity(s.getQuantity() - p.getReturnQuantity());
+				//StockModel s = stockRepository.getStockByItemIdandInvoiceId(i.getItemId(), invoiceModelres.getInvoiceId());
+				//s.setQuantity(s.getQuantity() - p.getReturnQuantity());
 				
-				stockRepository.save(s);
+				//stockRepository.save(s);
 				
-				StockHistoryModel historyModel = new StockHistoryModel();
+				//StockHistoryModel historyModel = new StockHistoryModel();
 				
-				historyModel.setInvoice(invoiceModelres);
-				historyModel.setBatchNo(s.getBatchNo());
-				historyModel.setPharmacy(invoiceModelres.getPharmacy());
-				historyModel.setItem(s.getItem());
-				historyModel.setQuantity(p.getReturnQuantity());
-				historyModel.setManufactureDt(s.getManufactureDt());
-				historyModel.setExpiryDt(s.getExpiryDt());
-				historyModel.setUnitSaleRate(s.getUnitSaleRate());
-				historyModel.setMrp(s.getMrp());
-				historyModel.setSaleDiscountPercentage(s.getSaleDiscountPercentage());
-				historyModel.setSaleDiscountAmount(s.getSaleDiscountAmount());
-				historyModel.setMargin(s.getMargin());
-				historyModel.setSupplier(invoiceModelres.getSupplierModel());
+				//historyModel.setInvoice(invoiceModelres);
+				//historyModel.setBatchNo(s.getBatchNo());
+				//historyModel.setPharmacy(invoiceModelres.getPharmacy());
+				//historyModel.setItem(s.getItem());
+				//historyModel.setQuantity(p.getReturnQuantity());
+				//historyModel.setManufactureDt(s.getManufactureDt());
+				//historyModel.setExpiryDt(s.getExpiryDt());
+				//historyModel.setUnitSaleRate(s.getUnitSaleRate());
+				//historyModel.setMrp(s.getMrp());
+				//historyModel.setSaleDiscountPercentage(s.getSaleDiscountPercentage());
+				//historyModel.setSaleDiscountAmount(s.getSaleDiscountAmount());
+				//historyModel.setMargin(s.getMargin());
+				//historyModel.setSupplier(invoiceModelres.getSupplierModel());
 				
-				stockHistoryRepository.save(historyModel);
+				//stockHistoryRepository.save(historyModel);
 			}
 			
 		}
