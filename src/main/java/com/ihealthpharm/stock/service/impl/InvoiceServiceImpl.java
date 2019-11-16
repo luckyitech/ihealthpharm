@@ -3,6 +3,7 @@ package com.ihealthpharm.stock.service.impl;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -245,6 +246,24 @@ public class InvoiceServiceImpl implements InvoiceService {
 	@Override
 	public Long getPurchaseReturnCount() {
 		return invoiceRepository.getPurchaseReturnCount();
+	}
+
+	@Override
+	public InvoiceModel findInvoiceByNum(String invoiceNo) {
+		Optional<InvoiceModel> invoiceModel = null;
+		try {
+			invoiceModel = invoiceRepository.findByInvoiceNo(invoiceNo);
+			if(invoiceModel.isPresent()) {
+				invoiceModel.get().getSupplierModel();
+				invoiceModel.get().getInvoiceStatus();
+				for(InvoiceItemModel m : invoiceModel.get().getInvoiceItems()) {
+					m.getItemsModel();
+				}
+			}
+			return invoiceModel.get();
+		} catch (NoSuchElementException noSuchElementException) {
+			throw new IHealthPharmException(invoiceHelper.getNotFoundInvoiceMessage(), HttpStatus.NOT_FOUND);
+		}
 	}
 
 }
