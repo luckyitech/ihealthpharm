@@ -74,6 +74,12 @@ public class StockModel extends AuditModel {
 	@Column(name="MARGIN")
 	private Double margin;
 	
+	@Column(name="MARGIN_AMT")
+	private Double marginAmount;
+	
+	@Column(name="REMARKS")
+	private String remarks;
+	
 	@Column(name="SALE_DISCOUNT_AMOUNT")
 	private Double saleDiscountAmount;
 
@@ -112,5 +118,7 @@ public class StockModel extends AuditModel {
 	@Column(name="BARCODE")
 	private String barcode;
 	
+	@Column(name="VAT")
+	private Double Vat;
 
 }
