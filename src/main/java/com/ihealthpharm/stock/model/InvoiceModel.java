@@ -155,9 +155,9 @@ public class InvoiceModel extends AuditModel {
 	private List<InvoiceItemModel> invoiceItems;
 
 	//bi-directional many-to-one association to Stock
-	@OneToMany(mappedBy="invoice", fetch=FetchType.LAZY)
+	/*@OneToMany(mappedBy="invoice", fetch=FetchType.LAZY)
 	private List<StockModel> stocks;
-
+*/
 	@Column(name="PARCEL_NO")
 	private String parcelNo;
 	
