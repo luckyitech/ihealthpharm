@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,7 +16,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.SupplierModel;
 
@@ -73,8 +73,7 @@ public class PurchaseReturnModel extends AuditModel {
 	@Column(name="ACTIVE_S",length=1, columnDefinition = "'Y'")
     private char activeS;
 	
-	@OneToMany(mappedBy = "purchase_return")
-	@JsonManagedReference
-	private List<PurchaseReturnItemModel> purchaseReturnitems;
+	@OneToMany(mappedBy="purchaseReturnModel", fetch=FetchType.LAZY)
+	private List<PurchaseReturnItemModel> purchaseReturnItemModels;
 	
 }
