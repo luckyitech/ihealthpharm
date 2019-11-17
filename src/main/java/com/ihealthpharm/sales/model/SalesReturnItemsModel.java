@@ -47,9 +47,6 @@ public class SalesReturnItemsModel extends AuditModel {
 	@Column(name="RETURN_QUANTITY",length=11)
 	private Integer returnQuantity;
 	
-	@Column(name="BONUS_ITEM",length=11)
-	private Integer bonusItems;
-	
 	@Column(name="BONUS_QUANTITY",length=11)
 	private Integer bonusQuantity;
 	
