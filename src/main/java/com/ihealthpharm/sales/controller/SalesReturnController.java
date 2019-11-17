@@ -39,7 +39,7 @@ public class SalesReturnController {
 	@Autowired
 	SalesHelper salesHelper;
 	
-	@PostMapping("/save/salesreturn")
+	@PostMapping("/save/salesreturns")
 	public ResponseEntity<BaseDto<SalesReturnModel>> saveSalesReturn(@Valid @RequestBody  SalesReturnModel salesReturnModel ){
 		log.info("Request Object to insert is :"+salesReturnModel);
 		SalesReturnModel salesReturn=salesReturnService.saveSalesReturnDate(salesReturnModel);
