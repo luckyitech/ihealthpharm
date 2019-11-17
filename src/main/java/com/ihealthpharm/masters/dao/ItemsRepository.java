@@ -42,4 +42,10 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 			+ "where i.itemDescription=:searchTerm OR  i.itemCode=:searchTerm OR  i.itemName=:searchTerm or ig.genericName=:searchTerm ")
 	public List<ItemsModel> findByItemCodeOrItemNameOrItemDescription(@Param("searchTerm") String searchTerm);
 
+	
+
+	
+
+	public List<ItemsModel> findFirst100ByOrderByItemCode();
+
 }
