@@ -125,4 +125,10 @@ public class SupplierServiceImpl implements SupplierService {
 		return supplierRepository.getAllSupplierNamesBySearch(searchTerm);
 	}
 
+	@Override
+	public List<SupplierModel> findLimitedSuppliers() {
+		// TODO Auto-generated method stub
+		return supplierRepository.findFirst100ByOrderByName();
+	}
+
 }

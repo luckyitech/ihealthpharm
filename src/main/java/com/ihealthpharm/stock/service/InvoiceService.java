@@ -17,6 +17,8 @@ public interface InvoiceService {
 	List<InvoiceModel> findAllInvoices();
 
 	InvoiceModel findInvoiceById(Integer invoiceId);
+	
+	InvoiceModel findInvoiceByNum(String invoiceNo);
 
 	void deleteInvoiceById(Integer invoiceId);
 

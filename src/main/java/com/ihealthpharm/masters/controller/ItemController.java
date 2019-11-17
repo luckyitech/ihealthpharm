@@ -166,4 +166,12 @@ public class ItemController {
 			List<ItemsModel> response=itemService.findBySearchKey(searchTerm);
 			return new BaseDto<>(response,propertyHelper.getRetrieveMessage(),OK).respond();
 		}
+		
+		@GetMapping("/getlimiteditemdata")
+		public ResponseEntity<BaseDto<List<ItemsModel>>> getLimitetems(){
+			
+			List<ItemsModel> response=itemService.getLimitedItems();
+			return new BaseDto<>(response,propertyHelper.getRetrieveMessage(),OK).respond();
+		}
+		
 }

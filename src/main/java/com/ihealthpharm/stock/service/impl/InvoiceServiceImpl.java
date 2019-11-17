@@ -3,6 +3,7 @@ package com.ihealthpharm.stock.service.impl;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -11,6 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
+import com.ihealthpharm.finance.dao.AccountPayablesInvoicesRepository;
+import com.ihealthpharm.finance.dao.AccountPayablesRepository;
+import com.ihealthpharm.finance.model.AccountPayablesInvoicesModel;
+import com.ihealthpharm.finance.model.AccountPayablesModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.stock.dao.InvoiceItemRepository;
 import com.ihealthpharm.stock.dao.InvoiceRepository;
@@ -44,6 +49,12 @@ public class InvoiceServiceImpl implements InvoiceService {
 	StockRepository stockRepository;
 	
 	@Autowired
+	AccountPayablesRepository accountPayablesRepository;
+	
+	@Autowired
+	AccountPayablesInvoicesRepository accountPayablesInvoicesRepository;
+	
+	@Autowired
 	StockHistoryRepository stockHistoryRepository;
 	
 	@Autowired
@@ -61,6 +72,29 @@ public class InvoiceServiceImpl implements InvoiceService {
 		List<InvoiceItemModel> invoiceItemModels = invoiceModel.getInvoiceItems();
 		
 		InvoiceModel invoiceModelres = invoiceRepository.save(invoiceModel);
+		
+		AccountPayablesModel accountPayablesModel = new AccountPayablesModel();
+		accountPayablesModel.setPharmacyModel(invoiceModelres.getPharmacy());
+		accountPayablesModel.setSupplierModel(invoiceModelres.getSupplierModel());
+		accountPayablesModel.setTotalInvoiceAmount(invoiceModelres.getInvoiceAmount().floatValue());
+		accountPayablesModel.setPaymentType("");
+		accountPayablesModel.setPaymentNumber("");
+		accountPayablesModel.setStatus("");
+		
+		AccountPayablesModel accountPayablesModelres = accountPayablesRepository.save(accountPayablesModel);
+		
+		AccountPayablesInvoicesModel accountPayablesInvoicesModel = new AccountPayablesInvoicesModel();
+		accountPayablesInvoicesModel.setAccountPayablesModel(accountPayablesModelres);
+		accountPayablesInvoicesModel.setPharmacyModel(invoiceModelres.getPharmacy());
+		accountPayablesInvoicesModel.setSupplierModel(invoiceModelres.getSupplierModel());
+		accountPayablesInvoicesModel.setInvoiceAmount(invoiceModelres.getInvoiceAmount().floatValue());
+		accountPayablesInvoicesModel.setCreditNoteAmount(0f);
+		accountPayablesInvoicesModel.setDebitNoteAmount(0f);
+		accountPayablesInvoicesModel.setAmountToBePaid(invoiceModelres.getInvoiceAmount().floatValue());
+		accountPayablesInvoicesModel.setAdvance(invoiceModel.getAdvance().floatValue());
+		accountPayablesInvoicesModel.setInvoiceNumber(0f);
+		
+		accountPayablesInvoicesRepository.save(accountPayablesInvoicesModel);
 		
 		for(InvoiceItemModel it : invoiceItemModels) {
 			StockModel stockModel = new StockModel();
@@ -245,6 +279,24 @@ public class InvoiceServiceImpl implements InvoiceService {
 	@Override
 	public Long getPurchaseReturnCount() {
 		return invoiceRepository.getPurchaseReturnCount();
+	}
+
+	@Override
+	public InvoiceModel findInvoiceByNum(String invoiceNo) {
+		Optional<InvoiceModel> invoiceModel = null;
+		try {
+			invoiceModel = invoiceRepository.findByInvoiceNo(invoiceNo);
+			if(invoiceModel.isPresent()) {
+				invoiceModel.get().getSupplierModel();
+				invoiceModel.get().getInvoiceStatus();
+				for(InvoiceItemModel m : invoiceModel.get().getInvoiceItems()) {
+					m.getItemsModel();
+				}
+			}
+			return invoiceModel.get();
+		} catch (NoSuchElementException noSuchElementException) {
+			throw new IHealthPharmException(invoiceHelper.getNotFoundInvoiceMessage(), HttpStatus.NOT_FOUND);
+		}
 	}
 
 }

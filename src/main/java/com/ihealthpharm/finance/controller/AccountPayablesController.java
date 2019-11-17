@@ -45,21 +45,18 @@ public class AccountPayablesController {
 
 	@PutMapping("/update/accountPayables")
 	public ResponseEntity<BaseDto<AccountPayablesModel>> updateAccountPayablesData(@Valid @RequestBody AccountPayablesModel accountPayablesModel) {
-		log.info("Request Object for update is: ", accountPayablesModel);
 		AccountPayablesModel accountPayablesModelRes = accountPayablesService.updateAccountPayablesData(accountPayablesModel);
 		return new BaseDto<>(accountPayablesModelRes, accountPayablesHelper.getUpdateAccountPayablesMessage(), OK).respond();
 	}
 
 	@PutMapping("/update/accountsPayables")
 	public ResponseEntity<BaseDto<List<AccountPayablesModel>>> updateAccountsPayablesData(@Valid @RequestBody List<AccountPayablesModel> accountPayablesModel) {
-		log.info("Request Object for update is: " , accountPayablesModel);
 		List<AccountPayablesModel> AccountPayablesModelRes = accountPayablesService.updateAccountsPayablesData(accountPayablesModel);
 		return new BaseDto<>(AccountPayablesModelRes, accountPayablesHelper.getUpdateAccountPayablesMessage(), OK).respond();
 	}
 	
 	@DeleteMapping("/delete/accountPayables")
 	public ResponseEntity<BaseDto<Object>> deleteAccountPayablesData(@RequestParam int accountPayablesId) {
-		log.info("Request Object for delete is: ", accountPayablesId);
 		accountPayablesService.deleteAccountPayablesById(accountPayablesId);
 		return new BaseDto<>(accountPayablesHelper.getDeleteAccountPayablesMessage(), OK).respond();
 	}
@@ -67,7 +64,6 @@ public class AccountPayablesController {
 	@DeleteMapping("/delete/accountsPayables")
 	public ResponseEntity<BaseDto<Object>> deleteAccountPayablesData(@RequestParam int[] accountPayablesIds) {
 
-		log.info("Request Object for delete is: " + accountPayablesIds[0]);
 		accountPayablesService.deleteAccountsPayablesById(accountPayablesIds);
 		return new BaseDto<>(accountPayablesHelper.getDeleteAccountPayablesMessage(), OK).respond();
 	}
@@ -89,9 +85,7 @@ public class AccountPayablesController {
 	public ResponseEntity<BaseDto<List<InvoiceModel>>> getAllInvoicesBasedOnSupplierId(@RequestParam int supplierId){
 		System.out.println("in grid"+supplierId);
 		List<InvoiceModel> result=accountPayablesService.getAllInvoicesBySupplierId(supplierId);
-		log.info("---------------------------------");
-		log.info(result.toString());
-		log.info("---------------------------------");
+
 		return new BaseDto<>(result,accountPayablesHelper.getRetrieveAccountPayablesMessage(),OK).respond();
 	}
 	

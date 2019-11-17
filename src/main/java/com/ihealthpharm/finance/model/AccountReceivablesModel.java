@@ -70,7 +70,7 @@ public class AccountReceivablesModel extends AuditModel{
     @Column(name="CHEQUE_NUMBER",length=11)
     private Integer chequeNumber;
     
-    @Column(name="CHEQUE_AMOUNT",length=20)
+    @Column(name="CHEQUE_AMT",length=20)
     private Float chequeAmount;
     
     @OneToOne
