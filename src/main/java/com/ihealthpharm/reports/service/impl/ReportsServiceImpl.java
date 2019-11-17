@@ -22,6 +22,7 @@ import com.ihealthpharm.reports.helper.ReportsCommonUtility;
 import com.ihealthpharm.reports.helper.ReportsExcelUtility;
 import com.ihealthpharm.reports.helper.ReportsPDFUtility;
 import com.ihealthpharm.reports.model.ReportsMappingModel;
+import com.ihealthpharm.reports.service.ExcelReportGenerator;
 import com.ihealthpharm.reports.service.ReportGenerator;
 import com.ihealthpharm.reports.service.ReportsService;
 
@@ -78,7 +79,7 @@ public class ReportsServiceImpl implements ReportsService {
 		
 		if (StringUtils.equalsIgnoreCase("PDF", reportType)) {
 			
-			if (StringUtils.isEmpty(model.getCustomReportGeneratorClazz()))
+			if (StringUtils.isBlank(model.getCustomReportGeneratorClazz()))
 				reportsPDFUtility.generateReport(responseList, model, responseFile);
 			else {
 				Class beanClass = Class.forName(model.getCustomReportGeneratorClazz());
@@ -86,8 +87,18 @@ public class ReportsServiceImpl implements ReportsService {
 				reportGenerator.generateReport(responseList, model, responseFile);
 			}				
 		
-		}else
-			reportsExcelUtility.generateReport(responseList, model, responseFile);
+		}else {
+			
+			if (StringUtils.isBlank(model.getCustomExcelReportGeneratorClazz()))
+				reportsExcelUtility.generateReport(responseList, model, responseFile);
+			else {
+				Class beanClass = Class.forName(model.getCustomExcelReportGeneratorClazz());
+				ExcelReportGenerator reportGenerator = (ExcelReportGenerator) SpringContextUtility.getBean(beanClass);
+				reportGenerator.generateReport(responseList, model, responseFile);
+			}			
+			
+			
+		}
 
 		log.info("Service Duration [{}]", TimeDurationUtility.duration(start));
 		return responseFile;
