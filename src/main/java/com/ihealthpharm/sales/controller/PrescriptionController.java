@@ -1,5 +1,6 @@
 package com.ihealthpharm.sales.controller;
 
+import java.io.IOException;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ihealthpharm.commons.BaseDto;
@@ -29,10 +31,15 @@ public class PrescriptionController {
 	PrescriptionService prescriptionService;
 	
 	@PostMapping("/save/prescription")
-	public ResponseEntity<BaseDto<PrescriptionImagesModel>> savePrescription(@RequestParam("prescription") String prescription, @RequestParam("prescriptionImage") String prescriptionImage){
+	public ResponseEntity<BaseDto<PrescriptionImagesModel>> savePrescription(@RequestParam("prescription") String prescription, @RequestParam("prescriptionImage") MultipartFile prescriptionImage){
 		System.out.println("-------------------------------------------------------");
 		System.out.println(prescription);
-		System.out.println(prescriptionImage);
+		try {
+			System.out.println(prescriptionImage.getBytes());
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		System.out.println("-------------------------------------------------------");
 		PrescriptionImagesModel prescriptionImagesModel = new PrescriptionImagesModel();
 		try {
@@ -48,7 +55,7 @@ public class PrescriptionController {
 	return new BaseDto<>(prescriptionImagesModel,"Prescription Saved",HttpStatus.OK).respond();
 	}
 	
-	@GetMapping("/getbycustomeranddate")
+	@PostMapping("/getbycustomeranddate")
 	public ResponseEntity<BaseDto<PrescriptionImagesModel>> getPrescriptionByCustomerAndDate(@RequestParam String customer, @RequestParam String date){
 		CustomerModel customerId  = null;
 		Date dateObj = null;
@@ -60,7 +67,7 @@ public class PrescriptionController {
 		{
 			System.out.println(e);
 		}
-		PrescriptionImagesModel prescription = prescriptionService.getPrescriptionByCustomerIdAndDate(customerId, dateObj);
+		PrescriptionImagesModel prescription = prescriptionService.getPrescriptionByCustomerIdAndDate(customerId, date);
 		return new BaseDto<>(prescription,"Prescription Saved",HttpStatus.OK).respond();
 		}
 }

@@ -23,7 +23,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 	}
 
 	@Override
-	public PrescriptionImagesModel getPrescriptionByCustomerIdAndDate(CustomerModel customerId, Date date) {
+	public PrescriptionImagesModel getPrescriptionByCustomerIdAndDate(CustomerModel customerId, String date) {
 		PrescriptionImagesModel prescription = prescriptionRepository.findByCustomerAndPrescriptionDate(customerId,date);
 		return prescription;
 	}

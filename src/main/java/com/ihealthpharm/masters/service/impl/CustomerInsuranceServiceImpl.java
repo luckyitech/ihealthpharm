@@ -14,6 +14,7 @@ import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.CustomerInsuranceRepository;
 import com.ihealthpharm.masters.helper.CustomerInsuranceHelper;
 import com.ihealthpharm.masters.model.CustomerInsuranceModel;
+import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.masters.service.CustomerInsuranceService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -120,6 +121,12 @@ public class CustomerInsuranceServiceImpl implements CustomerInsuranceService {
 	public CustomerInsuranceModel findCustomerInsuranceByPolicyCode(String customerPolicyNumber) {
 		
 		return customerInsuranceRepository.findByCustomerPolicyNumber(customerPolicyNumber);
+	}
+
+	@Override
+	public CustomerInsuranceModel findCustomerInsuranceByCustomer(CustomerModel customer) {
+		
+		return customerInsuranceRepository.findByCustomerModel(customer);
 	}
 
 }

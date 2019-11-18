@@ -9,5 +9,5 @@ public interface PrescriptionService {
 
 	public PrescriptionImagesModel savePrescription(PrescriptionImagesModel prescription);
 	
-	public PrescriptionImagesModel getPrescriptionByCustomerIdAndDate(CustomerModel customerId, Date date);
+	public PrescriptionImagesModel getPrescriptionByCustomerIdAndDate(CustomerModel customerId, String date);
 }
