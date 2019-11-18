@@ -3,6 +3,7 @@ package com.ihealthpharm.masters.service;
 import java.util.List;
 
 import com.ihealthpharm.masters.model.CustomerInsuranceModel;
+import com.ihealthpharm.masters.model.CustomerModel;
 
 
 public interface CustomerInsuranceService {
@@ -18,6 +19,8 @@ public interface CustomerInsuranceService {
 	 CustomerInsuranceModel findCustomerInsuranceById(int customerInsuranceId);
 	 
 	 CustomerInsuranceModel findCustomerInsuranceByPolicyCode(String policyCode);
+	 
+	 CustomerInsuranceModel findCustomerInsuranceByCustomer(CustomerModel customer);
 	
 	 void deleteCustomerInsuranceById(int customerInsuranceIds);
 	

@@ -9,6 +9,8 @@ import com.ihealthpharm.sales.model.PrescriptionImagesModel;
 
 public interface PrescriptionRepository extends JpaRepository<PrescriptionImagesModel, Integer> {
 
-	PrescriptionImagesModel findByCustomerAndPrescriptionDate(CustomerModel customerId, Date date);
+	
+
+	PrescriptionImagesModel findByCustomerAndPrescriptionDate(CustomerModel customerId, String date);
 
 }

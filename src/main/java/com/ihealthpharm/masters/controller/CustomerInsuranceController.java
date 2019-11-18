@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.helper.CustomerInsuranceHelper;
 import com.ihealthpharm.masters.model.CustomerInsuranceModel;
+import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.masters.service.CustomerInsuranceService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -89,5 +90,9 @@ public class CustomerInsuranceController {
 		return new BaseDto<>(result, customerInsuranceHelper.retrieveCustomerInsuranceMessage, OK).respond();
 	}
 
-	
+	@PostMapping("/getcustomerinsurancedatabycustomer")
+	public ResponseEntity<BaseDto<CustomerInsuranceModel>> getCustomerInsuranceDataByCustomer(@RequestBody CustomerModel customer) {
+		CustomerInsuranceModel result = customerInsuranceService.findCustomerInsuranceByCustomer(customer);
+		return new BaseDto<>(result, customerInsuranceHelper.retrieveCustomerInsuranceMessage, OK).respond();
+	}
 }
