@@ -77,7 +77,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 		accountPayablesModel.setPharmacyModel(invoiceModelres.getPharmacy());
 		accountPayablesModel.setSupplierModel(invoiceModelres.getSupplierModel());
 		accountPayablesModel.setTotalInvoiceAmount(invoiceModelres.getInvoiceAmount().floatValue());
-		accountPayablesModel.setPaymentType("");
+		//accountPayablesModel.setPaymentType("");
 		accountPayablesModel.setPaymentNumber("");
 		accountPayablesModel.setStatus("");
 		
