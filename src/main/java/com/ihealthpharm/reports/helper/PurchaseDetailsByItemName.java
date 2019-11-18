@@ -2,7 +2,6 @@ package com.ihealthpharm.reports.helper;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -29,8 +28,9 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-public class SupplierWiseSales extends ReportsPDFUtility{
-	
+public class PurchaseDetailsByItemName extends ReportsPDFUtility{
+
+
 	@Override
 	public Document generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model,
 			File responseFile) {
@@ -43,23 +43,15 @@ public class SupplierWiseSales extends ReportsPDFUtility{
 			writer.setPageEvent(event); 
 			document.open();
 			
-			Map<Date, List<Map<String, Object>>> supplierWiseSalesMap = responseList.stream()
-					.collect(Collectors.groupingBy(map -> (Date) map.get("BILL_DATE")));			
+			Map<String, List<Map<String, Object>>> purchaseDetailsByBatchNo = responseList.stream()
+					.collect(Collectors.groupingBy(map -> (String) map.get("ITEM_NM")));			
 			
-			Map<Date, List<Map<String, Object>>> supplierSalesMap = responseList.stream()
-					.collect(Collectors.groupingBy(map -> (Date) map.get("BILL_DATE")));
 			
-			if(!ObjectUtils.isEmpty(supplierWiseSalesMap)) { 
-				Date fromDate=new Date();
-				for(Date frDate :supplierWiseSalesMap.keySet()) {					
-					List<Map<String, Object>> supplierWiseSalesDetails = supplierWiseSalesMap.get(frDate);
-					fromDate=frDate;
-					//createTable(document,model,supplierWiseSalesDetails,fromDate);
-				}
-				for(Date toDate :supplierSalesMap.keySet()) {					
-					List<Map<String, Object>> supplierSalesDetails = supplierSalesMap.get(toDate);
-					
-					createTable(document,model,supplierSalesDetails,fromDate,toDate);
+			if(!ObjectUtils.isEmpty(purchaseDetailsByBatchNo)) { 
+				
+				for(String itemName :purchaseDetailsByBatchNo.keySet()) {					
+					List<Map<String, Object>> purchaseDetails = purchaseDetailsByBatchNo.get(itemName);
+					createTable(document,model,purchaseDetails,itemName);
 				}
 				
 				
@@ -81,8 +73,8 @@ public class SupplierWiseSales extends ReportsPDFUtility{
 	}
 
 
-	private void createTable(Document document, ReportsMappingModel model, List<Map<String, Object>> supplierWiseSalesList,
-			Date fromDate,Date toDate) throws DocumentException {
+	private void createTable(Document document, ReportsMappingModel model, List<Map<String, Object>> purchaseDetailsList,
+			String itemName) throws DocumentException {
 
 		String reportHeader = model.getReportHeader();
 		List<HeaderDto> headerList = JsonUtility.jsonToList(reportHeader, HeaderDto.class);
@@ -95,7 +87,7 @@ public class SupplierWiseSales extends ReportsPDFUtility{
 		finalTable.getDefaultCell().setBorder(0); 
 		
 		PdfPTable supllierNameTable = new PdfPTable(3);
-		PdfPCell nameCell = new PdfPCell(new Phrase("From Date : "+fromDate+"        "+"To Date   : "+toDate, title08)); 
+		PdfPCell nameCell = new PdfPCell(new Phrase("Product Name : "+itemName, title08)); 
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		nameCell.setVerticalAlignment(Element.ALIGN_TOP);
@@ -106,7 +98,7 @@ public class SupplierWiseSales extends ReportsPDFUtility{
 		supllierNameTable.getDefaultCell().setBorder(0); 
 		
 		
-		PdfPTable table = new PdfPTable(9);
+		PdfPTable table = new PdfPTable(7);
 		table.setTotalWidth(500);
 		table.setWidthPercentage(50);
 		table.setLockedWidth(true);
@@ -126,7 +118,7 @@ public class SupplierWiseSales extends ReportsPDFUtility{
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("PRODUCT CODE");
+			headerCell.add("DISTRIBUTOR NAME");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
@@ -136,7 +128,7 @@ public class SupplierWiseSales extends ReportsPDFUtility{
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("PRODUCT NAME");
+			headerCell.add("INVOICE DATE");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
@@ -146,7 +138,17 @@ public class SupplierWiseSales extends ReportsPDFUtility{
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("BATCH");
+			headerCell.add("INVOICE NUMBER");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("BATCH NO.");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
@@ -166,37 +168,7 @@ public class SupplierWiseSales extends ReportsPDFUtility{
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("UNIT PRICE");
-			cell = new PdfPCell(headerCell);
-			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-			if (!model.isShowVerticalLines())
-				cell.setBorder(Rectangle.BOTTOM);
-			
-			table.addCell(cell);
-			
-			headerCell = new Paragraph();
-			headerCell.setFont(headerFont);
-			headerCell.add("SUB TOTAL");
-			cell = new PdfPCell(headerCell);
-			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-			if (!model.isShowVerticalLines())
-				cell.setBorder(Rectangle.BOTTOM);
-			
-			table.addCell(cell);
-			
-			headerCell = new Paragraph();
-			headerCell.setFont(headerFont);
-			headerCell.add("DISC");
-			cell = new PdfPCell(headerCell);
-			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-			if (!model.isShowVerticalLines())
-				cell.setBorder(Rectangle.BOTTOM);
-			
-			table.addCell(cell);
-			
-			headerCell = new Paragraph();
-			headerCell.setFont(headerFont);
-			headerCell.add("TOTAL AMT");
+			headerCell.add("INVOICE AMOUNT");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
@@ -208,11 +180,11 @@ public class SupplierWiseSales extends ReportsPDFUtility{
 		table.setHeaderRows(1);
 
 		// populate Date
-		if (!ObjectUtils.isEmpty(supplierWiseSalesList)) {
-			for (Map<String, Object> rowData : supplierWiseSalesList) {
+		if (!ObjectUtils.isEmpty(purchaseDetailsList)) {
+			for (Map<String, Object> rowData : purchaseDetailsList) {
 				//for (HeaderDto hearder : headerList) {
 
-				Object value = String.valueOf(supplierWiseSalesList.indexOf(rowData) + 1);
+				Object value = String.valueOf(purchaseDetailsList.indexOf(rowData) + 1);
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
@@ -220,7 +192,7 @@ public class SupplierWiseSales extends ReportsPDFUtility{
 
 				table.addCell(cell);
 
-				value = rowData.containsKey("ITEM_CODE") ? rowData.get("ITEM_CODE") : "";
+				value = rowData.containsKey("SP_NAME") ? rowData.get("SP_NAME") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
@@ -228,7 +200,15 @@ public class SupplierWiseSales extends ReportsPDFUtility{
 
 				table.addCell(cell);
 				
-				value = rowData.containsKey("ITEM_NM") ? rowData.get("ITEM_NM") : "";
+				value = rowData.containsKey("INVOICE_DT") ? rowData.get("INVOICE_DT") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("INVOICE_NO") ? rowData.get("INVOICE_NO") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
@@ -244,7 +224,7 @@ public class SupplierWiseSales extends ReportsPDFUtility{
 
 				table.addCell(cell);
 				
-				value = rowData.containsKey("SALE_QTY") ? rowData.get("SALE_QTY") : "";
+				value = rowData.containsKey("QUANTITY") ? rowData.get("QUANTITY") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
@@ -252,31 +232,7 @@ public class SupplierWiseSales extends ReportsPDFUtility{
 
 				table.addCell(cell);
 				
-				value = rowData.containsKey("UNIT_SALE_PRICE") ? rowData.get("UNIT_SALE_PRICE") : "";
-				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				if (!model.isShowVerticalLines())
-					cell.setBorder(Rectangle.BOTTOM);
-
-				table.addCell(cell);
-				
-				value = rowData.containsKey("SUB_TOTAL") ? rowData.get("SUB_TOTAL") : "";
-				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				if (!model.isShowVerticalLines())
-					cell.setBorder(Rectangle.BOTTOM);
-
-				table.addCell(cell);
-				
-				value = rowData.containsKey("DISCOUNT") ? rowData.get("DISCOUNT") : "";
-				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				if (!model.isShowVerticalLines())
-					cell.setBorder(Rectangle.BOTTOM);
-
-				table.addCell(cell);
-				
-				value = rowData.containsKey("TOTAL_AMOUNT") ? rowData.get("TOTAL_AMOUNT") : "";
+				value = rowData.containsKey("INVOICE_AMOUNT") ? rowData.get("INVOICE_AMOUNT") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
@@ -295,5 +251,4 @@ public class SupplierWiseSales extends ReportsPDFUtility{
 		document.add(finalTable);
 
 	}
-
 }
