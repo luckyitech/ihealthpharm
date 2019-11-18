@@ -27,10 +27,12 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import lombok.extern.slf4j.Slf4j;
 
+
+
 @Component
 @Slf4j
-public class SupplierWiseSales extends ReportsPDFUtility{
-	
+public class ManufacturerWiseSales extends ReportsPDFUtility {
+
 	@Override
 	public Document generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model,
 			File responseFile) {
@@ -296,4 +298,6 @@ public class SupplierWiseSales extends ReportsPDFUtility{
 
 	}
 
+	
+	
 }
