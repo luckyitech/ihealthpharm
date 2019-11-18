@@ -14,10 +14,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.ItemsModel;
-
 
 import lombok.Getter;
 import lombok.Setter;
@@ -42,6 +42,7 @@ public class InvoiceItemModel extends AuditModel {
 	private Integer invoiceItemId;
 	
 	//bi-directional many-to-one association to Invoice
+	@JsonIgnore
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="INVOICE_ID")
 	private InvoiceModel invoice;

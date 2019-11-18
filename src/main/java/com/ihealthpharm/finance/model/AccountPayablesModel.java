@@ -16,15 +16,13 @@ import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.SupplierModel;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 
 @Entity (name="ACCOUNT_PAYABLES")
-@Getter
-@Setter
-@ToString
+@Data
+@EqualsAndHashCode(of = "accountPayablesId", callSuper = false)
 public class AccountPayablesModel extends AuditModel {
     
     /**
@@ -39,32 +37,56 @@ public class AccountPayablesModel extends AuditModel {
     @Column(name="AUDIT_ID",length=11)
     private int auditId;
 
-    @Column(name="PAYMENT_DATE",length=25)
+    @Column(name="PAYMENT_DATE")
     private LocalDate paymentDate;
 
     @Column(name="PAYMENT_NO",length=30)
     private String paymentNumber;
 
-    @Column(name="PAYMENT_TYPE",length=30)
-    private String paymentType;
+ 
 
     @Column(name="STATUS",length=20)
     private String status;
     
-    @Column(name="TOTAL_INVOICE_AMOUNT",length=25)
+    @Column(name="TOTAL_INVOICE_AMOUNT")
     private Float totalInvoiceAmount;
     
-    @Column(name="TOTAL_ADVANCE_AMOUNT",length=25)
+    @Column(name="TOTAL_ADVANCE_AMOUNT")
     private Float totalAdvanceAmount;
     
-    @Column(name="TOTAL_DEBIT_AMOUNT",length=25)
+    @Column(name="TOTAL_DEBIT_AMOUNT")
     private Float totalDebitAmount;
     
-    @Column(name="TOTAL_CREDIT_AMOUNT",length=25)
+    @Column(name="TOTAL_CREDIT_AMOUNT")
     private Float totalCreditAmount;
     
-    @Column(name="TOTAL_AMOUNT_TO_BE_PAID",length=25)
+    @Column(name="TOTAL_AMOUNT_TO_BE_PAID")
     private Double totalAmountToBePaid;
+    
+    
+    @Column(name = "CASH_AMOUNT", length = 25)
+	private float cashAmount;
+
+@Column(name = "CREDIT_CARD_AMOUNT", length = 25)
+	private float creditCardAmount;
+
+	@Column(name = "CREDIT_CARD_NO", length = 20)
+	private String creditCardNo;
+
+@Column(name = "UPI_AMOUNT", length = 25)
+	private float upiAmount;
+
+	@Column(name = "UPI_PHONE_NO", length = 20)
+	private String upiPhoneNo;
+	
+@Column(name="CHEQUE_NUMBER")
+	private Integer chequeNumber;
+	
+	@Column(name="CHEQUE_AMT")
+	private Double chequeAmount;
+
+	@Column(name = "PAYMENT_STATUS", length = 20)
+	private String paymentStatus;
 
     @OneToOne
     @JoinColumn(name="SUPPLIER_ID")

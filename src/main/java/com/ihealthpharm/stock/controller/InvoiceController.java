@@ -64,7 +64,7 @@ public class InvoiceController {
 		PurchaseReturnModel purchaseReturnModel = invoiceModel.getPurchaseReturnModel();
 		InvoiceModel model = invoiceService.saveInvoice(invoiceModel, purchaseReturnModel);
 		model.setInvoiceItems(null);
-		model.setStocks(null);
+		//model.setStocks(null);
 		model.setPurchaseReturnModel(null);
 		return new BaseDto<>(model, invoiceHelper.getSaveInvoiceMessage(), OK).respond();
 	}
@@ -131,6 +131,12 @@ public class InvoiceController {
 	@GetMapping("/getinvoicebyid")
 	public ResponseEntity<BaseDto<InvoiceModel>> getInvoiceById(@RequestParam Integer invoiceId) {
 		InvoiceModel result = invoiceService.findInvoiceById(invoiceId);
+		return new BaseDto<>(result, invoiceHelper.getRetrieveInvoiceMessage(), OK).respond();
+	}
+	
+	@GetMapping("/getinvoicebynum")
+	public ResponseEntity<BaseDto<InvoiceModel>> getInvoiceByNum(@RequestParam String invoiceNo) {
+		InvoiceModel result = invoiceService.findInvoiceByNum(invoiceNo);
 		return new BaseDto<>(result, invoiceHelper.getRetrieveInvoiceMessage(), OK).respond();
 	}
 	

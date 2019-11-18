@@ -204,5 +204,12 @@ public class ItemServiceImpl implements ItemService {
 		return itemRepository.findByItemCodeOrItemNameOrItemDescription(searchTerm);
 	}
 
+	@Override
+	public List<ItemsModel> getLimitedItems() {
+
+		return itemRepository.findFirst100ByOrderByItemCode();
+
+	}
+
 
 }

@@ -26,8 +26,8 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 
 	StockModel findByItemAndBatchNo(ItemsModel itemId, String batchNo);
 	
-	@Query("select s from stock s where s.item.itemId = :itemId and s.invoice.invoiceId = :invoiceId ")
-	StockModel getStockByItemIdandInvoiceId(@Param("itemId") Integer itemId, @Param("invoiceId") Integer invoiceId);
+	//@Query("select s from stock s where s.item.itemId = :itemId and s.invoice.invoiceId = :invoiceId ")
+	//StockModel getStockByItemIdandInvoiceId(@Param("itemId") Integer itemId, @Param("invoiceId") Integer invoiceId);
 	
 	@Query("select i from stock i where i.item like %:searchTerm%")
 	List<StockModel> findByItemName(@Param("searchTerm") ItemsModel searchTerm);

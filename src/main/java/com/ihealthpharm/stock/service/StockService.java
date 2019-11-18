@@ -9,7 +9,9 @@ import com.ihealthpharm.stock.model.StockModel;
 public interface StockService {
 
 	StockModel saveStock(StockModel stockModel);
-
+	
+	List<StockModel> saveStock(List<StockModel> stockModel);
+	
 	StockModel updateStock(StockModel stockModel);
 
 	List<StockModel> updateStocks(List<StockModel> stockModels);
