@@ -38,8 +38,6 @@ public class AccountReceivablesBillsModel extends AuditModel{
     @Column(name="ADVANCE",length=25)
     private Float advance;
 
-    @Column(name="AMOUNT_TO_BE_RECEIVED",length=25)
-    private Float amountToBeReceived;
 
     @Column(name="AUDIT_ID",length=11)
     private int auditId;
