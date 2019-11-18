@@ -33,12 +33,13 @@ import com.ihealthpharm.reports.dto.HeaderDto;
 import com.ihealthpharm.reports.dto.HeaderFooterContentDetailsDto;
 import com.ihealthpharm.reports.dto.HeaderFooterContentDto;
 import com.ihealthpharm.reports.model.ReportsMappingModel;
+import com.ihealthpharm.reports.service.ExcelReportGenerator;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-public class ReportsExcelUtility {
+public class ReportsExcelUtility implements ExcelReportGenerator{
 
 	public void generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile) {
 
@@ -54,12 +55,6 @@ public class ReportsExcelUtility {
 			return;
 		}
 
-		CellStyle wrapStyle = workbook.createCellStyle();
-		wrapStyle.setWrapText(true);
-		wrapStyle.setVerticalAlignment(VerticalAlignment.TOP);
-		wrapStyle.setAlignment(HorizontalAlignment.CENTER);
-
-		
 		CellStyle borderStyle = workbook.createCellStyle();
 		 // Styling border of cell.  
 		borderStyle.setBorderBottom(BorderStyle.THIN);  
@@ -71,7 +66,7 @@ public class ReportsExcelUtility {
 		borderStyle.setBorderLeft(BorderStyle.THIN);  
 		borderStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());  
 		
-		CellStyle headerStyle = workbook.createCellStyle();
+		
 		
 		Font font = workbook.createFont();
 		font.setFontHeightInPoints((short)11);
@@ -79,6 +74,7 @@ public class ReportsExcelUtility {
 		font.setBold(true);
 		font.setColor(IndexedColors.DARK_BLUE.getIndex()); 
 		
+		CellStyle headerStyle = workbook.createCellStyle();
 		headerStyle.setFont(font);
 		headerStyle.setFillForegroundColor(IndexedColors.GOLD.getIndex());
 		headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
@@ -93,13 +89,71 @@ public class ReportsExcelUtility {
 		headerStyle.setBorderLeft(BorderStyle.THIN);  
 		headerStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());  
 		
+		int rowNum = setHeader(workbook,sheet,model);
+		
+		//int dataStartRow = rowNum;
+
+		// create Header
+		int colNum =0;
+		
+		String reportHeader = model.getReportHeader();
+		String headerContent = model.getHeaderContent();
+		List<HeaderDto> headerList = JsonUtility.jsonToList(reportHeader, HeaderDto.class);
+		Row headerRow = sheet.createRow(rowNum++);
+		for (HeaderDto hearder : headerList) {
+			Cell cell = headerRow.createCell(colNum);
+			cell.setCellValue(hearder.getDisplayName());
+			cell.setCellStyle(headerStyle);
+			colNum++;
+		}
+		sheet.createFreezePane(0, rowNum);
+
+		// populate Date
+		if (!ObjectUtils.isEmpty(responseList)) {
+			for (Map<String, Object> rowData : responseList) {
+				colNum = 0;
+				Row dataRow = sheet.createRow(rowNum++);
+				for (HeaderDto hearder : headerList) {
+					Object value = rowData.containsKey(hearder.getColumnName()) ? rowData.get(hearder.getColumnName())
+							: "";
+					sheet.autoSizeColumn(colNum);
+					Cell cell = dataRow.createCell(colNum++);
+					cell.setCellValue(String.valueOf(value));
+					cell.setCellStyle(borderStyle);
+
+
+				}
+			}
+		}		
+		writeToFile(workbook, responseFile);
+		 
+	}
+	
+	/*
+	 * 
+	 * private void setRegionBorderWithMedium(CellRangeAddress region,Sheet sheet) {
+	 * RegionUtil.setBorderBottom(BorderStyle.THIN, region, sheet);
+	 * RegionUtil.setBorderLeft(BorderStyle.THIN, region, sheet);
+	 * RegionUtil.setBorderRight(BorderStyle.THIN, region, sheet);
+	 * RegionUtil.setBorderTop(BorderStyle.THIN, region, sheet); }
+	 */
+
+	public int setHeader(XSSFWorkbook workbook, XSSFSheet sheet, ReportsMappingModel model) { 
+		CellStyle wrapStyle = workbook.createCellStyle();
+		wrapStyle.setWrapText(true);
+		wrapStyle.setVerticalAlignment(VerticalAlignment.TOP);
+		wrapStyle.setAlignment(HorizontalAlignment.CENTER);
+
+		
+	
+		
 		
 		String reportHeader = model.getReportHeader();
 		String headerContent = model.getHeaderContent();
 		List<HeaderDto> headerList = JsonUtility.jsonToList(reportHeader, HeaderDto.class);
 
 		int rowNum = 0;
-		int colNum = 0;
+		
 
 		if (!ObjectUtils.isEmpty(headerContent)) {
 			HeaderFooterContentDto contentDto = (HeaderFooterContentDto) JsonUtility.jsonToObject(headerContent,
@@ -142,66 +196,17 @@ public class ReportsExcelUtility {
 			sheet.addMergedRegion(cellRangeAddress1);
 
 			
-			/*
-			 * sheet.createRow(rowNum++); CellRangeAddress cellRangeAddress2 = new
-			 * CellRangeAddress(rowNum - 1, rowNum - 1, 0, totalMergeColumns - 1);
-			 * sheet.addMergedRegion(cellRangeAddress2);
-			 */
-
+		
+			
 
 			
 		}
 		
-		//int dataStartRow = rowNum;
-
-		// create Header
-		Row headerRow = sheet.createRow(rowNum++);
-		for (HeaderDto hearder : headerList) {
-			Cell cell = headerRow.createCell(colNum);
-			cell.setCellValue(hearder.getDisplayName());
-			cell.setCellStyle(headerStyle);
-			colNum++;
-		}
-		sheet.createFreezePane(0, rowNum);
-
-		// populate Date
-		if (!ObjectUtils.isEmpty(responseList)) {
-			for (Map<String, Object> rowData : responseList) {
-				colNum = 0;
-				Row dataRow = sheet.createRow(rowNum++);
-				for (HeaderDto hearder : headerList) {
-					Object value = rowData.containsKey(hearder.getColumnName()) ? rowData.get(hearder.getColumnName())
-							: "";
-					sheet.autoSizeColumn(colNum);
-					Cell cell = dataRow.createCell(colNum++);
-					cell.setCellValue(String.valueOf(value));
-					cell.setCellStyle(borderStyle);
-
-
-				}
-			}
-		}
-
-		/*
-		 * int dataEndRow = rowNum;
-		 * 
-		 * CellRangeAddress region = new CellRangeAddress(dataStartRow, dataEndRow-1, 0,
-		 * headerList.size() - 1); setRegionBorderWithMedium(region, sheet);
-		 */ 
-		  writeToFile(workbook, responseFile);
-		 
+		return rowNum;
+		
 	}
-	
-	
 
-	private void setRegionBorderWithMedium(CellRangeAddress region,Sheet sheet) {
-        RegionUtil.setBorderBottom(BorderStyle.THIN, region, sheet);
-        RegionUtil.setBorderLeft(BorderStyle.THIN, region, sheet);
-        RegionUtil.setBorderRight(BorderStyle.THIN, region, sheet);
-        RegionUtil.setBorderTop(BorderStyle.THIN, region, sheet);
-    }
-
-	private int getTotalMergeRows(HeaderFooterContentDto contentDto) {
+	public int getTotalMergeRows(HeaderFooterContentDto contentDto) {
 
 		int totalMergeRows =0;
 		if (!ObjectUtils.isEmpty(contentDto)) {
@@ -229,7 +234,7 @@ public class ReportsExcelUtility {
 		return totalMergeRows;
 	}
 
-	private String getReportHeader(HeaderFooterContentDto contentDto) {
+	public String getReportHeader(HeaderFooterContentDto contentDto) {
 
 		StringBuffer buffer = new StringBuffer();
 
@@ -273,7 +278,7 @@ public class ReportsExcelUtility {
 
 	}
 
-	private void writeToFile(XSSFWorkbook workbook, File responseFile) {
+	public void writeToFile(XSSFWorkbook workbook, File responseFile) {
 		try {
 			FileOutputStream outputStream = new FileOutputStream(responseFile);
 			workbook.write(outputStream);

@@ -44,10 +44,6 @@ public class SalesReturnModel extends AuditModel {
 	@OneToOne
 	@JoinColumn(name="BILL_ID")
 	private SalesModel billNumber;
-
-	
-	@Column(name="PAYMENT_TYPE",length=50)
-	private String paymentType;
 	
 	@Column(name="TOTAL_AMOUNT")
 	private Float totalAmount;
