@@ -12,6 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
+import com.ihealthpharm.finance.dao.AccountPayablesInvoicesRepository;
+import com.ihealthpharm.finance.dao.AccountPayablesRepository;
+import com.ihealthpharm.finance.model.AccountPayablesInvoicesModel;
+import com.ihealthpharm.finance.model.AccountPayablesModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.stock.dao.InvoiceItemRepository;
 import com.ihealthpharm.stock.dao.InvoiceRepository;
@@ -45,6 +49,12 @@ public class InvoiceServiceImpl implements InvoiceService {
 	StockRepository stockRepository;
 	
 	@Autowired
+	AccountPayablesRepository accountPayablesRepository;
+	
+	@Autowired
+	AccountPayablesInvoicesRepository accountPayablesInvoicesRepository;
+	
+	@Autowired
 	StockHistoryRepository stockHistoryRepository;
 	
 	@Autowired
@@ -62,6 +72,29 @@ public class InvoiceServiceImpl implements InvoiceService {
 		List<InvoiceItemModel> invoiceItemModels = invoiceModel.getInvoiceItems();
 		
 		InvoiceModel invoiceModelres = invoiceRepository.save(invoiceModel);
+		
+		AccountPayablesModel accountPayablesModel = new AccountPayablesModel();
+		accountPayablesModel.setPharmacyModel(invoiceModelres.getPharmacy());
+		accountPayablesModel.setSupplierModel(invoiceModelres.getSupplierModel());
+		accountPayablesModel.setTotalInvoiceAmount(invoiceModelres.getInvoiceAmount().floatValue());
+		accountPayablesModel.setPaymentType("");
+		accountPayablesModel.setPaymentNumber("");
+		accountPayablesModel.setStatus("");
+		
+		AccountPayablesModel accountPayablesModelres = accountPayablesRepository.save(accountPayablesModel);
+		
+		AccountPayablesInvoicesModel accountPayablesInvoicesModel = new AccountPayablesInvoicesModel();
+		accountPayablesInvoicesModel.setAccountPayablesModel(accountPayablesModelres);
+		accountPayablesInvoicesModel.setPharmacyModel(invoiceModelres.getPharmacy());
+		accountPayablesInvoicesModel.setSupplierModel(invoiceModelres.getSupplierModel());
+		accountPayablesInvoicesModel.setInvoiceAmount(invoiceModelres.getInvoiceAmount().floatValue());
+		accountPayablesInvoicesModel.setCreditNoteAmount(0f);
+		accountPayablesInvoicesModel.setDebitNoteAmount(0f);
+		accountPayablesInvoicesModel.setAmountToBePaid(invoiceModelres.getInvoiceAmount().floatValue());
+		accountPayablesInvoicesModel.setAdvance(invoiceModel.getAdvance().floatValue());
+		accountPayablesInvoicesModel.setInvoiceNumber(0f);
+		
+		accountPayablesInvoicesRepository.save(accountPayablesInvoicesModel);
 		
 		for(InvoiceItemModel it : invoiceItemModels) {
 			StockModel stockModel = new StockModel();
