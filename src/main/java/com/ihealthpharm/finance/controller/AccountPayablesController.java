@@ -21,13 +21,11 @@ import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.finance.helper.AccountPayablesHelper;
 import com.ihealthpharm.finance.model.AccountPayablesModel;
 import com.ihealthpharm.finance.service.AccountPayablesService;
+import com.ihealthpharm.stock.helper.InvoiceHelper;
 import com.ihealthpharm.stock.model.InvoiceModel;
-
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @CrossOrigin
-@Slf4j
 public class AccountPayablesController {
 
 	@Autowired
@@ -35,6 +33,9 @@ public class AccountPayablesController {
 
 	@Autowired
 	AccountPayablesHelper accountPayablesHelper;
+	
+	@Autowired
+	InvoiceHelper invoiceHelper;
 
 	@PostMapping("/save/accountPayables")
 	public ResponseEntity<BaseDto<AccountPayablesModel>> insertAccountPayablesData(@Valid @RequestBody AccountPayablesModel accountPayablesModel) {
@@ -83,12 +84,10 @@ public class AccountPayablesController {
 
 	@GetMapping("/getinvoicesbysupplierid")
 	public ResponseEntity<BaseDto<List<InvoiceModel>>> getAllInvoicesBasedOnSupplierId(@RequestParam int supplierId){
-		System.out.println("in grid"+supplierId);
 		List<InvoiceModel> result=accountPayablesService.getAllInvoicesBySupplierId(supplierId);
 
-		return new BaseDto<>(result,accountPayablesHelper.getRetrieveAccountPayablesMessage(),OK).respond();
+		return new BaseDto<>(result,invoiceHelper.getRetrieveInvoiceMessage(),OK).respond();
 	}
-	
-	
+		
 	
 }
