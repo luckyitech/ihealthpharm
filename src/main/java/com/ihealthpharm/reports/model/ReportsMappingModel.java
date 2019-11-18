@@ -55,6 +55,9 @@ public class ReportsMappingModel implements Serializable {
 	
 	@Column(name = "CUSTOM_REPORT_GENERATOR")
 	private String customReportGeneratorClazz;
+	
+	@Column(name = "CUSTOM_EXCEL_REPORT_GENERATOR")
+	private String customExcelReportGeneratorClazz;
 
 	
 }
