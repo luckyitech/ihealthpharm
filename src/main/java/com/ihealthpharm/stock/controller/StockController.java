@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.stock.dto.StockItemsListDTO;
 import com.ihealthpharm.stock.helper.StockHelper;
@@ -193,4 +194,14 @@ public class StockController {
 		log.info(result.toString());
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}
+	
+	
+	//to update stock Quantity 
+	@GetMapping("/getstocksdata/basedonbillid")
+		public ResponseEntity<BaseDto<StockModel>> getStockDataBasedOnItem(@RequestParam int itemId){
+		
+		StockModel result = stockService.findStocksByBillId(itemId);
+		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
+	}
+	
 }

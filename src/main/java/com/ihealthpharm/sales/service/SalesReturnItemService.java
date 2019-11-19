@@ -9,7 +9,7 @@ import com.ihealthpharm.sales.model.SalesReturnItemsModel;
 public interface SalesReturnItemService {
 	
 	
-	SalesReturnItemsModel saveSalesReturnItemData(@Valid SalesReturnItemsModel salesReturnItemsModel);
+	List<SalesReturnItemsModel> saveSalesReturnItemData(@Valid List<SalesReturnItemsModel> salesReturnItemsModel);
 
 	SalesReturnItemsModel updateSalesReturnsItemData(@Valid SalesReturnItemsModel salesReturnItemsModel);
 
