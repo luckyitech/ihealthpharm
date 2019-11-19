@@ -108,13 +108,13 @@ public class SupplierModel extends AuditModel {
 	private String bankName;
 	
 	@Column(name = "ACCOUNT_NUMBER")
-	private Float accountNumber;
+	private String accountNumber;
 	
 	@Column(name = "IFSC_CODE")
-	private Float ifscCode;
+	private String ifscCode;
 	
 	@Column(name = "MICR_CODE")
-	private Float micrCode;
+	private String micrCode;
 	
 	@OneToOne
 	@JoinColumn(name="COUNTRY_ID")
