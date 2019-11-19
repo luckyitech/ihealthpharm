@@ -3,7 +3,6 @@ package com.ihealthpharm.finance.service;
 import java.util.List;
 
 import com.ihealthpharm.finance.model.CreditNoteModel;
-import com.ihealthpharm.masters.model.ItemCategoryModel;
 
 public interface CreditNoteService
 {

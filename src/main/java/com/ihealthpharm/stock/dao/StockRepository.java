@@ -1,6 +1,5 @@
 package com.ihealthpharm.stock.dao;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -36,7 +35,4 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 
 	List<StockModel> findByItemAndPharmacy(ItemsModel itemId, PharmacyModel pharmacy);
 
-	@Query("select s from stock s where s.item.itemId=:itemId")
-	StockModel getStockDataBillId(Integer itemId);
-	
 }

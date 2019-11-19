@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import com.ihealthpharm.sales.model.SalesItemsModel;
 import com.ihealthpharm.sales.model.SalesModel;
-import com.ihealthpharm.stock.model.StockModel;
 
 @Repository
 public interface SalesItemsRepository

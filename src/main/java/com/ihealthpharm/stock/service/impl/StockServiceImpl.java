@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
-import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.stock.dao.StockRepository;
@@ -173,12 +172,6 @@ public class StockServiceImpl implements StockService {
 	@Override
 	public StockModel getStockByItemIdandInvoiceId(Integer itemId, Integer invoiceId) {
 		return null;//stockRepository.getStockByItemIdandInvoiceId(itemId, invoiceId);
-	}
-
-	@Override
-	public StockModel findStocksByBillId(Integer itemId) {
-		StockModel response=stockRepository.getStockDataBillId(itemId);
-		return response;
 	}
 
 	

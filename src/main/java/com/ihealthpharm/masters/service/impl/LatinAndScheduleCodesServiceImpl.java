@@ -13,11 +13,8 @@ import com.ihealthpharm.masters.model.LatinShortCodesModel;
 import com.ihealthpharm.masters.model.ScheduleCodeModel;
 import com.ihealthpharm.masters.service.LatinAndScheduleCodesService;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Service
 @Transactional
-@Slf4j
 public class LatinAndScheduleCodesServiceImpl implements LatinAndScheduleCodesService {
 
 	@Autowired
