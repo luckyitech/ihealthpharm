@@ -1,7 +1,5 @@
 package com.ihealthpharm.stock.dto;
 
-import java.util.Date;
-
 import com.ihealthpharm.masters.model.ItemFormModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.stock.model.StockModel;

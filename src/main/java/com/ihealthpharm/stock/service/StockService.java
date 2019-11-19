@@ -38,6 +38,4 @@ public interface StockService {
 	
 	StockModel getStockByItemIdandInvoiceId(Integer itemId, Integer invoiceId);
 
-	StockModel findStocksByBillId(Integer itemId);
-	
 }
