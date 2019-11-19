@@ -26,8 +26,7 @@ import com.ihealthpharm.masters.service.ItemService;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author Tarun
- * All the drug related API's available here..
+ * @author Tarun All the drug related API's available here..
  *
  */
 @RestController
@@ -42,31 +41,26 @@ public class ItemController {
 	@Autowired
 	private ItemPropertyHelper propertyHelper;
 
-
 	@PostMapping("/save/item")
 	public ResponseEntity<BaseDto<ItemsModel>> insertItemData(@Valid @RequestBody ItemsModel itemsModel) {
-		log.info("Request Object insert is: "+ itemsModel);
+		log.info("Request Object insert is: " + itemsModel);
 		ItemsModel itemModelRes = itemService.saveItemsData(itemsModel);
-		return new BaseDto<>(itemModelRes,propertyHelper.getSaveMessage(),OK).respond();
+		return new BaseDto<>(itemModelRes, propertyHelper.getSaveMessage(), OK).respond();
 	}
-
 
 	@PutMapping("/update/item")
 	public ResponseEntity<BaseDto<ItemsModel>> updateItemData(@Valid @RequestBody ItemsModel itemsModel) {
-		log.info("Request Object for update is: ",itemsModel);
-		ItemsModel itemModelRes =itemService.updateItemData(itemsModel); 
-		return new BaseDto<>(itemModelRes,propertyHelper.getUpdateMessage(),OK).respond();
+		log.info("Request Object for update is: ", itemsModel);
+		ItemsModel itemModelRes = itemService.updateItemData(itemsModel);
+		return new BaseDto<>(itemModelRes, propertyHelper.getUpdateMessage(), OK).respond();
 	}
-
 
 	@PutMapping("/update/items")
 	public ResponseEntity<BaseDto<List<ItemsModel>>> updateItemsData(@Valid @RequestBody List<ItemsModel> itemsModels) {
-		log.info("Request Object for update is: "+ itemsModels);
-		List<ItemsModel> itemRes =itemService.updateItemsData(itemsModels);
-		return new BaseDto<>(itemRes,propertyHelper.getUpdateMessage(),OK).respond();
+		log.info("Request Object for update is: " + itemsModels);
+		List<ItemsModel> itemRes = itemService.updateItemsData(itemsModels);
+		return new BaseDto<>(itemRes, propertyHelper.getUpdateMessage(), OK).respond();
 	}
-
-
 
 	@DeleteMapping("/delete/item")
 	public ResponseEntity<BaseDto<Object>> deleteItemData(@RequestParam int itemId) {
@@ -75,14 +69,12 @@ public class ItemController {
 		return new BaseDto<>(propertyHelper.getDeleteMessage(), OK).respond();
 	}
 
-
 	@DeleteMapping("/delete/items")
 	public ResponseEntity<BaseDto<Object>> deleteItemsData(@RequestParam int[] itemIds) {
-		log.info("Request Object for delete is: "+ itemIds);
+		log.info("Request Object for delete is: " + itemIds);
 		itemService.deleteMultipleItemsById(itemIds);
 		return new BaseDto<>(propertyHelper.getDeleteMessage(), OK).respond();
 	}
-
 
 	@GetMapping("/getactiveitemsdata")
 	public ResponseEntity<BaseDto<List<ItemsModel>>> getItemdata() {
@@ -98,80 +90,85 @@ public class ItemController {
 
 	@GetMapping("/getitemdatabyid")
 	public ResponseEntity<BaseDto<ItemsModel>> getItemDataById(@RequestParam int itemId) {
-		ItemsModel result = itemService.findItemsById(itemId); 
+		ItemsModel result = itemService.findItemsById(itemId);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 
-
-	//based on medical search and itemName
+	// based on medical search and itemName
 
 	@GetMapping("/getallby/MedicalandItemnameSearch")
-	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllByItemName(@RequestParam String medicalOrNonMedical,@RequestParam String searchTerm){
+	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllByItemName(@RequestParam String medicalOrNonMedical,
+			@RequestParam String searchTerm) {
 
-		List<ItemsModel> results=itemService.findAllByMedicalAndItemName(medicalOrNonMedical, searchTerm);
-		return new BaseDto<>(results,propertyHelper.getRetrieveMessage(),OK).respond();
+		List<ItemsModel> results = itemService.findAllByMedicalAndItemName(medicalOrNonMedical, searchTerm);
+		return new BaseDto<>(results, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 
-	//based on medical and itemDesc
+	// based on medical and itemDesc
 	@GetMapping("/getallby/MedicalAndItemDescSearch")
-	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllMedicalAndItemDesc(@RequestParam String medicalOrNonMedical,@RequestParam String searchTerm){
+	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllMedicalAndItemDesc(@RequestParam String medicalOrNonMedical,
+			@RequestParam String searchTerm) {
 
-		List<ItemsModel> result=itemService.findAllByMedicalAndItemDesc(medicalOrNonMedical, searchTerm);
-		return new BaseDto<>(result,propertyHelper.getRetrieveMessage(),OK).respond(); 
+		List<ItemsModel> result = itemService.findAllByMedicalAndItemDesc(medicalOrNonMedical, searchTerm);
+		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 
-
-	//based on itemName search
+	// based on itemName search
 	@GetMapping("/getallby/ItemNameSearch")
-	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllByItemNameSearch(@RequestParam String searchTerm){
-		List<ItemsModel> results=itemService.findAllByItemName(searchTerm);
-		return new BaseDto<>(results,propertyHelper.getRetrieveMessage(),OK).respond();
+	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllByItemNameSearch(@RequestParam String searchTerm) {
+		List<ItemsModel> results = itemService.findAllByItemName(searchTerm);
+		return new BaseDto<>(results, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 
+	// based on itemCode search
+	@GetMapping("/getallby/ItemCodeSearch")
+	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllByItemCodeSearch(@RequestParam String searchTerm) {
+		List<ItemsModel> results = itemService.findAllByItemCode(searchTerm);
+		return new BaseDto<>(results, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
 
-	//based on itemCode search
-		@GetMapping("/getallby/ItemCodeSearch")
-		public ResponseEntity<BaseDto<List<ItemsModel>>> getAllByItemCodeSearch(@RequestParam String searchTerm){
-			List<ItemsModel> results=itemService.findAllByItemCode(searchTerm);
-			return new BaseDto<>(results,propertyHelper.getRetrieveMessage(),OK).respond();
-		}
-
-	//based on itemDescription
+	// based on itemDescription
 	@GetMapping("/getallby/ItemDescriptionSearch")
-	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllItemsByItemDesc(@RequestParam String searchTerm){
+	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllItemsByItemDesc(@RequestParam String searchTerm) {
 
-		List<ItemsModel> result=itemService.findAllByItemDescription(searchTerm);
-		return new BaseDto<>(result,propertyHelper.getRetrieveMessage(),OK).respond();
+		List<ItemsModel> result = itemService.findAllByItemDescription(searchTerm);
+		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 
-	//based on itemgeneric name
+	// based on itemgeneric name
 	@GetMapping("/getallby/genericnameSearch")
-	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllItemsBySearchGenericName(@RequestParam String searchTerm){
-		List<ItemsModel> result=itemService.findAllGerericNamesBySearch(searchTerm);
-		return new BaseDto<>(result,propertyHelper.getRetrieveMessage(),OK).respond();
+	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllItemsBySearchGenericName(@RequestParam String searchTerm) {
+		List<ItemsModel> result = itemService.findAllGerericNamesBySearch(searchTerm);
+		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 
-	//based on groupcode
+	// based on groupcode
 	@GetMapping("/getallby/groupcodeSearch")
-	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllItemsByGroupCodeSearch(@RequestParam String searchTerm){
+	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllItemsByGroupCodeSearch(@RequestParam String searchTerm) {
 		log.info(searchTerm);
-		List<ItemsModel> response=itemService.findAllByItemGroupCodeSearch(searchTerm);
-		return new BaseDto<>(response,propertyHelper.getRetrieveMessage(),OK).respond();
+		List<ItemsModel> response = itemService.findAllByItemGroupCodeSearch(searchTerm);
+		return new BaseDto<>(response, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
-	
-	//based on search key
-		@GetMapping("/getallby/searchkey")
-		public ResponseEntity<BaseDto<List<ItemsModel>>> getAllItemsBySearchkey(@RequestParam String searchTerm){
-			log.info(searchTerm);
-			List<ItemsModel> response=itemService.findBySearchKey(searchTerm);
-			return new BaseDto<>(response,propertyHelper.getRetrieveMessage(),OK).respond();
-		}
-		
-		@GetMapping("/getlimiteditemdata")
-		public ResponseEntity<BaseDto<List<ItemsModel>>> getLimitetems(){
-			
-			List<ItemsModel> response=itemService.getLimitedItems();
-			return new BaseDto<>(response,propertyHelper.getRetrieveMessage(),OK).respond();
-		}
-		
+
+	// based on search key
+	@GetMapping("/getallby/searchkey")
+	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllItemsBySearchkey(@RequestParam String searchTerm) {
+		log.info(searchTerm);
+		List<ItemsModel> response = itemService.findBySearchKey(searchTerm);
+		return new BaseDto<>(response, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+
+	@GetMapping("/getallby/searchkeyandsearchcode")
+	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllItemsBySearchkeyAndCode(@RequestParam String searchTerm,@RequestParam String searchCode) {
+		log.info(searchTerm);
+		List<ItemsModel> response = itemService.findBySearchKey(searchTerm,searchCode);
+		return new BaseDto<>(response, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+	@GetMapping("/getlimiteditemdata")
+	public ResponseEntity<BaseDto<List<ItemsModel>>> getLimitetems() {
+
+		List<ItemsModel> response = itemService.getLimitedItems();
+		return new BaseDto<>(response, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+
 }

@@ -35,5 +35,8 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 	List<StockModel> findByItem(ItemsModel itemId);
 
 	List<StockModel> findByItemAndPharmacy(ItemsModel itemId, PharmacyModel pharmacy);
+
+	@Query("select s from stock s where s.item.itemId=:itemId")
+	StockModel getStockDataBillId(Integer itemId);
 	
 }

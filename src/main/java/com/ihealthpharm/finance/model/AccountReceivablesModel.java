@@ -17,7 +17,7 @@ import com.ihealthpharm.sales.model.SalesModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Entity (name="ACCOUNT_RECEIVABLES")
+@Entity (name="account_receivables")
 @Data
 @EqualsAndHashCode(of = "accountReceivablesId", callSuper = false)
 public class AccountReceivablesModel extends AuditModel{
@@ -45,12 +45,15 @@ public class AccountReceivablesModel extends AuditModel{
 	@Column(name="RECEIPT_NO",length=25)
 	private String receiptNumber;
 
-	@Column(name="SOURCE_TYPE",length=20)
+/*	@Column(name="SOURCE_TYPE",length=20)
 	private String sourceType;
 
 
 	@Column(name="SOURCE_VALUE",length=20)
-	private String sourceValue;
+	private String sourceValue;*/
+	
+	  @Column(name="AMOUNT_TO_BE_RECEIVED",length=25)
+	    private Float amountToBeReceived;
 
     @Column(name="STATUS",length=20)
     private String status;
