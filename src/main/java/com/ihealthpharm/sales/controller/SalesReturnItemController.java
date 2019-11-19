@@ -36,9 +36,9 @@ public class SalesReturnItemController {
 	SalesReturnItemService salesReturnItemService;
 	
 	@PostMapping("/save/salesreturnitems")
-	public ResponseEntity<BaseDto<SalesReturnItemsModel>> saveSalesReturnItems(@Valid @RequestBody  SalesReturnItemsModel salesReturnItemsModel ){
-		log.info("Request Object to insert is :"+salesReturnItemsModel);
-		SalesReturnItemsModel salesReturn=salesReturnItemService.saveSalesReturnItemData(salesReturnItemsModel);
+	public ResponseEntity<BaseDto<List<SalesReturnItemsModel>>> saveSalesReturnItems(@Valid @RequestBody  List<SalesReturnItemsModel> salesReturnItemsModel ){
+		log.info("Request Object to insert is :"+salesReturnItemsModel.toString());
+		List<SalesReturnItemsModel> salesReturn=salesReturnItemService.saveSalesReturnItemData(salesReturnItemsModel);
 		return new BaseDto<>(salesReturn,salesReturnItemHelper.getSaveSalesReturnItemMessage(),OK).respond();
 	}
 	

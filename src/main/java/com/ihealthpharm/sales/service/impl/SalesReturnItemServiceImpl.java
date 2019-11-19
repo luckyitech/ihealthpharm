@@ -1,5 +1,6 @@
 package com.ihealthpharm.sales.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -32,10 +33,17 @@ public class SalesReturnItemServiceImpl implements SalesReturnItemService{
 	SalesReturnItemHelper salesReturnItemHelper;
 	
 	@Override
-	public SalesReturnItemsModel saveSalesReturnItemData(@Valid SalesReturnItemsModel salesReturnItemsModel) {
-		SalesReturnItemsModel salesReturnItemsRes = salesReturnItemRepo.save(salesReturnItemsModel);
-		log.info("SalesRetrunItems data with ID : " + salesReturnItemsRes.getSalesReturnItemId() + " Saved succesfully");
-		return salesReturnItemsRes;
+	public List<SalesReturnItemsModel> saveSalesReturnItemData( List<SalesReturnItemsModel> salesReturnItemsModels) {
+		
+		
+		System.out.println(salesReturnItemsModels.toString());
+		List<SalesReturnItemsModel> salesItemsRes = new ArrayList<>();
+		for(SalesReturnItemsModel saleItemModel:salesReturnItemsModels)
+		{	
+			salesItemsRes.add(salesReturnItemRepo.save(saleItemModel));
+		}
+		return salesItemsRes;
+		
 	}
 
 	@Override

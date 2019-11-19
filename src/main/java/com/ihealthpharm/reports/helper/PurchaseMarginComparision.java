@@ -263,7 +263,7 @@ public class PurchaseMarginComparision extends ReportsPDFUtility{
 
 				table.addCell(cell);
 				
-				value = rowData.containsKey("UNIT_PURCHASE_RATE") ? rowData.get("UNIT_PURCHASE_RATE") : "";
+				value = rowData.containsKey("UNIT_RATE") ? rowData.get("UNIT_RATE") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())

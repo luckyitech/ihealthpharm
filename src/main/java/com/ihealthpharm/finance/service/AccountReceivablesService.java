@@ -27,5 +27,7 @@ public interface AccountReceivablesService
 	// List<SalesModel> getAllBillsByCustomerId(CustomerInsuranceModel customerId);
 	 
 	 List<SalesModel> getAllBillsByCustomerId(Integer customerId);
+
+	AccountReceivablesModel findAccountReceivablesByBillId(Integer billId);
 	 
 }

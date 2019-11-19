@@ -22,4 +22,8 @@ public interface AccountReceivablesRepository extends JpaRepository<AccountRecei
 	@Query("select i from sales i inner join customer_insurance d on i.customerInsuranceModel.customerInsuranceId=d.customerInsuranceId where d.insuranceModel.insurancePolicyId=:customersId")
 	List<SalesModel> getAllBillsByCustomerId(@Param ("customersId")Integer customersId);
 	
+	@Query("select s from account_receivables s where s.salesModel.billId=:billId")
+	AccountReceivablesModel getAccountRecievablesBillId( @Param ("billId")Integer billId);
+	
+	
 }
