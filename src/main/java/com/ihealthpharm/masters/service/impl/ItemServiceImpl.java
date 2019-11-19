@@ -1,12 +1,19 @@
 package com.ihealthpharm.masters.service.impl;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +26,7 @@ import com.ihealthpharm.masters.model.ItemGenericNamesModel;
 import com.ihealthpharm.masters.model.ItemGroupModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.service.ItemService;
+import com.ihealthpharm.sales.model.SalesModel;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -177,8 +185,8 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public List<ItemsModel> findAllGerericNamesBySearch(String searchTerm) {
-		ItemGenericNamesModel genericRes= genericRepo.findByGenericName(searchTerm);
-
+		ItemGenericNamesModel genericRes= genericRepo.findByGenericNameContains(searchTerm);
+		
 		List<ItemsModel> itemsRes = itemRepository.findByItemGenericName(genericRes);
 		return itemsRes;
 	}
@@ -186,7 +194,7 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public List<ItemsModel> findAllByItemGroupCodeSearch(String searchTerm) {
 
-		ItemGroupModel groupCodes=itemGroupRepo.findByGroupName(searchTerm);
+		ItemGroupModel groupCodes=itemGroupRepo.findByGroupNameContaining(searchTerm);
 
 		List<ItemsModel> itemModelRes=itemRepository.findByItemGroup(groupCodes);
 
@@ -209,6 +217,36 @@ public class ItemServiceImpl implements ItemService {
 
 		return itemRepository.findFirst100ByOrderByItemCode();
 
+	}
+
+	@Override
+	public List<ItemsModel> findBySearchKey(String searchTerm, String searchCode) {
+		
+		return itemRepository.findAll(new Specification<ItemsModel>() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -2059726564132190131L;
+
+			@Override
+			public Predicate toPredicate(Root<ItemsModel> root, CriteriaQuery<?> query,
+					CriteriaBuilder criteriaBuilder) {
+				List<Predicate> predicates = new ArrayList<>();
+				if (searchCode.equalsIgnoreCase("item code") || searchCode.equalsIgnoreCase("itemcode")) {
+					
+					predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("itemCode"), "%"+searchTerm+"%")));
+				}
+				else if(searchCode.equalsIgnoreCase("item name") || searchCode.equalsIgnoreCase("itemname")) {
+					
+					predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("itemName"), "%"+searchTerm+"%")));
+				}
+				else if(searchCode.equalsIgnoreCase("item description") || searchCode.equalsIgnoreCase("itemdescription")) {
+					
+					predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("itemDescription"), "%"+searchTerm+"%")));
+				}
+				return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+			}
+		});
 	}
 
 

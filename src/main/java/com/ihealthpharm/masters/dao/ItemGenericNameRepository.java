@@ -21,4 +21,6 @@ public interface ItemGenericNameRepository extends JpaRepository<ItemGenericName
 	List<ItemGenericNamesModel> findAllBySearchCriteria(@Param("medicalOrNonMedical") String medicalOrNonMedical,@Param("searchTerm") String searchTerm,@Param("itemGroupModel") ItemGroupModel itemGroupModel );
 
 	ItemGenericNamesModel findByGenericName(String searchTerm);
+
+	ItemGenericNamesModel findByGenericNameContains(String searchTerm);
 }
