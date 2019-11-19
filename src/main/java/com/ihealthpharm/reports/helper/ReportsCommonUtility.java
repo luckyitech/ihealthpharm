@@ -100,23 +100,23 @@ public class ReportsCommonUtility {
 						}
 						//Date formate should be YYYY-MM-DD
 						else if (StringUtils.equalsIgnoreCase("Date", criteria.getType())) {
+							
+							
 							if (StringUtils.equalsIgnoreCase("EQ", criteria.getOperator())) {
 								stringBuffer.append(criteria.getAlias());
-								stringBuffer.append(criteria.getColumnName());
+								stringBuffer.append("DATE_FORMAT(" +criteria.getAlias() + criteria.getColumnName() +",'%Y-%m-%d') ");
 								stringBuffer.append(" = ");
 								stringBuffer.append("'"+value+"'");
 								stringBuffer.append(" ");
 							}
 							else if (StringUtils.equalsIgnoreCase("GE", criteria.getOperator())) {
-								stringBuffer.append(criteria.getAlias());
-								stringBuffer.append(criteria.getColumnName());
+								stringBuffer.append("DATE_FORMAT(" +criteria.getAlias() + criteria.getColumnName() +",'%Y-%m-%d') ");
 								stringBuffer.append(" >= ");
 								stringBuffer.append("'"+value+"'");
 								stringBuffer.append(" ");
 							}
 							else if (StringUtils.equalsIgnoreCase("LE", criteria.getOperator())) {
-								stringBuffer.append(criteria.getAlias());
-								stringBuffer.append(criteria.getColumnName());
+								stringBuffer.append("DATE_FORMAT(" +criteria.getAlias() + criteria.getColumnName() +",'%Y-%m-%d') ");
 								stringBuffer.append(" <= ");
 								stringBuffer.append("'"+value+"'");
 								stringBuffer.append(" ");
