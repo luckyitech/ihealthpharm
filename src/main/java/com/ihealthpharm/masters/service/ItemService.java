@@ -43,6 +43,8 @@ public interface ItemService {
 	
 	List<ItemsModel> findBySearchKey(String searchTerm);
 	
+	List<ItemsModel> findBySearchKey(String searchTerm, String searchCode);
+	
 	List<ItemsModel> getLimitedItems();
 
 	

@@ -51,6 +51,9 @@ public class AccountReceivablesModel extends AuditModel{
 
 	@Column(name="SOURCE_VALUE",length=20)
 	private String sourceValue;*/
+	
+	  @Column(name="AMOUNT_TO_BE_RECEIVED",length=25)
+	    private Float amountToBeReceived;
 
     @Column(name="STATUS",length=20)
     private String status;
@@ -80,9 +83,5 @@ public class AccountReceivablesModel extends AuditModel{
     @OneToOne
     @JoinColumn(name="PHARMACY_ID")
     private PharmacyModel pharmacyModel;
-    
-    
-    @Column(name="AMOUNT_TO_BE_RECEIVED",length=25)
-    private Float amountToBeReceived;
 
 }

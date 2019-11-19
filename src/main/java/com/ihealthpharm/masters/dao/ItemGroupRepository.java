@@ -21,4 +21,6 @@ public interface ItemGroupRepository extends JpaRepository<ItemGroupModel, Seria
 	List<ItemGroupModel> findAllBySearchCriteria(@Param("medicalOrNonMedical") String medicalOrNonMedical,@Param("searchTerm") String searchTerm);
 	
 	ItemGroupModel findByGroupName(String searchTerm);
+
+	ItemGroupModel findByGroupNameContaining(String searchTerm);
 }

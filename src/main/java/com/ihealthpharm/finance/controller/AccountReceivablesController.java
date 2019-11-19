@@ -21,9 +21,8 @@ import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.finance.helper.AccountReceivablesHelper;
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.finance.service.AccountReceivablesService;
-import com.ihealthpharm.masters.model.CustomerInsuranceModel;
+import com.ihealthpharm.sales.helper.SalesHelper;
 import com.ihealthpharm.sales.model.SalesModel;
-import com.ihealthpharm.stock.model.InvoiceModel;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,10 +36,13 @@ public class AccountReceivablesController {
 
 	@Autowired
 	AccountReceivablesHelper accountReceivablesHelper;
+	
+	@Autowired
+	SalesHelper salesHelper;
 
 	@PostMapping("/save/accountReceivables")
 	public ResponseEntity<BaseDto<AccountReceivablesModel>> insertAccountReceivablesData(@Valid @RequestBody AccountReceivablesModel accountReceivablesModel) {
-
+      System.out.println(accountReceivablesModel);
 		AccountReceivablesModel accountReceivablesModelRes = accountReceivablesService.saveAccountReceivablesData(accountReceivablesModel);
 		return new BaseDto<>(accountReceivablesModelRes, accountReceivablesHelper.getSaveAccountReceivablesMessage(), OK).respond();
 	}
@@ -104,7 +106,7 @@ public class AccountReceivablesController {
 		log.info("---------------------------------");
 		log.info(result.toString());
 		log.info("---------------------------------");
-		return new BaseDto<>(result,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
+		return new BaseDto<>(result,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
 	
 	//to update salesreturn totalAmount

@@ -3,6 +3,7 @@ package com.ihealthpharm.masters.dao;
 import java.io.Serializable;
 import java.util.List;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -39,7 +40,7 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 
 	@Query("select i from items i inner join com.ihealthpharm.masters.model.ItemGenericNamesModel ig on "
 			+ "i.itemGenericName.itemGenericNameId=ig.itemGenericNameId "
-			+ "where i.itemDescription=:searchTerm OR  i.itemCode=:searchTerm OR  i.itemName=:searchTerm or ig.genericName=:searchTerm ")
+			+ "where i.itemDescription like %:searchTerm% OR  i.itemCode like %:searchTerm% OR  i.itemName like %:searchTerm% or ig.genericName like %:searchTerm%")
 	public List<ItemsModel> findByItemCodeOrItemNameOrItemDescription(@Param("searchTerm") String searchTerm);
 
 	
@@ -47,5 +48,9 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 	
 
 	public List<ItemsModel> findFirst100ByOrderByItemCode();
+
+	public List<ItemsModel> findAll(Specification<ItemsModel> specification);
+
+	public List<ItemsModel> findByItemGenericNameContains(ItemGenericNamesModel genericRes);
 
 }
