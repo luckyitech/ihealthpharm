@@ -26,8 +26,8 @@ public class AccountReceivablesModel extends AuditModel{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	
+
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="ACCOUNT_RECEIVABLES_ID")
@@ -45,43 +45,43 @@ public class AccountReceivablesModel extends AuditModel{
 	@Column(name="RECEIPT_NO",length=25)
 	private String receiptNumber;
 
-/*	@Column(name="SOURCE_TYPE",length=20)
+	/*	@Column(name="SOURCE_TYPE",length=20)
 	private String sourceType;
 
 
 	@Column(name="SOURCE_VALUE",length=20)
 	private String sourceValue;*/
-	
-	  @Column(name="AMOUNT_TO_BE_RECEIVED",length=25)
-	    private Float amountToBeReceived;
 
-    @Column(name="STATUS",length=20)
-    private String status;
-    
-    @Column(name="UPI_PHONE_NO",length=20)
-    private String upiPhoneNo;
-    
-    @Column(name="UPI_AMOUNT")
-    private Float upiAmount;
-    
-    @Column(name="CASH_AMOUNT")
-    private Float cashAmount;
-    
-    @Column(name="CREDIT_DAYS",length=11)
-    private Integer creditDays;
-    
-    @Column(name="CHEQUE_NUMBER",length=11)
-    private Integer chequeNumber;
-    
-    @Column(name="CHEQUE_AMT",length=20)
-    private Float chequeAmount;
-    
-    @OneToOne
-    @JoinColumn(name="BILL_ID")
-    SalesModel salesModel;
-    
-    @OneToOne
-    @JoinColumn(name="PHARMACY_ID")
-    private PharmacyModel pharmacyModel;
+	@Column(name="AMOUNT_TO_BE_RECEIVED",length=25)
+	private Float amountToBeReceived;
+
+	@Column(name="STATUS",length=20)
+	private String status;
+
+	@Column(name="UPI_PHONE_NO",length=20)
+	private String upiPhoneNo;
+
+	@Column(name="UPI_AMOUNT")
+	private Float upiAmount;
+
+	@Column(name="CASH_AMOUNT")
+	private Float cashAmount;
+
+	@Column(name="CREDIT_DAYS",length=11)
+	private Integer creditDays;
+
+	@Column(name="CHEQUE_NUMBER",length=11)
+	private Integer chequeNumber;
+
+	@Column(name="CHEQUE_AMT",length=20)
+	private Float chequeAmount;
+
+	@OneToOne
+	@JoinColumn(name="BILL_ID")
+	SalesModel salesModel;
+
+	@OneToOne
+	@JoinColumn(name="PHARMACY_ID")
+	private PharmacyModel pharmacyModel;
 
 }

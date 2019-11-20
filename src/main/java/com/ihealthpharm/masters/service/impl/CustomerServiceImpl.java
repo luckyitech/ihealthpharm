@@ -1,12 +1,18 @@
 package com.ihealthpharm.masters.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -131,7 +137,26 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public List<CustomerModel> findCustomersByName(String customerName) {
-		return customerRepository.findByCustomerNameIgnoreCaseContaining(customerName);
+		
+		return customerRepository.findAll(new Specification<CustomerModel>() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -2059726564132190131L;
+
+			@Override
+			public Predicate toPredicate(Root<CustomerModel> root, CriteriaQuery<?> query,
+					CriteriaBuilder criteriaBuilder) {
+				List<Predicate> predicates = new ArrayList<>();
+				if (!customerName.equals(null) && !customerName.equals("undefined") &&  !customerName.equals("")) {
+					
+					predicates.add(criteriaBuilder.or(criteriaBuilder.like(root.get("customerName"), "%"+customerName+"%")));
+					predicates.add(criteriaBuilder.or(criteriaBuilder.like(root.get("lastName"), "%"+customerName+"%")));
+				}
+				
+				return criteriaBuilder.or(predicates.toArray(new Predicate[predicates.size()]));
+			}
+		});
 	}
 
 }
