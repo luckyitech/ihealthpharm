@@ -31,6 +31,6 @@ public interface InvoiceRepository extends JpaRepository<InvoiceModel, Integer> 
 	@Query("select ii.itemsModel from invoice i join i.invoiceItems ii where i.invoiceId = :invoiceId ")
 	List<ItemsModel> getInvoiceItems(@Param("invoiceId") Integer invoiceId);
 	
-	Optional<InvoiceModel> findByInvoiceNo(String invoiceNo);
+	List<InvoiceModel> findByInvoiceNo(String invoiceNo);
 	
 }
