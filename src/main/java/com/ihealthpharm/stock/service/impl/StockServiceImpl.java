@@ -181,5 +181,11 @@ public class StockServiceImpl implements StockService {
 		return response;
 	}
 
+	@Override
+	public List<StockModel> findByItemAndPharmacy(String itemName, Integer pharmacyId) {
+		
+		return stockRepository.findStockByItemNameAndPharmacyId(itemName,pharmacyId);
+	}
+
 	
 }

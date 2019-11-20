@@ -22,5 +22,5 @@ public interface EmployeeService {
 	
 	 EmployeeModel findLastCreatedEmployeeId();
 	
-	
+	 List<EmployeeModel> findEmployeeByFirstNameAndLastName(String name);
 }
