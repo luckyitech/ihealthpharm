@@ -38,8 +38,8 @@ public interface StockService {
 	
 	List<StockModel> findByItemName(ItemsModel itemName);
 	
+	public StockModel findStocksByBillId(Integer itemId);
+	
 	StockModel getStockByItemIdandInvoiceId(Integer itemId, Integer invoiceId);
 
-	StockModel findStocksByBillId(Integer itemId);
-	
 }

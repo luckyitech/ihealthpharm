@@ -1,6 +1,5 @@
 package com.ihealthpharm.masters.service.impl;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -26,7 +25,6 @@ import com.ihealthpharm.masters.model.ItemGenericNamesModel;
 import com.ihealthpharm.masters.model.ItemGroupModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.service.ItemService;
-import com.ihealthpharm.sales.model.SalesModel;
 
 import lombok.extern.slf4j.Slf4j;
 

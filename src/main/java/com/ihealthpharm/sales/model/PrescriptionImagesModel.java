@@ -1,9 +1,5 @@
 package com.ihealthpharm.sales.model;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,11 +12,17 @@ import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.CustomerModel;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity(name="prescription_images")
 @Data
-
+@EqualsAndHashCode(of = "prescriptionId", callSuper = false)
 public class PrescriptionImagesModel extends AuditModel{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4006404360654696605L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

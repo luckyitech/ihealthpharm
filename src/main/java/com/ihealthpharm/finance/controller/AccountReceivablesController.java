@@ -89,16 +89,6 @@ public class AccountReceivablesController {
 		return new BaseDto<>(result, accountReceivablesHelper.getRetrieveAccountReceivablesMessage(), OK).respond();
 	}
 
-/*	@GetMapping("/getbillsbycustomerid")
-	public ResponseEntity<BaseDto<List<SalesModel>>> getAllBillsBasedOnCustomerId(@RequestParam CustomerInsuranceModel customerInsuranceModel){
-		System.out.println("in grid"+customerInsuranceModel);
-		List<SalesModel> result=accountReceivablesService.getAllBillsByCustomerId(customerInsuranceModel);
-		log.info("---------------------------------");
-		log.info(result.toString());
-		log.info("---------------------------------");
-		return new BaseDto<>(result,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
-	}*/
-	
 	@GetMapping("/getbillsbycustomerid")
 	public ResponseEntity<BaseDto<List<SalesModel>>> getAllBillsBasedOnCustomerId(@RequestParam int customerId){
 		System.out.println("in grid"+customerId);
