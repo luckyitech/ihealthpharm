@@ -228,5 +228,12 @@ public class EmployeeController {
 		EmployeeModel result = employeeService.findLastCreatedEmployeeId();
 		return new BaseDto<>(result, employeeHelper.getRetrieveEmployeeMessage(), OK).respond();
 	}
+	
+	@GetMapping("/getemployeebyname")
+	public ResponseEntity<BaseDto<List<EmployeeModel>>> getEmployeeByName(@RequestParam String name) {
+		List<EmployeeModel> result = employeeService.findEmployeeByFirstNameAndLastName(name);
+		return new BaseDto<>(result, employeeHelper.getRetrieveEmployeeMessage(), OK).respond();
+	}
+	
 
 }
