@@ -59,7 +59,7 @@ public class QuotationsReportGenerator extends ReportsPDFUtility {
 			
 
 		} catch (Exception e) {
-			log.error(ExceptionUtils.getMessage(e));
+			log.error(ExceptionUtils.getStackTrace(e));
 			try {
 				addMessage(document, ExceptionUtils.getMessage(e));
 			} catch (DocumentException e1) {
@@ -74,7 +74,7 @@ public class QuotationsReportGenerator extends ReportsPDFUtility {
 
 	private void generateTotalTable(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException {
 		
-		int totalQty = responseList.stream().mapToInt(mapper->Integer.parseInt(mapper.containsKey("QUANTITY")?String.valueOf(mapper.get("QUANTITY")):"0")).sum(); 
+		int totalQty = responseList.stream().mapToInt(mapper->Integer.parseInt((mapper.containsKey("QUANTITY") && !ObjectUtils.isEmpty(mapper.get("QUANTITY"))) ?String.valueOf(mapper.get("QUANTITY")):"0")).sum(); 
 
 		PdfPTable totalQtyTable = new PdfPTable(3);
 		totalQtyTable.setTotalWidth(500);
