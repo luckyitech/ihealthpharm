@@ -181,9 +181,30 @@ public class StockServiceImpl implements StockService {
 	}
 
 	@Override
-	public List<StockModel> findByItemAndPharmacy(String itemName, Integer pharmacyId) {
+	public List<StockModel> findByItemAndPharmacy(String searchTerm,String searchCode, Integer pharmacyId) {
+		List<StockModel> res=null;
+		if(searchCode.equalsIgnoreCase("Item Name"))
+		{
+			res = stockRepository.findStockByItemNameAndPharmacyId(searchTerm,pharmacyId);
+		}
+		else if(searchCode.equalsIgnoreCase("Item Code"))
+		{
+			res = stockRepository.findStockByItemCodeAndPharmacyId(searchTerm,pharmacyId);
+		}
+		else if(searchCode.equalsIgnoreCase("Description"))
+		{
+			res = stockRepository.findStockByItemDescriptionAndPharmacyId(searchTerm,pharmacyId);
+		}
+		else if(searchCode.equalsIgnoreCase("Batch Number"))
+		{
+			res = stockRepository.findStockByBatchNumberAndPharmacyId(searchTerm,pharmacyId);
+		}
+		else if(searchCode.equalsIgnoreCase("Generic Name"))
+		{
+			res = stockRepository.findStockByItemGenericNameAndPharmacyId(searchTerm,pharmacyId);
+		}
 		
-		return stockRepository.findStockByItemNameAndPharmacyId(itemName,pharmacyId);
+		return res;
 	}
 
 }

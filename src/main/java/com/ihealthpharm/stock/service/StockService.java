@@ -34,7 +34,7 @@ public interface StockService {
 
 	List<StockModel> findByItemAndPharmacy(List<ItemsModel> itemId, PharmacyModel pharmacy);
 	
-	List<StockModel> findByItemAndPharmacy(String itemName, Integer pharmacyid);
+	List<StockModel> findByItemAndPharmacy(String searchTerm,String searchCode, Integer pharmacyid);
 	
 	List<StockModel> findByItemName(ItemsModel itemName);
 	

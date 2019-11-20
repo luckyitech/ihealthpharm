@@ -196,8 +196,8 @@ public class StockController {
 	
 
 	@GetMapping("/getstockbyitemandpharmacyid")
-	public ResponseEntity<BaseDto<List<StockModel>>> getStockByItemNameAndPharmacy(@RequestParam String itemName, @RequestParam Integer pharmacyId){
-		List<StockModel> result = stockService.findByItemAndPharmacy(itemName,pharmacyId);
+	public ResponseEntity<BaseDto<List<StockModel>>> getStockByItemNameAndPharmacy(@RequestParam String searchTerm,@RequestParam String searchCode, @RequestParam Integer pharmacyId){
+		List<StockModel> result = stockService.findByItemAndPharmacy(searchTerm,searchCode,pharmacyId);
 		log.info(result.toString());
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}
@@ -205,7 +205,6 @@ public class StockController {
 	//to update stock Quantity 
 	@GetMapping("/getstocksdata/basedonbillid")
 		public ResponseEntity<BaseDto<StockModel>> getStockDataBasedOnItem(@RequestParam int itemId){
-		
 		StockModel result = stockService.findStocksByBillId(itemId);
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}

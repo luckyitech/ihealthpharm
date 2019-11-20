@@ -21,4 +21,6 @@ public interface PharmacyService {
 
 	List<PharmacyModel> getAllPharmacies();
 	
+	List<PharmacyModel> getPharmaciesByName(String pharmacyName);
+	
 }
