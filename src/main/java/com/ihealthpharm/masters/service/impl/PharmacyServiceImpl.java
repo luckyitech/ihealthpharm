@@ -133,6 +133,12 @@ public class PharmacyServiceImpl implements PharmacyService {
 		return response;
 	}
 
+	@Override
+	public List<PharmacyModel> getPharmaciesByName(String pharmacyName) {
+		
+		return pharmacyRepository.findByPharmacyNameContains(pharmacyName);
+	}
+
 	
 
 }

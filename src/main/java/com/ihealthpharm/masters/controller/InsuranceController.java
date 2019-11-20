@@ -115,5 +115,11 @@ public class InsuranceController {
 		InsuranceModel insuranceRes=insuranceService.findInsuranceByPolicyCode(policyCode);
 		return new BaseDto<>(insuranceRes,insuranceHelper.getRetrieveInsuranceMessage(),OK).respond();
 	}
+	
+	@GetMapping("/getinsurance/bypolicycodeandpolicyname")
+	public ResponseEntity<BaseDto<List<InsuranceModel>>> getInsuranceByPolicyCodeAndPolicyName(@Valid @RequestParam String searchTerm){
+		List<InsuranceModel> insuranceRes=insuranceService.findInsuranceByPolicyCodeOrPolicyDescription(searchTerm);
+		return new BaseDto<>(insuranceRes,insuranceHelper.getRetrieveInsuranceMessage(),OK).respond();
+	}
 
 }

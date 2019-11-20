@@ -20,6 +20,8 @@ public interface InsuranceService {
 	
 	InsuranceModel findInsuranceByPolicyCode(String policyCode);
 	
+	List<InsuranceModel> findInsuranceByPolicyCodeOrPolicyDescription(String searchTerm);
+	
 	void delete(int insurancePolicyId);
 
 	void deleteMultipleInsurances(int[] insurancePolicyId);
