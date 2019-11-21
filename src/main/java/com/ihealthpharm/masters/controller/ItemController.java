@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.helper.ItemPropertyHelper;
+import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.service.ItemService;
 
@@ -169,6 +170,13 @@ public class ItemController {
 
 		List<ItemsModel> response = itemService.getLimitedItems();
 		return new BaseDto<>(response, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+	
+	@GetMapping("/getitemsdatabyname")
+	public ResponseEntity<BaseDto<List<ItemsModel>>> getItemsDataByName(@RequestParam("key") String itemName) {
+		List<ItemsModel> result = itemService.findItemsByName(itemName);
+		log.info(result.toString());
+		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 
 }

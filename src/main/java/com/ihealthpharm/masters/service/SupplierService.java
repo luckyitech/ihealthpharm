@@ -25,4 +25,6 @@ public interface SupplierService {
 	 List<SupplierModel> findLimitedSuppliers();
 
 	 List<SupplierModel> findAllSuppliersByName(String searchTerm);
+	 
+	 List<SupplierModel> findSuppliersByName(String name);
 }

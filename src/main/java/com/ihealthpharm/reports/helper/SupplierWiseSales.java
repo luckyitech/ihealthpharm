@@ -44,10 +44,10 @@ public class SupplierWiseSales extends ReportsPDFUtility{
 			document.open();
 			
 			Map<Date, List<Map<String, Object>>> supplierWiseSalesMap = responseList.stream()
-					.collect(Collectors.groupingBy(map -> (Date) map.get("BILL_DATE")));			
+					.collect(Collectors.groupingBy(map -> (Date) map.get("FromDate")));			
 			
 			Map<Date, List<Map<String, Object>>> supplierSalesMap = responseList.stream()
-					.collect(Collectors.groupingBy(map -> (Date) map.get("BILL_DATE")));
+					.collect(Collectors.groupingBy(map -> (Date) map.get("ToDate")));
 			
 			if(!ObjectUtils.isEmpty(supplierWiseSalesMap)) { 
 				Date fromDate=new Date();

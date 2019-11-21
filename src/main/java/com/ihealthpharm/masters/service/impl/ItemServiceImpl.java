@@ -248,4 +248,29 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 
+	
+	@Override
+	public List<ItemsModel> findItemsByName(String itemName) {
+		
+		return itemRepository.findAll(new Specification<ItemsModel>() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -2059726564132190131L;
+
+			@Override
+			public Predicate toPredicate(Root<ItemsModel> root, CriteriaQuery<?> query,
+					CriteriaBuilder criteriaBuilder) {
+				List<Predicate> predicates = new ArrayList<>();
+				if (!itemName.equals(null) && !itemName.equals("undefined") &&  !itemName.equals("")) {
+					
+					predicates.add(criteriaBuilder.or(criteriaBuilder.like(root.get("itemName"), "%"+itemName+"%")));
+				}
+				
+				return criteriaBuilder.or(predicates.toArray(new Predicate[predicates.size()]));
+			}
+		});
+	}
+	
+	
 }
