@@ -31,7 +31,7 @@ public class ManufacturerModel extends AuditModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="MANUFACTURER_ID",length=11)
-	private int manufacturerId;
+	private Integer manufacturerId;
 	
 	@Column(name="MFR_NAME",length=100)
 	private String name;
