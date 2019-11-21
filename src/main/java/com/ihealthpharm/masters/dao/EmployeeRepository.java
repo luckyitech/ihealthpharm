@@ -15,7 +15,7 @@ public interface EmployeeRepository extends JpaRepository<EmployeeModel, Integer
 	@Query(value="SELECT * from employee e order by e.EMPLOYEE_ID desc limit 1", nativeQuery=true)
 	public EmployeeModel findLastCreatedEmployeeId();
 
-	@Query("select e from employee e where e.firstName like :name% or e.lastName like :name%")
+	@Query("select e from employee e where e.firstName like %:name% or e.lastName like %:name% or e.employeeCode like %:name%")
 	List<EmployeeModel> findByFirstNameOrLastName(@Param("name") String name);
 
 }

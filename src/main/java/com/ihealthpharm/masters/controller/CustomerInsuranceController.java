@@ -95,4 +95,10 @@ public class CustomerInsuranceController {
 		CustomerInsuranceModel result = customerInsuranceService.findCustomerInsuranceByCustomer(customer);
 		return new BaseDto<>(result, customerInsuranceHelper.retrieveCustomerInsuranceMessage, OK).respond();
 	}
+	
+	@GetMapping("/getcustomerinsurancedatabysearch")
+	public ResponseEntity<BaseDto<List<CustomerInsuranceModel>>> getCustomerInsuranceDataBySearch(@RequestParam String searchKey) {
+		List<CustomerInsuranceModel> result = customerInsuranceService.findCustomersInsuranceBySearch(searchKey);
+		return new BaseDto<>(result, customerInsuranceHelper.retrieveCustomerInsuranceMessage, OK).respond();
+	}
 }

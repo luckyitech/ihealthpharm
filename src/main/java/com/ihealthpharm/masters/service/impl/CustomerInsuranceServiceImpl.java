@@ -129,4 +129,10 @@ public class CustomerInsuranceServiceImpl implements CustomerInsuranceService {
 		return customerInsuranceRepository.findByCustomerModel(customer);
 	}
 
+	@Override
+	public List<CustomerInsuranceModel> findCustomersInsuranceBySearch(String searchKey) {
+		
+		return customerInsuranceRepository.findCustomersInsuranceBySearch(searchKey);
+	}
+
 }
