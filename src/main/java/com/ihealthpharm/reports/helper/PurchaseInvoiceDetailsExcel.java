@@ -142,7 +142,7 @@ public class PurchaseInvoiceDetailsExcel extends ReportsExcelUtility {
 		cell4=dataRow4.createCell(9);
 
 		cell.setCellValue("GROSS TOTAL : ");
-		cell1.setCellValue("MISC. COST : ");
+		cell1.setCellValue("MISC COST : ");
 		cell2.setCellValue("DISCOUNT : ");
 		cell3.setCellValue("VAT : ");
 		cell4.setCellValue("NET TOTAL : ");
@@ -188,11 +188,11 @@ public class PurchaseInvoiceDetailsExcel extends ReportsExcelUtility {
 			
 			
 			cell = headerRow.createCell(2);
-			cell.setCellValue("BATCH NO.");
+			cell.setCellValue("BATCH NO");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(3);
-			cell.setCellValue("QTY.");
+			cell.setCellValue("QTY");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(4);

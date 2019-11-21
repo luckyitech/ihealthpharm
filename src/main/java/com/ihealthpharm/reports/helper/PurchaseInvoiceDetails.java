@@ -92,10 +92,10 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 
 	private void generateTotalTable(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException {
 		
-		double grossTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TOTAL_VALUE")?String.valueOf(mapper.get("TOTAL_VALUE")):"0")).sum(); 
-		double netTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("ACTUAL_VALUE")?String.valueOf(mapper.get("ACTUAL_VALUE")):"0")).sum(); 
-		double discount = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("DISCOUNT")?String.valueOf(mapper.get("DISCOUNT")):"0")).sum(); 
-		double charges=responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("HANDLING_CHARGES")?String.valueOf(mapper.get("HANDLING_CHARGES")):"0")).sum(); 
+		double grossTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("TOTAL_VALUE") && !ObjectUtils.isEmpty(mapper.get("TOTAL_VALUE"))) ?String.valueOf(mapper.get("TOTAL_VALUE")):"0")).sum(); 
+		double netTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("ACTUAL_VALUE")&& !ObjectUtils.isEmpty(mapper.get("ACTUAL_VALUE")))?String.valueOf(mapper.get("ACTUAL_VALUE")):"0")).sum(); 
+		double discount = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("DISCOUNT")&& !ObjectUtils.isEmpty(mapper.get("DISCOUNT")))?String.valueOf(mapper.get("DISCOUNT")):"0")).sum(); 
+		double charges = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("HANDLING_CHARGES")&& !ObjectUtils.isEmpty(mapper.get("HANDLING_CHARGES")))?String.valueOf(mapper.get("HANDLING_CHARGES")):"0")).sum(); 
 		
 		PdfPTable totalQtyTable = new PdfPTable(3);
 		totalQtyTable.setTotalWidth(500);
@@ -114,7 +114,7 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 		totalQtyTable.setTotalWidth(500);
 		totalQtyTable.getDefaultCell().setBorder(0); 
 		
-		PdfPCell nameCell2 = new PdfPCell(new Phrase("MISC. COST : "+charges, title08)); 
+		PdfPCell nameCell2 = new PdfPCell(new Phrase("MISC COST : "+charges, title08)); 
 		nameCell2.setColspan(3);
 		nameCell2.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell2.setVerticalAlignment(Element.ALIGN_TOP);
@@ -208,7 +208,7 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("BATCH NO.");
+			headerCell.add("BATCH NO");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())

@@ -148,7 +148,7 @@ public class PurchaseDetailsByItemName extends ReportsPDFUtility{
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("BATCH NO.");
+			headerCell.add("BATCH NO");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
