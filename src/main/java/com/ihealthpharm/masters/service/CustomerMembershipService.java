@@ -21,5 +21,7 @@ public interface CustomerMembershipService {
 	 void deleteCustomersMembershipById(int[] customerMembershipIds);
 	 
 	 CustomerMembershipModel findByMembershipCardNumber(String membershipCardNumber);
+	 
+	 List<CustomerMembershipModel> findCustomersMembershipBySearch(String key);
 	
 }

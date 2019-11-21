@@ -20,6 +20,8 @@ public interface CustomerInsuranceService {
 	 
 	 CustomerInsuranceModel findCustomerInsuranceByPolicyCode(String policyCode);
 	 
+	 List<CustomerInsuranceModel> findCustomersInsuranceBySearch(String searchKey);
+	 
 	 CustomerInsuranceModel findCustomerInsuranceByCustomer(CustomerModel customer);
 	
 	 void deleteCustomerInsuranceById(int customerInsuranceIds);
