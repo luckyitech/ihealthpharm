@@ -1,12 +1,18 @@
 package com.ihealthpharm.masters.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -129,6 +135,31 @@ public class SupplierServiceImpl implements SupplierService {
 	public List<SupplierModel> findLimitedSuppliers() {
 		// TODO Auto-generated method stub
 		return supplierRepository.findFirst100ByOrderByName();
+	}
+	
+	
+	
+	@Override
+	public List<SupplierModel> findSuppliersByName(String name) {
+		
+		return supplierRepository.findAll(new Specification<SupplierModel>() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -2059726564132190131L;
+
+			@Override
+			public Predicate toPredicate(Root<SupplierModel> root, CriteriaQuery<?> query,
+					CriteriaBuilder criteriaBuilder) {
+				List<Predicate> predicates = new ArrayList<>();
+				if (!name.equals(null) && !name.equals("undefined") &&  !name.equals("")) {
+					
+					predicates.add(criteriaBuilder.or(criteriaBuilder.like(root.get("name"), "%"+name+"%")));
+				}
+				
+				return criteriaBuilder.or(predicates.toArray(new Predicate[predicates.size()]));
+			}
+		});
 	}
 
 }

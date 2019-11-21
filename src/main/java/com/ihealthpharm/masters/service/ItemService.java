@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 
 public interface ItemService {
@@ -47,5 +48,6 @@ public interface ItemService {
 	
 	List<ItemsModel> getLimitedItems();
 
+	List<ItemsModel> findItemsByName(String itemName);
 	
 }
