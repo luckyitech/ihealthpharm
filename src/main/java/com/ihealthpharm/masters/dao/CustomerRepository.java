@@ -21,7 +21,8 @@ public interface CustomerRepository extends JpaRepository<CustomerModel,Integer>
 
 	List<CustomerModel> findByCustomerNameIgnoreCaseContaining(String customerName);
 
-	@Query("select c from customer c where c.customerName like %:name% or c.lastName like %:name%")
+	@Query("select c from customer c where c.customerName like %:name% or c.lastName like %:name% or c.phoneNumber like %:name% or c.addressLine1 like %:name% "
+			+ " or c.emailId like %:name%")
 	List<CustomerModel> findByCustomerNameAndLastNameIgnoreCaseContaining(@Param("name") String name);
 
 	List<CustomerModel> findAll(Specification<CustomerModel> specification);

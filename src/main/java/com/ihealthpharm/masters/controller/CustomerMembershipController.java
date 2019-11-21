@@ -88,5 +88,9 @@ public class CustomerMembershipController {
 		return new BaseDto<>(result, customerMembershipHelper.getRetrieveCustomerMembershipMessage(), OK).respond();
 	}
 
-	
+	@GetMapping("/getbymembershipbysearch")
+	public ResponseEntity<BaseDto<List<CustomerMembershipModel>>> getCustomerMembershipBySearch(@RequestParam("key") String searchKey) {
+		List<CustomerMembershipModel> result = customerMembershipService.findCustomersMembershipBySearch(searchKey);
+		return new BaseDto<>(result, customerMembershipHelper.getRetrieveCustomerMembershipMessage(), OK).respond();
+	}
 }
