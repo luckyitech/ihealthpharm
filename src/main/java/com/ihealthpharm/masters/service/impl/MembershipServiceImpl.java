@@ -120,4 +120,11 @@ public class MembershipServiceImpl implements MembershipService  {
 	}
 
 
+	@Override
+	public List<MembershipModel> findMembershipByName(@Valid String membershipName) {
+		
+		return membershipRepo.findByMembershipCardNameContains(membershipName);
+	}
+
+
 }

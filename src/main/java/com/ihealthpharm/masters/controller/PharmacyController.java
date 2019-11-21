@@ -118,5 +118,11 @@ public class PharmacyController {
 		return new BaseDto<>(result,pharmacyHelper.getRetrievePharmacyMessage(),OK).respond();
 	}
 	
+	@GetMapping("/getpharmaciesbyname")
+	public ResponseEntity<BaseDto<List<PharmacyModel>>> getAllPharmaciesDataByName(@RequestParam String pharmacyName){
+		List<PharmacyModel> result=pharmacyService.getPharmaciesByName(pharmacyName);
+		return new BaseDto<>(result,pharmacyHelper.getRetrievePharmacyMessage(),OK).respond();
+	}
+	
 
 }

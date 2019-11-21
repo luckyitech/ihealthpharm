@@ -118,6 +118,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeRepository.findLastCreatedEmployeeId();
 	}
 
+	@Override
+	public List<EmployeeModel> findEmployeeByFirstNameAndLastName(String name) {
+		
+		return employeeRepository.findByFirstNameOrLastName(name);
+	}
+	
+	
+
 	
 
 }

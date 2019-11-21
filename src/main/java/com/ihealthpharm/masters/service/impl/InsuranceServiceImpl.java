@@ -122,4 +122,10 @@ public class InsuranceServiceImpl implements InsuranceService  {
 		return insuranceRepo.findByPolicyCode(policyCode);
 	}
 
+	@Override
+	public List<InsuranceModel> findInsuranceByPolicyCodeOrPolicyDescription(String searchTerm) {
+		
+		return insuranceRepo.findByPolicyCodeOrPolicyDescription(searchTerm);
+	}
+
 }
