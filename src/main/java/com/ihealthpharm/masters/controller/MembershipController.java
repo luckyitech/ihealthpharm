@@ -86,6 +86,13 @@ public class MembershipController {
 		return new BaseDto<>(membershipRes,membershipHelper.getRetrieveMembershipMessage(),OK).respond();
 	}
 	
+	@GetMapping("/getmembership/byname")
+	public ResponseEntity<BaseDto<List<MembershipModel>>> getMembershipByName(@Valid @RequestParam String membershipName){
+		
+		List<MembershipModel> membershipRes=membershipService.findMembershipByName(membershipName);
+		System.out.println(membershipRes);
+		return new BaseDto<>(membershipRes,membershipHelper.getRetrieveMembershipMessage(),OK).respond();
+	}
 	
 
 }

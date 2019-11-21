@@ -174,5 +174,37 @@ public class StockServiceImpl implements StockService {
 		return null;//stockRepository.getStockByItemIdandInvoiceId(itemId, invoiceId);
 	}
 
-	
+	@Override
+	public StockModel findStocksByBillId(Integer itemId) {
+		StockModel response=stockRepository.getStockDataBillId(itemId);
+		return response;
+	}
+
+	@Override
+	public List<StockModel> findByItemAndPharmacy(String searchTerm,String searchCode, Integer pharmacyId) {
+		List<StockModel> res=null;
+		if(searchCode.equalsIgnoreCase("Item Name"))
+		{
+			res = stockRepository.findStockByItemNameAndPharmacyId(searchTerm,pharmacyId);
+		}
+		else if(searchCode.equalsIgnoreCase("Item Code"))
+		{
+			res = stockRepository.findStockByItemCodeAndPharmacyId(searchTerm,pharmacyId);
+		}
+		else if(searchCode.equalsIgnoreCase("Description"))
+		{
+			res = stockRepository.findStockByItemDescriptionAndPharmacyId(searchTerm,pharmacyId);
+		}
+		else if(searchCode.equalsIgnoreCase("Batch Number"))
+		{
+			res = stockRepository.findStockByBatchNumberAndPharmacyId(searchTerm,pharmacyId);
+		}
+		else if(searchCode.equalsIgnoreCase("Generic Name"))
+		{
+			res = stockRepository.findStockByItemGenericNameAndPharmacyId(searchTerm,pharmacyId);
+		}
+		
+		return res;
+	}
+
 }

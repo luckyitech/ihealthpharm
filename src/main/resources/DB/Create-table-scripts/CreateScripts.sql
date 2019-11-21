@@ -2465,7 +2465,7 @@ CREATE TABLE `test_report2` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `Name` varchar(500) DEFAULT NULL,
   `Email` varchar(500) DEFAULT NULL,
-  `DOB` datetime DEFAULT NULL,
+  `DOB` date DEFAULT NULL,
   `Phone` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
 );

@@ -72,6 +72,7 @@ public class SalesItemsController {
 	
 	@PostMapping("/get/salesitemsbybillid")
 	public ResponseEntity<BaseDto<List<SalesItemsModel>>> getSalesItemsByStockId(@RequestBody SalesModel sales) {
+		System.out.println(sales);
 		List<SalesItemsModel> salesItemsModelRes = salesItemsService.getByBillId(sales);
 		return new BaseDto<>(salesItemsModelRes,salesItemsHelper.getUpdateSalesItemsMessage(),OK).respond();
 	}

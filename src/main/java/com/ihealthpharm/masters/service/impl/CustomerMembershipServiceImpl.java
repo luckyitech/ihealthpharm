@@ -122,4 +122,10 @@ public class CustomerMembershipServiceImpl implements CustomerMembershipService 
 		
 		return customerMembershipRepository.findByMembershipCardNumber(membershipCardNumber);
 	}
+
+	@Override
+	public List<CustomerMembershipModel> findCustomersMembershipBySearch(String key) {
+		
+		return customerMembershipRepository.findMembershipBySearch(key);
+	}
 }
