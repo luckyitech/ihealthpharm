@@ -59,7 +59,7 @@ public class ManufacturerController {
 	}
 	
 	@DeleteMapping("/delete/manufacturer")
-	public ResponseEntity<BaseDto<Object>> deleteManufacturerData(@RequestParam int manufacturerId) {
+	public ResponseEntity<BaseDto<Object>> deleteManufacturerData(@RequestParam Integer manufacturerId) {
 		log.info("Request Object for delete is: ", manufacturerId);
 		manufacturerService.deleteManufacturerById(manufacturerId);
 		return new BaseDto<>(manufacturerHelper.getDeleteManufacturerMessage(), OK).respond();
@@ -67,7 +67,7 @@ public class ManufacturerController {
 	
 	
 	@DeleteMapping("/delete/manufacturers")
-	public ResponseEntity<BaseDto<Object>> deleteManufaturersData(@RequestParam int[] manufacturerIds) {
+	public ResponseEntity<BaseDto<Object>> deleteManufaturersData(@RequestParam Integer[] manufacturerIds) {
 		log.info("Request Object for delete is: "+ manufacturerIds);
 		manufacturerService.deleteMultipleManufacturersById(manufacturerIds);
 		return new BaseDto<>(manufacturerHelper.getDeleteManufacturerMessage(), OK).respond();
@@ -88,7 +88,7 @@ public class ManufacturerController {
 	}
 	
 	@GetMapping("/getmanufacturerdatabyid")
-	public ResponseEntity<BaseDto<ManufacturerModel>> getManufacturerDataById(@RequestParam int manufacturerId) {
+	public ResponseEntity<BaseDto<ManufacturerModel>> getManufacturerDataById(@RequestParam Integer manufacturerId) {
 		ManufacturerModel result = manufacturerService.findManufacturerById(manufacturerId);
 		return new BaseDto<>(result, manufacturerHelper.getRetrieveManufacturerMessage(), OK).respond();
 	}

@@ -44,7 +44,7 @@ public class HospitalModelServiceImpl implements HospitalModelService{
 	}
 
 	@Override
-	public void delete(int hospitalId) {
+	public void delete(Integer hospitalId) {
 		
 		HospitalModel hospitalModelRes = getValidHospitals(hospitalId);
 		if(!Objects.nonNull(hospitalModelRes))
@@ -77,7 +77,7 @@ public class HospitalModelServiceImpl implements HospitalModelService{
 	
 	
 	@Override
-	public void deleteMultipleHospitals(int[] hospitalIds) {
+	public void deleteMultipleHospitals(Integer[] hospitalIds) {
 
 		HospitalModel hospitalRes;
 		for (int hospital : hospitalIds) {
@@ -92,7 +92,7 @@ public class HospitalModelServiceImpl implements HospitalModelService{
 	}
 
 	@Override
-	public HospitalModel findHospitalById(int hospitalId) {
+	public HospitalModel findHospitalById(Integer hospitalId) {
 
 		HospitalModel hospitalModelRes = getValidHospitals(hospitalId);
 
@@ -107,7 +107,7 @@ public class HospitalModelServiceImpl implements HospitalModelService{
 
 	
 	
-	private HospitalModel getValidHospitals(int hospitalId)
+	private HospitalModel getValidHospitals(Integer hospitalId)
 	{
 		HospitalModel hospitalRes = null;
 		try {

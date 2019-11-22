@@ -71,7 +71,7 @@ public class IndentServiceImpl implements IndentService {
 	}
 
 	@Override
-	public IndentModel findIndentById(int indentId) {
+	public IndentModel findIndentById(Integer indentId) {
 		IndentModel indentRes = getValidUsers(indentId);
 		if (!Objects.nonNull(indentRes)) {
 			throw new IHealthPharmException(indentHelper.getNotFoundIndentMessage(), HttpStatus.NOT_FOUND);
@@ -82,7 +82,7 @@ public class IndentServiceImpl implements IndentService {
 	}
 
 	@Override
-	public void deleteIndentById(int indentId) {
+	public void deleteIndentById(Integer indentId) {
 		IndentModel indentRes = getValidUsers(indentId);
 		if (!Objects.nonNull(indentRes)) {
 			throw new IHealthPharmException(indentHelper.getNotFoundIndentMessage(), HttpStatus.NOT_FOUND);
@@ -93,7 +93,7 @@ public class IndentServiceImpl implements IndentService {
 	}
 
 	@Override
-	public void deleteIndentsById(int[] indentIds) {
+	public void deleteIndentsById(Integer[] indentIds) {
 		
 		for(int indentId: indentIds)
 		{

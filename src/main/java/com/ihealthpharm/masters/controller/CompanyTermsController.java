@@ -40,7 +40,6 @@ public class CompanyTermsController {
 	@PostMapping("/save/companyterms")
 	public ResponseEntity<BaseDto<CompanyTermsModel>> insertCompanyTermsData(@Valid @RequestBody CompanyTermsModel CompanyTermsModel) {
 		log.info("Request Object insert is: "+ CompanyTermsModel.toString());
-		
 		CompanyTermsModel companyTermsRes = companyTermsService.saveCompanyTermsData(CompanyTermsModel);
 		return new BaseDto<>(companyTermsRes,companyTermsHelper.getSaveComapanyTermsMessage(),OK).respond();
 	}
@@ -62,14 +61,14 @@ public class CompanyTermsController {
 	
 	
 	@DeleteMapping("/delete/companyterms")
-	public ResponseEntity<BaseDto<Object>> deleteCompanyTermsData(@RequestParam int companyTermsId) {
+	public ResponseEntity<BaseDto<Object>> deleteCompanyTermsData(@RequestParam Integer companyTermsId) {
 		log.info("Request Object for delete is: ", companyTermsId);
 		companyTermsService.deleteCompanyTermsById(companyTermsId);
 		return new BaseDto<>(companyTermsHelper.getDeleteComapanyTermsMessage(), OK).respond();
 	}
 	
 	@DeleteMapping("/delete/multiplecompanyterms")
-	public ResponseEntity<BaseDto<Object>> deleteCompanyTermsMultipleData(@RequestParam int[] companyTermsIds) {
+	public ResponseEntity<BaseDto<Object>> deleteCompanyTermsMultipleData(@RequestParam Integer[] companyTermsIds) {
 		log.info("Request Object for delete is: "+ companyTermsIds.toString());
 		companyTermsService.deleteCompanyTermsDataByTds(companyTermsIds);
 		return new BaseDto<>(companyTermsHelper.getDeleteComapanyTermsMessage(), OK).respond();
@@ -82,7 +81,7 @@ public class CompanyTermsController {
 	}
 	
 	@GetMapping("/getcompanytermsdatabyid")
-	public ResponseEntity<BaseDto<CompanyTermsModel>> getCompanyTermsDataById(@RequestParam int companyTCId) {
+	public ResponseEntity<BaseDto<CompanyTermsModel>> getCompanyTermsDataById(@RequestParam Integer companyTCId) {
 		CompanyTermsModel result = companyTermsService.findCompanyTermsById(companyTCId);
 		return new BaseDto<>(result, companyTermsHelper.getRetrieveComapanyTermsMessage(), OK).respond();
 	}

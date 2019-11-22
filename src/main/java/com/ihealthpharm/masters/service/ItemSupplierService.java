@@ -2,8 +2,6 @@ package com.ihealthpharm.masters.service;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import com.ihealthpharm.masters.dto.ItemSupplierDTO;
 import com.ihealthpharm.masters.model.ItemSupplierModel;
 import com.ihealthpharm.masters.model.ItemsModel;
@@ -12,7 +10,7 @@ import com.ihealthpharm.masters.model.SupplierModel;
 public interface ItemSupplierService {
 
     
-	ItemSupplierModel saveItemSupplierData( int[] itemsId,  int[] suppliersId);
+	ItemSupplierModel saveItemSupplierData( Integer[] itemsId,  Integer[] suppliersId);
 	
 	ItemSupplierModel updateItemSupplierData(ItemSupplierModel itemSupplier);
 
@@ -20,31 +18,31 @@ public interface ItemSupplierService {
 
 	List<ItemSupplierModel> findItemSupplierByActive();
 
-	ItemSupplierModel findItemSupplierById(int itemSupplierId);
+	ItemSupplierModel findItemSupplierById(Integer itemSupplierId);
 
-	void deleteItemSupplierById( int itemSupplierId);
+	void deleteItemSupplierById( Integer itemSupplierId);
 
-	void deleteMultipleItemSuppliersById(int[] itemSupplierIds);
+	void deleteMultipleItemSuppliersById(Integer[] itemSupplierIds);
 	
 	List<ItemSupplierModel> findAllItemSuppliers();
 
-	List<SupplierModel> findAllUnMappedItemSuppliersData(int itemId);
+	List<SupplierModel> findAllUnMappedItemSuppliersData(Integer itemId);
 
-	List<ItemsModel> findAllUnMappedSupplierItems(int supplierId);
+	List<ItemsModel> findAllUnMappedSupplierItems(Integer supplierId);
 
 	List<ItemSupplierDTO> findAllMappedItemSuppliers();
 
-	List<SupplierModel> findAllUnmappedSuppliersNamesSearch(int itemId,String searchTerm);
+	List<SupplierModel> findAllUnmappedSuppliersNamesSearch(Integer itemId,String searchTerm);
 
-	List<ItemsModel> finAllUnmppedItemsNameSearch(int supplierId, String searchTerm);
+	List<ItemsModel> finAllUnmppedItemsNameSearch(Integer supplierId, String searchTerm);
 
-	void saveItemSuppliersById(int itemSupplierId,String activeS);
+	void saveItemSuppliersById(Integer itemSupplierId,String activeS);
 
-	List<ItemSupplierDTO> findAllMappedItemSuppliersOnItemName(int  itemId);
+	List<ItemSupplierDTO> findAllMappedItemSuppliersOnItemName(Integer  itemId);
 
-	List<ItemSupplierDTO> findAllSupplierItemOnSupplierId(int supplierId);
+	List<ItemSupplierDTO> findAllSupplierItemOnSupplierId(Integer supplierId);
 
-	ItemSupplierModel saveItemSupplierDataModel(@Valid ItemSupplierModel itemSupplierModel);
+	ItemSupplierModel saveItemSupplierDataModel(ItemSupplierModel itemSupplierModel);
 
 	List<SupplierModel> getAllSuppliersByItemId(Integer itemId);
 }

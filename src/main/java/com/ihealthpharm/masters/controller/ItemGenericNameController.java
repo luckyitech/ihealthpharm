@@ -60,14 +60,14 @@ public class ItemGenericNameController {
 	}
 	
 	@DeleteMapping("/delete/itemgeneric")
-	public ResponseEntity<BaseDto<Object>> deleteItemGenericData(@RequestParam int itemGenericId) {
+	public ResponseEntity<BaseDto<Object>> deleteItemGenericData(@RequestParam Integer itemGenericId) {
 		log.info("Request Object for delete is: ", itemGenericId);
 		itemGenericNamesService.deleteItemGenericNameById(itemGenericId);
 		return new BaseDto<>(itemGenericHelper.getDeleteItemGenericNameMessage(), OK).respond();
 	}
 	
 	@DeleteMapping("/delete/itemgenerics")
-	public ResponseEntity<BaseDto<Object>> deleteItemsGenericNamesData(@RequestParam int[] itemGenericIds) {
+	public ResponseEntity<BaseDto<Object>> deleteItemsGenericNamesData(@RequestParam Integer[] itemGenericIds) {
 		log.info("Request Object for delete is: "+ itemGenericIds);
 		itemGenericNamesService.deleteMultipleItemGenericNamesById(itemGenericIds);
 		return new BaseDto<>(itemGenericHelper.getDeleteItemGenericNameMessage(), OK).respond();
@@ -88,7 +88,7 @@ public class ItemGenericNameController {
 	}
 	
 	@GetMapping("/getitemgenericdatabyid")
-	public ResponseEntity<BaseDto<ItemGenericNamesModel>> getItemGenericDataById(@RequestParam int itemGenericId) {
+	public ResponseEntity<BaseDto<ItemGenericNamesModel>> getItemGenericDataById(@RequestParam Integer itemGenericId) {
 		ItemGenericNamesModel result = itemGenericNamesService.findItemGenericNameById(itemGenericId);
 		return new BaseDto<>(result, itemGenericHelper.getRetrieveItemGenericNameMessage(), OK).respond();
 	}

@@ -70,7 +70,7 @@ public class AccountPayablesInvoicesServiceImpl implements AccountPayablesInvoic
 	}
 
 	@Override
-	public AccountPayablesInvoicesModel findAccountPayablesInvoicesById(int accountPayablesInvoicesId) {
+	public AccountPayablesInvoicesModel findAccountPayablesInvoicesById(Integer accountPayablesInvoicesId) {
 		AccountPayablesInvoicesModel accountPayablesInvoicesRes = getValidAccountsPayablesInvoices(accountPayablesInvoicesId);
 		if (!Objects.nonNull(accountPayablesInvoicesRes)) {
 			throw new IHealthPharmException(accountPayablesInvoicesHelper.getNotFoundAccountPayablesInvoicesMessage(), HttpStatus.NOT_FOUND);
@@ -84,7 +84,7 @@ public class AccountPayablesInvoicesServiceImpl implements AccountPayablesInvoic
 
 	
 	@Override
-	public void deleteAccountPayablesInvoicesById(int accountPayablesInvoicesId) {
+	public void deleteAccountPayablesInvoicesById(Integer accountPayablesInvoicesId) {
 		AccountPayablesInvoicesModel accountPayablesInvoicesRes = accountPayablesInvoicesRepository.getOne(accountPayablesInvoicesId);
 		if (!Objects.nonNull(accountPayablesInvoicesRes)) {
 			throw new IHealthPharmException(accountPayablesInvoicesHelper.getNotFoundAccountPayablesInvoicesMessage(), HttpStatus.NOT_FOUND);
@@ -96,7 +96,7 @@ public class AccountPayablesInvoicesServiceImpl implements AccountPayablesInvoic
 	}
 
 	@Override
-	public void deleteAccountsPayablesInvoicesById(int[] accountPayablesInvoicesIds) {
+	public void deleteAccountsPayablesInvoicesById(Integer[] accountPayablesInvoicesIds) {
 		AccountPayablesInvoicesModel accountPayablesInvoicesRes;
 		for (int accountPayablesInvoices : accountPayablesInvoicesIds) {
 			accountPayablesInvoicesRes = getValidAccountsPayablesInvoices(accountPayablesInvoices);
@@ -109,7 +109,7 @@ public class AccountPayablesInvoicesServiceImpl implements AccountPayablesInvoic
 		
 	}
 	
-	public AccountPayablesInvoicesModel getValidAccountsPayablesInvoices(int accountPayablesInvoicesId) {
+	public AccountPayablesInvoicesModel getValidAccountsPayablesInvoices(Integer accountPayablesInvoicesId) {
 		AccountPayablesInvoicesModel accountPayablesInvoicesRes = null;
 
 		try {

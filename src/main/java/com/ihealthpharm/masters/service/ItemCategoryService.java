@@ -14,11 +14,11 @@ public interface ItemCategoryService {
 
 	List<ItemCategoryModel> findItemCategoryByActive();
 
-	ItemCategoryModel findItemCategoryById(int itemCategoryId);
+	ItemCategoryModel findItemCategoryById(Integer itemCategoryId);
 
-	void deleteItemCategoryById( int itemCategoryId);
+	void deleteItemCategoryById( Integer itemCategoryId);
 
-	void deleteMultipleItemCategoriesById(int[] itemCategoryIds);
+	void deleteMultipleItemCategoriesById(Integer[] itemCategoryIds);
 
 	List<ItemCategoryModel> findAllItemCategoryData(String medicalOrNonMedical,String searchTerm);
 

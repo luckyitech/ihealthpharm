@@ -70,7 +70,7 @@ public class CustomerInsuranceServiceImpl implements CustomerInsuranceService {
 	}
 
 	@Override
-	public CustomerInsuranceModel findCustomerInsuranceById(int customerInsuranceId) {
+	public CustomerInsuranceModel findCustomerInsuranceById(Integer customerInsuranceId) {
 		CustomerInsuranceModel customerInsuranceRes = getValidCustomersInsurance(customerInsuranceId);
 		if (!Objects.nonNull(customerInsuranceRes)) {
 			throw new IHealthPharmException(customerInsuranceHelper.notFoundCustomerInsuranceMessage, HttpStatus.NOT_FOUND);
@@ -81,7 +81,7 @@ public class CustomerInsuranceServiceImpl implements CustomerInsuranceService {
 	}
 
 	@Override
-	public void deleteCustomerInsuranceById(int customerInsuranceId) {
+	public void deleteCustomerInsuranceById(Integer customerInsuranceId) {
 		CustomerInsuranceModel customerInsuranceRes = customerInsuranceRepository.getOne(customerInsuranceId);
 		if (!Objects.nonNull(customerInsuranceRes)) {
 			throw new IHealthPharmException(customerInsuranceHelper.notFoundCustomerInsuranceMessage, HttpStatus.NOT_FOUND);
@@ -93,7 +93,7 @@ public class CustomerInsuranceServiceImpl implements CustomerInsuranceService {
 	}
 
 	@Override
-	public void deleteCustomersInsuranceById(int[] customerInsuranceIds) {
+	public void deleteCustomersInsuranceById(Integer[] customerInsuranceIds) {
 		CustomerInsuranceModel customerInsuranceRes;
 		for (int customerInsurance : customerInsuranceIds) {
 			customerInsuranceRes = getValidCustomersInsurance(customerInsurance);
@@ -106,7 +106,7 @@ public class CustomerInsuranceServiceImpl implements CustomerInsuranceService {
 		
 	}
 	
-	public CustomerInsuranceModel getValidCustomersInsurance(int customerInsuranceId) {
+	public CustomerInsuranceModel getValidCustomersInsurance(Integer customerInsuranceId) {
 		CustomerInsuranceModel customerInsuranceRes = null;
 
 		try {

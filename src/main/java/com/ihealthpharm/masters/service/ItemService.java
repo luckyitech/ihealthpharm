@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 
 public interface ItemService {
@@ -17,11 +16,11 @@ public interface ItemService {
 
 	List<ItemsModel> findItemsByActive();
 
-	ItemsModel findItemsById(int itemId);
+	ItemsModel findItemsById(Integer itemId);
 
-	void deleteItemsById( int itemId);
+	void deleteItemsById( Integer itemId);
 
-	void deleteMultipleItemsById(int[] itemIds);
+	void deleteMultipleItemsById(Integer[] itemIds);
 
 	List<ItemsModel> findAllItems();
 	

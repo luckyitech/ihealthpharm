@@ -70,7 +70,7 @@ public class UserRolesServiceImpl implements UserRolesService {
 	}
 
 	@Override
-	public UserRolesModel findUserRoleById(int userRoleId) {
+	public UserRolesModel findUserRoleById(Integer userRoleId) {
 		UserRolesModel userRolesRes = getValidUsers(userRoleId);
 		if (!Objects.nonNull(userRolesRes)) {
 			throw new IHealthPharmException(userRolesHelper.getNotFoundUserRolesMessage(), HttpStatus.NOT_FOUND);
@@ -80,7 +80,7 @@ public class UserRolesServiceImpl implements UserRolesService {
 	}
 
 	@Override
-	public void deleteUserRolesById(int userRoleId) {
+	public void deleteUserRolesById(Integer userRoleId) {
 		UserRolesModel userRolesRes = getValidUsers(userRoleId);
 		if (!Objects.nonNull(userRolesRes)) {
 			throw new IHealthPharmException(userRolesHelper.getNotFoundUserRolesMessage(), HttpStatus.NOT_FOUND);
@@ -91,7 +91,7 @@ public class UserRolesServiceImpl implements UserRolesService {
 	}
 
 	@Override
-	public void deleteUserRolesById(int[] userRoleIds) {
+	public void deleteUserRolesById(Integer[] userRoleIds) {
 		UserRolesModel userRolesRes = null;
 		for (int userRoleId : userRoleIds) {
 			userRolesRes = getValidUsers(userRoleId);

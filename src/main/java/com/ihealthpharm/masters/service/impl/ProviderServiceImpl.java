@@ -43,7 +43,7 @@ public class ProviderServiceImpl implements ProviderService {
 	}
 
 	@Override
-	public void deleteProviderById(int providerId) {
+	public void deleteProviderById(Integer providerId) {
 		ProviderModel providerModelRes = getValidProvider(providerId);
 		if (!Objects.nonNull(providerModelRes)) {
 			throw new IHealthPharmException(providerHelper.getNotFoundProvideMessage(), HttpStatus.NOT_FOUND);
@@ -67,7 +67,7 @@ public class ProviderServiceImpl implements ProviderService {
 	}
 
 	@Override
-	public ProviderModel findProviderById(int providerId) {
+	public ProviderModel findProviderById(Integer providerId) {
 		ProviderModel providerRes = getValidProvider(providerId);
 
 		if (!Objects.nonNull(providerRes)) {
@@ -78,7 +78,7 @@ public class ProviderServiceImpl implements ProviderService {
 
 	}
 
-	private ProviderModel getValidProvider(int providerId) {
+	private ProviderModel getValidProvider(Integer providerId) {
 		ProviderModel providerRes = null;
 		try {
 			providerRes = providerRepository.findById(providerId).get();
@@ -106,7 +106,7 @@ public class ProviderServiceImpl implements ProviderService {
 	}
 
 	@Override
-	public void deleteProvidersById(int[] providersId) {
+	public void deleteProvidersById(Integer[] providersId) {
 		ProviderModel providerModelRes;
 		for (int provider : providersId) {
 			providerModelRes = getValidProvider(provider);

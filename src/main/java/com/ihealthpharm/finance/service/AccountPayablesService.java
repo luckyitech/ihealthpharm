@@ -16,11 +16,11 @@ public interface AccountPayablesService
 	
 	 List<AccountPayablesModel> findAllAccountsPayables();
 	
-	 AccountPayablesModel findAccountPayablesById(int accountPayablesId);
+	 AccountPayablesModel findAccountPayablesById(Integer accountPayablesId);
 	
-	 void deleteAccountPayablesById(int accountPayablesIds);
+	 void deleteAccountPayablesById(Integer accountPayablesIds);
 	
-	 void deleteAccountsPayablesById(int[] accountPayablesIds);
+	 void deleteAccountsPayablesById(Integer[] accountPayablesIds);
 	 
 	 List<InvoiceModel> getAllInvoicesBySupplierId(Integer supplierId);
 	 

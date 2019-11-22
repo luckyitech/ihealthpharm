@@ -51,7 +51,7 @@ public class CustomerInsuranceController {
 	}
 
 	@DeleteMapping("/delete/customerinsurance")
-	public ResponseEntity<BaseDto<Object>> deleteCustomerInsuranceData(@RequestParam int customerInsuranceId) {
+	public ResponseEntity<BaseDto<Object>> deleteCustomerInsuranceData(@RequestParam Integer customerInsuranceId) {
 		log.info("Request Object for delete is: ", customerInsuranceId);
 		customerInsuranceService.deleteCustomerInsuranceById(customerInsuranceId);
 		return new BaseDto<>(customerInsuranceHelper.deleteCustomerInsuranceMessage, OK).respond();
@@ -64,13 +64,13 @@ public class CustomerInsuranceController {
 	}
 
 	@GetMapping("/getcustomerinsurancedatabyid")
-	public ResponseEntity<BaseDto<CustomerInsuranceModel>> getCustomerInsuranceDataById(@RequestParam int customerInsuranceId) {
+	public ResponseEntity<BaseDto<CustomerInsuranceModel>> getCustomerInsuranceDataById(@RequestParam Integer customerInsuranceId) {
 		CustomerInsuranceModel result = customerInsuranceService.findCustomerInsuranceById(customerInsuranceId);
 		return new BaseDto<>(result, customerInsuranceHelper.retrieveCustomerInsuranceMessage, OK).respond();
 	}
 
 	@DeleteMapping("/delete/customersinsurance")
-	public ResponseEntity<BaseDto<Object>> deleteCustomerInsuranceData(@RequestParam int[] customerInsuranceIds) {
+	public ResponseEntity<BaseDto<Object>> deleteCustomerInsuranceData(@RequestParam Integer[] customerInsuranceIds) {
 
 		log.info("Request Object for delete is: " + customerInsuranceIds[0]);
 		customerInsuranceService.deleteCustomersInsuranceById(customerInsuranceIds);

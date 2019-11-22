@@ -58,14 +58,14 @@ public class ItemGroupController {
 	}
 	
 	@DeleteMapping("/delete/itemgroup")
-	public ResponseEntity<BaseDto<Object>> deleteItemGroupData(@RequestParam int itemGroupId) {
+	public ResponseEntity<BaseDto<Object>> deleteItemGroupData(@RequestParam Integer itemGroupId) {
 		log.info("Request Object for delete is: ", itemGroupId);
 		itemGroupService.deleteItemGroupById(itemGroupId);
 		return new BaseDto<>(itemGroupHelper.getDeleteItemGroupMessage(), OK).respond();
 	}
 	
 	@DeleteMapping("/delete/itemgroups")
-	public ResponseEntity<BaseDto<Object>> deleteItemsGroupData(@RequestParam int[] itemGroupIds) {
+	public ResponseEntity<BaseDto<Object>> deleteItemsGroupData(@RequestParam Integer[] itemGroupIds) {
 		log.info("Request Object for delete is: "+ itemGroupIds);
 		itemGroupService.deleteMultipleItemGroupsById(itemGroupIds);
 		return new BaseDto<>(itemGroupHelper.getDeleteItemGroupMessage(), OK).respond();
@@ -85,7 +85,7 @@ public class ItemGroupController {
 	}
 	
 	@GetMapping("/getitemgroupdatabyid")
-	public ResponseEntity<BaseDto<ItemGroupModel>> getItemGroupDataById(@RequestParam int itemGroupId) {
+	public ResponseEntity<BaseDto<ItemGroupModel>> getItemGroupDataById(@RequestParam Integer itemGroupId) {
 		ItemGroupModel result = itemGroupService.findItemGroupById(itemGroupId);
 		return new BaseDto<>(result, itemGroupHelper.getRetrieveItemGroupMessage(), OK).respond();
 	}
@@ -97,6 +97,4 @@ public class ItemGroupController {
 		log.info(result.toString());
 		return new BaseDto<>(result, itemGroupHelper.getRetrieveItemGroupMessage(), OK).respond();
 	}
-	
-	
 }

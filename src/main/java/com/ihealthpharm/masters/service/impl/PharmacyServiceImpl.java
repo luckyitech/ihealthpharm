@@ -74,7 +74,7 @@ public class PharmacyServiceImpl implements PharmacyService {
 	}
 
 	@Override
-	public PharmacyModel findPharmacyById(int pharmacyId) {
+	public PharmacyModel findPharmacyById(Integer pharmacyId) {
 
 		PharmacyModel pharmacyModelRes=getValidPharmacy(pharmacyId);
 		if(!Objects.nonNull(pharmacyModelRes)){
@@ -87,7 +87,7 @@ public class PharmacyServiceImpl implements PharmacyService {
 	}
 
 	@Override
-	public void deletePharmacyById(int pharmacyId) {
+	public void deletePharmacyById(Integer pharmacyId) {
 	
 		PharmacyModel pharmacyModelRes=getValidPharmacy(pharmacyId);
 		if(!Objects.nonNull(pharmacyModelRes)){

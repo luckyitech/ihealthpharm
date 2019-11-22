@@ -55,7 +55,7 @@ public class ProviderController {
 	}
 
 	@DeleteMapping("/delete/provider")
-	public ResponseEntity<BaseDto<Object>> deleteProviderData(@RequestParam int providerId) {
+	public ResponseEntity<BaseDto<Object>> deleteProviderData(@RequestParam Integer providerId) {
 		log.info("Request Object for delete is: ", providerId);
 		providerService.deleteProviderById(providerId);
 		return new BaseDto<>(providerHelper.getDeleteProviderMessage(), OK).respond();
@@ -94,13 +94,13 @@ public class ProviderController {
 	
 
 	@GetMapping("/getproviderdatabyid")
-	public ResponseEntity<BaseDto<ProviderModel>> getProviderDataById(@RequestParam int providerId) {
+	public ResponseEntity<BaseDto<ProviderModel>> getProviderDataById(@RequestParam Integer providerId) {
 		ProviderModel result = providerService.findProviderById(providerId);
 		return new BaseDto<>(result, providerHelper.getRetrieveProvideMessage(), OK).respond();
 	}
 
 	@DeleteMapping("/delete/providers")
-	public ResponseEntity<BaseDto<Object>> deleteProvidersData(@RequestParam int[] providersId) {
+	public ResponseEntity<BaseDto<Object>> deleteProvidersData(@RequestParam Integer[] providersId) {
 
 		log.info("Request Object for delete is: "+providersId[0]);
 		providerService.deleteProvidersById(providersId);

@@ -91,7 +91,7 @@ public class ItemFormsServiceImpl implements ItemFormService {
 	}
 
 	@Override
-	public ItemFormModel findItemFormById(int itemFormModel) {
+	public ItemFormModel findItemFormById(Integer itemFormModel) {
 
 		ItemFormModel itemFormModelRes = getValidItemForm(itemFormModel);
 
@@ -104,7 +104,7 @@ public class ItemFormsServiceImpl implements ItemFormService {
 	}
 
 	@Override
-	public void deleteItemFormById(int itemFormModelId) {
+	public void deleteItemFormById(Integer itemFormModelId) {
 
 		ItemFormModel itemFormModelModelRes = getValidItemForm(itemFormModelId);
 		if(!Objects.nonNull(itemFormModelModelRes))
@@ -117,7 +117,7 @@ public class ItemFormsServiceImpl implements ItemFormService {
 	}
 
 	@Override
-	public void deleteMultipleItemFormsById(int[] itemFormModelIds) {
+	public void deleteMultipleItemFormsById(Integer[] itemFormModelIds) {
 
 		ItemFormModel itemFormsModelRes;
 		for (int itemForm : itemFormModelIds) {
@@ -140,6 +140,8 @@ public class ItemFormsServiceImpl implements ItemFormService {
 	      }
 		return itemFormRepository.findAllBySearchCriteria(medicalOrNonMedical, searchTerm);
 	}
+	
+	
 	@Override
 	public List<ItemFormModel> findAllItemForms() {
 

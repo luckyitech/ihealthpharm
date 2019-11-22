@@ -34,21 +34,14 @@ public class MembershipController {
 	
 	@Autowired
 	private MembershipHelper membershipHelper;
-	
 
-	
 	@PostMapping("/save/membership")
 	public ResponseEntity<BaseDto<MembershipModel>> saveMembership(@Valid @RequestBody  MembershipModel membershipModel ){
 		log.info("Request Object to insert is :"+membershipModel);
-		System.out.println(membershipModel.toString());
 		MembershipModel membership=membershipService.saveMembership(membershipModel);
-		System.out.println(membership);
 		return new BaseDto<>(membership,membershipHelper.getSaveMembershipMessage(),OK).respond();
 	}
-	
 
-	
-	
 	@PutMapping("/update/membership")
 	public ResponseEntity<BaseDto<MembershipModel>> updateMembershipData(@Valid @RequestBody MembershipModel membershipModel){
 		log.info("Request Object for update is :"+membershipModel);
@@ -64,7 +57,7 @@ public class MembershipController {
 	}
 	
 	@DeleteMapping("/delete/membership")
-	public ResponseEntity<BaseDto<Object>> deleteMembership(@RequestParam int membershipId){
+	public ResponseEntity<BaseDto<Object>> deleteMembership(@RequestParam Integer membershipId){
 		log.info("Request Object for delete :"+membershipId);
 		membershipService.delete(membershipId);
 		return new BaseDto<>(membershipHelper.getDeleteMembershipMessage(),OK).respond();
@@ -74,15 +67,12 @@ public class MembershipController {
 	@GetMapping("/getmemberships")
 	public ResponseEntity<BaseDto<List<MembershipModel>>> getAllMemberships(){
 		List<MembershipModel> response=membershipService.findAllByMemberships();
-		
 		return new BaseDto<>(response,membershipHelper.getRetrieveMembershipMessage(),OK).respond();
 	}
 	
 	@GetMapping("/getmembership/byid")
-	public ResponseEntity<BaseDto<MembershipModel>> getMembershipById(@Valid @RequestParam int membershipId){
-		System.out.println(membershipId);
+	public ResponseEntity<BaseDto<MembershipModel>> getMembershipById(@Valid @RequestParam Integer membershipId){
 		MembershipModel membershipRes=membershipService.findMembershipById(membershipId);
-		System.out.println(membershipRes);
 		return new BaseDto<>(membershipRes,membershipHelper.getRetrieveMembershipMessage(),OK).respond();
 	}
 	
@@ -90,7 +80,6 @@ public class MembershipController {
 	public ResponseEntity<BaseDto<List<MembershipModel>>> getMembershipByName(@Valid @RequestParam String membershipName){
 		
 		List<MembershipModel> membershipRes=membershipService.findMembershipByName(membershipName);
-		System.out.println(membershipRes);
 		return new BaseDto<>(membershipRes,membershipHelper.getRetrieveMembershipMessage(),OK).respond();
 	}
 	

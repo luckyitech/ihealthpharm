@@ -47,7 +47,7 @@ public class EmployeeEducationController {
 	}
 	
 	@DeleteMapping("/delete/employeeeducation")
-	public ResponseEntity<BaseDto<Object>> deleteEmployeeEducationData(@RequestParam int employeeEducationId) {
+	public ResponseEntity<BaseDto<Object>> deleteEmployeeEducationData(@RequestParam Integer employeeEducationId) {
 		log.info("Request Object for delete is: ", employeeEducationId);
 		employeeEducationService.deleteEmployeeEmployeeEducationData(employeeEducationId);;
 		return new BaseDto<>("deleted", OK).respond();
@@ -60,7 +60,7 @@ public class EmployeeEducationController {
 	}
 	
 	@GetMapping("/getemployeeeducationdatabyid")
-	public ResponseEntity<BaseDto<EmployeeEducationModel>> getEmployeeEducationDataById(@RequestParam int employeeEducationId) {
+	public ResponseEntity<BaseDto<EmployeeEducationModel>> getEmployeeEducationDataById(@RequestParam Integer employeeEducationId) {
 		EmployeeEducationModel result = employeeEducationService.findEmployeeEducationDataById(employeeEducationId);
 		return new BaseDto<>(result,  "retrived", OK).respond();
 	}

@@ -50,7 +50,7 @@ public class UserRolesController {
 	}
 
 	@DeleteMapping("/delete/userrole")
-	public ResponseEntity<BaseDto<Object>> deleteUserRoleData(@RequestParam int userId) {
+	public ResponseEntity<BaseDto<Object>> deleteUserRoleData(@RequestParam Integer userId) {
 		log.info("Request Object for delete is: ", userId);
 		userRolesService.deleteUserRolesById(userId);;
 		return new BaseDto<>(userRolesHelper.getDeleteUserRolesMessage(), OK).respond();
@@ -64,13 +64,13 @@ public class UserRolesController {
 
 
 	@GetMapping("/getuserrolesdatabyid")
-	public ResponseEntity<BaseDto<UserRolesModel>> getUserDataById(@RequestParam int userRoleId) {
+	public ResponseEntity<BaseDto<UserRolesModel>> getUserDataById(@RequestParam Integer userRoleId) {
 		UserRolesModel result = userRolesService.findUserRoleById(userRoleId);
 		return new BaseDto<>(result, userRolesHelper.getRetrieveUserRolesMessage(), OK).respond();
 	}
 
 	@DeleteMapping("/delete/userroles")
-	public ResponseEntity<BaseDto<Object>> deleteUserRolesData(@RequestParam int[] userRoleIds) {
+	public ResponseEntity<BaseDto<Object>> deleteUserRolesData(@RequestParam Integer[] userRoleIds) {
 
 		log.info("Request Object for delete is: "+userRoleIds[0]);
 		userRolesService.deleteUserRolesById(userRoleIds);

@@ -46,7 +46,7 @@ public class PharmacyRolesController {
 	}
 	
 	@DeleteMapping("/delete/pharmacyroles")
-	public ResponseEntity<BaseDto<Object>> deleteProviderData(@RequestParam int pharmaAccessId) {
+	public ResponseEntity<BaseDto<Object>> deleteProviderData(@RequestParam Integer pharmaAccessId) {
 		log.info("Request Object for delete is: ", pharmaAccessId);
 		pharmacyRolesService.deletePharmacyRolesData(pharmaAccessId);;
 		return new BaseDto<>("deleted", OK).respond();
@@ -59,7 +59,7 @@ public class PharmacyRolesController {
 	}
 	
 	@GetMapping("/getpharmacyrolesdatabyid")
-	public ResponseEntity<BaseDto<PharmacyRolesModel>> getProviderDataById(@RequestParam int pharmaAccessId) {
+	public ResponseEntity<BaseDto<PharmacyRolesModel>> getProviderDataById(@RequestParam Integer pharmaAccessId) {
 		PharmacyRolesModel result = pharmacyRolesService.findPharmacyRolesDataById(pharmaAccessId);
 		return new BaseDto<>(result,  "retrived", OK).respond();
 	}

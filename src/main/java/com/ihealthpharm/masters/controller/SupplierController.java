@@ -63,7 +63,7 @@ public class SupplierController {
 	}
 
 	@DeleteMapping("/delete/supplier")
-	public ResponseEntity<BaseDto<Object>> deleteSupplierData(@RequestParam int supplierId) {
+	public ResponseEntity<BaseDto<Object>> deleteSupplierData(@RequestParam Integer supplierId) {
 		log.info("Request Object for delete is: ", supplierId);
 		supplierService.deleteSupplierById(supplierId);
 		return new BaseDto<>(supplierHelper.getDeleteSupplierMessage(), OK).respond();
@@ -71,7 +71,7 @@ public class SupplierController {
 
 
 	@DeleteMapping("/delete/suppliers")
-	public ResponseEntity<BaseDto<Object>> deleteSupplierData(@RequestParam int[] supplierIds) {
+	public ResponseEntity<BaseDto<Object>> deleteSupplierData(@RequestParam Integer[] supplierIds) {
 		log.info("Request Object for delete is: "+ supplierIds.toString());
 		supplierService.deleteSuppliersById(supplierIds);
 		return new BaseDto<>(supplierHelper.getDeleteSupplierMessage(), OK).respond();
@@ -98,7 +98,7 @@ public class SupplierController {
 	}
 
 	@GetMapping("/getsupplierdatabyid")
-	public ResponseEntity<BaseDto<SupplierModel>> getSupplierDataById(@RequestParam int supplierId) {
+	public ResponseEntity<BaseDto<SupplierModel>> getSupplierDataById(@RequestParam Integer supplierId) {
 		SupplierModel result = supplierService.findSupplierById(supplierId);
 		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
 	}

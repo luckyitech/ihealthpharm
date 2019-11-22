@@ -61,7 +61,7 @@ public class PharmacyStockPointController {
 	
 
 	@DeleteMapping("/delete/pharmacystock")
-	public ResponseEntity<BaseDto<Object>> deleteStock(@RequestParam int stockId){
+	public ResponseEntity<BaseDto<Object>> deleteStock(@RequestParam Integer stockId){
 		log.info("Request Object for delete is  "+stockId);
 		stockService.deleteStock(stockId); 
 		return new BaseDto<>(pharmacyHelper.getDeleteStockMessage(),OK).respond();
@@ -70,7 +70,7 @@ public class PharmacyStockPointController {
 
 	
 	@GetMapping("/getpharmacyStockById")
-	public ResponseEntity<BaseDto<PharmacyStockModel>> findByStockId(@RequestParam int stockId){
+	public ResponseEntity<BaseDto<PharmacyStockModel>> findByStockId(@RequestParam Integer stockId){
 		log.info("Request Object for stock : "+stockId);
 		PharmacyStockModel pharmacyStock = stockService.findStockById(stockId); 
 		return new BaseDto<>(pharmacyStock, pharmacyHelper.getRetrieveStockMessage(),OK).respond();

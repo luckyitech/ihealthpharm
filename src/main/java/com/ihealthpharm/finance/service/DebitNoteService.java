@@ -8,7 +8,7 @@ public interface DebitNoteService
 {
     DebitNoteModel saveDebitData(DebitNoteModel debitNoteModel);
     
-    DebitNoteModel findDebitById(int debitNoteId);
+    DebitNoteModel findDebitById(Integer debitNoteId);
     
     List<DebitNoteModel> findAllDebit();
    
@@ -16,7 +16,7 @@ public interface DebitNoteService
     
     List<DebitNoteModel> updateMultipleDebit(List<DebitNoteModel> debitNoteModel);
     
-    void deleteDebitById(int debitNoteId);
+    void deleteDebitById(Integer debitNoteId);
     
-    void deleteMultipleDebit(int[] debitNoteId);
+    void deleteMultipleDebit(Integer[] debitNoteId);
 }

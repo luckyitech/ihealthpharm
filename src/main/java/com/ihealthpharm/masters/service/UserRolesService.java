@@ -14,9 +14,9 @@ public interface UserRolesService {
 	
 	 List<UserRolesModel> findAllUserRoles();
 	
-	 UserRolesModel findUserRoleById(int roleId);
+	 UserRolesModel findUserRoleById(Integer roleId);
 	
-	 void deleteUserRolesById(int roleIds);
+	 void deleteUserRolesById(Integer roleIds);
 	
-	 void deleteUserRolesById(int[] roleIds);
+	 void deleteUserRolesById(Integer[] roleIds);
 }

@@ -56,7 +56,7 @@ public class ItemAlternativeController {
 	}
 	
 	@DeleteMapping("/delete/itemalternative")
-	public ResponseEntity<BaseDto<Object>> deleteItemAlternativeData(@RequestParam int itemAlternativeId) {
+	public ResponseEntity<BaseDto<Object>> deleteItemAlternativeData(@RequestParam Integer itemAlternativeId) {
 		log.info("Request Object for delete is: ", itemAlternativeId);
 		itemAlternativeService.delete(itemAlternativeId);
 		return new BaseDto<>(itemAlternativeHelper.getDeleteItemAlternativeMessage(), OK).respond();
@@ -69,7 +69,7 @@ public class ItemAlternativeController {
 	}
 	
 	@GetMapping("/getitemalternativedatabyid")
-	public ResponseEntity<BaseDto<ItemAlternativeModel>> getItemAlternativeDataById(@RequestParam int itemAlternativeId) {
+	public ResponseEntity<BaseDto<ItemAlternativeModel>> getItemAlternativeDataById(@RequestParam Integer itemAlternativeId) {
 		ItemAlternativeModel result = itemAlternativeService.findByItemAlternativeId(itemAlternativeId);
 		return new BaseDto<>(result,  itemAlternativeHelper.getRetrieveItemAlternativeMessage(), OK).respond();
 	}

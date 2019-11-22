@@ -30,8 +30,6 @@ public class CompanyTermsServiceImpl implements  CompanyTermsService {
 	@Autowired
 	CompanyTermsAndConditionsHelper companyTermsHelper;
 	
-	
-	
 	@Override
 	public CompanyTermsModel saveCompanyTermsData(CompanyTermsModel companyTermsModel) {
 		companyTermsModel = companyTermsRepository.save(companyTermsModel);
@@ -61,7 +59,7 @@ public class CompanyTermsServiceImpl implements  CompanyTermsService {
 	}
 
 	@Override
-	public CompanyTermsModel findCompanyTermsById(int companyTermsId) {
+	public CompanyTermsModel findCompanyTermsById(Integer companyTermsId) {
 		CompanyTermsModel companyTermsRes = getValidCompanyTerms(companyTermsId);
 
 		if(!Objects.nonNull(companyTermsRes))
@@ -74,7 +72,7 @@ public class CompanyTermsServiceImpl implements  CompanyTermsService {
 	}
 
 	@Override
-	public void deleteCompanyTermsById(int companyTermsId) {
+	public void deleteCompanyTermsById(Integer companyTermsId) {
 
 		CompanyTermsModel companyTermsRes = getValidCompanyTerms(companyTermsId);
 		if(!Objects.nonNull(companyTermsRes))
@@ -85,7 +83,7 @@ public class CompanyTermsServiceImpl implements  CompanyTermsService {
 		log.info("CompanyTermsAndConditions data with ID: "+ companyTermsRes.getCompanyTermsId()+" deleted succesfully");
 	}
 
-	private CompanyTermsModel getValidCompanyTerms(int companyTermsId)
+	private CompanyTermsModel getValidCompanyTerms(Integer companyTermsId)
 	{
 		CompanyTermsModel CompanyTermsRes = null;
 		try {
@@ -118,7 +116,7 @@ public class CompanyTermsServiceImpl implements  CompanyTermsService {
 	}
 
 	@Override
-	public void deleteCompanyTermsDataByTds(int[] companyTermsIds) {
+	public void deleteCompanyTermsDataByTds(Integer[] companyTermsIds) {
 
 		CompanyTermsModel companyTermsRes;
 		for (int companyTerms : companyTermsIds) {

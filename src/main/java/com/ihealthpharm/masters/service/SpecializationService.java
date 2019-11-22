@@ -14,11 +14,11 @@ public interface SpecializationService {
 
 	List<SpecializationModel> findSpecializationByActive();
 
-	SpecializationModel findSpecializationById(int specializationId);
+	SpecializationModel findSpecializationById(Integer specializationId);
 
-	void deleteSpecializationById( int specializationId);
+	void deleteSpecializationById( Integer specializationId);
 
-	void deleteMultipleSpecializationsById(int[] specializationIds);
+	void deleteMultipleSpecializationsById(Integer[] specializationIds);
 
 	List<SpecializationModel> findAllSpecializations();
 

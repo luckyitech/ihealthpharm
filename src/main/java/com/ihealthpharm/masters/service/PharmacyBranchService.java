@@ -12,9 +12,9 @@ public interface PharmacyBranchService {
 
 	List<PharmacyBranchModel> updateMultipleBranches(List<PharmacyBranchModel> pharmacyBranchModel);
 
-	void deletePharmacyBranch(int pharmacyBranchId);
+	void deletePharmacyBranch(Integer pharmacyBranchId);
 
-	PharmacyBranchModel findByPharmacyId(int pharmacyId);
+	PharmacyBranchModel findByPharmacyId(Integer pharmacyId);
 
 	List<PharmacyBranchModel> findAllBranches();
 }

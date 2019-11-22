@@ -14,10 +14,10 @@ public interface IndentService {
 	
 	 List<IndentModel> findAllIndents();
 	
-	 IndentModel findIndentById(int indentId);
+	 IndentModel findIndentById(Integer indentId);
 	
-	 void deleteIndentById(int indentIds);
+	 void deleteIndentById(Integer indentIds);
 	
-	 void deleteIndentsById(int[] indentIds);
+	 void deleteIndentsById(Integer[] indentIds);
 
 }

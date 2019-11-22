@@ -13,9 +13,9 @@ public interface PharmacyService {
 
 	List<PharmacyModel> findPharmacyByActive();
 
-	PharmacyModel findPharmacyById(int pharmacyId);
+	PharmacyModel findPharmacyById(Integer pharmacyId);
 
-	void deletePharmacyById(int pharmacyId);
+	void deletePharmacyById(Integer pharmacyId);
 	
 	List<PharmacyModel> updateMultiplePharmacyData(List<PharmacyModel> pharmacyModels);
 

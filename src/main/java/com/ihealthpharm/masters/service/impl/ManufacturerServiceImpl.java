@@ -43,7 +43,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 	}
 
 	@Override
-	public void deleteManufacturerById(int manufacturerId) {
+	public void deleteManufacturerById(Integer manufacturerId) {
 		ManufacturerModel manufacturerModelRes = getValidManufacturer(manufacturerId);
 		if(!Objects.nonNull(manufacturerModelRes))
 		{
@@ -71,7 +71,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 
 
 	@Override
-	public ManufacturerModel findManufacturerById(int manufacturerId) {
+	public ManufacturerModel findManufacturerById(Integer manufacturerId) {
 
 		ManufacturerModel manufacturerModelRes = getValidManufacturer(manufacturerId);
 
@@ -85,7 +85,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 	}
 
 
-	private ManufacturerModel getValidManufacturer(int manufacturerId)
+	private ManufacturerModel getValidManufacturer(Integer manufacturerId)
 	{
 		ManufacturerModel manufacturerRes = null;
 		try {
@@ -116,7 +116,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 	}
 
 	@Override
-	public void deleteMultipleManufacturersById(int[] manufacturerIds) {
+	public void deleteMultipleManufacturersById(Integer[] manufacturerIds) {
 		ManufacturerModel manufacturerRes;
 		for (int manufacturer : manufacturerIds) {
 			manufacturerRes = getValidManufacturer(manufacturer);

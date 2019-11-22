@@ -15,11 +15,11 @@ public interface CompanyTermsService {
 
 	List<CompanyTermsModel> findAllCompanyTerms();
 
-	CompanyTermsModel findCompanyTermsById(int companyTermsId);
+	CompanyTermsModel findCompanyTermsById(Integer companyTermsId);
 
-	void deleteCompanyTermsById( int companyTermsId);
+	void deleteCompanyTermsById( Integer companyTermsId);
 
 
-	void deleteCompanyTermsDataByTds(int[] companyTermsIds);
+	void deleteCompanyTermsDataByTds(Integer[] companyTermsIds);
 
 }

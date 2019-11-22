@@ -63,13 +63,13 @@ public class FormulationInstructionsController {
 	}
 	
 	@GetMapping("/getformulationinstructionsid")
-	public ResponseEntity<BaseDto<FormulationInstructionsModel>> getFormulationInstructionsById(@RequestParam int formulationInstructionsId){
+	public ResponseEntity<BaseDto<FormulationInstructionsModel>> getFormulationInstructionsById(@RequestParam Integer formulationInstructionsId){
 		FormulationInstructionsModel result=formulationService.findFormulationInstructionsById(formulationInstructionsId);
 		return new BaseDto<>(result,formulationHelper.getRetrieveFormulationinstructionMessage(),OK).respond();
 	}
 	
 	@DeleteMapping("/delete/formulation")
-	public ResponseEntity<BaseDto<Object>> deleteformulationData(@RequestParam int formulationId){
+	public ResponseEntity<BaseDto<Object>> deleteformulationData(@RequestParam Integer formulationId){
 		log.info("Request Object for delete is: ", formulationId);
 		formulationService.deleteFormulationInstructionsData(formulationId);
 		return new BaseDto<> (formulationHelper.getDeleteFormulationinstructionMessage(), OK).respond();
