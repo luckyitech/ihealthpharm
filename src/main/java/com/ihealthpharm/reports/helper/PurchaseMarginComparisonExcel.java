@@ -121,7 +121,7 @@ public class PurchaseMarginComparisonExcel extends ReportsExcelUtility{
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(3);
-			cell.setCellValue("QTY.");
+			cell.setCellValue("QTY");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(4);
@@ -129,7 +129,7 @@ public class PurchaseMarginComparisonExcel extends ReportsExcelUtility{
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(5);
-			cell.setCellValue("PURC. PRICE");
+			cell.setCellValue("PURC PRICE");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(6);
@@ -137,15 +137,15 @@ public class PurchaseMarginComparisonExcel extends ReportsExcelUtility{
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(7);
-			cell.setCellValue("DISC. AMT");
+			cell.setCellValue("DISC AMT");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(8);
-			cell.setCellValue("NET. AMT");
+			cell.setCellValue("NET AMT");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(9);
-			cell.setCellValue("MARGIN. AMT");
+			cell.setCellValue("MARGIN AMT");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(10);

@@ -124,7 +124,7 @@ public class PurchaseDetailsByItemNameExcel extends ReportsExcelUtility {
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(4);
-			cell.setCellValue("BATCH NO.");
+			cell.setCellValue("BATCH NO");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(5);

@@ -59,10 +59,10 @@ public class ItemsModel extends AuditModel {
 	private String shelfNumber;
 
 	@Column(name="REORDER_LEVEL",length=11)
-	private int reOrderLevel;
+	private Integer reOrderLevel;
 
 	@Column(name="REORDER_QTY",length=11)
-	private int reOrderQuantity;
+	private Integer reOrderQuantity;
 
 	@Column(name="ALERT_MESG",length=50)
 	private String alertMessage;
