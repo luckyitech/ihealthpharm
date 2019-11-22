@@ -150,8 +150,8 @@ public class CustomerServiceImpl implements CustomerService {
 				List<Predicate> predicates = new ArrayList<>();
 				if (!customerName.equals(null) && !customerName.equals("undefined") &&  !customerName.equals("")) {
 					
-					predicates.add(criteriaBuilder.or(criteriaBuilder.like(root.get("customerName"), "%"+customerName+"%")));
-					predicates.add(criteriaBuilder.or(criteriaBuilder.like(root.get("lastName"), "%"+customerName+"%")));
+					predicates.add(criteriaBuilder.or(criteriaBuilder.like(root.get("customerName"), customerName+"%")));
+					predicates.add(criteriaBuilder.or(criteriaBuilder.like(root.get("lastName"), customerName+"%")));
 				}
 				
 				return criteriaBuilder.or(predicates.toArray(new Predicate[predicates.size()]));

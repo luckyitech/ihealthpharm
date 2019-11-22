@@ -32,7 +32,9 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 	@Query("select i from items i where i.itemDescription like %:searchTerm% order by i.creationTimeStamp desc")
 	List<ItemsModel> findAllByItemDescription(@Param("searchTerm") String searchTerm);
 
-	List<ItemsModel> findByItemGenericName(ItemGenericNamesModel genericRes);
+	@Query("select i from items i inner join com.ihealthpharm.masters.model.ItemGenericNamesModel ig on i.itemGenericName.itemGenericNameId=ig.itemGenericNameId "
+			+ "where ig.genericName like %:searchTerm%")
+	List<ItemsModel> findByItemGenericName(@Param("searchTerm") String searchTerm);
 
 	List<ItemsModel> findByItemGroup(ItemGroupModel groupCode);
 
