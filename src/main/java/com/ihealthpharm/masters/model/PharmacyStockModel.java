@@ -28,7 +28,7 @@ public class PharmacyStockModel extends AuditModel {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="PHARMACY_STOCK_POINTS_ID",length=11)
-	private int stockPointId;
+	private Integer stockPointId;
 
 	@ManyToOne
 	@JoinColumn(name="PHARMACY_BRANCH_ID")
@@ -36,7 +36,7 @@ public class PharmacyStockModel extends AuditModel {
 	private PharmacyBranchModel pharmacyBranch;
 	
 	@Column(name="ACTIVE_S",length=1)
-	private char activeS;
+	private Character activeS;
 	
 	@Column(name="STOCK_POINT_NM",length=50)
 	private String stockPointName;
@@ -47,21 +47,19 @@ public class PharmacyStockModel extends AuditModel {
 	@Column(name="STOCK_POINT_ALIAS_NM",length=20)
 	private String stockPointAliasName;
 	
-	
 	@Column(name="TRANSACTION_TYPE",length=2)
-	private char transactionType;
+	private Character transactionType;
 	
 	@Column(name="RETURN_APPLICABLE",length=1)
-	private char returnApplicable;
-	
+	private Character returnApplicable;
 	
 	@Column(name="OT_TAX_APPLICABLE",length=1)
-	private char otTaxApplicable;
+	private Character otTaxApplicable;
 	
 	@Column(name="PAYMENT_TYPE",length=20)
 	private String paymentType;
 	
 	@Column(name="DISCOUNT_FACILITY",length=1)
-	private char discountFacility;
+	private Character discountFacility;
 	
 }

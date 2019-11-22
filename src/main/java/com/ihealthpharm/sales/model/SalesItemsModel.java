@@ -41,10 +41,10 @@ public class SalesItemsModel {
     private String creationUserId;
 
     @Column(name="DISCOUNT",length=25)
-    private float discount;
+    private Float discount;
 
     @Column(name="DISCOUNT_PERCENTAGE",length=25)
-    private float discountPercentage;
+    private Float discountPercentage;
 
     @Column(name="FREE_QTY_APPROVER",length=50)
     private String freeQtyApprover;
@@ -56,13 +56,13 @@ public class SalesItemsModel {
     private String lastUpdateUserId;
 
     @Column(name="MARGIN",length=25)
-    private float margin;
+    private Float margin;
 
     @Column(name="MRP",length=25)
     private Double mrp;
 
     @Column(name="QTY_FREE",length=25)
-    private float qtyFree;
+    private Float qtyFree;
 
     @Column(name="REMARKS",length=100)
     private String remarks;
@@ -71,7 +71,7 @@ public class SalesItemsModel {
     private Double saleAmount;
 
     @Column(name="SALE_QTY",length=11)
-    private int saleQty;
+    private Integer saleQty;
 
     @Column(name="UNIT_PURCHASE_PRICE",length=25)
     private Double unitPurchasePrice;
@@ -80,7 +80,7 @@ public class SalesItemsModel {
     private Double unitSalePrice;
 
     @Column(name="VAT",length=11)
-    private int vat;
+    private Integer vat;
     
     @OneToOne
     @JoinColumn(name="ITEM_ID")

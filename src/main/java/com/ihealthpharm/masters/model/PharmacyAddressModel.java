@@ -26,14 +26,11 @@ public class PharmacyAddressModel {
 	@JoinColumn(name="PHARMACY_ID")
 	private PharmacyModel pharmacyModel;
 	
-	
 	@Column(name="ADDRESS_LINE1",length=250)
 	private String addressLine1;
 	
-	
 	@Column(name="ADDRESS_LINE2",length=250)
 	private String addressLine2;
-
 	
 	@Column(name="CITY_NM")
 	private String cityName;
@@ -51,6 +48,6 @@ public class PharmacyAddressModel {
 	private String zipCode;
 	
 	@Column(name="ACTIVE_S",length=1)
-	private char activeS;
+	private Character activeS;
 
 }

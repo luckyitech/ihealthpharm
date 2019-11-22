@@ -31,10 +31,10 @@ public class AccountReceivablesModel extends AuditModel{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="ACCOUNT_RECEIVABLES_ID")
-	private int accountReceivablesId;
+	private Integer accountReceivablesId;
 
 	@Column(name="AUDIT_ID",length=11)
-	private int auditId;
+	private Integer auditId;
 
 	@Column(name="PAYMENT_TYPE",length=30)
 	private String paymentType;

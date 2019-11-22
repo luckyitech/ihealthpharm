@@ -15,7 +15,7 @@ public class IndentStatusModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="INDENT_STATUS_ID",length=11)
-	private int indentStatusId;
+	private Integer indentStatusId;
 	
 	@Column(name="STATUS",length=20)
 	private String status;

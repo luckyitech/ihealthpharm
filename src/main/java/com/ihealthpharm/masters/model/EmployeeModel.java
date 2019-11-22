@@ -58,13 +58,13 @@ public class EmployeeModel extends AuditModel implements Serializable{
 	private String lastName;
 	
 	@Column( name = "GENDER_CD",length=1)
-	private char genderCode;
+	private Character genderCode;
 	
 	@Column( name = "SALARY")
-	private double salary;
+	private Double salary;
 	
 	@Column( name = "ACTIVE_S",length=1)
-	private char activeS;
+	private Character activeS;
 	
 	@Column( name = "DOB_DT")
 	private String dateOfBirth;

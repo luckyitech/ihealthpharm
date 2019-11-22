@@ -9,10 +9,17 @@ import javax.persistence.Id;
 import com.ihealthpharm.masters.model.AuditModel;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity (name="generateuniquecode")
 @Data
+@EqualsAndHashCode(of="generateUniqueCodeId",callSuper=false)
 public class UniqueCodeModel extends AuditModel{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5896341520338305093L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

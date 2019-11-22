@@ -22,7 +22,7 @@ public class PharmaAccessModel extends AuditModel{
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="PHARMA_ACCESS_ID",length=11, columnDefinition = "AUTO_INCREMENT")
-    private int pharmaAccessId;
+    private Integer pharmaAccessId;
     
     @Column(name="ACCESS_CD",length=2)
     private char[] accessCd;
@@ -31,5 +31,5 @@ public class PharmaAccessModel extends AuditModel{
     private String accessName;
 
     @Column(name="ACTIVE_S",length=1)
-    private char activeS;
+    private Character activeS;
 }

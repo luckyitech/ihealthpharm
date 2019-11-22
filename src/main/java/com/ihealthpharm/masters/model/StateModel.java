@@ -49,6 +49,4 @@ public class StateModel {
 	
 	@Column(name = "AUDIT_ID",length=11)
 	private Integer auditId;
-	
-	
 }
