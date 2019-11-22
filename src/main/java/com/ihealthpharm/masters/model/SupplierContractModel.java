@@ -53,7 +53,7 @@ public class SupplierContractModel extends AuditModel{
 	private String classification;
 	
 	@Column(name="ACTIVE_S",length = 1)
-	private char activeS;
+	private Character activeS;
 	
 	@Column(name="AUDIT_ID", length=11)
 	private Integer auditId;

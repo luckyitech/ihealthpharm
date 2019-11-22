@@ -24,9 +24,6 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Component
 public class SalesRegisterAreaWiseDetails extends ReportsPDFUtility{
 

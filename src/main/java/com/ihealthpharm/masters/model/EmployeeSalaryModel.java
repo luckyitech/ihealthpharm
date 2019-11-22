@@ -40,32 +40,32 @@ public class EmployeeSalaryModel extends AuditModel{
 	private Date salaryDate;
 
 	@Column(name = "BASIC")
-	private double basic;
+	private Double basic;
 
 	@Column(name = "HRA")
-	private double hra;
+	private Double hra;
 
 	@Column(name = "DA")
-	private double da;
+	private Double da;
 
 	@Column(name = "MEDICAL")
-	private double medical;
+	private Double medical;
 
 	@Column(name = "P_TAX")
-	private double ptax;
+	private Double ptax;
 
 	@Column(name = "PF_EMPLOYEE")
-	private double pfEmployee;
+	private Double pfEmployee;
 
 	@Column(name = "PF_EMPLOYER")
-	private double pfEmployer;
+	private Double pfEmployer;
 
 	@Column(name = "TDS")
-	private double tds;
+	private Double tds;
 
 	@Column(name = "ESI")
-	private double esi;
+	private Double esi;
 
 	@Column(name = "GROSS_SALARY")
-	private double grossSalary;
+	private Double grossSalary;
 }

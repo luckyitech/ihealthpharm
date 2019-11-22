@@ -111,6 +111,4 @@ public class StockHistoryModel extends AuditModel {
 	
 	@Column(name="BARCODE")
 	private String barcode;
-	
-
 }

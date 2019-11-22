@@ -36,16 +36,16 @@ public class CreditNoteModel extends AuditModel{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="CREDIT_NOTE_ID",length=11, columnDefinition = "AUTO_INCREMENT")
-	private int creditNoteId;
+	private Integer creditNoteId;
 
 	@Column(name="AMOUNT",length=25)
-    private float amount;
+    private Float amount;
 
     @Column(name="AUDIT_ID",length=11)
-    private int auditId;
+    private Integer auditId;
 
     @Column(name="BILL_ID",length=11)
-    private int billId;
+    private Integer billId;
 
     @Column(name="CREDIT_DATE",length=25)
     private LocalDate creditDate;
@@ -54,7 +54,7 @@ public class CreditNoteModel extends AuditModel{
     private String creditNoteNo;
 
     @Column(name="INVOICE_ID",length=11)
-    private int invoiceId;  
+    private Integer invoiceId;  
 
     @Column(name="REMARKS",length=200)
     private String remarks;

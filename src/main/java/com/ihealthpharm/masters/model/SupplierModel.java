@@ -75,7 +75,6 @@ public class SupplierModel extends AuditModel {
 	@Column( name ="ADDRESS_LINE2",length=250)
 	private String addressLine2;
 	
-	
 	@Column(name = "CITY_NM",length=50)
 	private String cityName;
 	

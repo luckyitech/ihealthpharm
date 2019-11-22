@@ -98,6 +98,4 @@ public class HospitalModel {
 	
 	@Column(name="CONTACT_NBR")
 	private String contactNumber;
-	
-
 }

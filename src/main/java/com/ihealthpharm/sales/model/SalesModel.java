@@ -19,26 +19,24 @@ import com.ihealthpharm.masters.model.HospitalModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.ProviderModel;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@Data
 @Entity(name = "sales")
-@Getter
-@Setter
-@ToString
+@EqualsAndHashCode(of="billId",callSuper=false)
 public class SalesModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "BILL_ID", length = 11, columnDefinition = "AUTO_INCREMENT")
-	private int billId;
+	private Integer billId;
 
 	@Column(name = "ADJUSTED_QTY", length = 11)
-	private int adjustedQty;
+	private Integer adjustedQty;
 
 	@Column(name = "BALANCE_AMOUNT", length = 25)
-	private float balanceAmount;
+	private Float balanceAmount;
 
 	@Column(name = "BILL_CODE", length = 30)
 	private String billCode;
@@ -47,7 +45,7 @@ public class SalesModel {
 	private LocalDate billDate;
 
 	@Column(name = "CASH_AMOUNT", length = 25)
-	private float cashAmount;
+	private Float cashAmount;
 
 	@Column(name = "CREATION_TS", length = 25)
 	private LocalDateTime creationTs;
@@ -56,10 +54,10 @@ public class SalesModel {
 	private String creationUserId;
 
 	@Column(name = "CREDIT_DAYS", length = 25)
-	private float creditDays;
+	private Float creditDays;
 
 	@Column(name = "CREDIT_CARD_AMOUNT", length = 25)
-	private float creditCardAmount;
+	private Float creditCardAmount;
 
 	@Column(name = "CREDIT_CARD_NO", length = 20)
 	private String creditCardNo;
@@ -68,25 +66,25 @@ public class SalesModel {
 	private String customerNm;
 
 	@Column(name = "CUSTOMER_PHONE_NO", length = 11)
-	private int customerPhoneNo;
+	private Integer customerPhoneNo;
 
 	@Column(name = "EFFECTIVE_MARGIN", length = 25)
-	private float effectiveMargin;
+	private Float effectiveMargin;
 
 	@Column(name = "EFFECTIVE_OVERALL_DISCOUNT", length = 25)
-	private float effectiveOverallDiscount;
+	private Float effectiveOverallDiscount;
 
 	@Column(name = "EFFECTIVE_SALES_DISC", length = 25)
-	private float effectiveSalesDisc;
+	private Float effectiveSalesDisc;
 
 	@Column(name = "EFFECTIVE_VAT", length = 25)
-	private float effectiveVat;
+	private Float effectiveVat;
 
 	@Column(name = "INSURANCE_CONTRIB_AMT", length = 25)
-	private float insuranceContribAmt;
+	private Float insuranceContribAmt;
 
 	@Column(name = "INSURANCE_CONTRIB_PERCENT", length = 25)
-	private float insuranceContribPercent;
+	private Float insuranceContribPercent;
 
 	@Column(name = "LAST_UPDATE_TS", length = 25)
 	private LocalDateTime lastUpdateTs;
@@ -95,19 +93,19 @@ public class SalesModel {
 	private String lastUpdateUserId;
 
 	@Column(name = "MARGIN_AMT", length = 25)
-	private float marginAmt;
+	private Float marginAmt;
 
 	@Column(name = "MEMBERSHIP_CONTRIB_AMT", length = 25)
-	private float membershipContribAmt;
+	private Float membershipContribAmt;
 
 	@Column(name = "MEMBERSHIP_CONTRIB_PERCENT", length = 25)
-	private float membershipContribPercent;
+	private Float membershipContribPercent;
 
 	@Column(name = "OVERALL_DISCOUNT", length = 25)
-	private float overallDiscount;
+	private Float overallDiscount;
 
 	@Column(name = "PAID_AMOUNT", length = 25)
-	private float paidAmount;
+	private Float paidAmount;
 
 	@Column(name = "PAYMENT_STATUS", length = 20)
 	private String paymentStatus;
@@ -122,28 +120,28 @@ public class SalesModel {
 	private String remarks;
 
 	@Column(name = "ROUNDED_OFF", length = 25)
-	private float roundedOff;
+	private Float roundedOff;
 
 	@Column(name = "SALE_DISC_AMT", length = 25)
-	private float saleDiscAmt;
+	private Float saleDiscAmt;
 
 	@Column(name = "TOTAL_AMOUNT", length = 25)
-	private float totalAmount;
+	private Float totalAmount;
 
 	@Column(name = "TOTAL_PRODUCTS", length = 11)
-	private int totalProducts;
+	private Integer totalProducts;
 
 	@Column(name = "TOTAL_QTY", length = 11)
-	private int totalQty;
+	private Integer totalQty;
 
 	@Column(name = "UPI_AMOUNT", length = 25)
-	private float upiAmount;
+	private Float upiAmount;
 
 	@Column(name = "UPI_PHONE_NO", length = 20)
 	private String upiPhoneNo;
 
 	@Column(name = "VAT_AMT", length = 25)
-	private float vatAmt;
+	private Float vatAmt;
 	
 	@Column(name="CHEQUE_NUMBER")
 	private Integer chequeNumber;

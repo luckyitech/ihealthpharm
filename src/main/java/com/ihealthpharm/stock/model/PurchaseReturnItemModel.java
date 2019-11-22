@@ -62,6 +62,6 @@ public class PurchaseReturnItemModel extends AuditModel {
 	private Integer auditId;
 
 	@Column(name="ACTIVE_S",length=1, columnDefinition = "'Y'")
-    private char activeS;
+    private Character activeS;
 	
 }

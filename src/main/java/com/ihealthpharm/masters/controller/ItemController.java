@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.helper.ItemPropertyHelper;
-import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.service.ItemService;
 

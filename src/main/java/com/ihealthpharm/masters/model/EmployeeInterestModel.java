@@ -34,8 +34,6 @@ public class EmployeeInterestModel extends AuditModel{
 	@Column( name = "AREA_OF_INTEREST_DESC", length=250)
 	private String areaOfIntrestDesc;
 	
-	
-	
 	@Column( name = "INTRESTED_AT", length=250)
 	private String intrestedAt;
 	

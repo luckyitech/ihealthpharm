@@ -41,9 +41,7 @@ public class EmployeeHonorModel extends AuditModel{
 	
 	@Column( name = "RECEIVE_DT")
 	private Date receivedDate;
-	
-	
-	
+
 	@Column( name = "AUDIT_ID",length=11)
 	private Integer auditId;
 }

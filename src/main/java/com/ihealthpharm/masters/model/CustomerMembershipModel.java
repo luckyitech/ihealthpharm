@@ -31,7 +31,7 @@ public class CustomerMembershipModel extends AuditModel {
 	private Integer customerMembershipId;
 
 	@Column(name="MEMBERSHIP_CREDIT_DAYS",length=11)
-	private int membershipCreditDays;
+	private Integer membershipCreditDays;
 
 	@Column(name="MEMBERSHIP_CARD_NO",length=100)
 	private String membershipCardNumber;
@@ -49,7 +49,7 @@ public class CustomerMembershipModel extends AuditModel {
 	private Float membershipDiscountPercentage;
 
 	@Column(name="MEMBERSHIP_DURATION_IN_MONTHS",length=11)
-	private int membershipDurationInMonths;
+	private Integer membershipDurationInMonths;
 
 	@Column(name="MEMBERSHIP_CARD_NAME",length=100)
 	private String membershipCardName;
