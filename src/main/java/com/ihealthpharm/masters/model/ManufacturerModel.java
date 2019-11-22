@@ -31,7 +31,7 @@ public class ManufacturerModel extends AuditModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="MANUFACTURER_ID",length=11)
-	private int manufacturerId;
+	private Integer manufacturerId;
 	
 	@Column(name="MFR_NAME",length=100)
 	private String name;
@@ -46,7 +46,7 @@ public class ManufacturerModel extends AuditModel {
 	private String emailId;
 	
 	@Column(name="ACTIVE_S",length=1)
-	private char activeS;
+	private Character activeS;
 	
 	@Column(name="FAX",length=20)
 	private String fax;

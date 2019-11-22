@@ -45,13 +45,11 @@ public class PharmacyBranchModel extends AuditModel {
 	@Column(name="FAX_NBR",length=20)
 	private String fax;
 
-
 	@Column(name="EMAIL_ID",length=50)
 	private String emailId;
 
 	@Column(name="WEBSITE_URL",length=250)
 	private String websiteUrl;
-
 
 	@Column(name="OTHER_DETAILS_DESC",length=250)
 	private String otherDetailsDesc;
@@ -80,7 +78,7 @@ public class PharmacyBranchModel extends AuditModel {
 	private String zipCode;
 
 	@Column(name="24_HOURS",length=1)
-	private char hours;
+	private Character hours;
 
 	@Column(name ="AUDIT_ID",length=11)
 	private Integer auditId;

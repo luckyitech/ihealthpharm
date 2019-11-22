@@ -32,16 +32,16 @@ public class DebitNoteModel extends AuditModel{
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="DEBIT_NOTE_ID",length=11, columnDefinition = "AUTO_INCREMENT")
-    private int debitNoteId;
+    private Integer debitNoteId;
     
     @Column(name="AMOUNT",length=25)
-    private float amount;
+    private Float amount;
 
     @Column(name="AUDIT_ID",length=11)
-    private int auditId;
+    private Integer auditId;
 
     @Column(name="BILL_ID",length=11)
-    private int billId;
+    private Integer billId;
   
     @Column(name="DEBIT_DATE",length=25)
     private LocalDate debitDate;
@@ -50,7 +50,7 @@ public class DebitNoteModel extends AuditModel{
     private String debitNoteNo;
 
     @Column(name="INVOICE_ID",length=11)
-    private int invoiceId;
+    private Integer invoiceId;
 
   
     @Column(name="REMARKS",length=200)

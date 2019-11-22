@@ -47,7 +47,7 @@ public class InsuranceModel extends AuditModel {
 	private String policyEndDate;
 
 	@Column(name="POLICY_DURATION_IN_MONTHS",length=11)
-	private int policyDurationInMonths;
+	private Integer policyDurationInMonths;
 
 	@Column(name="POLICY_AMOUNT_LIMIT")
 	private Float policyAmountLimit;
@@ -67,7 +67,7 @@ public class InsuranceModel extends AuditModel {
 	private Integer auditId;
 
 	@Column(name = "ACTIVE_S",length=1)
-	private char activeS;
+	private Character activeS;
 
 	@Column(name="ADDRESS_LINE1",length=250)
 	private String addressLine1;

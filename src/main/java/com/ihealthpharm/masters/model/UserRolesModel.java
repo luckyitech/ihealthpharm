@@ -26,7 +26,7 @@ public class UserRolesModel extends AuditModel{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="USER_ROLES_ID",length=11)
-	private int userRolesId;
+	private Integer userRolesId;
 	
 	@OneToMany
 	@JoinColumn(name="USER_ID")

@@ -3,7 +3,6 @@ package com.ihealthpharm.stock.model;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -119,7 +118,6 @@ public class StockModel extends AuditModel {
 	
 	@Column(name="STATUS")
 	private String status ;
-	
 	
 	@Column(name="SELF")
 	private String self;

@@ -36,7 +36,7 @@ public class LatinShortCodesModel extends AuditModel {
 	private Integer auditId;
 	
 	@Column(name = "ACTIVE_S",length=1)
-	private char activeS;
+	private Character activeS;
 	
 
 }

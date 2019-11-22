@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -18,7 +17,6 @@ import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ihealthpharm.masters.model.AuditModel;
-import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.SupplierModel;
 
 import lombok.Getter;
@@ -64,7 +62,7 @@ public class PurchaseReturnModel extends AuditModel {
 	private Float charges;
 
 	@Column(name = "GEN_DEBIT_NOTE", length = 1, columnDefinition = "Y")
-	private char genDebitNote;
+	private Character genDebitNote;
 
 	@Column(name = "DELIVERY_MODE", length = 20)
 	private String deliveryMode;
@@ -77,7 +75,6 @@ public class PurchaseReturnModel extends AuditModel {
 	
 	@OneToMany(mappedBy="purchaseReturnModel", fetch=FetchType.LAZY)
 	private List<PurchaseReturnItemModel> purchaseReturnItemModels;
-	
 	
 	@Column(name = "TOTAL_AMOUNT", length = 25)
 	private Float totalAmount;

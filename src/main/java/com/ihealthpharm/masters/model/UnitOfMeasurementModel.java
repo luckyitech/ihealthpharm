@@ -30,7 +30,6 @@ public class UnitOfMeasurementModel extends AuditModel {
 	@Column(name = "UNIT_OF_MEASUREMENT_ID",length=11)
 	private Integer unitMeasurementId;
 	
-	
 	@Column(name="MEASUREMENT_CD")
 	private String measurementCode;
 	

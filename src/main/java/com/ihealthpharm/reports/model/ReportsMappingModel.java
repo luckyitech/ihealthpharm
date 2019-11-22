@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @Entity(name = "reports_mapping")
-@EqualsAndHashCode(of = "reportId")
+@EqualsAndHashCode(of = "reportId",callSuper=false)
 public class ReportsMappingModel implements Serializable {
 
 	private static final long serialVersionUID = 9023481249252578288L;
@@ -58,6 +58,4 @@ public class ReportsMappingModel implements Serializable {
 	
 	@Column(name = "CUSTOM_EXCEL_REPORT_GENERATOR")
 	private String customExcelReportGeneratorClazz;
-
-	
 }

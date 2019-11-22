@@ -76,11 +76,9 @@ public class StockAdjustmentModel extends AuditModel{
 	@JoinColumn(name="PHARMACY_ID")
 	private PharmacyModel pharmacy;
 	
-	
 	@OneToOne
 	@JoinColumn(name="STOCK_ID")
 	private StockModel stock; 
-	
 	
 	@Column(name="SYSTEM_DATE")
 	private Date date;

@@ -44,7 +44,7 @@ public class PharmacyModel extends AuditModel{
 	private Integer auditId;
 
 	@Column(name="ACTIVE_S",length=1)
-	private char activeS;
+	private Character activeS;
 	
 	@Column(name="AUTHORIZED_PERSON_FIRST_NM",length=50)
 	private String autherizedPersonFirstName;
@@ -72,7 +72,7 @@ public class PharmacyModel extends AuditModel{
 	private String fax;
 	
 	@Column(name="PURCHASE_ORDER_APPROVAL",length=1)
-	private char purchaseOrderApproval;
+	private Character purchaseOrderApproval;
 	
 	@Column(name="ADDRESS_LINE1",length=250)
 	private String addressLine1;
@@ -96,6 +96,5 @@ public class PharmacyModel extends AuditModel{
 	
 	@Column(name="24_HOURS",length=1)
 	private String hours;
-
 
 }

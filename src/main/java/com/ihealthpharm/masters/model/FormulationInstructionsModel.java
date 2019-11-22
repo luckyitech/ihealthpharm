@@ -43,39 +43,36 @@ public class FormulationInstructionsModel extends AuditModel {
 	private PharmacyModel pharmacyId;
 	
 	@Column(name="TIMES_IN_A_DAY",length=11)
-	private int timesInADay;
+	private Integer timesInADay;
 	
 	@Column(name="MORNING",length=1)
-	private char morning;
+	private Character morning;
 	
 	@Column(name="AFTER_NOON",length=1)
-	private char afterNoon;
+	private Character afterNoon;
 	
 	@Column(name="EVENING",length=1)
-	private char evening;
+	private Character evening;
 	
 	@Column(name="BEFORE_BED",length=1)
-	private char beforeBed;
+	private Character beforeBed;
 	
 	@Column(name="TIMINGS",length=11)
-	private int timings;
+	private Integer timings;
 	    
 	@Column(name="BEFORE_MEAL",length=1)
-	private char beforeMeal;
+	private Character beforeMeal;
 	    
     @Column(name="AFTER_MEAL",length=1)
-	private char afterMeal;
+	private Character afterMeal;
     
     @Column(name="ANY_TIME",length=1)
-    private char anyTime;
+    private Character anyTime;
     
     @Column(name="ACTIVE_S",length=1, columnDefinition = "'Y'")
-    private char activeS;
-    
+    private Character activeS;
 
     @Column(name="AUDIT_ID",length=11)
-    private int auditId;
-
-   
+    private Integer auditId;
 
 }

@@ -31,7 +31,6 @@ public class PharmacyPurchaseOrderApprovalModel extends AuditModel {
 	@JoinColumn(name="PHARMACY_ID")
 	private PharmacyModel pharmacyModel;
 	
-	
 	@Column(name="TYPE",length=50)
 	private String type;
 	
@@ -44,13 +43,9 @@ public class PharmacyPurchaseOrderApprovalModel extends AuditModel {
 	@Column(name="MAX_AMOUNT")
 	private Double maximumAmount;
 	
-	
 	@Column(name="APPROVAL_USER",length=11)
 	private Integer approvalUser;
 	
 	@Column(name ="AUDIT_ID",length=11)
 	private Integer auditId;
-	
-	
-	
 }

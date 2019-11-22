@@ -22,11 +22,8 @@ import org.springframework.util.ObjectUtils;
 
 import com.ihealthpharm.reports.model.ReportsMappingModel;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Component
-@Slf4j
-public class PurchaseDetailsByBatchNoExcel extends ReportsExcelUtility {
+	public class PurchaseDetailsByBatchNoExcel extends ReportsExcelUtility {
 	
 	public void generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile) {
 

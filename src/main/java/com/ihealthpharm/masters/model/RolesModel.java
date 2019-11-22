@@ -21,7 +21,7 @@ public class RolesModel extends AuditModel{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ROLE_ID")
-	private int roleId;
+	private Integer roleId;
 
 	@Column(name = "ROLE_NM", length = 20)
 	private String roleName;

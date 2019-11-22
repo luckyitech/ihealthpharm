@@ -22,12 +22,12 @@ public class CompanyTermsModel extends AuditModel{
 	@Id
 	@Column(name="COMPANY_TERMS_AND_CONDITIONS_ID",length=11)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int companyTermsId;
+	private Integer companyTermsId;
 	
 	@Column(name="TERMS_AND_CONDITIONS")
 	private String termsAndConditions;
 			
 	@Column(name="ACTIVE_S",length=1)
-	private char activeS;
+	private Character activeS;
 	
 }
