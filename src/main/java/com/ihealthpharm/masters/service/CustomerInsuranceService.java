@@ -16,7 +16,7 @@ public interface CustomerInsuranceService {
 	
 	 List<CustomerInsuranceModel> findAllCustomersInsurance();
 	
-	 CustomerInsuranceModel findCustomerInsuranceById(int customerInsuranceId);
+	 CustomerInsuranceModel findCustomerInsuranceById(Integer customerInsuranceId);
 	 
 	 CustomerInsuranceModel findCustomerInsuranceByPolicyCode(String policyCode);
 	 
@@ -24,8 +24,8 @@ public interface CustomerInsuranceService {
 	 
 	 CustomerInsuranceModel findCustomerInsuranceByCustomer(CustomerModel customer);
 	
-	 void deleteCustomerInsuranceById(int customerInsuranceIds);
+	 void deleteCustomerInsuranceById(Integer customerInsuranceIds);
 	
-	 void deleteCustomersInsuranceById(int[] customerInsuranceIds);
+	 void deleteCustomersInsuranceById(Integer[] customerInsuranceIds);
 	
 }

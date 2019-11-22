@@ -7,13 +7,13 @@ import com.ihealthpharm.finance.model.CreditNoteModel;
 public interface CreditNoteService
 {
     
-    void deleteCreditById(int creditNoteId);
+    void deleteCreditById(Integer creditNoteId);
     
-    void deleteMultipleCredit(int[] creditNoteId);
+    void deleteMultipleCredit(Integer[] creditNoteId);
  
     List<CreditNoteModel> findAllCredit();
     
-    CreditNoteModel findCreditById(int creditNoteId);
+    CreditNoteModel findCreditById(Integer creditNoteId);
 
     CreditNoteModel saveCreditData(CreditNoteModel creditNoteModel);
 

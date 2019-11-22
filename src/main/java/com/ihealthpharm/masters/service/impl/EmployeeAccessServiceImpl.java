@@ -93,7 +93,7 @@ public class EmployeeAccessServiceImpl implements EmployeeAccessService {
 		return employeeAccessRes;
 	}
 	
-	public EmployeeAccessModel getValidEmployeeAccess(int employeeAccessId) {
+	public EmployeeAccessModel getValidEmployeeAccess(Integer employeeAccessId) {
 		EmployeeAccessModel employeeAccessRes = null;
 
 		try {

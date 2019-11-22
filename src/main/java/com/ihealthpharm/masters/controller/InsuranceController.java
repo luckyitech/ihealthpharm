@@ -68,7 +68,6 @@ public class InsuranceController {
 			insuranceModel = new ObjectMapper().readValue(insuranceData, InsuranceModel.class);
 			insuranceModel.setTermsAndConditionsFile(termsAndConditionsFile.getBytes());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		InsuranceModel insuranceModelRes = insuranceService.updateInsuranceData(insuranceModel);
@@ -91,7 +90,7 @@ public class InsuranceController {
 	}
 	
 	@DeleteMapping("/delete/insurance")
-	public ResponseEntity<BaseDto<Object>> deleteInsurance(@RequestParam int insurancePolicyId){
+	public ResponseEntity<BaseDto<Object>> deleteInsurance(@RequestParam Integer insurancePolicyId){
 		log.info("Request Object for delete :"+insurancePolicyId);
 		insuranceService.delete(insurancePolicyId);
 		return new BaseDto<>(insuranceHelper.getDeleteInsuranceMessage(),OK).respond();
@@ -105,7 +104,7 @@ public class InsuranceController {
 	}
 	
 	@GetMapping("/getinsurance/byid")
-	public ResponseEntity<BaseDto<InsuranceModel>> getInsuranceById(@Valid @RequestParam int insurancePolicyId){
+	public ResponseEntity<BaseDto<InsuranceModel>> getInsuranceById(@Valid @RequestParam Integer insurancePolicyId){
 		InsuranceModel insuranceRes=insuranceService.findInsuranceById(insurancePolicyId);
 		return new BaseDto<>(insuranceRes,insuranceHelper.getRetrieveInsuranceMessage(),OK).respond();
 	}

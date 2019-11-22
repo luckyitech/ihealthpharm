@@ -63,14 +63,14 @@ public class ItemController {
 	}
 
 	@DeleteMapping("/delete/item")
-	public ResponseEntity<BaseDto<Object>> deleteItemData(@RequestParam int itemId) {
+	public ResponseEntity<BaseDto<Object>> deleteItemData(@RequestParam Integer itemId) {
 		log.info("Request Object for delete is: ", itemId);
 		itemService.deleteItemsById(itemId);
 		return new BaseDto<>(propertyHelper.getDeleteMessage(), OK).respond();
 	}
 
 	@DeleteMapping("/delete/items")
-	public ResponseEntity<BaseDto<Object>> deleteItemsData(@RequestParam int[] itemIds) {
+	public ResponseEntity<BaseDto<Object>> deleteItemsData(@RequestParam Integer[] itemIds) {
 		log.info("Request Object for delete is: " + itemIds);
 		itemService.deleteMultipleItemsById(itemIds);
 		return new BaseDto<>(propertyHelper.getDeleteMessage(), OK).respond();
@@ -89,7 +89,7 @@ public class ItemController {
 	}
 
 	@GetMapping("/getitemdatabyid")
-	public ResponseEntity<BaseDto<ItemsModel>> getItemDataById(@RequestParam int itemId) {
+	public ResponseEntity<BaseDto<ItemsModel>> getItemDataById(@RequestParam Integer itemId) {
 		ItemsModel result = itemService.findItemsById(itemId);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}

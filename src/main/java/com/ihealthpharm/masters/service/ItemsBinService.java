@@ -12,11 +12,11 @@ public interface ItemsBinService {
 	 
 	 List<ItemsBinModel> updateItemsBinsData(List<ItemsBinModel> itemsBinModel);
 	
-	 ItemsBinModel findItemsBinById(int itemBinId);
+	 ItemsBinModel findItemsBinById(Integer itemBinId);
 	
-	 void deleteItemsBinById( int itemBinId);
+	 void deleteItemsBinById( Integer itemBinId);
 	 
-	 void deleteMultipleItemBinsById(int[] itemBinIds);
+	 void deleteMultipleItemBinsById(Integer[] itemBinIds);
 	
 	 List<ItemsBinModel> findAllBinItems();
 	

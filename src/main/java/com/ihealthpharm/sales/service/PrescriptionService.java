@@ -1,7 +1,5 @@
 package com.ihealthpharm.sales.service;
 
-import java.util.Date;
-
 import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.sales.model.PrescriptionImagesModel;
 

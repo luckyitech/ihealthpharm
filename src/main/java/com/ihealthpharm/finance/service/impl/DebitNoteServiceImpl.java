@@ -37,10 +37,9 @@ public class DebitNoteServiceImpl implements DebitNoteService{
 	}
 
 	@Override
-	public DebitNoteModel findDebitById(int debitNoteId) {
+	public DebitNoteModel findDebitById(Integer debitNoteId) {
 
 		DebitNoteModel debitNoteRes = getValidDebitNote(debitNoteId);
-		
 		if(!Objects.nonNull(debitNoteRes)) {
 			throw new IHealthPharmException(debitNoteHelper.getNotFoundDebitNoteMessage(),HttpStatus.NOT_FOUND);
 		}
@@ -56,27 +55,23 @@ public class DebitNoteServiceImpl implements DebitNoteService{
 	@Override
 	public DebitNoteModel updateDebitData(DebitNoteModel debitNoteModel) {
 		DebitNoteModel debitNoteRes = getValidDebitNote(debitNoteModel.getDebitNoteId());
-
 		if (!Objects.nonNull(debitNoteRes)) {
 			throw new IHealthPharmException(debitNoteHelper.getNotFoundDebitNoteMessage(), HttpStatus.NOT_FOUND);
 		}
 		debitNoteRes = debitNoteRepo.save(debitNoteModel);
 		log.info("DebitNote data with ID : " + debitNoteRes.getDebitNoteId() + " updated succesfully");
-
 		return debitNoteRes;
 	}
 
 	@Override
 	public List<DebitNoteModel> updateMultipleDebit(List<DebitNoteModel> debitNoteModel) {
 		debitNoteModel = debitNoteRepo.saveAll(debitNoteModel);
-
 		log.info("Multiple DebitNote data  updated succesfully");
-
 		return debitNoteModel;
 	}
 
 	@Override
-	public void deleteDebitById(int debitNoteId) {
+	public void deleteDebitById(Integer debitNoteId) {
 		DebitNoteModel debitNoteRes = getValidDebitNote(debitNoteId);
 		if (!Objects.nonNull(debitNoteRes)) {
 			throw new IHealthPharmException(debitNoteHelper.getNotFoundDebitNoteMessage(), HttpStatus.NOT_FOUND);
@@ -87,7 +82,7 @@ public class DebitNoteServiceImpl implements DebitNoteService{
 	}
 
 	@Override
-	public void deleteMultipleDebit(int[] debitNoteId) {
+	public void deleteMultipleDebit(Integer[] debitNoteId) {
 		DebitNoteModel debitNoteRes;
 		for (int debitNote : debitNoteId) {
 			debitNoteRes = getValidDebitNote(debitNote);

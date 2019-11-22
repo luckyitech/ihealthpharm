@@ -87,7 +87,7 @@ public class PharmacyStockImpl implements PharmacyStockService {
 	}
 
 	@Override
-	public void deleteStock(int stockId) {
+	public void deleteStock(Integer stockId) {
 		PharmacyStockModel stockModelRes = getValidStock(stockId);
 		if(!Objects.nonNull(stockModelRes))
 		{
@@ -98,7 +98,7 @@ public class PharmacyStockImpl implements PharmacyStockService {
 	}
 
 	@Override
-	public PharmacyStockModel findStockById(int stockId) {
+	public PharmacyStockModel findStockById(Integer stockId) {
 		PharmacyStockModel stockModelRes = getValidStock(stockId);
 
 		if(!Objects.nonNull(stockModelRes))

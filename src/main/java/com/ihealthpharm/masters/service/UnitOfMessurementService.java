@@ -18,11 +18,11 @@ public interface UnitOfMessurementService {
 
 	UnitOfMeasurementModel update(@Valid UnitOfMeasurementModel unitOfMeasurementModel);
 
-	UnitOfMeasurementModel findById(int id);
+	UnitOfMeasurementModel findById(Integer id);
 
 	List<UnitOfMeasurementModel> findAll();
 
-	void remove(int[] ids);
+	void remove(Integer[] ids);
 
 	List<UnitOfMeasurementModel> findbyActiveS();
 

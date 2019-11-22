@@ -65,14 +65,14 @@ public class ItemFormsController {
 	}
 	
 	@DeleteMapping("/delete/itemform")
-	public ResponseEntity<BaseDto<Object>> deleteFormData(@RequestParam int itemformId) {
+	public ResponseEntity<BaseDto<Object>> deleteFormData(@RequestParam Integer itemformId) {
 		log.info("Request Object for delete is: ", itemformId);
 		itemFormService.deleteItemFormById(itemformId);
 		return new BaseDto<>(itemFormsHelper.getDeleteItemFormsMessage(), OK).respond();
 	}
 	
 	@DeleteMapping("/delete/itemforms")
-	public ResponseEntity<BaseDto<Object>> deleteFormsData(@RequestParam int[] itemformIds) {
+	public ResponseEntity<BaseDto<Object>> deleteFormsData(@RequestParam Integer[] itemformIds) {
 		log.info("Request Object for delete is: "+ itemformIds);
 		itemFormService.deleteMultipleItemFormsById(itemformIds);
 		return new BaseDto<>(itemFormsHelper.getDeleteItemFormsMessage(), OK).respond();
@@ -87,7 +87,7 @@ public class ItemFormsController {
 	}
 	
 	@GetMapping("/geitemformdatabyid")
-	public ResponseEntity<BaseDto<ItemFormModel>> getItemFormsDataById(@RequestParam int itemformIds) {
+	public ResponseEntity<BaseDto<ItemFormModel>> getItemFormsDataById(@RequestParam Integer itemformIds) {
 		ItemFormModel result = itemFormService.findItemFormById(itemformIds);
 		return new BaseDto<>(result, itemFormsHelper.getRetrieveItemFormsMessage(), OK).respond();
 	}

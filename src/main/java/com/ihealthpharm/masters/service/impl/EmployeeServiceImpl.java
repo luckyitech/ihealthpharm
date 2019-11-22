@@ -60,7 +60,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public EmployeeModel findEmployeeById(int employeeId) {
+	public EmployeeModel findEmployeeById(Integer employeeId) {
 		EmployeeModel employeeRes = getValidEmployee(employeeId);
 		if (!Objects.nonNull(employeeRes)) {
 			throw new IHealthPharmException(employeeHelper.getNotFoundEmployeeMessage(), HttpStatus.NOT_FOUND);
@@ -70,7 +70,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public void deleteEmployeeById(int employeeId) {
+	public void deleteEmployeeById(Integer employeeId) {
 		EmployeeModel employeeRes = getValidEmployee(employeeId);
 		if (!Objects.nonNull(employeeRes)) {
 			throw new IHealthPharmException(employeeHelper.getNotFoundEmployeeMessage(), HttpStatus.NOT_FOUND);
@@ -79,7 +79,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		log.info("Employee data with ID: " + employeeRes.getEmployeeId() + " deleted succesfully");
 	}
 
-	public EmployeeModel getValidEmployee(int employeeId) {
+	public EmployeeModel getValidEmployee(Integer employeeId) {
 		EmployeeModel employeeRes = null;
 		try {
 			employeeRes = employeeRepository.findById(employeeId).get();
@@ -93,14 +93,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public List<EmployeeModel> updateEmployeesData(List<EmployeeModel> employeeModels){
 	
 			employeeModels = employeeRepository.saveAll(employeeModels);
-			
 			log.info("Employee data  updated succesfully");
 	
 		return employeeModels;
 	}
 
 	@Override
-	public void deleteEmployeesById(int[] employeeIds) {
+	public void deleteEmployeesById(Integer[] employeeIds) {
 		EmployeeModel employeeRes;
 		for (int employee : employeeIds) {
 			employeeRes = getValidEmployee(employee);
@@ -114,18 +113,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public EmployeeModel findLastCreatedEmployeeId() {
-		
 		return employeeRepository.findLastCreatedEmployeeId();
 	}
 
 	@Override
 	public List<EmployeeModel> findEmployeeByFirstNameAndLastName(String name) {
-		
 		return employeeRepository.findByFirstNameOrLastName(name);
 	}
 	
-	
-
-	
-
 }

@@ -56,7 +56,7 @@ public class CreditNoteController {
 		return new BaseDto<>(creditNotes,creditNoteHelper.getUpdateCreditNoteMessage(),OK).respond();
 	}
 	@DeleteMapping("/delete/creditNote")
-	public ResponseEntity<BaseDto<Object>> deleteCreditNote(@RequestParam int creditNoteId){
+	public ResponseEntity<BaseDto<Object>> deleteCreditNote(@RequestParam Integer creditNoteId){
 		log.info("Request Object for delete :"+creditNoteId);
 		creditNoteService.deleteCreditById(creditNoteId);
 		return new BaseDto<>(creditNoteHelper.getDeleteCreditNoteMessage(),OK).respond();
@@ -71,7 +71,7 @@ public class CreditNoteController {
 	}
 	
 	@GetMapping("/getCreditNote/byid")
-	public ResponseEntity<BaseDto<CreditNoteModel>> getCreditNoteById(@Valid @RequestParam int creditNoteId){
+	public ResponseEntity<BaseDto<CreditNoteModel>> getCreditNoteById(@Valid @RequestParam Integer creditNoteId){
 		System.out.println(creditNoteId);
 		CreditNoteModel creditNoteRes= creditNoteService.findCreditById(creditNoteId);
 		System.out.println(creditNoteRes);

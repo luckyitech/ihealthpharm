@@ -96,7 +96,7 @@ public class SpecializationServiceImpl implements SpecializationService {
 	}
 
 	@Override
-	public SpecializationModel findSpecializationById(int specializationId) {
+	public SpecializationModel findSpecializationById(Integer specializationId) {
 		SpecializationModel specializationModelRes = getValidSpecialization(specializationId);
 
 		if(!Objects.nonNull(specializationModelRes))
@@ -108,7 +108,7 @@ public class SpecializationServiceImpl implements SpecializationService {
 	}
 
 	@Override
-	public void deleteSpecializationById(int specializationId) {
+	public void deleteSpecializationById(Integer specializationId) {
 
 		SpecializationModel specializationModelRes = getValidSpecialization(specializationId);
 		if(!Objects.nonNull(specializationModelRes))
@@ -120,7 +120,7 @@ public class SpecializationServiceImpl implements SpecializationService {
 	}
 
 	@Override
-	public void deleteMultipleSpecializationsById(int[] specializationIds) {
+	public void deleteMultipleSpecializationsById(Integer[] specializationIds) {
 
 		SpecializationModel specializationModelRes;
 		for (int specialization : specializationIds) {

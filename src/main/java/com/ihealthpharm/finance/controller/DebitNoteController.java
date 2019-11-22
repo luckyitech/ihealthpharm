@@ -38,10 +38,7 @@ public class DebitNoteController {
 	@PostMapping("/save/debitNote")
 	public ResponseEntity<BaseDto<DebitNoteModel>> saveDebitNote(@Valid @RequestBody  DebitNoteModel debitNoteModel ){
 		log.info("Request Object to insert is :"+debitNoteModel);
-		log.info("-------------------------------------------------------------------");
-		System.out.println(debitNoteModel.toString());
 		DebitNoteModel debitNote= debitNoteService.saveDebitData(debitNoteModel);
-		System.out.println(debitNote);
 		return new BaseDto<>(debitNote,debitNoteHelper.getSaveDebitNoteMessage(),OK).respond();
 	}
 	@PutMapping("/update/DebitNote")
@@ -57,7 +54,7 @@ public class DebitNoteController {
 		return new BaseDto<>(debitNotes,debitNoteHelper.getUpdateDebitNoteMessage(),OK).respond();
 	}
 	@DeleteMapping("/delete/DebitNote")
-	public ResponseEntity<BaseDto<Object>> deleteDebitNote(@RequestParam int debitNoteId){
+	public ResponseEntity<BaseDto<Object>> deleteDebitNote(@RequestParam Integer debitNoteId){
 		log.info("Request Object for delete :"+debitNoteId);
 		debitNoteService.deleteDebitById(debitNoteId);
 		return new BaseDto<>(debitNoteHelper.getDeleteDebitNoteMessage(),OK).respond();
@@ -67,15 +64,12 @@ public class DebitNoteController {
 	@GetMapping("/getDebitNote")
 	public ResponseEntity<BaseDto<List<DebitNoteModel>>> getAllDebitNotes(){
 		List<DebitNoteModel> response=debitNoteService.findAllDebit();
-		
 		return new BaseDto<>(response,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
 	}
 	
 	@GetMapping("/getDebitNote/byid")
-	public ResponseEntity<BaseDto<DebitNoteModel>> getDebitNoteById(@Valid @RequestParam int DebitNoteId){
-		System.out.println(DebitNoteId);
+	public ResponseEntity<BaseDto<DebitNoteModel>> getDebitNoteById(@Valid @RequestParam Integer DebitNoteId){
 		DebitNoteModel debitNoteRes= debitNoteService.findDebitById(DebitNoteId);
-		System.out.println(debitNoteRes);
 		return new BaseDto<>(debitNoteRes,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
 	}
 }

@@ -15,11 +15,11 @@ public interface AccountReceivablesBillsService
 	
 	 List<AccountReceivablesBillsModel> findAllAccountsReceivablesBills();
 	
-	 AccountReceivablesBillsModel findAccountReceivablesBillsById(int accountReceivablesBillsId);
+	 AccountReceivablesBillsModel findAccountReceivablesBillsById(Integer accountReceivablesBillsId);
 	
-	 void deleteAccountReceivablesBillsById(int accountReceivablesBillsIds);
+	 void deleteAccountReceivablesBillsById(Integer accountReceivablesBillsIds);
 	
-	 void deleteAccountsReceivablesBillsById(int[] accountReceivablesBillsIds);
+	 void deleteAccountsReceivablesBillsById(Integer[] accountReceivablesBillsIds);
 	 
 
 	

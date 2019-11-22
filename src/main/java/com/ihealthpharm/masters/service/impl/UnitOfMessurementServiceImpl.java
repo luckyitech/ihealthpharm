@@ -73,7 +73,7 @@ public class UnitOfMessurementServiceImpl implements UnitOfMessurementService {
 
 
 	@Override
-	public UnitOfMeasurementModel findById(int id) {
+	public UnitOfMeasurementModel findById(Integer id) {
 		return getValidateUOM(id);
 	}
 
@@ -86,7 +86,7 @@ public class UnitOfMessurementServiceImpl implements UnitOfMessurementService {
 
 
 	@Override
-	public void remove(int[] ids) {
+	public void remove(Integer[] ids) {
 		for (int id : ids) {
 			UnitOfMeasurementModel unitOfMeasurementModel =  getValidateUOM(id);
 			uomRepository.delete(unitOfMeasurementModel);

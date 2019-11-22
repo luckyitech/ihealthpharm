@@ -16,14 +16,14 @@ public interface InsuranceService {
 
 	List<InsuranceModel> updateMultipleInsurances(@Valid List<InsuranceModel> insuranceModels);
 	
-	InsuranceModel findInsuranceById(int insurancePolicyId);
+	InsuranceModel findInsuranceById(Integer insurancePolicyId);
 	
 	InsuranceModel findInsuranceByPolicyCode(String policyCode);
 	
 	List<InsuranceModel> findInsuranceByPolicyCodeOrPolicyDescription(String searchTerm);
 	
-	void delete(int insurancePolicyId);
+	void delete(Integer insurancePolicyId);
 
-	void deleteMultipleInsurances(int[] insurancePolicyId);
+	void deleteMultipleInsurances(Integer[] insurancePolicyId);
 	
 }

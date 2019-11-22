@@ -84,7 +84,7 @@ public class EmployeeCredentialsImpl implements EmployeeCredentialsService {
 	}
 
 	@Override
-	public EmployeeCredentialsModel findEmployeeCredentialsById(int employeeCredentialId) {
+	public EmployeeCredentialsModel findEmployeeCredentialsById(Integer employeeCredentialId) {
 		EmployeeCredentialsModel employeeCredentialsRes = getValidSupplierContract(employeeCredentialId);
 		log.info(
 				employeeCredentialsHelper.getRetrieveEmployeeCredentialsMessage() + " With Id:" + employeeCredentialId);
@@ -92,7 +92,7 @@ public class EmployeeCredentialsImpl implements EmployeeCredentialsService {
 	}
 
 	@Override
-	public void deleteEmployeeCredentialsById(int employeeCredentialId) {
+	public void deleteEmployeeCredentialsById(Integer employeeCredentialId) {
 
 		EmployeeCredentialsModel employeeCredentialsRes = getValidSupplierContract(employeeCredentialId);
 		employeeCredentialsRepository.delete(employeeCredentialsRes);
@@ -101,7 +101,7 @@ public class EmployeeCredentialsImpl implements EmployeeCredentialsService {
 	}
 
 	@Override
-	public void deleteEmployeesCredentialsById(int[] employeeCredentialIds) {
+	public void deleteEmployeesCredentialsById(Integer[] employeeCredentialIds) {
 		EmployeeCredentialsModel employeeCredentialsRes = null;
 		for (int employeeCredentialId : employeeCredentialIds) {
 			employeeCredentialsRes = getValidSupplierContract(employeeCredentialId);

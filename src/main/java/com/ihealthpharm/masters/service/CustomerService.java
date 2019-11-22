@@ -19,11 +19,11 @@ public interface CustomerService
 	 
 	 List<CustomerModel> findLimitedCustomers();
 	
-	 CustomerModel findCustomerById(int customerId);
+	 CustomerModel findCustomerById(Integer customerId);
 	
-	 void deleteCustomerById(int customerIds);
+	 void deleteCustomerById(Integer customerIds);
 	
-	 void deleteCustomersById(int[] customerIds);
+	 void deleteCustomersById(Integer[] customerIds);
 	 
 
 	List<CustomerModel> findCustomerByActive();

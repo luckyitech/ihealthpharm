@@ -60,14 +60,14 @@ public class CustomerController {
 	}
 	
 	@DeleteMapping("/delete/customer")
-	public ResponseEntity<BaseDto<Object>> deleteCustomerData(@RequestParam int customerId) {
+	public ResponseEntity<BaseDto<Object>> deleteCustomerData(@RequestParam Integer customerId) {
 		log.info("Request Object for delete is: ", customerId);
 		customerService.deleteCustomerById(customerId);
 		return new BaseDto<>(customerHelper.getDeleteCustomerMessage(), OK).respond();
 	}
 
 	@DeleteMapping("/delete/customers")
-	public ResponseEntity<BaseDto<Object>> deleteCustomerData(@RequestParam int[] customerIds) {
+	public ResponseEntity<BaseDto<Object>> deleteCustomerData(@RequestParam Integer[] customerIds) {
 
 		log.info("Request Object for delete is: " + customerIds[0]);
 		customerService.deleteCustomersById(customerIds);
@@ -82,7 +82,7 @@ public class CustomerController {
 	}
 
 	@GetMapping("/getcustomerdatabyid")
-	public ResponseEntity<BaseDto<CustomerModel>> getCustomerDataById(@RequestParam int customerId) {
+	public ResponseEntity<BaseDto<CustomerModel>> getCustomerDataById(@RequestParam Integer customerId) {
 		CustomerModel result = customerService.findCustomerById(customerId);
 		return new BaseDto<>(result, customerHelper.getRetrieveCustomerMessage(), OK).respond();
 	}

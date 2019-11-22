@@ -14,17 +14,17 @@ public interface StockAdjustmentService {
 
 	List<StockAdjustmentModel> saveStockAdjustementsData(List<StockAdjustmentModel> stockAdjustmentModels);
 
-	List<StockAdjustmentDTO> findBasedOnItemCode(String searchTerm,String batch,String expiry,int pharmacyId);
+	List<StockAdjustmentDTO> findBasedOnItemCode(String searchTerm,String batch,String expiry,Integer pharmacyId);
 
-	List<StockAdjustmentDTO> findBasedOnItemNameSearch(String searchTerm,String batch,String expiry,int pharmacyId);
+	List<StockAdjustmentDTO> findBasedOnItemNameSearch(String searchTerm,String batch,String expiry,Integer pharmacyId);
 
-	List<StockAdjustmentDTO> findBasedOnItemDesc(String searchTerm,String batch,String expiry,int pharmacyId);
+	List<StockAdjustmentDTO> findBasedOnItemDesc(String searchTerm,String batch,String expiry,Integer pharmacyId);
 
-	List<StockAdjustmentDTO> findBasedOnItemGenericName(String searchTerm,String batch,String expiry,int pharmacyId);
+	List<StockAdjustmentDTO> findBasedOnItemGenericName(String searchTerm,String batch,String expiry,Integer pharmacyId);
 
-	Integer	getStockQuantity(String batch,String expiry,int pharmacyId);	
+	Integer	getStockQuantity(String batch,String expiry,Integer pharmacyId);	
 
-	List<StockModel> getAllStockMatched(String batch,String expiry,int pharmacyId);
+	List<StockModel> getAllStockMatched(String batch,String expiry,Integer pharmacyId);
 
 	void updateStocksData(@Valid List<StockModel> stockModels);
 }

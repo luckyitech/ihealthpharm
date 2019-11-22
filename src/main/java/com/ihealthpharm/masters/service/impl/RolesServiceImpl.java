@@ -69,7 +69,7 @@ public class RolesServiceImpl implements RolesService {
 	}
 
 	@Override
-	public RolesModel findRoleById(int roleId) {
+	public RolesModel findRoleById(Integer roleId) {
 		RolesModel rolesRes = getValidUsers(roleId);
 		if (!Objects.nonNull(rolesRes)) {
 			throw new IHealthPharmException(rolesHelper.getNotFoundRolesMessage(), HttpStatus.NOT_FOUND);
@@ -80,7 +80,7 @@ public class RolesServiceImpl implements RolesService {
 	}
 
 	@Override
-	public void deleteRolesById(int roleIds) {
+	public void deleteRolesById(Integer roleIds) {
 		RolesModel rolesRes = getValidUsers(roleIds);
 		if (!Objects.nonNull(rolesRes)) {
 			throw new IHealthPharmException(rolesHelper.getNotFoundRolesMessage(), HttpStatus.NOT_FOUND);
@@ -92,7 +92,7 @@ public class RolesServiceImpl implements RolesService {
 	}
 
 	@Override
-	public void deleteRolesById(int[] roleIds) {
+	public void deleteRolesById(Integer[] roleIds) {
 		RolesModel rolesRes;
 		for (int role : roleIds) {
 			rolesRes = getValidUsers(role);
@@ -106,7 +106,7 @@ public class RolesServiceImpl implements RolesService {
 
 	}
 	
-	public RolesModel getValidUsers(int roleId) {
+	public RolesModel getValidUsers(Integer roleId) {
 		RolesModel rolesRes = null;
 
 		try {

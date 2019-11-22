@@ -14,11 +14,11 @@ public interface ManufacturerService {
 
 	List<ManufacturerModel> findManufacturerByActive();
 
-	ManufacturerModel findManufacturerById(int manufacturerId);
+	ManufacturerModel findManufacturerById(Integer manufacturerId);
 
-	void deleteManufacturerById( int manufacturerId);
+	void deleteManufacturerById( Integer manufacturerId);
 
-	void deleteMultipleManufacturersById(int[] manufacturerIds);
+	void deleteMultipleManufacturersById(Integer[] manufacturerIds);
 
 	List<ManufacturerModel> findAllManufacturers();
 

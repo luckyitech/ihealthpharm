@@ -22,11 +22,11 @@ public interface EmployeeCredentialsService {
 	
 	 List<EmployeeCredentialsModel> findAllEmployeeCredentials();
 	
-	 EmployeeCredentialsModel findEmployeeCredentialsById(int employeeCredentialId);
+	 EmployeeCredentialsModel findEmployeeCredentialsById(Integer employeeCredentialId);
 	
-	public void deleteEmployeeCredentialsById(int employeeCredentialId);
+	public void deleteEmployeeCredentialsById(Integer employeeCredentialId);
 	
-	public void deleteEmployeesCredentialsById(int[] employeeCredentialIds);
+	public void deleteEmployeesCredentialsById(Integer[] employeeCredentialIds);
 	
 	public EmployeeCredentialsModel findEmployeeCredentialsByEmployee(EmployeeModel employeeModel);
 

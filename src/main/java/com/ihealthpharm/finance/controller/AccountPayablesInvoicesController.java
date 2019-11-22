@@ -57,14 +57,14 @@ public class AccountPayablesInvoicesController {
 	}
 	
 	@DeleteMapping("/delete/accountPayablesInvoices")
-	public ResponseEntity<BaseDto<Object>> deleteAccountPayablesInvoicesData(@RequestParam int accountPayablesInvoicesId) {
+	public ResponseEntity<BaseDto<Object>> deleteAccountPayablesInvoicesData(@RequestParam Integer accountPayablesInvoicesId) {
 		log.info("Request Object for delete is: ", accountPayablesInvoicesId);
 		accountPayablesInvoicesService.deleteAccountPayablesInvoicesById(accountPayablesInvoicesId);
 		return new BaseDto<>(accountPayablesInvoicesHelper.getDeleteAccountPayablesInvoicesMessage(), OK).respond();
 	}
 
 	@DeleteMapping("/delete/accountsPayablesInvoices")
-	public ResponseEntity<BaseDto<Object>> deleteAccountPayablesInvoicesData(@RequestParam int[] accountPayablesInvoicesIds) {
+	public ResponseEntity<BaseDto<Object>> deleteAccountPayablesInvoicesData(@RequestParam Integer[] accountPayablesInvoicesIds) {
 
 		log.info("Request Object for delete is: " + accountPayablesInvoicesIds[0]);
 		accountPayablesInvoicesService.deleteAccountsPayablesInvoicesById(accountPayablesInvoicesIds);
@@ -79,7 +79,7 @@ public class AccountPayablesInvoicesController {
 	}
 
 	@GetMapping("/getaccountPayablesInvoicesdatabyid")
-	public ResponseEntity<BaseDto<AccountPayablesInvoicesModel>> getAccountPayablesInvoicesDataById(@RequestParam int accountPayablesInvoicesId) {
+	public ResponseEntity<BaseDto<AccountPayablesInvoicesModel>> getAccountPayablesInvoicesDataById(@RequestParam Integer accountPayablesInvoicesId) {
 		AccountPayablesInvoicesModel result = accountPayablesInvoicesService.findAccountPayablesInvoicesById(accountPayablesInvoicesId);
 		return new BaseDto<>(result, accountPayablesInvoicesHelper.getRetrieveAccountPayablesInvoicesMessage(), OK).respond();
 	}

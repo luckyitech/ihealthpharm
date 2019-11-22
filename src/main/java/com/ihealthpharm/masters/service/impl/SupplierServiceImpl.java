@@ -61,7 +61,7 @@ public class SupplierServiceImpl implements SupplierService {
 	}
 
 	@Override
-	public SupplierModel findSupplierById(int supplierId) {
+	public SupplierModel findSupplierById(Integer supplierId) {
 		SupplierModel supplierRes = supplierRepository.getOne(supplierId);
 		if (!Objects.nonNull(supplierRes)) {
 			throw new IHealthPharmException(supplierHelper.getNotFoundSupplierMessage(), HttpStatus.NOT_FOUND);
@@ -71,7 +71,7 @@ public class SupplierServiceImpl implements SupplierService {
 	}
 
 	@Override
-	public void deleteSupplierById(int supplierId) {
+	public void deleteSupplierById(Integer supplierId) {
 
 		SupplierModel supplierRes = getValidSupplier(supplierId);
 		if (!Objects.nonNull(supplierRes)) {
@@ -108,7 +108,7 @@ public class SupplierServiceImpl implements SupplierService {
 	}
 
 	@Override
-	public void deleteSuppliersById(int[] supplierIds) {
+	public void deleteSuppliersById(Integer[] supplierIds) {
 		SupplierModel supplierRes;
 		for (int supplier : supplierIds) {
 			supplierRes = getValidSupplier(supplier);
@@ -133,7 +133,6 @@ public class SupplierServiceImpl implements SupplierService {
 
 	@Override
 	public List<SupplierModel> findLimitedSuppliers() {
-		// TODO Auto-generated method stub
 		return supplierRepository.findFirst100ByOrderByName();
 	}
 	

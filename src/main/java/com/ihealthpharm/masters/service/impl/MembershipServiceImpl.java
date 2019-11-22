@@ -66,7 +66,7 @@ public class MembershipServiceImpl implements MembershipService  {
 	}
 
 	@Override
-	public MembershipModel findMembershipById(int membershipId) {
+	public MembershipModel findMembershipById(Integer membershipId) {
 
 		MembershipModel membershipModelRes = getValidMembership(membershipId);
 		if (!Objects.nonNull(membershipModelRes)) {
@@ -78,7 +78,7 @@ public class MembershipServiceImpl implements MembershipService  {
 	}
 
 	@Override
-	public void delete(int membershipId) {
+	public void delete(Integer membershipId) {
 		MembershipModel membershipRes = getValidMembership(membershipId);
 		if (!Objects.nonNull(membershipRes)) {
 			throw new IHealthPharmException(membershipHelper.getNotFoundMembershipMessage(), HttpStatus.NOT_FOUND);
@@ -89,7 +89,7 @@ public class MembershipServiceImpl implements MembershipService  {
 	}
 
 	@Override
-	public void deleteMultipleMemberships(int[] membershipId) {
+	public void deleteMultipleMemberships(Integer[] membershipId) {
 		MembershipModel membershipRes;
 		for (int membership : membershipId) {
 			membershipRes = getValidMembership(membership);
@@ -103,7 +103,7 @@ public class MembershipServiceImpl implements MembershipService  {
 
 
 
-	private MembershipModel getValidMembership(int membershipId) {
+	private MembershipModel getValidMembership(Integer membershipId) {
 		MembershipModel membershipRes = null;
 		try {
 			membershipRes = membershipRepo.findById(membershipId).get();

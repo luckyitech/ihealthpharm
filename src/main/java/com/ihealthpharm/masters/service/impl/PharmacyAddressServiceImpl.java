@@ -72,7 +72,7 @@ public class PharmacyAddressServiceImpl implements PharmacyAddressService {
 	}
 
 	@Override
-	public PharmacyAddressModel findPharmacyAddressById(int pharmacyAddressId) {
+	public PharmacyAddressModel findPharmacyAddressById(Integer pharmacyAddressId) {
 		
 		PharmacyAddressModel addressModelRes = getValidAddress(pharmacyAddressId);
 
@@ -85,7 +85,7 @@ public class PharmacyAddressServiceImpl implements PharmacyAddressService {
 	}
 
 	@Override
-	public void deletePharmacyAddressById(int pharmacyAddressId) {
+	public void deletePharmacyAddressById(Integer pharmacyAddressId) {
 		PharmacyAddressModel addrModelRes =getValidAddress(pharmacyAddressId);
 		if(!Objects.nonNull(addrModelRes))
 		{

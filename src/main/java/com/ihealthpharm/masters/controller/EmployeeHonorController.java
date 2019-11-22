@@ -47,7 +47,7 @@ public class EmployeeHonorController {
 	}
 	
 	@DeleteMapping("/delete/employeehonor")
-	public ResponseEntity<BaseDto<Object>> deleteEmployeeHonorData(@RequestParam int employeeHonorId) {
+	public ResponseEntity<BaseDto<Object>> deleteEmployeeHonorData(@RequestParam Integer employeeHonorId) {
 		log.info("Request Object for delete is: ", employeeHonorId);
 		employeeHonorService.deleteEmployeeHonorData(employeeHonorId);;
 		return new BaseDto<>("deleted", OK).respond();
@@ -60,7 +60,7 @@ public class EmployeeHonorController {
 	}
 	
 	@GetMapping("/getemployeehonordatabyid")
-	public ResponseEntity<BaseDto<EmployeeHonorModel>> getEmployeeHonorDataById(@RequestParam int employeeHonorId) {
+	public ResponseEntity<BaseDto<EmployeeHonorModel>> getEmployeeHonorDataById(@RequestParam Integer employeeHonorId) {
 		EmployeeHonorModel result = employeeHonorService.findEmployeeHonorDataById(employeeHonorId);
 		return new BaseDto<>(result,  "retrived", OK).respond();
 	}

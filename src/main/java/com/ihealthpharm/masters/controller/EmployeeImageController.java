@@ -87,17 +87,13 @@ public class EmployeeImageController {
 	
 	@GetMapping("/getallimages")
 	public ResponseEntity<BaseDto<List<EmployeeImageModel>>> getAllImages(){
-		
 		List<EmployeeImageModel> imageList = employeeImageService.getAllEmployeeImages();
-		
 		return new BaseDto<>(imageList, "Employee Image Retrived Successfully", OK).respond();
 	}
 	
 	@DeleteMapping("delete/byimageid")
 	public ResponseEntity<BaseDto<Object>> deleteImages(@RequestParam Integer imageId){
-		
 		employeeImageService.deleteEmployeeImage(imageId);
-		
 		return new BaseDto<>("Employee Image Deleted Successfully", OK).respond();
 	}
 	

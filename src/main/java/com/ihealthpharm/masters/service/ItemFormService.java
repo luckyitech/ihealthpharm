@@ -16,11 +16,11 @@ public interface ItemFormService {
 
 	List<ItemFormModel> findItemFormByActive();
 
-	ItemFormModel findItemFormById(int itemFormModel);
+	ItemFormModel findItemFormById(Integer itemFormModel);
 
-	void deleteItemFormById( int itemFormModel);
+	void deleteItemFormById( Integer itemFormModel);
 
-	void deleteMultipleItemFormsById(int[] itemFormModels);
+	void deleteMultipleItemFormsById(Integer[] itemFormModels);
 
 	List<ItemFormModel> findAllItemFormsData(String medicalOrNonMedical,String searchTerm);
 

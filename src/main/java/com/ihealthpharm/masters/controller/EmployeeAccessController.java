@@ -49,7 +49,7 @@ public class EmployeeAccessController {
 	}
 	
 	@DeleteMapping("/delete/employeeaccess")
-	public ResponseEntity<BaseDto<Object>> deleteEmployeeAccessData(@RequestParam int employeeAccessId) {
+	public ResponseEntity<BaseDto<Object>> deleteEmployeeAccessData(@RequestParam Integer employeeAccessId) {
 		log.info("Request Object for delete is: ", employeeAccessId);
 		employeeAccessService.deleteEmployeeAccessData(employeeAccessId);;
 		return new BaseDto<>("deleted", OK).respond();
@@ -62,7 +62,7 @@ public class EmployeeAccessController {
 	}
 	
 	@GetMapping("/getemployeeaccessdatabyid")
-	public ResponseEntity<BaseDto<EmployeeAccessModel>> getEmployeeAccessDataById(@RequestParam int employeeAccessId) {
+	public ResponseEntity<BaseDto<EmployeeAccessModel>> getEmployeeAccessDataById(@RequestParam Integer employeeAccessId) {
 		EmployeeAccessModel result = employeeAccessService.findEmployeeAccessDataById(employeeAccessId);
 		return new BaseDto<>(result,  "retrived", OK).respond();
 	}

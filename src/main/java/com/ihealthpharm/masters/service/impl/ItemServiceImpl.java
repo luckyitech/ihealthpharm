@@ -101,7 +101,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public ItemsModel findItemsById(int itemId) {
+	public ItemsModel findItemsById(Integer itemId) {
 
 		ItemsModel itemsModelRes = getValidItems(itemId);
 
@@ -114,7 +114,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public void deleteItemsById(int itemId) {
+	public void deleteItemsById(Integer itemId) {
 		ItemsModel itemsModelRes = getValidItems(itemId);
 		if(!Objects.nonNull(itemsModelRes))
 		{
@@ -125,7 +125,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public void deleteMultipleItemsById(int[] itemIds) {
+	public void deleteMultipleItemsById(Integer[] itemIds) {
 		ItemsModel itemsModelRes;
 		for (int items : itemIds) {
 			itemsModelRes = getValidItems(items);

@@ -16,11 +16,11 @@ public interface MembershipService {
 
 	List<MembershipModel> updateMultipleMemberships(@Valid List<MembershipModel> membershipModels);
 	
-	MembershipModel findMembershipById(int membershipId);
+	MembershipModel findMembershipById(Integer membershipId);
 	
-	void delete(int membershipId);
+	void delete(Integer membershipId);
 
-	void deleteMultipleMemberships(int[] membershipId);
+	void deleteMultipleMemberships(Integer[] membershipId);
 	
 	List<MembershipModel> findMembershipByName(@Valid String membershipName);
 	

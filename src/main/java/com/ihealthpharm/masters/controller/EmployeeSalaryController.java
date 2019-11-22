@@ -47,7 +47,7 @@ public class EmployeeSalaryController {
 	}
 	
 	@DeleteMapping("/delete/employeesalary")
-	public ResponseEntity<BaseDto<Object>> deleteEmployeeSalaryData(@RequestParam int employeeSalaryId) {
+	public ResponseEntity<BaseDto<Object>> deleteEmployeeSalaryData(@RequestParam Integer employeeSalaryId) {
 		log.info("Request Object for delete is: ", employeeSalaryId);
 		employeeSalaryService.deleteEmployeeSalaryData(employeeSalaryId);;
 		return new BaseDto<>("deleted", OK).respond();
@@ -60,7 +60,7 @@ public class EmployeeSalaryController {
 	}
 	
 	@GetMapping("/getemployeesalarydatabyid")
-	public ResponseEntity<BaseDto<EmployeeSalaryModel>> getEmployeeSalaryDataById(@RequestParam int employeeSalaryId) {
+	public ResponseEntity<BaseDto<EmployeeSalaryModel>> getEmployeeSalaryDataById(@RequestParam Integer employeeSalaryId) {
 		EmployeeSalaryModel result = employeeSalaryService.findEmployeeSalaryDataById(employeeSalaryId);
 		return new BaseDto<>(result,  "retrived", OK).respond();
 	}

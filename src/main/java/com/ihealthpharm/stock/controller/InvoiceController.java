@@ -64,7 +64,6 @@ public class InvoiceController {
 		PurchaseReturnModel purchaseReturnModel = invoiceModel.getPurchaseReturnModel();
 		InvoiceModel model = invoiceService.saveInvoice(invoiceModel, purchaseReturnModel);
 		model.setInvoiceItems(null);
-		//model.setStocks(null);
 		model.setPurchaseReturnModel(null);
 		return new BaseDto<>(model, invoiceHelper.getSaveInvoiceMessage(), OK).respond();
 	}

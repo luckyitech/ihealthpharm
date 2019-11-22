@@ -75,7 +75,6 @@ public class EmployeeController {
 		
 		EmployeeModel employeeModel = null;
 		
-		log.info("---------------------------------------------------------------------------");
 		log.info(employeeData);
 		try {
 			employeeModel = new ObjectMapper().readValue(employeeData, EmployeeModel.class);
@@ -93,7 +92,6 @@ public class EmployeeController {
 		
 		EmployeeModel employeeModel = null;
 		
-		log.info("---------------------------------------------------------------------------");
 		log.info(employeeData);
 		try {
 			employeeModel = new ObjectMapper().readValue(employeeData, EmployeeModel.class);
@@ -111,7 +109,6 @@ public class EmployeeController {
 		
 		EmployeeModel employeeModel = null;
 		
-		log.info("---------------------------------------------------------------------------");
 		log.info(employeeData);
 		try {
 			employeeModel = new ObjectMapper().readValue(employeeData, EmployeeModel.class);
@@ -129,7 +126,6 @@ public class EmployeeController {
 		
 		EmployeeModel employeeModel = null;
 		
-		log.info("---------------------------------------------------------------------------");
 		log.info(employeeData);
 		try {
 			employeeModel = new ObjectMapper().readValue(employeeData, EmployeeModel.class);
@@ -147,7 +143,6 @@ public class EmployeeController {
 		
 		EmployeeModel employeeModel = null;
 		
-		log.info("---------------------------------------------------------------------------");
 		log.info(employeeData);
 		try {
 			employeeModel = new ObjectMapper().readValue(employeeData, EmployeeModel.class);
@@ -191,14 +186,14 @@ public class EmployeeController {
 	}
 	
 	@DeleteMapping("/delete/employee")
-	public ResponseEntity<BaseDto<Object>> deleteEmployeeData(@RequestParam int employeeId) {
+	public ResponseEntity<BaseDto<Object>> deleteEmployeeData(@RequestParam Integer employeeId) {
 		log.info("Request Object for delete is: "+ employeeId);
 		employeeService.deleteEmployeeById(employeeId);
 		return new BaseDto<>(employeeHelper.getDeleteEmployeeMessage(), OK).respond();
 	}
 
 	@DeleteMapping("/delete/employees")
-	public ResponseEntity<BaseDto<Object>> deleteEmployeesData(@RequestParam int[] employeeIds) {
+	public ResponseEntity<BaseDto<Object>> deleteEmployeesData(@RequestParam Integer[] employeeIds) {
 		log.info("Request Object for delete is: "+ employeeIds);
 		employeeService.deleteEmployeesById(employeeIds);
 		return new BaseDto<>(employeeHelper.getDeleteEmployeeMessage(), OK).respond();
@@ -211,7 +206,7 @@ public class EmployeeController {
 	}
 
 	@GetMapping("/getemployeedatabyid")
-	public ResponseEntity<BaseDto<EmployeeModel>> getEmployeeDataById(@RequestParam int employeeId) {
+	public ResponseEntity<BaseDto<EmployeeModel>> getEmployeeDataById(@RequestParam Integer employeeId) {
 		EmployeeModel result = employeeService.findEmployeeById(employeeId);
 		
 		return new BaseDto<>(result, employeeHelper.getRetrieveEmployeeMessage(), OK).respond();

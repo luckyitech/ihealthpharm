@@ -69,7 +69,7 @@ public class AccountReceivablesBillsServiceImpl implements AccountReceivablesBil
 	}
 
 	@Override
-	public AccountReceivablesBillsModel findAccountReceivablesBillsById(int accountReceivablesBillsId) {
+	public AccountReceivablesBillsModel findAccountReceivablesBillsById(Integer accountReceivablesBillsId) {
 		AccountReceivablesBillsModel accountReceivablesBillsRes = getValidAccountsReceivablesBills(accountReceivablesBillsId);
 		if (!Objects.nonNull(accountReceivablesBillsRes)) {
 			throw new IHealthPharmException(accountReceivablesBillsHelper.getNotFoundAccountReceivablesBillsMessage(), HttpStatus.NOT_FOUND);
@@ -83,7 +83,7 @@ public class AccountReceivablesBillsServiceImpl implements AccountReceivablesBil
 
 	
 	@Override
-	public void deleteAccountReceivablesBillsById(int accountReceivablesBillsId) {
+	public void deleteAccountReceivablesBillsById(Integer accountReceivablesBillsId) {
 		AccountReceivablesBillsModel accountReceivablesBillsRes = accountReceivablesBillsRepository.getOne(accountReceivablesBillsId);
 		if (!Objects.nonNull(accountReceivablesBillsRes)) {
 			throw new IHealthPharmException(accountReceivablesBillsHelper.getNotFoundAccountReceivablesBillsMessage(), HttpStatus.NOT_FOUND);
@@ -95,7 +95,7 @@ public class AccountReceivablesBillsServiceImpl implements AccountReceivablesBil
 	}
 
 	@Override
-	public void deleteAccountsReceivablesBillsById(int[] accountReceivablesBillsIds) {
+	public void deleteAccountsReceivablesBillsById(Integer[] accountReceivablesBillsIds) {
 		AccountReceivablesBillsModel accountReceivablesBillsRes;
 		for (int accountReceivablesBills : accountReceivablesBillsIds) {
 			accountReceivablesBillsRes = getValidAccountsReceivablesBills(accountReceivablesBills);
@@ -108,7 +108,7 @@ public class AccountReceivablesBillsServiceImpl implements AccountReceivablesBil
 		
 	}
 	
-	public AccountReceivablesBillsModel getValidAccountsReceivablesBills(int accountReceivablesBillsId) {
+	public AccountReceivablesBillsModel getValidAccountsReceivablesBills(Integer accountReceivablesBillsId) {
 		AccountReceivablesBillsModel accountReceivablesBillsRes = null;
 
 		try {

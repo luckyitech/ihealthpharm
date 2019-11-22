@@ -50,7 +50,7 @@ public class CustomerMembershipController {
 	}
 
 	@DeleteMapping("/delete/customermembership")
-	public ResponseEntity<BaseDto<Object>> deleteCustomerMembershipData(@RequestParam int customerMembershipId) {
+	public ResponseEntity<BaseDto<Object>> deleteCustomerMembershipData(@RequestParam Integer customerMembershipId) {
 		log.info("Request Object for delete is: ", customerMembershipId);
 		customerMembershipService.deleteCustomerMembershipById(customerMembershipId);
 		return new BaseDto<>(customerMembershipHelper.deleteCustomerMembershipMessage, OK).respond();
@@ -63,13 +63,13 @@ public class CustomerMembershipController {
 	}
 
 	@GetMapping("/getcustomermembershipdatabyid")
-	public ResponseEntity<BaseDto<CustomerMembershipModel>> getCustomerMembershipDataById(@RequestParam int customerMembershipId) {
+	public ResponseEntity<BaseDto<CustomerMembershipModel>> getCustomerMembershipDataById(@RequestParam Integer customerMembershipId) {
 		CustomerMembershipModel result = customerMembershipService.findCustomerMembershipById(customerMembershipId);
 		return new BaseDto<>(result, customerMembershipHelper.retrieveCustomerMembershipMessage, OK).respond();
 	}
 
 	@DeleteMapping("/delete/customersmembership")
-	public ResponseEntity<BaseDto<Object>> deleteCustomerMembershipData(@RequestParam int[] customerMembershipIds) {
+	public ResponseEntity<BaseDto<Object>> deleteCustomerMembershipData(@RequestParam Integer[] customerMembershipIds) {
 		log.info("Request Object for delete is: " + customerMembershipIds[0]);
 		customerMembershipService.deleteCustomersMembershipById(customerMembershipIds);
 		return new BaseDto<>(customerMembershipHelper.deleteCustomerMembershipMessage, OK).respond();

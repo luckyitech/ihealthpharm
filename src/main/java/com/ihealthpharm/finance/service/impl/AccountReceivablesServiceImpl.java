@@ -74,7 +74,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 	}
 
 	@Override
-	public AccountReceivablesModel findAccountReceivablesById(int accountReceivablesId) {
+	public AccountReceivablesModel findAccountReceivablesById(Integer accountReceivablesId) {
 		AccountReceivablesModel accountReceivablesRes = getValidAccountsReceivables(accountReceivablesId);
 		if (!Objects.nonNull(accountReceivablesRes)) {
 			throw new IHealthPharmException(accountReceivablesHelper.getNotFoundAccountReceivablesMessage(), HttpStatus.NOT_FOUND);
@@ -88,7 +88,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 
 	
 	@Override
-	public void deleteAccountReceivablesById(int accountReceivablesId) {
+	public void deleteAccountReceivablesById(Integer accountReceivablesId) {
 		AccountReceivablesModel accountReceivablesRes = accountReceivablesRepository.getOne(accountReceivablesId);
 		if (!Objects.nonNull(accountReceivablesRes)) {
 			throw new IHealthPharmException(accountReceivablesHelper.getNotFoundAccountReceivablesMessage(), HttpStatus.NOT_FOUND);
@@ -100,7 +100,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 	}
 
 	@Override
-	public void deleteAccountsReceivablesById(int[] accountReceivablesIds) {
+	public void deleteAccountsReceivablesById(Integer[] accountReceivablesIds) {
 		AccountReceivablesModel accountReceivablesRes;
 		for (int accountReceivables : accountReceivablesIds) {
 			accountReceivablesRes = getValidAccountsReceivables(accountReceivables);
@@ -113,7 +113,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 		
 	}
 	
-	public AccountReceivablesModel getValidAccountsReceivables(int accountReceivablesId) {
+	public AccountReceivablesModel getValidAccountsReceivables(Integer accountReceivablesId) {
 		AccountReceivablesModel accountReceivablesRes = null;
 
 		try {

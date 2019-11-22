@@ -92,7 +92,7 @@ public class PharmacyBranchServiceImpl implements PharmacyBranchService {
 	}
 
 	@Override
-	public void deletePharmacyBranch(int pharmacyBranchId) {
+	public void deletePharmacyBranch(Integer pharmacyBranchId) {
 		
 		PharmacyBranchModel branchModelRes =getValidPharmacyBranch(pharmacyBranchId) ;
 		if(!Objects.nonNull(branchModelRes))
@@ -107,7 +107,7 @@ public class PharmacyBranchServiceImpl implements PharmacyBranchService {
 
 
 	@Override
-	public PharmacyBranchModel findByPharmacyId(int pharmacyId) {
+	public PharmacyBranchModel findByPharmacyId(Integer pharmacyId) {
 		
 		PharmacyBranchModel branchModelRes = getValidPharmacyBranch(pharmacyId);
 

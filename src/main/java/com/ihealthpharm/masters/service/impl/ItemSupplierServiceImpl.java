@@ -41,7 +41,7 @@ public class ItemSupplierServiceImpl implements ItemSupplierService {
 	@Autowired
 	SupplierRepository supplierRepo;
 
-	private ItemSupplierModel getValidItemSupplier(int itemSupplierId) {
+	private ItemSupplierModel getValidItemSupplier(Integer itemSupplierId) {
 		ItemSupplierModel itemSupplierRes = null;
 		try {
 			itemSupplierRes = itemSuppliersRepository.findById(itemSupplierId).get();
@@ -55,7 +55,7 @@ public class ItemSupplierServiceImpl implements ItemSupplierService {
 	}
 
 	@Override
-	public ItemSupplierModel saveItemSupplierData( int[] itemsId,int[]  suppliersId) {
+	public ItemSupplierModel saveItemSupplierData( Integer[] itemsId,Integer[]  suppliersId) {
 
 		ItemSupplierModel itemSupplier = null;
 
@@ -121,7 +121,7 @@ public class ItemSupplierServiceImpl implements ItemSupplierService {
 	}
 
 	@Override
-	public ItemSupplierModel findItemSupplierById(int itemSupplierId) {
+	public ItemSupplierModel findItemSupplierById(Integer itemSupplierId) {
 
 		ItemSupplierModel itemSupplierModelRes = getValidItemSupplier(itemSupplierId);
 
@@ -135,7 +135,7 @@ public class ItemSupplierServiceImpl implements ItemSupplierService {
 	}
 
 	@Override
-	public void deleteItemSupplierById(int itemsupplierId) {
+	public void deleteItemSupplierById(Integer itemsupplierId) {
 
 		ItemSupplierModel itemSupplierModelRes = getValidItemSupplier(itemsupplierId);
 		if (!Objects.nonNull(itemSupplierModelRes)) {
@@ -148,7 +148,7 @@ public class ItemSupplierServiceImpl implements ItemSupplierService {
 	}
 
 	@Override
-	public void deleteMultipleItemSuppliersById(int[] itemsupplierIds) {
+	public void deleteMultipleItemSuppliersById(Integer[] itemsupplierIds) {
 
 		ItemSupplierModel itemSupplierModelRes;
 		for (int itemSupplier : itemsupplierIds) {
@@ -170,14 +170,14 @@ public class ItemSupplierServiceImpl implements ItemSupplierService {
 	}
 
 	@Override
-	public List<SupplierModel> findAllUnMappedItemSuppliersData(int itemId) {
+	public List<SupplierModel> findAllUnMappedItemSuppliersData(Integer itemId) {
 
 		List<SupplierModel> response = itemSuppliersRepository.getAllUnMappedSuppliers(itemId);
 		return response;
 	}
 
 	@Override
-	public List<ItemsModel> findAllUnMappedSupplierItems(int supplierId) {
+	public List<ItemsModel> findAllUnMappedSupplierItems(Integer supplierId) {
 		List<ItemsModel> result = itemSuppliersRepository.getAllUnMappedItems(supplierId);
 		return result;
 	}
@@ -191,7 +191,7 @@ public class ItemSupplierServiceImpl implements ItemSupplierService {
 	}
 
 	@Override
-	public List<SupplierModel> findAllUnmappedSuppliersNamesSearch(int itemId, String searchTerm) {
+	public List<SupplierModel> findAllUnmappedSuppliersNamesSearch(Integer itemId, String searchTerm) {
 
 		List<SupplierModel> result=itemSuppliersRepository.getAllItemSuppliersSearchData(itemId,searchTerm);
 
@@ -199,13 +199,13 @@ public class ItemSupplierServiceImpl implements ItemSupplierService {
 	}
 
 	@Override
-	public List<ItemsModel> finAllUnmppedItemsNameSearch(int supplierId, String searchTerm) {
+	public List<ItemsModel> finAllUnmppedItemsNameSearch(Integer supplierId, String searchTerm) {
 		List<ItemsModel> res=itemSuppliersRepository.getAllItemSuppliersItemSearchData(supplierId,searchTerm);
 		return res;
 	}
 
 	@Override
-	public void saveItemSuppliersById(@Valid int itemsupplierId, @Valid String activeS) {
+	public void saveItemSuppliersById(@Valid Integer itemsupplierId, @Valid String activeS) {
 		ItemSupplierModel itemSupplierModelRes = getValidItemSupplier(itemsupplierId);
 		if (!Objects.nonNull(itemSupplierModelRes)) {
 			throw new IHealthPharmException(itemSupplierHelper.getNotFoundItemSupplierMessage(),
@@ -219,14 +219,14 @@ public class ItemSupplierServiceImpl implements ItemSupplierService {
 	}
 
 	@Override
-	public List<ItemSupplierDTO> findAllMappedItemSuppliersOnItemName(int itemId) {
+	public List<ItemSupplierDTO> findAllMappedItemSuppliersOnItemName(Integer itemId) {
 		List<ItemSupplierDTO> response=itemSuppliersRepository.getAllItemSuppliersBasedOnItemId(itemId);
         System.out.println(response);
 		return response;
 	}
 
 	@Override
-	public List<ItemSupplierDTO> findAllSupplierItemOnSupplierId(int supplierId) {
+	public List<ItemSupplierDTO> findAllSupplierItemOnSupplierId(Integer supplierId) {
 		List<ItemSupplierDTO> response=itemSuppliersRepository.getAllSupplierItemBasedOnDistId(supplierId);
 		return response;
 	}

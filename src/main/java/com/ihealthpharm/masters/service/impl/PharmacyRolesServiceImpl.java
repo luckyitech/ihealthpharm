@@ -69,7 +69,7 @@ public class PharmacyRolesServiceImpl implements PharmacyRolesService {
 		return pharmacyRolesRes;
 	}
     
-	public PharmacyRolesModel getValidPharmacyRoles(int pharmacyRolesId) {
+	public PharmacyRolesModel getValidPharmacyRoles(Integer pharmacyRolesId) {
 		PharmacyRolesModel PharmacyRolesRes = null;
 
 		try {
