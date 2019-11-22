@@ -183,9 +183,8 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public List<ItemsModel> findAllGerericNamesBySearch(String searchTerm) {
-		ItemGenericNamesModel genericRes= genericRepo.findByGenericNameContains(searchTerm);
 		
-		List<ItemsModel> itemsRes = itemRepository.findByItemGenericName(genericRes);
+		List<ItemsModel> itemsRes = itemRepository.findByItemGenericName(searchTerm);
 		return itemsRes;
 	}
 
@@ -232,15 +231,15 @@ public class ItemServiceImpl implements ItemService {
 				List<Predicate> predicates = new ArrayList<>();
 				if (searchCode.equalsIgnoreCase("item code") || searchCode.equalsIgnoreCase("itemcode")) {
 					
-					predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("itemCode"), "%"+searchTerm+"%")));
+					predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("itemCode"), searchTerm+"%")));
 				}
 				else if(searchCode.equalsIgnoreCase("item name") || searchCode.equalsIgnoreCase("itemname")) {
 					
-					predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("itemName"), "%"+searchTerm+"%")));
+					predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("itemName"), searchTerm+"%")));
 				}
 				else if(searchCode.equalsIgnoreCase("item description") || searchCode.equalsIgnoreCase("itemdescription")) {
 					
-					predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("itemDescription"), "%"+searchTerm+"%")));
+					predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("itemDescription"), searchTerm+"%")));
 				}
 				return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
 			}
