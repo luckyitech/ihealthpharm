@@ -47,13 +47,13 @@ public class ReportsCommonUtility {
 						
 						//TODO need tune this logic
 						if (StringUtils.equalsIgnoreCase("String", criteria.getType())) {
-//							if (StringUtils.equalsIgnoreCase("EQ", criteria.getOperator())) {
-//								stringBuffer.append(criteria.getAlias());
-//								stringBuffer.append(criteria.getColumnName());
-//								stringBuffer.append(" = ");
-//								stringBuffer.append("'"+value+"'");
-//								stringBuffer.append(" ");
-//							} else if (StringUtils.equalsIgnoreCase("LIKE", criteria.getOperator())) {
+							if (StringUtils.equalsIgnoreCase("EQ", criteria.getOperator())) {
+								stringBuffer.append(criteria.getAlias());
+								stringBuffer.append(criteria.getColumnName());
+								stringBuffer.append(" = ");
+								stringBuffer.append("'"+value+"'");
+								stringBuffer.append(" ");
+							} else if (StringUtils.equalsIgnoreCase("LIKE", criteria.getOperator())) {
 								stringBuffer.append(criteria.getAlias());
 								stringBuffer.append(criteria.getColumnName());
 								stringBuffer.append(" LIKE ");
@@ -61,7 +61,7 @@ public class ReportsCommonUtility {
 								stringBuffer.append(value);
 								stringBuffer.append("% ");
 								stringBuffer.append(" ");
-//							}
+							}
 
 						}
 						else if (StringUtils.equalsIgnoreCase("Number", criteria.getType())) {
