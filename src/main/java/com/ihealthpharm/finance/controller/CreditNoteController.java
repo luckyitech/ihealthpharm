@@ -21,7 +21,6 @@ import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.finance.helper.CreditNoteHelper;
 import com.ihealthpharm.finance.model.CreditNoteModel;
 import com.ihealthpharm.finance.service.CreditNoteService;
-import com.ihealthpharm.masters.model.MembershipModel;
 
 import lombok.extern.slf4j.Slf4j;
 

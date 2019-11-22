@@ -22,11 +22,7 @@ import org.springframework.util.ObjectUtils;
 
 import com.ihealthpharm.reports.model.ReportsMappingModel;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Component
-@Slf4j
-
 public class SalesRegisterAreaWiseDetailsExcel extends ReportsExcelUtility {
 
 	

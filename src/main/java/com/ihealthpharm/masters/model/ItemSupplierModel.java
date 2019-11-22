@@ -39,7 +39,7 @@ public class ItemSupplierModel extends AuditModel{
 	private String activeS;
 	
 	@Column(name="SUPPLIER_PRIORITY",length=11)
-	private int supplierPriority;
+	private Integer supplierPriority;
 	
 	@Column(name="UNIT_RATE")
 	private Double unitRate;

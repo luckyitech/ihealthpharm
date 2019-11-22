@@ -68,7 +68,7 @@ public class QuotationItemsModel extends AuditModel {
 	private String conditions;
 
 	@Column(name = "DELETE_S", length = 1, columnDefinition = "N")
-	private char deleteS;
+	private Character deleteS;
 
 	@Column(name = "DELIVERY_TIME", length = 11)
 	private Integer deliveryTime;

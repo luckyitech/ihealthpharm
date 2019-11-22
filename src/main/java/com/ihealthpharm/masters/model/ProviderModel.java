@@ -43,7 +43,7 @@ public class ProviderModel extends AuditModel{
 	private String emailId;
 		
 	@Column(name = "ACTIVE_S")
-	private char activeS;
+	private Character activeS;
 	
 	@Column(name = "ADDRESS_LINE1")
 	private String addressLine1;
@@ -58,11 +58,9 @@ public class ProviderModel extends AuditModel{
 	@JoinColumn(name="PROVINCES_ID")
 	private StateModel state;
 	
-	
 	@OneToOne
 	@JoinColumn(name="HOSPITAL_ID")
 	private HospitalModel hospitalId;
-	
 	
 	@Column(name = "ZIP_CD")
 	private String zipCode;
@@ -98,8 +96,4 @@ public class ProviderModel extends AuditModel{
 		String dateOfBirth=simpleDateFormat.format(birthDate);  
 		this.dob = dateOfBirth;
     }
-    
-    
-    
-
 }

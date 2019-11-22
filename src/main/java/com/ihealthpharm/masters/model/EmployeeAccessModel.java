@@ -24,7 +24,7 @@ public class EmployeeAccessModel extends AuditModel{
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="EMPLOYEE_ACCESS_ID",length=11, columnDefinition = "AUTO_INCREMENT")
-    private int employeeAccessId;
+    private Integer employeeAccessId;
 	
 	@OneToOne
     @JoinColumn(name="EMPLOYEE_ID")
@@ -35,5 +35,5 @@ public class EmployeeAccessModel extends AuditModel{
     Integer pharmaAccessModel;
 
     @Column(name="ACTIVE_S",length=1, columnDefinition = "Y")
-    private char activeS;
+    private Character activeS;
 }

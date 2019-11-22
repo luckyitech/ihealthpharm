@@ -30,13 +30,13 @@ public class SupplierContractItemsModel extends AuditModel{
 	private Double unitPurchasePrice;
 
 	@Column(name="ACTIVE_S",length=1)
-	private char activeS;
+	private Character activeS;
 	
 	@Column(name="AUDIT_ID", length=11)
 	private Integer auditId;
 	
 	@Column(name="CURRENT_SUPPLIER",length=1)
-	private char currentSupplier;
+	private Character currentSupplier;
 	
 	@Column(name="UNIT_TAX")
 	private Float unitTax;
@@ -48,8 +48,7 @@ public class SupplierContractItemsModel extends AuditModel{
 	private Float discountPurcentage;
 	
 	@Column(name="APPROVED_SUPPLIER",length=1)
-	private char approvedSupplier;
-	
+	private Character approvedSupplier;
 	  
 	@OneToOne
 	@JoinColumn(name="SUPPLIER_ID")

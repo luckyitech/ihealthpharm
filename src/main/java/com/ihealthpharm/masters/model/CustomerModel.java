@@ -27,7 +27,7 @@ public class CustomerModel extends AuditModel{
 		@Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    @Column(name="CUSTOMER_ID",length=11, columnDefinition = "AUTO_INCREMENT")
-	    private int customerId;
+	    private Integer customerId;
 	  
 		@Column( name = "PHONE_NBR", length=20)
 		private String phoneNumber;
@@ -41,11 +41,11 @@ public class CustomerModel extends AuditModel{
 		private String lastName;
 		
 		@Column( name = "GENDER_CD",length=1)
-		private char genderCode;
+		private Character genderCode;
 		
 		
 		@Column( name = "ACTIVE_S",length=1)
-		private char activeS;
+		private Character activeS;
 		
 		@Column( name = "DOB_DT")
 		private String dateOfBirth;

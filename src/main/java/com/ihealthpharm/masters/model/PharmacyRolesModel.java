@@ -22,7 +22,7 @@ public class PharmacyRolesModel extends AuditModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ROLE_ID", length = 11, columnDefinition = "AUTO_INCREMENT")
-	private int roleId;
+	private Integer roleId;
 
 	@Column(name = "DESCRIPTION", length = 200)
 	private String description;

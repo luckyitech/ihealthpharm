@@ -25,29 +25,29 @@ public class IndentModel extends AuditModel{
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="INDENT_ID",length=11, columnDefinition = "AUTO_INCREMENT")
-    private int indentId;
+    private Integer indentId;
 
     @Column(name="APPROVED_BY",length=11)
-    private int approvedBy;
+    private Integer approvedBy;
 
     @Column(name="APPROVED_DT",length=20)
     private LocalDate approvedDate;
 
     @Column(name="AUDIT_ID",length=11)
-    private int auditId;
+    private Integer auditId;
 
     @Column(name="CANCELLED_BY",length=11)
-    private int cancelledBy;
+    private Integer cancelledBy;
 
     @Column(name="CANCELLED_DT",length=20)
     private LocalDate cancelledDate;
 
     @Column(name="CREATED_BY",length=11)
-    private int createdBy;
+    private Integer createdBy;
 
 
     @Column(name="EMERGENCY",length=1)
-    private char emergency;
+    private Character emergency;
 
     @Column(name="INDENT_DT",length=20)
     private LocalDate indentDate;
@@ -57,11 +57,11 @@ public class IndentModel extends AuditModel{
     private String indentNumber;
 
     @Column(name="INDENT_STATUS_ID",length=11)
-    private int indentStatusId;
+    private Integer indentStatusId;
 
 
     @Column(name="modified_by",length=11)
-    private int modifiedBy;
+    private Integer modifiedBy;
 
     @Column(name="MODIFIED_DT")
     private LocalDate modifiedDate;
@@ -82,7 +82,7 @@ public class IndentModel extends AuditModel{
     private String rfq;
 
     @Column(name="STATUS",length=1)
-    private char status;
+    private Character status;
 
     @Column(name="SYSTEM_NM",length=50)
     private String systemName;

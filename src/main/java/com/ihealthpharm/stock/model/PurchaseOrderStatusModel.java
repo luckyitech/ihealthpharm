@@ -20,12 +20,8 @@ public class PurchaseOrderStatusModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="PURCHASE_ORDER_STATUS_ID",length=11)
 	private Integer purchaseOrderStatusId;
-
 	
 	@Column(name="STATUS",length=20)
 	private String status;
-
-	
-	
 
 }

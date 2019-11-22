@@ -32,7 +32,7 @@ public class AccountReceivablesBillsModel extends AuditModel{
 	 	@Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    @Column(name="ACCOUNT_RECEIVABLES_BILLS_ID")
-	    private int accountReceivablesBillsId;
+	    private Integer accountReceivablesBillsId;
 	 
 	
     @Column(name="ADVANCE",length=25)
@@ -40,7 +40,7 @@ public class AccountReceivablesBillsModel extends AuditModel{
 
 
     @Column(name="AUDIT_ID",length=11)
-    private int auditId;
+    private Integer auditId;
 
     @Column(name="BILL_AMOUNT",length=25)
     private Float billAmount;
@@ -50,7 +50,6 @@ public class AccountReceivablesBillsModel extends AuditModel{
 
     @Column(name="BILL_NUMBER",length=25)
     private Float billNumber;
-
 
     @Column(name="CREDIT_NOTE_AMOUNT",length=25)
     private Float creditNoteAmount;

@@ -24,10 +24,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Component
-@Slf4j
 public class SalesByProductDetails extends ReportsPDFUtility{
 	@Override
 	public Document generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model,

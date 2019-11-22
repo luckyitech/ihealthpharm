@@ -20,7 +20,7 @@ public class EmployeeTypeModel {
 	private Integer employeeTypeId;
 	
 	@Column(name = "EMPLOYEE_TYPE_CD", length= 2)
-	private char employeeTypeCode;
+	private Character employeeTypeCode;
 
 	@Column(name = "EMPLOYEE_TYPE_DESC", length= 250)
 	private String employeeTypeDesc;

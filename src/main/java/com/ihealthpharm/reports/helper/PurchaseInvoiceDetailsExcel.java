@@ -15,24 +15,14 @@ import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
-import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
 import com.ihealthpharm.reports.model.ReportsMappingModel;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Component
-@Slf4j
 public class PurchaseInvoiceDetailsExcel extends ReportsExcelUtility {
 	
 	public void generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile) {
