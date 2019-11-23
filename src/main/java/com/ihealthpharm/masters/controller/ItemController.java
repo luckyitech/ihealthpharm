@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.masters.dto.AlternativeItemDTO;
 import com.ihealthpharm.masters.dto.ItemDTO;
 import com.ihealthpharm.masters.helper.ItemPropertyHelper;
 import com.ihealthpharm.masters.model.ItemsModel;
@@ -163,7 +164,7 @@ public class ItemController {
 	@GetMapping("/getallby/searchkeyandsearchcode")
 	public ResponseEntity<BaseDto<List<ItemDTO>>> getAllItemsBySearchkeyAndCode(@RequestParam String searchTerm,@RequestParam String searchCode) {
 		log.info(searchTerm);
-		System.out.println("ffdssdsddsdd");
+		
 		List<ItemDTO> response = itemService.findBySearchKey(searchTerm,searchCode);
 		return new BaseDto<>(response, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
@@ -175,8 +176,8 @@ public class ItemController {
 	}
 	
 	@GetMapping("/getitemsdatabyname")
-	public ResponseEntity<BaseDto<List<ItemsModel>>> getItemsDataByName(@RequestParam("key") String itemName) {
-		List<ItemsModel> result = itemService.findItemsByName(itemName);
+	public ResponseEntity<BaseDto<List<AlternativeItemDTO>>> getItemsDataByName(@RequestParam("key") String itemName) {
+		List<AlternativeItemDTO> result = itemService.findItemsByName(itemName);
 		log.info(result.toString());
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
