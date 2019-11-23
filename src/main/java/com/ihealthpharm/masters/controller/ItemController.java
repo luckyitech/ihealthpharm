@@ -177,5 +177,11 @@ public class ItemController {
 		log.info(result.toString());
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
+	
+	@GetMapping("/getitemdatabylimit")
+	public ResponseEntity<BaseDto<List<ItemsModel>>> getItemDataByIdLimit(@RequestParam Integer start,@RequestParam Integer end ) {
+		List<ItemsModel> result = itemService.findItemsByLimit(start,end);
+		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
 
 }

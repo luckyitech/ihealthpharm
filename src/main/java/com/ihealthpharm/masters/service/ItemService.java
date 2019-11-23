@@ -49,4 +49,5 @@ public interface ItemService {
 
 	List<ItemsModel> findItemsByName(String itemName);
 	
+	List<ItemsModel> findItemsByLimit(Integer start,Integer end);
 }

@@ -51,4 +51,7 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 
 	public List<ItemsModel> findByItemGenericNameContains(ItemGenericNamesModel genericRes);
 
+	@Query(value="select * from items i limit :start , :end",nativeQuery=true)
+	public List<ItemsModel> findItemsByLimit(@Param("start") Integer start,@Param("end") Integer end);
+
 }

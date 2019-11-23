@@ -270,6 +270,12 @@ public class ItemServiceImpl implements ItemService {
 			}
 		});
 	}
+
+	@Override
+	public List<ItemsModel> findItemsByLimit(Integer start, Integer end) {
+		
+		return itemRepository.findItemsByLimit(start,end);
+	}
 	
 	
 }
