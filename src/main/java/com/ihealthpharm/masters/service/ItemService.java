@@ -45,7 +45,7 @@ public interface ItemService {
 	
 	List<ItemsModel> findBySearchKey(String searchTerm);
 	
-	List<ItemDTO> findBySearchKey(String searchTerm, String searchCode);
+	List<ItemDTO> findBySearchKey(String searchTerm, String searchCode,Integer start, Integer end);
 	
 	List<ItemsModel> getLimitedItems();
 
@@ -53,5 +53,7 @@ public interface ItemService {
 	
 	List<ItemDTO> findAllByItemsSearch(String searchTerm);
 	
-	List<ItemsModel> findItemsByLimit(Integer start,Integer end);
+	List<ItemDTO> findItemsByLimit(Integer start,Integer end);
+	
+	Integer findItemsCountBySearch(String searchTerm,String searchType);
 }

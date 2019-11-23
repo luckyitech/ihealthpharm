@@ -162,10 +162,14 @@ public class ItemController {
 	}
 
 	@GetMapping("/getallby/searchkeyandsearchcode")
-	public ResponseEntity<BaseDto<List<ItemDTO>>> getAllItemsBySearchkeyAndCode(@RequestParam String searchTerm,@RequestParam String searchCode) {
+	public ResponseEntity<BaseDto<List<ItemDTO>>> getAllItemsBySearchkeyAndCode(@RequestParam String searchTerm,@RequestParam String searchCode,
+			@RequestParam Integer start,@RequestParam Integer end) {
 		log.info(searchTerm);
 		
-		List<ItemDTO> response = itemService.findBySearchKey(searchTerm,searchCode);
+		List<ItemDTO> response = itemService.findBySearchKey(searchTerm,searchCode,start,end);
+		log.info("----------------------------------");
+		log.info("Size:"+response.size());
+		log.info("----------------------------------");
 		return new BaseDto<>(response, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 	@GetMapping("/getlimiteditemdata")
@@ -184,8 +188,9 @@ public class ItemController {
 	
 
 	@GetMapping("/getitemdatabylimit")
-	public ResponseEntity<BaseDto<List<ItemsModel>>> getItemDataByIdLimit(@RequestParam Integer start,@RequestParam Integer end ) {
-		List<ItemsModel> result = itemService.findItemsByLimit(start,end);
+	public ResponseEntity<BaseDto<List<ItemDTO>>> getItemDataByIdLimit(@RequestParam Integer start,@RequestParam Integer end) {
+		List<ItemDTO> result = itemService.findItemsByLimit(start,end);
+		log.info("Seiz: "+result.size());
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 	
@@ -193,6 +198,16 @@ public class ItemController {
 	public ResponseEntity<BaseDto<List<ItemDTO>>> getAllByItemSearches(@RequestParam String searchTerm){
 		List<ItemDTO> response=itemService.findAllByItemsSearch(searchTerm);
 		log.info(response.toString());
+		return new BaseDto<>(response,propertyHelper.getRetrieveMessage(),OK).respond();
+
+	}
+	
+	@GetMapping("/getitemscountbysearch")
+	public ResponseEntity<BaseDto<Integer>> getCountOfItemsBySearch(@RequestParam String searchTerm,@RequestParam String searchType){
+		Integer response=itemService.findItemsCountBySearch(searchTerm,searchType);
+		log.info("----------------------------------");
+		log.info("Size:"+response);
+		log.info("----------------------------------");
 		return new BaseDto<>(response,propertyHelper.getRetrieveMessage(),OK).respond();
 
 	}
