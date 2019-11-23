@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.ihealthpharm.masters.dto.AlternativeItemDTO;
+import com.ihealthpharm.masters.dto.ItemDTO;
 import com.ihealthpharm.masters.model.ItemsModel;
 
 public interface ItemService {
@@ -43,11 +45,13 @@ public interface ItemService {
 	
 	List<ItemsModel> findBySearchKey(String searchTerm);
 	
-	List<ItemsModel> findBySearchKey(String searchTerm, String searchCode);
+	List<ItemDTO> findBySearchKey(String searchTerm, String searchCode);
 	
 	List<ItemsModel> getLimitedItems();
 
-	List<ItemsModel> findItemsByName(String itemName);
+	List<AlternativeItemDTO> findItemsByName(String itemName);
+	
+	List<ItemDTO> findAllByItemsSearch(String searchTerm);
 	
 	List<ItemsModel> findItemsByLimit(Integer start,Integer end);
 }

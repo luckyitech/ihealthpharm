@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.ItemAlternativeRepository;
+import com.ihealthpharm.masters.dto.AlternativeItemDTO;
 import com.ihealthpharm.masters.helper.ItemAlternativeHelper;
 import com.ihealthpharm.masters.model.ItemAlternativeModel;
 import com.ihealthpharm.masters.model.ItemsModel;
@@ -82,8 +83,8 @@ public class ItemAlternativeServiceImpl implements ItemAlternativeService{
 	}
 
 	@Override
-	public List<ItemAlternativeModel> findByItemId(ItemsModel item) {
-		List<ItemAlternativeModel> itemAlternativeList = itemAlternativeRepository.findByItemId(item);
+	public List<AlternativeItemDTO> findByItemId(ItemsModel item) {
+		List<AlternativeItemDTO> itemAlternativeList = itemAlternativeRepository.findByItemsId(item.getItemId());
 		return itemAlternativeList;
 	}
 	
@@ -101,17 +102,25 @@ public class ItemAlternativeServiceImpl implements ItemAlternativeService{
 
 	@Override
 	public void updateItemAlternativeBasedOnItemModel(List<ItemsModel> itemAlternativeModel, ItemsModel item) {
-
+		List<ItemsModel> existingItemCheck = itemAlternativeRepository.findByItemId(item);
 		ItemAlternativeModel itemRes = null;
-		for(ItemsModel itemModel:itemAlternativeModel)
+		if(Objects.nonNull(existingItemCheck))
+		{
+			itemAlternativeRepository.deleteByItemId(item.getItemId());
+		/*for(ItemsModel itemModel:itemAlternativeModel)
 		{
 			
 			System.out.println(itemModel);
 			
 			  itemAlternativeRepository.updateBasedOnItem(itemModel,item);
+		}*/
+			saveItemAlternative(itemAlternativeModel,item);
+		
 		}
-		log.info("Alternative Item updated with Id:");
-	
+		else
+		{
+			saveItemAlternative(itemAlternativeModel,item);
+		}
 		
 	}
 }

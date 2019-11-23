@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.masters.dto.AlternativeItemDTO;
+import com.ihealthpharm.masters.dto.ItemDTO;
 import com.ihealthpharm.masters.helper.ItemPropertyHelper;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.service.ItemService;
@@ -90,6 +92,7 @@ public class ItemController {
 
 	@GetMapping("/getitemdatabyid")
 	public ResponseEntity<BaseDto<ItemsModel>> getItemDataById(@RequestParam Integer itemId) {
+		System.out.println("entered into ");
 		ItemsModel result = itemService.findItemsById(itemId);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
@@ -159,9 +162,10 @@ public class ItemController {
 	}
 
 	@GetMapping("/getallby/searchkeyandsearchcode")
-	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllItemsBySearchkeyAndCode(@RequestParam String searchTerm,@RequestParam String searchCode) {
+	public ResponseEntity<BaseDto<List<ItemDTO>>> getAllItemsBySearchkeyAndCode(@RequestParam String searchTerm,@RequestParam String searchCode) {
 		log.info(searchTerm);
-		List<ItemsModel> response = itemService.findBySearchKey(searchTerm,searchCode);
+		
+		List<ItemDTO> response = itemService.findBySearchKey(searchTerm,searchCode);
 		return new BaseDto<>(response, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 	@GetMapping("/getlimiteditemdata")
@@ -172,16 +176,25 @@ public class ItemController {
 	}
 	
 	@GetMapping("/getitemsdatabyname")
-	public ResponseEntity<BaseDto<List<ItemsModel>>> getItemsDataByName(@RequestParam("key") String itemName) {
-		List<ItemsModel> result = itemService.findItemsByName(itemName);
+	public ResponseEntity<BaseDto<List<AlternativeItemDTO>>> getItemsDataByName(@RequestParam("key") String itemName) {
+		List<AlternativeItemDTO> result = itemService.findItemsByName(itemName);
 		log.info(result.toString());
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 	
+
 	@GetMapping("/getitemdatabylimit")
 	public ResponseEntity<BaseDto<List<ItemsModel>>> getItemDataByIdLimit(@RequestParam Integer start,@RequestParam Integer end ) {
 		List<ItemsModel> result = itemService.findItemsByLimit(start,end);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+	
+	@GetMapping("/getitemsbyanysearch")
+	public ResponseEntity<BaseDto<List<ItemDTO>>> getAllByItemSearches(@RequestParam String searchTerm){
+		List<ItemDTO> response=itemService.findAllByItemsSearch(searchTerm);
+		log.info(response.toString());
+		return new BaseDto<>(response,propertyHelper.getRetrieveMessage(),OK).respond();
+
 	}
 
 }

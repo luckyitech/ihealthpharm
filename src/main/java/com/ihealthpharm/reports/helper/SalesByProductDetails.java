@@ -28,7 +28,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 public class SalesByProductDetails extends ReportsPDFUtility{
 	@Override
 	public Document generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model,
-			File responseFile) {
+			File responseFile,String inputJson) {
 		
 		
 		HeaderFooterPageEvent event =new HeaderFooterPageEvent(model);
@@ -319,7 +319,7 @@ public class SalesByProductDetails extends ReportsPDFUtility{
 
 				table.addCell(cell);
 				
-				value = rowData.containsKey("SALE_AMOUNT") ? rowData.get("SALE_AMOUNT") : "";
+				value = rowData.containsKey("TOTAL_AMOUNT") ? rowData.get("TOTAL_AMOUNT") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())

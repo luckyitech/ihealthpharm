@@ -30,7 +30,7 @@ public class ManufacturerWiseSales extends ReportsPDFUtility {
 
 	@Override
 	public Document generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model,
-			File responseFile) {
+			File responseFile,String inputJson) {
 		
 		HeaderFooterPageEvent event =new HeaderFooterPageEvent(model);
 		 Document document = new Document(PageSize.A4, 36, 36, 150, 36);
@@ -40,7 +40,10 @@ public class ManufacturerWiseSales extends ReportsPDFUtility {
 			writer.setPageEvent(event); 
 			document.open();
 			
-			Map<Date, List<Map<String, Object>>> supplierWiseSalesMap = responseList.stream()
+			Map<String,Object> dataMap= (Map<String, Object>) JsonUtility.jsonToMap(inputJson);
+			createTable(document,model,responseList,dataMap);
+			
+			/*Map<Date, List<Map<String, Object>>> supplierWiseSalesMap = responseList.stream()
 					.collect(Collectors.groupingBy(map -> (Date) map.get("FromDate")));			
 			
 			Map<Date, List<Map<String, Object>>> supplierSalesMap = responseList.stream()
@@ -60,7 +63,7 @@ public class ManufacturerWiseSales extends ReportsPDFUtility {
 				}
 				
 				
-			}
+			}*/
 			
 
 		} catch (Exception e) {
@@ -79,7 +82,7 @@ public class ManufacturerWiseSales extends ReportsPDFUtility {
 
 
 	private void createTable(Document document, ReportsMappingModel model, List<Map<String, Object>> supplierWiseSalesList,
-			Date fromDate,Date toDate) throws DocumentException {
+			Map<String,Object> dataMap) throws DocumentException {
 
 		String reportHeader = model.getReportHeader();
 		List<HeaderDto> headerList = JsonUtility.jsonToList(reportHeader, HeaderDto.class);
@@ -92,7 +95,7 @@ public class ManufacturerWiseSales extends ReportsPDFUtility {
 		finalTable.getDefaultCell().setBorder(0); 
 		
 		PdfPTable supllierNameTable = new PdfPTable(3);
-		PdfPCell nameCell = new PdfPCell(new Phrase("From Date : "+fromDate+"        "+"To Date   : "+toDate, title08)); 
+		PdfPCell nameCell = new PdfPCell(new Phrase("From Date : "+String.valueOf(dataMap.get("FromDate"))+"        "+"To Date   : "+String.valueOf(dataMap.get("ToDate")), title08)); 
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		nameCell.setVerticalAlignment(Element.ALIGN_TOP);
@@ -217,7 +220,7 @@ public class ManufacturerWiseSales extends ReportsPDFUtility {
 
 				table.addCell(cell);
 
-				value = rowData.containsKey("ITEM_CODE") ? rowData.get("ITEM_CODE") : "";
+				value = rowData.containsKey("ITEM_CD") ? rowData.get("ITEM_CD") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())

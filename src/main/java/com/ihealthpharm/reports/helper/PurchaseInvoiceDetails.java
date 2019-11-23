@@ -35,7 +35,7 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 	
 	@Override
 	public Document generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model,
-			File responseFile) {
+			File responseFile,String inputJson) {
 		
 		HeaderFooterPageEvent event =new HeaderFooterPageEvent(model);
 		 Document document = new Document(PageSize.A4, 36, 36, 150, 36);
