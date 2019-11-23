@@ -53,4 +53,5 @@ public interface ItemService {
 	
 	List<ItemDTO> findAllByItemsSearch(String searchTerm);
 	
+	List<ItemsModel> findItemsByLimit(Integer start,Integer end);
 }

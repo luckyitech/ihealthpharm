@@ -182,11 +182,19 @@ public class ItemController {
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 	
+
+	@GetMapping("/getitemdatabylimit")
+	public ResponseEntity<BaseDto<List<ItemsModel>>> getItemDataByIdLimit(@RequestParam Integer start,@RequestParam Integer end ) {
+		List<ItemsModel> result = itemService.findItemsByLimit(start,end);
+		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+	
 	@GetMapping("/getitemsbyanysearch")
 	public ResponseEntity<BaseDto<List<ItemDTO>>> getAllByItemSearches(@RequestParam String searchTerm){
 		List<ItemDTO> response=itemService.findAllByItemsSearch(searchTerm);
 		log.info(response.toString());
 		return new BaseDto<>(response,propertyHelper.getRetrieveMessage(),OK).respond();
+
 	}
 
 }

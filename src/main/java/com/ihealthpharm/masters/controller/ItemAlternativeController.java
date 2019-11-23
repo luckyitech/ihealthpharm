@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.masters.dto.AlternativeItemDTO;
 import com.ihealthpharm.masters.dto.AlternativeItemsRequestDTO;
 import com.ihealthpharm.masters.helper.ItemAlternativeHelper;
 import com.ihealthpharm.masters.model.ItemAlternativeModel;
@@ -75,8 +76,8 @@ public class ItemAlternativeController {
 	}
 	
 	@PostMapping("/getitemalternativedatabyitemid")
-	public ResponseEntity<BaseDto<List<ItemAlternativeModel>>> getItemAlternativeDataByEmployeeId(@RequestBody ItemsModel item) {
-		List<ItemAlternativeModel> result = itemAlternativeService.findByItemId(item);
+	public ResponseEntity<BaseDto<List<AlternativeItemDTO>>> getItemAlternativeDataByEmployeeId(@RequestBody ItemsModel item) {
+		List<AlternativeItemDTO> result = itemAlternativeService.findByItemId(item);
 		return new BaseDto<>(result,  itemAlternativeHelper.getRetrieveItemAlternativeMessage(), OK).respond();
 	}
 	

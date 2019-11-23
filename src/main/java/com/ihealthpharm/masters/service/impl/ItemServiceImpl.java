@@ -1,18 +1,12 @@
 package com.ihealthpharm.masters.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +17,6 @@ import com.ihealthpharm.masters.dao.ItemsRepository;
 import com.ihealthpharm.masters.dto.AlternativeItemDTO;
 import com.ihealthpharm.masters.dto.ItemDTO;
 import com.ihealthpharm.masters.helper.ItemPropertyHelper;
-import com.ihealthpharm.masters.model.ItemGenericNamesModel;
 import com.ihealthpharm.masters.model.ItemGroupModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.service.ItemService;
@@ -286,6 +279,12 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
+
+	public List<ItemsModel> findItemsByLimit(Integer start, Integer end) {
+		
+		return itemRepository.findItemsByLimit(start,end);
+	}
+
 	public List<ItemDTO> findAllByItemsSearch(String searchTerm) {
 	//	return itemRepository.getAllItemsDataByAnySearch(searchTerm);
 		return null;
