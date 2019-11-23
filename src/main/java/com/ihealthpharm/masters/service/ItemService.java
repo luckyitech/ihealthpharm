@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.ihealthpharm.masters.dto.AlternativeItemDTO;
 import com.ihealthpharm.masters.dto.ItemDTO;
 import com.ihealthpharm.masters.model.ItemsModel;
 
@@ -48,7 +49,7 @@ public interface ItemService {
 	
 	List<ItemsModel> getLimitedItems();
 
-	List<ItemsModel> findItemsByName(String itemName);
+	List<AlternativeItemDTO> findItemsByName(String itemName);
 	
 	List<ItemDTO> findAllByItemsSearch(String searchTerm);
 	

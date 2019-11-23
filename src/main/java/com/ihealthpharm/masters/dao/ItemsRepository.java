@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.ihealthpharm.masters.dto.AlternativeItemDTO;
 import com.ihealthpharm.masters.dto.ItemDTO;
 import com.ihealthpharm.masters.model.ItemGenericNamesModel;
 import com.ihealthpharm.masters.model.ItemGroupModel;
@@ -21,7 +22,7 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 
 	List<ItemsModel> findAllByOrderByLastUpdateTimestampDesc();
 
-	@Query("select i from items i where i.itemName like %:searchTerm% order by i.creationTimeStamp desc")
+	@Query("select i from items i where i.itemName like :searchTerm% order by i.creationTimeStamp desc")
 	List<ItemsModel> findAllByItemNameSearch(@Param("searchTerm") String searchTerm);
 
 	@Query("select i from items i where i.medicalOrNonMedical =:medicalOrNonMedical and i.itemName like %:searchTerm% order by i.creationTimeStamp desc")
@@ -53,8 +54,21 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 	public List<ItemsModel> findByItemGenericNameContains(ItemGenericNamesModel genericRes);
 	
 	/*i.itemId,i.medicalOrNonMedical,i.itemCode,i.itemName,i.drugDose,*/
-	@Query("select new com.ihealthpharm.masters.dto.ItemDTO(i.itemId,i.medicalOrNonMedical,i.itemCode,i.itemName,i.drugDose,i.itemForm,i.manufacturer) from items i  "
-			+ "where i.itemDescription like %:searchTerm% OR  i.itemCode like %:searchTerm% OR  i.itemName like %:searchTerm% or i.itemGenericName.genericName like %:searchTerm%")
-	List<ItemDTO> getAllItemsDataByAnySearch(@Param("searchTerm")String searchTerm);
+	
+	@Query("select new com.ihealthpharm.masters.dto.ItemDTO(i.itemId,i.medicalOrNonMedical,i.itemCode,i.itemName,i.itemDescription,i.drugDose) from items i  "
+			+ "where  i.itemName like :searchTerm%")
+	List<ItemDTO> getAllItemsDataByItemName(@Param("searchTerm")String searchTerm);
 
+	@Query("select new com.ihealthpharm.masters.dto.ItemDTO(i.itemId,i.medicalOrNonMedical,i.itemCode,i.itemName,i.itemDescription,i.drugDose) from items i  "
+			+ "where  i.itemCode like :searchTerm%")
+	List<ItemDTO> getAllItemsDataByItemCode(@Param("searchTerm")String searchTerm);
+	
+	@Query("select new com.ihealthpharm.masters.dto.ItemDTO(i.itemId,i.medicalOrNonMedical,i.itemCode,i.itemName,i.itemDescription,i.drugDose) from items i  "
+			+ "where  i.itemDescription like :searchTerm%")
+	List<ItemDTO> getAllItemsDataByItemDescription(@Param("searchTerm")String searchTerm);
+	
+	@Query("select new com.ihealthpharm.masters.dto.AlternativeItemDTO(i.itemId,i.itemName) from items i  "
+			+ "where  i.itemName like :searchTerm%")
+	List<AlternativeItemDTO> getAlternativeItemsDataByItemName(@Param("searchTerm")String searchTerm);
+	
 }
