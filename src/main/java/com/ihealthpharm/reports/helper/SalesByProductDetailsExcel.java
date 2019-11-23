@@ -241,7 +241,7 @@ public class SalesByProductDetailsExcel extends ReportsExcelUtility {
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("SALE_AMOUNT") ? rowData.get("SALE_AMOUNT") : "";
+				value = rowData.containsKey("TOTAL_AMOUNT") ? rowData.get("TOTAL_AMOUNT") : "";
 				sheet.autoSizeColumn(11);
 				cell = dataRow.createCell(11);
 				cell.setCellValue(String.valueOf(value));

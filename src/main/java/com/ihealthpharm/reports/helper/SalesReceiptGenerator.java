@@ -38,7 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SalesReceiptGenerator extends ReportsPDFUtility {
 	
 	@Override
-		public Document generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile) {
+		public Document generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile,String inputJson) {
 	    Document document = new Document(PageSize.A4, 36, 36, 50, 36);
 
 		try {
