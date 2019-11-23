@@ -28,7 +28,7 @@ public interface ItemSuppliersRepository extends JpaRepository<ItemSupplierModel
 	List<ItemsModel> getAllUnMappedItems(@Param ("supplierId")Integer supplierId);
 
 	
-	@Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(id.itemSupplierId,id.activeS,d.name,i.itemName,m.name,m.licence,i.itemDescription,i.itemId,d.supplierId,id.supplierPriority,f.form,i.itemCode,id.unitRate,id.discountPercentage,id.validity) from items_supplier id inner join supplier d on id.suppliersId=d.supplierId inner join items i on i.itemId=id.itemsId inner join items_forms f on i.itemId=f.itemformId inner join manufacturer m on m.manufacturerId=id.itemsId ")
+	@Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(id.itemSupplierId,id.activeS,d.name,i.itemName,m.name,m.licence,i.itemDescription,i.itemId,d.supplierId,id.supplierPriority,f.form,i.itemCode,id.unitRate,id.discountPercentage,id.validity) from items_supplier id inner join supplier d on id.suppliersId=d.supplierId inner join items i on i.itemId=id.itemsId inner join items_forms f on i.itemId=f.itemformId inner join manufacturer m on m.manufacturerId=id.itemsId order by id.lastUpdateTimestamp")
 	List<ItemSupplierDTO> getAllItemSuppliers();
 
 
@@ -44,12 +44,11 @@ public interface ItemSuppliersRepository extends JpaRepository<ItemSupplierModel
 	Integer updateStatus(@Param("itemSupplierIds")Integer itemSupplierIds, @Param("activeS") String activeS);
 
 	@Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(id.itemSupplierId,id.activeS,d.name,i.itemName,m.name,m.licence,i.itemDescription,i.itemId,d.supplierId,id.supplierPriority,f.form,i.itemCode,id.unitRate,id.discountPercentage,id.validity) from items_supplier id inner join supplier d on id.suppliersId=d.supplierId inner join items i on i.itemId=id.itemsId  inner join items_forms f on i.itemForm=f.itemformId" + 
-			" inner join manufacturer m on m.manufacturerId=i.manufacturer where i.itemId=:itemId")
-   List<ItemSupplierDTO>	getAllItemSuppliersBasedOnItemId(@Param("itemId")Integer itemId);
+			" inner join manufacturer m on m.manufacturerId=i.manufacturer where i.itemId=:itemId order by id.lastUpdateTimestamp")
+   List<ItemSupplierDTO> getAllItemSuppliersBasedOnItemId(@Param("itemId")Integer itemId);
 	
-	
-	@Query(" select new com.ihealthpharm.masters.dto.ItemSupplierDTO(id.itemSupplierId,id.activeS,d.name,i.itemName,m.name,m.licence,i.itemDescription,i.itemId,d.supplierId,id.supplierPriority,f.form,i.itemCode,id.unitRate,id.discountPercentage,id.validity) from items_supplier id inner join supplier d on id.suppliersId=d.supplierId inner join items i on i.itemId=id.itemsId inner join items_forms f on i.itemForm=f.itemformId " + 
-			" inner join manufacturer m on m.manufacturerId=i.manufacturer where d.supplierId=:supplierIds")
+	@Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(id.itemSupplierId,id.activeS,d.name,i.itemName,m.name,m.licence,i.itemDescription,i.itemId,d.supplierId,id.supplierPriority,f.form,i.itemCode,id.unitRate,id.discountPercentage,id.validity) from items_supplier id inner join supplier d on id.suppliersId=d.supplierId inner join items i on i.itemId=id.itemsId inner join items_forms f on i.itemForm=f.itemformId " + 
+			" inner join manufacturer m on m.manufacturerId=i.manufacturer where d.supplierId=:supplierIds order by id.lastUpdateTimestamp")
 	List<ItemSupplierDTO> getAllSupplierItemBasedOnDistId(@Param("supplierIds")Integer supplierIds);
 
 	@Query("select sup from items_supplier items inner join supplier sup on items.suppliersId = sup.supplierId where items.itemsId=:itemsId")
