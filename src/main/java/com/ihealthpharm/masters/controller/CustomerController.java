@@ -30,8 +30,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CustomerController {
 	
-	
-
 	@Autowired
 	CustomerService customerService;
 
@@ -47,7 +45,6 @@ public class CustomerController {
 
 	@PutMapping("/update/customer")
 	public ResponseEntity<BaseDto<CustomerModel>> updateCustomerData(@Valid @RequestBody CustomerModel customerModel) {
-		log.info("Request Object for update is: ", customerModel);
 		CustomerModel customerModelRes = customerService.updateCustomerData(customerModel);
 		return new BaseDto<>(customerModelRes, customerHelper.getUpdateCustomerMessage(), OK).respond();
 	}
