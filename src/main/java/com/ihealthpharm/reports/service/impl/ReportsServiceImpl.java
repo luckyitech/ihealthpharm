@@ -80,11 +80,11 @@ public class ReportsServiceImpl implements ReportsService {
 		if (StringUtils.equalsIgnoreCase("PDF", reportType)) {
 			
 			if (StringUtils.isBlank(model.getCustomReportGeneratorClazz()))
-				reportsPDFUtility.generateReport(responseList, model, responseFile);
+				reportsPDFUtility.generateReport(responseList, model, responseFile,inputJson);
 			else {
 				Class beanClass = Class.forName(model.getCustomReportGeneratorClazz());
 				ReportGenerator reportGenerator = (ReportGenerator) SpringContextUtility.getBean(beanClass);
-				reportGenerator.generateReport(responseList, model, responseFile);
+				reportGenerator.generateReport(responseList, model, responseFile,inputJson);
 			}				
 		
 		}else {

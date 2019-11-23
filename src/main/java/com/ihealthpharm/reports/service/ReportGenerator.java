@@ -10,7 +10,7 @@ import com.itextpdf.text.DocumentException;
 
 public interface ReportGenerator {
 
-	Document generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile);
+	Document generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model,File responseFile,String inputJson);
 	
 	public void createTable(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList)
 			throws DocumentException;

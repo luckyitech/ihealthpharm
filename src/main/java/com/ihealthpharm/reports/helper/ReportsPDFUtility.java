@@ -45,7 +45,7 @@ public class ReportsPDFUtility implements ReportGenerator{
 
 
 	
-	public Document generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile) {
+	public Document generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model,File responseFile,String inputJson) {
 
 		//Document document = new Document();
         HeaderFooterPageEvent event =new HeaderFooterPageEvent(model);
