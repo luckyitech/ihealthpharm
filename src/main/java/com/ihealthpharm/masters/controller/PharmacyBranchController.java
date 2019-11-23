@@ -66,7 +66,7 @@ public class PharmacyBranchController {
 	}
 	
 	@DeleteMapping("/deletepharmacybranch")
-	public ResponseEntity<BaseDto<Object>> deleteBranch(@RequestParam int pharmacyBranchId){
+	public ResponseEntity<BaseDto<Object>> deleteBranch(@RequestParam Integer pharmacyBranchId){
 		log.info("Request Object for update is: "+ pharmacyBranchId);
 		branchServiceImpl.deletePharmacyBranch(pharmacyBranchId); 
 		return new BaseDto<>(helper.getDeletePharmacyBranchMessage(),OK).respond();
@@ -79,7 +79,7 @@ public class PharmacyBranchController {
 	}
 	
 	@GetMapping("/getbranchdatabyid")
-	public ResponseEntity<BaseDto<PharmacyBranchModel>> getBranchDataById(@RequestParam int pharmacyBranchId) {
+	public ResponseEntity<BaseDto<PharmacyBranchModel>> getBranchDataById(@RequestParam Integer pharmacyBranchId) {
 		PharmacyBranchModel result = branchServiceImpl.findByPharmacyId(pharmacyBranchId);
 		return new BaseDto<>(result, helper.getRetrievePharmacyBranchMessage(), OK).respond();
 	}

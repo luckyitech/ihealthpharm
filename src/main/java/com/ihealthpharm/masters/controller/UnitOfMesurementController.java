@@ -54,7 +54,7 @@ public class UnitOfMesurementController {
 	}
 	
 	@GetMapping("uom/find/by/id")
-	public ResponseEntity<BaseDto<UnitOfMeasurementModel>> getUOMById(@RequestParam int id){
+	public ResponseEntity<BaseDto<UnitOfMeasurementModel>> getUOMById(@RequestParam Integer id){
 		log.info("Finding UOM Obj with ID : ",id);
 		UnitOfMeasurementModel response = uomService.findById(id);
 		return new BaseDto<UnitOfMeasurementModel>(response,uomHelper.getRetrieveUomMessage(), OK).respond();
@@ -74,9 +74,8 @@ public class UnitOfMesurementController {
 	}
 	
 	@GetMapping("uom/delete/ids")
-	public ResponseEntity<BaseDto<String>> deleteUOMs(@RequestParam int[] ids){
+	public ResponseEntity<BaseDto<String>> deleteUOMs(@RequestParam Integer[] ids){
 		 uomService.remove(ids);
-		log.info("UOM ids deleted: ",ids);
 		return new BaseDto<String>(uomHelper.getDeleteUomMessage(), OK).respond();
 	}
 	

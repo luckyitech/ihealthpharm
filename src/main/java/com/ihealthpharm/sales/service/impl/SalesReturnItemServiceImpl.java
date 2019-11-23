@@ -35,8 +35,6 @@ public class SalesReturnItemServiceImpl implements SalesReturnItemService{
 	@Override
 	public List<SalesReturnItemsModel> saveSalesReturnItemData( List<SalesReturnItemsModel> salesReturnItemsModels) {
 		
-		
-		System.out.println(salesReturnItemsModels.toString());
 		List<SalesReturnItemsModel> salesItemsRes = new ArrayList<>();
 		for(SalesReturnItemsModel saleItemModel:salesReturnItemsModels)
 		{	

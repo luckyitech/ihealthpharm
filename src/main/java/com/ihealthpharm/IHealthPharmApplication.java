@@ -11,4 +11,6 @@ public class IHealthPharmApplication extends SpringBootServletInitializer{
 		SpringApplication.run(IHealthPharmApplication.class, args);
 	}
 
+	
+
 }

@@ -91,7 +91,7 @@ public class FormulationInstructionsServiceImpl implements FormulationInstructio
     
 
 	@Override
-	public void deleteFormulationInstructionsData(int formulationInstructionsId) {
+	public void deleteFormulationInstructionsData(Integer formulationInstructionsId) {
 	
 		FormulationInstructionsModel formulationInstructionsRes=getValidFormulationInstructionsId(formulationInstructionsId);
 		if(!Objects.nonNull(formulationInstructionsRes)){
@@ -103,7 +103,7 @@ public class FormulationInstructionsServiceImpl implements FormulationInstructio
 
 
 	@Override
-	public FormulationInstructionsModel findFormulationInstructionsById(int formulationInstructionsId) {
+	public FormulationInstructionsModel findFormulationInstructionsById(Integer formulationInstructionsId) {
 		FormulationInstructionsModel findFormulationInstructionsRes=getValidFormulationInstructionsId(formulationInstructionsId);
 		if(!Objects.nonNull(findFormulationInstructionsRes)){
 			throw new IHealthPharmException(formulationInstructionsHelper.getRetrieveFormulationinstructionMessage(),HttpStatus.NOT_FOUND);
@@ -117,7 +117,7 @@ public class FormulationInstructionsServiceImpl implements FormulationInstructio
 
 
 	
-	private FormulationInstructionsModel getValidFormulationInstructionsId(int formulationId){
+	private FormulationInstructionsModel getValidFormulationInstructionsId(Integer formulationId){
 		FormulationInstructionsModel formulationRes=null;
 		
 		try{

@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.ihealthpharm.masters.dto.ItemDTO;
 import com.ihealthpharm.masters.model.ItemGenericNamesModel;
 import com.ihealthpharm.masters.model.ItemGroupModel;
 import com.ihealthpharm.masters.model.ItemsModel;
@@ -32,7 +33,9 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 	@Query("select i from items i where i.itemDescription like %:searchTerm% order by i.creationTimeStamp desc")
 	List<ItemsModel> findAllByItemDescription(@Param("searchTerm") String searchTerm);
 
-	List<ItemsModel> findByItemGenericName(ItemGenericNamesModel genericRes);
+	@Query("select i from items i inner join com.ihealthpharm.masters.model.ItemGenericNamesModel ig on i.itemGenericName.itemGenericNameId=ig.itemGenericNameId "
+			+ "where ig.genericName like %:searchTerm%")
+	List<ItemsModel> findByItemGenericName(@Param("searchTerm") String searchTerm);
 
 	List<ItemsModel> findByItemGroup(ItemGroupModel groupCode);
 
@@ -48,5 +51,10 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 	public List<ItemsModel> findAll(Specification<ItemsModel> specification);
 
 	public List<ItemsModel> findByItemGenericNameContains(ItemGenericNamesModel genericRes);
+	
+	/*i.itemId,i.medicalOrNonMedical,i.itemCode,i.itemName,i.drugDose,*/
+	@Query("select new com.ihealthpharm.masters.dto.ItemDTO(i.itemId,i.medicalOrNonMedical,i.itemCode,i.itemName,i.drugDose,i.itemForm,i.manufacturer) from items i  "
+			+ "where i.itemDescription like %:searchTerm% OR  i.itemCode like %:searchTerm% OR  i.itemName like %:searchTerm% or i.itemGenericName.genericName like %:searchTerm%")
+	List<ItemDTO> getAllItemsDataByAnySearch(@Param("searchTerm")String searchTerm);
 
 }

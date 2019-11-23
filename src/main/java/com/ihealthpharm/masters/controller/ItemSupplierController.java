@@ -61,7 +61,7 @@ public class ItemSupplierController {
 	
 	
 	@PutMapping("/update/itemSuppliers")
-	public ResponseEntity<BaseDto<Object>> updateItemSupplierData(@Valid @RequestParam int itemSupplierId,@Valid @RequestParam String activeS){
+	public ResponseEntity<BaseDto<Object>> updateItemSupplierData(@Valid @RequestParam Integer itemSupplierId,@Valid @RequestParam String activeS){
 		
 		log.info("Request Object for update :"+itemSupplierId+"recieved status:"+activeS);
 		itemSupplierService.saveItemSuppliersById(itemSupplierId,activeS);
@@ -84,14 +84,14 @@ public class ItemSupplierController {
 	}
 	
 	@DeleteMapping("/delete/itemsupplier")
-	public ResponseEntity<BaseDto<Object>> deleteSupplierData(@RequestParam int itemSupplierId) {
+	public ResponseEntity<BaseDto<Object>> deleteSupplierData(@RequestParam Integer itemSupplierId) {
 		log.info("Request Object for delete is: ", itemSupplierId);
 		itemSupplierService.deleteItemSupplierById(itemSupplierId);
 		return new BaseDto<>(itemSupplierHelper.getDeleteItemSupplierMessage(), OK).respond();
 	}
 	
 	@DeleteMapping("/delete/itemsuppliers")
-	public ResponseEntity<BaseDto<Object>> deleteSuppliersData(@RequestParam int[] itemsupplierIds) {
+	public ResponseEntity<BaseDto<Object>> deleteSuppliersData(@RequestParam Integer[] itemsupplierIds) {
 		log.info("Request Object for delete is: "+ itemsupplierIds);
 		itemSupplierService.deleteMultipleItemSuppliersById(itemsupplierIds);
 		return new BaseDto<>(itemSupplierHelper.getDeleteItemSupplierMessage(), OK).respond();
@@ -106,7 +106,7 @@ public class ItemSupplierController {
 	}
 	
 	@GetMapping("/getitemsupplierdatabyid")
-	public ResponseEntity<BaseDto<ItemSupplierModel>> getSupplierDataById(@RequestParam int itemsupplierId) {
+	public ResponseEntity<BaseDto<ItemSupplierModel>> getSupplierDataById(@RequestParam Integer itemsupplierId) {
 		ItemSupplierModel result = itemSupplierService.findItemSupplierById(itemsupplierId);
 		return new BaseDto<>(result, itemSupplierHelper.getRetrieveItemSupplierMessage(), OK).respond();
 	}
@@ -123,7 +123,7 @@ public class ItemSupplierController {
 	//itemsupplier dropdown item search
 	
 	@GetMapping("/getunmapped/suppliers")
-	public ResponseEntity<BaseDto<List<SupplierModel>>> getAllSuppliers(@RequestParam int itemId){
+	public ResponseEntity<BaseDto<List<SupplierModel>>> getAllSuppliers(@RequestParam Integer itemId){
 		List<SupplierModel> response=itemSupplierService.findAllUnMappedItemSuppliersData(itemId);
 		return new BaseDto<>(response,itemSupplierHelper.getRetrieveItemSupplierMessage(),OK).respond();
 	}
@@ -132,14 +132,14 @@ public class ItemSupplierController {
 	//ItemSupplier dropdown search for unmapped suppliers
 	
 	@GetMapping("/getunmapped/supplierssearch/byName")
-	public ResponseEntity<BaseDto<List<SupplierModel>>> getAllSuppliersUnmappedSearch(@RequestParam int itemId,@RequestParam String searchTerm){
+	public ResponseEntity<BaseDto<List<SupplierModel>>> getAllSuppliersUnmappedSearch(@RequestParam Integer itemId,@RequestParam String searchTerm){
 		List<SupplierModel> response=itemSupplierService.findAllUnmappedSuppliersNamesSearch(itemId,searchTerm);
 		return new BaseDto<>(response,itemSupplierHelper.getRetrieveItemSupplierMessage(),OK).respond();
 	}
 	
 	//ItemSuppliers dropdown search for unmapped items
 	@GetMapping("/getunmapped/itemssearch/byitemName")
-	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllItemsUnmappedSearch(@RequestParam int supplierId,@RequestParam String searchTerm){
+	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllItemsUnmappedSearch(@RequestParam Integer supplierId,@RequestParam String searchTerm){
 		log.info("searchTerm :"+searchTerm +"distId :"+supplierId);
 		List<ItemsModel> result=itemSupplierService.finAllUnmppedItemsNameSearch(supplierId,searchTerm);
 		return new BaseDto<>(result,itemSupplierHelper.getRetrieveItemSupplierMessage(),OK).respond();
@@ -149,7 +149,7 @@ public class ItemSupplierController {
 	//supplierItem dropdown search
 	
 	@GetMapping("/getunmapped/items")
-	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllItems(@RequestParam int supplierId){
+	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllItems(@RequestParam Integer supplierId){
 		List<ItemsModel> result=itemSupplierService.findAllUnMappedSupplierItems(supplierId);
 		return new BaseDto<>(result,itemSupplierHelper.getRetrieveItemSupplierMessage(),OK).respond();
 	}
@@ -163,25 +163,23 @@ public class ItemSupplierController {
 	
 	//for getting grid data based on itemId
 	@GetMapping("/getitemsuppliers/basedonItemId")
-	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getAllItemSuppliersBasedOnItemId(@RequestParam int  itemId){
+	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getAllItemSuppliersBasedOnItemId(@RequestParam Integer  itemId){
 		System.out.println(itemId);
 		List<ItemSupplierDTO> response=itemSupplierService.findAllMappedItemSuppliersOnItemName(itemId);
 		return new BaseDto<>(response,itemSupplierHelper.getRetrieveItemSupplierMessage(),OK).respond();
 	}
 	
 	@GetMapping("/getitemsuppliers/basedonSupplierId")
-	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getAllSupplierItemsBasedonSupplierId(@RequestParam int supplierId){
+	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getAllSupplierItemsBasedonSupplierId(@RequestParam Integer supplierId){
 		List<ItemSupplierDTO> result=itemSupplierService.findAllSupplierItemOnSupplierId(supplierId);
 		return new BaseDto<>(result,itemSupplierHelper.getRetrieveItemSupplierMessage(),OK).respond();
 	}
 	 
 
 	@GetMapping("/getitemsuppliersbyitemid")
-	public ResponseEntity<BaseDto<List<SupplierModel>>> getAllSuppliersItemId(@RequestParam int itemId){
+	public ResponseEntity<BaseDto<List<SupplierModel>>> getAllSuppliersItemId(@RequestParam Integer itemId){
 		List<SupplierModel> result=itemSupplierService.getAllSuppliersByItemId(itemId);
-		log.info("---------------------------------");
 		log.info(result.toString());
-		log.info("---------------------------------");
 		return new BaseDto<>(result,itemSupplierHelper.getRetrieveItemSupplierMessage(),OK).respond();
 	}
 }

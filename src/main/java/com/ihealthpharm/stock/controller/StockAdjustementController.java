@@ -44,13 +44,13 @@ public class StockAdjustementController {
 	}
 
 	@GetMapping("/get/stockstotal/matchedstockadjustid")
-	public ResponseEntity<BaseDto<Integer>> getStockAdjustmentTotalData(@RequestParam String batch,@RequestParam String  expiry,@RequestParam("pharmacyId") int pharmacyId ){
+	public ResponseEntity<BaseDto<Integer>> getStockAdjustmentTotalData(@RequestParam String batch,@RequestParam String  expiry,@RequestParam("pharmacyId") Integer pharmacyId ){
 		Integer result = stockAdjustmentService.getStockQuantity(batch,expiry,pharmacyId);
 		return new BaseDto<>(result, stockHelper.getRetrieveStockAdjustmentMessage(), OK).respond();
 	}
 
 	@GetMapping("/get/stocks/matchedIds")
-	public ResponseEntity<BaseDto<List<StockModel>>> getAllStocksMatchedWithStockAdjustId(@RequestParam String batch,@RequestParam String  expiry,@RequestParam("pharmacyId") int pharmacyId){
+	public ResponseEntity<BaseDto<List<StockModel>>> getAllStocksMatchedWithStockAdjustId(@RequestParam String batch,@RequestParam String  expiry,@RequestParam("pharmacyId") Integer pharmacyId){
 		List<StockModel> result=stockAdjustmentService.getAllStockMatched(batch,expiry,pharmacyId);
 		return new BaseDto<>(result,stockHelper.getRetrieveStockMessage(),OK).respond();
 	}
@@ -65,29 +65,28 @@ public class StockAdjustementController {
 	
 	//based on itemCode
 	@PostMapping("/get/stockitems/basedonitemcode")
-	public ResponseEntity<BaseDto<List<StockAdjustmentDTO>>> getStockItemDataBasedOnItemCode(@RequestParam String searchTerm,@RequestParam String batch,@RequestParam String  expiry,@RequestParam("pharmacyId") int pharmacyId ){
+	public ResponseEntity<BaseDto<List<StockAdjustmentDTO>>> getStockItemDataBasedOnItemCode(@RequestParam String searchTerm,@RequestParam String batch,@RequestParam String  expiry,@RequestParam("pharmacyId") Integer pharmacyId ){
 		List<StockAdjustmentDTO> result=stockAdjustmentService.findBasedOnItemCode(searchTerm,batch,expiry,pharmacyId);
 		return new BaseDto<>(result,stockHelper.getRetrieveStockAdjustmentMessage(),OK).respond();
 	}
 
 	//based on itemName
 	@PostMapping("/get/stockitems/basedonitemname")
-	public ResponseEntity<BaseDto<List<StockAdjustmentDTO>>> getStockItemDataBasedOnItemName(@RequestParam String searchTerm,@RequestParam String batch,@RequestParam String  expiry,@RequestParam("pharmacyId") int pharmacyId ){
-		 System.out.println(searchTerm+"--"+batch+"--"+pharmacyId+"--"+expiry);
+	public ResponseEntity<BaseDto<List<StockAdjustmentDTO>>> getStockItemDataBasedOnItemName(@RequestParam String searchTerm,@RequestParam String batch,@RequestParam String  expiry,@RequestParam("pharmacyId") Integer pharmacyId ){
 		List<StockAdjustmentDTO> response=stockAdjustmentService.findBasedOnItemNameSearch(searchTerm,batch,expiry,pharmacyId);
 		return new BaseDto<>(response,stockHelper.getRetrieveStockAdjustmentMessage(),OK).respond();
 	}
 
 	//based on itemDesc
 	@PostMapping("/get/stockitems/basedonitemdesc")
-	public ResponseEntity<BaseDto<List<StockAdjustmentDTO>>> getStockItemDataSearchByItemDesc(@RequestParam String searchTerm,@RequestParam String batch,@RequestParam String  expiry,@RequestParam("pharmacyId") int pharmacyId ){
+	public ResponseEntity<BaseDto<List<StockAdjustmentDTO>>> getStockItemDataSearchByItemDesc(@RequestParam String searchTerm,@RequestParam String batch,@RequestParam String  expiry,@RequestParam("pharmacyId") Integer pharmacyId ){
 		List<StockAdjustmentDTO> response=stockAdjustmentService.findBasedOnItemDesc(searchTerm,batch,expiry,pharmacyId);
 		return new BaseDto<>(response,stockHelper.getRetrieveStockAdjustmentMessage(),OK).respond();
 	}
 
 	//based on itemGeneric
 	@PostMapping("/get/stockitems/basedonitemgeneric")
-	public ResponseEntity<BaseDto<List<StockAdjustmentDTO>>> getStockItemDataBasedOnItemGenericName(@RequestParam String searchTerm,@RequestParam String batch,@RequestParam String  expiry,@RequestParam("pharmacyId") int pharmacyId ){
+	public ResponseEntity<BaseDto<List<StockAdjustmentDTO>>> getStockItemDataBasedOnItemGenericName(@RequestParam String searchTerm,@RequestParam String batch,@RequestParam String  expiry,@RequestParam("pharmacyId") Integer pharmacyId ){
 		List<StockAdjustmentDTO> resp=stockAdjustmentService.findBasedOnItemGenericName(searchTerm,batch,expiry,pharmacyId);
 		return new BaseDto<>(resp,stockHelper.getRetrieveStockAdjustmentMessage(),OK).respond();
 	}

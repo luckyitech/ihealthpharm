@@ -43,7 +43,6 @@ public class EmploymentHistoryServiceImpl implements EmploymentHistoryService {
 
 	@Override
 	public List<EmploymentHistoryModel> findAllEmploymentHistoryData() {
-		
 		return employmentHistoryRepository.findAll();
 	}
 

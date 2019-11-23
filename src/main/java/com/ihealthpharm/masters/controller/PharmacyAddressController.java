@@ -50,7 +50,7 @@ public class PharmacyAddressController {
 	}
 	
 	@DeleteMapping("/delete/pharmacyAddress")
-	public ResponseEntity<BaseDto<Object>> deletePharmacyAddressData(@RequestParam int pharmacyAddressId) {
+	public ResponseEntity<BaseDto<Object>> deletePharmacyAddressData(@RequestParam Integer pharmacyAddressId) {
 		log.info("Request Object for delete is: ", pharmacyAddressId);
 		pharmacyAddressService.deletePharmacyAddressById(pharmacyAddressId);
 		return new BaseDto<>(pharmacyAddrHelper.getDeletePharmaAddrMessage(), OK).respond();
@@ -65,7 +65,7 @@ public class PharmacyAddressController {
 	
 
 	@GetMapping("/getpharmacydatabyid")
-	public ResponseEntity<BaseDto<PharmacyAddressModel>> getPharmacyDataById(@RequestParam int pharmacyAddressId) {
+	public ResponseEntity<BaseDto<PharmacyAddressModel>> getPharmacyDataById(@RequestParam Integer pharmacyAddressId) {
 		PharmacyAddressModel result =pharmacyAddressService.findPharmacyAddressById(pharmacyAddressId);
 		return new BaseDto<>(result, pharmacyAddrHelper.getRetrievePharmaAddrMessage(), OK).respond();
 	}

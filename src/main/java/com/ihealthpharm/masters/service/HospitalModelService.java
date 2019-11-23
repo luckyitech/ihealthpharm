@@ -18,11 +18,11 @@ public interface HospitalModelService {
 
 	void updateMultipleHospitals(@Valid List<HospitalModel> hospitalModels);
 	
-	HospitalModel findHospitalById(int hospitalId);
+	HospitalModel findHospitalById(Integer hospitalId);
 	
-	void delete(int hospitalId);
+	void delete(Integer hospitalId);
 
-	void deleteMultipleHospitals(int[] hospitalIds);
+	void deleteMultipleHospitals(Integer[] hospitalIds);
 	
 	List<HospitalModel> findAllHospitals();
 

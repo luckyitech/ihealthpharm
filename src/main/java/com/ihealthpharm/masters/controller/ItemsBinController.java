@@ -58,7 +58,7 @@ public class ItemsBinController {
 	}
 	
 	@DeleteMapping("/delete/itemsbinbyid")
-	public ResponseEntity<BaseDto<Object>> deleteItemsBinData(@RequestParam int itemBinId) {
+	public ResponseEntity<BaseDto<Object>> deleteItemsBinData(@RequestParam Integer itemBinId) {
 		log.info("Request Object for delete is: ", itemBinId);
 		itemsBinService.deleteItemsBinById(itemBinId);
 		return new BaseDto<>(binHelper.getDeleteItemsBinMessage(), OK).respond();
@@ -66,7 +66,7 @@ public class ItemsBinController {
 	
 	
 	@DeleteMapping("/delete/itemsbins")
-	public ResponseEntity<BaseDto<Object>> deleteItemsBinsData(@RequestParam int[] itemBinIds) {
+	public ResponseEntity<BaseDto<Object>> deleteItemsBinsData(@RequestParam Integer[] itemBinIds) {
 		log.info("Request Object for delete is: "+ itemBinIds.toString());
 		itemsBinService.deleteMultipleItemBinsById(itemBinIds);
 		return new BaseDto<>(binHelper.getDeleteItemsBinMessage(), OK).respond();
@@ -74,7 +74,7 @@ public class ItemsBinController {
 	
 	
 	@GetMapping("/getbinsdatabyid")
-	public ResponseEntity<BaseDto<ItemsBinModel>> getItemsBinDataById(@RequestParam int itemBinId) {
+	public ResponseEntity<BaseDto<ItemsBinModel>> getItemsBinDataById(@RequestParam Integer itemBinId) {
 		ItemsBinModel result = itemsBinService.findItemsBinById(itemBinId);
 		return new BaseDto<>(result, binHelper.getRetrieveItemsBinMessage(), OK).respond();
 	}

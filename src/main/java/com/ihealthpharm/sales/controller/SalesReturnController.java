@@ -66,9 +66,4 @@ public class SalesReturnController {
 		return new BaseDto<>(response,salesReturnHelper.getRetrieveSalesReturnMessage(),OK).respond();
 	}
 	
-	
-   // url = get/salesitemsbybillid  to get salesitems based on billId
-  // ul = /get/allsales  to get list of bills data 
-	
-	
 }

@@ -204,7 +204,7 @@ public class StockController {
 	
 	//to update stock Quantity 
 	@GetMapping("/getstocksdata/basedonbillid")
-		public ResponseEntity<BaseDto<StockModel>> getStockDataBasedOnItem(@RequestParam int itemId){
+		public ResponseEntity<BaseDto<StockModel>> getStockDataBasedOnItem(@RequestParam Integer itemId){
 		StockModel result = stockService.findStocksByBillId(itemId);
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}

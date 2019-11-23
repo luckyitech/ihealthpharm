@@ -75,7 +75,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public CustomerModel findCustomerById(int customerId) {
+	public CustomerModel findCustomerById(Integer customerId) {
 		CustomerModel customerRes = getValidCustomers(customerId);
 		if (!Objects.nonNull(customerRes)) {
 			throw new IHealthPharmException(customerHelper.getNotFoundCustomerMessage(), HttpStatus.NOT_FOUND);
@@ -93,7 +93,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	
 	@Override
-	public void deleteCustomerById(int customerId) {
+	public void deleteCustomerById(Integer customerId) {
 		CustomerModel customerRes = customerRepository.getOne(customerId);
 		if (!Objects.nonNull(customerRes)) {
 			throw new IHealthPharmException(customerHelper.getNotFoundCustomerMessage(), HttpStatus.NOT_FOUND);
@@ -105,7 +105,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public void deleteCustomersById(int[] customerIds) {
+	public void deleteCustomersById(Integer[] customerIds) {
 		CustomerModel customerRes;
 		for (int customer : customerIds) {
 			customerRes = getValidCustomers(customer);
@@ -118,7 +118,7 @@ public class CustomerServiceImpl implements CustomerService {
 		
 	}
 	
-	public CustomerModel getValidCustomers(int customerId) {
+	public CustomerModel getValidCustomers(Integer customerId) {
 		CustomerModel customerRes = null;
 
 		try {
@@ -150,8 +150,8 @@ public class CustomerServiceImpl implements CustomerService {
 				List<Predicate> predicates = new ArrayList<>();
 				if (!customerName.equals(null) && !customerName.equals("undefined") &&  !customerName.equals("")) {
 					
-					predicates.add(criteriaBuilder.or(criteriaBuilder.like(root.get("customerName"), "%"+customerName+"%")));
-					predicates.add(criteriaBuilder.or(criteriaBuilder.like(root.get("lastName"), "%"+customerName+"%")));
+					predicates.add(criteriaBuilder.or(criteriaBuilder.like(root.get("customerName"), customerName+"%")));
+					predicates.add(criteriaBuilder.or(criteriaBuilder.like(root.get("lastName"), customerName+"%")));
 				}
 				
 				return criteriaBuilder.or(predicates.toArray(new Predicate[predicates.size()]));

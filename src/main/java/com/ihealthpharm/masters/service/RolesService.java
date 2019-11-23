@@ -14,9 +14,9 @@ public interface RolesService {
 
 	List<RolesModel> findAllRoles();
 
-	RolesModel findRoleById(int roleId);
+	RolesModel findRoleById(Integer roleId);
 
-	void deleteRolesById(int roleIds);
+	void deleteRolesById(Integer roleIds);
 
-	void deleteRolesById(int[] roleIds);
+	void deleteRolesById(Integer[] roleIds);
 }

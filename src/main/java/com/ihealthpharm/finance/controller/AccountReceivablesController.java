@@ -62,14 +62,14 @@ public class AccountReceivablesController {
 	}
 	
 	@DeleteMapping("/delete/accountReceivables")
-	public ResponseEntity<BaseDto<Object>> deleteAccountReceivablesData(@RequestParam int accountReceivablesId) {
+	public ResponseEntity<BaseDto<Object>> deleteAccountReceivablesData(@RequestParam Integer accountReceivablesId) {
 		log.info("Request Object for delete is: ", accountReceivablesId);
 		accountReceivablesService.deleteAccountReceivablesById(accountReceivablesId);
 		return new BaseDto<>(accountReceivablesHelper.getDeleteAccountReceivablesMessage(), OK).respond();
 	}
 
 	@DeleteMapping("/delete/accountsReceivables")
-	public ResponseEntity<BaseDto<Object>> deleteAccountReceivablesData(@RequestParam int[] accountReceivablesIds) {
+	public ResponseEntity<BaseDto<Object>> deleteAccountReceivablesData(@RequestParam Integer[] accountReceivablesIds) {
 
 		log.info("Request Object for delete is: " + accountReceivablesIds[0]);
 		accountReceivablesService.deleteAccountsReceivablesById(accountReceivablesIds);
@@ -84,13 +84,13 @@ public class AccountReceivablesController {
 	}
 
 	@GetMapping("/getaccountReceivablesdatabyid")
-	public ResponseEntity<BaseDto<AccountReceivablesModel>> getAccountReceivablesDataById(@RequestParam int accountReceivablesId) {
+	public ResponseEntity<BaseDto<AccountReceivablesModel>> getAccountReceivablesDataById(@RequestParam Integer accountReceivablesId) {
 		AccountReceivablesModel result = accountReceivablesService.findAccountReceivablesById(accountReceivablesId);
 		return new BaseDto<>(result, accountReceivablesHelper.getRetrieveAccountReceivablesMessage(), OK).respond();
 	}
 
 	@GetMapping("/getbillsbycustomerid")
-	public ResponseEntity<BaseDto<List<SalesModel>>> getAllBillsBasedOnCustomerId(@RequestParam int customerId){
+	public ResponseEntity<BaseDto<List<SalesModel>>> getAllBillsBasedOnCustomerId(@RequestParam Integer customerId){
 		System.out.println("in grid"+customerId);
 		List<SalesModel> result=accountReceivablesService.getAllBillsByCustomerId(customerId);
 		log.info("---------------------------------");
@@ -101,7 +101,7 @@ public class AccountReceivablesController {
 	
 	//to update salesreturn totalAmount
 	@GetMapping("/getaccreceipts/basedonbillid")
-		public ResponseEntity<BaseDto<AccountReceivablesModel>> getAccountRecivableData(@RequestParam int salesModel){
+		public ResponseEntity<BaseDto<AccountReceivablesModel>> getAccountRecivableData(@RequestParam Integer salesModel){
 		
 		AccountReceivablesModel result = accountReceivablesService.findAccountReceivablesByBillId(salesModel);
 		return new BaseDto<>(result, accountReceivablesHelper.getRetrieveAccountReceivablesMessage(), OK).respond();

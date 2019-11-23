@@ -16,11 +16,11 @@ public interface AccountReceivablesService
 	
 	 List<AccountReceivablesModel> findAllAccountsReceivables();
 	
-	 AccountReceivablesModel findAccountReceivablesById(int accountReceivablesId);
+	 AccountReceivablesModel findAccountReceivablesById(Integer accountReceivablesId);
 	
-	 void deleteAccountReceivablesById(int accountReceivablesIds);
+	 void deleteAccountReceivablesById(Integer accountReceivablesIds);
 	
-	 void deleteAccountsReceivablesById(int[] accountReceivablesIds);
+	 void deleteAccountsReceivablesById(Integer[] accountReceivablesIds);
 	 
 	// List<SalesModel> getAllBillsByCustomerId(CustomerInsuranceModel customerId);
 	 

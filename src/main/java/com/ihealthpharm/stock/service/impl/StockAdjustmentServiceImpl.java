@@ -59,7 +59,7 @@ public class StockAdjustmentServiceImpl implements StockAdjustmentService {
 	}
 
 	@Override
-	public List<StockAdjustmentDTO> findBasedOnItemCode(String searchTerm,String batch,String  expiry,int pharmacyId) {
+	public List<StockAdjustmentDTO> findBasedOnItemCode(String searchTerm,String batch,String  expiry,Integer pharmacyId) {
 
 		String expiryDate=expiry;
 		SimpleDateFormat fm=new SimpleDateFormat("yyyy-MM-dd");
@@ -76,7 +76,7 @@ public class StockAdjustmentServiceImpl implements StockAdjustmentService {
 	}
 
 	@Override
-	public List<StockAdjustmentDTO> findBasedOnItemNameSearch(String searchTerm,String batch,String  expiry,int pharmacyId) {
+	public List<StockAdjustmentDTO> findBasedOnItemNameSearch(String searchTerm,String batch,String  expiry,Integer pharmacyId) {
 		String expiryDate=expiry;
 		SimpleDateFormat fm=new SimpleDateFormat("yyyy-MM-dd");
 		Date dates = null;
@@ -93,7 +93,7 @@ public class StockAdjustmentServiceImpl implements StockAdjustmentService {
 	}
 
 	@Override
-	public List<StockAdjustmentDTO> findBasedOnItemDesc(String searchTerm,String batch,String  expiry,int pharmacyId) {
+	public List<StockAdjustmentDTO> findBasedOnItemDesc(String searchTerm,String batch,String  expiry,Integer pharmacyId) {
 		String expiryDate=expiry;
 		SimpleDateFormat fm=new SimpleDateFormat("yyyy-MM-dd");
 		Date dates = null;
@@ -106,7 +106,7 @@ public class StockAdjustmentServiceImpl implements StockAdjustmentService {
 	}
 
 	@Override
-	public List<StockAdjustmentDTO> findBasedOnItemGenericName(String searchTerm,String batch,String  expiry,int pharmacyId) {
+	public List<StockAdjustmentDTO> findBasedOnItemGenericName(String searchTerm,String batch,String  expiry,Integer pharmacyId) {
 
 		ItemGenericNamesModel genericRes= genericRepo.findByGenericName(searchTerm);
 		String expiryDate=expiry;
@@ -136,7 +136,7 @@ public class StockAdjustmentServiceImpl implements StockAdjustmentService {
 	}
 
 	@Override
-	public Integer getStockQuantity(String batch,String  expiry,int pharmacyId) {
+	public Integer getStockQuantity(String batch,String  expiry,Integer pharmacyId) {
 		String expiryDate=expiry;
 		SimpleDateFormat fm=new SimpleDateFormat("yyyy-MM-dd");
 		Date dates = null;
@@ -151,7 +151,7 @@ public class StockAdjustmentServiceImpl implements StockAdjustmentService {
 
 
 	@Override
-	public List<StockModel> getAllStockMatched(String batch, String expiry, int pharmacyId) {
+	public List<StockModel> getAllStockMatched(String batch, String expiry, Integer pharmacyId) {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 		Date d=null;

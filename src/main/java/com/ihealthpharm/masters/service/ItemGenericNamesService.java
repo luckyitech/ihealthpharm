@@ -14,11 +14,11 @@ public interface ItemGenericNamesService {
 
 	List<ItemGenericNamesModel> findItemGenericNameByActive();
 
-	ItemGenericNamesModel findItemGenericNameById(int itemGenericNameId);
+	ItemGenericNamesModel findItemGenericNameById(Integer itemGenericNameId);
 
-	void deleteItemGenericNameById( int itemGenericNameId);
+	void deleteItemGenericNameById( Integer itemGenericNameId);
 
-	void deleteMultipleItemGenericNamesById(int[] itemGenericNameIds);
+	void deleteMultipleItemGenericNamesById(Integer[] itemGenericNameIds);
 	
 	List<ItemGenericNamesModel> getAllGenerics();
 	

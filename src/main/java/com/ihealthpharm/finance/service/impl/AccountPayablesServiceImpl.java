@@ -69,7 +69,7 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 	}
 
 	@Override
-	public AccountPayablesModel findAccountPayablesById(int accountPayablesId) {
+	public AccountPayablesModel findAccountPayablesById(Integer accountPayablesId) {
 		AccountPayablesModel accountPayablesRes = getValidAccountsPayables(accountPayablesId);
 		if (!Objects.nonNull(accountPayablesRes)) {
 			throw new IHealthPharmException(accountPayablesHelper.getNotFoundAccountPayablesMessage(), HttpStatus.NOT_FOUND);
@@ -83,7 +83,7 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 
 	
 	@Override
-	public void deleteAccountPayablesById(int accountPayablesId) {
+	public void deleteAccountPayablesById(Integer accountPayablesId) {
 		AccountPayablesModel accountPayablesRes = accountPayablesRepository.getOne(accountPayablesId);
 		if (!Objects.nonNull(accountPayablesRes)) {
 			throw new IHealthPharmException(accountPayablesHelper.getNotFoundAccountPayablesMessage(), HttpStatus.NOT_FOUND);
@@ -95,7 +95,7 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 	}
 
 	@Override
-	public void deleteAccountsPayablesById(int[] accountPayablesIds) {
+	public void deleteAccountsPayablesById(Integer[] accountPayablesIds) {
 		AccountPayablesModel accountPayablesRes;
 		for (int accountPayables : accountPayablesIds) {
 			accountPayablesRes = getValidAccountsPayables(accountPayables);
@@ -108,7 +108,7 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 		
 	}
 	
-	public AccountPayablesModel getValidAccountsPayables(int accountPayablesId) {
+	public AccountPayablesModel getValidAccountsPayables(Integer accountPayablesId) {
 		AccountPayablesModel accountPayablesRes = null;
 
 		try {

@@ -47,7 +47,6 @@ public class PharmacyController {
 			pharmacyModel = new ObjectMapper().readValue(pharmacyData, PharmacyModel.class);
 			pharmacyModel.setPharmacyLogoPath(pharmacyLogoPath.getBytes());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		PharmacyModel pharmacyModelRes=pharmacyService.savePharmacyData(pharmacyModel);
@@ -94,7 +93,7 @@ public class PharmacyController {
 	
 	
 	@DeleteMapping("/delete/pharmacy")
-	public ResponseEntity<BaseDto<Object>> deletePharmacyData(@RequestParam int pharmacyId){
+	public ResponseEntity<BaseDto<Object>> deletePharmacyData(@RequestParam Integer pharmacyId){
 		log.info("Request Object for delete is: ", pharmacyId);
 		pharmacyService.deletePharmacyById(pharmacyId);
 		return new BaseDto<> (pharmacyHelper.getDeletePharmacyMessage(), OK).respond();
@@ -107,7 +106,7 @@ public class PharmacyController {
 	}
 	
 	@GetMapping("/getpharmacybyid")
-	public ResponseEntity<BaseDto<PharmacyModel>> getPharmacyById(@RequestParam int pharmacyId){
+	public ResponseEntity<BaseDto<PharmacyModel>> getPharmacyById(@RequestParam Integer pharmacyId){
 		PharmacyModel result=pharmacyService.findPharmacyById(pharmacyId);
 		return new BaseDto<>(result,pharmacyHelper.getRetrievePharmacyMessage(),OK).respond();
 	}

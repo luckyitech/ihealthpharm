@@ -62,14 +62,14 @@ public class HospitalController {
 	}
 		
 	@DeleteMapping("/delete/hospital")
-	public ResponseEntity<BaseDto<Object>> deleteHospital(@RequestParam int hospitalId) {
+	public ResponseEntity<BaseDto<Object>> deleteHospital(@RequestParam Integer hospitalId) {
 		log.info("Hospital data deleting ID: "+hospitalId);
 		hospitalModelService.delete(hospitalId);
 		return new BaseDto<>(hospitalHelper.getDeleteHospitalMessage(), OK).respond();
 	}
 	
 	@DeleteMapping("/delete/hospitals")
-	public ResponseEntity<BaseDto<Object>> deleteHospitalsData(@RequestParam int[] hospitalIds) {
+	public ResponseEntity<BaseDto<Object>> deleteHospitalsData(@RequestParam Integer[] hospitalIds) {
 		log.info("Request Object for delete is: "+ hospitalIds.toString());
 		hospitalModelService.deleteMultipleHospitals(hospitalIds);
 		return new BaseDto<>(hospitalHelper.getDeleteHospitalMessage(), OK).respond();
@@ -102,7 +102,7 @@ public class HospitalController {
 	}
 	
 	@GetMapping("/gethospitaldatabyid")
-	public ResponseEntity<BaseDto<HospitalModel>> getManufacturerDataById(@RequestParam int hospitalId) {
+	public ResponseEntity<BaseDto<HospitalModel>> getManufacturerDataById(@RequestParam Integer hospitalId) {
 		HospitalModel result = hospitalModelService.findHospitalById(hospitalId);
 		return new BaseDto<>(result, hospitalHelper.getRetrieveHospitalMessage(), OK).respond();
 	}

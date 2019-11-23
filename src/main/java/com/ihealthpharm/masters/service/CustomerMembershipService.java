@@ -14,11 +14,11 @@ public interface CustomerMembershipService {
 	
 	 List<CustomerMembershipModel> findAllCustomersMembership();
 	
-	 CustomerMembershipModel findCustomerMembershipById(int customerMembershipId);
+	 CustomerMembershipModel findCustomerMembershipById(Integer customerMembershipId);
 	
-	 void deleteCustomerMembershipById(int customerMembershipIds);
+	 void deleteCustomerMembershipById(Integer customerMembershipIds);
 	
-	 void deleteCustomersMembershipById(int[] customerMembershipIds);
+	 void deleteCustomersMembershipById(Integer[] customerMembershipIds);
 	 
 	 CustomerMembershipModel findByMembershipCardNumber(String membershipCardNumber);
 	 

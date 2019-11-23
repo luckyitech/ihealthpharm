@@ -90,7 +90,7 @@ public class ItemGroupServiceImpl implements ItemGroupService {
 	}
 
 	@Override
-	public ItemGroupModel findItemGroupById(int itemGroupId) {
+	public ItemGroupModel findItemGroupById(Integer itemGroupId) {
 
 		ItemGroupModel itemGroupModelRes = getValidItemGroup(itemGroupId);
 
@@ -103,7 +103,7 @@ public class ItemGroupServiceImpl implements ItemGroupService {
 	}
 
 	@Override
-	public void deleteItemGroupById(int itemGroupId) {
+	public void deleteItemGroupById(Integer itemGroupId) {
 
 		ItemGroupModel itemGroupModelRes = getValidItemGroup(itemGroupId);
 		if(!Objects.nonNull(itemGroupModelRes))
@@ -116,7 +116,7 @@ public class ItemGroupServiceImpl implements ItemGroupService {
 	}
 
 	@Override
-	public void deleteMultipleItemGroupsById(int[] itemGroupIds) {
+	public void deleteMultipleItemGroupsById(Integer[] itemGroupIds) {
 
 		ItemGroupModel itemGroupRes;
 		for (int items : itemGroupIds) {

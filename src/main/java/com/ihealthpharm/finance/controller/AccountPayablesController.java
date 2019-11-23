@@ -57,13 +57,13 @@ public class AccountPayablesController {
 	}
 	
 	@DeleteMapping("/delete/accountPayables")
-	public ResponseEntity<BaseDto<Object>> deleteAccountPayablesData(@RequestParam int accountPayablesId) {
+	public ResponseEntity<BaseDto<Object>> deleteAccountPayablesData(@RequestParam Integer accountPayablesId) {
 		accountPayablesService.deleteAccountPayablesById(accountPayablesId);
 		return new BaseDto<>(accountPayablesHelper.getDeleteAccountPayablesMessage(), OK).respond();
 	}
 
 	@DeleteMapping("/delete/accountsPayables")
-	public ResponseEntity<BaseDto<Object>> deleteAccountPayablesData(@RequestParam int[] accountPayablesIds) {
+	public ResponseEntity<BaseDto<Object>> deleteAccountPayablesData(@RequestParam Integer[] accountPayablesIds) {
 
 		accountPayablesService.deleteAccountsPayablesById(accountPayablesIds);
 		return new BaseDto<>(accountPayablesHelper.getDeleteAccountPayablesMessage(), OK).respond();
@@ -77,13 +77,13 @@ public class AccountPayablesController {
 	}
 
 	@GetMapping("/getaccountPayablesdatabyid")
-	public ResponseEntity<BaseDto<AccountPayablesModel>> getAccountPayablesDataById(@RequestParam int accountPayablesId) {
+	public ResponseEntity<BaseDto<AccountPayablesModel>> getAccountPayablesDataById(@RequestParam Integer accountPayablesId) {
 		AccountPayablesModel result = accountPayablesService.findAccountPayablesById(accountPayablesId);
 		return new BaseDto<>(result, accountPayablesHelper.getRetrieveAccountPayablesMessage(), OK).respond();
 	}
 
 	@GetMapping("/getinvoicesbysupplierid")
-	public ResponseEntity<BaseDto<List<InvoiceModel>>> getAllInvoicesBasedOnSupplierId(@RequestParam int supplierId){
+	public ResponseEntity<BaseDto<List<InvoiceModel>>> getAllInvoicesBasedOnSupplierId(@RequestParam Integer supplierId){
 		List<InvoiceModel> result=accountPayablesService.getAllInvoicesBySupplierId(supplierId);
 
 		return new BaseDto<>(result,invoiceHelper.getRetrieveInvoiceMessage(),OK).respond();

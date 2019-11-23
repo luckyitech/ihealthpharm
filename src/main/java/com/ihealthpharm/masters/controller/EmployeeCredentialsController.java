@@ -65,7 +65,7 @@ public class EmployeeCredentialsController {
 	}
 
 	@DeleteMapping("delete/employeecredential")
-	public ResponseEntity<BaseDto<Object>> deleteEmployeeCredential(@RequestParam int employeeCredentialId) {
+	public ResponseEntity<BaseDto<Object>> deleteEmployeeCredential(@RequestParam Integer employeeCredentialId) {
 		employeeCredentialsService.deleteEmployeeCredentialsById(employeeCredentialId);
 		log.info(employeeCredentialsHelper.getDeleteEmployeeCredentialsMessage() + " With Id:" + employeeCredentialId);
 		return new BaseDto<>(employeeCredentialsHelper.getDeleteEmployeeCredentialsMessage(), OK).respond();
@@ -73,14 +73,14 @@ public class EmployeeCredentialsController {
 
 	@DeleteMapping("delete/employeecredentials")
 	public ResponseEntity<BaseDto<Object>> deleteEmployeeCredentials(
-			@RequestParam("employeeCredentialIds") int[] employeeCredentialIds) {
+			@RequestParam("employeeCredentialIds") Integer[] employeeCredentialIds) {
 		employeeCredentialsService.deleteEmployeesCredentialsById(employeeCredentialIds);
 		return new BaseDto<>(employeeCredentialsHelper.getDeleteEmployeeCredentialsMessage(), OK).respond();
 	}
 
 	@GetMapping("getemployeecredentialsbyid")
 	public ResponseEntity<BaseDto<EmployeeCredentialsModel>> getEmployeeCredentialById(
-			@RequestParam("employeeCredentialId") int employeeCredentialId) {
+			@RequestParam("employeeCredentialId") Integer employeeCredentialId) {
 		EmployeeCredentialsModel employeeCredentialsModel = employeeCredentialsService
 				.findEmployeeCredentialsById(employeeCredentialId);
 		return new BaseDto<>(employeeCredentialsModel, employeeCredentialsHelper.getDeleteEmployeeCredentialsMessage(),

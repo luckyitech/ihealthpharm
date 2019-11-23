@@ -47,7 +47,7 @@ public class EmploymentHistoryController {
 	}
 	
 	@DeleteMapping("/delete/employmenthistory")
-	public ResponseEntity<BaseDto<Object>> deleteEmploymentHistoryData(@RequestParam int employmentHistoryId) {
+	public ResponseEntity<BaseDto<Object>> deleteEmploymentHistoryData(@RequestParam Integer employmentHistoryId) {
 		log.info("Request Object for delete is: ", employmentHistoryId);
 		employmentHistoryService.deleteEmploymentHistoryData(employmentHistoryId);;
 		return new BaseDto<>("deleted", OK).respond();
@@ -60,7 +60,7 @@ public class EmploymentHistoryController {
 	}
 	
 	@GetMapping("/getemploymenthistorydatabyid")
-	public ResponseEntity<BaseDto<EmploymentHistoryModel>> getEmploymentHistoryDataById(@RequestParam int employmentHistoryId) {
+	public ResponseEntity<BaseDto<EmploymentHistoryModel>> getEmploymentHistoryDataById(@RequestParam Integer employmentHistoryId) {
 		EmploymentHistoryModel result = employmentHistoryService.findEmploymentHistoryDataById(employmentHistoryId);
 		return new BaseDto<>(result,  "retrived", OK).respond();
 	}

@@ -95,7 +95,7 @@ public class ItemGenericNamesServiceImpl implements ItemGenericNamesService {
 	}
 
 	@Override
-	public ItemGenericNamesModel findItemGenericNameById(int itemGenericNameId) {
+	public ItemGenericNamesModel findItemGenericNameById(Integer itemGenericNameId) {
 
 		ItemGenericNamesModel itemGenericModelRes = getValidItemGeneric(itemGenericNameId);
 
@@ -108,7 +108,7 @@ public class ItemGenericNamesServiceImpl implements ItemGenericNamesService {
 	}
 
 	@Override
-	public void deleteItemGenericNameById(int itemGenericNameId) {
+	public void deleteItemGenericNameById(Integer itemGenericNameId) {
 
 		ItemGenericNamesModel itemGenericModelRes = getValidItemGeneric(itemGenericNameId);
 		if(!Objects.nonNull(itemGenericModelRes))
@@ -120,7 +120,7 @@ public class ItemGenericNamesServiceImpl implements ItemGenericNamesService {
 	}
 
 	@Override
-	public void deleteMultipleItemGenericNamesById(int[] itemGenericNameIds) {
+	public void deleteMultipleItemGenericNamesById(Integer[] itemGenericNameIds) {
 
 		ItemGenericNamesModel itemGenericModelRes;
 		for (int itemGeneric : itemGenericNameIds) {
@@ -152,8 +152,5 @@ public class ItemGenericNamesServiceImpl implements ItemGenericNamesService {
 	public List<ItemGenericNamesModel> getAllGenerics() {
 		return itemGenericNameRepository.findAllByOrderByLastUpdateTimestampDesc();
 	}
-
-
-
 
 }

@@ -47,7 +47,7 @@ public class EmployeeProfMembershipController {
 	}
 	
 	@DeleteMapping("/delete/employeeprofmembership")
-	public ResponseEntity<BaseDto<Object>> deleteEmployeeProfMembershipData(@RequestParam int employeeProfMembershipId) {
+	public ResponseEntity<BaseDto<Object>> deleteEmployeeProfMembershipData(@RequestParam Integer employeeProfMembershipId) {
 		log.info("Request Object for delete is: ", employeeProfMembershipId);
 		employeeProfMembershipService.deleteEmployeeEmployeeProfMembershipData(employeeProfMembershipId);;
 		return new BaseDto<>("deleted", OK).respond();
@@ -60,7 +60,7 @@ public class EmployeeProfMembershipController {
 	}
 	
 	@GetMapping("/getemployeeprofmembershipdatabyid")
-	public ResponseEntity<BaseDto<EmployeeProfMembershipModel>> getEmployeeProfMembershipDataById(@RequestParam int employeeProfMembershipId) {
+	public ResponseEntity<BaseDto<EmployeeProfMembershipModel>> getEmployeeProfMembershipDataById(@RequestParam Integer employeeProfMembershipId) {
 		EmployeeProfMembershipModel result = employeeProfMembershipService.findEmployeeProfMembershipDataById(employeeProfMembershipId);
 		return new BaseDto<>(result,  "retrived", OK).respond();
 	}

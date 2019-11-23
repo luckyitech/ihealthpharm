@@ -14,11 +14,11 @@ public interface EmployeeService {
 	
 	 List<EmployeeModel> findAllEmployees();
 	
-	 EmployeeModel findEmployeeById(int employeeId);
+	 EmployeeModel findEmployeeById(Integer employeeId);
 	
-	 void deleteEmployeeById(int employeeId);
+	 void deleteEmployeeById(Integer employeeId);
 	
-	 void deleteEmployeesById(int[] employeeIds);
+	 void deleteEmployeesById(Integer[] employeeIds);
 	
 	 EmployeeModel findLastCreatedEmployeeId();
 	

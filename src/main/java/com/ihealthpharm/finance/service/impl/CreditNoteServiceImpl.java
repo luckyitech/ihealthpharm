@@ -31,7 +31,7 @@ public class CreditNoteServiceImpl implements CreditNoteService {
 	
 
 	@Override
-	public void deleteCreditById(int creditNoteId) {
+	public void deleteCreditById(Integer creditNoteId) {
 		
 		CreditNoteModel creditNoteRes = getValidCreditNote(creditNoteId);
 		if (!Objects.nonNull(creditNoteRes)) {
@@ -43,7 +43,7 @@ public class CreditNoteServiceImpl implements CreditNoteService {
 	}
 
 	@Override
-	public void deleteMultipleCredit(int[] creditNoteId) {
+	public void deleteMultipleCredit(Integer[] creditNoteId) {
 		CreditNoteModel creditNoteRes;
 		for (int creditNote : creditNoteId) {
 			creditNoteRes = getValidCreditNote(creditNote);
@@ -61,7 +61,7 @@ public class CreditNoteServiceImpl implements CreditNoteService {
 	}
 
 	@Override
-	public CreditNoteModel findCreditById(int creditNoteId) {
+	public CreditNoteModel findCreditById(Integer creditNoteId) {
 		
 		CreditNoteModel creditNoteRes = getValidCreditNote(creditNoteId);
 		
@@ -103,7 +103,7 @@ public class CreditNoteServiceImpl implements CreditNoteService {
 		return creditNoteModel;
 	}
     
-	private CreditNoteModel getValidCreditNote(int creditNoteId) {
+	private CreditNoteModel getValidCreditNote(Integer creditNoteId) {
 		
 		CreditNoteModel creditNoteRes= null;
 		try {

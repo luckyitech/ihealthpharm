@@ -50,7 +50,7 @@ public class IndentController {
 	}
 
 	@DeleteMapping("/delete/indent")
-	public ResponseEntity<BaseDto<Object>> deleteUserData(@RequestParam int indentId) {
+	public ResponseEntity<BaseDto<Object>> deleteUserData(@RequestParam Integer indentId) {
 		log.info("Request Object for delete is: ", indentId);
 		indentService.deleteIndentById(indentId);
 		return new BaseDto<>(indentHelper.getDeleteIndentMessage(), OK).respond();
@@ -63,13 +63,13 @@ public class IndentController {
 	}
 
 	@GetMapping("/getindentdatabyid")
-	public ResponseEntity<BaseDto<IndentModel>> getUserDataById(@RequestParam int indentId) {
+	public ResponseEntity<BaseDto<IndentModel>> getUserDataById(@RequestParam Integer indentId) {
 		IndentModel result = indentService.findIndentById(indentId);
 		return new BaseDto<>(result, indentHelper.getRetrieveIndentMessage(), OK).respond();
 	}
 
 	@DeleteMapping("/delete/indents")
-	public ResponseEntity<BaseDto<Object>> deleteUsersData(@RequestParam int[] usersIds) {
+	public ResponseEntity<BaseDto<Object>> deleteUsersData(@RequestParam Integer[] usersIds) {
 
 		log.info("Request Object for delete is: " + usersIds[0]);
 

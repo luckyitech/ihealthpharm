@@ -63,7 +63,7 @@ public class SpecializationController {
 	}
 	
 	@DeleteMapping("/delete/specialization")
-	public ResponseEntity<BaseDto<Object>> deleteSpecializationData(@RequestParam int specializationId) {
+	public ResponseEntity<BaseDto<Object>> deleteSpecializationData(@RequestParam Integer specializationId) {
 		log.info("Request Object for delete is: ", specializationId);
 		  specializationService.deleteSpecializationById(specializationId);
 		return new BaseDto<>(specializationHelper.getDeleteSpecializationMessage(), OK).respond();
@@ -71,7 +71,7 @@ public class SpecializationController {
 	
 	
 	@DeleteMapping("/delete/specializations")
-	public ResponseEntity<BaseDto<Object>> deleteSpecializationsData(@RequestParam int[] specializationIds) {
+	public ResponseEntity<BaseDto<Object>> deleteSpecializationsData(@RequestParam Integer[] specializationIds) {
 		log.info("Request Object for delete is: "+ specializationIds);
 		  specializationService.deleteMultipleSpecializationsById(specializationIds);
 		return new BaseDto<>(specializationHelper.getDeleteSpecializationMessage(), OK).respond();
@@ -92,7 +92,7 @@ public class SpecializationController {
 	
 	
 	@GetMapping("/getspecializationdatabyid")
-	public ResponseEntity<BaseDto<SpecializationModel>> getSpecializationDataById(@RequestParam int specializationId) {
+	public ResponseEntity<BaseDto<SpecializationModel>> getSpecializationDataById(@RequestParam Integer specializationId) {
 		SpecializationModel result = specializationService.findSpecializationById(specializationId);
 		return new BaseDto<>(result, specializationHelper.getRetrieveSpecializationMessage(), OK).respond();
 	}

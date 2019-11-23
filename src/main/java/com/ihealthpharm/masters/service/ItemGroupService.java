@@ -15,11 +15,11 @@ public interface ItemGroupService {
 
 	List<ItemGroupModel> findItemGroupByActive();
 
-	ItemGroupModel findItemGroupById(int itemGroupId);
+	ItemGroupModel findItemGroupById(Integer itemGroupId);
 
-	void deleteItemGroupById( int itemGroupId);
+	void deleteItemGroupById( Integer itemGroupId);
 
-	void deleteMultipleItemGroupsById(int[] itemGroupIds);
+	void deleteMultipleItemGroupsById(Integer[] itemGroupIds);
 
 	List<ItemGroupModel> findAllItemGroups();
 

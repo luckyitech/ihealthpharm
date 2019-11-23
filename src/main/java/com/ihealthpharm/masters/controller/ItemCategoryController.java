@@ -39,7 +39,6 @@ public class ItemCategoryController {
 	
 	@PostMapping("/save/itemcategory")
 	public ResponseEntity<BaseDto<ItemCategoryModel>> insertItemCategoryData(@Valid @RequestBody ItemCategoryModel itemCategoryModel) {
-		System.out.println("item cat save");
 		log.info("Request Object insert is: "+ itemCategoryModel);
 		
 		ItemCategoryModel itemCategoryModelRes =  itemCategoryService.saveItemCategoryData(itemCategoryModel);
@@ -63,7 +62,7 @@ public class ItemCategoryController {
 	}
 	
 	@DeleteMapping("/delete/itemcategory")
-	public ResponseEntity<BaseDto<Object>> deleteItemCategoryData(@RequestParam int itemCategoryId) {
+	public ResponseEntity<BaseDto<Object>> deleteItemCategoryData(@RequestParam Integer itemCategoryId) {
 		log.info("Request Object for delete is: ", itemCategoryId);
 		itemCategoryService.deleteItemCategoryById(itemCategoryId);
 		return new BaseDto<>(itemCategoryHelper.getDeleteItemCategoryMessage(), OK).respond();
@@ -71,7 +70,7 @@ public class ItemCategoryController {
 	
 	
 	@DeleteMapping("/delete/itemcategories")
-	public ResponseEntity<BaseDto<Object>> deleteItemCategoriesData(@RequestParam int[] itemCategoryIds) {
+	public ResponseEntity<BaseDto<Object>> deleteItemCategoriesData(@RequestParam Integer[] itemCategoryIds) {
 		log.info("Request Object for delete is: "+ itemCategoryIds);
 		itemCategoryService.deleteMultipleItemCategoriesById(itemCategoryIds);
 		return new BaseDto<>(itemCategoryHelper.getDeleteItemCategoryMessage(), OK).respond();
@@ -92,7 +91,7 @@ public class ItemCategoryController {
 	}
 	
 	@GetMapping("/getitemcategorydatabyid")
-	public ResponseEntity<BaseDto<ItemCategoryModel>> getItemCategoryDataById(@RequestParam int itemCategoryId) {
+	public ResponseEntity<BaseDto<ItemCategoryModel>> getItemCategoryDataById(@RequestParam Integer itemCategoryId) {
 		ItemCategoryModel result = itemCategoryService.findItemCategoryById(itemCategoryId);
 		return new BaseDto<>(result, itemCategoryHelper.getRetrieveItemCategoryMessage(), OK).respond();
 	}

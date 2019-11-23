@@ -69,7 +69,7 @@ public class InsuranceServiceImpl implements InsuranceService  {
 	}
 
 	@Override
-	public InsuranceModel findInsuranceById(int insurancePolicyId) {
+	public InsuranceModel findInsuranceById(Integer insurancePolicyId) {
 
 		InsuranceModel insuranceModelRes = getValidInsurance(insurancePolicyId);
 		if (!Objects.nonNull(insuranceModelRes)) {
@@ -81,7 +81,7 @@ public class InsuranceServiceImpl implements InsuranceService  {
 	}
 
 	@Override
-	public void delete(int insurancePolicyId) {
+	public void delete(Integer insurancePolicyId) {
 		InsuranceModel insuranceRes = getValidInsurance(insurancePolicyId);
 		if (!Objects.nonNull(insuranceRes)) {
 			throw new IHealthPharmException(insuranceHelper.getNotFoundInsuranceMessage(), HttpStatus.NOT_FOUND);
@@ -92,7 +92,7 @@ public class InsuranceServiceImpl implements InsuranceService  {
 	}
 
 	@Override
-	public void deleteMultipleInsurances(int[] insurancePolicyId) {
+	public void deleteMultipleInsurances(Integer[] insurancePolicyId) {
 		InsuranceModel insuranceRes;
 		for (int insurance : insurancePolicyId) {
 			insuranceRes = getValidInsurance(insurance);
@@ -106,7 +106,7 @@ public class InsuranceServiceImpl implements InsuranceService  {
 
 
 
-	private InsuranceModel getValidInsurance(int insurancePolicyId) {
+	private InsuranceModel getValidInsurance(Integer insurancePolicyId) {
 		InsuranceModel insuranceRes = null;
 		try {
 			insuranceRes = insuranceRepo.findById(insurancePolicyId).get();

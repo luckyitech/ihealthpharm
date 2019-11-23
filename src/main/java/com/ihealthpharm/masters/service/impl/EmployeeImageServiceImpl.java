@@ -65,7 +65,6 @@ public class EmployeeImageServiceImpl implements EmployeeImageService {
 
 	@Override
 	public List<EmployeeImageModel> getByEmployeeId(EmployeeModel employee) {
-		
 		return employeeImageRepository.findByEmployee(employee);
 	}
 

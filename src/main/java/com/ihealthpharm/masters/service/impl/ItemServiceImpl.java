@@ -20,6 +20,7 @@ import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.ItemGenericNameRepository;
 import com.ihealthpharm.masters.dao.ItemGroupRepository;
 import com.ihealthpharm.masters.dao.ItemsRepository;
+import com.ihealthpharm.masters.dto.ItemDTO;
 import com.ihealthpharm.masters.helper.ItemPropertyHelper;
 import com.ihealthpharm.masters.model.ItemGenericNamesModel;
 import com.ihealthpharm.masters.model.ItemGroupModel;
@@ -101,7 +102,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public ItemsModel findItemsById(int itemId) {
+	public ItemsModel findItemsById(Integer itemId) {
 
 		ItemsModel itemsModelRes = getValidItems(itemId);
 
@@ -114,7 +115,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public void deleteItemsById(int itemId) {
+	public void deleteItemsById(Integer itemId) {
 		ItemsModel itemsModelRes = getValidItems(itemId);
 		if(!Objects.nonNull(itemsModelRes))
 		{
@@ -125,7 +126,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public void deleteMultipleItemsById(int[] itemIds) {
+	public void deleteMultipleItemsById(Integer[] itemIds) {
 		ItemsModel itemsModelRes;
 		for (int items : itemIds) {
 			itemsModelRes = getValidItems(items);
@@ -183,9 +184,8 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public List<ItemsModel> findAllGerericNamesBySearch(String searchTerm) {
-		ItemGenericNamesModel genericRes= genericRepo.findByGenericNameContains(searchTerm);
 		
-		List<ItemsModel> itemsRes = itemRepository.findByItemGenericName(genericRes);
+		List<ItemsModel> itemsRes = itemRepository.findByItemGenericName(searchTerm);
 		return itemsRes;
 	}
 
@@ -218,12 +218,14 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public List<ItemsModel> findBySearchKey(String searchTerm, String searchCode) {
+	public List<ItemDTO> findBySearchKey(String searchTerm, String searchCode) {
 		
-		return itemRepository.findAll(new Specification<ItemsModel>() {
-			/**
+		return itemRepository.getAllItemsDataByAnySearch(searchTerm);
+		
+		/*return itemRepository.findAll(new Specification<ItemsModel>() {
+			*//**
 			 * 
-			 */
+			 *//*
 			private static final long serialVersionUID = -2059726564132190131L;
 
 			@Override
@@ -232,19 +234,19 @@ public class ItemServiceImpl implements ItemService {
 				List<Predicate> predicates = new ArrayList<>();
 				if (searchCode.equalsIgnoreCase("item code") || searchCode.equalsIgnoreCase("itemcode")) {
 					
-					predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("itemCode"), "%"+searchTerm+"%")));
+					predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("itemCode"), searchTerm+"%")));
 				}
 				else if(searchCode.equalsIgnoreCase("item name") || searchCode.equalsIgnoreCase("itemname")) {
 					
-					predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("itemName"), "%"+searchTerm+"%")));
+					predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("itemName"), searchTerm+"%")));
 				}
 				else if(searchCode.equalsIgnoreCase("item description") || searchCode.equalsIgnoreCase("itemdescription")) {
 					
-					predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("itemDescription"), "%"+searchTerm+"%")));
+					predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("itemDescription"), searchTerm+"%")));
 				}
 				return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
 			}
-		});
+		});*/
 	}
 
 
@@ -271,6 +273,12 @@ public class ItemServiceImpl implements ItemService {
 			}
 		});
 	}
+
+	@Override
+	public List<ItemDTO> findAllByItemsSearch(String searchTerm) {
+	//	return itemRepository.getAllItemsDataByAnySearch(searchTerm);
+		return null;
+		}
 	
 	
 }

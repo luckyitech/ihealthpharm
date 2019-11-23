@@ -13,8 +13,8 @@ public interface PharmacyAddressService {
 
 	List<PharmacyAddressModel> findPharmacyAddressByActive();
 
-	PharmacyAddressModel findPharmacyAddressById(int pharmacyAddressId);
+	PharmacyAddressModel findPharmacyAddressById(Integer pharmacyAddressId);
 
-	void deletePharmacyAddressById(int pharmacyAddressId);
+	void deletePharmacyAddressById(Integer pharmacyAddressId);
 
 }

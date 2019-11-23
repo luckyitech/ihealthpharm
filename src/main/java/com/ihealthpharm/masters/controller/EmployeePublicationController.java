@@ -47,7 +47,7 @@ public class EmployeePublicationController {
 	}
 	
 	@DeleteMapping("/delete/employeepublication")
-	public ResponseEntity<BaseDto<Object>> deleteProviderData(@RequestParam int employeeEducationId) {
+	public ResponseEntity<BaseDto<Object>> deleteProviderData(@RequestParam Integer employeeEducationId) {
 		log.info("Request Object for delete is: ", employeeEducationId);
 		employeePublicationService.deleteEmployeePublicationData(employeeEducationId);;
 		return new BaseDto<>("deleted", OK).respond();
@@ -60,7 +60,7 @@ public class EmployeePublicationController {
 	}
 	
 	@GetMapping("/getemployeepublicationdatabyid")
-	public ResponseEntity<BaseDto<EmployeePublicationModel>> getEmployeePublicationDataById(@RequestParam int employeeEducationId) {
+	public ResponseEntity<BaseDto<EmployeePublicationModel>> getEmployeePublicationDataById(@RequestParam Integer employeeEducationId) {
 		EmployeePublicationModel result = employeePublicationService.findEmployeePublicationDataById(employeeEducationId);
 		return new BaseDto<>(result,  "retrived", OK).respond();
 	}

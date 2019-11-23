@@ -7,9 +7,9 @@ import com.ihealthpharm.masters.model.FormulationInstructionsModel;
 public interface FormulationInstructionsService
 {
     
-    void deleteFormulationInstructionsData(int formulationInstructionsId);
+    void deleteFormulationInstructionsData(Integer formulationInstructionsId);
     
-    FormulationInstructionsModel findFormulationInstructionsById(int formulationInstructionsId);
+    FormulationInstructionsModel findFormulationInstructionsById(Integer formulationInstructionsId);
 
     FormulationInstructionsModel saveFormulationInstructionsData(FormulationInstructionsModel formulationInstructionsModel);
 

@@ -92,7 +92,7 @@ public class ItemCategoryServiceImpl implements ItemCategoryService {
 	}
 
 	@Override
-	public ItemCategoryModel findItemCategoryById(int itemCategoryId) {
+	public ItemCategoryModel findItemCategoryById(Integer itemCategoryId) {
 
 		ItemCategoryModel itemCategoryModelRes = getValidItemCategory(itemCategoryId);
 
@@ -105,7 +105,7 @@ public class ItemCategoryServiceImpl implements ItemCategoryService {
 	}
 
 	@Override
-	public void deleteItemCategoryById(int itemCategoryId) {
+	public void deleteItemCategoryById(Integer itemCategoryId) {
 		
 		ItemCategoryModel itemCategoryModelModelRes = getValidItemCategory(itemCategoryId);
 		if(!Objects.nonNull(itemCategoryModelModelRes))
@@ -118,7 +118,7 @@ public class ItemCategoryServiceImpl implements ItemCategoryService {
 	}
 
 	@Override
-	public void deleteMultipleItemCategoriesById(int[] itemCategoryIds) {
+	public void deleteMultipleItemCategoriesById(Integer[] itemCategoryIds) {
 	
 		ItemCategoryModel itemCategoryModelModelRes;
 		for (int itemCategory : itemCategoryIds) {

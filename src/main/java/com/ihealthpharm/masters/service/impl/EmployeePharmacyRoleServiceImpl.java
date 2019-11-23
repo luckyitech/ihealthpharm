@@ -73,7 +73,6 @@ public class EmployeePharmacyRoleServiceImpl implements EmployeePharmacyRoleServ
 		
 			employeePharmacyRoleModel.setPharmacyModel(pharmacy);
 			employeePharmacyRoleRes = employeePharmacyRoleRepository.save(employeePharmacyRoleModel);
-			//log.info("------------------------------------------------------");
 			log.info("Employee Pharmacy Role Saved with Id:" + employeePharmacyRoleRes.getEmployeePharmacyRoleId() + " for Employee" + employeePharmacyRoleRes.getEmployee().getEmployeeId());
 		}
 		return employeePharmacyRoleRes;

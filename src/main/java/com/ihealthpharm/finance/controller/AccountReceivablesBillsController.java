@@ -57,14 +57,14 @@ public class AccountReceivablesBillsController {
 	}
 	
 	@DeleteMapping("/delete/accountReceivablesBills")
-	public ResponseEntity<BaseDto<Object>> deleteAccountReceivablesBillsData(@RequestParam int accountReceivablesBillsId) {
+	public ResponseEntity<BaseDto<Object>> deleteAccountReceivablesBillsData(@RequestParam Integer accountReceivablesBillsId) {
 		log.info("Request Object for delete is: ", accountReceivablesBillsId);
 		accountReceivablesBillsService.deleteAccountReceivablesBillsById(accountReceivablesBillsId);
 		return new BaseDto<>(accountReceivablesBillsHelper.getDeleteAccountReceivablesBillsMessage(), OK).respond();
 	}
 
 	@DeleteMapping("/delete/accountsReceivablesBills")
-	public ResponseEntity<BaseDto<Object>> deleteAccountReceivablesBillsData(@RequestParam int[] accountReceivablesBillsIds) {
+	public ResponseEntity<BaseDto<Object>> deleteAccountReceivablesBillsData(@RequestParam Integer[] accountReceivablesBillsIds) {
 
 		log.info("Request Object for delete is: " + accountReceivablesBillsIds[0]);
 		accountReceivablesBillsService.deleteAccountsReceivablesBillsById(accountReceivablesBillsIds);
@@ -79,7 +79,7 @@ public class AccountReceivablesBillsController {
 	}
 
 	@GetMapping("/getaccountReceivablesBillsdatabyid")
-	public ResponseEntity<BaseDto<AccountReceivablesBillsModel>> getAccountReceivablesBillsDataById(@RequestParam int accountReceivablesBillsId) {
+	public ResponseEntity<BaseDto<AccountReceivablesBillsModel>> getAccountReceivablesBillsDataById(@RequestParam Integer accountReceivablesBillsId) {
 		AccountReceivablesBillsModel result = accountReceivablesBillsService.findAccountReceivablesBillsById(accountReceivablesBillsId);
 		return new BaseDto<>(result, accountReceivablesBillsHelper.getRetrieveAccountReceivablesBillsMessage(), OK).respond();
 	}

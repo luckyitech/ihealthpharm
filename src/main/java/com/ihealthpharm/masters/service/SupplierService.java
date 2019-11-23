@@ -14,11 +14,11 @@ public interface SupplierService {
 	
 	 List<SupplierModel> findSupplierByActive();
 	
-	 SupplierModel findSupplierById(int supplierId);
+	 SupplierModel findSupplierById(Integer supplierId);
 	
-	 void deleteSupplierById(int supplierId);
+	 void deleteSupplierById(Integer supplierId);
 	
-	 void deleteSuppliersById(int[] supplierIds);
+	 void deleteSuppliersById(Integer[] supplierIds);
 	
 	 List<SupplierModel> findAllSuppliers();
 	 

@@ -30,7 +30,6 @@ public class ItemsBinServiceImpl implements ItemsBinService {
 	@Autowired
 	ItemsBinHelper itemsBinHelper;
 	
-	
 	@Override
 	public ItemsBinModel saveItemsBinData(ItemsBinModel itemsBinModel) {
 		itemsBinModel =itemsBinRepository.save(itemsBinModel);
@@ -68,7 +67,6 @@ public class ItemsBinServiceImpl implements ItemsBinService {
 			throw new IHealthPharmException(itemsBinHelper.getNotFoundItemsBinMessage(),HttpStatus.NOT_FOUND);
 		}
 
-
 	}
 
 	@Override
@@ -88,7 +86,7 @@ public class ItemsBinServiceImpl implements ItemsBinService {
 
 	
 	@Override
-	public ItemsBinModel findItemsBinById(int itemBinId) {
+	public ItemsBinModel findItemsBinById(Integer itemBinId) {
 		
 		ItemsBinModel itemsBinModelRes = getValidItemBins(itemBinId);
 
@@ -102,7 +100,7 @@ public class ItemsBinServiceImpl implements ItemsBinService {
 	}
 
 	@Override
-	public void deleteItemsBinById(int itemBinId) {
+	public void deleteItemsBinById(Integer itemBinId) {
 		ItemsBinModel itemsBinModelRes = getValidItemBins(itemBinId);
 		if(!Objects.nonNull(itemsBinModelRes))
 		{
@@ -114,7 +112,7 @@ public class ItemsBinServiceImpl implements ItemsBinService {
 	}
 
 	@Override
-	public void deleteMultipleItemBinsById(int[] itemBinIds) {
+	public void deleteMultipleItemBinsById(Integer[] itemBinIds) {
 	
 		ItemsBinModel itemsModelRes;
 		for (int items : itemBinIds) {

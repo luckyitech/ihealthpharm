@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,11 +18,8 @@ import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.sales.model.PrescriptionImagesModel;
 import com.ihealthpharm.sales.service.PrescriptionService;
 
-import lombok.extern.slf4j.Slf4j;
-
 @RestController
 @CrossOrigin
-@Slf4j
 public class PrescriptionController {
 	
 	@Autowired
@@ -32,15 +27,11 @@ public class PrescriptionController {
 	
 	@PostMapping("/save/prescription")
 	public ResponseEntity<BaseDto<PrescriptionImagesModel>> savePrescription(@RequestParam("prescription") String prescription, @RequestParam("prescriptionImage") MultipartFile prescriptionImage){
-		System.out.println("-------------------------------------------------------");
-		System.out.println(prescription);
 		try {
 			System.out.println(prescriptionImage.getBytes());
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		System.out.println("-------------------------------------------------------");
 		PrescriptionImagesModel prescriptionImagesModel = new PrescriptionImagesModel();
 		try {
 			prescriptionImagesModel = new ObjectMapper().readValue(prescription,PrescriptionImagesModel.class);
@@ -65,7 +56,7 @@ public class PrescriptionController {
 		}
 		catch(Exception e)
 		{
-			System.out.println(e);
+			e.printStackTrace();
 		}
 		PrescriptionImagesModel prescription = prescriptionService.getPrescriptionByCustomerIdAndDate(customerId, date);
 		return new BaseDto<>(prescription,"Prescription Saved",HttpStatus.OK).respond();

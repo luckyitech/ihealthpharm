@@ -14,11 +14,11 @@ public interface ProviderService {
 	
 	 List<ProviderModel> findProviderByActive();
 	
-	 ProviderModel findProviderById(int providerId);
+	 ProviderModel findProviderById(Integer providerId);
 	
-	 void deleteProviderById( int providerId);
+	 void deleteProviderById( Integer providerId);
 	
-	 void deleteProvidersById( int[] providerIds);
+	 void deleteProvidersById( Integer[] providerIds);
 	
 	 List<ProviderModel> findAllProviders();
 	 
