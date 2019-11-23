@@ -20,6 +20,7 @@ import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.ItemGenericNameRepository;
 import com.ihealthpharm.masters.dao.ItemGroupRepository;
 import com.ihealthpharm.masters.dao.ItemsRepository;
+import com.ihealthpharm.masters.dto.ItemDTO;
 import com.ihealthpharm.masters.helper.ItemPropertyHelper;
 import com.ihealthpharm.masters.model.ItemGenericNamesModel;
 import com.ihealthpharm.masters.model.ItemGroupModel;
@@ -217,12 +218,14 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public List<ItemsModel> findBySearchKey(String searchTerm, String searchCode) {
+	public List<ItemDTO> findBySearchKey(String searchTerm, String searchCode) {
 		
-		return itemRepository.findAll(new Specification<ItemsModel>() {
-			/**
+		return itemRepository.getAllItemsDataByAnySearch(searchTerm);
+		
+		/*return itemRepository.findAll(new Specification<ItemsModel>() {
+			*//**
 			 * 
-			 */
+			 *//*
 			private static final long serialVersionUID = -2059726564132190131L;
 
 			@Override
@@ -243,7 +246,7 @@ public class ItemServiceImpl implements ItemService {
 				}
 				return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
 			}
-		});
+		});*/
 	}
 
 
@@ -270,6 +273,12 @@ public class ItemServiceImpl implements ItemService {
 			}
 		});
 	}
+
+	@Override
+	public List<ItemDTO> findAllByItemsSearch(String searchTerm) {
+	//	return itemRepository.getAllItemsDataByAnySearch(searchTerm);
+		return null;
+		}
 	
 	
 }
