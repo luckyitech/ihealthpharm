@@ -7,6 +7,9 @@ import java.util.Objects;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -212,19 +215,25 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public List<ItemDTO> findBySearchKey(String searchTerm, String searchType) {
+	public List<ItemDTO> findBySearchKey(String searchTerm, String searchType,Integer pageNumber, Integer pageSize) {
+		Pageable limit = new PageRequest(pageNumber,pageSize);
+		
 		if(searchType.equalsIgnoreCase("item code"))
 		{
-			return itemRepository.getAllItemsDataByItemCode(searchTerm);
+			return itemRepository.getAllItemsDataByItemCode(searchTerm,limit);
 			
 		}
 		else if(searchType.equalsIgnoreCase("item name") )
 		{
-			return itemRepository.getAllItemsDataByItemName(searchTerm);
+			return itemRepository.getAllItemsDataByItemName(searchTerm,limit);
 		}
 		else if(searchType.equalsIgnoreCase("item description"))
 		{
-			return itemRepository.getAllItemsDataByItemDescription(searchTerm);
+			return itemRepository.getAllItemsDataByItemDescription(searchTerm,limit);
+		}
+		else if(searchType.equalsIgnoreCase("item generic name"))
+		{
+			return itemRepository.getAllItemsDataByItemGenericName(searchTerm,limit);
 		}
 		
 		return null;
@@ -280,15 +289,40 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 
-	public List<ItemsModel> findItemsByLimit(Integer start, Integer end) {
-		
-		return itemRepository.findItemsByLimit(start,end);
+	public List<ItemDTO> findItemsByLimit(Integer pageNumber, Integer pageSize) {
+		Pageable limit = PageRequest.of(pageNumber,pageSize);
+		return itemRepository.findItemsByLimit(limit);
 	}
 
 	public List<ItemDTO> findAllByItemsSearch(String searchTerm) {
 	//	return itemRepository.getAllItemsDataByAnySearch(searchTerm);
 		return null;
 		}
+
+	@Override
+	public Integer findItemsCountBySearch(String searchTerm,String searchType) {
+		if(searchType.equalsIgnoreCase("item code"))
+		{
+			return itemRepository.getCountOfItemsByItemCode(searchTerm);
+			
+		}
+		else if(searchType.equalsIgnoreCase("item name") )
+		{
+			return itemRepository.getCountOfItemsByItemName(searchTerm);
+		}
+		else if(searchType.equalsIgnoreCase("item description"))
+		{
+			return itemRepository.getCountOfItemsByItemDescription(searchTerm);
+		}
+		else if(searchType.equalsIgnoreCase("item generic name"))
+		{
+			return itemRepository.getCountOfItemsByItemGenericName(searchTerm);
+		}
+		else {
+			return itemRepository.getAllCountOfItems();
+		}
+		//return null;
+	}
 	
 	
 }
