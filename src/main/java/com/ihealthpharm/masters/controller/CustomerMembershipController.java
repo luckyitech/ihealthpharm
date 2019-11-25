@@ -62,7 +62,7 @@ public class CustomerMembershipController {
 		return new BaseDto<>(result, customerMembershipHelper.retrieveCustomerMembershipMessage, OK).respond();
 	}
 
-	@PostMapping("/getcustomermembershipdatabyid")
+	@GetMapping("/getcustomermembershipdatabyid")
 	public ResponseEntity<BaseDto<CustomerMembershipModel>> getCustomerMembershipDataById(@RequestParam Integer customerMembershipId) {
 		CustomerMembershipModel result = customerMembershipService.findCustomerMembershipById(customerMembershipId);
 		return new BaseDto<>(result, customerMembershipHelper.retrieveCustomerMembershipMessage, OK).respond();
