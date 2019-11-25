@@ -1,18 +1,15 @@
 package com.ihealthpharm.masters.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +17,9 @@ import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.ItemGenericNameRepository;
 import com.ihealthpharm.masters.dao.ItemGroupRepository;
 import com.ihealthpharm.masters.dao.ItemsRepository;
+import com.ihealthpharm.masters.dto.AlternativeItemDTO;
 import com.ihealthpharm.masters.dto.ItemDTO;
 import com.ihealthpharm.masters.helper.ItemPropertyHelper;
-import com.ihealthpharm.masters.model.ItemGenericNamesModel;
 import com.ihealthpharm.masters.model.ItemGroupModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.service.ItemService;
@@ -218,14 +215,31 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	public List<ItemDTO> findBySearchKey(String searchTerm, String searchCode) {
+	public List<ItemDTO> findBySearchKey(String searchTerm, String searchType,Integer pageNumber, Integer pageSize) {
+		Pageable limit = new PageRequest(pageNumber,pageSize);
 		
-		return itemRepository.getAllItemsDataByAnySearch(searchTerm);
+		if(searchType.equalsIgnoreCase("item code"))
+		{
+			return itemRepository.getAllItemsDataByItemCode(searchTerm,limit);
+			
+		}
+		else if(searchType.equalsIgnoreCase("item name") )
+		{
+			return itemRepository.getAllItemsDataByItemName(searchTerm,limit);
+		}
+		else if(searchType.equalsIgnoreCase("item description"))
+		{
+			return itemRepository.getAllItemsDataByItemDescription(searchTerm,limit);
+		}
+		else if(searchType.equalsIgnoreCase("item generic name"))
+		{
+			return itemRepository.getAllItemsDataByItemGenericName(searchTerm,limit);
+		}
+		
+		return null;
 		
 		/*return itemRepository.findAll(new Specification<ItemsModel>() {
-			*//**
-			 * 
-			 *//*
+			
 			private static final long serialVersionUID = -2059726564132190131L;
 
 			@Override
@@ -252,12 +266,11 @@ public class ItemServiceImpl implements ItemService {
 
 	
 	@Override
-	public List<ItemsModel> findItemsByName(String itemName) {
-		
-		return itemRepository.findAll(new Specification<ItemsModel>() {
-			/**
-			 * 
-			 */
+	public List<AlternativeItemDTO> findItemsByName(String itemName) {
+		return itemRepository.getAlternativeItemsDataByItemName(itemName); 
+		/*return itemRepository.findAll(new Specification<ItemsModel>() {
+			
+			 
 			private static final long serialVersionUID = -2059726564132190131L;
 
 			@Override
@@ -266,19 +279,50 @@ public class ItemServiceImpl implements ItemService {
 				List<Predicate> predicates = new ArrayList<>();
 				if (!itemName.equals(null) && !itemName.equals("undefined") &&  !itemName.equals("")) {
 					
-					predicates.add(criteriaBuilder.or(criteriaBuilder.like(root.get("itemName"), "%"+itemName+"%")));
+					predicates.add(criteriaBuilder.or(criteriaBuilder.like(root.get("itemName"), itemName+"%")));
 				}
 				
 				return criteriaBuilder.or(predicates.toArray(new Predicate[predicates.size()]));
 			}
-		});
+		});*/
 	}
 
 	@Override
+
+	public List<ItemDTO> findItemsByLimit(Integer pageNumber, Integer pageSize) {
+		Pageable limit = PageRequest.of(pageNumber,pageSize);
+		return itemRepository.findItemsByLimit(limit);
+	}
+
 	public List<ItemDTO> findAllByItemsSearch(String searchTerm) {
 	//	return itemRepository.getAllItemsDataByAnySearch(searchTerm);
 		return null;
 		}
+
+	@Override
+	public Integer findItemsCountBySearch(String searchTerm,String searchType) {
+		if(searchType.equalsIgnoreCase("item code"))
+		{
+			return itemRepository.getCountOfItemsByItemCode(searchTerm);
+			
+		}
+		else if(searchType.equalsIgnoreCase("item name") )
+		{
+			return itemRepository.getCountOfItemsByItemName(searchTerm);
+		}
+		else if(searchType.equalsIgnoreCase("item description"))
+		{
+			return itemRepository.getCountOfItemsByItemDescription(searchTerm);
+		}
+		else if(searchType.equalsIgnoreCase("item generic name"))
+		{
+			return itemRepository.getCountOfItemsByItemGenericName(searchTerm);
+		}
+		else {
+			return itemRepository.getAllCountOfItems();
+		}
+		//return null;
+	}
 	
 	
 }

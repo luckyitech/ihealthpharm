@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.masters.dto.AlternativeItemDTO;
 import com.ihealthpharm.masters.dto.ItemDTO;
 import com.ihealthpharm.masters.helper.ItemPropertyHelper;
 import com.ihealthpharm.masters.model.ItemsModel;
@@ -161,10 +162,14 @@ public class ItemController {
 	}
 
 	@GetMapping("/getallby/searchkeyandsearchcode")
-	public ResponseEntity<BaseDto<List<ItemDTO>>> getAllItemsBySearchkeyAndCode(@RequestParam String searchTerm,@RequestParam String searchCode) {
+	public ResponseEntity<BaseDto<List<ItemDTO>>> getAllItemsBySearchkeyAndCode(@RequestParam String searchTerm,@RequestParam String searchCode,
+			@RequestParam Integer start,@RequestParam Integer end) {
 		log.info(searchTerm);
-		System.out.println("ffdssdsddsdd");
-		List<ItemDTO> response = itemService.findBySearchKey(searchTerm,searchCode);
+		
+		List<ItemDTO> response = itemService.findBySearchKey(searchTerm,searchCode,start,end);
+		log.info("----------------------------------");
+		log.info("Size:"+response.size());
+		log.info("----------------------------------");
 		return new BaseDto<>(response, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 	@GetMapping("/getlimiteditemdata")
@@ -175,9 +180,17 @@ public class ItemController {
 	}
 	
 	@GetMapping("/getitemsdatabyname")
-	public ResponseEntity<BaseDto<List<ItemsModel>>> getItemsDataByName(@RequestParam("key") String itemName) {
-		List<ItemsModel> result = itemService.findItemsByName(itemName);
+	public ResponseEntity<BaseDto<List<AlternativeItemDTO>>> getItemsDataByName(@RequestParam("key") String itemName) {
+		List<AlternativeItemDTO> result = itemService.findItemsByName(itemName);
 		log.info(result.toString());
+		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+	
+
+	@GetMapping("/getitemdatabylimit")
+	public ResponseEntity<BaseDto<List<ItemDTO>>> getItemDataByIdLimit(@RequestParam Integer start,@RequestParam Integer end) {
+		List<ItemDTO> result = itemService.findItemsByLimit(start,end);
+		log.info("Seiz: "+result.size());
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 	
@@ -186,6 +199,17 @@ public class ItemController {
 		List<ItemDTO> response=itemService.findAllByItemsSearch(searchTerm);
 		log.info(response.toString());
 		return new BaseDto<>(response,propertyHelper.getRetrieveMessage(),OK).respond();
+
+	}
+	
+	@GetMapping("/getitemscountbysearch")
+	public ResponseEntity<BaseDto<Integer>> getCountOfItemsBySearch(@RequestParam String searchTerm,@RequestParam String searchType){
+		Integer response=itemService.findItemsCountBySearch(searchTerm,searchType);
+		log.info("----------------------------------");
+		log.info("Size:"+response);
+		log.info("----------------------------------");
+		return new BaseDto<>(response,propertyHelper.getRetrieveMessage(),OK).respond();
+
 	}
 
 }
