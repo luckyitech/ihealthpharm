@@ -62,7 +62,7 @@ public class CustomerMembershipController {
 		return new BaseDto<>(result, customerMembershipHelper.retrieveCustomerMembershipMessage, OK).respond();
 	}
 
-	@GetMapping("/getcustomermembershipdatabyid")
+	@PostMapping("/getcustomermembershipdatabyid")
 	public ResponseEntity<BaseDto<CustomerMembershipModel>> getCustomerMembershipDataById(@RequestParam Integer customerMembershipId) {
 		CustomerMembershipModel result = customerMembershipService.findCustomerMembershipById(customerMembershipId);
 		return new BaseDto<>(result, customerMembershipHelper.retrieveCustomerMembershipMessage, OK).respond();
@@ -93,4 +93,6 @@ public class CustomerMembershipController {
 		List<CustomerMembershipModel> result = customerMembershipService.findCustomersMembershipBySearch(searchKey);
 		return new BaseDto<>(result, customerMembershipHelper.getRetrieveCustomerMembershipMessage(), OK).respond();
 	}
+	
+	
 }
