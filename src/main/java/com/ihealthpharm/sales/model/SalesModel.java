@@ -149,6 +149,9 @@ public class SalesModel {
 	@Column(name="CHEQUE_AMT")
 	private Double chequeAmount;
 	
+	@Column(name="CREDIT_AMOUNT")
+	private Double creditAmount;
+	
 	@OneToOne
 	@JoinColumn(name = "CUSTOMER_INSURANCE_ID")
 	CustomerInsuranceModel customerInsuranceModel;
