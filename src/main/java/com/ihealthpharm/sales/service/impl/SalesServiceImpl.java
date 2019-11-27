@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.sales.dao.SalesRepository;
+import com.ihealthpharm.sales.dto.SalesDTO;
 import com.ihealthpharm.sales.helper.SalesHelper;
 import com.ihealthpharm.sales.model.SalesModel;
 import com.ihealthpharm.sales.service.SalesService;
@@ -140,4 +141,22 @@ public class SalesServiceImpl implements SalesService {
 		
 		return salesRepository.findFirst100ByOrderByBillCodeDesc();
 	}
+	
+	@Override
+	public List totalSalesByMonthWiseData() {
+		List<SalesDTO> response=salesRepository.getAllSalesDataForCharts();
+		System.out.println(response);
+		List finalObj = new ArrayList();
+		//Format f = new SimpleDateFormat("MMM");
+		//String strMonth = f.format(new Date());
+	   	for(SalesDTO obj:response) {
+			List temp = new ArrayList();
+			temp.add(obj.getBillDate().getMonth());
+			temp.add(obj.getTotalSales());
+			finalObj.add(temp);
+		}
+		System.out.println(finalObj);
+		return finalObj;
+	}
+
 }
