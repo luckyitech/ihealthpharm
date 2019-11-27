@@ -36,9 +36,9 @@ public class CustomerMembershipModel extends AuditModel {
 	@Column(name="MEMBERSHIP_CARD_NO",length=100)
 	private String membershipCardNumber;
 
-	@Column(name="CUSTOMER_NAME",length=25)
-	private String customerName;
-
+	/*@Column(name="CUSTOMER_NAME",length=25)
+	private String customersName;
+*/
 	@Column(name="MEMBERSHIP_BONUS_PERCENTAGE",length=25)
 	private Float membershipBonusPercentage;
 
