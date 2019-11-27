@@ -17,6 +17,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
@@ -149,10 +150,12 @@ public class InvoiceModel extends AuditModel {
 	private Double roundOff;
 
 	//bi-directional many-to-one association to InvoiceItem
+	@JsonManagedReference
 	@OneToMany(mappedBy="invoice", fetch=FetchType.LAZY)
 	private List<InvoiceItemModel> invoiceItems;
 
 	//bi-directional many-to-one association to Stock
+	@JsonManagedReference
 	@OneToMany(mappedBy="invoice", fetch=FetchType.LAZY)
 	private List<StockModel> stocks;
 

@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
+import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.sales.dao.SalesRepository;
 import com.ihealthpharm.sales.helper.SalesHelper;
 import com.ihealthpharm.sales.model.SalesModel;
@@ -92,11 +93,13 @@ public class SalesServiceImpl implements SalesService {
 			/**
 			 * 
 			 */
+			
 			private static final long serialVersionUID = -2059726564132190131L;
 
 			@Override
 			public Predicate toPredicate(Root<SalesModel> root, CriteriaQuery<?> query,
 					CriteriaBuilder criteriaBuilder) {
+				
 				List<Predicate> predicates = new ArrayList<>();
 				if (status != null && !status.equals("undefined")) {
 					System.out.println("in status condition:" + (status != null &&!status.equals("undefined")));
@@ -109,7 +112,7 @@ public class SalesServiceImpl implements SalesService {
 					}
 					else if(code.equalsIgnoreCase("customer Name"))
 					{
-						predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("customerNm"), codeValue)));
+						predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("customerNm"), codeValue)));
 					}
 					
 				}

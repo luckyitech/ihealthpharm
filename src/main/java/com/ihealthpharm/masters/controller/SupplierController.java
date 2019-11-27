@@ -126,6 +126,13 @@ public class SupplierController {
 		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
 	}
 
-
+	@GetMapping("/getsuppliersdatabysearch")
+	public ResponseEntity<BaseDto<List<SupplierModel>>> getSuppliersDataBySearch(@RequestParam("key") String name,
+			@RequestParam("pageNumber") Integer pageNumber,@RequestParam("limit") Integer pageSize) {
+		
+		List<SupplierModel> result = supplierService.findSuppliersBySearch(name,pageNumber,pageSize);
+		log.info(result.toString());
+		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
+	}
 
 }

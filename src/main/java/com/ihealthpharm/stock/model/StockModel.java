@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.ItemsModel;
@@ -47,6 +48,7 @@ public class StockModel extends AuditModel {
 	
 	
 	//bi-directional many-to-one association to Invoice
+	@JsonBackReference
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="INVOICE_ID")
 	private InvoiceModel invoice;
