@@ -94,6 +94,7 @@ public class EmployeeDTO {
 	
 	private List<EmployeeProfMembershipDto> employeeProfMembershipDto;
 
+	
 	private List<EmployeeHonorDTO> employeeHonorDto;
 
 	private List<EmployeeInterestDTO> employeeInterestDto;
