@@ -2,6 +2,8 @@ package com.ihealthpharm.masters.service;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.ihealthpharm.masters.model.SupplierModel;
 
 public interface SupplierService {
@@ -27,4 +29,6 @@ public interface SupplierService {
 	 List<SupplierModel> findAllSuppliersByName(String searchTerm);
 	 
 	 List<SupplierModel> findSuppliersByName(String name);
+	 
+	 List<SupplierModel> findSuppliersBySearch(String name,Integer pageNumber, Integer pageSize);
 }
