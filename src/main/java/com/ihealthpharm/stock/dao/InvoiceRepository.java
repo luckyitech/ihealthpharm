@@ -33,4 +33,24 @@ public interface InvoiceRepository extends JpaRepository<InvoiceModel, Integer> 
 	
 	List<InvoiceModel> findByInvoiceNo(String invoiceNo);
 	
+	@Query("select i from invoice i where i.invoiceNo like %:searchTerm% order by i.creationTimeStamp desc")
+	List<InvoiceModel> findAllByInvoiceNoSearch(@Param("searchTerm") String searchTerm);
+	
+	//Purchase Invoice Report
+		@Query("select distinct sp.name from invoice inv,invoice_items init,supplier sp where init.invoice=inv.invoiceId and "
+				+ "inv.supplierModel.supplierId=sp.supplierId and sp.name like :searchTerm%")
+		List<String> findSuppliersInInvoicePIR(@Param("searchTerm") String searchTerm);
+		
+		@Query("select distinct sp.name from invoice inv,invoice_items init,supplier sp where init.invoice=inv.invoiceId and "
+				+ "inv.supplierModel.supplierId=sp.supplierId order by sp.name")
+		List<String> findAllSuppliersInInvoicePIR();
+	
+		@Query("select distinct inv.invoiceDt from invoice inv,invoice_items init,supplier sp where init.invoice=inv.invoiceId and "
+				+ "inv.supplierModel.supplierId=sp.supplierId")
+		List<String> findInvoiceDtInInvoicePIR(@Param("searchTerm") String searchTerm);
+		
+		@Query("select distinct inv.invoiceDt from invoice inv,invoice_items init,supplier sp where init.invoice=inv.invoiceId and "
+				+ "inv.supplierModel.supplierId=sp.supplierId order by inv.invoiceDt")
+		List<String> findAllInvoiceDtInInvoicePIR();
+		
 }

@@ -3,6 +3,7 @@ package com.ihealthpharm.sales.service;
 import java.util.List;
 
 import com.ihealthpharm.sales.model.SalesModel;
+import com.ihealthpharm.stock.model.StockModel;
 
 public interface SalesService
 {
@@ -22,4 +23,5 @@ public interface SalesService
      List<SalesModel> findByCriteria(String status,String code, String codeValue, String startDate, String endDate);
 
 	SalesModel getSaleByBillCode(String searchTerm);
+	
 }

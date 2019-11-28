@@ -207,4 +207,9 @@ public class StockServiceImpl implements StockService {
 		return res;
 	}
 
+	@Override
+	public List<StockModel> findAllByBatchNo(String searchTerm) {
+		return stockRepository.findAllByBatchNoSearch(searchTerm);
+	}
+
 }

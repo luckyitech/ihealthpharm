@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
+import com.ihealthpharm.stock.model.InvoiceModel;
 import com.ihealthpharm.stock.model.StockModel;
 
 @Repository
@@ -67,5 +68,7 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 				+ "where ig.genericName like :searchTerm% "
 				+ "and s.pharmacy.pharmacyId=:pharmacyId")
 	List<StockModel> findStockByItemGenericNameAndPharmacyId(@Param("searchTerm") String searchTerm,@Param("pharmacyId") Integer pharmacyId);
-
+	
+	@Query("select st from stock st where st.batchNo like %:searchTerm% order by st.creationTimeStamp desc")
+	List<StockModel> findAllByBatchNoSearch(@Param("searchTerm") String searchTerm);
 }

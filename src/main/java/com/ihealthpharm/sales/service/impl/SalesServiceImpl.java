@@ -21,6 +21,7 @@ import com.ihealthpharm.sales.dao.SalesRepository;
 import com.ihealthpharm.sales.helper.SalesHelper;
 import com.ihealthpharm.sales.model.SalesModel;
 import com.ihealthpharm.sales.service.SalesService;
+import com.ihealthpharm.stock.model.StockModel;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -140,4 +141,5 @@ public class SalesServiceImpl implements SalesService {
 		
 		return salesRepository.findFirst100ByOrderByBillCodeDesc();
 	}
+	
 }

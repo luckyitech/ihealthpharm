@@ -1,6 +1,7 @@
 package com.ihealthpharm.sales.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -84,4 +85,20 @@ public class SalesItemsServiceImpl implements SalesItemsService {
 		
 		return salesItemsRepository.findByBillId(sales);
 	}
+
+	//Sales By Product Details
+	
+	@Override
+	public List<String> findCustomersBySalesItemsSBPD(String searchTerm) {
+		
+		return salesItemsRepository.findCustomersInSalesItemsSBPD(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllCustomersBySalesItemsSBPD() {
+		
+		return salesItemsRepository.findAllCustomersInSalesItemsSBPD();
+	}
+
+	
 }

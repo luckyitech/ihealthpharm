@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
+import com.ihealthpharm.stock.model.InvoiceModel;
 import com.ihealthpharm.stock.model.StockModel;
 
 public interface StockService {
@@ -41,5 +42,7 @@ public interface StockService {
 	public StockModel findStocksByBillId(Integer itemId);
 	
 	StockModel getStockByItemIdandInvoiceId(Integer itemId, Integer invoiceId);
+	
+	List<StockModel> findAllByBatchNo(String searchTerm);
 
 }

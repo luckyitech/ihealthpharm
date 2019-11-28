@@ -33,4 +33,16 @@ public interface InvoiceService {
 	List<ItemsModel> getInvoiceItems(Integer invoiceId);
 	
 	Long getPurchaseReturnCount();
+	
+	List<InvoiceModel> findAllInvoiceByNo(String searchTerm);
+	
+	//Purchase Invoice Report
+	List<String> findSuppliersByInvoicePIR(String searchTerm);
+		
+	List<String> findAllSuppliersByInvoicePIR();
+	
+	List<String> findInvoiceDtByInvoicePIR(String searchTerm);
+	
+	List<String> findAllInvoiceDtByInvoicePIR();
+	
 }
