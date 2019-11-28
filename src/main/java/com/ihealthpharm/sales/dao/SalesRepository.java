@@ -22,7 +22,7 @@ extends JpaRepository<SalesModel,Integer>
 
 	//@Query("select s from sales s order by s.billDate desc limit 100")
 	List<SalesModel> findFirst100ByOrderByBillCodeDesc();
-	
+
 	@Query("SELECT new com.ihealthpharm.sales.dto.SalesDTO(billDate, sum((totalProducts*totalQty)/1000) as totalSales) FROM sales s where year(billDate)='2019' GROUP BY year(billDate), month(billDate)  order by billDate desc")
 	List<SalesDTO> getAllSalesDataForCharts();
 	

@@ -236,5 +236,9 @@ public class StockServiceImpl implements StockService {
 	public List<String> findAllInvoiceDatesByStock() {
 		return stockRepository.findAllInvoiceDatesInStockPOL();
 	}
+	
+		public List<StockModel> findAllByBatchNo(String searchTerm) {
+		return stockRepository.findAllByBatchNoSearch(searchTerm);
+	}
 
 }

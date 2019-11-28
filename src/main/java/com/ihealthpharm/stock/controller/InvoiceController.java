@@ -185,4 +185,37 @@ public class InvoiceController {
 		return new BaseDto<>(itemsModels, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 	
+	//searchTerm based on InvoiceNo
+
+		@GetMapping("/getallinvoicesbysearch")
+		public ResponseEntity<BaseDto<List<InvoiceModel>>>  getAllInvoiceNo(@RequestParam String searchTerm){
+			List<InvoiceModel> results=invoiceService.findAllInvoiceByNo(searchTerm);
+			return new BaseDto<>(results,invoiceHelper.getRetrieveInvoiceMessage(),OK).respond();
+		}
+		
+		//Purchase Invoice Report
+		@GetMapping("/getsuppliersbysearchpir")
+		public ResponseEntity<BaseDto<List<String>>> getSuppliersByInvoicePIR(@RequestParam String searchTerm){
+			List<String> results=invoiceService.findSuppliersByInvoicePIR(searchTerm);
+			return new BaseDto<>(results,invoiceHelper.getRetrieveInvoiceMessage(),OK).respond();
+		}
+		
+		@GetMapping("/getallsupplierspir")
+		public ResponseEntity<BaseDto<List<String>>> getAllSuppliersByInvoiceItemsPMC(){
+			List<String> results=invoiceService.findAllSuppliersByInvoicePIR();
+			return new BaseDto<>(results,invoiceHelper.getRetrieveInvoiceMessage(),OK).respond();
+		}
+		
+		@GetMapping("/getinvoicedatesbysearchpir")
+		public ResponseEntity<BaseDto<List<String>>> getInvoiceDtByInvoicePIR(@RequestParam String searchTerm){
+			List<String> results=invoiceService.findInvoiceDtByInvoicePIR(searchTerm);
+			return new BaseDto<>(results,invoiceHelper.getRetrieveInvoiceMessage(),OK).respond();
+		}
+		
+		@GetMapping("/getallinvoicedatespir")
+		public ResponseEntity<BaseDto<List<String>>> getAllInvoiceDtByInvoicePIR(){
+			List<String> results=invoiceService.findAllInvoiceDtByInvoicePIR();
+			return new BaseDto<>(results,invoiceHelper.getRetrieveInvoiceMessage(),OK).respond();
+		}
+	
 }

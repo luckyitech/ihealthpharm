@@ -21,6 +21,7 @@ import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.sales.helper.SalesHelper;
 import com.ihealthpharm.sales.model.SalesModel;
 import com.ihealthpharm.sales.service.SalesService;
+import com.ihealthpharm.stock.model.StockModel;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -103,6 +104,7 @@ public class SalesController {
 		List result=salesService.totalSalesByMonthWiseData();
 		return new BaseDto<>(result,salesHelper.getRetrieveSalesMessage(),OK).respond();
 		}
+
 	@GetMapping("/getmanufacturerbysearchscl")
 	public ResponseEntity<BaseDto<List<String>>> getManufacturersBySales(@RequestParam String searchTerm){
 		List<String> results=salesService.findManufacturerBySales(searchTerm);

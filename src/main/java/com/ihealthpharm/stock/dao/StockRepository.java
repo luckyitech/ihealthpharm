@@ -52,7 +52,7 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 			@Param("pharmacyId") Integer pharmacyId);
 
 	// find stock by item Description
-	@Query("select s from stock s inner join items i on s.item.itemId=i.itemId where s.item.itemDescription like :searchTerm% "
+	@Query("select s from stock s inner join items i on s.item.itemId=i.itemId where s.item.itemDescription like %:searchTerm% "
 			+ "and s.pharmacy.pharmacyId=:pharmacyId")
 	List<StockModel> findStockByItemDescriptionAndPharmacyId(@Param("searchTerm") String searchTerm,@Param("pharmacyId")  Integer pharmacyId);
 
@@ -64,7 +64,7 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 	// find stock by item Description
 		@Query("select s from stock s inner join items i on s.item.itemId=i.itemId inner join "
 				+ "items_generic_names ig on ig.itemGenericNameId=i.itemGenericName.itemGenericNameId "
-				+ "where ig.genericName like :searchTerm% "
+				+ "where ig.genericName like %:searchTerm% "
 				+ "and s.pharmacy.pharmacyId=:pharmacyId")
 	List<StockModel> findStockByItemGenericNameAndPharmacyId(@Param("searchTerm") String searchTerm,@Param("pharmacyId") Integer pharmacyId);
 
@@ -103,4 +103,7 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 				+"where init.itemsModel.itemId=st.item.itemId and inv.invoiceId=init.invoice.invoiceId and st.item.itemId=i.itemId and i.manufacturer.manufacturerId=m.manufacturerId "  
 				+"and inv.supplierModel.supplierId=sp.supplierId order by inv.invoiceDt  ")
 				List<String> findAllInvoiceDatesInStockPOL();
+	
+	@Query("select st from stock st where st.batchNo like %:searchTerm% order by st.creationTimeStamp desc")
+	List<StockModel> findAllByBatchNoSearch(@Param("searchTerm") String searchTerm);
 }
