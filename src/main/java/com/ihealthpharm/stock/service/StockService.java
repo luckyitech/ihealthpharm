@@ -41,5 +41,17 @@ public interface StockService {
 	public StockModel findStocksByBillId(Integer itemId);
 	
 	StockModel getStockByItemIdandInvoiceId(Integer itemId, Integer invoiceId);
+	
+	List<String> findSuppliersByStock(String searchTerm);
+	
+	List<String> findAllSuppliersByStock();
+	
+	List<String> findManufacturerByStock(String searchTerm);
+
+	List<String> findAllManufacturerByStock();
+	
+	List<String> findInvoiceDatesByStock(String searchTerm);
+	
+	List<String> findAllInvoiceDatesByStock();
 
 }

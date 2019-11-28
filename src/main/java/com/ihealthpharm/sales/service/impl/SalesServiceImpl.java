@@ -164,4 +164,36 @@ public class SalesServiceImpl implements SalesService {
 		return finalObj;
 	}
 
+	@Override
+	public List<String> findManufacturerBySales(String searchTerm) {
+		return salesRepository.findManufacturerInSalesSCL(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllManufacturerBySales() {
+		return salesRepository.findAllManufacturerInSalesSCL();
+	}
+
+	@Override
+	public List<String> findProvidersBySales(String searchTerm) {
+		return salesRepository.findProviderInSalesSCL(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllProvidersBySales() {
+		return salesRepository.findAllProvidersInSalesSCL();
+	}
+
+	@Override
+	public List<String> findBillDateBySales(String searchTerm) {
+		return salesRepository.findBillDateInSalesSCL(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllBillDtaessBySales() {
+		return salesRepository.findAllBillDatesInSalesSCL();
+	}
+
+	
+
 }

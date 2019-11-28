@@ -103,5 +103,36 @@ public class SalesController {
 		List result=salesService.totalSalesByMonthWiseData();
 		return new BaseDto<>(result,salesHelper.getRetrieveSalesMessage(),OK).respond();
 		}
+	@GetMapping("/getmanufacturerbysearchscl")
+	public ResponseEntity<BaseDto<List<String>>> getManufacturersBySales(@RequestParam String searchTerm){
+		List<String> results=salesService.findManufacturerBySales(searchTerm);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	@GetMapping("/getallmanufacturerscl")
+	public ResponseEntity<BaseDto<List<String>>> getAllManufacturersBySales(){
+		List<String> results=salesService.findAllManufacturerBySales();
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
 	
+	@GetMapping("/getprovidersbysearchscl")
+	public ResponseEntity<BaseDto<List<String>>> getProvidersBySales(@RequestParam String searchTerm){
+		List<String> results=salesService.findProvidersBySales(searchTerm);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getallprovidersscl")
+	public ResponseEntity<BaseDto<List<String>>> getAllProvidersBySales(){
+		List<String> results=salesService.findAllProvidersBySales();
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	@GetMapping("/getbilldatesbysearchscl")
+	public ResponseEntity<BaseDto<List<String>>> getBillDatesBySales(@RequestParam String searchTerm){
+		List<String> results=salesService.findBillDateBySales(searchTerm);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	@GetMapping("/getallbilldatesscl")
+	public ResponseEntity<BaseDto<List<String>>> getAllBillDatessclBySales(){
+		List<String> results=salesService.findAllBillDtaessBySales();
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
 }

@@ -24,4 +24,16 @@ public interface SalesService
 	SalesModel getSaleByBillCode(String searchTerm);
 	
 	List totalSalesByMonthWiseData();
+	
+	List<String> findManufacturerBySales(String searchTerm);
+	
+	List<String> findAllManufacturerBySales();
+	
+	List<String> findProvidersBySales(String searchTerm);
+	
+	List<String> findAllProvidersBySales();
+	
+	List<String> findBillDateBySales(String searchTerm);
+	
+	List<String> findAllBillDtaessBySales();
 }
