@@ -1,5 +1,6 @@
 package com.ihealthpharm.sales.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.ihealthpharm.sales.model.SalesItemsModel;
@@ -19,5 +20,20 @@ public interface SalesItemsService
     SalesItemsModel updateSalesItemsData(SalesItemsModel salesItemsModel);
     
     List<SalesItemsModel> getByBillId(SalesModel sales);
+    
+    //Sales By Product Details
+    
+    List<String> findCustomersBySalesItemsSBPD(String searchTerm);
+	
+	List<String> findAllCustomersBySalesItemsSBPD();
 
+//SBPS
+	List<String> finditemNameInSalesSBPS(String searchTerm);
+
+    List<String> findnameInSalesSBPS(String searchTerm);
+    
+    List<String> findAllitemNameInSalesSBPS();
+    
+    List<String> findAllnameInSalesSBPS();
+	
 }

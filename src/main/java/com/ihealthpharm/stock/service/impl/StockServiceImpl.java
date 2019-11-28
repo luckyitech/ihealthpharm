@@ -238,4 +238,38 @@ public class StockServiceImpl implements StockService {
 		
 	}
 
+	@Override
+	public List<String> findSuppliersByStock(String searchTerm) {
+		return stockRepository.findSupplierInStockPOL(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllSuppliersByStock() {
+		return stockRepository.findAllSuppliersInStockPOL();
+	}
+
+	@Override
+	public List<String> findManufacturerByStock(String searchTerm) {
+		return stockRepository.findManufacturerInStockPOL(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllManufacturerByStock() {
+		return stockRepository.findAllManufacturerInStockPOL();
+	}
+
+	@Override
+	public List<String> findInvoiceDatesByStock(String searchTerm) {
+		return stockRepository.findInvoiceDatesInStockPOL(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllInvoiceDatesByStock() {
+		return stockRepository.findAllInvoiceDatesInStockPOL();
+	}
+	
+		public List<StockModel> findAllByBatchNo(String searchTerm) {
+		return stockRepository.findAllByBatchNoSearch(searchTerm);
+	}
+
 }

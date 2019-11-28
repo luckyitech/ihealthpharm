@@ -100,4 +100,42 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 	Integer findStockByItemGenericNameAndPharmacyId(@Param("searchTerm") String searchTerm,
 			@Param("pharmacyId") Integer pharmacyId);
 
+	//find supplier by search
+		@Query("select distinct sp.name from stock st,invoice_items init,invoice inv,items i,manufacturer m,supplier sp " 
+		+ "where init.itemsModel.itemId=st.item.itemId and inv.invoiceId=init.invoice.invoiceId and st.item.itemId=i.itemId and i.manufacturer.manufacturerId=m.manufacturerId "
+	    + "and inv.supplierModel.supplierId=sp.supplierId and sp.name like :searchTerm% ")
+		List<String> findSupplierInStockPOL(@Param("searchTerm") String searchTerm);
+		
+	//find all suppliers by stock	
+		@Query("select distinct sp.name from stock st,invoice_items init,invoice inv,items i,manufacturer m,supplier sp "
+		+ "where init.itemsModel.itemId=st.item.itemId and inv.invoiceId=init.invoice.invoiceId and st.item.itemId=i.itemId and i.manufacturer.manufacturerId=m.manufacturerId "
+	    +"and inv.supplierModel.supplierId=sp.supplierId order by sp.name ")
+		List<String> findAllSuppliersInStockPOL();
+		
+	//find manufacturer by search	
+		@Query("select distinct m.name from stock st,invoice_items init,invoice inv,items i,manufacturer m,supplier sp "  
+				+"where init.itemsModel.itemId=st.item.itemId and inv.invoiceId=init.invoice.invoiceId and st.item.itemId=i.itemId and i.manufacturer.manufacturerId=m.manufacturerId "  
+				+"and inv.supplierModel.supplierId=sp.supplierId and m.name like :searchTerm%  ")
+				List<String> findManufacturerInStockPOL(@Param("searchTerm") String searchTerm);
+		
+	//find all manufacturers by stock	
+		@Query("select distinct m.name from stock st,invoice_items init,invoice inv,items i,manufacturer m,supplier sp "  
+				+"where init.itemsModel.itemId=st.item.itemId and inv.invoiceId=init.invoice.invoiceId and st.item.itemId=i.itemId and i.manufacturer.manufacturerId=m.manufacturerId "  
+				+"and inv.supplierModel.supplierId=sp.supplierId order by m.name  ")
+				List<String> findAllManufacturerInStockPOL();
+		
+	//find invoice dates by search
+		@Query("select distinct inv.invoiceDt from stock st,invoice_items init,invoice inv,items i,manufacturer m,supplier sp "  
+				+"where init.itemsModel.itemId=st.item.itemId and inv.invoiceId=init.invoice.invoiceId and st.item.itemId=i.itemId and i.manufacturer.manufacturerId=m.manufacturerId "  
+				+"and inv.supplierModel.supplierId=sp.supplierId and inv.invoiceDt>=:searchTerm  ")
+				List<String> findInvoiceDatesInStockPOL(@Param("searchTerm") String searchTerm);
+		//find all invoice dates by stock
+		
+		@Query("select distinct inv.invoiceDt from stock st,invoice_items init,invoice inv,items i,manufacturer m,supplier sp "  
+				+"where init.itemsModel.itemId=st.item.itemId and inv.invoiceId=init.invoice.invoiceId and st.item.itemId=i.itemId and i.manufacturer.manufacturerId=m.manufacturerId "  
+				+"and inv.supplierModel.supplierId=sp.supplierId order by inv.invoiceDt  ")
+				List<String> findAllInvoiceDatesInStockPOL();
+	
+	@Query("select st from stock st where st.batchNo like %:searchTerm% order by st.creationTimeStamp desc")
+	List<StockModel> findAllByBatchNoSearch(@Param("searchTerm") String searchTerm);
 }

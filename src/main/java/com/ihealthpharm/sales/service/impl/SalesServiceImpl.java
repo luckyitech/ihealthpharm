@@ -164,4 +164,86 @@ public class SalesServiceImpl implements SalesService {
 		return finalObj;
 	}
 
+	@Override
+	public List<String> findManufacturerBySales(String searchTerm) {
+		return salesRepository.findManufacturerInSalesSCL(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllManufacturerBySales() {
+		return salesRepository.findAllManufacturerInSalesSCL();
+	}
+
+	@Override
+	public List<String> findProvidersBySales(String searchTerm) {
+		return salesRepository.findProviderInSalesSCL(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllProvidersBySales() {
+		return salesRepository.findAllProvidersInSalesSCL();
+	}
+
+	@Override
+	public List<String> findBillDateBySales(String searchTerm) {
+		return salesRepository.findBillDateInSalesSCL(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllBillDtaessBySales() {
+		return salesRepository.findAllBillDatesInSalesSCL();
+	}
+
+	//DBL
+	@Override
+	public List<String> findBillDatesBySalesDBL(String searchTerm) {
+		return  salesRepository.findBillDatesInSalesDBL(searchTerm);
+	}
+
+	@Override
+	public List<String> findfirst_nmBySalesDBL(String searchTerm) {
+		return salesRepository.findfirst_nmInSalesDBL(searchTerm);
+	}
+
+	@Override
+	public List<String> findnameBySalesDBL(String searchTerm) {
+		return salesRepository.findnameInSalesDBL(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllBillDatesBySalesDBL() {
+		return salesRepository.findAllBillDatesInSalesDBL();
+	}
+
+	@Override
+	public List<String> findAllfirst_nmBySalesDBL() {
+		return salesRepository.findAllfirst_nmInSalesDBL();
+	}
+
+	@Override
+	public List<String> findAllnameBySalesDBL() {
+		return salesRepository.findAllnameInSalesDBL();
+	}
+
+	@Override
+	public List<String> findbillDateINSalesSRD(String searchTerm) {
+		return salesRepository.findbillDateINSalesSRD(searchTerm);
+	}
+
+	@Override
+	public List<String> findtypeINSalesSRD(String searchTerm) {
+		return salesRepository.findtypeINSalesSRD(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllbillDateINSalesSRD() {
+		return salesRepository.findAllbillDateINSalesSRD() ;
+	}
+
+	@Override
+	public List<String> findAlltypeINSalesSRD() {
+		return salesRepository.findAlltypeINSalesSRD();
+	}
+	
+
 }
