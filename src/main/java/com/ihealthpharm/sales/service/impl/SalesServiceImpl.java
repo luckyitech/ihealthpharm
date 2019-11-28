@@ -8,6 +8,8 @@ import java.util.Objects;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -100,7 +102,7 @@ public class SalesServiceImpl implements SalesService {
 			@Override
 			public Predicate toPredicate(Root<SalesModel> root, CriteriaQuery<?> query,
 					CriteriaBuilder criteriaBuilder) {
-				
+				Join<SalesModel, CustomerModel> bJoin= root.join("customerModel", JoinType.INNER);
 				List<Predicate> predicates = new ArrayList<>();
 				if (status != null && !status.equals("undefined")) {
 					System.out.println("in status condition:" + (status != null &&!status.equals("undefined")));
@@ -113,7 +115,7 @@ public class SalesServiceImpl implements SalesService {
 					}
 					else if(code.equalsIgnoreCase("customer Name"))
 					{
-						predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("customerNm"), codeValue)));
+						predicates.add(criteriaBuilder.and(criteriaBuilder.like(bJoin.get("customerName"), codeValue+"%")));
 					}
 					
 				}

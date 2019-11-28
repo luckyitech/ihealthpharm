@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import com.ihealthpharm.masters.model.ItemsModel;
+import com.ihealthpharm.masters.model.SupplierModel;
 import com.ihealthpharm.stock.model.StockModel;
 
 import lombok.Getter;
@@ -93,4 +94,8 @@ public class SalesItemsModel {
     @OneToOne
     @JoinColumn(name="STOCK_ID")
     private StockModel stockId;
+    
+    @OneToOne
+    @JoinColumn(name="SPPLIER_ID")
+    private SupplierModel supplier;
 }
