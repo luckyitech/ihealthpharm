@@ -12,6 +12,8 @@ import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -159,6 +161,13 @@ public class SupplierServiceImpl implements SupplierService {
 				return criteriaBuilder.or(predicates.toArray(new Predicate[predicates.size()]));
 			}
 		});
+	}
+
+	@Override
+	public List<SupplierModel> findSuppliersBySearch(String name, Integer pageNumber, Integer pageSize) {
+		Pageable limit = PageRequest.of(pageNumber,pageSize);
+		
+		return supplierRepository.getAllSuppliersBySearch(name,limit);
 	}
 
 }
