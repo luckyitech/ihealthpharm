@@ -26,5 +26,14 @@ public interface SalesItemsService
     List<String> findCustomersBySalesItemsSBPD(String searchTerm);
 	
 	List<String> findAllCustomersBySalesItemsSBPD();
+
+//SBPS
+	List<String> finditemNameInSalesSBPS(String searchTerm);
+
+    List<String> findnameInSalesSBPS(String searchTerm);
+    
+    List<String> findAllitemNameInSalesSBPS();
+    
+    List<String> findAllnameInSalesSBPS();
 	
 }

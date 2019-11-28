@@ -89,6 +89,31 @@ public class SalesItemsController {
 				List<String> results=salesItemsService.findAllCustomersBySalesItemsSBPD();
 				return new BaseDto<>(results,salesItemsHelper.getRetrieveSalesItemsItemsMessage(),OK).respond();
 			}
+
+//SBPS
+	@GetMapping("/getitemNamebysearchsbps")
+	public ResponseEntity<BaseDto<List<String>>> getitemNameBySearchSBPS(@RequestParam String searchTerm){
+		List<String> results=salesItemsService.finditemNameInSalesSBPS(searchTerm);
+		return new BaseDto<>(results,salesItemsHelper.updateSalesItemsMessage,OK).respond();
+	}
+	
+	@GetMapping("/getnamebysearchsbps")
+	public ResponseEntity<BaseDto<List<String>>> getnameBySearchSBPS(@RequestParam String searchTerm){
+		List<String> results=salesItemsService.findnameInSalesSBPS(searchTerm);
+		return new BaseDto<>(results,salesItemsHelper.updateSalesItemsMessage,OK).respond();
+	}
+	
+	@GetMapping("/getallitemNamebysearchsbps")
+	public ResponseEntity<BaseDto<List<String>>> getAllitemNameBySearchSBPS(){
+		List<String> results=salesItemsService.findAllitemNameInSalesSBPS();
+		return new BaseDto<>(results,salesItemsHelper.updateSalesItemsMessage,OK).respond();
+	}
+	
+	@GetMapping("/getAllnamebysearchsbps")
+	public ResponseEntity<BaseDto<List<String>>> getAllnameBySearchSBPS(){
+		List<String> results=salesItemsService.findAllnameInSalesSBPS();
+		return new BaseDto<>(results,salesItemsHelper.updateSalesItemsMessage,OK).respond();
+	}
 				
 			
 }

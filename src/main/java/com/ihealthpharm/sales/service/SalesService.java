@@ -36,4 +36,28 @@ public interface SalesService
 	List<String> findBillDateBySales(String searchTerm);
 	
 	List<String> findAllBillDtaessBySales();
+
+	//DBL
+	
+	List<String> findBillDatesBySalesDBL(String searchTerm);
+	
+	List<String> findfirst_nmBySalesDBL(String searchTerm);
+	
+	List<String> findnameBySalesDBL(String searchTerm);
+	
+	List<String> findAllBillDatesBySalesDBL();
+	
+	List<String> findAllfirst_nmBySalesDBL();
+	
+	List<String> findAllnameBySalesDBL();
+	
+//SRD	
+	
+	List<String> findbillDateINSalesSRD(String searchTerm);
+	
+	List<String> findtypeINSalesSRD(String searchTerm);
+	
+	List<String> findAllbillDateINSalesSRD();
+	
+	List<String> findAlltypeINSalesSRD();
 }

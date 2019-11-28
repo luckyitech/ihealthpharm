@@ -100,5 +100,25 @@ public class SalesItemsServiceImpl implements SalesItemsService {
 		return salesItemsRepository.findAllCustomersInSalesItemsSBPD();
 	}
 
+//SBPS
 	
+	@Override
+	public List<String> finditemNameInSalesSBPS(String searchTerm) {
+		return salesItemsRepository.finditemNameInSalesSBPS(searchTerm);
+	}
+
+	@Override
+	public List<String> findnameInSalesSBPS(String searchTerm) {
+		return salesItemsRepository.findnameInSalesSBPS(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllitemNameInSalesSBPS() {
+		return salesItemsRepository.findAllitemNameInSalesSBPS();
+	}
+
+	@Override
+	public List<String> findAllnameInSalesSBPS() {
+		return salesItemsRepository.findAllnameInSalesSBPS();
+	}
 }

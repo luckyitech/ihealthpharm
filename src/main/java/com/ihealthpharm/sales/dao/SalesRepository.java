@@ -44,4 +44,65 @@ extends JpaRepository<SalesModel,Integer>
 	@Query("select distinct s.billDate from sales s,sales_items si,provider p,items i,stock st,manufacturer m where s.billId=si.billId.billId and s.providerModel.providerId=p.providerId  and si.itemsModel.itemId=i.itemId and st.item.itemId=i.itemId and i.manufacturer.manufacturerId=m.manufacturerId order by s.billDate")
 	List<String> findAllBillDatesInSalesSCL();
 	
+//DBL	
+	@Query(" select s.billDate from sales s, provider p, sales_items si, items i, manufacturer m, stock st "
+			+ " where s.providerModel.providerId=p.providerId and s.billId=si.billId.billId" 
+			+ " and si.itemsModel.itemId=i.itemId and i.manufacturer.manufacturerId=m.manufacturerId" 
+			+ " and si.stockId.stockId=st.stockId ")
+	List<String> findBillDatesInSalesDBL(@Param("searchTerm") String searchTerm);
+	
+	
+    @Query("select p.firstName from sales s, provider p, sales_items si, items i, manufacturer m, stock st"
+	  + " where s.providerModel.providerId=p.providerId and s.billId=si.billId.billId" 
+	  + " and si.itemsModel.itemId=i.itemId and i.manufacturer.manufacturerId=m.manufacturerId " 
+	  + " and si.stockId.stockId=st.stockId and p.firstName like %:searchTerm% ")
+	List<String> findfirst_nmInSalesDBL(@Param("searchTerm") String searchTerm);
+	
+	
+	@Query("select m.name from sales s, provider p, sales_items si, items i, manufacturer m, stock st"
+	  + " where s.providerModel.providerId=p.providerId and s.billId=si.billId.billId"
+	  + " and si.itemsModel.itemId=i.itemId and i.manufacturer.manufacturerId=m.manufacturerId" 
+	  + " and si.stockId.stockId=st.stockId and m.name like %:searchTerm% ")
+	List<String> findnameInSalesDBL(@Param("searchTerm") String searchTerm);
+	
+	@Query(" select s.billDate from sales s, provider p, sales_items si, items i, manufacturer m, stock st "
+			+ " where s.providerModel.providerId=p.providerId and s.billId=si.billId.billId" 
+			+ " and si.itemsModel.itemId=i.itemId and i.manufacturer.manufacturerId=m.manufacturerId" 
+			+ " and si.stockId.stockId=st.stockId ")
+	List<String> findAllBillDatesInSalesDBL();
+	  
+	 @Query("select p.firstName from sales s, provider p, sales_items si, items i, manufacturer m, stock st"
+			  + " where s.providerModel.providerId=p.providerId and s.billId=si.billId.billId" 
+			  + " and si.itemsModel.itemId=i.itemId and i.manufacturer.manufacturerId=m.manufacturerId " 
+			  + " and si.stockId.stockId=st.stockId order by p.firstName  ")
+			List<String> findAllfirst_nmInSalesDBL();
+	 
+	 @Query("select m.name from sales s, provider p, sales_items si, items i, manufacturer m, stock st"
+			  + " where s.providerModel.providerId=p.providerId and s.billId=si.billId.billId"
+			  + " and si.itemsModel.itemId=i.itemId and i.manufacturer.manufacturerId=m.manufacturerId" 
+			  + " and si.stockId.stockId=st.stockId order by m.name  ")
+			List<String> findAllnameInSalesDBL();
+	 
+	 
+//SRD	 
+	 
+	 @Query("select DISTINCT s.billDate from sales s,sales_items si,payment_types pt " 
+	 		+ "where s.billId=si.billId.billId and s.billDate like %:searchTerm%")
+	 		List<String> findbillDateINSalesSRD(@Param("searchTerm") String searchTerm);
+	 
+	 @Query("select DISTINCT pt.type from sales s,sales_items si,payment_types pt " 
+		 		+ "where s.billId=si.billId.billId and pt.type like %:searchTerm%")
+		 		List<String> findtypeINSalesSRD(@Param("searchTerm") String searchTerm);
+	 
+	 @Query("select DISTINCT s.billDate from sales s,sales_items si,payment_types pt " 
+		 		+ "where s.billId=si.billId.billId order by s.billDate")
+		 		List<String> findAllbillDateINSalesSRD();
+	 
+	 @Query("select DISTINCT pt.type from sales s,sales_items si,payment_types pt " 
+		 		+ "where s.billId=si.billId.billId order by pt.type ")
+		 		List<String> findAlltypeINSalesSRD();
+	 
+//SRADL
+	 
+	 
 }
