@@ -67,5 +67,7 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 				+ "where ig.genericName like %:searchTerm% "
 				+ "and s.pharmacy.pharmacyId=:pharmacyId")
 	List<StockModel> findStockByItemGenericNameAndPharmacyId(@Param("searchTerm") String searchTerm,@Param("pharmacyId") Integer pharmacyId);
-
+	
+	@Query("select st from stock st where st.batchNo like %:searchTerm% order by st.creationTimeStamp desc")
+	List<StockModel> findAllByBatchNoSearch(@Param("searchTerm") String searchTerm);
 }

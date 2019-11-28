@@ -2,6 +2,7 @@ package com.ihealthpharm.sales.controller;
 
 import static org.springframework.http.HttpStatus.OK;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -75,4 +76,19 @@ public class SalesItemsController {
 		List<SalesItemsModel> salesItemsModelRes = salesItemsService.getByBillId(sales);
 		return new BaseDto<>(salesItemsModelRes,salesItemsHelper.getUpdateSalesItemsMessage(),OK).respond();
 	}
+	
+	//Sales By Product Details
+			@GetMapping("/getcustomersbysearchsbpd")
+			public ResponseEntity<BaseDto<List<String>>> getCustomersBySearchSalesItemsSBPD(@RequestParam String searchTerm){
+				List<String> results=salesItemsService.findCustomersBySalesItemsSBPD(searchTerm);
+				return new BaseDto<>(results,salesItemsHelper.getRetrieveSalesItemsItemsMessage(),OK).respond();
+			}
+			
+			@GetMapping("/getallcustomerssbpd")
+			public ResponseEntity<BaseDto<List<String>>> getAllCustomersSalesItemsSBPD(){
+				List<String> results=salesItemsService.findAllCustomersBySalesItemsSBPD();
+				return new BaseDto<>(results,salesItemsHelper.getRetrieveSalesItemsItemsMessage(),OK).respond();
+			}
+				
+			
 }

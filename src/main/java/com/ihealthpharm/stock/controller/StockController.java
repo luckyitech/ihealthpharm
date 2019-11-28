@@ -21,6 +21,7 @@ import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.stock.dto.StockItemsListDTO;
 import com.ihealthpharm.stock.helper.StockHelper;
+import com.ihealthpharm.stock.model.InvoiceModel;
 import com.ihealthpharm.stock.model.StockModel;
 import com.ihealthpharm.stock.service.StockService;
 
@@ -208,6 +209,11 @@ public class StockController {
 		StockModel result = stockService.findStocksByBillId(itemId);
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}
-	
+	//get batch no's by search
+	@GetMapping("/getallbatchnosbysearch")
+	public ResponseEntity<BaseDto<List<StockModel>>> getAllBatchNo(@RequestParam String searchTerm){
+		List<StockModel> results=stockService.findAllByBatchNo(searchTerm);
+		return new BaseDto<>(results,stockHelper.getRetrieveStockMessage(),OK).respond();
+	}
 
 }
