@@ -122,4 +122,24 @@ public class PurchaseOrderItemsServiceImpl implements PurchaseOrderItemsService 
 		}
 	}
 
+	@Override
+	public List<String> findManufacturerByPurchaseOrderItem(String searchTerm) {
+		return purchaseOrderItemsRepository.findManucaturerInPurchaseOrderPBPD(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllManufacturerByPurchaseOrderItem() {
+		return purchaseOrderItemsRepository.findAllManucaturerInPurchaseOrderPBPD();
+	}
+
+	@Override
+	public List<String> findSuppliersByPurchaseOrderItem(String searchTerm) {
+		return purchaseOrderItemsRepository.findSupplierInPurchaseOrderPBPD(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllSuppliersByPurchaseOrderItem() {
+		return purchaseOrderItemsRepository.findAllSuppliersInPurchaseOrderPBPD();
+	}
+
 }
