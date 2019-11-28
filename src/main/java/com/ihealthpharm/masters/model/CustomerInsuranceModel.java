@@ -51,10 +51,8 @@ public class CustomerInsuranceModel extends AuditModel{
 	@Column(name="INSURANCE_POLICY_START",length=25)
 	private String policyStartDate;
 
-
 	@Column(name="INSURANCE_POLICY_END",length=25)
 	private String policyEndDate;
-
 
 	@OneToOne
 	@JoinColumn(name="INSURANCE_POLICY_ID")

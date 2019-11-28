@@ -8,6 +8,8 @@ import java.util.Objects;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -17,11 +19,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
+import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.sales.dao.SalesRepository;
+import com.ihealthpharm.sales.dto.SalesDTO;
 import com.ihealthpharm.sales.helper.SalesHelper;
 import com.ihealthpharm.sales.model.SalesModel;
 import com.ihealthpharm.sales.service.SalesService;
-import com.ihealthpharm.stock.model.StockModel;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -93,11 +96,13 @@ public class SalesServiceImpl implements SalesService {
 			/**
 			 * 
 			 */
+			
 			private static final long serialVersionUID = -2059726564132190131L;
 
 			@Override
 			public Predicate toPredicate(Root<SalesModel> root, CriteriaQuery<?> query,
 					CriteriaBuilder criteriaBuilder) {
+				Join<SalesModel, CustomerModel> bJoin= root.join("customerModel", JoinType.INNER);
 				List<Predicate> predicates = new ArrayList<>();
 				if (status != null && !status.equals("undefined")) {
 					System.out.println("in status condition:" + (status != null &&!status.equals("undefined")));
@@ -110,7 +115,7 @@ public class SalesServiceImpl implements SalesService {
 					}
 					else if(code.equalsIgnoreCase("customer Name"))
 					{
-						predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("customerNm"), codeValue)));
+						predicates.add(criteriaBuilder.and(criteriaBuilder.like(bJoin.get("customerName"), codeValue+"%")));
 					}
 					
 				}
@@ -142,4 +147,21 @@ public class SalesServiceImpl implements SalesService {
 		return salesRepository.findFirst100ByOrderByBillCodeDesc();
 	}
 	
+	@Override
+	public List totalSalesByMonthWiseData() {
+		List<SalesDTO> response=salesRepository.getAllSalesDataForCharts();
+		System.out.println(response);
+		List finalObj = new ArrayList();
+		//Format f = new SimpleDateFormat("MMM");
+		//String strMonth = f.format(new Date());
+	   	for(SalesDTO obj:response) {
+			List temp = new ArrayList();
+			temp.add(obj.getBillDate().getMonth());
+			temp.add(obj.getTotalSales());
+			finalObj.add(temp);
+		}
+		System.out.println(finalObj);
+		return finalObj;
+	}
+
 }

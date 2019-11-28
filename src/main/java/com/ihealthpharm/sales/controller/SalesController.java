@@ -99,4 +99,9 @@ public class SalesController {
 		return new BaseDto<>(salesModelRes,salesHelper.getUpdateSalesMessage(),OK).respond();
 	}
 	
+	@GetMapping("/monthly/totalSales")
+	public ResponseEntity<BaseDto<List>> getAllMonthlySalesData(){
+		List result=salesService.totalSalesByMonthWiseData();
+		return new BaseDto<>(result,salesHelper.getRetrieveSalesMessage(),OK).respond();
+		}
 }

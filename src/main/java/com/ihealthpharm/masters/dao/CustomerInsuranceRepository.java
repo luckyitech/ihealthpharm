@@ -11,7 +11,7 @@ import com.ihealthpharm.masters.model.CustomerModel;
 
 public interface CustomerInsuranceRepository extends JpaRepository<CustomerInsuranceModel,Integer>
 {
-	List<CustomerInsuranceModel> findAll();
+	List<CustomerInsuranceModel> findAllByOrderByLastUpdateTimestamp();
 
 	CustomerInsuranceModel findByPolicyCode(String policyCode);
 

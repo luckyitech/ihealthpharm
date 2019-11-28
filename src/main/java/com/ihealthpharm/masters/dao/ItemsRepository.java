@@ -70,11 +70,11 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 	List<ItemDTO> getAllItemsDataByItemCode(@Param("searchTerm")String searchTerm, Pageable pageable);
 	
 	@Query("select new com.ihealthpharm.masters.dto.ItemDTO(i.itemId,i.medicalOrNonMedical,i.itemCode,i.itemName,i.itemDescription,i.drugDose) from items i  "
-			+ "where  i.itemDescription like :searchTerm%")
+			+ "where  i.itemDescription like %:searchTerm%")
 	List<ItemDTO> getAllItemsDataByItemDescription(@Param("searchTerm")String searchTerm, Pageable pageable);
 	
 	@Query("select new com.ihealthpharm.masters.dto.ItemDTO(i.itemId,i.medicalOrNonMedical,i.itemCode,i.itemName,i.itemDescription,i.drugDose) from items i  "
-			+ "where  i.itemGenericName.genericName like :searchTerm%")
+			+ "where  i.itemGenericName.genericName like %:searchTerm%")
 	List<ItemDTO> getAllItemsDataByItemGenericName(@Param("searchTerm")String searchTerm, Pageable pageable);
 	
 	@Query("select new com.ihealthpharm.masters.dto.AlternativeItemDTO(i.itemId,i.itemName) from items i  "

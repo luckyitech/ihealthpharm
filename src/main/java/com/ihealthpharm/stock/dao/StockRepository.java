@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
-import com.ihealthpharm.stock.model.InvoiceModel;
 import com.ihealthpharm.stock.model.StockModel;
 
 @Repository
@@ -53,7 +52,7 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 			@Param("pharmacyId") Integer pharmacyId);
 
 	// find stock by item Description
-	@Query("select s from stock s inner join items i on s.item.itemId=i.itemId where s.item.itemDescription like :searchTerm% "
+	@Query("select s from stock s inner join items i on s.item.itemId=i.itemId where s.item.itemDescription like %:searchTerm% "
 			+ "and s.pharmacy.pharmacyId=:pharmacyId")
 	List<StockModel> findStockByItemDescriptionAndPharmacyId(@Param("searchTerm") String searchTerm,@Param("pharmacyId")  Integer pharmacyId);
 
@@ -65,7 +64,7 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 	// find stock by item Description
 		@Query("select s from stock s inner join items i on s.item.itemId=i.itemId inner join "
 				+ "items_generic_names ig on ig.itemGenericNameId=i.itemGenericName.itemGenericNameId "
-				+ "where ig.genericName like :searchTerm% "
+				+ "where ig.genericName like %:searchTerm% "
 				+ "and s.pharmacy.pharmacyId=:pharmacyId")
 	List<StockModel> findStockByItemGenericNameAndPharmacyId(@Param("searchTerm") String searchTerm,@Param("pharmacyId") Integer pharmacyId);
 	

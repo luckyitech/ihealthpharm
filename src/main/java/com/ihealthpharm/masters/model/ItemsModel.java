@@ -266,5 +266,10 @@ public class ItemsModel extends AuditModel {
 	@OneToOne
 	@JoinColumn(name="SCHEDULE_CATEGORY_CODE_ID")
 	private ScheduleCodeModel ScheduleCode;
+	
+	@OneToOne
+	@JoinColumn(name="PHARMACY_ID")
+	private PharmacyModel pharmacy;
+	
 
 }

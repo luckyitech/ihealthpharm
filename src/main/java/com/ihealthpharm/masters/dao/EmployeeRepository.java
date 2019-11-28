@@ -10,7 +10,7 @@ import com.ihealthpharm.masters.model.EmployeeModel;
 
 public interface EmployeeRepository extends JpaRepository<EmployeeModel, Integer>{
 
-	List<EmployeeModel> findAllByOrderByCreationTimeStampDesc();
+	List<EmployeeModel> findAllByOrderByLastUpdateTimestampDesc();
 	
 	@Query(value="SELECT * from employee e order by e.EMPLOYEE_ID desc limit 1", nativeQuery=true)
 	public EmployeeModel findLastCreatedEmployeeId();

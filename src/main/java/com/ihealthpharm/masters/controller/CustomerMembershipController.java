@@ -93,4 +93,6 @@ public class CustomerMembershipController {
 		List<CustomerMembershipModel> result = customerMembershipService.findCustomersMembershipBySearch(searchKey);
 		return new BaseDto<>(result, customerMembershipHelper.getRetrieveCustomerMembershipMessage(), OK).respond();
 	}
+	
+	
 }

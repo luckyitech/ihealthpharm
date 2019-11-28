@@ -3,7 +3,6 @@ package com.ihealthpharm.sales.service;
 import java.util.List;
 
 import com.ihealthpharm.sales.model.SalesModel;
-import com.ihealthpharm.stock.model.StockModel;
 
 public interface SalesService
 {
@@ -24,4 +23,5 @@ public interface SalesService
 
 	SalesModel getSaleByBillCode(String searchTerm);
 	
+	List totalSalesByMonthWiseData();
 }
