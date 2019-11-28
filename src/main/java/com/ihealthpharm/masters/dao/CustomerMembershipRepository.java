@@ -15,7 +15,7 @@ public interface CustomerMembershipRepository extends JpaRepository<CustomerMemb
 	
 	 CustomerMembershipModel findByMembershipCardNumber(String membershipCardNumber);
 	 
-	 List<CustomerMembershipModel> findAllByOrderByLastUpdateTimestampDesc();
+	 List<CustomerMembershipModel> findAllByOrderByLastUpdateTimestamp();
 
 	 @Query("select cm from customer_membership cm inner join customer c on cm.customerModel.customerId=c.customerId where cm.membershipCardNumber like %:key% or "
 	 		+ "cm.membershipCardName like %:key% or c.customerName like %:key%")
