@@ -104,5 +104,8 @@ extends JpaRepository<SalesModel,Integer>
 	 
 //SRADL
 	 
+	 @Query("select distinct sp.cityName from sales s,sales_items si,supplier sp,payment_types pt "  
+	 	   + "where s.billId=si.billId.billId and si.supplier.supplierId=sp.supplierId and sp.cityName like %:searchTerm%")
+		 		List<String> findcityNameINSalesSRADL(@Param("searchTerm") String searchTerm);
 	 
 }
