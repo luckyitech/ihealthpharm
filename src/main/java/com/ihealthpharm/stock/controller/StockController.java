@@ -196,8 +196,16 @@ public class StockController {
 	
 
 	@GetMapping("/getstockbyitemandpharmacyid")
-	public ResponseEntity<BaseDto<List<StockModel>>> getStockByItemNameAndPharmacy(@RequestParam String searchTerm,@RequestParam String searchCode, @RequestParam Integer pharmacyId){
-		List<StockModel> result = stockService.findByItemAndPharmacy(searchTerm,searchCode,pharmacyId);
+	public ResponseEntity<BaseDto<List<StockModel>>> getStockByItemNameAndPharmacy(@RequestParam String searchTerm,@RequestParam String searchCode, @RequestParam Integer pharmacyId,
+			@RequestParam Integer pageNumber,@RequestParam Integer pageSize){
+		List<StockModel> result = stockService.findByItemAndPharmacy(searchTerm,searchCode,pharmacyId,pageNumber,pageSize);
+		
+		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
+	}
+	
+	@GetMapping("/getstockbyitemandpharmacyidcount")
+	public ResponseEntity<BaseDto<Integer>> getStockByItemNameAndPharmacyCount(@RequestParam String searchTerm,@RequestParam String searchCode, @RequestParam Integer pharmacyId){
+		Integer result = stockService.findByItemAndPharmacyCount(searchTerm,searchCode,pharmacyId);
 		
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}

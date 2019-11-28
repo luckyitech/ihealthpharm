@@ -8,6 +8,8 @@ import java.util.Objects;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -181,8 +183,36 @@ public class StockServiceImpl implements StockService {
 	}
 
 	@Override
-	public List<StockModel> findByItemAndPharmacy(String searchTerm,String searchCode, Integer pharmacyId) {
+	public List<StockModel> findByItemAndPharmacy(String searchTerm,String searchCode, Integer pharmacyId, Integer pageNumber, Integer pageSize) {
+		Pageable limit = new PageRequest(pageNumber,pageSize);
 		List<StockModel> res=null;
+		if(searchCode.equalsIgnoreCase("Item Name"))
+		{
+			res = stockRepository.findStockByItemNameAndPharmacyId(searchTerm,pharmacyId,limit);
+		}
+		else if(searchCode.equalsIgnoreCase("Item Code"))
+		{
+			res = stockRepository.findStockByItemCodeAndPharmacyId(searchTerm,pharmacyId,limit);
+		}
+		else if(searchCode.equalsIgnoreCase("Description"))
+		{
+			res = stockRepository.findStockByItemDescriptionAndPharmacyId(searchTerm,pharmacyId,limit);
+		}
+		else if(searchCode.equalsIgnoreCase("Batch Number"))
+		{
+			res = stockRepository.findStockByBatchNumberAndPharmacyId(searchTerm,pharmacyId,limit);
+		}
+		else if(searchCode.equalsIgnoreCase("Generic Name"))
+		{
+			res = stockRepository.findStockByItemGenericNameAndPharmacyId(searchTerm,pharmacyId,limit);
+		}
+		
+		return res;
+	}
+
+	@Override
+	public Integer findByItemAndPharmacyCount(String searchTerm, String searchCode, Integer pharmacyId) {
+		Integer res=0;
 		if(searchCode.equalsIgnoreCase("Item Name"))
 		{
 			res = stockRepository.findStockByItemNameAndPharmacyId(searchTerm,pharmacyId);
@@ -205,6 +235,7 @@ public class StockServiceImpl implements StockService {
 		}
 		
 		return res;
+		
 	}
 
 }
