@@ -139,7 +139,7 @@ public class SalesController {
 	}
 
 //DBL
-	@GetMapping("/getBillDatesbysearchdbl")
+	@GetMapping("/getbilldatesbysearchdbl")
 	public ResponseEntity<BaseDto<List<String>>> getBillDatesBySearchDBL(@RequestParam String searchTerm){
 		List<String> results=salesService.findBillDatesBySalesDBL(searchTerm);
 		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
@@ -157,7 +157,7 @@ public class SalesController {
 		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
 	
-	@GetMapping("/getallBillDatesbysearchdbl")
+	@GetMapping("/getallbilldatesbysearchdbl")
 	public ResponseEntity<BaseDto<List<String>>> getAllBillDatesDBL(){
 		List<String> results=salesService.findAllBillDatesBySalesDBL();
 		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
@@ -177,7 +177,7 @@ public class SalesController {
 	
 //SRD	
 	
-	@GetMapping("/getbillDatebysearchsrd")
+	@GetMapping("/getbilldatebysearchsrd")
 	public ResponseEntity<BaseDto<List<String>>> getbillDateBySearchSRD(@RequestParam String searchTerm){
 		List<String> results=salesService.findbillDateINSalesSRD(searchTerm);
 		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
@@ -189,7 +189,7 @@ public class SalesController {
 		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
 	
-	@GetMapping("/getallbillDatebysearchsrd")
+	@GetMapping("/getallbilldatebysearchsrd")
 	public ResponseEntity<BaseDto<List<String>>> getAllbillDateBySearchSRD(){
 		List<String> results=salesService.findAllbillDateINSalesSRD();
 		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
@@ -198,6 +198,14 @@ public class SalesController {
 	@GetMapping("/getalltypebysearchsrd")
 	public ResponseEntity<BaseDto<List<String>>> getAlltypeBySearchSRD(){
 		List<String> results=salesService.findAlltypeINSalesSRD();
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	//SRADL
+	
+	@GetMapping("/getcitynamebysearchsrd")
+	public ResponseEntity<BaseDto<List<String>>> getcityNameBySearchSRADL(@RequestParam String searchTerm){
+		List<String> results=salesService.findcityNameINSalesSRADL(searchTerm);
 		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
 }

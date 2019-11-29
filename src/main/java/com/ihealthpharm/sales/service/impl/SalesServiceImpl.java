@@ -244,6 +244,12 @@ public class SalesServiceImpl implements SalesService {
 	public List<String> findAlltypeINSalesSRD() {
 		return salesRepository.findAlltypeINSalesSRD();
 	}
+
+	//SRADL
+	@Override
+	public List<String> findcityNameINSalesSRADL(String searchTerm) {
+		return salesRepository.findcityNameINSalesSRADL(searchTerm);
+	}
 	
 
 }

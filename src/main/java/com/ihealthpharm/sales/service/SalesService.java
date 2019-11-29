@@ -60,4 +60,9 @@ public interface SalesService
 	List<String> findAllbillDateINSalesSRD();
 	
 	List<String> findAlltypeINSalesSRD();
+	
+	
+//SRADL
+	
+	List<String> findcityNameINSalesSRADL(String searchTerm);
 }
