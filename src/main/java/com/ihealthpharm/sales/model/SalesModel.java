@@ -40,6 +40,9 @@ public class SalesModel {
 
 	@Column(name = "BILL_CODE", length = 30)
 	private String billCode;
+	
+	@Column(name="PREVIOUS_BILL_CODE", length = 30)
+	private String previousBillCode;
 
 	@Column(name = "BILL_DATE", length = 25)
 	private LocalDate billDate;
@@ -151,6 +154,8 @@ public class SalesModel {
 	
 	@Column(name="CREDIT_AMOUNT")
 	private Double creditAmount;
+	
+	
 	
 	@OneToOne
 	@JoinColumn(name = "CUSTOMER_INSURANCE_ID")
