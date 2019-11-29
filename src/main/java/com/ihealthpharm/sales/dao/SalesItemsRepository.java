@@ -37,12 +37,12 @@ extends JpaRepository<SalesItemsModel,Integer>
 	 
 		 @Query("select DISTINCT i.itemName from sales_items si,sales s,stock st,items i ,manufacturer m" 
 				 + " where si.billId.billId=s.billId and st.item.itemId=i.itemId" 
-				 + " and i.manufacturer.manufacturerId=m.manufacturerId and i.itemName like %:searchTerm% ")
+				 + " and i.manufacturer.manufacturerId=m.manufacturerId and i.itemName like :searchTerm% ")
 		 List<String> finditemNameInSalesSBPS(@Param("searchTerm") String searchTerm);
 		 
 		 @Query("select DISTINCT m.name from sales_items si,sales s,stock st,items i ,manufacturer m" 
 				 + " where si.billId.billId=s.billId and st.item.itemId=i.itemId" 
-				 + " and i.manufacturer.manufacturerId=m.manufacturerId and m.name like %:searchTerm% ")
+				 + " and i.manufacturer.manufacturerId=m.manufacturerId and m.name like :searchTerm% ")
 		 List<String> findnameInSalesSBPS(@Param("searchTerm") String searchTerm);
 		 
 		 @Query("select DISTINCT i.itemName from sales_items si,sales s,stock st,items i ,manufacturer m" 
