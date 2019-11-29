@@ -103,7 +103,7 @@ public class SalesItemsController {
 		return new BaseDto<>(results,salesItemsHelper.updateSalesItemsMessage,OK).respond();
 	}
 	
-	@GetMapping("/getallitemNamebysearchsbps")
+	@GetMapping("/getallitemNamesbps")
 	public ResponseEntity<BaseDto<List<String>>> getAllitemNameBySearchSBPS(){
 		List<String> results=salesItemsService.findAllitemNameInSalesSBPS();
 		return new BaseDto<>(results,salesItemsHelper.updateSalesItemsMessage,OK).respond();

@@ -65,4 +65,13 @@ public interface SalesService
 //SRADL
 	
 	List<String> findcityNameINSalesSRADL(String searchTerm);
+	
+	List<String> findAllcityNameINSalesSRADL();
+	
+	//SRBB
+	List<String> findBillCodeINSalesSRBB(String searchTerm);
+	
+	List<String> findAllBillCodeINSalesSRBB();
+	
+	
 }
