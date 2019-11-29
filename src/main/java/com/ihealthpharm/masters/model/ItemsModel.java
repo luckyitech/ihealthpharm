@@ -206,7 +206,7 @@ public class ItemsModel extends AuditModel {
 	@Column(name="SEASONAL_NON_SEASONAL",length=20)
 	private String seasonalNonSeasonal;
 
-	@OneToOne
+	/*@OneToOne
 	@JoinColumn(name="CREATED_BY")
 	private UsersModel userCreatedBy;
 
@@ -235,7 +235,7 @@ public class ItemsModel extends AuditModel {
 	private Date rejectedDate;
 
 	@Column(name="REJECTED_REASON",length=200)
-	private String rejectedReason;
+	private String rejectedReason;*/
 
 	@Column(name="DRUG_SHORTAGES",length=20)
 	private String drugShortages;
