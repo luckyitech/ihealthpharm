@@ -14,6 +14,8 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -111,7 +113,7 @@ public class SalesServiceImpl implements SalesService {
 				if ((code != null && !code.equals("undefined")) && (codeValue != null && !codeValue.equals("undefined"))) {
 					if(code.equalsIgnoreCase("Bill Number"))
 					{
-					predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("billCode"), codeValue)));
+					predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("billCode"), codeValue+"%")));
 					}
 					else if(code.equalsIgnoreCase("customer Name"))
 					{
@@ -249,6 +251,18 @@ public class SalesServiceImpl implements SalesService {
 	@Override
 	public List<String> findcityNameINSalesSRADL(String searchTerm) {
 		return salesRepository.findcityNameINSalesSRADL(searchTerm);
+	}
+
+	@Override
+	public List<String> getBillNumbersTop100() {
+		Pageable limit = new PageRequest(0,100);
+		return salesRepository.findBillCodeTop100(limit);
+	}
+
+	@Override
+	public List<String> getBillNumbersBySearch(String key) {
+		
+		return salesRepository.findByBillCodeSearch(key);
 	}
 	
 

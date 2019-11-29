@@ -208,4 +208,16 @@ public class SalesController {
 		List<String> results=salesService.findcityNameINSalesSRADL(searchTerm);
 		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
+	
+	@GetMapping("/getpreviousbillcodes")
+	public ResponseEntity<BaseDto<List<String>>> getPreviousBillCodes(){
+		List<String> results=salesService.getBillNumbersTop100();
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getpreviousbillcodesbysearch")
+	public ResponseEntity<BaseDto<List<String>>> getPreviousBillCodesByBillCode(@RequestParam("key") String key){
+		List<String> results=salesService.getBillNumbersBySearch(key);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
 }

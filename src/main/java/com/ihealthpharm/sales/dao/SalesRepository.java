@@ -2,6 +2,7 @@ package com.ihealthpharm.sales.dao;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -107,5 +108,11 @@ extends JpaRepository<SalesModel,Integer>
 	 @Query("select distinct sp.cityName from sales s,sales_items si,supplier sp,payment_types pt "  
 	 	   + "where s.billId=si.billId.billId and si.supplier.supplierId=sp.supplierId and sp.cityName like %:searchTerm%")
 		 		List<String> findcityNameINSalesSRADL(@Param("searchTerm") String searchTerm);
+
+	@Query("select s.billCode from sales s where s.billCode is not null order by s.billDate DESC")
+	List<String> findBillCodeTop100(Pageable pageable);
+
+	@Query("select s.billCode from sales s where s.billCode like :key% order by s.billDate DESC ")
+	List<String> findByBillCodeSearch(@Param("key") String key);
 	 
 }
