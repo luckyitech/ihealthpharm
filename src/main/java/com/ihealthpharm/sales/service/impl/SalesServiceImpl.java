@@ -264,6 +264,20 @@ public class SalesServiceImpl implements SalesService {
 		
 		return salesRepository.findByBillCodeSearch(key);
 	}
+	public List<String> findAllcityNameINSalesSRADL() {
+		return salesRepository.findAllcityNameINSalesSRADL();
+	}
+//SRBB
+	@Override
+	public List<String> findBillCodeINSalesSRBB(String searchTerm) {
+		return salesRepository.findBillCodeINSalesSRBB(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllBillCodeINSalesSRBB() {
+		return salesRepository.findAllBillCodeINSalesSRBB();
+
+	}
 	
 
 }
