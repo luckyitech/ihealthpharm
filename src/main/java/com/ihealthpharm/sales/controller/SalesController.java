@@ -87,6 +87,7 @@ public class SalesController {
 
 	
 	//to get billcode based on searchterm 
+	
 	@GetMapping("/getbillcode/basedonsearch")
 	public ResponseEntity<BaseDto<SalesModel>> getSalesRecordBySearch(@RequestParam String searchTerm){
 		SalesModel salesModel=salesService.getSaleByBillCode(searchTerm);
@@ -104,7 +105,7 @@ public class SalesController {
 		List result=salesService.totalSalesByMonthWiseData();
 		return new BaseDto<>(result,salesHelper.getRetrieveSalesMessage(),OK).respond();
 		}
-
+//scl
 	@GetMapping("/getmanufacturerbysearchscl")
 	public ResponseEntity<BaseDto<List<String>>> getManufacturersBySales(@RequestParam String searchTerm){
 		List<String> results=salesService.findManufacturerBySales(searchTerm);
@@ -203,9 +204,25 @@ public class SalesController {
 	
 	//SRADL
 	
-	@GetMapping("/getcitynamebysearchsrd")
+	@GetMapping("/getcitynamebysearchsrad")
 	public ResponseEntity<BaseDto<List<String>>> getcityNameBySearchSRADL(@RequestParam String searchTerm){
 		List<String> results=salesService.findcityNameINSalesSRADL(searchTerm);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	@GetMapping("/getallcitynamesrad")
+	public ResponseEntity<BaseDto<List<String>>> getAllcityNameBySearchSRADL(){
+		List<String> results=salesService.findAllcityNameINSalesSRADL();
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	//SRBB
+	@GetMapping("/getbillcodesbysearchsrb")
+	public ResponseEntity<BaseDto<List<String>>> getBillCodesBySearchSRBB(@RequestParam String searchTerm){
+		List<String> results=salesService.findBillCodeINSalesSRBB(searchTerm);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	@GetMapping("/getallbillcodesrb")
+	public ResponseEntity<BaseDto<List<String>>> getAllBillCodesSRBB(){
+		List<String> results=salesService.findAllBillCodeINSalesSRBB();
 		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
 }
