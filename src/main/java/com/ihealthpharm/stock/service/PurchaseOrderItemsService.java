@@ -19,5 +19,13 @@ public interface PurchaseOrderItemsService {
 	void deletePurchaseOrderItemsById(Integer purchaseOrderItemsIds);
 
 	void deletePurchaseOrderItemssById(Integer[] purchaseOrderItemsIds);
+	
+	List<String> findManufacturerByPurchaseOrderItem(String searchTerm);
+	
+	List<String> findAllManufacturerByPurchaseOrderItem();
+	
+	List<String> findSuppliersByPurchaseOrderItem(String searchTerm);
+	
+	List<String> findAllSuppliersByPurchaseOrderItem();
 
 }

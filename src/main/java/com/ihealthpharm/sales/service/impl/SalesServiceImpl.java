@@ -8,6 +8,8 @@ import java.util.Objects;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -100,7 +102,7 @@ public class SalesServiceImpl implements SalesService {
 			@Override
 			public Predicate toPredicate(Root<SalesModel> root, CriteriaQuery<?> query,
 					CriteriaBuilder criteriaBuilder) {
-				
+				Join<SalesModel, CustomerModel> bJoin= root.join("customerModel", JoinType.INNER);
 				List<Predicate> predicates = new ArrayList<>();
 				if (status != null && !status.equals("undefined")) {
 					System.out.println("in status condition:" + (status != null &&!status.equals("undefined")));
@@ -113,7 +115,7 @@ public class SalesServiceImpl implements SalesService {
 					}
 					else if(code.equalsIgnoreCase("customer Name"))
 					{
-						predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("customerNm"), codeValue)));
+						predicates.add(criteriaBuilder.and(criteriaBuilder.like(bJoin.get("customerName"), codeValue+"%")));
 					}
 					
 				}
@@ -161,5 +163,93 @@ public class SalesServiceImpl implements SalesService {
 		System.out.println(finalObj);
 		return finalObj;
 	}
+
+	@Override
+	public List<String> findManufacturerBySales(String searchTerm) {
+		return salesRepository.findManufacturerInSalesSCL(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllManufacturerBySales() {
+		return salesRepository.findAllManufacturerInSalesSCL();
+	}
+
+	@Override
+	public List<String> findProvidersBySales(String searchTerm) {
+		return salesRepository.findProviderInSalesSCL(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllProvidersBySales() {
+		return salesRepository.findAllProvidersInSalesSCL();
+	}
+
+	@Override
+	public List<String> findBillDateBySales(String searchTerm) {
+		return salesRepository.findBillDateInSalesSCL(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllBillDtaessBySales() {
+		return salesRepository.findAllBillDatesInSalesSCL();
+	}
+
+	//DBL
+	@Override
+	public List<String> findBillDatesBySalesDBL(String searchTerm) {
+		return  salesRepository.findBillDatesInSalesDBL(searchTerm);
+	}
+
+	@Override
+	public List<String> findfirst_nmBySalesDBL(String searchTerm) {
+		return salesRepository.findfirst_nmInSalesDBL(searchTerm);
+	}
+
+	@Override
+	public List<String> findnameBySalesDBL(String searchTerm) {
+		return salesRepository.findnameInSalesDBL(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllBillDatesBySalesDBL() {
+		return salesRepository.findAllBillDatesInSalesDBL();
+	}
+
+	@Override
+	public List<String> findAllfirst_nmBySalesDBL() {
+		return salesRepository.findAllfirst_nmInSalesDBL();
+	}
+
+	@Override
+	public List<String> findAllnameBySalesDBL() {
+		return salesRepository.findAllnameInSalesDBL();
+	}
+
+	@Override
+	public List<String> findbillDateINSalesSRD(String searchTerm) {
+		return salesRepository.findbillDateINSalesSRD(searchTerm);
+	}
+
+	@Override
+	public List<String> findtypeINSalesSRD(String searchTerm) {
+		return salesRepository.findtypeINSalesSRD(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllbillDateINSalesSRD() {
+		return salesRepository.findAllbillDateINSalesSRD() ;
+	}
+
+	@Override
+	public List<String> findAlltypeINSalesSRD() {
+		return salesRepository.findAlltypeINSalesSRD();
+	}
+
+	//SRADL
+	@Override
+	public List<String> findcityNameINSalesSRADL(String searchTerm) {
+		return salesRepository.findcityNameINSalesSRADL(searchTerm);
+	}
+	
 
 }

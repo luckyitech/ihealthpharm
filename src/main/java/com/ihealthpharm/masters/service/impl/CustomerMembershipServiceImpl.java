@@ -65,7 +65,7 @@ public class CustomerMembershipServiceImpl implements CustomerMembershipService 
 	@Override
 	public List<CustomerMembershipModel> findAllCustomersMembership() {
 		
-		return customerMembershipRepository.findAllByOrderByLastUpdateTimestampDesc();
+		return customerMembershipRepository.findAllByOrderByLastUpdateTimestamp();
 	}
 
 	@Override

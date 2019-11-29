@@ -65,6 +65,11 @@ public class InvoiceServiceImpl implements InvoiceService {
 	
 	@Autowired
 	InvoiceHelper invoiceHelper;
+	
+	@Override
+	public List<InvoiceModel> findAllInvoiceByNo(String searchTerm) {
+		return invoiceRepository.findAllByInvoiceNoSearch(searchTerm);
+	}
 
 	@Override
 	public InvoiceModel saveInvoice(InvoiceModel invoiceModel, PurchaseReturnModel purchaseReturnModel) {
@@ -302,6 +307,28 @@ public class InvoiceServiceImpl implements InvoiceService {
 		} catch (NoSuchElementException noSuchElementException) {
 			throw new IHealthPharmException(invoiceHelper.getNotFoundInvoiceMessage(), HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	//Purchase Invoice Report
+	
+	@Override
+	public List<String> findSuppliersByInvoicePIR(String searchTerm) {
+		return invoiceRepository.findSuppliersInInvoicePIR(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllSuppliersByInvoicePIR() {
+		return invoiceRepository.findAllSuppliersInInvoicePIR();
+	}
+
+	@Override
+	public List<String> findInvoiceDtByInvoicePIR(String searchTerm) {
+		return invoiceRepository.findInvoiceDtInInvoicePIR(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllInvoiceDtByInvoicePIR() {
+		return invoiceRepository.findAllInvoiceDtInInvoicePIR();
 	}
 
 }

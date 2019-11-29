@@ -81,4 +81,24 @@ public class PurchaseOrderItemsController {
 		List<PurchaseOrderItemsModel> PurchaseOrderItemsModelRes = purchaseOrderItemsService.updatePurchaseOrderItemssData(purchaseOrderItemsModel);
 		return new BaseDto<>(PurchaseOrderItemsModelRes, purchaseOrderItemsHelper.getUpdatePurchaseOrderItemsMessage(), OK).respond();
 	}
+	@GetMapping("/getmanufacturerbysearchpbpd")
+	public ResponseEntity<BaseDto<List<String>>> getManufacturerByPurchaseOrderItems(@RequestParam String searchTerm){
+		List<String> results=purchaseOrderItemsService.findManufacturerByPurchaseOrderItem(searchTerm);
+		return new BaseDto<>(results,purchaseOrderItemsHelper.getRetrievePurchaseOrderItemsMessage(),OK).respond();
+	}
+	@GetMapping("/getallmanufacturerpbpd")
+	public ResponseEntity<BaseDto<List<String>>> getAllManufacturerByPurchaseOrderItems(){
+		List<String> results=purchaseOrderItemsService.findAllManufacturerByPurchaseOrderItem();
+		return new BaseDto<>(results,purchaseOrderItemsHelper.getRetrievePurchaseOrderItemsMessage(),OK).respond();
+	}
+	@GetMapping("/getsuppliersbysearchpbpd")
+	public ResponseEntity<BaseDto<List<String>>> getSuppliersByPurchaseOrderItems(@RequestParam String searchTerm){
+		List<String> results=purchaseOrderItemsService.findSuppliersByPurchaseOrderItem(searchTerm);
+		return new BaseDto<>(results,purchaseOrderItemsHelper.getRetrievePurchaseOrderItemsMessage(),OK).respond();
+	}
+	@GetMapping("/getallsupplierspbpd")
+	public ResponseEntity<BaseDto<List<String>>> getAllSuppliersByPurchaseOrderItems(){
+		List<String> results=purchaseOrderItemsService.findAllManufacturerByPurchaseOrderItem();
+		return new BaseDto<>(results,purchaseOrderItemsHelper.getRetrievePurchaseOrderItemsMessage(),OK).respond();
+	}
 }

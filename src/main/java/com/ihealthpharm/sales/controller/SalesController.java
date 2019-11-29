@@ -21,6 +21,7 @@ import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.sales.helper.SalesHelper;
 import com.ihealthpharm.sales.model.SalesModel;
 import com.ihealthpharm.sales.service.SalesService;
+import com.ihealthpharm.stock.model.StockModel;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -103,5 +104,108 @@ public class SalesController {
 		List result=salesService.totalSalesByMonthWiseData();
 		return new BaseDto<>(result,salesHelper.getRetrieveSalesMessage(),OK).respond();
 		}
+
+	@GetMapping("/getmanufacturerbysearchscl")
+	public ResponseEntity<BaseDto<List<String>>> getManufacturersBySales(@RequestParam String searchTerm){
+		List<String> results=salesService.findManufacturerBySales(searchTerm);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	@GetMapping("/getallmanufacturerscl")
+	public ResponseEntity<BaseDto<List<String>>> getAllManufacturersBySales(){
+		List<String> results=salesService.findAllManufacturerBySales();
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
 	
+	@GetMapping("/getprovidersbysearchscl")
+	public ResponseEntity<BaseDto<List<String>>> getProvidersBySales(@RequestParam String searchTerm){
+		List<String> results=salesService.findProvidersBySales(searchTerm);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getallprovidersscl")
+	public ResponseEntity<BaseDto<List<String>>> getAllProvidersBySales(){
+		List<String> results=salesService.findAllProvidersBySales();
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	@GetMapping("/getbilldatesbysearchscl")
+	public ResponseEntity<BaseDto<List<String>>> getBillDatesBySales(@RequestParam String searchTerm){
+		List<String> results=salesService.findBillDateBySales(searchTerm);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	@GetMapping("/getallbilldatesscl")
+	public ResponseEntity<BaseDto<List<String>>> getAllBillDatessclBySales(){
+		List<String> results=salesService.findAllBillDtaessBySales();
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+
+//DBL
+	@GetMapping("/getbilldatesbysearchdbl")
+	public ResponseEntity<BaseDto<List<String>>> getBillDatesBySearchDBL(@RequestParam String searchTerm){
+		List<String> results=salesService.findBillDatesBySalesDBL(searchTerm);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getfirstnmbysearchdbl")
+	public ResponseEntity<BaseDto<List<String>>> getfirst_nmBySearchDBL(@RequestParam String searchTerm){
+		List<String> results=salesService.findfirst_nmBySalesDBL(searchTerm);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getnamebysearchdbl")
+	public ResponseEntity<BaseDto<List<String>>> getnameBySearchDBL(@RequestParam String searchTerm){
+		List<String> results=salesService.findnameBySalesDBL(searchTerm);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getallbilldatesbysearchdbl")
+	public ResponseEntity<BaseDto<List<String>>> getAllBillDatesDBL(){
+		List<String> results=salesService.findAllBillDatesBySalesDBL();
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getallfirstnmbysearchdbl")
+	public ResponseEntity<BaseDto<List<String>>> getAllfirst_nmDBL(){
+		List<String> results=salesService.findAllfirst_nmBySalesDBL();
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getallnamebysearchdbl")
+	public ResponseEntity<BaseDto<List<String>>> getAllnameBySearchDBL(){
+		List<String> results=salesService.findAllnameBySalesDBL();
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+//SRD	
+	
+	@GetMapping("/getbilldatebysearchsrd")
+	public ResponseEntity<BaseDto<List<String>>> getbillDateBySearchSRD(@RequestParam String searchTerm){
+		List<String> results=salesService.findbillDateINSalesSRD(searchTerm);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/gettypebysearchsrd")
+	public ResponseEntity<BaseDto<List<String>>> gettypeBySearchSRD(@RequestParam String searchTerm){
+		List<String> results=salesService.findtypeINSalesSRD(searchTerm);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getallbilldatebysearchsrd")
+	public ResponseEntity<BaseDto<List<String>>> getAllbillDateBySearchSRD(){
+		List<String> results=salesService.findAllbillDateINSalesSRD();
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getalltypebysearchsrd")
+	public ResponseEntity<BaseDto<List<String>>> getAlltypeBySearchSRD(){
+		List<String> results=salesService.findAlltypeINSalesSRD();
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	//SRADL
+	
+	@GetMapping("/getcitynamebysearchsrd")
+	public ResponseEntity<BaseDto<List<String>>> getcityNameBySearchSRADL(@RequestParam String searchTerm){
+		List<String> results=salesService.findcityNameINSalesSRADL(searchTerm);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
 }
