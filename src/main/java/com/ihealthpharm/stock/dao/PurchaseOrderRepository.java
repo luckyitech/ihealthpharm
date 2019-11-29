@@ -62,4 +62,79 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrderMode
 	List<PurchaseOrderModel> getSentPurchaseOrderByPharmacy(@Param("pharmacyId") Integer pharmacyId, 
 			@Param("purchaseOrderNo") String purchaseOrderNo);
 	
+	//Purchase Details By Batch No
+	@Query("select distinct si.batchNo from purchase_order po,purchase_order_items poi,items i,sales_items si,invoice inv,supplier sp "
+			+ "where poi.purchaseOrderModel.purchaseOrderId=po.purchaseOrderId "
+			+ "and i.itemId=poi.itemsModel.itemId "
+			+ "and si.itemsModel.itemId=i.itemId "
+			+ "and inv.supplierModel.supplierId=sp.supplierId "
+			+ "and si.supplier.supplierId=sp.supplierId "
+			+ "and si.batchNo like :searchTerm%")
+	List<String> findbatchNoInpurchaseorderPDBB(@Param("searchTerm") String searchTerm);		
+
+	@Query("select distinct si.batchNo from purchase_order po,purchase_order_items poi,items i,sales_items si,invoice inv,supplier sp "
+			+ "where poi.purchaseOrderModel.purchaseOrderId=po.purchaseOrderId "
+			+ "and i.itemId=poi.itemsModel.itemId "
+			+ "and si.itemsModel.itemId=i.itemId "
+			+ "and inv.supplierModel.supplierId=sp.supplierId "
+			+ "and si.supplier.supplierId=sp.supplierId order by si.batchNo")
+	List<String> findallPDBB();	
+	
+	
+	//Purchase Details By Batch No(Supplier Names)
+	@Query("select distinct sp.name from purchase_order po,purchase_order_items poi,items i,sales_items si,invoice inv,supplier sp "
+			+ "where poi.purchaseOrderModel.purchaseOrderId=po.purchaseOrderId "
+			+ "and i.itemId=poi.itemsModel.itemId "
+			+ "and si.itemsModel.itemId=i.itemId "
+			+ "and inv.supplierModel.supplierId=sp.supplierId "
+			+ "and si.supplier.supplierId=sp.supplierId "
+			+ "and sp.name like :searchTerm%")
+	List<String> findSuppliersInpurchaseorderPDBB(@Param("searchTerm") String searchTerm);		
+
+	@Query("select distinct sp.name from purchase_order po,purchase_order_items poi,items i,sales_items si,invoice inv,supplier sp "
+			+ "where poi.purchaseOrderModel.purchaseOrderId=po.purchaseOrderId "
+			+ "and i.itemId=poi.itemsModel.itemId "
+			+ "and si.itemsModel.itemId=i.itemId "
+			+ "and inv.supplierModel.supplierId=sp.supplierId "
+			+ "and si.supplier.supplierId=sp.supplierId order by sp.name")
+	List<String> findAllSuppliersPDBB();	
+	
+	//Purchase Details By Product Name
+	@Query("select distinct i.itemName from purchase_order po,purchase_order_items poi,items i,sales_items si,invoice inv,supplier sp "
+			+ "where poi.purchaseOrderModel.purchaseOrderId=po.purchaseOrderId "
+			+ "and i.itemId=poi.itemsModel.itemId "
+			+ "and si.itemsModel.itemId=i.itemId "
+			+ "and inv.supplierModel.supplierId=sp.supplierId "
+			+ "and si.supplier.supplierId=sp.supplierId and i.itemName like :searchTerm%")
+	List<String> finditemNameInpurchaseorderPDBP(@Param("searchTerm") String searchTerm);	
+
+	@Query("select distinct i.itemName from purchase_order po,purchase_order_items poi,items i,sales_items si,invoice inv,supplier sp "
+			+ "where poi.purchaseOrderModel.purchaseOrderId=po.purchaseOrderId "
+			+ "and i.itemId=poi.itemsModel.itemId "
+			+ "and si.itemsModel.itemId=i.itemId "
+			+ "and inv.supplierModel.supplierId=sp.supplierId "
+			+ "and si.supplier.supplierId=sp.supplierId ")
+	List<String> findallPDBP();	
+	
+	//Purchase Register List
+	@Query("select distinct pt.type from purchase_order po,invoice inv,supplier sp,payment_types pt "
+			+ "where  inv.supplierModel.supplierId=sp.supplierId "
+			+ "and inv.supplierModel.supplierId=po.supplierModel.supplierId and pt.type like :searchTerm%")
+	List<String> findpaymenttypebysearchPRLT(@Param("searchTerm") String searchTerm);
+
+	@Query("select distinct pt.type from purchase_order po,invoice inv,supplier sp,payment_types pt "
+			+ "where  inv.supplierModel.supplierId=sp.supplierId "
+			+ "and inv.supplierModel.supplierId=po.supplierModel.supplierId order by pt.type")
+	List<String> findallpaymenttypePRLT();
+
+	@Query("select distinct sp.name from purchase_order po,invoice inv,supplier sp "
+			+ "where  inv.supplierModel.supplierId=sp.supplierId "
+			+ "and inv.supplierModel.supplierId=po.supplierModel.supplierId and sp.name like :searchTerm% ")
+	List<String> findsupplierbysearchPRLS(@Param("searchTerm") String searchTerm);
+
+	@Query("select distinct sp.name from purchase_order po,invoice inv,supplier sp "
+			+ "where  inv.supplierModel.supplierId=sp.supplierId "
+			+ "and inv.supplierModel.supplierId=po.supplierModel.supplierId order by sp.name")
+	List<String> findallsuppliersPRLS();
+	
 }

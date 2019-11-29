@@ -256,5 +256,18 @@ public class StockController {
 		List<StockModel> results=stockService.findAllByBatchNo(searchTerm);
 		return new BaseDto<>(results,stockHelper.getRetrieveStockMessage(),OK).respond();
 	}
+	
+	//Supplier By MFR List
+	@GetMapping("/getsuppliersbysearchssbml")
+	public ResponseEntity<BaseDto<List<String>>> findSupplierbynameInStockSBML(@RequestParam String searchTerm){
+		List<String> results=stockService.findSuppliersByStock(searchTerm);
+		return new BaseDto<>(results,stockHelper.getRetrieveStockAdjustmentMessage(),OK).respond();
+	}
+	@GetMapping("/getallsupplierssbml")
+	public ResponseEntity<BaseDto<List<String>>> findallSBML(){
+		List<String> results=stockService.findallSBML();
+		return new BaseDto<>(results,stockHelper.getRetrieveStockAdjustmentMessage(),OK).respond();
+	}
+
 
 }

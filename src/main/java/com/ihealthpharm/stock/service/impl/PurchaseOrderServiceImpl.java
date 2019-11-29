@@ -288,5 +288,67 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	public List<PurchaseOrderModel> getSentPurchaseOrderByPharmacy(Integer pharmacyId, String purchaseOrderNo) {
 		return purchaseorderRepository.getSentPurchaseOrderByPharmacy(pharmacyId, purchaseOrderNo);
 	}
+	//Purchase Details By Batch No
+	@Override
+	public List<String> findbatchNoInpurchaseorderPDBB(String searchTerm) {
+	
+		return purchaseorderRepository.findbatchNoInpurchaseorderPDBB(searchTerm);
+	}
 
+	@Override
+	public List<String> findallPDBB() {
+		
+		return purchaseorderRepository.findallPDBB();
+	}
+	
+	
+	@Override
+	public List<String> findSuppliersInpurchaseorderPDBB(String searchTerm) {
+	
+		return purchaseorderRepository.findSuppliersInpurchaseorderPDBB(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllSuppliersPDBB() {
+
+		return purchaseorderRepository.findAllSuppliersPDBB();
+	}
+
+	//Purchase Details By Product Name
+	@Override
+	public List<String> finditemNameInpurchaseorderPDBP(String searchTerm) {
+		return purchaseorderRepository.finditemNameInpurchaseorderPDBP(searchTerm);
+	}
+
+	@Override
+	public List<String> findallPDBP() {
+		return purchaseorderRepository.findallPDBP();
+		
+	}
+	
+	//Purchase Register List
+
+	@Override
+	public List<String> findpaymenttypebysearchPRLT(String searchTerm) {
+		return purchaseorderRepository.findpaymenttypebysearchPRLT(searchTerm);
+	}
+
+	@Override
+	public List<String> findallpaymenttypesPRLT() {
+		
+		return purchaseorderRepository.findallpaymenttypePRLT();
+	}
+
+	@Override
+	public List<String> findsuppliersbysearchPRLS(String searchTerm) {
+		
+		return purchaseorderRepository.findsupplierbysearchPRLS(searchTerm);
+	}
+
+	@Override
+	public List<String> findallsuppliersPRLS() {
+		return purchaseorderRepository.findallsuppliersPRLS();
+	}
+
+	
 }

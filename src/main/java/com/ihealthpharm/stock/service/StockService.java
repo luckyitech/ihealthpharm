@@ -58,5 +58,10 @@ public interface StockService {
 	List<String> findAllInvoiceDatesByStock();
 
 	List<StockModel> findAllByBatchNo(String searchTerm);
+	
+	//Supplier By MFR List
+	List<String> findSupplierbynameInStockSBML(String searchTerm);
+	
+	List<String> findallSBML();
 
 }
