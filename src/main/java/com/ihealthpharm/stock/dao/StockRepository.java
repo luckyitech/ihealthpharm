@@ -138,4 +138,18 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 	
 	@Query("select st from stock st where st.batchNo like %:searchTerm% order by st.creationTimeStamp desc")
 	List<StockModel> findAllByBatchNoSearch(@Param("searchTerm") String searchTerm);
+	
+	//Supplier By Mfr List
+	@Query("select distinct sp.name from stock st,supplier sp,items i,manufacturer m " 
+			+ "where st.item.itemId=i.itemId "
+			+ "and i.manufacturer.manufacturerId=m.manufacturerId "
+			+ "and st.supplier.supplierId=sp.supplierId and sp.name like :searchTerm% ")  
+	List<String> findSupplierbynameInStockSBML(@Param("searchTerm") String searchTerm);
+
+	@Query("select distinct sp.name from stock st,supplier sp,items i,manufacturer m " 
+			+ "where st.item.itemId=i.itemId "
+			+ "and i.manufacturer.manufacturerId=m.manufacturerId "
+			+ "and st.supplier.supplierId=sp.supplierId order by sp.name")
+	List<String> findallSBML();
+	
 }
