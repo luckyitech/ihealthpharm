@@ -271,5 +271,15 @@ public class StockServiceImpl implements StockService {
 		public List<StockModel> findAllByBatchNo(String searchTerm) {
 		return stockRepository.findAllByBatchNoSearch(searchTerm);
 	}
+	//Supplier By MFR List
+		@Override
+		public List<String> findSupplierbynameInStockSBML(String searchTerm) {
+			return stockRepository.findSupplierbynameInStockSBML(searchTerm);
+		}
+
+		@Override
+		public List<String> findallSBML() {
+			return stockRepository.findallSBML();
+		}
 
 }
