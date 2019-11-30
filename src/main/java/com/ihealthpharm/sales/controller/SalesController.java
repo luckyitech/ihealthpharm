@@ -223,6 +223,7 @@ public class SalesController {
 		List<String> results=salesService.getBillNumbersBySearch(key);
 		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
+	
 	@GetMapping("/getallcitynamesrad")
 	public ResponseEntity<BaseDto<List<String>>> getAllcityNameBySearchSRADL(){
 		List<String> results=salesService.findAllcityNameINSalesSRADL();
@@ -234,6 +235,7 @@ public class SalesController {
 		List<String> results=salesService.findBillCodeINSalesSRBB(searchTerm);
 		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
+	
 	@GetMapping("/getallbillcodesrb")
 	public ResponseEntity<BaseDto<List<String>>> getAllBillCodesSRBB(){
 		List<String> results=salesService.findAllBillCodeINSalesSRBB();
@@ -249,4 +251,17 @@ public class SalesController {
 	}
 	
 	
+	@GetMapping("/getsaleshistorybysearch")
+	public ResponseEntity<BaseDto<List<SalesModel>>> getSalesBySearch(@RequestParam String status, @RequestParam String code, @RequestParam String codeValue,
+			@RequestParam String startDate, @RequestParam String endDate,@RequestParam Integer pageNumber,@RequestParam Integer pageSize){
+		List<SalesModel> results=salesService.searchInSalesHistory(status,code,codeValue,startDate,endDate,pageNumber,pageSize);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getsaleshistorybysearchcount")
+	public ResponseEntity<BaseDto<Integer>> getSalesBySearchCount(@RequestParam String status, @RequestParam String code, @RequestParam String codeValue,
+			@RequestParam String startDate, @RequestParam String endDate){
+		Integer results=salesService.searchInSalesHistoryCount(status,code,codeValue,startDate,endDate);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
 }
