@@ -18,7 +18,7 @@ public interface ProviderRepository extends JpaRepository<ProviderModel, Integer
 
 	List<ProviderModel> findByFirstNameIgnoreCaseContaining(String firstName);
 
-	@Query("select p from provider p where p.firstName like %:name% or p.lastName like %:name% or p.deaNumber like %:name% or p.licenseNumber like %:name%")
+	@Query("select p from provider p where p.firstName like :name% or p.lastName like :name% or p.deaNumber like :name% or p.licenseNumber like :name%")
 	List<ProviderModel> findByNameIgnoreCaseContaining(@Param("name") String name);
 
 }
