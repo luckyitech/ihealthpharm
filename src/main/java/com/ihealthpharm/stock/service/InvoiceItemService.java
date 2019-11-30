@@ -2,6 +2,7 @@ package com.ihealthpharm.stock.service;
 
 import com.ihealthpharm.stock.model.InvoiceItemModel;
 
+import java.sql.Date;
 import java.util.List;
 
 
@@ -29,7 +30,7 @@ public interface InvoiceItemService {
 	
 	List<String> findAllInvoiceNoByInvoiceItems();
 	
-	List<String> findInvoiceDtByInvoiceItems(String searchTerm);
+	List<String> findInvoiceDtByInvoiceItems(Date searchTerm);
 	
 	List<String> findAllInvoiceDtByInvoiceItems();
 	

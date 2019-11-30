@@ -2,6 +2,7 @@ package com.ihealthpharm.stock.controller;
 
 import static org.springframework.http.HttpStatus.OK;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -143,7 +144,7 @@ public class InvoiceItemController {
 	}
 	
 	@GetMapping("/getinvoicedatebysearchpid")
-	public ResponseEntity<BaseDto<List<String>>> getInvoiceDtByInvoiceItems(@RequestParam String searchTerm){
+	public ResponseEntity<BaseDto<List<String>>> getInvoiceDtByInvoiceItems(@RequestParam Date searchTerm){
 		List<String> results=invoiceItemService.findInvoiceDtByInvoiceItems(searchTerm);
 		return new BaseDto<>(results,invoiceItemHelper.getRetrieveInvoiceItemMessage(),OK).respond();
 	}
