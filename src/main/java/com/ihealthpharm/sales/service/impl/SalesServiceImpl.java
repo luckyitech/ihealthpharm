@@ -136,6 +136,8 @@ public class SalesServiceImpl implements SalesService {
 		});
 	}
 	
+	
+	
 	@Override
 	public SalesModel getSaleByBillCode(String searchTerm) {
 
@@ -277,6 +279,76 @@ public class SalesServiceImpl implements SalesService {
 	public List<String> findAllBillCodeINSalesSRBB() {
 		return salesRepository.findAllBillCodeINSalesSRBB();
 
+	}
+
+	@Override
+	public List<SalesModel> searchInSalesHistory(String status, String code, String codeValue, String startDate,
+			String endDate,Integer pageNumber, Integer pageSize) {
+		Pageable limit = new PageRequest(pageNumber,pageSize);
+		
+		if (status != null && !status.equals("undefined") && !status.equals("null")) {
+			System.out.println("in status condition:" + (status != null &&!status.equals("undefined")));
+			return salesRepository.findSalesByPaymentStatus(status,limit);
+		}
+		
+		if ((code != null && !code.equals("undefined") && !code.equals("null")) && (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null"))) {
+			if(code.equalsIgnoreCase("Bill Number"))
+			{
+				return salesRepository.findSalesByBillCode(codeValue,limit);
+			}
+			else if(code.equalsIgnoreCase("customer Name"))
+			{
+				return salesRepository.findSalesByCustomerName(codeValue,limit);
+			}
+			
+		}
+		
+		
+		if((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null")))
+		{
+			LocalDate start = LocalDate.parse(startDate);
+			LocalDate end = LocalDate.parse(endDate);
+			log.info("startDate=:"+start);
+			log.info("endDate=:"+end);
+			return salesRepository.findSalesByBillDate(start,end,limit);
+		}
+		return null;
+	}
+
+	@Override
+	public Integer searchInSalesHistoryCount(String status, String code, String codeValue, String startDate,
+			String endDate) {
+		Integer res=0;
+		
+		if (status != null && !status.equals("undefined") && !status.equals("null"))  {
+			
+			return salesRepository.findSalesByPaymentStatusCount(status);
+		}
+		
+		if ((code != null && !code.equals("undefined") && !code.equals("null")) && (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null"))) {
+			if(code.equalsIgnoreCase("Bill Number"))
+			{
+				log.info("Code :"+code+ "\t Code Value:"+codeValue);
+				return salesRepository.findSalesByBillCodeCount(codeValue);
+			}
+			else if(code.equalsIgnoreCase("customer Name"))
+			{
+				log.info("Code :"+code+ "\t Code Value:"+codeValue);
+				return salesRepository.findSalesByCustomerNameCount(codeValue);
+			}
+			
+		}
+		
+		
+		if((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null")))
+		{
+			LocalDate start = LocalDate.parse(startDate);
+			LocalDate end = LocalDate.parse(endDate);
+			log.info("startDate=:"+start);
+			log.info("endDate=:"+end);
+			return salesRepository.findSalesByBillDateCount(start,end);
+		}
+		return null;
 	}
 	
 
