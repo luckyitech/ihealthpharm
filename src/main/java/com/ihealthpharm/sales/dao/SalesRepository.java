@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.ihealthpharm.sales.dto.SalesBillDTO;
 import com.ihealthpharm.sales.dto.SalesDTO;
 import com.ihealthpharm.sales.model.SalesModel;
 
@@ -112,19 +113,28 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 
 	@Query("select s.billCode from sales s where s.billCode like :key% order by s.billDate DESC ")
 	List<String> findByBillCodeSearch(@Param("key") String key);
+	 
+	 @Query("select distinct sp.cityName from sales s,sales_items si,supplier sp,payment_types pt "  
+		 	   + "where s.billId=si.billId.billId and si.supplier.supplierId=sp.supplierId order by sp.cityName ")
+			 		List<String> findAllcityNameINSalesSRADL();
+	 //SRBB
 
-	@Query("select distinct sp.cityName from sales s,sales_items si,supplier sp,payment_types pt "
-			+ "where s.billId=si.billId.billId and si.supplier.supplierId=sp.supplierId order by sp.cityName ")
-	List<String> findAllcityNameINSalesSRADL();
+	 @Query("SELECT distinct s.billCode from sales s,sales_items si,items i "
+		 		+"where s.billId = si.billId.billId " 
+		 		+"and i.itemId= si.itemsModel.itemId order by s.billCode ")
+				 		List<String> findAllBillCodeINSalesSRBB();
+
+	 @Query("select new com.ihealthpharm.sales.dto.SalesBillDTO(i.billId,i.billCode) from sales i  "
+				+ "where  i.billCode like %:billCode%")
+	List<SalesBillDTO> getAllSalesBySalesIdSearch(@Param("billCode") String billCode);
+	 
 
 	// SRBB
 	@Query("SELECT distinct s.billCode from sales s,sales_items si,items i " + "where s.billId = si.billId.billId "
 			+ "and i.itemId= si.itemsModel.itemId and s.billCode like :searchTerm%")
 	List<String> findBillCodeINSalesSRBB(@Param("searchTerm") String searchTerm);
 
-	@Query("SELECT distinct s.billCode from sales s,sales_items si,items i " + "where s.billId = si.billId.billId "
-			+ "and i.itemId= si.itemsModel.itemId order by s.billCode ")
-	List<String> findAllBillCodeINSalesSRBB();
+
 
 	@Query("select s from sales s where s.paymentStatus = :key order by s.billDate DESC")
 	List<SalesModel> findSalesByPaymentStatus(@Param("key") String key, Pageable limit);
