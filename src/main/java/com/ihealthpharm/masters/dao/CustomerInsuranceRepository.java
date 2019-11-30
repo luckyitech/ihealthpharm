@@ -19,8 +19,8 @@ public interface CustomerInsuranceRepository extends JpaRepository<CustomerInsur
 
 	CustomerInsuranceModel findByCustomerModel(CustomerModel customer);
 
-	@Query("select ci from customer_insurance ci inner join customer c on ci.customerModel.customerId=c.customerId where ci.customerName like %:searchKey% "
-			+ "or ci.customerPolicyNumber like %:searchKey% or ci.policyCode like %:searchKey%")
+	@Query("select ci from customer_insurance ci inner join customer c on ci.customerModel.customerId=c.customerId where ci.customerName like :searchKey% "
+			+ "or ci.customerPolicyNumber like :searchKey% or ci.policyCode like :searchKey%")
 	List<CustomerInsuranceModel> findCustomersInsuranceBySearch(@Param("searchKey") String searchKey);
 
 }
