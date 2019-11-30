@@ -40,8 +40,8 @@ public class ReportsCommonUtility {
 
 			if (!ObjectUtils.isEmpty(list)) {
 				for (ReportsSearchCriteria criteria : list) {
-					if(dataMap.containsKey(criteria.getColumnName())) {
-						Object value = dataMap.get(criteria.getColumnName());
+					if(dataMap.containsKey(criteria.getFieldName())) {
+						Object value = dataMap.get(criteria.getFieldName());
 						
 						stringBuffer.append(" AND ");
 						
