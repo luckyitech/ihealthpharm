@@ -21,7 +21,6 @@ import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.sales.helper.SalesHelper;
 import com.ihealthpharm.sales.model.SalesModel;
 import com.ihealthpharm.sales.service.SalesService;
-import com.ihealthpharm.stock.model.StockModel;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -207,6 +206,19 @@ public class SalesController {
 	@GetMapping("/getcitynamebysearchsrad")
 	public ResponseEntity<BaseDto<List<String>>> getcityNameBySearchSRADL(@RequestParam String searchTerm){
 		List<String> results=salesService.findcityNameINSalesSRADL(searchTerm);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+
+	
+	@GetMapping("/getpreviousbillcodes")
+	public ResponseEntity<BaseDto<List<String>>> getPreviousBillCodes(){
+		List<String> results=salesService.getBillNumbersTop100();
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getpreviousbillcodesbysearch")
+	public ResponseEntity<BaseDto<List<String>>> getPreviousBillCodesByBillCode(@RequestParam("key") String key){
+		List<String> results=salesService.getBillNumbersBySearch(key);
 		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
 	@GetMapping("/getallcitynamesrad")
