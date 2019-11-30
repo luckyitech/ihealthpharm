@@ -15,6 +15,10 @@ public interface SalesService
     
     List<SalesModel> findLimitedSalesData();
     
+    List<String> getBillNumbersTop100();
+    
+    List<String> getBillNumbersBySearch(String key);
+    
     SalesModel saveSalesData(SalesModel salesModel);
 
     SalesModel updateSalesData(SalesModel salesModel);
