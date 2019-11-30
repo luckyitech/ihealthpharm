@@ -205,7 +205,7 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		int totalItems = responseList.size();
 		double totalAmount = Double.parseDouble(String.valueOf(responseList.get(0).get("TOTAL_AMOUNT")));//responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TOTAL_AMOUNT")?String.valueOf(mapper.get("TOTAL_AMOUNT")):"0.0")).sum(); 
 		Double totalQty = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TOTAL_QTY")?String.valueOf(mapper.get("TOTAL_QTY")):"0.0")).sum(); 
-		double totalDiscount = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("OVERALL_DISCOUNT")?String.valueOf(mapper.get("OVERALL_DISCOUNT")):"0.0")).sum(); 
+		double totalDiscount = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("EFFECTIVE_OVERALL_DISCOUNT")?String.valueOf(mapper.get("EFFECTIVE_OVERALL_DISCOUNT")):"0.0")).sum(); 
 		
 		double totalVat = 0;//responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("EFFECTIVE_VAT")?String.valueOf(mapper.get("VAT")):"0.0")).sum();
 		
