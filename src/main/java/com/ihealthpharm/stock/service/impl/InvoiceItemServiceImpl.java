@@ -1,5 +1,6 @@
 package com.ihealthpharm.stock.service.impl;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -125,7 +126,7 @@ public class InvoiceItemServiceImpl implements InvoiceItemService {
 	}
 	
 	@Override
-	public List<String> findInvoiceDtByInvoiceItems(String searchTerm) {	
+	public List<String> findInvoiceDtByInvoiceItems(Date searchTerm) {	
 		return invoiceItemRepository.findinvoiceDtInInvoiceItems(searchTerm);
 	}
 	
