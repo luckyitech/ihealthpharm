@@ -1,6 +1,7 @@
 package com.ihealthpharm.stock.dao;
 
 import java.sql.Array;
+import java.sql.Date;
 import java.util.List;
 
 import com.ihealthpharm.stock.model.InvoiceItemModel;
@@ -44,8 +45,8 @@ public interface InvoiceItemRepository extends JpaRepository<InvoiceItemModel, I
 	@Query("select distinct inv.invoiceDt from invoice_items init,invoice inv,items i,stock st,supplier sp "
 			+ "where init.invoice=inv.invoiceId and "
 			+ "init.itemsModel.itemId=i.itemId and st.item.itemId=i.itemId and "
-			+ "inv.supplierModel.supplierId=sp.supplierId")
-	List<String> findinvoiceDtInInvoiceItems(@Param("searchTerm") String searchTerm);
+			+ "inv.supplierModel.supplierId=sp.supplierId and inv.invoiceDt >= :searchTerm")
+	List<String> findinvoiceDtInInvoiceItems(@Param("searchTerm") Date searchTerm);
 	
 	@Query("select distinct inv.invoiceDt from invoice_items init,invoice inv,items i,stock st,supplier sp "
 			+ "where init.invoice=inv.invoiceId and "
