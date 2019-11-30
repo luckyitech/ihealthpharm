@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.sales.dao.SalesRepository;
+import com.ihealthpharm.sales.dto.SalesBillDTO;
 import com.ihealthpharm.sales.dto.SalesDTO;
 import com.ihealthpharm.sales.helper.SalesHelper;
 import com.ihealthpharm.sales.model.SalesModel;
@@ -278,6 +279,13 @@ public class SalesServiceImpl implements SalesService {
 		return salesRepository.findAllBillCodeINSalesSRBB();
 
 	}
+
+	@Override
+	public List<SalesBillDTO> findSalesByBillId(String billCode) {
+		return salesRepository.getAllSalesBySalesIdSearch(billCode);
+	}
+	
+	
 	
 
 }

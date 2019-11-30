@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.ihealthpharm.sales.dto.SalesBillDTO;
 import com.ihealthpharm.sales.dto.SalesDTO;
 import com.ihealthpharm.sales.model.SalesModel;
 
@@ -129,5 +130,9 @@ extends JpaRepository<SalesModel,Integer>
 		 		+"where s.billId = si.billId.billId " 
 		 		+"and i.itemId= si.itemsModel.itemId order by s.billCode ")
 				 		List<String> findAllBillCodeINSalesSRBB();
+
+	 @Query("select new com.ihealthpharm.sales.dto.SalesBillDTO(i.billId,i.billCode) from sales i  "
+				+ "where  i.billCode like %:billCode%")
+	List<SalesBillDTO> getAllSalesBySalesIdSearch(@Param("billCode") String billCode);
 	 
 }
