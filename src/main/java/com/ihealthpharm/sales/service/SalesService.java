@@ -23,7 +23,10 @@ public interface SalesService
 
     SalesModel updateSalesData(SalesModel salesModel);
     
-     List<SalesModel> findByCriteria(String status,String code, String codeValue, String startDate, String endDate);
+    List<SalesModel> findByCriteria(String status,String code, String codeValue, String startDate, String endDate);
+    
+    List<SalesModel> searchInSalesHistory(String status,String code, String codeValue, 
+    		String startDate, String endDate,Integer pageNumber, Integer pageSize);
 
 	SalesModel getSaleByBillCode(String searchTerm);
 	
@@ -40,6 +43,8 @@ public interface SalesService
 	List<String> findBillDateBySales(String searchTerm);
 	
 	List<String> findAllBillDtaessBySales();
+	
+	
 
 	//DBL
 	
@@ -76,6 +81,8 @@ public interface SalesService
 	List<String> findBillCodeINSalesSRBB(String searchTerm);
 	
 	List<String> findAllBillCodeINSalesSRBB();
+
+	Integer searchInSalesHistoryCount(String status, String code, String codeValue, String startDate, String endDate);
 	
 	
 }
