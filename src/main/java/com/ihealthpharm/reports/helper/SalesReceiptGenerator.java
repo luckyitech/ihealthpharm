@@ -154,6 +154,7 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 
 		
 		PdfPTable table = new PdfPTable(headerList.size());
+		table.setWidths(new int[] {1,3,1,1,1,1});
 		table.setTotalWidth(Utilities.millimetersToPoints(80));
 		table.setLockedWidth(true);
 		table.setSpacingAfter(10);
