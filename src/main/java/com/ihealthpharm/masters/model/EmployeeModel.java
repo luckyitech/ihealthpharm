@@ -15,6 +15,7 @@ import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -115,6 +116,7 @@ public class EmployeeModel extends AuditModel implements Serializable{
 	@Column( name = "AUDIT_ID",length=11)
 	private Integer auditId;
 	
+	@JsonIgnore
 	@Column( name = "PHARMACY_ID",length=11)
 	private Integer pharmacyId;
 	
