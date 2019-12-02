@@ -16,8 +16,9 @@ public interface AccountReceivablesRepository extends JpaRepository<AccountRecei
 	List<AccountReceivablesModel> findAll();
 	List<AccountReceivablesModel> findAllByOrderByLastUpdateTimestampDesc();
 	 
-	/*@Query("select i from sales i inner join customer_insurance d on i.customerInsuranceModel=d where i.customerInsuranceModel=:insurances")
-	List<SalesModel> getAllBillsByCustomerId(@Param ("insurances") CustomerInsuranceModel insurances);*/
+	
+	/*@Query("select i from sales i inner join customer d on i.customerModel.customerId=d.customerId where d.customerModel.customerId=:customers")
+	List<SalesModel> getAllCustomersByCustomerId(@Param ("customers")Integer customers);*/
 	
 	@Query("select i from sales i inner join customer_insurance d on i.customerInsuranceModel.customerInsuranceId=d.customerInsuranceId where d.insuranceModel.insurancePolicyId=:customersId")
 	List<SalesModel> getAllBillsByCustomerId(@Param ("customersId")Integer customersId);

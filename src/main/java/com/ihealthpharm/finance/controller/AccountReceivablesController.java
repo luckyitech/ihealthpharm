@@ -99,6 +99,16 @@ public class AccountReceivablesController {
 		return new BaseDto<>(result,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
 	
+	/*@GetMapping("/getcustomersbycustomerid")
+	public ResponseEntity<BaseDto<List<SalesModel>>> getAllCustomersBasedOnCustomerId(@RequestParam Integer customers){
+		System.out.println("in grid"+customers);
+		List<SalesModel> result=accountReceivablesService.getAllCustomersByCustomerId(customers);
+		log.info("---------------------------------");
+		log.info(result.toString());
+		log.info("---------------------------------");
+		return new BaseDto<>(result,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}*/
+	
 	//to update salesreturn totalAmount
 	@GetMapping("/getaccreceipts/basedonbillid")
 		public ResponseEntity<BaseDto<AccountReceivablesModel>> getAccountRecivableData(@RequestParam Integer salesModel){
