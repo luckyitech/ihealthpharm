@@ -1,6 +1,5 @@
 package com.ihealthpharm.stock.model;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -46,7 +45,7 @@ public class QuotationModel extends AuditModel {
 	@JoinColumn(name = "PHARMACY_ID")
 	PharmacyModel pharmacyModel;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "QUOTATION_STATUS_ID")
 	QuotationStatusModel quotationStatusModel;
 
@@ -82,7 +81,7 @@ public class QuotationModel extends AuditModel {
 	private Integer auditId;
 
 	@Column(name = "SENT_DT", length = 25)
-	private LocalDate sentDt;
+	private Date sentDt;
 
 	@Column(name = "CANCELLED_REASON", length = 200)
 	private String cancelledReason;
@@ -120,7 +119,7 @@ public class QuotationModel extends AuditModel {
 	@Column(name = "DESCRIPTION", length = 200)
 	private String description;
 
-	@OneToMany(mappedBy = "quotation")
+	@OneToMany(mappedBy = "quotation", fetch = FetchType.LAZY)
 	private List<QuotationItemsModel> quotationItems;
 	
 	@Transient
@@ -139,6 +138,49 @@ public class QuotationModel extends AuditModel {
 	private Integer rejectedId;
 	
 	@Transient
+	private Date creationTimeStamp;
+	
+	@Transient
 	private Integer sentId;
+	
+	@Transient
+	private String createdName;
+	
+	@Transient
+	private String modifiedName;
+
+	@Transient
+	private String sentName;
+	
+	@Transient
+	private String requestedName;
+	
+	@Transient
+	private String approvedName;
+	
+	@Transient
+	private String rejectedName;
+	
+	public QuotationModel() {
+		
+	}
+	
+	
+	public QuotationModel(Integer quotationId, String quotationNo, String description, Date quotationDt, Date quotationExpiryDt, String rejectedReason, 
+			Date rejectedDate, Date modifiedDt, Date approvedDt, Date sentDt, Date creationTimeStamp) {
+		this.quotationId = quotationId;
+		this.quotationNo = quotationNo;
+		this.description = description;
+		this.quotationDt = quotationDt;
+		this.quotationExpiryDt = quotationExpiryDt;
+		this.rejectedReason = rejectedReason;
+		this.rejectedDate = rejectedDate;
+		this.modifiedDt = modifiedDt;
+		this.approvedDt = approvedDt;
+		this.sentDt = sentDt;
+		this.creationTimeStamp = creationTimeStamp;
+	}
+	
+	
 
 }
