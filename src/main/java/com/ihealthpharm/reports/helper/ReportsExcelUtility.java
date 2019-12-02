@@ -9,10 +9,12 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
@@ -116,7 +118,17 @@ public class ReportsExcelUtility implements ExcelReportGenerator{
 							: "";
 					sheet.autoSizeColumn(colNum);
 					Cell cell = dataRow.createCell(colNum++);
-					cell.setCellValue(String.valueOf(value));
+					
+					try {
+						if(NumberUtils.isNumber(String.valueOf(value))) {
+							cell.setCellType(CellType.NUMERIC);		
+							cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+						}else {	
+						   cell.setCellValue(String.valueOf(value));
+						}
+					} catch (Exception e) {
+						log.error(ExceptionUtils.getStackTrace(e)); 
+					}
 					cell.setCellStyle(borderStyle);
 
 

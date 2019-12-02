@@ -2,6 +2,7 @@ package com.ihealthpharm.stock.controller;
 
 import static org.springframework.http.HttpStatus.OK;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -113,6 +114,70 @@ public class InvoiceItemController {
 	public ResponseEntity<BaseDto<InvoiceItemModel>> getInvoiceItemById(@RequestParam Integer invoiceItemId) {
 		InvoiceItemModel result = invoiceItemService.findInvoiceItemById(invoiceItemId);
 		return new BaseDto<>(result, invoiceItemHelper.getRetrieveInvoiceItemMessage(), OK).respond();
+	}
+	
+	//Purchase Invoice Details
+	
+	@GetMapping("/getsuppliersbysearchpid")
+	public ResponseEntity<BaseDto<List<String>>> getSuppliersByInvoiceItems(@RequestParam String searchTerm){
+		List<String> results=invoiceItemService.findSuppliersByInvoiceItems(searchTerm);
+		return new BaseDto<>(results,invoiceItemHelper.getRetrieveInvoiceItemMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getallsupplierspid")
+	public ResponseEntity<BaseDto<List<String>>> getAllSuppliersByInvoiceItems(){
+		List<String> results=invoiceItemService.findAllSuppliersByInvoiceItems();
+		return new BaseDto<>(results,invoiceItemHelper.getRetrieveInvoiceItemMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getinvoicenosbysearchpid")
+	public ResponseEntity<BaseDto<List<String>>> getInvoiceNoByInvoiceItems(@RequestParam String searchTerm){
+		List<String> results=invoiceItemService.findInvoiceNoByInvoiceItems(searchTerm);
+		return new BaseDto<>(results,invoiceItemHelper.getRetrieveInvoiceItemMessage(),OK).respond();
+	}
+	
+
+	@GetMapping("/getallinvoicenospid")
+	public ResponseEntity<BaseDto<List<String>>> getAllInvoiceNoByInvoiceItems(){
+		List<String> results=invoiceItemService.findAllInvoiceNoByInvoiceItems();
+		return new BaseDto<>(results,invoiceItemHelper.getRetrieveInvoiceItemMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getinvoicedatebysearchpid")
+	public ResponseEntity<BaseDto<List<String>>> getInvoiceDtByInvoiceItems(@RequestParam Date searchTerm){
+		List<String> results=invoiceItemService.findInvoiceDtByInvoiceItems(searchTerm);
+		return new BaseDto<>(results,invoiceItemHelper.getRetrieveInvoiceItemMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getallinvoicedatepid")
+	public ResponseEntity<BaseDto<List<String>>> getAllInvoiceDtByInvoiceItems(){
+		List<String> results=invoiceItemService.findAllInvoiceDtByInvoiceItems();
+		return new BaseDto<>(results,invoiceItemHelper.getRetrieveInvoiceItemMessage(),OK).respond();
+	}
+	
+	//Purchase Margin Comparison
+	@GetMapping("/gettemnamesbysearchpmc")
+	public ResponseEntity<BaseDto<List<String>>> getItemNamesByInvoiceItemsPMC(@RequestParam String searchTerm){
+		List<String> results=invoiceItemService.findItemNamesByInvoiceItemsPMC(searchTerm);
+		return new BaseDto<>(results,invoiceItemHelper.getRetrieveInvoiceItemMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getallitemnamespmc")
+	public ResponseEntity<BaseDto<List<String>>> getAllItemNamesByInvoiceItemsPMC(){
+		List<String> results=invoiceItemService.findAllItemNamesByInvoiceItemsPMC();
+		return new BaseDto<>(results,invoiceItemHelper.getRetrieveInvoiceItemMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getsuppliersbysearchpmc")
+	public ResponseEntity<BaseDto<List<String>>> getSuppliersByInvoiceItemsPMC(@RequestParam String searchTerm){
+		List<String> results=invoiceItemService.findSuppliersByInvoiceItemsPMC(searchTerm);
+		return new BaseDto<>(results,invoiceItemHelper.getRetrieveInvoiceItemMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getallsupplierspmc")
+	public ResponseEntity<BaseDto<List<String>>> getAllSuppliersByInvoiceItemsPMC(){
+		List<String> results=invoiceItemService.findAllSuppliersByInvoiceItemsPMC();
+		return new BaseDto<>(results,invoiceItemHelper.getRetrieveInvoiceItemMessage(),OK).respond();
 	}
 	
 	

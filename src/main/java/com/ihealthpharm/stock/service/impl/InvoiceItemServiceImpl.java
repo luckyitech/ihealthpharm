@@ -1,5 +1,6 @@
 package com.ihealthpharm.stock.service.impl;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -7,6 +8,7 @@ import java.util.Objects;
 import javax.transaction.Transactional;
 
 import com.ihealthpharm.stock.dao.InvoiceItemRepository;
+import com.ihealthpharm.stock.dao.InvoiceRepository;
 import com.ihealthpharm.stock.model.InvoiceItemModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -111,6 +113,63 @@ public class InvoiceItemServiceImpl implements InvoiceItemService {
 			throw new IHealthPharmException(invoiceItemHelper.getNotFoundInvoiceItemMessage(), HttpStatus.NOT_FOUND);
 		}
 
+	}
+//Purchase Invoice Details
+	@Override
+	public List<String> findSuppliersByInvoiceItems(String searchTerm) {
+		return invoiceItemRepository.findSupplierInInvoiceItems(searchTerm);
+	}
+
+	@Override
+	public List<String> findInvoiceNoByInvoiceItems(String searchTerm) {
+		return invoiceItemRepository.findinvoiceNoInInvoiceItems(searchTerm);
+	}
+	
+	@Override
+	public List<String> findInvoiceDtByInvoiceItems(Date searchTerm) {	
+		return invoiceItemRepository.findinvoiceDtInInvoiceItems(searchTerm);
+	}
+	
+	
+	@Override
+	public List<String> findAllSuppliersByInvoiceItems() {
+		return invoiceItemRepository.findAllSuppliersInInvoiceItems();
+	}
+
+	@Override
+	public List<String> findAllInvoiceNoByInvoiceItems() {
+		return invoiceItemRepository.findAllinvoiceNoInInvoiceItems();
+	}
+
+	@Override
+	public List<String> findAllInvoiceDtByInvoiceItems() {
+		return invoiceItemRepository.findAllinvoiceDtInInvoiceItems();
+	}
+
+	//Purchase Margin Comparison
+	
+	@Override
+	public List<String> findItemNamesByInvoiceItemsPMC(String searchTerm) {
+		
+		return invoiceItemRepository.findItemNamesInInvoiceItemsPMC(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllItemNamesByInvoiceItemsPMC() {
+		
+		return invoiceItemRepository.findAllItemNamesInInvoiceItemsPMC();
+	}
+
+	@Override
+	public List<String> findSuppliersByInvoiceItemsPMC(String searchTerm) {
+		
+		return invoiceItemRepository.findSuppliersInInvoiceItemsPMC(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllSuppliersByInvoiceItemsPMC() {
+		
+		return invoiceItemRepository.findAllSuppliersInInvoiceItemsPMC();
 	}
 
 }

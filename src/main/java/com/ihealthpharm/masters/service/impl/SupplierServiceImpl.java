@@ -155,7 +155,7 @@ public class SupplierServiceImpl implements SupplierService {
 				List<Predicate> predicates = new ArrayList<>();
 				if (!name.equals(null) && !name.equals("undefined") &&  !name.equals("")) {
 					
-					predicates.add(criteriaBuilder.or(criteriaBuilder.like(root.get("name"), "%"+name+"%")));
+					predicates.add(criteriaBuilder.or(criteriaBuilder.like(root.get("name"), name+"%")));
 				}
 				
 				return criteriaBuilder.or(predicates.toArray(new Predicate[predicates.size()]));

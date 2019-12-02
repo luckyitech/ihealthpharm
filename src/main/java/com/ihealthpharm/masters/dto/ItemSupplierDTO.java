@@ -144,4 +144,16 @@ public class ItemSupplierDTO {
 		this.manufacturerName = manufacturerName;
 		this.formulation = formulation;
 	}
+	
+	public ItemSupplierDTO(Double unitRate, Double discountPercentage, String itemCode, String itemName, String itemDescription, 
+			int itemsId, String manufacturerName) {
+		this.unitRate = unitRate;
+		this.discountPercentage = discountPercentage;
+		this.itemCode = itemCode;
+		this.itemDescription = itemDescription;
+		this.itemName = itemName;
+		this.itemId = itemsId;
+		this.manufacturerName = manufacturerName;
+	}
+	
 }

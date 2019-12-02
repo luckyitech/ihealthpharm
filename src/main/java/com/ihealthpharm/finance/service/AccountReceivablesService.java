@@ -28,6 +28,6 @@ public interface AccountReceivablesService
 	 
 	// List<SalesModel> getAllCustomersByCustomerId(Integer customers);
 
-	AccountReceivablesModel findAccountReceivablesByBillId(Integer billId);
+	List<AccountReceivablesModel> findAccountReceivablesByBillId(Integer billId);
 	 
 }

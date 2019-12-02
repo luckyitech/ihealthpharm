@@ -149,9 +149,9 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 	
 	
 	@Override
-	public AccountReceivablesModel findAccountReceivablesByBillId(Integer billId) {
+	public List<AccountReceivablesModel> findAccountReceivablesByBillId(Integer billId) {
 
-		AccountReceivablesModel response=accountReceivablesRepository.getAccountRecievablesBillId(billId);
+		List<AccountReceivablesModel> response=accountReceivablesRepository.getAccountRecievablesBillId(billId);
 		return response;
 	}
 	

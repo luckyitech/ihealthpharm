@@ -21,6 +21,7 @@ import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.stock.dto.StockItemsListDTO;
 import com.ihealthpharm.stock.helper.StockHelper;
+import com.ihealthpharm.stock.model.InvoiceModel;
 import com.ihealthpharm.stock.model.StockModel;
 import com.ihealthpharm.stock.service.StockService;
 
@@ -196,8 +197,16 @@ public class StockController {
 	
 
 	@GetMapping("/getstockbyitemandpharmacyid")
-	public ResponseEntity<BaseDto<List<StockModel>>> getStockByItemNameAndPharmacy(@RequestParam String searchTerm,@RequestParam String searchCode, @RequestParam Integer pharmacyId){
-		List<StockModel> result = stockService.findByItemAndPharmacy(searchTerm,searchCode,pharmacyId);
+	public ResponseEntity<BaseDto<List<StockModel>>> getStockByItemNameAndPharmacy(@RequestParam String searchTerm,@RequestParam String searchCode, @RequestParam Integer pharmacyId,
+			@RequestParam Integer pageNumber,@RequestParam Integer pageSize){
+		List<StockModel> result = stockService.findByItemAndPharmacy(searchTerm,searchCode,pharmacyId,pageNumber,pageSize);
+		
+		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
+	}
+	
+	@GetMapping("/getstockbyitemandpharmacyidcount")
+	public ResponseEntity<BaseDto<Integer>> getStockByItemNameAndPharmacyCount(@RequestParam String searchTerm,@RequestParam String searchCode, @RequestParam Integer pharmacyId){
+		Integer result = stockService.findByItemAndPharmacyCount(searchTerm,searchCode,pharmacyId);
 		
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}
@@ -209,5 +218,56 @@ public class StockController {
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}
 	
+	@GetMapping("/getsuppliersbysearchpol")
+	public ResponseEntity<BaseDto<List<String>>> getSuppliersByStock(@RequestParam String searchTerm){
+		List<String> results=stockService.findSuppliersByStock(searchTerm);
+		return new BaseDto<>(results,stockHelper.getRetrieveStockAdjustmentMessage(),OK).respond();
+	}
+	@GetMapping("/getallsupplierspol")
+	public ResponseEntity<BaseDto<List<String>>> getAllSuppliersByStock(){
+		List<String> results=stockService.findAllSuppliersByStock();
+		return new BaseDto<>(results,stockHelper.getRetrieveStockAdjustmentMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getmanufacturerbysearchpol")
+	public ResponseEntity<BaseDto<List<String>>> getManufacturerNamesByStock(@RequestParam String searchTerm){
+		List<String> results=stockService.findManufacturerByStock(searchTerm);
+		return new BaseDto<>(results,stockHelper.getRetrieveStockAdjustmentMessage(),OK).respond();
+	}
+	@GetMapping("/getallmanufacturerpol")
+	public ResponseEntity<BaseDto<List<String>>> getAllManufacturerByStock(){
+		List<String> results=stockService.findAllManufacturerByStock();
+		return new BaseDto<>(results,stockHelper.getRetrieveStockAdjustmentMessage(),OK).respond();
+	}
+	@GetMapping("/getinvoicedatesbysearchpol")
+	public ResponseEntity<BaseDto<List<String>>> getInvoiceDatesByStock(@RequestParam String searchTerm){
+		List<String> results=stockService.findInvoiceDatesByStock(searchTerm);
+		return new BaseDto<>(results,stockHelper.getRetrieveStockAdjustmentMessage(),OK).respond();
+	}
+	@GetMapping("/getallinvoicedatespol")
+	public ResponseEntity<BaseDto<List<String>>> getAllInvoiceDatesByStock(){
+		List<String> results=stockService.findAllInvoiceDatesByStock();
+		return new BaseDto<>(results,stockHelper.getRetrieveStockAdjustmentMessage(),OK).respond();
+	}
+
+	//get batch no's by search
+	@GetMapping("/getallbatchnosbysearch")
+	public ResponseEntity<BaseDto<List<StockModel>>> getAllBatchNo(@RequestParam String searchTerm){
+		List<StockModel> results=stockService.findAllByBatchNo(searchTerm);
+		return new BaseDto<>(results,stockHelper.getRetrieveStockMessage(),OK).respond();
+	}
+	
+	//Supplier By MFR List
+	@GetMapping("/getsuppliersbysearchssbml")
+	public ResponseEntity<BaseDto<List<String>>> findSupplierbynameInStockSBML(@RequestParam String searchTerm){
+		List<String> results=stockService.findSuppliersByStock(searchTerm);
+		return new BaseDto<>(results,stockHelper.getRetrieveStockAdjustmentMessage(),OK).respond();
+	}
+	@GetMapping("/getallsupplierssbml")
+	public ResponseEntity<BaseDto<List<String>>> findallSBML(){
+		List<String> results=stockService.findallSBML();
+		return new BaseDto<>(results,stockHelper.getRetrieveStockAdjustmentMessage(),OK).respond();
+	}
+
 
 }

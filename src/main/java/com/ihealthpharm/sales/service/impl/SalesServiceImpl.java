@@ -8,10 +8,14 @@ import java.util.Objects;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -19,6 +23,7 @@ import org.springframework.stereotype.Service;
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.sales.dao.SalesRepository;
+import com.ihealthpharm.sales.dto.SalesBillDTO;
 import com.ihealthpharm.sales.dto.SalesDTO;
 import com.ihealthpharm.sales.helper.SalesHelper;
 import com.ihealthpharm.sales.model.SalesModel;
@@ -100,7 +105,7 @@ public class SalesServiceImpl implements SalesService {
 			@Override
 			public Predicate toPredicate(Root<SalesModel> root, CriteriaQuery<?> query,
 					CriteriaBuilder criteriaBuilder) {
-				
+				Join<SalesModel, CustomerModel> bJoin= root.join("customerModel", JoinType.INNER);
 				List<Predicate> predicates = new ArrayList<>();
 				if (status != null && !status.equals("undefined")) {
 					System.out.println("in status condition:" + (status != null &&!status.equals("undefined")));
@@ -109,11 +114,11 @@ public class SalesServiceImpl implements SalesService {
 				if ((code != null && !code.equals("undefined")) && (codeValue != null && !codeValue.equals("undefined"))) {
 					if(code.equalsIgnoreCase("Bill Number"))
 					{
-					predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("billCode"), codeValue)));
+					predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("billCode"), codeValue+"%")));
 					}
 					else if(code.equalsIgnoreCase("customer Name"))
 					{
-						predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("customerNm"), codeValue)));
+						predicates.add(criteriaBuilder.and(criteriaBuilder.like(bJoin.get("customerName"), codeValue+"%")));
 					}
 					
 				}
@@ -131,6 +136,8 @@ public class SalesServiceImpl implements SalesService {
 			}
 		});
 	}
+	
+	
 	
 	@Override
 	public SalesModel getSaleByBillCode(String searchTerm) {
@@ -160,6 +167,194 @@ public class SalesServiceImpl implements SalesService {
 		}
 		System.out.println(finalObj);
 		return finalObj;
+	}
+
+	@Override
+	public List<String> findManufacturerBySales(String searchTerm) {
+		return salesRepository.findManufacturerInSalesSCL(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllManufacturerBySales() {
+		return salesRepository.findAllManufacturerInSalesSCL();
+	}
+
+	@Override
+	public List<String> findProvidersBySales(String searchTerm) {
+		return salesRepository.findProviderInSalesSCL(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllProvidersBySales() {
+		return salesRepository.findAllProvidersInSalesSCL();
+	}
+
+	@Override
+	public List<String> findBillDateBySales(String searchTerm) {
+		return salesRepository.findBillDateInSalesSCL(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllBillDtaessBySales() {
+		return salesRepository.findAllBillDatesInSalesSCL();
+	}
+
+	//DBL
+	@Override
+	public List<String> findBillDatesBySalesDBL(String searchTerm) {
+		return  salesRepository.findBillDatesInSalesDBL(searchTerm);
+	}
+
+	@Override
+	public List<String> findfirst_nmBySalesDBL(String searchTerm) {
+		return salesRepository.findfirst_nmInSalesDBL(searchTerm);
+	}
+
+	@Override
+	public List<String> findnameBySalesDBL(String searchTerm) {
+		return salesRepository.findnameInSalesDBL(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllBillDatesBySalesDBL() {
+		return salesRepository.findAllBillDatesInSalesDBL();
+	}
+
+	@Override
+	public List<String> findAllfirst_nmBySalesDBL() {
+		return salesRepository.findAllfirst_nmInSalesDBL();
+	}
+
+	@Override
+	public List<String> findAllnameBySalesDBL() {
+		return salesRepository.findAllnameInSalesDBL();
+	}
+
+	@Override
+	public List<String> findbillDateINSalesSRD(String searchTerm) {
+		return salesRepository.findbillDateINSalesSRD(searchTerm);
+	}
+
+	@Override
+	public List<String> findtypeINSalesSRD(String searchTerm) {
+		return salesRepository.findtypeINSalesSRD(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllbillDateINSalesSRD() {
+		return salesRepository.findAllbillDateINSalesSRD() ;
+	}
+
+	@Override
+	public List<String> findAlltypeINSalesSRD() {
+		return salesRepository.findAlltypeINSalesSRD();
+	}
+
+	//SRADL
+	@Override
+	public List<String> findcityNameINSalesSRADL(String searchTerm) {
+		return salesRepository.findcityNameINSalesSRADL(searchTerm);
+	}
+
+	@Override
+	public List<String> getBillNumbersTop100() {
+		Pageable limit = new PageRequest(0,100);
+		return salesRepository.findBillCodeTop100(limit);
+	}
+
+	@Override
+	public List<String> getBillNumbersBySearch(String key) {
+		
+		return salesRepository.findByBillCodeSearch(key);
+	}
+	public List<String> findAllcityNameINSalesSRADL() {
+		return salesRepository.findAllcityNameINSalesSRADL();
+	}
+//SRBB
+	@Override
+	public List<String> findBillCodeINSalesSRBB(String searchTerm) {
+		return salesRepository.findBillCodeINSalesSRBB(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllBillCodeINSalesSRBB() {
+		return salesRepository.findAllBillCodeINSalesSRBB();
+
+	}
+
+	@Override
+	public List<SalesBillDTO> findSalesByBillId(String billCode) {
+		return salesRepository.getAllSalesBySalesIdSearch(billCode);
+	}
+	
+	
+	public List<SalesModel> searchInSalesHistory(String status, String code, String codeValue, String startDate,
+			String endDate,Integer pageNumber, Integer pageSize) {
+		Pageable limit = new PageRequest(pageNumber,pageSize);
+		
+		if (status != null && !status.equals("undefined") && !status.equals("null")) {
+			System.out.println("in status condition:" + (status != null &&!status.equals("undefined")));
+			return salesRepository.findSalesByPaymentStatus(status,limit);
+		}
+		
+		if ((code != null && !code.equals("undefined") && !code.equals("null")) && (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null"))) {
+			if(code.equalsIgnoreCase("Bill Number"))
+			{
+				return salesRepository.findSalesByBillCode(codeValue,limit);
+			}
+			else if(code.equalsIgnoreCase("customer Name"))
+			{
+				return salesRepository.findSalesByCustomerName(codeValue,limit);
+			}
+			
+		}
+		
+		
+		if((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null")))
+		{
+			LocalDate start = LocalDate.parse(startDate);
+			LocalDate end = LocalDate.parse(endDate);
+			log.info("startDate=:"+start);
+			log.info("endDate=:"+end);
+			return salesRepository.findSalesByBillDate(start,end,limit);
+		}
+		return null;
+	}
+
+	@Override
+	public Integer searchInSalesHistoryCount(String status, String code, String codeValue, String startDate,
+			String endDate) {
+		Integer res=0;
+		
+		if (status != null && !status.equals("undefined") && !status.equals("null"))  {
+			
+			return salesRepository.findSalesByPaymentStatusCount(status);
+		}
+		
+		if ((code != null && !code.equals("undefined") && !code.equals("null")) && (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null"))) {
+			if(code.equalsIgnoreCase("Bill Number"))
+			{
+				log.info("Code :"+code+ "\t Code Value:"+codeValue);
+				return salesRepository.findSalesByBillCodeCount(codeValue);
+			}
+			else if(code.equalsIgnoreCase("customer Name"))
+			{
+				log.info("Code :"+code+ "\t Code Value:"+codeValue);
+				return salesRepository.findSalesByCustomerNameCount(codeValue);
+			}
+			
+		}
+		
+		
+		if((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null")))
+		{
+			LocalDate start = LocalDate.parse(startDate);
+			LocalDate end = LocalDate.parse(endDate);
+			log.info("startDate=:"+start);
+			log.info("endDate=:"+end);
+			return salesRepository.findSalesByBillDateCount(start,end);
+		}
+		return null;
 	}
 
 }

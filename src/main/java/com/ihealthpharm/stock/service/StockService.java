@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
+import com.ihealthpharm.stock.model.InvoiceModel;
 import com.ihealthpharm.stock.model.StockModel;
 
 public interface StockService {
@@ -34,12 +35,33 @@ public interface StockService {
 
 	List<StockModel> findByItemAndPharmacy(List<ItemsModel> itemId, PharmacyModel pharmacy);
 	
-	List<StockModel> findByItemAndPharmacy(String searchTerm,String searchCode, Integer pharmacyid);
+	List<StockModel> findByItemAndPharmacy(String searchTerm,String searchCode, Integer pharmacyid, Integer pageNumber, Integer pageSize);
+	
+	Integer findByItemAndPharmacyCount(String searchTerm,String searchCode, Integer pharmacyid);
 	
 	List<StockModel> findByItemName(ItemsModel itemName);
 	
 	public StockModel findStocksByBillId(Integer itemId);
 	
 	StockModel getStockByItemIdandInvoiceId(Integer itemId, Integer invoiceId);
+	
+	List<String> findSuppliersByStock(String searchTerm);
+	
+	List<String> findAllSuppliersByStock();
+	
+	List<String> findManufacturerByStock(String searchTerm);
+
+	List<String> findAllManufacturerByStock();
+	
+	List<String> findInvoiceDatesByStock(String searchTerm);
+	
+	List<String> findAllInvoiceDatesByStock();
+
+	List<StockModel> findAllByBatchNo(String searchTerm);
+	
+	//Supplier By MFR List
+	List<String> findSupplierbynameInStockSBML(String searchTerm);
+	
+	List<String> findallSBML();
 
 }

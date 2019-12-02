@@ -1,25 +1,33 @@
 package com.ihealthpharm.stock.utils;
 
+import java.text.DecimalFormat;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class GenerateGRNNo {
 
-	public String generateGNR(String pharmacyNm, Long invoiceCount) {
-		String grnNumber = pharmacyNm.substring(0, 2).toUpperCase() + invoiceCount;
-		return "INV" + grnNumber;
+	public String generateGNR(String pharmacyNm, Long count) {
+		return ("PI" +convertDateToString()+generateCount(count)).toUpperCase();
 	}
 	
-	public String generatePONumber(String pharmacyNm, Long invoiceCount) {
-		String grnNumber = pharmacyNm.substring(0, 2).toUpperCase() + invoiceCount;
-		return "PO" + grnNumber;
+	public String generatePONumber(String pharmacyNm, Long count) {
+		return ("PO" +convertDateToString()+generateCount(count)).toUpperCase();
 	}
 	
-	public String generatePRNumber(String pharmacyNm, Long invoiceCount) {
-		String grnNumber = pharmacyNm.substring(0, 2).toUpperCase() + invoiceCount;
-		return "PR" + grnNumber;
+	public String generatePRNumber(String pharmacyNm, Long count) {
+		return ("PR" +convertDateToString()+generateCount(count)).toUpperCase();
 	}
 	
-	public static void main(String a[]) {
-		GenerateGRNNo generateGRNNo = new GenerateGRNNo();
-		System.out.println(generateGRNNo.generateGNR("Guna", 1l));
+	public String convertDateToString() {
+		Format format = new SimpleDateFormat("ddMMyy");
+		return format.format(new Date());
 	}
+	
+	public String generateCount(Long count) {
+		DecimalFormat decimalFormat = new DecimalFormat("0000");
+		return decimalFormat.format(count);
+	}
+
 }
  

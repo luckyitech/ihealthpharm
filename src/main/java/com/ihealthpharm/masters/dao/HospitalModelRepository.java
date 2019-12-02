@@ -23,7 +23,7 @@ public interface HospitalModelRepository extends JpaRepository<HospitalModel, Se
 
 	List<HospitalModel> findFirst100ByOrderByLastUpdatedTimeStampDesc();
 
-	@Query("select h from hospital h where h.hospitalName like %:searchKey% or h.license like %:searchKey% or h.addressLine1 like %:searchKey%")
+	@Query("select h from hospital h where h.hospitalName like :searchKey% or h.license like :searchKey% or h.addressLine1 like :searchKey%")
 	List<HospitalModel> findByHospitalNameIgnoreCaseContaining(@Param("searchKey") String searchKey);
 
 	

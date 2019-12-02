@@ -2,6 +2,7 @@ package com.ihealthpharm.stock.dao;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -43,29 +44,112 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 	@Query("select s from stock s inner join items i on s.item.itemId=i.itemId where s.item.itemName like :searchTerm% "
 			+ "and s.pharmacy.pharmacyId=:pharmacyId")
 	List<StockModel> findStockByItemNameAndPharmacyId(@Param("searchTerm") String itemName,
-			@Param("pharmacyId") Integer pharmacyId);
+			@Param("pharmacyId") Integer pharmacyId, Pageable pageable);
 
 	// find stock by item code
 	@Query("select s from stock s inner join items i on s.item.itemId=i.itemId where s.item.itemCode like :searchTerm% "
 			+ "and s.pharmacy.pharmacyId=:pharmacyId")
 	List<StockModel> findStockByItemCodeAndPharmacyId(@Param("searchTerm") String searchTerm,
+			@Param("pharmacyId") Integer pharmacyId, Pageable pageable);
+
+	// find stock by item Description
+	@Query("select s from stock s inner join items i on s.item.itemId=i.itemId where s.item.itemDescription like %:searchTerm% "
+			+ "and s.pharmacy.pharmacyId=:pharmacyId")
+	List<StockModel> findStockByItemDescriptionAndPharmacyId(@Param("searchTerm") String searchTerm,
+			@Param("pharmacyId") Integer pharmacyId, Pageable pageable);
+
+	// find stock by stock batch number
+	@Query("select s from stock s  where s.batchNo like :searchTerm% " + "and s.pharmacy.pharmacyId=:pharmacyId")
+	List<StockModel> findStockByBatchNumberAndPharmacyId(@Param("searchTerm") String searchTerm,
+			@Param("pharmacyId") Integer pharmacyId, Pageable pageable);
+
+	// find stock by item Description
+	@Query("select s from stock s inner join items i on s.item.itemId=i.itemId inner join "
+			+ "items_generic_names ig on ig.itemGenericNameId=i.itemGenericName.itemGenericNameId "
+			+ "where ig.genericName like %:searchTerm% " + "and s.pharmacy.pharmacyId=:pharmacyId")
+	List<StockModel> findStockByItemGenericNameAndPharmacyId(@Param("searchTerm") String searchTerm,
+			@Param("pharmacyId") Integer pharmacyId, Pageable pageable);
+
+	// find stock by item name
+	@Query("select count(s) from stock s inner join items i on s.item.itemId=i.itemId where s.item.itemName like :searchTerm% "
+			+ "and s.pharmacy.pharmacyId=:pharmacyId")
+	Integer findStockByItemNameAndPharmacyId(@Param("searchTerm") String itemName,
+			@Param("pharmacyId") Integer pharmacyId);
+
+	// find stock by item code
+	@Query("select count(s) from stock s inner join items i on s.item.itemId=i.itemId where s.item.itemCode like :searchTerm% "
+			+ "and s.pharmacy.pharmacyId=:pharmacyId")
+	Integer findStockByItemCodeAndPharmacyId(@Param("searchTerm") String searchTerm,
 			@Param("pharmacyId") Integer pharmacyId);
 
 	// find stock by item Description
-	@Query("select s from stock s inner join items i on s.item.itemId=i.itemId where s.item.itemDescription like :searchTerm% "
+	@Query("select count(s) from stock s inner join items i on s.item.itemId=i.itemId where s.item.itemDescription like %:searchTerm% "
 			+ "and s.pharmacy.pharmacyId=:pharmacyId")
-	List<StockModel> findStockByItemDescriptionAndPharmacyId(@Param("searchTerm") String searchTerm,@Param("pharmacyId")  Integer pharmacyId);
+	Integer findStockByItemDescriptionAndPharmacyId(@Param("searchTerm") String searchTerm,
+			@Param("pharmacyId") Integer pharmacyId);
 
 	// find stock by stock batch number
-	@Query("select s from stock s  where s.batchNo like :searchTerm% "
-			+ "and s.pharmacy.pharmacyId=:pharmacyId")
-	List<StockModel> findStockByBatchNumberAndPharmacyId(@Param("searchTerm") String searchTerm,@Param("pharmacyId")  Integer pharmacyId);
+	@Query("select count(s) from stock s  where s.batchNo like :searchTerm% " + "and s.pharmacy.pharmacyId=:pharmacyId")
+	Integer findStockByBatchNumberAndPharmacyId(@Param("searchTerm") String searchTerm,
+			@Param("pharmacyId") Integer pharmacyId);
 
 	// find stock by item Description
-		@Query("select s from stock s inner join items i on s.item.itemId=i.itemId inner join "
-				+ "items_generic_names ig on ig.itemGenericNameId=i.itemGenericName.itemGenericNameId "
-				+ "where ig.genericName like :searchTerm% "
-				+ "and s.pharmacy.pharmacyId=:pharmacyId")
-	List<StockModel> findStockByItemGenericNameAndPharmacyId(@Param("searchTerm") String searchTerm,@Param("pharmacyId") Integer pharmacyId);
+	@Query("select count(s) from stock s inner join items i on s.item.itemId=i.itemId inner join "
+			+ "items_generic_names ig on ig.itemGenericNameId=i.itemGenericName.itemGenericNameId "
+			+ "where ig.genericName like %:searchTerm% " + "and s.pharmacy.pharmacyId=:pharmacyId")
+	Integer findStockByItemGenericNameAndPharmacyId(@Param("searchTerm") String searchTerm,
+			@Param("pharmacyId") Integer pharmacyId);
 
+	//find supplier by search
+		@Query("select distinct sp.name from stock st,invoice_items init,invoice inv,items i,manufacturer m,supplier sp " 
+		+ "where init.itemsModel.itemId=st.item.itemId and inv.invoiceId=init.invoice.invoiceId and st.item.itemId=i.itemId and i.manufacturer.manufacturerId=m.manufacturerId "
+	    + "and inv.supplierModel.supplierId=sp.supplierId and sp.name like :searchTerm% ")
+		List<String> findSupplierInStockPOL(@Param("searchTerm") String searchTerm);
+		
+	//find all suppliers by stock	
+		@Query("select distinct sp.name from stock st,invoice_items init,invoice inv,items i,manufacturer m,supplier sp "
+		+ "where init.itemsModel.itemId=st.item.itemId and inv.invoiceId=init.invoice.invoiceId and st.item.itemId=i.itemId and i.manufacturer.manufacturerId=m.manufacturerId "
+	    +"and inv.supplierModel.supplierId=sp.supplierId order by sp.name ")
+		List<String> findAllSuppliersInStockPOL();
+		
+	//find manufacturer by search	
+		@Query("select distinct m.name from stock st,invoice_items init,invoice inv,items i,manufacturer m,supplier sp "  
+				+"where init.itemsModel.itemId=st.item.itemId and inv.invoiceId=init.invoice.invoiceId and st.item.itemId=i.itemId and i.manufacturer.manufacturerId=m.manufacturerId "  
+				+"and inv.supplierModel.supplierId=sp.supplierId and m.name like :searchTerm%  ")
+				List<String> findManufacturerInStockPOL(@Param("searchTerm") String searchTerm);
+		
+	//find all manufacturers by stock	
+		@Query("select distinct m.name from stock st,invoice_items init,invoice inv,items i,manufacturer m,supplier sp "  
+				+"where init.itemsModel.itemId=st.item.itemId and inv.invoiceId=init.invoice.invoiceId and st.item.itemId=i.itemId and i.manufacturer.manufacturerId=m.manufacturerId "  
+				+"and inv.supplierModel.supplierId=sp.supplierId order by m.name  ")
+				List<String> findAllManufacturerInStockPOL();
+		
+	//find invoice dates by search
+		@Query("select distinct inv.invoiceDt from stock st,invoice_items init,invoice inv,items i,manufacturer m,supplier sp "  
+				+"where init.itemsModel.itemId=st.item.itemId and inv.invoiceId=init.invoice.invoiceId and st.item.itemId=i.itemId and i.manufacturer.manufacturerId=m.manufacturerId "  
+				+"and inv.supplierModel.supplierId=sp.supplierId and inv.invoiceDt>=:searchTerm  ")
+				List<String> findInvoiceDatesInStockPOL(@Param("searchTerm") String searchTerm);
+		//find all invoice dates by stock
+		
+		@Query("select distinct inv.invoiceDt from stock st,invoice_items init,invoice inv,items i,manufacturer m,supplier sp "  
+				+"where init.itemsModel.itemId=st.item.itemId and inv.invoiceId=init.invoice.invoiceId and st.item.itemId=i.itemId and i.manufacturer.manufacturerId=m.manufacturerId "  
+				+"and inv.supplierModel.supplierId=sp.supplierId order by inv.invoiceDt  ")
+				List<String> findAllInvoiceDatesInStockPOL();
+	
+	@Query("select st from stock st where st.batchNo like %:searchTerm% order by st.creationTimeStamp desc")
+	List<StockModel> findAllByBatchNoSearch(@Param("searchTerm") String searchTerm);
+	
+	//Supplier By Mfr List
+	@Query("select distinct sp.name from stock st,supplier sp,items i,manufacturer m " 
+			+ "where st.item.itemId=i.itemId "
+			+ "and i.manufacturer.manufacturerId=m.manufacturerId "
+			+ "and st.supplier.supplierId=sp.supplierId and sp.name like :searchTerm% ")  
+	List<String> findSupplierbynameInStockSBML(@Param("searchTerm") String searchTerm);
+
+	@Query("select distinct sp.name from stock st,supplier sp,items i,manufacturer m " 
+			+ "where st.item.itemId=i.itemId "
+			+ "and i.manufacturer.manufacturerId=m.manufacturerId "
+			+ "and st.supplier.supplierId=sp.supplierId order by sp.name")
+	List<String> findallSBML();
+	
 }

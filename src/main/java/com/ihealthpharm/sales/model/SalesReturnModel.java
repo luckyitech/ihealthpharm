@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import com.ihealthpharm.masters.model.AuditModel;
+import com.ihealthpharm.stock.model.PaymentTypeModel;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -53,4 +54,8 @@ public class SalesReturnModel extends AuditModel {
 
 	@Column(name = "AUDIT_ID",length=11)
 	private Integer auditId;
+	
+	@OneToOne
+	@JoinColumn(name="PAYMENT_TYPE_ID")
+	private PaymentTypeModel paymentType;
 }
