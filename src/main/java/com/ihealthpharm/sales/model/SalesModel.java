@@ -130,6 +130,9 @@ public class SalesModel {
 
 	@Column(name = "TOTAL_AMOUNT", length = 25)
 	private Float totalAmount;
+	
+	@Column(name = "NET_AMOUNT", length = 25)
+	private Float netAmount;
 
 	@Column(name = "TOTAL_PRODUCTS", length = 11)
 	private Integer totalProducts;
