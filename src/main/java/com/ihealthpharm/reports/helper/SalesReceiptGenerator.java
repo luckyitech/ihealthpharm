@@ -205,17 +205,22 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		int totalItems = responseList.size();
 		double totalAmount = Double.parseDouble(String.valueOf(responseList.get(0).get("TOTAL_AMOUNT")));//responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TOTAL_AMOUNT")?String.valueOf(mapper.get("TOTAL_AMOUNT")):"0.0")).sum(); 
 		Double totalQty = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TOTAL_QTY")?String.valueOf(mapper.get("TOTAL_QTY")):"0.0")).sum(); 
-		double totalDiscount = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("EFFECTIVE_OVERALL_DISCOUNT")?String.valueOf(mapper.get("EFFECTIVE_OVERALL_DISCOUNT")):"0.0")).sum(); 
+		double totalDiscount = Double.parseDouble(String.valueOf(responseList.get(0).get("OVERALL_DISCOUNT")));//responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("OVERALL_DISCOUNT")?String.valueOf(mapper.get("EFFECTIVE_OVERALL_DISCOUNT")):"0.0")).sum(); 
 		
-		double totalVat = 0;//responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("EFFECTIVE_VAT")?String.valueOf(mapper.get("VAT")):"0.0")).sum();
+		double totalVat = Double.parseDouble(String.valueOf(responseList.get(0).get("VAT_AMT")));//responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("EFFECTIVE_VAT")?String.valueOf(mapper.get("VAT")):"0.0")).sum();
 		
 		//double totalNetAmount = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("SALE_AMOUNT")?String.valueOf(mapper.get("SALE_AMOUNT")):"0.0")).sum();
-		double totalNetAmount =0;
-		for(Map<String, Object> obj:responseList) {
-			totalNetAmount +=Double.parseDouble(String.valueOf(obj.get("TOTAL_QTY")))*Double.parseDouble(String.valueOf(obj.get("MRP")));
+		double totalNetAmount =Double.parseDouble(String.valueOf(responseList.get(0).get("NET_AMOUNT")));
+		/*for(Map<String, Object> obj:responseList) {
+			
+			
 			totalVat += (Double.parseDouble(String.valueOf(obj.get("TOTAL_QTY")))*Double.parseDouble(String.valueOf(obj.get("MRP"))))*(1-Double.parseDouble(String.valueOf(obj.get("DISCOUNT_PERCENTAGE")))/100)*
 					(Double.parseDouble(String.valueOf(obj.get("VAT")))/100);
+			totalNetAmount +=Double.parseDouble(String.valueOf(obj.get("TOTAL_QTY")))*Double.parseDouble(String.valueOf(obj.get("MRP")));
 		}
+		
+		totalNetAmount += totalVat;
+		totalNetAmount = Math.round(totalNetAmount - totalDiscount);*/
 		
 		PdfPCell cell = null;
 		cell = getCellWithBorder("Tot. Items  :",Element.ALIGN_LEFT,Rectangle.TOP);	
