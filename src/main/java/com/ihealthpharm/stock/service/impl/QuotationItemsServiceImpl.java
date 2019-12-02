@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
+import com.ihealthpharm.masters.dto.ItemSupplierDTO;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.stock.dao.QuotationItemStatusRepository;
 import com.ihealthpharm.stock.dao.QuotationItemsRepository;
@@ -134,8 +135,15 @@ public class QuotationItemsServiceImpl implements QuotationItemsService {
 
 	@Override
 	public ItemsModel getQuotationItem(Integer quotationItemId) {
-		ItemsModel model = quotationItemsRepository.getQuotationItem(quotationItemId);
-		return model;
+		ItemSupplierDTO model = quotationItemsRepository.getQuotationItem(quotationItemId);
+		ItemsModel itemsModel = new ItemsModel();
+		if(model != null) {
+			itemsModel.setItemId(model.getItemId());
+			itemsModel.setItemCode(model.getItemCode());
+			itemsModel.setItemDescription(model.getItemDescription());
+			itemsModel.setItemName(model.getItemName());
+		}
+		return itemsModel;
 	}
 
 	@Override
