@@ -5,6 +5,7 @@ import static org.springframework.http.HttpStatus.OK;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -83,6 +84,7 @@ public class QuotationController {
 	@PostMapping("/save/requestnewquotation")
 	public ResponseEntity<BaseDto<QuotationModel>> saveRequestNewQuotation(@Valid @RequestBody QuotationModel quotationModel) {
 		log.info("Request Object insert is: "+ quotationModel.toString());
+		quotationModel.setModifiedDt(new Date());
 		QuotationModel model = quotationService.saveQuotation(quotationModel, "REQUEST NEW", "PENDING");
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
 	}
@@ -94,6 +96,7 @@ public class QuotationController {
 	@PostMapping("/save/requestpendingquotation")
 	public ResponseEntity<BaseDto<QuotationModel>> saveRequestPendingQuotation(@Valid @RequestBody QuotationModel quotationModel) {
 		log.info("Request Object insert is: "+ quotationModel.toString());
+		quotationModel.setModifiedDt(new Date());
 		QuotationModel model = quotationService.saveQuotation(quotationModel, "REQUEST PENDING", "PENDING");
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
 	}
@@ -105,6 +108,7 @@ public class QuotationController {
 	@PostMapping("/save/requestapprovedquotation")
 	public ResponseEntity<BaseDto<QuotationModel>> saveRequestApprovedQuotation(@Valid @RequestBody QuotationModel quotationModel) {
 		log.info("Request Object insert is: "+ quotationModel.toString());
+		quotationModel.setApprovedDt(new Date());
 		QuotationModel model = quotationService.saveQuotation(quotationModel, "REQUEST APPROVED", "PENDING");
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
 	}
@@ -116,6 +120,7 @@ public class QuotationController {
 	@PostMapping("/save/requestrejectedquotation")
 	public ResponseEntity<BaseDto<QuotationModel>> saveRequestRejectedQuotation(@Valid @RequestBody QuotationModel quotationModel) {
 		log.info("Request Object insert is: "+ quotationModel.toString());
+		quotationModel.setRejectedDate(new Date());
 		QuotationModel model = quotationService.saveQuotation(quotationModel, "REQUEST REJECTED", "PENDING");
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
 	}
@@ -524,6 +529,5 @@ public class QuotationController {
                 .contentLength(file.length()) //
                 .body(resource);
     }
-	
 	
 }
