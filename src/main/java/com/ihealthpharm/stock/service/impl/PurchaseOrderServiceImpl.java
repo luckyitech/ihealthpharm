@@ -214,7 +214,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			purchaseorderRes.getRejectedBy();
 			purchaseorderRes.getModifiedBy();
 			for(PurchaseOrderItemsModel p : purchaseorderRes.getPurchaseorderitems()) {
-				p.getItemsModel().getTax();
+				p.getItemsModel();
 			}
 			
 			return purchaseorderRes;
@@ -263,92 +263,70 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	@Override
 	public List<PurchaseOrderModel> getPurchaseOrderByPharmacy(Integer pharmacyId) {
 		log.info("Pharmacy Id: "+ pharmacyId);
+		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderRepository.getPurchaseOrderByPharmacy(pharmacyId);
+		for(PurchaseOrderModel q : purchaseOrderModels) {
+			q.setCreatedName(purchaseorderRepository.createdPurchaseOrderUser(q.getPurchaseOrderId()));
+			q.setModifiedName(purchaseorderRepository.modifiedPurchaseOrderUser(q.getPurchaseOrderId()));
+			q.setRejectedName(purchaseorderRepository.rejectedPurchaseOrderUser(q.getPurchaseOrderId()));
+			q.setApprovedName(purchaseorderRepository.approvedPurchaseOrderUser(q.getPurchaseOrderId()));
+			q.setSentName(purchaseorderRepository.sentPurchaseOrderUser(q.getPurchaseOrderId()));
+		}
 		return purchaseorderRepository.getPurchaseOrderByPharmacy(pharmacyId);
 	}
 
 	@Override
 	public List<PurchaseOrderModel> getPurchaseOrderByPharmacyAndStatus(Integer pharmacyId, String status) {
 		log.info("Pharmacy Id: "+ pharmacyId+" Status "+status);
-		return purchaseorderRepository.getPurchaseOrderByPharmacyAndStatus(pharmacyId, status);
+		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderRepository.getPurchaseOrderByPharmacyAndStatus(pharmacyId, status);
+		for(PurchaseOrderModel q : purchaseOrderModels) {
+			q.setCreatedName(purchaseorderRepository.createdPurchaseOrderUser(q.getPurchaseOrderId()));
+			q.setModifiedName(purchaseorderRepository.modifiedPurchaseOrderUser(q.getPurchaseOrderId()));
+			q.setRejectedName(purchaseorderRepository.rejectedPurchaseOrderUser(q.getPurchaseOrderId()));
+			q.setApprovedName(purchaseorderRepository.approvedPurchaseOrderUser(q.getPurchaseOrderId()));
+			q.setSentName(purchaseorderRepository.sentPurchaseOrderUser(q.getPurchaseOrderId()));
+		}
+		return purchaseorderRepository.getPurchaseOrderByPharmacy(pharmacyId);
 	}
 
 	@Override
 	public List<PurchaseOrderModel> getPurchaseOrderByPharmacyAndStatus(Integer pharmacyId, String status,
 			String purchaseOrderNo) {
 		log.info("Pharmacy Id: "+ pharmacyId+" Status "+status);
-		return purchaseorderRepository.getPurchaseOrderByPharmacyAndStatus(pharmacyId, status, purchaseOrderNo);
+		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderRepository.getPurchaseOrderByPharmacyAndStatus(pharmacyId, status, purchaseOrderNo);
+		for(PurchaseOrderModel q : purchaseOrderModels) {
+			q.setCreatedName(purchaseorderRepository.createdPurchaseOrderUser(q.getPurchaseOrderId()));
+			q.setModifiedName(purchaseorderRepository.modifiedPurchaseOrderUser(q.getPurchaseOrderId()));
+			q.setRejectedName(purchaseorderRepository.rejectedPurchaseOrderUser(q.getPurchaseOrderId()));
+			q.setApprovedName(purchaseorderRepository.approvedPurchaseOrderUser(q.getPurchaseOrderId()));
+			q.setSentName(purchaseorderRepository.sentPurchaseOrderUser(q.getPurchaseOrderId()));
+		}
+		return purchaseorderRepository.getPurchaseOrderByPharmacy(pharmacyId);
 	}
 
 	@Override
 	public List<PurchaseOrderModel> getSentPurchaseOrderByPharmacy(Integer pharmacyId) {
-		return purchaseorderRepository.getSentPurchaseOrderByPharmacy(pharmacyId);
+		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderRepository.getSentPurchaseOrderByPharmacy(pharmacyId);
+		for(PurchaseOrderModel q : purchaseOrderModels) {
+			q.setCreatedName(purchaseorderRepository.createdPurchaseOrderUser(q.getPurchaseOrderId()));
+			q.setModifiedName(purchaseorderRepository.modifiedPurchaseOrderUser(q.getPurchaseOrderId()));
+			q.setRejectedName(purchaseorderRepository.rejectedPurchaseOrderUser(q.getPurchaseOrderId()));
+			q.setApprovedName(purchaseorderRepository.approvedPurchaseOrderUser(q.getPurchaseOrderId()));
+			q.setSentName(purchaseorderRepository.sentPurchaseOrderUser(q.getPurchaseOrderId()));
+		}
+		return purchaseorderRepository.getPurchaseOrderByPharmacy(pharmacyId);
 	}
 
 	@Override
 	public List<PurchaseOrderModel> getSentPurchaseOrderByPharmacy(Integer pharmacyId, String purchaseOrderNo) {
-		return purchaseorderRepository.getSentPurchaseOrderByPharmacy(pharmacyId, purchaseOrderNo);
-	}
-	//Purchase Details By Batch No
-	@Override
-	public List<String> findbatchNoInpurchaseorderPDBB(String searchTerm) {
-	
-		return purchaseorderRepository.findbatchNoInpurchaseorderPDBB(searchTerm);
-	}
-
-	@Override
-	public List<String> findallPDBB() {
-		
-		return purchaseorderRepository.findallPDBB();
-	}
-	
-	
-	@Override
-	public List<String> findSuppliersInpurchaseorderPDBB(String searchTerm) {
-	
-		return purchaseorderRepository.findSuppliersInpurchaseorderPDBB(searchTerm);
+		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderRepository.getSentPurchaseOrderByPharmacy(pharmacyId, purchaseOrderNo);
+		for(PurchaseOrderModel q : purchaseOrderModels) {
+			q.setCreatedName(purchaseorderRepository.createdPurchaseOrderUser(q.getPurchaseOrderId()));
+			q.setModifiedName(purchaseorderRepository.modifiedPurchaseOrderUser(q.getPurchaseOrderId()));
+			q.setRejectedName(purchaseorderRepository.rejectedPurchaseOrderUser(q.getPurchaseOrderId()));
+			q.setApprovedName(purchaseorderRepository.approvedPurchaseOrderUser(q.getPurchaseOrderId()));
+			q.setSentName(purchaseorderRepository.sentPurchaseOrderUser(q.getPurchaseOrderId()));
+		}
+		return purchaseorderRepository.getPurchaseOrderByPharmacy(pharmacyId);
 	}
 
-	@Override
-	public List<String> findAllSuppliersPDBB() {
-
-		return purchaseorderRepository.findAllSuppliersPDBB();
-	}
-
-	//Purchase Details By Product Name
-	@Override
-	public List<String> finditemNameInpurchaseorderPDBP(String searchTerm) {
-		return purchaseorderRepository.finditemNameInpurchaseorderPDBP(searchTerm);
-	}
-
-	@Override
-	public List<String> findallPDBP() {
-		return purchaseorderRepository.findallPDBP();
-		
-	}
-	
-	//Purchase Register List
-
-	@Override
-	public List<String> findpaymenttypebysearchPRLT(String searchTerm) {
-		return purchaseorderRepository.findpaymenttypebysearchPRLT(searchTerm);
-	}
-
-	@Override
-	public List<String> findallpaymenttypesPRLT() {
-		
-		return purchaseorderRepository.findallpaymenttypePRLT();
-	}
-
-	@Override
-	public List<String> findsuppliersbysearchPRLS(String searchTerm) {
-		
-		return purchaseorderRepository.findsupplierbysearchPRLS(searchTerm);
-	}
-
-	@Override
-	public List<String> findallsuppliersPRLS() {
-		return purchaseorderRepository.findallsuppliersPRLS();
-	}
-
-	
 }

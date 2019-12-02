@@ -166,7 +166,7 @@ public class QuotationServiceImpl implements QuotationService {
 	private QuotationModel getQuotationModel(Integer quotationId) {
 		QuotationModel quotationModel = null;
 		try {
-			quotationModel = quotationRepository.findById(quotationId).get();
+			quotationModel = quotationRepository.getQuotationById(quotationId);
 			quotationModel.getCreatedBy();
 			quotationModel.getRequestedby();
 			quotationModel.getApprovedBy();
@@ -185,8 +185,15 @@ public class QuotationServiceImpl implements QuotationService {
 	}
 	
 	public ItemsModel getQuotationItem(Integer quotationItemId) {
-		ItemsModel model = quotationItemsRepository.getQuotationItem(quotationItemId);
-		return model;
+		ItemSupplierDTO model = quotationItemsRepository.getQuotationItem(quotationItemId);
+		ItemsModel itemsModel = new ItemsModel();
+		if(model != null) {
+			itemsModel.setItemId(model.getItemId());
+			itemsModel.setItemCode(model.getItemCode());
+			itemsModel.setItemDescription(model.getItemDescription());
+			itemsModel.setItemName(model.getItemName());
+		}
+		return itemsModel;
 	}
 
 	@Override
@@ -201,18 +208,45 @@ public class QuotationServiceImpl implements QuotationService {
 
 	@Override
 	public List<QuotationModel> getQuotationByPharmacy(Integer pharmacyId) {
-		return quotationRepository.getQuotationByPharmacy(pharmacyId);
+		List<QuotationModel> quotationModels = quotationRepository.getQuotationByPharmacy(pharmacyId);
+		for(QuotationModel q : quotationModels) {
+			q.setCreatedName(quotationRepository.createdQuotationUser(q.getQuotationId()));
+			q.setModifiedName(quotationRepository.modifiedQuotationUser(q.getQuotationId()));
+			q.setRejectedName(quotationRepository.rejectedQuotationUser(q.getQuotationId()));
+			q.setApprovedName(quotationRepository.approvedQuotationUser(q.getQuotationId()));
+			q.setSentName(quotationRepository.sentQuotationUser(q.getQuotationId()));
+			q.setRequestedName(quotationRepository.requestedQuotationUser(q.getQuotationId()));
+		}
+		return quotationModels;
 	}
 
 	@Override
 	public List<QuotationModel> getQuotationByPharmacyAndStatus(Integer pharmacyId, String status) {
-		return quotationRepository.getQuotationByPharmacyAndStatus(pharmacyId, status);
+		List<QuotationModel> quotationModels = quotationRepository.getQuotationByPharmacyAndStatus(pharmacyId, status);
+		for(QuotationModel q : quotationModels) {
+			q.setCreatedName(quotationRepository.createdQuotationUser(q.getQuotationId()));
+			q.setModifiedName(quotationRepository.modifiedQuotationUser(q.getQuotationId()));
+			q.setRejectedName(quotationRepository.rejectedQuotationUser(q.getQuotationId()));
+			q.setApprovedName(quotationRepository.approvedQuotationUser(q.getQuotationId()));
+			q.setSentName(quotationRepository.sentQuotationUser(q.getQuotationId()));
+			q.setRequestedName(quotationRepository.requestedQuotationUser(q.getQuotationId()));
+		}
+		return quotationModels;
 	}
 	
 	@Override
 	public List<QuotationModel> getQuotationByPharmacyAndStatus(Integer pharmacyId, String status, String quotationNo,
 			String description) {
-		return quotationRepository.getQuotationByPharmacyAndStatus(pharmacyId, status, quotationNo, description);
+		List<QuotationModel> quotationModels = quotationRepository.getQuotationByPharmacyAndStatus(pharmacyId, status, quotationNo, description);
+		for(QuotationModel q : quotationModels) {
+			q.setCreatedName(quotationRepository.createdQuotationUser(q.getQuotationId()));
+			q.setModifiedName(quotationRepository.modifiedQuotationUser(q.getQuotationId()));
+			q.setRejectedName(quotationRepository.rejectedQuotationUser(q.getQuotationId()));
+			q.setApprovedName(quotationRepository.approvedQuotationUser(q.getQuotationId()));
+			q.setSentName(quotationRepository.sentQuotationUser(q.getQuotationId()));
+			q.setRequestedName(quotationRepository.requestedQuotationUser(q.getQuotationId()));
+		}
+		return quotationModels;
 	}
 
 	@Override
@@ -223,7 +257,6 @@ public class QuotationServiceImpl implements QuotationService {
 	@Override
 	public List<ItemSupplierDTO> getItemsBySupplier(Integer supplierId) {
 		List<ItemSupplierDTO> model = quotationRepository.getItemsBySupplier(supplierId);
-		System.out.println(model);
 		for(ItemSupplierDTO i : model) {
 			ItemsModel itemsModel = new ItemsModel();
 			
@@ -324,12 +357,29 @@ public class QuotationServiceImpl implements QuotationService {
 
 	@Override
 	public List<QuotationModel> getSentQuotationByPharmacy(Integer pharmacyId) {
-		return quotationRepository.getSentQuotationByPharmacy(pharmacyId);
+		List<QuotationModel> quotationModels = quotationRepository.getSentQuotationByPharmacy(pharmacyId);
+		for(QuotationModel q : quotationModels) {
+			q.setCreatedName(quotationRepository.createdQuotationUser(q.getQuotationId()));
+			q.setModifiedName(quotationRepository.modifiedQuotationUser(q.getQuotationId()));
+			q.setRejectedName(quotationRepository.rejectedQuotationUser(q.getQuotationId()));
+			q.setApprovedName(quotationRepository.approvedQuotationUser(q.getQuotationId()));
+			q.setSentName(quotationRepository.sentQuotationUser(q.getQuotationId()));
+			q.setRequestedName(quotationRepository.requestedQuotationUser(q.getQuotationId()));
+		}
+		return quotationModels;
 	}
 
 	@Override
 	public List<QuotationModel> getSentQuotationByPharmacy(Integer pharmacyId, String quotationNo, String description) {
-		return quotationRepository.getSentQuotationByPharmacy(pharmacyId, quotationNo, description);
+		List<QuotationModel> quotationModels = quotationRepository.getSentQuotationByPharmacy(pharmacyId, quotationNo, description);
+		for(QuotationModel q : quotationModels) {
+			q.setCreatedName(quotationRepository.createdQuotationUser(q.getQuotationId()));
+			q.setModifiedName(quotationRepository.modifiedQuotationUser(q.getQuotationId()));
+			q.setRejectedName(quotationRepository.rejectedQuotationUser(q.getQuotationId()));
+			q.setApprovedName(quotationRepository.approvedQuotationUser(q.getQuotationId()));
+			q.setSentName(quotationRepository.sentQuotationUser(q.getQuotationId()));
+			q.setRequestedName(quotationRepository.requestedQuotationUser(q.getQuotationId()));
+		}
+		return quotationModels;
 	}
-
 }
