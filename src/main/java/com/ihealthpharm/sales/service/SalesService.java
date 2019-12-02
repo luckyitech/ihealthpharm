@@ -2,6 +2,7 @@ package com.ihealthpharm.sales.service;
 
 import java.util.List;
 
+import com.ihealthpharm.sales.dto.SalesBillDTO;
 import com.ihealthpharm.sales.model.SalesModel;
 
 public interface SalesService
@@ -23,7 +24,10 @@ public interface SalesService
 
     SalesModel updateSalesData(SalesModel salesModel);
     
-     List<SalesModel> findByCriteria(String status,String code, String codeValue, String startDate, String endDate);
+    List<SalesModel> findByCriteria(String status,String code, String codeValue, String startDate, String endDate);
+    
+    List<SalesModel> searchInSalesHistory(String status,String code, String codeValue, 
+    		String startDate, String endDate,Integer pageNumber, Integer pageSize);
 
 	SalesModel getSaleByBillCode(String searchTerm);
 	
@@ -40,6 +44,8 @@ public interface SalesService
 	List<String> findBillDateBySales(String searchTerm);
 	
 	List<String> findAllBillDtaessBySales();
+	
+	
 
 	//DBL
 	
@@ -76,6 +82,9 @@ public interface SalesService
 	List<String> findBillCodeINSalesSRBB(String searchTerm);
 	
 	List<String> findAllBillCodeINSalesSRBB();
-	
+
+	List<SalesBillDTO> findSalesByBillId(String billCode);
+
+	Integer searchInSalesHistoryCount(String status, String code, String codeValue, String startDate, String endDate);
 	
 }
