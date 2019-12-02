@@ -26,6 +26,7 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.RectangleReadOnly;
 import com.itextpdf.text.Utilities;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -39,7 +40,7 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 	
 	@Override
 		public Document generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile,String inputJson) {
-	    Document document = new Document(PageSize.A4, 36, 36, 50, 36);
+	    Document document = new Document(new RectangleReadOnly(Utilities.millimetersToPoints(80),420));
 
 		try {
 			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(responseFile));
@@ -153,6 +154,7 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 
 		
 		PdfPTable table = new PdfPTable(headerList.size());
+		table.setWidths(new int[] {1,3,1,1,1,1});
 		table.setTotalWidth(Utilities.millimetersToPoints(80));
 		table.setLockedWidth(true);
 		table.setSpacingAfter(10);
