@@ -40,7 +40,7 @@ public class ReportsPDFUtility implements ReportGenerator{
 	protected static  Font title06 = FontFactory.getFont(Font.FontFamily.HELVETICA.toString(), 6);
 	protected static  Font title08 = FontFactory.getFont(Font.FontFamily.HELVETICA.toString(), 8);
 	protected static  Font headerFont = FontFactory.getFont(Font.FontFamily.HELVETICA.toString(), 8,Font.BOLD);
-	protected static  DecimalFormat decilFormatter = new DecimalFormat("#.00");
+	protected static  DecimalFormat decilFormatter = new DecimalFormat("0.00");
 
 
 

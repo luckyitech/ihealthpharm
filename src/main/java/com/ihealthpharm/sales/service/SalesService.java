@@ -2,6 +2,7 @@ package com.ihealthpharm.sales.service;
 
 import java.util.List;
 
+import com.ihealthpharm.sales.dto.SalesBillDTO;
 import com.ihealthpharm.sales.model.SalesModel;
 
 public interface SalesService
@@ -82,7 +83,8 @@ public interface SalesService
 	
 	List<String> findAllBillCodeINSalesSRBB();
 
+	List<SalesBillDTO> findSalesByBillId(String billCode);
+
 	Integer searchInSalesHistoryCount(String status, String code, String codeValue, String startDate, String endDate);
-	
 	
 }

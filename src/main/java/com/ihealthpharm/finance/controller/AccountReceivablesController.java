@@ -101,9 +101,9 @@ public class AccountReceivablesController {
 	
 	//to update salesreturn totalAmount
 	@GetMapping("/getaccreceipts/basedonbillid")
-		public ResponseEntity<BaseDto<AccountReceivablesModel>> getAccountRecivableData(@RequestParam Integer salesModel){
+		public ResponseEntity<BaseDto<List<AccountReceivablesModel>>> getAccountRecivableData(@RequestParam Integer salesModel){
 		
-		AccountReceivablesModel result = accountReceivablesService.findAccountReceivablesByBillId(salesModel);
+		List<AccountReceivablesModel> result = accountReceivablesService.findAccountReceivablesByBillId(salesModel);
 		return new BaseDto<>(result, accountReceivablesHelper.getRetrieveAccountReceivablesMessage(), OK).respond();
 	}
 	

@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.masters.dto.AlternativeItemDTO;
+import com.ihealthpharm.sales.dto.SalesBillDTO;
 import com.ihealthpharm.sales.helper.SalesHelper;
 import com.ihealthpharm.sales.model.SalesModel;
 import com.ihealthpharm.sales.service.SalesService;
@@ -239,6 +241,15 @@ public class SalesController {
 		List<String> results=salesService.findAllBillCodeINSalesSRBB();
 		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
+	
+	
+	@GetMapping("/get/allsalesbasedonsearch")
+	public ResponseEntity<BaseDto<List<SalesBillDTO>>> getAllSalesBySearchingId(@RequestParam("key") String billCode){
+		List<SalesBillDTO> result = salesService.findSalesByBillId(billCode);
+		log.info(result.toString());
+		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(), OK).respond();
+	}
+	
 	
 	@GetMapping("/getsaleshistorybysearch")
 	public ResponseEntity<BaseDto<List<SalesModel>>> getSalesBySearch(@RequestParam String status, @RequestParam String code, @RequestParam String codeValue,
