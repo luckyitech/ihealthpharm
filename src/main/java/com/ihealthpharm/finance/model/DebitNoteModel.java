@@ -41,7 +41,7 @@ public class DebitNoteModel extends AuditModel{
     private Integer auditId;
 
     @Column(name="BILL_ID",length=11)
-    private Integer billId;
+    private String billId;
   
     @Column(name="DEBIT_DATE",length=25)
     private LocalDate debitDate;
@@ -50,7 +50,7 @@ public class DebitNoteModel extends AuditModel{
     private String debitNoteNo;
 
     @Column(name="INVOICE_ID",length=11)
-    private Integer invoiceId;
+    private String invoiceId;
 
   
     @Column(name="REMARKS",length=200)

@@ -118,4 +118,8 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 	List<ItemSupplierDTO> getItemsByItemCodeOrItemNameorItemDesc(@Param("itemCode") String itemCode, @Param("itemName") String itemName, 
 			@Param("itemDescription") String itemDescription);
 	
+//	@Query("select new com.ihealthpharm.stock.model.QuotationModel(q.quotationId, q.quotationNo, "
+//			+ "q.requestedName, q.createdName, q.creationTimeStamp,q.quotationExpiryDt) "
+//			+ "from quotation q where q.quotationStatusModel.status = status ")
+//	List<QuotationModel> getPendingQuoationsByStatus(@Param("status") String status);
 }
