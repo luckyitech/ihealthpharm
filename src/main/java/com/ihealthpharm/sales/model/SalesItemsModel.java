@@ -70,6 +70,9 @@ public class SalesItemsModel {
 
     @Column(name="SALE_AMOUNT",length=25)
     private Double saleAmount;
+    
+    @Column(name="SP_VAT",length=25)
+    private Double saleWithVAT;
 
     @Column(name="SALE_QTY",length=11)
     private Integer saleQty;
