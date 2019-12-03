@@ -26,6 +26,7 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.RectangleReadOnly;
 import com.itextpdf.text.Utilities;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -39,7 +40,7 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 	
 	@Override
 		public Document generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile,String inputJson) {
-	    Document document = new Document(PageSize.A4, 36, 36, 50, 36);
+	    Document document = new Document(new RectangleReadOnly(Utilities.millimetersToPoints(80),420));
 
 		try {
 			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(responseFile));
@@ -153,6 +154,7 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 
 		
 		PdfPTable table = new PdfPTable(headerList.size());
+		table.setWidths(new int[] {1,3,1,1,1,1});
 		table.setTotalWidth(Utilities.millimetersToPoints(80));
 		table.setLockedWidth(true);
 		table.setSpacingAfter(10);
@@ -201,15 +203,26 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		table.setSpacingAfter(10); 
 		table.getDefaultCell().setBorder(0);
 		table.setLockedWidth(true);
-		
+		System.out.println(responseList);
 		int totalItems = responseList.size();
-		double totalAmount = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("MRP")?String.valueOf(mapper.get("MRP")):"0.0")).sum(); 
+		double totalAmount = Double.parseDouble(String.valueOf(responseList.get(0).get("TOTAL_AMOUNT")));//responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TOTAL_AMOUNT")?String.valueOf(mapper.get("TOTAL_AMOUNT")):"0.0")).sum(); 
 		Double totalQty = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TOTAL_QTY")?String.valueOf(mapper.get("TOTAL_QTY")):"0.0")).sum(); 
-		double totalDiscount = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("OVERALL_DISCOUNT")?String.valueOf(mapper.get("OVERALL_DISCOUNT")):"0.0")).sum(); 
+		double totalDiscount = Double.parseDouble(String.valueOf(responseList.get(0).get("OVERALL_DISCOUNT")));//responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("OVERALL_DISCOUNT")?String.valueOf(mapper.get("EFFECTIVE_OVERALL_DISCOUNT")):"0.0")).sum(); 
 		
-		double totalVat = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("EFFECTIVE_VAT")?String.valueOf(mapper.get("VAT")):"0.0")).sum();
-		double totalNetAmount = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("SALE_AMOUNT")?String.valueOf(mapper.get("SALE_AMOUNT")):"0.0")).sum();
-
+		double totalVat = Double.parseDouble(String.valueOf(responseList.get(0).get("VAT_AMT")));//responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("EFFECTIVE_VAT")?String.valueOf(mapper.get("VAT")):"0.0")).sum();
+		
+		//double totalNetAmount = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("SALE_AMOUNT")?String.valueOf(mapper.get("SALE_AMOUNT")):"0.0")).sum();
+		double totalNetAmount =Double.parseDouble(String.valueOf(responseList.get(0).get("NET_AMOUNT")));
+		/*for(Map<String, Object> obj:responseList) {
+			
+			
+			totalVat += (Double.parseDouble(String.valueOf(obj.get("TOTAL_QTY")))*Double.parseDouble(String.valueOf(obj.get("MRP"))))*(1-Double.parseDouble(String.valueOf(obj.get("DISCOUNT_PERCENTAGE")))/100)*
+					(Double.parseDouble(String.valueOf(obj.get("VAT")))/100);
+			totalNetAmount +=Double.parseDouble(String.valueOf(obj.get("TOTAL_QTY")))*Double.parseDouble(String.valueOf(obj.get("MRP")));
+		}
+		
+		totalNetAmount += totalVat;
+		totalNetAmount = Math.round(totalNetAmount - totalDiscount);*/
 		
 		PdfPCell cell = null;
 		cell = getCellWithBorder("Tot. Items  :",Element.ALIGN_LEFT,Rectangle.TOP);	
