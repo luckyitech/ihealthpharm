@@ -171,5 +171,43 @@ public class PurchaseOrderModel extends AuditModel {
 	
 	@Transient
 	private Integer sentId;
+	
+	@Transient
+	private Date creationTimeStamp;
+	
+	@Transient
+	private String createdName;
+	
+	@Transient
+	private String modifiedName;
+
+	@Transient
+	private String sentName;
+	
+	@Transient
+	private String approvedName;
+	
+	@Transient
+	private String rejectedName;
+	
+	@Transient
+	private String name;
+	
+	public PurchaseOrderModel() {
+		
+	}
+	
+	public PurchaseOrderModel(Integer purchaseOrderId, String purchaseOrderNo, String name, String remarks, 
+			Date rejectedDate, Date modifiedDate, Date approvedDate, Date sentDate, Date creationTimeStamp) {
+		this.purchaseOrderId = purchaseOrderId;
+		this.purchaseOrderNo = purchaseOrderNo;
+		this.name = name;
+		this.remarks =remarks;
+		this.rejectedDate = rejectedDate;
+		this.modifiedDate = modifiedDate;
+		this.approvedDate = approvedDate;
+		this.sentDate = sentDate;
+		this.creationTimeStamp = creationTimeStamp;
+	}
 
 }

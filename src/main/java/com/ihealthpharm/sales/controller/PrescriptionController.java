@@ -47,11 +47,12 @@ public class PrescriptionController {
 	}
 	
 	@PostMapping("/getbycustomeranddate")
-	public ResponseEntity<BaseDto<PrescriptionImagesModel>> getPrescriptionByCustomerAndDate(@RequestParam String customer, @RequestParam String date){
-		CustomerModel customerId  = null;
+	public ResponseEntity<BaseDto<PrescriptionImagesModel>> getPrescriptionByCustomerAndDate(@RequestParam Integer customer, @RequestParam String date){
+		CustomerModel customerId  = new CustomerModel();
+		customerId.setCustomerId(customer);
 		Date dateObj = null;
 		try {
-			customerId = new ObjectMapper().readValue(customer,CustomerModel.class);
+			
 			dateObj =new ObjectMapper().readValue(date,Date.class);
 		}
 		catch(Exception e)
