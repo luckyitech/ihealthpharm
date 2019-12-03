@@ -45,7 +45,7 @@ public class CreditNoteModel extends AuditModel{
     private Integer auditId;
 
     @Column(name="BILL_ID",length=11)
-    private Integer billId;
+    private String billId;
 
     @Column(name="CREDIT_DATE",length=25)
     private LocalDate creditDate;
@@ -54,7 +54,7 @@ public class CreditNoteModel extends AuditModel{
     private String creditNoteNo;
 
     @Column(name="INVOICE_ID",length=11)
-    private Integer invoiceId;  
+    private String invoiceId;  
 
     @Column(name="REMARKS",length=200)
     private String remarks;
