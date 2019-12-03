@@ -12,12 +12,15 @@ import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.CustomerRepository;
+import com.ihealthpharm.masters.dto.CustomerDTO;
 import com.ihealthpharm.masters.helper.CustomerHelper;
 import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.masters.service.CustomerService;
@@ -131,18 +134,15 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public List<CustomerModel> findLimitedCustomers() {
-		
-		return customerRepository.findFirst100ByOrderByCustomerNameAsc();
+		Pageable limit = new PageRequest(0,100);
+		return customerRepository.findFirst100ByOrderByCustomerNameAsc(limit);
 	}
 
 	@Override
 	public List<CustomerModel> findCustomersByName(String customerName) {
 		
-		return customerRepository.findAll(new Specification<CustomerModel>() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -2059726564132190131L;
+		/*return customerRepository.findAll(new Specification<CustomerModel>() {
+		 static final long serialVersionUID = -2059726564132190131L;
 
 			@Override
 			public Predicate toPredicate(Root<CustomerModel> root, CriteriaQuery<?> query,
@@ -156,7 +156,9 @@ public class CustomerServiceImpl implements CustomerService {
 				
 				return criteriaBuilder.or(predicates.toArray(new Predicate[predicates.size()]));
 			}
-		});
+		});*/
+		
+		return customerRepository.findCustomerByNameSearch(customerName);
 	}
 
 }
