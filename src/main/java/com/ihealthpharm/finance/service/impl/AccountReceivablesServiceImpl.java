@@ -139,6 +139,15 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 		return res;
 	}
 
+/*	@Override
+	public List<SalesModel> getAllCustomersByCustomerId(Integer customers) {
+		log.info("given  id :" + customers);
+	List<SalesModel> res=accountReceivablesRepository.getAllCustomersByCustomerId(customers);
+		System.out.println(res);
+		return res;
+	}*/
+	
+	
 	@Override
 	public List<AccountReceivablesModel> findAccountReceivablesByBillId(Integer billId) {
 
