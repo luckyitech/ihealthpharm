@@ -101,7 +101,12 @@ public class StockModel extends AuditModel {
 	@Temporal(TemporalType.DATE)
 	@Column(name="EXPIRY_DT")
 	private Date expiryDt;
+	
 
+	@Temporal(TemporalType.DATE)
+	@Column(name="STOCK_DATE")
+	private Date stockDt;
+	
 	@Temporal(TemporalType.DATE)
 	@Column(name="MANUFACTURE_DT")
 	private Date manufactureDt;

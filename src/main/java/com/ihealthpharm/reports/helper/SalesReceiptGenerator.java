@@ -213,6 +213,11 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		
 		//double totalNetAmount = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("SALE_AMOUNT")?String.valueOf(mapper.get("SALE_AMOUNT")):"0.0")).sum();
 		double totalNetAmount =Double.parseDouble(String.valueOf(responseList.get(0).get("NET_AMOUNT")));
+		double balanceAmt =Double.parseDouble(String.valueOf(responseList.get(0).get("BALANCE_AMOUNT")));
+		double paidAmt =Double.parseDouble(String.valueOf(responseList.get(0).get("PAID_AMOUNT")));
+		String servBy = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("FIRST_NM"));
+		String paymentStatus = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("PAYMENT_STATUS"));
+		
 		/*for(Map<String, Object> obj:responseList) {
 			
 			
@@ -244,14 +249,31 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		table.addCell(cell);
 		
 
-		
-		cell = getCellWithBorder("VAT Amt    :",Element.ALIGN_LEFT,Rectangle.BOTTOM);	
+		cell = getCell("VAT Amt    :",Element.ALIGN_LEFT);	
 		table.addCell(cell);
-		cell = getCellWithBorder(ReportsPDFUtility.decilFormatter.format(totalVat),Element.ALIGN_LEFT,Rectangle.BOTTOM);	
+		cell = getCell(ReportsPDFUtility.decilFormatter.format(totalVat),Element.ALIGN_LEFT);	
 		table.addCell(cell);	
-		cell = getCellWithBorder("Net Amt   :",Element.ALIGN_LEFT,Rectangle.BOTTOM);	
+		cell = getCell("Net Amt   :",Element.ALIGN_LEFT);	
 		table.addCell(cell);		
-		cell = getCellWithBorder(ReportsPDFUtility.decilFormatter.format(totalNetAmount),Element.ALIGN_LEFT,Rectangle.BOTTOM);	
+		cell = getCell(ReportsPDFUtility.decilFormatter.format(totalNetAmount),Element.ALIGN_LEFT);	
+		table.addCell(cell);
+		
+		cell = getCellWithBorder("Bal Amt    :",Element.ALIGN_LEFT,Rectangle.BOTTOM);	
+		table.addCell(cell);
+		cell = getCellWithBorder(ReportsPDFUtility.decilFormatter.format(balanceAmt),Element.ALIGN_LEFT,Rectangle.BOTTOM);	
+		table.addCell(cell);	
+		cell = getCellWithBorder("Paid Amt   :",Element.ALIGN_LEFT,Rectangle.BOTTOM);	
+		table.addCell(cell);		
+		cell = getCellWithBorder(ReportsPDFUtility.decilFormatter.format(paidAmt),Element.ALIGN_LEFT,Rectangle.BOTTOM);	
+		table.addCell(cell);
+		
+		cell = getCellWithBorder("Serv By     :",Element.ALIGN_LEFT,Rectangle.BOTTOM);	
+		table.addCell(cell);
+		cell = getCellWithBorder(servBy,Element.ALIGN_LEFT,Rectangle.BOTTOM);	
+		table.addCell(cell);	
+		cell = getCellWithBorder("Paid Status:",Element.ALIGN_LEFT,Rectangle.BOTTOM);	
+		table.addCell(cell);		
+		cell = getCellWithBorder(paymentStatus,Element.ALIGN_LEFT,Rectangle.BOTTOM);	
 		table.addCell(cell);
 		table.completeRow();
 		
@@ -264,6 +286,7 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		
 		String billCode = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("BILL_CODE"));
 		String customerName = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("CUSTOMER_NM"));
+		String doctorName = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("DOCTOR_NM"));
 		
 		PdfPTable table = new PdfPTable(4);
 		table.setSpacingAfter(10); 
@@ -279,18 +302,25 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		table.addCell(cell);
 		cell = getCellWithBorder("Dr.Name   :",Element.ALIGN_LEFT,Rectangle.TOP);
 		table.addCell(cell);
-		cell = getCellWithBorder("XXXXXX",Element.ALIGN_LEFT,Rectangle.TOP);
+		cell = getCellWithBorder(doctorName,Element.ALIGN_LEFT,Rectangle.TOP);
 		table.addCell(cell);
 		cell = getCell("Dt.    : ",Element.ALIGN_LEFT);
 		table.addCell(cell);
 		cell = getCell(DateUtility.getDateStringHH(),Element.ALIGN_LEFT);
 		//cell.setNoWrap(true);
 		table.addCell(cell);
-		cell = getCell("Cust.Name:",Element.ALIGN_LEFT);
+		cell = getCell("",Element.ALIGN_LEFT);
 		cell.setNoWrap(true);
+		table.addCell(cell);
+		cell = getCell("",Element.ALIGN_LEFT);
+		table.addCell(cell);
+		
+		cell = getCell("Cust. :",Element.ALIGN_LEFT);
 		table.addCell(cell);
 		cell = getCell(customerName,Element.ALIGN_LEFT);
 		table.addCell(cell);
+		
+		
 		table.completeRow();
 		
 		document.add(table);

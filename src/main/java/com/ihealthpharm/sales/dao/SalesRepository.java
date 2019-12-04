@@ -98,12 +98,10 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 			+ "where s.billId=si.billId.billId order by s.billDate")
 	List<String> findAllbillDateINSalesSRD();
 
-	@Query("select DISTINCT pt.type from sales s,sales_items si,payment_types pt "
-			+ "where s.billId=si.billId.billId order by pt.type ")
+	@Query("select DISTINCT pt.type from payment_types pt order by pt.type ")
 	List<String> findAlltypeINSalesSRD();
 
 	// SRADL
-
 	@Query("select distinct sp.cityName from sales s,sales_items si,supplier sp,payment_types pt "
 			+ "where s.billId=si.billId.billId and si.supplier.supplierId=sp.supplierId and sp.cityName like :searchTerm%")
 	List<String> findcityNameINSalesSRADL(@Param("searchTerm") String searchTerm);
@@ -119,9 +117,7 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 			 		List<String> findAllcityNameINSalesSRADL();
 	 //SRBB
 
-	 @Query("SELECT distinct s.billCode from sales s,sales_items si,items i "
-		 		+"where s.billId = si.billId.billId " 
-		 		+"and i.itemId= si.itemsModel.itemId order by s.billCode ")
+	 @Query("SELECT s.billCode from sales s  WHERE YEAR(billDate) = YEAR(now()) and MONTH(billDate) > ( MONTH(now()) -2 ) order by s.billDate desc")
 				 		List<String> findAllBillCodeINSalesSRBB();
 
 	 @Query("select new com.ihealthpharm.sales.dto.SalesBillDTO(i.billId,i.billCode) from sales i  "
@@ -130,8 +126,7 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 	 
 
 	// SRBB
-	@Query("SELECT distinct s.billCode from sales s,sales_items si,items i " + "where s.billId = si.billId.billId "
-			+ "and i.itemId= si.itemsModel.itemId and s.billCode like :searchTerm%")
+	@Query("SELECT s.billCode from sales s where s.billCode like :searchTerm%")
 	List<String> findBillCodeINSalesSRBB(@Param("searchTerm") String searchTerm);
 
 
