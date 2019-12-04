@@ -34,7 +34,6 @@ public class SalesModel {
 
 	@Column(name = "ADJUSTED_QTY", length = 11)
 	private Integer adjustedQty;
-
 	@Column(name = "BALANCE_AMOUNT", length = 25)
 	private Float balanceAmount;
 
@@ -68,7 +67,7 @@ public class SalesModel {
 	@Column(name = "CUSTOMER_NM", length = 100)
 	private String customerNm;
 
-	@Column(name = "CUSTOMER_PHONE_NO", length = 15)
+	@Column(name = "CUSTOMER_PHONE_NO", length = 20)
 	private String customerPhoneNo;
 
 	@Column(name = "EFFECTIVE_MARGIN", length = 25)
