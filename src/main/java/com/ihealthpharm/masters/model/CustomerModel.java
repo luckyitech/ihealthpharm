@@ -99,7 +99,45 @@ public class CustomerModel extends AuditModel{
 		 @OneToOne
 		    @JoinColumn(name="PHARMACY_ID")
 		    private PharmacyModel pharmacyModel;
+
+		public CustomerModel(Integer customerId, String customerName,String phoneNumber) {
+			super();
+			this.customerId = customerId;
+			this.customerName = customerName;
+			this.phoneNumber = phoneNumber;
+		}
 		 
-		
+		public CustomerModel() {
+			
+		}
+
+		public CustomerModel(Integer customerId, String phoneNumber, String customerName, String lastName,
+				Character genderCode, Character activeS, String dateOfBirth, String emailId, String addressLine1,
+				String addressLine2, String city, StateModel state, CountryModel country, String pinCode,
+				Integer auditId, Float creditLimit, Float creditDays, Float discountPercentage, Float discountAmount,
+				String organisation, PharmacyModel pharmacyModel) {
+			super();
+			this.customerId = customerId;
+			this.phoneNumber = phoneNumber;
+			this.customerName = customerName;
+			this.lastName = lastName;
+			this.genderCode = genderCode;
+			this.activeS = activeS;
+			this.dateOfBirth = dateOfBirth;
+			this.emailId = emailId;
+			this.addressLine1 = addressLine1;
+			this.addressLine2 = addressLine2;
+			this.city = city;
+			this.state = state;
+			this.country = country;
+			this.pinCode = pinCode;
+			this.auditId = auditId;
+			this.creditLimit = creditLimit;
+			this.creditDays = creditDays;
+			this.discountPercentage = discountPercentage;
+			this.discountAmount = discountAmount;
+			this.organisation = organisation;
+			this.pharmacyModel = pharmacyModel;
+		}
 		
 	}
