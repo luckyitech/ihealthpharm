@@ -164,6 +164,7 @@ public class ItemSupplierController {
 	//for getting grid data based on itemId
 	@GetMapping("/getitemsuppliers/basedonItemId")
 	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getAllItemSuppliersBasedOnItemId(@RequestParam Integer  itemId){
+		System.out.println("=================================================");
 		System.out.println(itemId);
 		List<ItemSupplierDTO> response=itemSupplierService.findAllMappedItemSuppliersOnItemName(itemId);
 		return new BaseDto<>(response,itemSupplierHelper.getRetrieveItemSupplierMessage(),OK).respond();
