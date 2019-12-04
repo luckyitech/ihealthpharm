@@ -68,8 +68,8 @@ public class SalesModel {
 	@Column(name = "CUSTOMER_NM", length = 100)
 	private String customerNm;
 
-	@Column(name = "CUSTOMER_PHONE_NO", length = 11)
-	private Integer customerPhoneNo;
+	@Column(name = "CUSTOMER_PHONE_NO", length = 15)
+	private String customerPhoneNo;
 
 	@Column(name = "EFFECTIVE_MARGIN", length = 25)
 	private Float effectiveMargin;
