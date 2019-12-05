@@ -329,4 +329,61 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		return purchaseorderRepository.getPurchaseOrderByPharmacy(pharmacyId);
 	}
 
+	//PDBB
+	
+	@Override
+	public List<String> findbatchNoInpurchaseorderPDBB(String searchTerm) {
+	return purchaseorderRepository.findbatchNoInpurchaseorderPDBB(searchTerm);
+	}
+
+	@Override
+	public List<String> findallPDBB() {
+		return purchaseorderRepository.findallPDBB();
+	}
+
+	@Override
+	public List<String> findSuppliersInpurchaseorderPDBB(String searchTerm) {
+		return purchaseorderRepository.findSuppliersInpurchaseorderPDBB(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllSuppliersPDBB() {
+		return purchaseorderRepository.findAllSuppliersPDBB();
+	}
+
+	//PDBP
+	
+	@Override
+	public List<String> finditemNameInpurchaseorderPDBP(String searchTerm) {
+		return purchaseorderRepository.finditemNameInpurchaseorderPDBP(searchTerm);
+	}
+	
+
+	@Override
+	public List<String> findallPDBP() {
+		return purchaseorderRepository.findallPDBP();
+	}
+
+	//PRLT
+	@Override
+	public List<String> findpaymenttypebysearchPRLT(String searchTerm) {
+		return purchaseorderRepository.findpaymenttypebysearchPRLT(searchTerm);
+	}
+
+	@Override
+	public List<String> findallpaymenttypesPRLT() {
+		return purchaseorderRepository.findallpaymenttypePRLT();
+	}
+	
+//PRLS
+	@Override
+	public List<String> findsuppliersbysearchPRLS(String searchTerm) {
+		return purchaseorderRepository.findsupplierbysearchPRLS(searchTerm);
+	}
+
+	@Override
+	public List<String> findallsuppliersPRLS() {
+		return purchaseorderRepository.findallsuppliersPRLS();
+	}
+
 }
