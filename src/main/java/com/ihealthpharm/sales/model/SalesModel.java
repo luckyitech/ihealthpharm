@@ -18,6 +18,7 @@ import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.HospitalModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.ProviderModel;
+import com.ihealthpharm.tax.model.TaxCategoryModel;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -154,6 +155,9 @@ public class SalesModel {
 	@Column(name="CHEQUE_AMT")
 	private Double chequeAmount;
 	
+	@Column(name="CHEQUE_DATE")
+	private String chequeDate;
+	
 	@Column(name="CREDIT_AMOUNT")
 	private Double creditAmount;
 	
@@ -186,4 +190,6 @@ public class SalesModel {
 	@OneToOne
 	@JoinColumn(name = "HOSPITAL_ID")	
 	HospitalModel hospitalModel;
+	
+	
 }
