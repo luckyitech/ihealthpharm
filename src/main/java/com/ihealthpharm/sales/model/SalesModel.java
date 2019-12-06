@@ -18,6 +18,7 @@ import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.HospitalModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.ProviderModel;
+import com.ihealthpharm.tax.model.TaxCategoryModel;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -34,7 +35,6 @@ public class SalesModel {
 
 	@Column(name = "ADJUSTED_QTY", length = 11)
 	private Integer adjustedQty;
-
 	@Column(name = "BALANCE_AMOUNT", length = 25)
 	private Float balanceAmount;
 
@@ -68,8 +68,8 @@ public class SalesModel {
 	@Column(name = "CUSTOMER_NM", length = 100)
 	private String customerNm;
 
-	@Column(name = "CUSTOMER_PHONE_NO", length = 11)
-	private Integer customerPhoneNo;
+	@Column(name = "CUSTOMER_PHONE_NO", length = 20)
+	private String customerPhoneNo;
 
 	@Column(name = "EFFECTIVE_MARGIN", length = 25)
 	private Float effectiveMargin;
@@ -155,6 +155,9 @@ public class SalesModel {
 	@Column(name="CHEQUE_AMT")
 	private Double chequeAmount;
 	
+	@Column(name="CHEQUE_DATE")
+	private String chequeDate;
+	
 	@Column(name="CREDIT_AMOUNT")
 	private Double creditAmount;
 	
@@ -187,4 +190,6 @@ public class SalesModel {
 	@OneToOne
 	@JoinColumn(name = "HOSPITAL_ID")	
 	HospitalModel hospitalModel;
+	
+	
 }

@@ -48,4 +48,30 @@ public interface PurchaseOrderService {
 	List<PurchaseOrderModel> getSentPurchaseOrderByPharmacy(Integer pharmacyId);
 	
 	List<PurchaseOrderModel> getSentPurchaseOrderByPharmacy(Integer pharmacyId, String purchaseOrderNo);
+	
+	//Purchase Details By Batch No
+		List<String> findbatchNoInpurchaseorderPDBB(String searchTerm);
+		
+		List<String> findallPDBB();
+		
+		List<String> findSuppliersInpurchaseorderPDBB(String searchTerm);
+		
+		List<String> findAllSuppliersPDBB();
+		
+		
+		//Purchase Details By Product Name
+		 List<String> finditemNameInpurchaseorderPDBP(String searchTerm);
+			
+		List<String> findallPDBP();
+		
+		//Purchase Register List
+		
+		List<String> findpaymenttypebysearchPRLT(String searchTerm);
+		
+		List<String> findallpaymenttypesPRLT();
+		
+		List<String> findsuppliersbysearchPRLS(String searchTerm);
+		
+		List<String> findallsuppliersPRLS();
+	
 }

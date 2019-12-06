@@ -130,8 +130,15 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 				+ "where  i.billCode like %:billCode%")
 	List<SalesBillDTO> getAllSalesBySalesIdSearch(@Param("billCode") String billCode);
 
+	// sales history searches
 	@Query("select s from sales s where s.paymentStatus = :key order by s.billDate DESC")
 	List<SalesModel> findSalesByPaymentStatus(@Param("key") String key, Pageable limit);
+	
+	@Query("select s from sales s where s.paymentStatus = :status and s.billDate between :start and :end and s.customerModel.customerName like :code% or s.billCode like :code% order by s.lastUpdateTs DESC")
+	List<SalesModel> findSalesSearchByStatusSearchCodeDate(@Param("status") String status,@Param("code") String code,@Param("start") LocalDate start,@Param("end") LocalDate end, Pageable limit);
+
+	@Query("select s from sales s where s.paymentStatus = :status and s.billDate between :start and :end  order by s.lastUpdateTs DESC")
+	List<SalesModel> findSalesSearchByStatusDate(@Param("status") String status,@Param("start") LocalDate start,@Param("end") LocalDate end, Pageable limit);
 
 	@Query("select s from sales s where s.billCode like :key% order by s.billDate DESC")
 	List<SalesModel> findSalesByBillCode(@Param("key") String key, Pageable limit);
@@ -143,6 +150,14 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 	@Query("select s from sales s where s.billDate between :start and :end order by s.billDate DESC")
 	List<SalesModel> findSalesByBillDate(@Param("start") LocalDate start,@Param("end") LocalDate end, Pageable limit);
 
+	//counts
+	
+	@Query("select count(s) from sales s where s.paymentStatus = :status and s.billDate between :start and :end and s.customerModel.customerName like :code% or s.billCode like :code% order by s.lastUpdateTs DESC")
+	Integer findSalesSearchByStatusSearchCodeDateCount(@Param("status") String status,@Param("code") String code,@Param("start") LocalDate start,@Param("end") LocalDate end);
+
+	@Query("select count(s) from sales s where s.paymentStatus = :status and s.billDate between :start and :end  order by s.lastUpdateTs DESC")
+	Integer findSalesSearchByStatusDateCount(@Param("status") String status,@Param("start") LocalDate start,@Param("end") LocalDate end);
+	
 	@Query("select count(s) from sales s where s.paymentStatus = :key order by s.billDate DESC")
 	Integer findSalesByPaymentStatusCount(@Param("key") String key );
 	
