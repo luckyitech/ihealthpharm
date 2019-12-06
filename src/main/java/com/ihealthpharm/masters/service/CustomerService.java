@@ -31,4 +31,6 @@ public interface CustomerService
 
 	List<CustomerModel> findCustomersByName(String customerName);
 
+	List<CustomerModel> findAllCustomersByNameSearch(String customerName);
+
 }

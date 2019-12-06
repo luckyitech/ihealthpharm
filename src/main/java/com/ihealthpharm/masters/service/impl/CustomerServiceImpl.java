@@ -161,4 +161,9 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerRepository.findCustomerByNameSearch(customerName);
 	}
 
+	@Override
+	public List<CustomerModel> findAllCustomersByNameSearch(String customerName) {
+		return customerRepository.findCustomerBySearchingName(customerName);
+	}
+
 }

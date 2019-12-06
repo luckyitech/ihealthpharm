@@ -183,7 +183,7 @@ public class SupplierWiseSales extends ReportsPDFUtility{
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("DISC");
+			headerCell.add("DISCOUNT");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
