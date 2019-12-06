@@ -104,7 +104,6 @@ public class StockModel extends AuditModel {
 	@Column(name="EXPIRY_DT")
 	private Date expiryDt;
 	
-
 	@Temporal(TemporalType.DATE)
 	@Column(name="STOCK_DATE")
 	private Date stockDt;
@@ -136,6 +135,15 @@ public class StockModel extends AuditModel {
 	
 	@Column(name="VAT")
 	private Double Vat;
+	
+	@Column(name="INVOICE_NO")
+	private String invoiceNo;
+	
+	@Column(name="ENTRY_TYPE")
+	private String entryType;
+	
+	@Column(name="PACK")
+	private String pack;
 	
 	@OneToOne
 	@JoinColumn(name = "TAX_CATEGORY_ID")
