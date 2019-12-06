@@ -249,7 +249,7 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		table.addCell(cell);
 		
 
-		cell = getCell("VAT Amt    :",Element.ALIGN_LEFT);	
+		cell = getCell("Tax Amt    :",Element.ALIGN_LEFT);	
 		table.addCell(cell);
 		cell = getCell(ReportsPDFUtility.decilFormatter.format(totalVat),Element.ALIGN_LEFT);	
 		table.addCell(cell);	
@@ -274,6 +274,15 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		cell = getCellWithBorder("Paid Status:",Element.ALIGN_LEFT,Rectangle.BOTTOM);	
 		table.addCell(cell);		
 		cell = getCellWithBorder(paymentStatus,Element.ALIGN_LEFT,Rectangle.BOTTOM);	
+		table.addCell(cell);
+		
+		cell = getCellWithBorder("Tax Codes:",Element.ALIGN_LEFT,Rectangle.BOTTOM);	
+		table.addCell(cell);
+		cell = getCellWithBorder("A - 16%:",Element.ALIGN_LEFT,Rectangle.BOTTOM);	
+		table.addCell(cell);	
+		cell = getCellWithBorder("B - 0%:",Element.ALIGN_LEFT,Rectangle.BOTTOM);	
+		table.addCell(cell);
+		cell = getCellWithBorder("E - Exempt",Element.ALIGN_LEFT,Rectangle.BOTTOM);	
 		table.addCell(cell);
 		table.completeRow();
 		

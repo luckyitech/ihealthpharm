@@ -90,7 +90,7 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 	private void generateTotalTable(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException {
 		
 		double grossTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("TOTAL_VALUE") && !ObjectUtils.isEmpty(mapper.get("TOTAL_VALUE"))) ?String.valueOf(mapper.get("TOTAL_VALUE")):"0")).sum(); 
-		double netTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("ACTUAL_VALUE")&& !ObjectUtils.isEmpty(mapper.get("ACTUAL_VALUE")))?String.valueOf(mapper.get("ACTUAL_VALUE")):"0")).sum(); 
+		//double netTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("ACTUAL_VALUE")&& !ObjectUtils.isEmpty(mapper.get("ACTUAL_VALUE")))?String.valueOf(mapper.get("ACTUAL_VALUE")):"0")).sum(); 
 		double discount = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("DISCOUNT")&& !ObjectUtils.isEmpty(mapper.get("DISCOUNT")))?String.valueOf(mapper.get("DISCOUNT")):"0")).sum(); 
 		double charges = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("HANDLING_CHARGES")&& !ObjectUtils.isEmpty(mapper.get("HANDLING_CHARGES")))?String.valueOf(mapper.get("HANDLING_CHARGES")):"0")).sum(); 
 		
@@ -131,7 +131,7 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 		totalQtyTable.setTotalWidth(500);
 		totalQtyTable.getDefaultCell().setBorder(0);
 		
-		PdfPCell nameCell4 = new PdfPCell(new Phrase("NET TOTAL : "+netTotal, title08)); 
+		PdfPCell nameCell4 = new PdfPCell(new Phrase("NET TOTAL : "+"netTotal", title08)); 
 		nameCell4.setColspan(3);
 		nameCell4.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell4.setVerticalAlignment(Element.ALIGN_TOP);
