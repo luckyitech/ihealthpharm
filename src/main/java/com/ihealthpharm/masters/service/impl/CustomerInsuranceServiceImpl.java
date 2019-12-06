@@ -66,7 +66,7 @@ public class CustomerInsuranceServiceImpl implements CustomerInsuranceService {
 	@Override
 	public List<CustomerInsuranceModel> findAllCustomersInsurance() {
 		
-		return customerInsuranceRepository.findAllByOrderByLastUpdateTimestamp();
+		return customerInsuranceRepository.findAllByOrderByLastUpdateTimestampDesc();
 	}
 
 	@Override
