@@ -42,7 +42,6 @@ public class AccountReceivablesController {
 
 	@PostMapping("/save/accountReceivables")
 	public ResponseEntity<BaseDto<AccountReceivablesModel>> insertAccountReceivablesData(@Valid @RequestBody AccountReceivablesModel accountReceivablesModel) {
-      System.out.println(accountReceivablesModel);
 		AccountReceivablesModel accountReceivablesModelRes = accountReceivablesService.saveAccountReceivablesData(accountReceivablesModel);
 		return new BaseDto<>(accountReceivablesModelRes, accountReceivablesHelper.getSaveAccountReceivablesMessage(), OK).respond();
 	}
@@ -91,23 +90,19 @@ public class AccountReceivablesController {
 
 	@GetMapping("/getbillsbycustomerid")
 	public ResponseEntity<BaseDto<List<SalesModel>>> getAllBillsBasedOnCustomerId(@RequestParam Integer customerId){
-		System.out.println("in grid"+customerId);
+		
 		List<SalesModel> result=accountReceivablesService.getAllBillsByCustomerId(customerId);
-		log.info("---------------------------------");
-		log.info(result.toString());
-		log.info("---------------------------------");
+		
 		return new BaseDto<>(result,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
 	
-	/*@GetMapping("/getcustomersbycustomerid")
-	public ResponseEntity<BaseDto<List<SalesModel>>> getAllCustomersBasedOnCustomerId(@RequestParam Integer customers){
-		System.out.println("in grid"+customers);
-		List<SalesModel> result=accountReceivablesService.getAllCustomersByCustomerId(customers);
-		log.info("---------------------------------");
-		log.info(result.toString());
-		log.info("---------------------------------");
+	@GetMapping("/getcustomersbycustomerid")
+	public ResponseEntity<BaseDto<List<SalesModel>>> getAllCustomersBasedOnCustomerId(@RequestParam Integer customerId){
+		
+		List<SalesModel> result=accountReceivablesService.getAllCustomersByCustomerId(customerId);
+		
 		return new BaseDto<>(result,salesHelper.getRetrieveSalesMessage(),OK).respond();
-	}*/
+	}
 	
 	//to update salesreturn totalAmount
 	@GetMapping("/getaccreceipts/basedonbillid")
