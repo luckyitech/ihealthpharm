@@ -291,13 +291,29 @@ public class SalesServiceImpl implements SalesService {
 	public List<SalesModel> searchInSalesHistory(String status, String code, String codeValue, String startDate,
 			String endDate,Integer pageNumber, Integer pageSize) {
 		Pageable limit = new PageRequest(pageNumber,pageSize);
+		if((status != null && !status.equals("undefined") && !status.equals("null")) && 
+		((code != null && !code.equals("undefined") && !code.equals("null")) && (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null"))) &&
+		((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null"))))
+		{
+			LocalDate start = LocalDate.parse(startDate);
+			LocalDate end = LocalDate.parse(endDate);
+			return salesRepository.findSalesSearchByStatusSearchCodeDate(status,codeValue,start,end,limit);
+		}
 		
-		if (status != null && !status.equals("undefined") && !status.equals("null")) {
+		else if((status != null && !status.equals("undefined") && !status.equals("null")) && 
+		((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null"))))
+		{
+					LocalDate start = LocalDate.parse(startDate);
+					LocalDate end = LocalDate.parse(endDate);
+					return salesRepository.findSalesSearchByStatusDate(status,start,end,limit);
+		}
+		
+		else if (status != null && !status.equals("undefined") && !status.equals("null")) {
 			System.out.println("in status condition:" + (status != null &&!status.equals("undefined")));
 			return salesRepository.findSalesByPaymentStatus(status,limit);
 		}
 		
-		if ((code != null && !code.equals("undefined") && !code.equals("null")) && (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null"))) {
+		else if ((code != null && !code.equals("undefined") && !code.equals("null")) && (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null"))) {
 			if(code.equalsIgnoreCase("Bill Number"))
 			{
 				return salesRepository.findSalesByBillCode(codeValue,limit);
@@ -308,9 +324,8 @@ public class SalesServiceImpl implements SalesService {
 			}
 			
 		}
-		
-		
-		if((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null")))
+
+		else if((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null")))
 		{
 			LocalDate start = LocalDate.parse(startDate);
 			LocalDate end = LocalDate.parse(endDate);
@@ -318,6 +333,7 @@ public class SalesServiceImpl implements SalesService {
 			log.info("endDate=:"+end);
 			return salesRepository.findSalesByBillDate(start,end,limit);
 		}
+		
 		return null;
 	}
 
@@ -326,12 +342,29 @@ public class SalesServiceImpl implements SalesService {
 			String endDate) {
 		Integer res=0;
 		
-		if (status != null && !status.equals("undefined") && !status.equals("null"))  {
+		if((status != null && !status.equals("undefined") && !status.equals("null")) && 
+				((code != null && !code.equals("undefined") && !code.equals("null")) && (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null"))) &&
+				((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null"))))
+		{
+			LocalDate start = LocalDate.parse(startDate);
+			LocalDate end = LocalDate.parse(endDate);
+			return salesRepository.findSalesSearchByStatusSearchCodeDateCount(status,codeValue,start,end);
+		}
+		
+		else if((status != null && !status.equals("undefined") && !status.equals("null")) && 
+				((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null"))))
+		{
+			LocalDate start = LocalDate.parse(startDate);
+			LocalDate end = LocalDate.parse(endDate);
+			return salesRepository.findSalesSearchByStatusDateCount(status,start,end);
+		}
+		
+		else if (status != null && !status.equals("undefined") && !status.equals("null"))  {
 			
 			return salesRepository.findSalesByPaymentStatusCount(status);
 		}
 		
-		if ((code != null && !code.equals("undefined") && !code.equals("null")) && (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null"))) {
+		else if ((code != null && !code.equals("undefined") && !code.equals("null")) && (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null"))) {
 			if(code.equalsIgnoreCase("Bill Number"))
 			{
 				log.info("Code :"+code+ "\t Code Value:"+codeValue);
@@ -346,7 +379,7 @@ public class SalesServiceImpl implements SalesService {
 		}
 		
 		
-		if((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null")))
+		else if((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null")))
 		{
 			LocalDate start = LocalDate.parse(startDate);
 			LocalDate end = LocalDate.parse(endDate);
