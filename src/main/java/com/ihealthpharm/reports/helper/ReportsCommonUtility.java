@@ -103,7 +103,6 @@ public class ReportsCommonUtility {
 							
 							
 							if (StringUtils.equalsIgnoreCase("EQ", criteria.getOperator())) {
-								stringBuffer.append(criteria.getAlias());
 								stringBuffer.append("DATE_FORMAT(" +criteria.getAlias() + criteria.getColumnName() +",'%Y-%m-%d') ");
 								stringBuffer.append(" = ");
 								stringBuffer.append("'"+value+"'");

@@ -2,10 +2,9 @@ package com.ihealthpharm.masters.dao;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.ihealthpharm.masters.model.MembershipModel;
 
@@ -16,6 +15,6 @@ public interface MembershipRepository extends JpaRepository<MembershipModel,Inte
 	 List<MembershipModel> findAllByOrderByLastUpdateTimestampDesc();
 
 	@Query("select m from membership m where m.membershipCardName like :membershipName% ")
-	List<MembershipModel> findByMembershipCardNameContains(@Valid String membershipName);
+	List<MembershipModel> findByMembershipCardNameContains(@Param("membershipName") String membershipName);
 	
 }

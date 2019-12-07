@@ -18,11 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
-import com.ihealthpharm.masters.dto.CustomerDTO;
 import com.ihealthpharm.masters.helper.CustomerHelper;
 import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.masters.service.CustomerService;
-
 
 import lombok.extern.slf4j.Slf4j;
 
