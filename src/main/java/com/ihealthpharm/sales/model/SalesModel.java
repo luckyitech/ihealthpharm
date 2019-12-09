@@ -145,6 +145,9 @@ public class SalesModel {
 
 	@Column(name = "UPI_PHONE_NO", length = 20)
 	private String upiPhoneNo;
+	
+	@Column(name = "UPI_TRANS_ID", length = 50)
+	private String upiTransactionId;
 
 	@Column(name = "VAT_AMT", length = 25)
 	private Float vatAmt;
