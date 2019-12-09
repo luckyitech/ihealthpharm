@@ -77,8 +77,8 @@ public class MembershipController {
 	}
 	
 	@GetMapping("/getmembership/byname")
-	public ResponseEntity<BaseDto<List<MembershipModel>>> getMembershipByName(@Valid @RequestParam String membershipName){
-		
+	public ResponseEntity<BaseDto<List<MembershipModel>>> getMembershipByName(@RequestParam String membershipName){
+		System.out.println(membershipName);
 		List<MembershipModel> membershipRes=membershipService.findMembershipByName(membershipName);
 		return new BaseDto<>(membershipRes,membershipHelper.getRetrieveMembershipMessage(),OK).respond();
 	}

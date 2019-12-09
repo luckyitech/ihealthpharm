@@ -115,23 +115,22 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 	 @Query("select distinct sp.cityName from sales s,sales_items si,supplier sp,payment_types pt "  
 		 	   + "where s.billId=si.billId.billId and si.supplier.supplierId=sp.supplierId order by sp.cityName ")
 			 		List<String> findAllcityNameINSalesSRADL();
+	 
 	 //SRBB
-
-	 @Query("SELECT s.billCode from sales s  WHERE YEAR(billDate) = YEAR(now()) and MONTH(billDate) > ( MONTH(now()) -2 ) order by s.billDate desc")
+	 @Query("SELECT s.billCode from sales s  WHERE YEAR(billDate) = YEAR(now()) "
+	 		+ "and MONTH(billDate) > ( MONTH(now()) -2 ) "
+	 		+ "order by s.billDate desc")
 				 		List<String> findAllBillCodeINSalesSRBB();
+	// SRBB
+		@Query("SELECT s.billCode from sales s where s.billCode like :searchTerm%")
+		List<String> findBillCodeINSalesSRBB(@Param("searchTerm") String searchTerm);
 
+	 
 	 @Query("select new com.ihealthpharm.sales.dto.SalesBillDTO(i.billId,i.billCode) from sales i  "
 				+ "where  i.billCode like %:billCode%")
 	List<SalesBillDTO> getAllSalesBySalesIdSearch(@Param("billCode") String billCode);
-	 
-
-	// SRBB
-	@Query("SELECT s.billCode from sales s where s.billCode like :searchTerm%")
-	List<String> findBillCodeINSalesSRBB(@Param("searchTerm") String searchTerm);
-
 
 	// sales history searches
-
 	@Query("select s from sales s where s.paymentStatus = :key order by s.billDate DESC")
 	List<SalesModel> findSalesByPaymentStatus(@Param("key") String key, Pageable limit);
 	
