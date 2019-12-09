@@ -116,7 +116,6 @@ public class EmployeeModel extends AuditModel implements Serializable{
 	@Column( name = "AUDIT_ID",length=11)
 	private Integer auditId;
 	
-	@JsonIgnore
 	@Column( name = "PHARMACY_ID",length=11)
 	private Integer pharmacyId;
 	
