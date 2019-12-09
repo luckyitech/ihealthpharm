@@ -51,7 +51,7 @@ public class StockAdjustmentModel extends AuditModel{
 	@Column(name="ON_HAND_STOCK_VALUE")
 	private Float onHandStockValue;
 	
-	@Column(name="ADJUSTMENT_STOCK",length=11)
+	@Column(name="ADJUSTEMENT_STOCK",length=11)
 	private Integer adjustedStock;
 	
 	@Column(name="ADJUSTED_STOCK_VALUE")

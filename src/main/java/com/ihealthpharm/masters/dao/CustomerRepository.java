@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.ihealthpharm.masters.dto.CustomerDTO;
 import com.ihealthpharm.masters.model.CustomerModel;
 
 @Repository
@@ -32,5 +31,8 @@ public interface CustomerRepository extends JpaRepository<CustomerModel,Integer>
 
 	@Query("SELECT new com.ihealthpharm.masters.model.CustomerModel(c.customerId, concat(c.customerName,' ', c.lastName) as customerName,phoneNumber)  FROM customer c where c.customerName like :customerName%")
 	List<CustomerModel> findCustomerByNameSearch(@Param("customerName") String customerName);
+
+	@Query("select  c from customer c where c.customerName like  :customerName% or c.lastName like :customerName% ")
+	List<CustomerModel> findCustomerBySearchingName(@Param("customerName") String customerName);
 	
 }

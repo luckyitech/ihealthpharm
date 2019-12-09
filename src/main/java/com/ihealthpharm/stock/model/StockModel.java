@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -20,6 +21,7 @@ import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.SupplierModel;
+import com.ihealthpharm.tax.model.TaxCategoryModel;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -102,7 +104,6 @@ public class StockModel extends AuditModel {
 	@Column(name="EXPIRY_DT")
 	private Date expiryDt;
 	
-
 	@Temporal(TemporalType.DATE)
 	@Column(name="STOCK_DATE")
 	private Date stockDt;
@@ -134,5 +135,17 @@ public class StockModel extends AuditModel {
 	
 	@Column(name="VAT")
 	private Double Vat;
-
+	
+	@Column(name="INVOICE_NO")
+	private String invoiceNo;
+	
+	@Column(name="ENTRY_TYPE")
+	private String entryType;
+	
+	@Column(name="PACK")
+	private String pack;
+	
+	@OneToOne
+	@JoinColumn(name = "TAX_CATEGORY_ID")
+	TaxCategoryModel taxCategoryModel;
 }

@@ -18,11 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
-import com.ihealthpharm.masters.dto.CustomerDTO;
 import com.ihealthpharm.masters.helper.CustomerHelper;
 import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.masters.service.CustomerService;
-
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -93,8 +91,14 @@ public class CustomerController {
 	@GetMapping("/getcustomerdatabyname")
 	public ResponseEntity<BaseDto<List<CustomerModel>>> getCustomerDataByName(@RequestParam("key") String customerName) {
 		List<CustomerModel> result = customerService.findCustomersByName(customerName);
-		log.info(result.toString());
 		return new BaseDto<>(result, customerHelper.getRetrieveCustomerMessage(), OK).respond();
+	}
+	
+	
+	@GetMapping("/getcustomerdatabynamesearch")
+	public ResponseEntity<BaseDto<List<CustomerModel>>> getCustomersDataBySearchingName(@RequestParam("key")String customerName){
+		List<CustomerModel> response=customerService.findAllCustomersByNameSearch(customerName);
+		return new BaseDto<>(response,customerHelper.getRetrieveCustomerMessage(),OK).respond();
 	}
 	
 	

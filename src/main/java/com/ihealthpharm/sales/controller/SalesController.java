@@ -250,7 +250,6 @@ public class SalesController {
 		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(), OK).respond();
 	}
 	
-	
 	@GetMapping("/getsaleshistorybysearch")
 	public ResponseEntity<BaseDto<List<SalesModel>>> getSalesBySearch(@RequestParam String status, @RequestParam String code, @RequestParam String codeValue,
 			@RequestParam String startDate, @RequestParam String endDate,@RequestParam Integer pageNumber,@RequestParam Integer pageSize){

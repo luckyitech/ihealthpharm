@@ -56,8 +56,9 @@ public class CustomerMembershipController {
 		return new BaseDto<>(customerMembershipHelper.deleteCustomerMembershipMessage, OK).respond();
 	}
 
-	@GetMapping("/getcustomermembershipdata")
+	@GetMapping("/getallcustomermembershipsdata")
 	public ResponseEntity<BaseDto<List<CustomerMembershipModel>>> getCustomerMembershipData() {
+		
 		List<CustomerMembershipModel> result = customerMembershipService.findAllCustomersMembership();
 		return new BaseDto<>(result, customerMembershipHelper.retrieveCustomerMembershipMessage, OK).respond();
 	}

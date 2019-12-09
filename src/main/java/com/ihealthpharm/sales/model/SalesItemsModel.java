@@ -13,6 +13,7 @@ import javax.persistence.OneToOne;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.model.SupplierModel;
 import com.ihealthpharm.stock.model.StockModel;
+import com.ihealthpharm.tax.model.TaxCategoryModel;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -101,4 +102,8 @@ public class SalesItemsModel {
     @OneToOne
     @JoinColumn(name="SPPLIER_ID")
     private SupplierModel supplier;
+    
+    @OneToOne
+	@JoinColumn(name = "TAX_CATEGORY_ID")
+	TaxCategoryModel taxCategoryModel;
 }
