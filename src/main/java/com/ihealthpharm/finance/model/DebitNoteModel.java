@@ -12,6 +12,7 @@ import javax.persistence.OneToOne;
 
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
+import com.ihealthpharm.masters.model.SupplierModel;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -65,8 +66,12 @@ public class DebitNoteModel extends AuditModel{
     @Column(name="SALES_RETURN_TYPE",length=20)
     private String salesReturnType;
     
-    @Column(name="SUPPLIER_OR_CUSTOMER",length=50)
-    private String supplierOrCustomer;
+/*    @Column(name="SUPPLIER_OR_CUSTOMER",length=50)
+    private String supplierOrCustomer;*/
+    
+	@OneToOne
+	@JoinColumn(name="SUPPLIER_ID")
+	SupplierModel supplierModel;
     
     @Column(name = "ACTIVE_S",  columnDefinition = "default 'Y'")
 	private String activeS = "Y";

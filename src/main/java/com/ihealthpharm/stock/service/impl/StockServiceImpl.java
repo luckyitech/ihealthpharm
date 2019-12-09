@@ -17,6 +17,8 @@ import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.stock.dao.StockRepository;
+import com.ihealthpharm.stock.dto.StockProfitDTO;
+import com.ihealthpharm.stock.dto.StockRevenueDTO;
 import com.ihealthpharm.stock.helper.StockHelper;
 import com.ihealthpharm.stock.model.StockModel;
 import com.ihealthpharm.stock.service.StockService;
@@ -280,6 +282,35 @@ public class StockServiceImpl implements StockService {
 		@Override
 		public List<String> findallSBML() {
 			return stockRepository.findallSBML();
+		}
+		
+		@Override
+		public List findProfitService() {
+			Pageable limit = new PageRequest(0,10);
+		List<StockProfitDTO> res=stockRepository.ProfitPercentageRepo(limit);
+			List finalObj = new ArrayList();
+			for(StockProfitDTO obj:res) {
+				List temp = new ArrayList();
+				temp.add(obj.getName());
+				temp.add(obj.getProfit());
+				finalObj.add(temp);
+				
+			}
+			return finalObj;
+		}
+
+		@Override
+		public List findSuppliersRevenue() {
+			Pageable limit = new PageRequest(0,5);
+			List<StockRevenueDTO> res = stockRepository.suppliersRevenueRepo(limit);
+			List finalObj = new ArrayList();
+			for(StockRevenueDTO obj:res) {
+				List temp = new ArrayList();
+				temp.add(obj.getName());
+				temp.add(obj.getRevenue());
+				finalObj.add(temp);
+			}
+			return finalObj;
 		}
 
 }
