@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
+import com.ihealthpharm.stock.dto.StockProfitDTO;
+import com.ihealthpharm.stock.dto.StockRevenueDTO;
 import com.ihealthpharm.stock.model.StockModel;
 
 @Repository
@@ -152,4 +154,9 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 			+ "and st.supplier.supplierId=sp.supplierId order by sp.name")
 	List<String> findallSBML();
 	
+	@Query("select  new com.ihealthpharm.stock.dto.StockProfitDTO(sup.name, sum(((s.unitSaleRate-s.unitPurchaseRate)/s.unitPurchaseRate)*100)  as profit) from stock s join supplier sup on s.supplier = sup.supplierId where  s.unitSaleRate > s.unitPurchaseRate group by sup.name order by profit desc")
+	List<StockProfitDTO> ProfitPercentageRepo(Pageable pageable);
+	
+	@Query("select new com.ihealthpharm.stock.dto.StockRevenueDTO(sup.name, sum((s.quantity * s.unitSaleRate)/1000) as revenue) from supplier sup join stock s on s.supplier = sup.supplierId group by sup.name order by revenue desc")
+	List<StockRevenueDTO> suppliersRevenueRepo(Pageable pageable);
 }
