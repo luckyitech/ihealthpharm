@@ -45,6 +45,14 @@ public interface SalesService
 	
 	List<String> findAllBillDtaessBySales();
 	
+	Integer findTodaySales();
+	
+	Integer findCashCount();
+	
+	Integer findCreditCount();
+	
+	Integer findYesterdayDiff();
+	
 	
 
 	//DBL

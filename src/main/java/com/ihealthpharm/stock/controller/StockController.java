@@ -268,6 +268,16 @@ public class StockController {
 		List<String> results=stockService.findallSBML();
 		return new BaseDto<>(results,stockHelper.getRetrieveStockAdjustmentMessage(),OK).respond();
 	}
-
+	@GetMapping("/ProfitPercentage")
+	public ResponseEntity<BaseDto<List>> getAllProfitController(){
+		List result=stockService.findProfitService();
+		return new BaseDto<>(result,stockHelper.getRetrieveStockMessage(),OK).respond();
+	}
+	@GetMapping("/suppliersRevenue")
+	public ResponseEntity<BaseDto<List>> getSuppliersRevenue(){
+		List result=stockService.findSuppliersRevenue();
+		return new BaseDto<>(result,stockHelper.getRetrieveStockMessage(),OK).respond();
+	}
+	
 
 }
