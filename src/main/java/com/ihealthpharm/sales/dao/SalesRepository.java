@@ -24,7 +24,7 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 	// @Query("select s from sales s order by s.billDate desc limit 100")
 	List<SalesModel> findFirst100ByOrderByBillCodeDesc();
 
-	@Query("SELECT new com.ihealthpharm.sales.dto.SalesDTO(billDate, sum((totalProducts*totalQty)/1000) as totalSales) FROM sales s where year(billDate)='2019' GROUP BY year(billDate), month(billDate)  order by billDate desc")
+	@Query("SELECT new com.ihealthpharm.sales.dto.SalesDTO(billDate, sum((totalProducts*totalQty)/1000) as totalSales) FROM sales s where year(billDate)=YEAR(CURDATE()) GROUP BY year(billDate), month(billDate)  order by billDate desc")
 	List<SalesDTO> getAllSalesDataForCharts();
 
 	// SCL
@@ -170,4 +170,16 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 
 	@Query("select count(s) from sales s where s.billDate between :start and :end order by s.billDate DESC")
 	Integer findSalesByBillDateCount(@Param("start") LocalDate start,@Param("end") LocalDate end);
+	
+	@Query("SELECT sum(s.netAmount) from sales s where date(s.billDate) = CURDATE() group by s.billDate")
+	Integer todaySalesRepo();
+	
+	@Query("select count(s.customerNm) from sales s where date(billDate) = CURDATE() and s.cashAmount is not null  group by billDate")
+	Integer cashRepo();
+	
+	@Query("select count(s.customerNm) from sales s where date(billDate) = CURDATE() and s.creditAmount is not null  group by billDate")
+	Integer creditRepo();
+	
+	@Query("SELECT sum(s.netAmount) AS YesterdaySales  from sales s where date(billDate) = subdate(curdate(),1)")
+	Integer yesterdayDiff();
 }
