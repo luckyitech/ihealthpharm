@@ -80,6 +80,10 @@ public class StockAdjustementController {
 	//based on itemDesc
 	@PostMapping("/get/stockitems/basedonitemdesc")
 	public ResponseEntity<BaseDto<List<StockAdjustmentDTO>>> getStockItemDataSearchByItemDesc(@RequestParam String searchTerm,@RequestParam String batch,@RequestParam String  expiry,@RequestParam("pharmacyId") Integer pharmacyId ){
+		System.out.println(searchTerm);
+		System.out.println(batch);
+		System.out.println(expiry);
+		System.out.println(pharmacyId);
 		List<StockAdjustmentDTO> response=stockAdjustmentService.findBasedOnItemDesc(searchTerm,batch,expiry,pharmacyId);
 		return new BaseDto<>(response,stockHelper.getRetrieveStockAdjustmentMessage(),OK).respond();
 	}

@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.model.ItemsModel;
+import com.ihealthpharm.stock.dto.StockAdjustmentDTO;
 import com.ihealthpharm.stock.dto.StockItemsListDTO;
 import com.ihealthpharm.stock.helper.StockHelper;
-import com.ihealthpharm.stock.model.InvoiceModel;
 import com.ihealthpharm.stock.model.StockModel;
 import com.ihealthpharm.stock.service.StockService;
 
@@ -268,6 +268,59 @@ public class StockController {
 		List<String> results=stockService.findallSBML();
 		return new BaseDto<>(results,stockHelper.getRetrieveStockAdjustmentMessage(),OK).respond();
 	}
+	
+	//urls for stock adjustment searches
+	
+	@GetMapping("/get/batch/basedonitemcode")
+	public ResponseEntity<BaseDto<List<StockAdjustmentDTO>>> findAllBatchesOnItemCode(@RequestParam String searchTerm){
+		List<StockAdjustmentDTO> response=stockService.getAllBatchesOnItemCode(searchTerm);
+		return new BaseDto<>(response,stockHelper.getRetrieveStockMessage(),OK).respond();
+	}
+	
+	@GetMapping("/get/batch/basedonItemName")
+	public ResponseEntity<BaseDto<List<StockAdjustmentDTO>>> findAllBatchesOnItemName(@RequestParam String searchTerm){
+	   List<StockAdjustmentDTO> response=stockService.getAllBatchesOnItemName(searchTerm);
+	   return new BaseDto<>(response,stockHelper.getRetrieveStockMessage(),OK).respond();
+	}
+	   
+	
+	@GetMapping("/get/batch/basedonItemDesc")
+	public ResponseEntity<BaseDto<List<StockAdjustmentDTO>>> findAllBatchesOnItemDesc(@RequestParam String searchTerm){
+	   List<StockAdjustmentDTO> response=stockService.getAllBatchesOnItemDesc(searchTerm);
+	   return new BaseDto<>(response,stockHelper.getRetrieveStockMessage(),OK).respond();
+	}
+	
+	
+	@GetMapping("/get/batch/basedonItemGeneric")
+	public ResponseEntity<BaseDto<List<StockAdjustmentDTO>>> findAllBatchesOnItemGeneric(@RequestParam String searchTerm){
+	   List<StockAdjustmentDTO> response=stockService.getAllBatchesOnItemGenericName(searchTerm);
+	   return new BaseDto<>(response,stockHelper.getRetrieveStockMessage(),OK).respond();
+	}
+	
+	
+	@GetMapping("/get/expirydt")
+	public ResponseEntity<BaseDto<String>> getStockItemExpiryDate(@RequestParam String searchTerm,@RequestParam String batch){
+		String result=stockService.getStockExpiryDate(searchTerm,batch);
+		return new BaseDto<>(result,stockHelper.getRetrieveStockMessage(),OK).respond();
+	}
+	
+	@GetMapping("/get/expiry")
+	public ResponseEntity<BaseDto<String>> getStockItemExpiryDateByName(@RequestParam String searchTerm,@RequestParam String batch){
+		String response=stockService.getStockExpiryBasedOnItemName(searchTerm,batch);
+		return new BaseDto<>(response,stockHelper.getRetrieveStockMessage(),OK).respond();
+	}
 
+	@GetMapping("/get/expiryDate/basedonitemdesc")
+	public ResponseEntity<BaseDto<String>> getStockItemDescExpiryDate(@RequestParam String search,@RequestParam String batch){
+     String response=stockService.getStocksExpiryDates(search,batch);
+     return new BaseDto<>(response,stockHelper.getRetrieveStockMessage(),OK).respond();
+	}
+
+	@GetMapping("/get/expiryDate/basedonitemgeneric")
+	public ResponseEntity<BaseDto<String>> getStockItemGenericExpiryDate(@RequestParam String search,@RequestParam String batch){
+     String response=stockService.getStocksExpiryDatesByGeneric(search,batch);
+     return new BaseDto<>(response,stockHelper.getRetrieveStockMessage(),OK).respond();
+	}
+	
 
 }
