@@ -85,6 +85,9 @@ public class AccountPayablesModel extends AuditModel {
 
 	@Column(name = "PAYMENT_STATUS", length = 20)
 	private String paymentStatus;
+	
+	@Column(name="SOURCE_ID",length=11)
+	private String source;
 
 	@OneToOne
 	@JoinColumn(name="SUPPLIER_ID")

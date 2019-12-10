@@ -51,6 +51,9 @@ public class AccountReceivablesModel extends AuditModel{
 
 	@Column(name="SOURCE_VALUE",length=20)
 	private String sourceValue;*/
+	
+	@Column(name="SOURCE_ID",length=11)
+	private String source;
 
 	@Column(name="AMOUNT_TO_BE_RECEIVED",length=25)
 	private Float amountToBeReceived;
@@ -58,23 +61,37 @@ public class AccountReceivablesModel extends AuditModel{
 	@Column(name="STATUS",length=20)
 	private String status;
 
-	@Column(name="UPI_PHONE_NO",length=20)
-	private String upiPhoneNo;
 
-	@Column(name="UPI_AMOUNT")
-	private Float upiAmount;
-
-	@Column(name="CASH_AMOUNT")
-	private Float cashAmount;
 
 	@Column(name="CREDIT_DAYS",length=11)
 	private Integer creditDays;
 
-	@Column(name="CHEQUE_NUMBER",length=11)
+
+	
+	@Column(name = "CASH_AMOUNT", length = 25)
+	private Float cashAmount;
+
+	@Column(name = "CREDIT_CARD_AMOUNT", length = 25)
+	private Float creditCardAmount;
+
+	@Column(name = "CREDIT_CARD_NO", length = 20)
+	private String creditCardNo;
+
+	@Column(name = "UPI_AMOUNT", length = 25)
+	private Float upiAmount;
+
+	@Column(name = "UPI_PHONE_NO", length = 20)
+	private String upiPhoneNo;
+
+	@Column(name="CHEQUE_NUMBER")
 	private Integer chequeNumber;
 
-	@Column(name="CHEQUE_AMT",length=20)
-	private Float chequeAmount;
+	@Column(name="CHEQUE_AMT")
+	private Double chequeAmount;
+
+	@Column(name = "PAYMENT_STATUS", length = 20)
+	private String paymentStatus;
+
 
 	@OneToOne
 	@JoinColumn(name="BILL_ID")
