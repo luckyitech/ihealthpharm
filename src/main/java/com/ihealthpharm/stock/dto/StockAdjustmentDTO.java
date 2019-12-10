@@ -12,32 +12,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class StockAdjustmentDTO {
-
-/*	private Integer itemId;
-
-	private String itemCode;
-
-	private String itemName;
-
-	//private  String form;
-	
-	private String form;
-	
-	private ItemsModel item;
-	//private ItemFormModel forms;
-	//private StockModel stock;	
-
-	private String batchNo;
-	
-	private Integer stockId;
-
-	private Date expiryDt;
-
-	private Double unitSaleRate;
-
-	private long onHandStock;
-*/
-	
 	
 	private ItemsModel item;
 	
@@ -58,6 +32,14 @@ public class StockAdjustmentDTO {
 		this.stock = stock;
 		this.onHandStock = onHandStock;
 	}
+	
+	private String batchNo;
+	
+	public StockAdjustmentDTO(String batchNo) {
+		this.batchNo = batchNo;
+	}
+	
+	
 	
 	
 	
