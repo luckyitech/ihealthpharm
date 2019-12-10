@@ -17,6 +17,7 @@ import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.stock.dao.StockRepository;
+import com.ihealthpharm.stock.dto.StockAdjustmentDTO;
 import com.ihealthpharm.stock.dto.StockProfitDTO;
 import com.ihealthpharm.stock.dto.StockRevenueDTO;
 import com.ihealthpharm.stock.helper.StockHelper;
@@ -312,5 +313,49 @@ public class StockServiceImpl implements StockService {
 			}
 			return finalObj;
 		}
+
+		@Override
+		public List<StockAdjustmentDTO> getAllBatchesOnItemCode(String searchTerm) {
+			return stockRepository.findAllBatchesOnCode(searchTerm);
+		}
+
+		@Override
+		public String getStockExpiryDate(String searchTerm, String batch) {
+            String res=stockRepository.getExpiryDate(searchTerm,batch);
+			return res;
+		}
+
+		@Override
+		public List<StockAdjustmentDTO> getAllBatchesOnItemName(String searchTerm) {
+			return stockRepository.findAllBatchesBasedOnName(searchTerm);
+		}
+
+		@Override
+		public List<StockAdjustmentDTO> getAllBatchesOnItemDesc(String searchTerm) {
+			return stockRepository.findAllBatchesBasedOnItemDesc(searchTerm);
+		}
+
+		@Override
+		public String getStocksExpiryDates(String search, String batch) {
+           String res=stockRepository.getExpiryDates(search,batch);
+			return res;
+		}
+
+		@Override
+		public List<StockAdjustmentDTO> getAllBatchesOnItemGenericName(String searchTerm) {
+			return stockRepository.findAllBatchesBasedOnItemGeneric(searchTerm);
+		}
+
+		@Override
+		public String getStocksExpiryDatesByGeneric(String search, String batch) {
+			return stockRepository.getExpiryDateBasedOnGeneric(search,batch);
+		}
+
+		@Override
+		public String getStockExpiryBasedOnItemName(String searchTerm, String batch) {
+			return stockRepository.getExpiryDateByItemName( searchTerm,  batch);
+		}
+		
+		
 
 }
