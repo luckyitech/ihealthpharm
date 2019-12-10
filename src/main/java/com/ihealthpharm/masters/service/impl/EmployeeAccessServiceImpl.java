@@ -67,14 +67,15 @@ public class EmployeeAccessServiceImpl implements EmployeeAccessService {
 		
 		for(Integer i=0; i<employeeAccessDto.getPharmaAccessids().length;i++) {
 			employeeAccessModel = new EmployeeAccessModel();
-			employeeAccessModel.setEmployeeAccessId(employeeAccessDto.getEmployeeAccessId()[i]);
-			
-			employeeAccessRes = getValidEmployeeAccess(employeeAccessModel.getEmployeeAccessId());
-			
-			if (!Objects.nonNull(employeeAccessRes)) {
-				throw new IHealthPharmException("Employee Access Not Found",
-						HttpStatus.NOT_FOUND);
-			}
+//			Commented as permission is not mandatory			
+//			employeeAccessModel.setEmployeeAccessId(employeeAccessDto.getEmployeeAccessId()[i]);
+//			
+//			employeeAccessRes = getValidEmployeeAccess(employeeAccessModel.getEmployeeAccessId());
+//			
+//			if (!Objects.nonNull(employeeAccessRes)) {
+//				throw new IHealthPharmException("Employee Access Not Found",
+//						HttpStatus.NOT_FOUND);
+//			}
 			
 			employeeAccessModel.setEmployeeModel(employeeAccessDto.getEmployee());
 			

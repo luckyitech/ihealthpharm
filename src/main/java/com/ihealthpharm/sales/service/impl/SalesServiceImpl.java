@@ -155,17 +155,13 @@ public class SalesServiceImpl implements SalesService {
 	@Override
 	public List totalSalesByMonthWiseData() {
 		List<SalesDTO> response=salesRepository.getAllSalesDataForCharts();
-		System.out.println(response);
 		List finalObj = new ArrayList();
-		//Format f = new SimpleDateFormat("MMM");
-		//String strMonth = f.format(new Date());
 	   	for(SalesDTO obj:response) {
 			List temp = new ArrayList();
 			temp.add(obj.getBillDate().getMonth());
 			temp.add(obj.getTotalSales());
 			finalObj.add(temp);
 		}
-		System.out.println(finalObj);
 		return finalObj;
 	}
 
@@ -390,4 +386,25 @@ public class SalesServiceImpl implements SalesService {
 		return null;
 	}
 
+	@Override
+	public Integer findTodaySales() {
+		
+		return salesRepository.todaySalesRepo();
+		
+	}
+	
+	@Override
+	public Integer findCashCount() {
+		return salesRepository.cashRepo();
+	}
+
+	@Override
+	public Integer findCreditCount() {
+		return salesRepository.creditRepo();
+	}
+	
+	@Override
+	public Integer findYesterdayDiff() {
+		return salesRepository.yesterdayDiff();
+	}
 }

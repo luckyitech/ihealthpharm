@@ -5,6 +5,8 @@ import java.util.List;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.stock.dto.StockAdjustmentDTO;
+import com.ihealthpharm.stock.dto.StockProfitDTO;
+import com.ihealthpharm.stock.dto.StockRevenueDTO;
 import com.ihealthpharm.stock.model.StockModel;
 
 public interface StockService {
@@ -79,6 +81,7 @@ public interface StockService {
 
 	String getStockExpiryBasedOnItemName(String searchTerm, String batch);
 
+	List<StockProfitDTO> findProfitService();
 	
-
+	List<StockRevenueDTO> findSuppliersRevenue();
 }

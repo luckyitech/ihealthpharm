@@ -263,4 +263,28 @@ public class SalesController {
 		Integer results=salesService.searchInSalesHistoryCount(status,code,codeValue,startDate,endDate);
 		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
+	
+	@GetMapping("/todaySales")
+	public ResponseEntity<BaseDto<Integer>> getTodaySales(){
+		Integer result=salesService.findTodaySales();
+		return new BaseDto<>(result,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/cashCount")
+	public ResponseEntity<BaseDto<Integer>> getCashCount(){
+		Integer result = salesService.findCashCount();
+		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/creditCount")
+	public ResponseEntity<BaseDto<Integer>> getCreditCount(){
+		Integer result = salesService.findCreditCount();
+		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/yesterdayDifference")
+	public ResponseEntity<BaseDto<Integer>> getYesterdayDiff(){
+		Integer result = salesService.findYesterdayDiff();
+		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
 }
