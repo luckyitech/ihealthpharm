@@ -320,7 +320,7 @@ public class StockServiceImpl implements StockService {
 		}
 
 		@Override
-		public String getStockExpiryDate(String searchTerm, String batch) {
+		public String getStockExpiryDate(String  searchTerm, String batch) {
             String res=stockRepository.getExpiryDate(searchTerm,batch);
 			return res;
 		}
@@ -352,8 +352,8 @@ public class StockServiceImpl implements StockService {
 		}
 
 		@Override
-		public String getStockExpiryBasedOnItemName(String searchTerm, String batch) {
-			return stockRepository.getExpiryDateByItemName( searchTerm,  batch);
+		public String getStockExpiryBasedOnItemName(Integer  itemId, String batch) {
+			return stockRepository.getExpiryDateByItemName( itemId,  batch);
 		}
 		
 		
