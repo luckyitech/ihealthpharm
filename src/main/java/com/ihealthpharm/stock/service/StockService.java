@@ -4,17 +4,17 @@ import java.util.List;
 
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
+import com.ihealthpharm.stock.dto.StockAdjustmentDTO;
 import com.ihealthpharm.stock.dto.StockProfitDTO;
 import com.ihealthpharm.stock.dto.StockRevenueDTO;
-import com.ihealthpharm.stock.model.InvoiceModel;
 import com.ihealthpharm.stock.model.StockModel;
 
 public interface StockService {
 
 	StockModel saveStock(StockModel stockModel);
-	
+
 	List<StockModel> saveStock(List<StockModel> stockModel);
-	
+
 	StockModel updateStock(StockModel stockModel);
 
 	List<StockModel> updateStocks(List<StockModel> stockModels);
@@ -28,44 +28,59 @@ public interface StockService {
 	void deleteStockByTds(Integer[] stockIds);
 
 	List<ItemsModel> findAllStockItems();
-	
+
 	List<String> getBatchNumbersByItemId(ItemsModel itemId);
-	
+
 	StockModel getStockByItemAndBatchNumber(ItemsModel itemId, String batchNo);
-	
+
 	List<StockModel> findByItem(ItemsModel itemId);
 
 	List<StockModel> findByItemAndPharmacy(List<ItemsModel> itemId, PharmacyModel pharmacy);
-	
+
 	List<StockModel> findByItemAndPharmacy(String searchTerm,String searchCode, Integer pharmacyid, Integer pageNumber, Integer pageSize);
-	
+
 	Integer findByItemAndPharmacyCount(String searchTerm,String searchCode, Integer pharmacyid);
-	
+
 	List<StockModel> findByItemName(ItemsModel itemName);
-	
-	public StockModel findStocksByBillId(Integer itemId);
-	
+
+	StockModel findStocksByBillId(Integer itemId);
+
 	StockModel getStockByItemIdandInvoiceId(Integer itemId, Integer invoiceId);
-	
+
 	List<String> findSuppliersByStock(String searchTerm);
-	
+
 	List<String> findAllSuppliersByStock();
-	
+
 	List<String> findManufacturerByStock(String searchTerm);
 
 	List<String> findAllManufacturerByStock();
-	
+
 	List<String> findInvoiceDatesByStock(String searchTerm);
-	
+
 	List<String> findAllInvoiceDatesByStock();
 
 	List<StockModel> findAllByBatchNo(String searchTerm);
-	
-	//Supplier By MFR List
+
 	List<String> findSupplierbynameInStockSBML(String searchTerm);
-	
+
 	List<String> findallSBML();
+
+	List<StockAdjustmentDTO> getAllBatchesOnItemCode(String searchTerm);
+
+	String getStockExpiryDate(String searchTerm, String batch);
+
+	List<StockAdjustmentDTO> getAllBatchesOnItemName(String searchTerm);
+
+	List<StockAdjustmentDTO> getAllBatchesOnItemDesc(String searchTerm);
+
+	List<StockAdjustmentDTO> getAllBatchesOnItemGenericName(String searchTerm);
 	
+	String getStocksExpiryDates(String search, String batch);
+
+	String getStocksExpiryDatesByGeneric(String search, String batch);
+
+	String getStockExpiryBasedOnItemName(String searchTerm, String batch);
+
 	List<StockProfitDTO> findProfitService();
 	
 	List<StockRevenueDTO> findSuppliersRevenue();
