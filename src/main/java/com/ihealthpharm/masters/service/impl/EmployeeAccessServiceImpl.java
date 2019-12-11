@@ -79,7 +79,10 @@ public class EmployeeAccessServiceImpl implements EmployeeAccessService {
 			
 			employeeAccessModel.setEmployeeModel(employeeAccessDto.getEmployee());
 			
-			employeeAccessModel.setPharmaAccessModel(employeeAccessDto.getPharmaAccessids()[i]);
+			if(employeeAccessDto.getPharmaAccessids().length>0)
+			{
+				employeeAccessModel.setPharmaAccessModel(employeeAccessDto.getPharmaAccessids()[i]);	
+			}
 			if(employeeAccessDto.getFlag()[i])
 			{
 				employeeAccessModel.setActiveS('Y');

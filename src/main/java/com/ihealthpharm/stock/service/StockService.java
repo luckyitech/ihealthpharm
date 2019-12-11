@@ -79,7 +79,7 @@ public interface StockService {
 
 	String getStocksExpiryDatesByGeneric(String search, String batch);
 
-	String getStockExpiryBasedOnItemName(String searchTerm, String batch);
+	String getStockExpiryBasedOnItemName(Integer itemId, String batch);
 
 	List<StockProfitDTO> findProfitService();
 	

@@ -249,6 +249,7 @@ public class QuotationController {
 	 */
 	@GetMapping("/getrequestapprovedquotationbypharmacy")
 	public ResponseEntity<BaseDto<List<QuotationModel>>> getRequestApprovedQuotationByPharmacy(@RequestParam Integer pharmacyId) {
+		System.out.println(pharmacyId);
 		List<QuotationModel> quotationModels = quotationService.getQuotationByPharmacyAndStatus(pharmacyId, "REQUEST APPROVED");
 		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}

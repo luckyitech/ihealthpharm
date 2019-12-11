@@ -38,6 +38,12 @@ public class StockAdjustmentDTO {
 	public StockAdjustmentDTO(String batchNo) {
 		this.batchNo = batchNo;
 	}
+
+	/*public StockAdjustmentDTO(ItemsModel item, String batchNo) {
+		super();
+		this.item = item;
+		this.batchNo = batchNo;
+	}*/
 	
 	
 	
