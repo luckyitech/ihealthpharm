@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import com.ihealthpharm.masters.model.CustomerInsuranceModel;
 import com.ihealthpharm.masters.model.CustomerMembershipModel;
 import com.ihealthpharm.masters.model.CustomerModel;
@@ -50,6 +53,7 @@ public class SalesModel {
 	@Column(name = "CASH_AMOUNT", length = 25)
 	private Float cashAmount;
 
+	@CreationTimestamp
 	@Column(name = "CREATION_TS", length = 25)
 	private LocalDateTime creationTs;
 
@@ -89,6 +93,7 @@ public class SalesModel {
 	@Column(name = "INSURANCE_CONTRIB_PERCENT", length = 25)
 	private Float insuranceContribPercent;
 
+	@UpdateTimestamp
 	@Column(name = "LAST_UPDATE_TS", length = 25)
 	private LocalDateTime lastUpdateTs;
 
@@ -163,8 +168,6 @@ public class SalesModel {
 	
 	@Column(name="CREDIT_AMOUNT")
 	private Double creditAmount;
-	
-	
 	
 	@OneToOne
 	@JoinColumn(name = "CUSTOMER_INSURANCE_ID")
