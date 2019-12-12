@@ -287,6 +287,7 @@ public class SalesServiceImpl implements SalesService {
 	public List<SalesModel> searchInSalesHistory(String status, String code, String codeValue, String startDate,
 			String endDate,Integer pageNumber, Integer pageSize) {
 		Pageable limit = new PageRequest(pageNumber,pageSize);
+		
 		if((status != null && !status.equals("undefined") && !status.equals("null")) && 
 		((code != null && !code.equals("undefined") && !code.equals("null")) && (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null"))) &&
 		((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null"))))
@@ -303,6 +304,13 @@ public class SalesServiceImpl implements SalesService {
 					LocalDate end = LocalDate.parse(endDate);
 					return salesRepository.findSalesSearchByStatusDate(status,start,end,limit);
 		}
+		else if(((code != null && !code.equals("undefined") && !code.equals("null")) && (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null"))) &&
+				((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null"))))
+				{
+							LocalDate start = LocalDate.parse(startDate);
+							LocalDate end = LocalDate.parse(endDate);
+			return salesRepository.findSalesSearchByCodeDate(codeValue,start,end,limit);
+				}
 		
 		else if (status != null && !status.equals("undefined") && !status.equals("null")) {
 			System.out.println("in status condition:" + (status != null &&!status.equals("undefined")));
@@ -354,6 +362,13 @@ public class SalesServiceImpl implements SalesService {
 			LocalDate end = LocalDate.parse(endDate);
 			return salesRepository.findSalesSearchByStatusDateCount(status,start,end);
 		}
+		else if(((code != null && !code.equals("undefined") && !code.equals("null")) && (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null"))) &&
+				((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null"))))
+				{
+							LocalDate start = LocalDate.parse(startDate);
+							LocalDate end = LocalDate.parse(endDate);
+			return salesRepository.findSalesSearchByCodeDateCount(codeValue,start,end);
+				}
 		
 		else if (status != null && !status.equals("undefined") && !status.equals("null"))  {
 			
