@@ -305,8 +305,8 @@ public class StockController {
 	}
 	
 	@GetMapping("/get/expiry")
-	public ResponseEntity<BaseDto<String>> getStockItemExpiryDateByName(@RequestParam String searchTerm,@RequestParam String batch){
-		String response=stockService.getStockExpiryBasedOnItemName(searchTerm,batch);
+	public ResponseEntity<BaseDto<String>> getStockItemExpiryDateByName(@RequestParam Integer itemId,@RequestParam String batch){
+		String response=stockService.getStockExpiryBasedOnItemName(itemId,batch);
 		return new BaseDto<>(response,stockHelper.getRetrieveStockMessage(),OK).respond();
 	}
 
