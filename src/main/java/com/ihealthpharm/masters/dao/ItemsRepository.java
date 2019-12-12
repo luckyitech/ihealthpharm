@@ -15,6 +15,7 @@ import com.ihealthpharm.masters.dto.ItemDTO;
 import com.ihealthpharm.masters.model.ItemGenericNamesModel;
 import com.ihealthpharm.masters.model.ItemGroupModel;
 import com.ihealthpharm.masters.model.ItemsModel;
+import com.ihealthpharm.stock.dto.StockAdjustmentItemDTO;
 
 @Repository
 public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable> {
@@ -56,11 +57,20 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 
 
 	@Query("select new com.ihealthpharm.masters.dto.ItemDTO(i.itemId,i.medicalOrNonMedical,i.itemCode,i.itemName,i.itemDescription,i.drugDose) from items i")
-	public List<ItemDTO> findItemsByLimit(Pageable pageable);
+	 List<ItemDTO> findItemsByLimit(Pageable pageable);
 
+	@Query("select new com.ihealthpharm.stock.dto.StockAdjustmentItemDTO(i.itemId,i.itemCode) from items i")
+	 List<StockAdjustmentItemDTO> findItemsByLimitWithItemCode(Pageable pageable);
+
+	@Query("select new com.ihealthpharm.stock.dto.StockAdjustmentItemDTO(i.itemId,i.itemDescription) from items i")
+	List<StockAdjustmentItemDTO>	findItemsByLimitWithItemDesc(Pageable pageable);
 	
+	@Query("select new com.ihealthpharm.stock.dto.StockAdjustmentItemDTO(i.itemId,ig.genericName) from items i inner join items_generic_names ig on i.itemGenericName=ig.itemGenericNameId")
+	 List<StockAdjustmentItemDTO> findItemsByLimitWithItemGenericName(Pageable limit);
+
+
 	/*i.itemId,i.medicalOrNonMedical,i.itemCode,i.itemName,i.drugDose,*/
-	
+
 	@Query("select new com.ihealthpharm.masters.dto.ItemDTO(i.itemId,i.medicalOrNonMedical,i.itemCode,i.itemName,i.itemDescription,i.drugDose) from items i  "
 			+ "where  i.itemName like :searchTerm%")
 	List<ItemDTO> getAllItemsDataByItemName(@Param("searchTerm")String searchTerm, Pageable pageable);
@@ -68,31 +78,51 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 	@Query("select new com.ihealthpharm.masters.dto.ItemDTO(i.itemId,i.medicalOrNonMedical,i.itemCode,i.itemName,i.itemDescription,i.drugDose) from items i  "
 			+ "where  i.itemCode like :searchTerm%")
 	List<ItemDTO> getAllItemsDataByItemCode(@Param("searchTerm")String searchTerm, Pageable pageable);
-	
+
 	@Query("select new com.ihealthpharm.masters.dto.ItemDTO(i.itemId,i.medicalOrNonMedical,i.itemCode,i.itemName,i.itemDescription,i.drugDose) from items i  "
 			+ "where  i.itemDescription like %:searchTerm%")
 	List<ItemDTO> getAllItemsDataByItemDescription(@Param("searchTerm")String searchTerm, Pageable pageable);
-	
+
 	@Query("select new com.ihealthpharm.masters.dto.ItemDTO(i.itemId,i.medicalOrNonMedical,i.itemCode,i.itemName,i.itemDescription,i.drugDose) from items i  "
 			+ "where  i.itemGenericName.genericName like %:searchTerm%")
 	List<ItemDTO> getAllItemsDataByItemGenericName(@Param("searchTerm")String searchTerm, Pageable pageable);
-	
+
 	@Query("select new com.ihealthpharm.masters.dto.AlternativeItemDTO(i.itemId,i.itemName) from items i  "
 			+ "where  i.itemName like :searchTerm%")
 	List<AlternativeItemDTO> getAlternativeItemsDataByItemName(@Param("searchTerm") String searchTerm);
 
+	@Query("select new com.ihealthpharm.masters.dto.AlternativeItemDTO(i.itemId,i.itemCode) from items i  "
+			+ "where  i.itemCode like :itemCode%")
+	 List<AlternativeItemDTO> getAlternativeItemsDataByItemCode(@Param("itemCode") String itemCode);
+	
+	@Query("select new com.ihealthpharm.masters.dto.AlternativeItemDTO(i.itemId,i.itemDescription) from items i  "
+			+ "where  i.itemDescription like :itemdesc%")
+	List<AlternativeItemDTO> getAlternativeItemsDataByItemDesc(@Param("itemdesc") String itemdesc);
+
+	@Query("select new com.ihealthpharm.masters.dto.AlternativeItemDTO(i.itemId,ig.genericName) from items i "
+			+ " inner join items_generic_names ig on i.itemGenericName=ig.itemGenericNameId "
+			+ "where  ig.genericName like :itemGeneric%")
+    List<AlternativeItemDTO> getAlternativeItemsDataByItemGenericName(@Param("itemGeneric")String itemGeneric);
+	
 	@Query("select count(i) from items i where i.itemName like :searchTerm%")
 	public Integer getCountOfItemsByItemName(@Param("searchTerm") String searchTerm);
-	
+
 	@Query("select count(i) from items i where i.itemCode like :searchTerm%")
 	public Integer getCountOfItemsByItemCode(@Param("searchTerm") String searchTerm);
-	
+
 	@Query("select count(i) from items i where i.itemDescription like :searchTerm%")
 	public Integer getCountOfItemsByItemDescription(@Param("searchTerm") String searchTerm);
-	
+
 	@Query("select count(i) from items i where i.itemGenericName.genericName like :searchTerm%")
 	public Integer getCountOfItemsByItemGenericName(@Param("searchTerm") String searchTerm);
-	
+
 	@Query("select count(i) from items i order by i.itemCode")
 	public Integer getAllCountOfItems();
+
+
+
+	
+
+	
+	
 }
