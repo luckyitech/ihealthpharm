@@ -24,6 +24,7 @@ import com.ihealthpharm.masters.dto.ItemDTO;
 import com.ihealthpharm.masters.helper.ItemPropertyHelper;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.service.ItemService;
+import com.ihealthpharm.stock.dto.StockAdjustmentItemDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -165,7 +166,7 @@ public class ItemController {
 	public ResponseEntity<BaseDto<List<ItemDTO>>> getAllItemsBySearchkeyAndCode(@RequestParam String searchTerm,@RequestParam String searchCode,
 			@RequestParam Integer start,@RequestParam Integer end) {
 		log.info(searchTerm);
-		
+
 		List<ItemDTO> response = itemService.findBySearchKey(searchTerm,searchCode,start,end);
 		log.info("----------------------------------");
 		log.info("Size:"+response.size());
@@ -178,12 +179,33 @@ public class ItemController {
 		List<ItemsModel> response = itemService.getLimitedItems();
 		return new BaseDto<>(response, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
-	
+
 	@GetMapping("/getitemsdatabyname")
 	public ResponseEntity<BaseDto<List<AlternativeItemDTO>>> getItemsDataByName(@RequestParam("key") String itemName) {
 		List<AlternativeItemDTO> result = itemService.findItemsByName(itemName);
 		log.info(result.toString());
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+	
+	@GetMapping("/getitemsdatabycode")
+	public ResponseEntity<BaseDto<List<AlternativeItemDTO>>> getItemsDataByCode(@RequestParam("key")String itemCode){
+		List<AlternativeItemDTO> result=itemService.findItemsByCode(itemCode);
+		log.info(result.toString());
+		return new BaseDto<>(result,propertyHelper.getRetrieveMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getitemsdatabygenericname")
+	public ResponseEntity<BaseDto<List<AlternativeItemDTO>>> getItemsDataByGeneric(@RequestParam("key")String itemGeneric){
+		List<AlternativeItemDTO> result=itemService.findItemsByGenericName(itemGeneric);
+		log.info(result.toString());
+		return new BaseDto<>(result,propertyHelper.getRetrieveMessage(),OK).respond();
+	}
+
+	@GetMapping("/getitemsdatabydesc")
+	public ResponseEntity<BaseDto<List<AlternativeItemDTO>>> getItemsDataByDesc(@RequestParam("key")String itemdesc){
+		List<AlternativeItemDTO> response=itemService.findItemsByDesc(itemdesc);
+		log.info(response.toString());
+		return new BaseDto<>(response,propertyHelper.getRetrieveMessage(),OK).respond();
 	}
 	
 
@@ -193,7 +215,28 @@ public class ItemController {
 		log.info("Seiz: "+result.size());
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
+
+	@GetMapping("/getitemdatabylimit/withitemcode")
+	public ResponseEntity<BaseDto<List<StockAdjustmentItemDTO>>> getItemDataByIdLimitWithItemCode(@RequestParam Integer start,@RequestParam Integer end) {
+		List<StockAdjustmentItemDTO> response=itemService.findItemsByLimitWithItemCode(start,end);
+		log.info("size :"+response.size());
+		return new BaseDto<>(response,propertyHelper.getRetrieveMessage(),OK).respond();
+	}
+
+	@GetMapping("/getitemdatabylimit/withitemdesc")
+	public ResponseEntity<BaseDto<List<StockAdjustmentItemDTO>>> getItemDataByLimitWithItemDesc(@RequestParam Integer start,@RequestParam Integer end) {
+		List<StockAdjustmentItemDTO> resp=itemService.findItemsByLimitWithItemDesc(start,end);
+        log.info("size :"+resp.size());
+        return new BaseDto<>(resp,propertyHelper.getRetrieveMessage(),OK).respond();
+	}
 	
+	@GetMapping("/getitemdatabylimit/withitem/genericname")
+	public ResponseEntity<BaseDto<List<StockAdjustmentItemDTO>>> getItemDataByLimitWithItemGenericName(@RequestParam Integer start,@RequestParam Integer end) {
+		List<StockAdjustmentItemDTO> resp=itemService.findItemsByLimitWithItemGenericName(start,end);
+        log.info("size :"+resp.size());
+        return new BaseDto<>(resp,propertyHelper.getRetrieveMessage(),OK).respond();
+	}
+
 	@GetMapping("/getitemsbyanysearch")
 	public ResponseEntity<BaseDto<List<ItemDTO>>> getAllByItemSearches(@RequestParam String searchTerm){
 		List<ItemDTO> response=itemService.findAllByItemsSearch(searchTerm);
@@ -201,7 +244,7 @@ public class ItemController {
 		return new BaseDto<>(response,propertyHelper.getRetrieveMessage(),OK).respond();
 
 	}
-	
+
 	@GetMapping("/getitemscountbysearch")
 	public ResponseEntity<BaseDto<Integer>> getCountOfItemsBySearch(@RequestParam String searchTerm,@RequestParam String searchType){
 		Integer response=itemService.findItemsCountBySearch(searchTerm,searchType);
