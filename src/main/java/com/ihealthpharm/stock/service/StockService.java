@@ -67,19 +67,20 @@ public interface StockService {
 
 	List<StockAdjustmentDTO> getAllBatchesOnItemCode(String searchTerm);
 
-	String getStockExpiryDate(String searchTerm, String batch);
+	String getStockExpiryDate(Integer itemId, String batch);
 
+	
 	List<StockAdjustmentDTO> getAllBatchesOnItemName(String searchTerm);
 
 	List<StockAdjustmentDTO> getAllBatchesOnItemDesc(String searchTerm);
 
 	List<StockAdjustmentDTO> getAllBatchesOnItemGenericName(String searchTerm);
 	
-	String getStocksExpiryDates(String search, String batch);
+	String getStocksExpiryDates(Integer itemId, String batch);
 
-	String getStocksExpiryDatesByGeneric(String search, String batch);
+	String getStocksExpiryDatesByGeneric(Integer itemId, String batch);
 
-	String getStockExpiryBasedOnItemName(String searchTerm, String batch);
+	String getStockExpiryBasedOnItemName(Integer itemId, String batch);
 
 	List<StockProfitDTO> findProfitService();
 	

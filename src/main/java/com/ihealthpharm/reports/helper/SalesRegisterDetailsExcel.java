@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -37,10 +38,11 @@ import com.ihealthpharm.reports.model.ReportsMappingModel;
 
 @Component
 public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
-	
+	DecimalFormat df2 = new DecimalFormat("#.00");
 	public void generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile) {
 
 		XSSFWorkbook workbook = new XSSFWorkbook();
+	
 		XSSFSheet sheet = workbook.createSheet("Report Data");
 		
 		if (ObjectUtils.isEmpty(responseList)) {
@@ -50,6 +52,9 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 			writeToFile(workbook, responseFile);
 			return;
 		}
+		
+		CellStyle style=workbook.createCellStyle();
+		style.setDataFormat(workbook.createDataFormat().getFormat("#,##0.00"));  
 
 		CellStyle borderStyle = workbook.createCellStyle();
 		 // Styling border of cell.  
@@ -95,7 +100,7 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 			for(String billType :salesRegisterDetailsMap.keySet()) {	
 				int currentRow = sheet.getLastRowNum();
 				List<Map<String, Object>> salesRegisterDetails = salesRegisterDetailsMap.get(billType);
-				createSalesRegisterTable(sheet, responseFile, borderStyle, headerStyle,salesRegisterDetails, currentRow); 
+				createSalesRegisterTable(sheet, responseFile, borderStyle, style,headerStyle,salesRegisterDetails, currentRow); 
 			}
 			generateTotalTable(sheet, responseFile,borderStyle,model,responseList);
 		}
@@ -106,35 +111,42 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 
 	private void generateTotalTable(XSSFSheet sheet,File responseFile, CellStyle borderStyle, ReportsMappingModel model,
 			List<Map<String, Object>> responseList) {
+	
 		int currentRow = sheet.getLastRowNum();
-		double totalCashAmt=0;
-		double totalCardAmt=0;
-		double totalMPesaAmt=0;
-		double totalCreditAmt=0;
-		double totalChequeAmt=0;
+		double totalCashAmt=0.0;
+		double totalCardAmt=0.0;
+		double totalMPesaAmt=0.0;
+		double totalCreditAmt=0.0;
+		double totalChequeAmt=0.0;
+		double totalInsuranceAmt=0.0;
 		
 		totalCashAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsValue("CASH")&&mapper.containsKey("AMOUNT")?String.valueOf(mapper.get("AMOUNT")):"0")).sum();  
 		totalMPesaAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("M-PESA")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
 		totalCardAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("CARD")?String.valueOf(mapper.get("AMOUNT")):"0")).sum();
 		totalChequeAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("CHEQUE")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
 		totalCreditAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("CREDIT")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
+		totalInsuranceAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("INSURANCE")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
 		
 		Row dataRow = sheet.createRow(currentRow+2);
 		Row dataRow1=sheet.createRow(currentRow+3);
 		Row dataRow2=sheet.createRow(currentRow+4);
 		Row dataRow3=sheet.createRow(currentRow+5);
 		Row dataRow4=sheet.createRow(currentRow+6);
+		Row dataRow5=sheet.createRow(currentRow+7);
 			
 		Cell cell = dataRow.createCell(0);
 		Cell cell1=dataRow1.createCell(0);
 		Cell cell2=dataRow2.createCell(0);
 		Cell cell3=dataRow3.createCell(0);
 		Cell cell4=dataRow4.createCell(0);
+		Cell cell5=dataRow5.createCell(0);
+		
 		cell.setCellValue("");
 		cell1.setCellValue("");
 		cell2.setCellValue("");
 		cell3.setCellValue("");
 		cell4.setCellValue("");
+		cell5.setCellValue("");
 		
 		/*for (Map<String, Object> map : responseList) {
 			if(map.containsValue("CASH")) {
@@ -184,49 +196,40 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 			}
 	}*/
 		
-				cell = dataRow.createCell(5);
-				cell1=dataRow1.createCell(5);
-				cell2=dataRow2.createCell(5);
-				cell3=dataRow3.createCell(5);
-				cell4=dataRow4.createCell(5);
-				
-				cell.setCellValue("Cash: ");
-				cell1.setCellValue("Card: ");
-				cell2.setCellValue("Credit: ");
-				cell3.setCellValue("M-Pesa: ");
-				cell4.setCellValue("Cheque: ");
-			
-				
 				cell = dataRow.createCell(6);
 				cell1=dataRow1.createCell(6);
 				cell2=dataRow2.createCell(6);
 				cell3=dataRow3.createCell(6);
 				cell4=dataRow4.createCell(6);
+				cell5=dataRow5.createCell(6);
 
 				
-				cell.setCellValue("Total Cash Amount : ");
-				cell1.setCellValue("Total Card Amount : ");
-				cell2.setCellValue("Total Credit Amount : ");
-				cell3.setCellValue("Total M-Pesa Amount : ");
-				cell4.setCellValue("Total Cheque Amount : ");
+				cell.setCellValue("CASH AMOUNT");
+				cell1.setCellValue("CARD AMOUNT");
+				cell2.setCellValue("CREDIT AMOUNT");
+				cell3.setCellValue("M-PESA AMOUNT");
+				cell4.setCellValue("CHEQUE AMOUNT");
+				cell5.setCellValue("INSURANCE AMOUNT");
 				
 				cell = dataRow.createCell(7);
 				cell1=dataRow1.createCell(7);
 				cell2=dataRow2.createCell(7);
 				cell3=dataRow3.createCell(7);
 				cell4=dataRow4.createCell(7);
+				cell5=dataRow5.createCell(7);
 				
-				cell.setCellValue(totalCashAmt);
-				cell1.setCellValue(totalCardAmt);
-				cell2.setCellValue(totalCreditAmt);
-				cell3.setCellValue(totalMPesaAmt);
-				cell4.setCellValue(totalChequeAmt);
+				cell.setCellValue(df2.format(totalCashAmt));
+				cell1.setCellValue(df2.format(totalCardAmt));
+				cell2.setCellValue(df2.format(totalCreditAmt));
+				cell3.setCellValue(df2.format(totalMPesaAmt));
+				cell4.setCellValue(df2.format(totalChequeAmt));
+				cell5.setCellValue(df2.format(totalInsuranceAmt));
 				//cell.setCellStyle(borderStyle);
 				
 			}
 			
 	
-	private void createSalesRegisterTable(XSSFSheet sheet,File responseFile, CellStyle borderStyle ,
+	private void createSalesRegisterTable(XSSFSheet sheet,File responseFile, CellStyle borderStyle ,CellStyle style,
 			CellStyle headerStyle, List<Map<String, Object>> salesRegisterDetails,int rowNum) {
 
 		rowNum = rowNum + 3;
@@ -305,7 +308,7 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("AMOUNT") ? rowData.get("AMOUNT") : "";
+				value = rowData.containsKey("AMOUNT") ? rowData.get("AMOUNT") : "0.00";
 				sheet.autoSizeColumn(5);
 				cell = dataRow.createCell(5);
 				cell.setCellValue(String.valueOf(value));

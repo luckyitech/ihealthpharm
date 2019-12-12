@@ -151,30 +151,30 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 	List<String> findallSBML();
 
 	// stock adjustment searches to get date and batch numbers
-	@Query("select new com.ihealthpharm.stock.dto.StockAdjustmentDTO(b.batchNo)  from stock b  inner join items i on b.item.itemId=i.itemId where i.itemCode=:searchTerm ")
+	@Query("select new com.ihealthpharm.stock.dto.StockAdjustmentDTO(b.batchNo)  from stock b  inner join items i on b.item.itemId=i.itemId where i.itemCode like :searchTerm% ")
 	List<StockAdjustmentDTO> findAllBatchesOnCode(@Param("searchTerm") String searchTerm);
 
-	@Query("select new com.ihealthpharm.stock.dto.StockAdjustmentDTO(b.batchNo)  from stock b  inner join items i on b.item.itemId=i.itemId where i.itemName=:searchTerm ")
+	@Query("select new com.ihealthpharm.stock.dto.StockAdjustmentDTO(b.batchNo)  from stock b  inner join items i on b.item.itemId=i.itemId where i.itemName like :searchTerm% ")
 	List<StockAdjustmentDTO> findAllBatchesBasedOnName(@Param("searchTerm") String searchTerm);
 	
-	@Query("select new com.ihealthpharm.stock.dto.StockAdjustmentDTO(b.batchNo)  from stock b  inner join items i on b.item.itemId=i.itemId where i.itemDescription=:searchTerm ")
+	@Query("select new com.ihealthpharm.stock.dto.StockAdjustmentDTO(b.batchNo)  from stock b  inner join items i on b.item.itemId=i.itemId where i.itemDescription =:searchTerm")
 	List<StockAdjustmentDTO> findAllBatchesBasedOnItemDesc(@Param("searchTerm") String searchTerm);
 
-	@Query("select new com.ihealthpharm.stock.dto.StockAdjustmentDTO(b.batchNo) from stock b inner join items i on b.item.itemId=i.itemId where i.itemGenericName.genericName=:searchTerm ")
+	@Query("select new com.ihealthpharm.stock.dto.StockAdjustmentDTO(b.batchNo) from stock b inner join items i on b.item.itemId=i.itemId where i.itemGenericName.genericName like %:searchTerm% ")
 	List<StockAdjustmentDTO> findAllBatchesBasedOnItemGeneric(@Param("searchTerm") String searchTerm);
 
-	@Query("select b.expiryDt from stock b  inner join items i on b.item.itemId=i.itemId where i.itemGenericName.genericName =:searchTerm "+ 
+	@Query("select b.expiryDt from stock b  inner join items i on b.item.itemId=i.itemId inner join items_generic_names ig on i.itemId=ig.itemGenericNameId where i.itemId =:itemId "+ 
 			"and b.batchNo=:batch")
-	String getExpiryDateBasedOnGeneric(@Param("searchTerm") String search,@Param("batch") String batch);
+	String getExpiryDateBasedOnGeneric(@Param("itemId") Integer itemId,@Param("batch") String batch);
 
-	@Query("select b.expiryDt  from stock b  inner join items i on b.item.itemId=i.itemId where i.itemName=:searchTerm and b.batchNo=:batch")
-	String getExpiryDateByItemName(@Param("searchTerm") String searchTerm,@Param("batch") String batch);
+	@Query("select b.expiryDt  from stock b  inner join items i on b.item.itemId=i.itemId where i.itemId=:itemId and b.batchNo=:batch")
+	String getExpiryDateByItemName(@Param("itemId") Integer itemId,@Param("batch") String batch);
 
-	@Query("select b.expiryDt  from stock b  inner join items i on b.item.itemId=i.itemId where i.itemCode=:searchTerm and b.batchNo=:batch ")
-	String getExpiryDate(@Param("searchTerm") String searchTerm,@Param("batch") String batch);
+	@Query("select b.expiryDt  from stock b  inner join items i on b.item.itemId=i.itemId where i.itemId=:itemId and b.batchNo=:batch ")
+	String getExpiryDate(@Param("itemId") Integer itemId,@Param("batch") String batch);
 	
-	@Query("select b.expiryDt  from stock b  inner join items i on b.item.itemId=i.itemId where  i.itemDescription=:searchTerm and b.batchNo=:batch ")
-	String getExpiryDates(@Param("searchTerm") String searchTerm,@Param("batch") String batch);
+	@Query("select b.expiryDt  from stock b  inner join items i on b.item.itemId=i.itemId where  i.itemId=:itemId and b.batchNo=:batch ")
+	String getExpiryDates(@Param("itemId") Integer itemId,@Param("batch") String batch);
 
 	@Query("select  new com.ihealthpharm.stock.dto.StockProfitDTO(sup.name, sum(((s.unitSaleRate-s.unitPurchaseRate)/s.unitPurchaseRate)*100)  as profit) from stock s join supplier sup on s.supplier = sup.supplierId where  s.unitSaleRate > s.unitPurchaseRate group by sup.name order by profit desc")
 	List<StockProfitDTO> ProfitPercentageRepo(Pageable pageable);
