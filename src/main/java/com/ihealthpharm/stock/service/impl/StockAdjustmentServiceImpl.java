@@ -176,8 +176,11 @@ public class StockAdjustmentServiceImpl implements StockAdjustmentService {
 
 	@Override
 	public void  updateStocksData(@Valid List<StockModel> stockModels) {
-		stockRepo.saveAll(stockModels);
-
+		//stockRepo.saveAll(stockModels);
+		for(StockModel stockModel:stockModels)
+		{
+			stockRepo.save(stockModel);
+		}
 	}
 
 
