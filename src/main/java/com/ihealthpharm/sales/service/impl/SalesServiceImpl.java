@@ -162,7 +162,7 @@ public class SalesServiceImpl implements SalesService {
 			temp.add(obj.getTotalSales());
 			finalObj.add(temp);
 		}
-		return finalObj;
+	   	return finalObj;
 	}
 
 	@Override
@@ -422,4 +422,21 @@ public class SalesServiceImpl implements SalesService {
 	public Integer findYesterdayDiff() {
 		return salesRepository.yesterdayDiff();
 	}
+	
+	@Override
+	public Integer findUpiCustomers() {
+		return salesRepository.upiCustomers();
+	}
+	
+	@Override
+	public Integer findCreditCardCustomers() {
+		return salesRepository.creditCardCustomers();
+	}
+	
+	@Override
+	public Integer findChequeCustomers() {
+		return salesRepository.chequeCustomers();
+	}
+
+	
 }
