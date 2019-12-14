@@ -53,6 +53,11 @@ public interface SalesService
 	
 	Integer findYesterdayDiff();
 	
+	Integer findUpiCustomers();
+	
+	Integer findCreditCardCustomers();
+	
+	Integer findChequeCustomers();	
 	
 
 	//DBL
