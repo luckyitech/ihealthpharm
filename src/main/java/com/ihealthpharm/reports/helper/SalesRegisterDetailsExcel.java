@@ -274,6 +274,10 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 			cell.setCellValue("BALANCE AMOUNT");
 			cell.setCellStyle(headerStyle);	
 			
+			cell = headerRow.createCell(8);
+			cell.setCellValue("PAYMENT STATUS");
+			cell.setCellStyle(headerStyle);	
+			
 			for (Map<String, Object> rowData : salesRegisterDetails) {
 					
 				Row dataRow = sheet.createRow(rowNum++);
@@ -327,6 +331,11 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
+				value = rowData.containsKey("PAYMENT_STATUS") ? rowData.get("PAYMENT_STATUS") : "";
+				sheet.autoSizeColumn(8);
+				cell = dataRow.createCell(8);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
 				
 				
 			}
