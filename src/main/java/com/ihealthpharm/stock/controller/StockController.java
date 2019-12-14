@@ -35,10 +35,10 @@ import lombok.extern.slf4j.Slf4j;
 @CrossOrigin
 @Slf4j
 public class StockController {
-	
+
 	@Autowired
 	private StockHelper stockHelper;
-	
+
 	@Autowired
 	private StockService stockService;
 
@@ -52,7 +52,7 @@ public class StockController {
 		StockModel model = stockService.saveStock(stockModel);
 		return new BaseDto<>(model, stockHelper.getSaveStockMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Jagadeesh 
 	 * Service is to save the stock
@@ -63,7 +63,7 @@ public class StockController {
 		List<StockModel> model = stockService.saveStock(stockModel);
 		return new BaseDto<>(model, stockHelper.getSaveStockMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is to update the stock
@@ -74,7 +74,7 @@ public class StockController {
 		StockModel model = stockService.updateStock(stockModel);
 		return new BaseDto<>(model, stockHelper.getUpdateStockMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is to update the stocks
@@ -85,7 +85,7 @@ public class StockController {
 		List<StockModel> models = stockService.updateStocks(stockModels);
 		return new BaseDto<>(models, stockHelper.getUpdateStockMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is to delete the stock
@@ -96,7 +96,7 @@ public class StockController {
 		stockService.deleteStockById(stockId);
 		return new BaseDto<>(stockHelper.getDeleteStockMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is to delete the stocks
@@ -118,7 +118,7 @@ public class StockController {
 		List<StockModel> stockModels = stockService.findAllStocks();
 		return new BaseDto<>(stockModels, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is to get the stock
@@ -128,8 +128,8 @@ public class StockController {
 		StockModel result = stockService.findStockById(stockId);
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}
-	
-	
+
+
 	/**
 	 * @author Jagadeesh 
 	 * Service is to get the stock
@@ -139,7 +139,7 @@ public class StockController {
 		List<ItemsModel> result = stockService.findAllStockItems();
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Jagadeesh 
 	 * Service is to get the stock
@@ -149,7 +149,7 @@ public class StockController {
 		List<String> result = stockService.getBatchNumbersByItemId(item);
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Jagadeesh 
 	 * Service is to get the stock
@@ -161,29 +161,29 @@ public class StockController {
 		StockModel result = stockService.getStockByItemAndBatchNumber(item,batchNo );
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Jagadeesh 
 	 * Service is to get the stock
 	 */
 	@PostMapping("/getstockbyitem")
 	public ResponseEntity<BaseDto<List<StockModel>>> getStockByItem(@RequestBody ItemsModel item) {
-		
+
 		List<StockModel> result = stockService.findByItem(item);
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Jagadeesh 
 	 * Service is to get the stock
 	 */
 	@PostMapping("/getstockbyitemnamesearch")
 	public ResponseEntity<BaseDto<List<StockModel>>> getStockByItemName(@RequestBody ItemsModel itemName) {
-		
+
 		List<StockModel> result = stockService.findByItemName(itemName);
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Jagadeesh 
 	 * Service is to get the stock
@@ -191,33 +191,33 @@ public class StockController {
 	@PostMapping("/getstockbyitemandpharmacy")
 	public ResponseEntity<BaseDto<List<StockModel>>> getStockByItemNameAndPharmacy(@RequestBody StockItemsListDTO stockDto){
 		List<StockModel> result = stockService.findByItemAndPharmacy(stockDto.getListOfItems(),stockDto.getPharmacy());
-	
+
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}
-	
+
 
 	@GetMapping("/getstockbyitemandpharmacyid")
 	public ResponseEntity<BaseDto<List<StockModel>>> getStockByItemNameAndPharmacy(@RequestParam String searchTerm,@RequestParam String searchCode, @RequestParam Integer pharmacyId,
 			@RequestParam Integer pageNumber,@RequestParam Integer pageSize){
 		List<StockModel> result = stockService.findByItemAndPharmacy(searchTerm,searchCode,pharmacyId,pageNumber,pageSize);
-		
+
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}
-	
+
 	@GetMapping("/getstockbyitemandpharmacyidcount")
 	public ResponseEntity<BaseDto<Integer>> getStockByItemNameAndPharmacyCount(@RequestParam String searchTerm,@RequestParam String searchCode, @RequestParam Integer pharmacyId){
 		Integer result = stockService.findByItemAndPharmacyCount(searchTerm,searchCode,pharmacyId);
-		
+
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}
-	
+
 	//to update stock Quantity 
 	@GetMapping("/getstocksdata/basedonbillid")
-		public ResponseEntity<BaseDto<StockModel>> getStockDataBasedOnItem(@RequestParam Integer itemId){
+	public ResponseEntity<BaseDto<StockModel>> getStockDataBasedOnItem(@RequestParam Integer itemId){
 		StockModel result = stockService.findStocksByBillId(itemId);
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}
-	
+
 	@GetMapping("/getsuppliersbysearchpol")
 	public ResponseEntity<BaseDto<List<String>>> getSuppliersByStock(@RequestParam String searchTerm){
 		List<String> results=stockService.findSuppliersByStock(searchTerm);
@@ -228,7 +228,7 @@ public class StockController {
 		List<String> results=stockService.findAllSuppliersByStock();
 		return new BaseDto<>(results,stockHelper.getRetrieveStockAdjustmentMessage(),OK).respond();
 	}
-	
+
 	@GetMapping("/getmanufacturerbysearchpol")
 	public ResponseEntity<BaseDto<List<String>>> getManufacturerNamesByStock(@RequestParam String searchTerm){
 		List<String> results=stockService.findManufacturerByStock(searchTerm);
@@ -256,7 +256,7 @@ public class StockController {
 		List<StockModel> results=stockService.findAllByBatchNo(searchTerm);
 		return new BaseDto<>(results,stockHelper.getRetrieveStockMessage(),OK).respond();
 	}
-	
+
 	//Supplier By MFR List
 	@GetMapping("/getsuppliersbysearchssbml")
 	public ResponseEntity<BaseDto<List<String>>> findSupplierbynameInStockSBML(@RequestParam String searchTerm){
@@ -268,60 +268,60 @@ public class StockController {
 		List<String> results=stockService.findallSBML();
 		return new BaseDto<>(results,stockHelper.getRetrieveStockAdjustmentMessage(),OK).respond();
 	}
-	
+
 	//urls for stock adjustment searches
-	
+
 	@GetMapping("/get/batch/basedonitemcode")
 	public ResponseEntity<BaseDto<List<StockAdjustmentDTO>>> findAllBatchesOnItemCode(@RequestParam String searchTerm){
 		List<StockAdjustmentDTO> response=stockService.getAllBatchesOnItemCode(searchTerm);
 		return new BaseDto<>(response,stockHelper.getRetrieveStockMessage(),OK).respond();
 	}
-	
+
 	@GetMapping("/get/batch/basedonItemName")
 	public ResponseEntity<BaseDto<List<StockAdjustmentDTO>>> findAllBatchesOnItemName(@RequestParam String searchTerm){
-	   List<StockAdjustmentDTO> response=stockService.getAllBatchesOnItemName(searchTerm);
-	   return new BaseDto<>(response,stockHelper.getRetrieveStockMessage(),OK).respond();
+		List<StockAdjustmentDTO> response=stockService.getAllBatchesOnItemName(searchTerm);
+		return new BaseDto<>(response,stockHelper.getRetrieveStockMessage(),OK).respond();
 	}
-	   
-	
+
+
 	@GetMapping("/get/batch/basedonItemDesc")
 	public ResponseEntity<BaseDto<List<StockAdjustmentDTO>>> findAllBatchesOnItemDesc(@RequestParam String searchTerm){
-	   List<StockAdjustmentDTO> response=stockService.getAllBatchesOnItemDesc(searchTerm);
-	   return new BaseDto<>(response,stockHelper.getRetrieveStockMessage(),OK).respond();
+		List<StockAdjustmentDTO> response=stockService.getAllBatchesOnItemDesc(searchTerm);
+		return new BaseDto<>(response,stockHelper.getRetrieveStockMessage(),OK).respond();
 	}
-	
-	
+
+
 	@GetMapping("/get/batch/basedonItemGeneric")
 	public ResponseEntity<BaseDto<List<StockAdjustmentDTO>>> findAllBatchesOnItemGeneric(@RequestParam String searchTerm){
-	   List<StockAdjustmentDTO> response=stockService.getAllBatchesOnItemGenericName(searchTerm);
-	   return new BaseDto<>(response,stockHelper.getRetrieveStockMessage(),OK).respond();
+		List<StockAdjustmentDTO> response=stockService.getAllBatchesOnItemGenericName(searchTerm);
+		return new BaseDto<>(response,stockHelper.getRetrieveStockMessage(),OK).respond();
 	}
-	
-	
+
+
 	@GetMapping("/get/expirydt")
-	public ResponseEntity<BaseDto<String>> getStockItemExpiryDate(@RequestParam String searchTerm,@RequestParam String batch){
-		String result=stockService.getStockExpiryDate(searchTerm,batch);
+	public ResponseEntity<BaseDto<String>> getStockItemExpiryDate(@RequestParam Integer itemId,@RequestParam String batch){
+		String result=stockService.getStockExpiryDate(itemId,batch);
 		return new BaseDto<>(result,stockHelper.getRetrieveStockMessage(),OK).respond();
 	}
-	
+
 	@GetMapping("/get/expiry")
-	public ResponseEntity<BaseDto<String>> getStockItemExpiryDateByName(@RequestParam String searchTerm,@RequestParam String batch){
-		String response=stockService.getStockExpiryBasedOnItemName(searchTerm,batch);
+	public ResponseEntity<BaseDto<String>> getStockItemExpiryDateByName(@RequestParam Integer itemId,@RequestParam String batch){
+		String response=stockService.getStockExpiryBasedOnItemName(itemId,batch);
 		return new BaseDto<>(response,stockHelper.getRetrieveStockMessage(),OK).respond();
 	}
 
 	@GetMapping("/get/expiryDate/basedonitemdesc")
-	public ResponseEntity<BaseDto<String>> getStockItemDescExpiryDate(@RequestParam String search,@RequestParam String batch){
-     String response=stockService.getStocksExpiryDates(search,batch);
-     return new BaseDto<>(response,stockHelper.getRetrieveStockMessage(),OK).respond();
+	public ResponseEntity<BaseDto<String>> getStockItemDescExpiryDate(@RequestParam Integer itemId,@RequestParam String batch){
+		String response=stockService.getStocksExpiryDates(itemId,batch);
+		return new BaseDto<>(response,stockHelper.getRetrieveStockMessage(),OK).respond();
 	}
 
 	@GetMapping("/get/expiryDate/basedonitemgeneric")
-	public ResponseEntity<BaseDto<String>> getStockItemGenericExpiryDate(@RequestParam String search,@RequestParam String batch){
-     String response=stockService.getStocksExpiryDatesByGeneric(search,batch);
-     return new BaseDto<>(response,stockHelper.getRetrieveStockMessage(),OK).respond();
+	public ResponseEntity<BaseDto<String>> getStockItemGenericExpiryDate(@RequestParam Integer itemId,@RequestParam String batch){
+		String response=stockService.getStocksExpiryDatesByGeneric(itemId,batch);
+		return new BaseDto<>(response,stockHelper.getRetrieveStockMessage(),OK).respond();
 	}
-	
+
 	@GetMapping("/ProfitPercentage")
 	public ResponseEntity<BaseDto<List>> getAllProfitController(){
 		List result=stockService.findProfitService();
@@ -332,5 +332,5 @@ public class StockController {
 		List result=stockService.findSuppliersRevenue();
 		return new BaseDto<>(result,stockHelper.getRetrieveStockMessage(),OK).respond();
 	}
-	
+
 }

@@ -320,8 +320,8 @@ public class StockServiceImpl implements StockService {
 		}
 
 		@Override
-		public String getStockExpiryDate(String searchTerm, String batch) {
-            String res=stockRepository.getExpiryDate(searchTerm,batch);
+		public String getStockExpiryDate(Integer  itemId, String batch) {
+            String res=stockRepository.getExpiryDate(itemId,batch);
 			return res;
 		}
 
@@ -332,12 +332,13 @@ public class StockServiceImpl implements StockService {
 
 		@Override
 		public List<StockAdjustmentDTO> getAllBatchesOnItemDesc(String searchTerm) {
+			System.out.println(searchTerm);
 			return stockRepository.findAllBatchesBasedOnItemDesc(searchTerm);
 		}
 
 		@Override
-		public String getStocksExpiryDates(String search, String batch) {
-           String res=stockRepository.getExpiryDates(search,batch);
+		public String getStocksExpiryDates(Integer itemId, String batch) {
+           String res=stockRepository.getExpiryDates(itemId,batch);
 			return res;
 		}
 
@@ -347,13 +348,13 @@ public class StockServiceImpl implements StockService {
 		}
 
 		@Override
-		public String getStocksExpiryDatesByGeneric(String search, String batch) {
-			return stockRepository.getExpiryDateBasedOnGeneric(search,batch);
+		public String getStocksExpiryDatesByGeneric(Integer itemId, String batch) {
+			return stockRepository.getExpiryDateBasedOnGeneric(itemId,batch);
 		}
 
 		@Override
-		public String getStockExpiryBasedOnItemName(String searchTerm, String batch) {
-			return stockRepository.getExpiryDateByItemName( searchTerm,  batch);
+		public String getStockExpiryBasedOnItemName(Integer  itemId, String batch) {
+			return stockRepository.getExpiryDateByItemName( itemId,  batch);
 		}
 		
 		

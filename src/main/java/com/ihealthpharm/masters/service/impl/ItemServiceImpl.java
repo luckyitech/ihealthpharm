@@ -9,7 +9,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +22,7 @@ import com.ihealthpharm.masters.helper.ItemPropertyHelper;
 import com.ihealthpharm.masters.model.ItemGroupModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.service.ItemService;
+import com.ihealthpharm.stock.dto.StockAdjustmentItemDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -264,6 +264,22 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 
+	@Override
+	public List<AlternativeItemDTO> findItemsByCode(String itemCode) {
+		return itemRepository.getAlternativeItemsDataByItemCode(itemCode);
+	}
+	
+
+	@Override
+	public List<AlternativeItemDTO> findItemsByGenericName(String itemGeneric) {
+		return itemRepository.getAlternativeItemsDataByItemGenericName(itemGeneric);
+	}
+
+	
+	@Override
+	public List<AlternativeItemDTO> findItemsByDesc(String itemdesc) {
+		return itemRepository.getAlternativeItemsDataByItemDesc(itemdesc);
+	}
 	
 	@Override
 	public List<AlternativeItemDTO> findItemsByName(String itemName) {
@@ -293,6 +309,26 @@ public class ItemServiceImpl implements ItemService {
 		Pageable limit = PageRequest.of(pageNumber,pageSize);
 		return itemRepository.findItemsByLimit(limit);
 	}
+	
+	@Override
+	public List<StockAdjustmentItemDTO> findItemsByLimitWithItemCode(Integer pageNumber, Integer pageSize) {
+		Pageable limit=PageRequest.of(pageNumber, pageSize);
+		return itemRepository.findItemsByLimitWithItemCode(limit);
+	}
+	
+	@Override
+	public List<StockAdjustmentItemDTO> findItemsByLimitWithItemGenericName(Integer pageNumber, Integer pageSize) {
+       Pageable limit=PageRequest.of(pageNumber, pageSize);
+		return itemRepository.findItemsByLimitWithItemGenericName(limit);
+	}
+	
+	@Override
+	public List<StockAdjustmentItemDTO> findItemsByLimitWithItemDesc(Integer pageNumber, Integer pageSize) {
+   Pageable limit=PageRequest.of(pageNumber, pageSize);
+   
+		return itemRepository.findItemsByLimitWithItemDesc(limit);
+	}
+
 
 	public List<ItemDTO> findAllByItemsSearch(String searchTerm) {
 	//	return itemRepository.getAllItemsDataByAnySearch(searchTerm);
@@ -323,6 +359,8 @@ public class ItemServiceImpl implements ItemService {
 		}
 		//return null;
 	}
+
 	
+
 	
 }

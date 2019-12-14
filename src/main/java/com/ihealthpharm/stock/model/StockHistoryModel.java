@@ -106,8 +106,8 @@ public class StockHistoryModel extends AuditModel {
 	@Column(name="RACK")
 	private String rack;
 	
-	@Column(name="SELF")
-	private String self;
+	@Column(name="SHELF")
+	private String shelf;
 	
 	@Column(name="BARCODE")
 	private String barcode;

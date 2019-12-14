@@ -76,6 +76,9 @@ public class StockModel extends AuditModel {
 	@Column(name="UNIT_SALE_RATE")
 	private Double unitSaleRate;
 	
+	@Column(name="SP_VAT",nullable=false)
+	private Double spVat;
+	
 	@Column(name="MRP")
 	private Double mrp;
 	
@@ -127,8 +130,8 @@ public class StockModel extends AuditModel {
 	@Column(name="STATUS")
 	private String status ;
 	
-	@Column(name="SHELF")
-	private String self;
+	@Column(name="SHELF",length=50)
+	private String shelf;
 	
 	@Column(name="BARCODE")
 	private String barcode;
@@ -139,10 +142,11 @@ public class StockModel extends AuditModel {
 	@Column(name="INVOICE_NO")
 	private String invoiceNo;
 	
+	@Column(name="ENTRY_TYPE")
 	private String entryType;
 	
 	@Column(name="PACK")
-	private String pack;
+	private Integer pack;
 	
 	@OneToOne
 	@JoinColumn(name = "TAX_CATEGORY_ID")
