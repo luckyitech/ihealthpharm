@@ -185,7 +185,7 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 	@Query("select count(s.customerModel.customerId) from sales s where date(billDate) = CURDATE() and s.creditAmount is not null  group by billDate")
 	Integer creditRepo();
 	
-	@Query("SELECT sum(s.netAmount) AS YesterdaySales  from sales s where date(billDate) = subdate(curdate(),1)")
+	@Query("SELECT sum(s.netAmount) AS YesterdaySales  from sales s where billDate = (select max(billDate) from sales where billDate < curdate())")
 	Integer yesterdayDiff();
 	
 	@Query("select count(s.customerModel.customerId) from sales s where date(billDate) = CURDATE() and s.upiAmount is not null  group by billDate")
