@@ -27,9 +27,8 @@ import lombok.EqualsAndHashCode;
 @JsonIgnoreProperties("inspection")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "employeeId")
 @EqualsAndHashCode(of="employeeId",callSuper=false)
-public class EmployeeModel extends AuditModel implements Serializable{
+public class EmployeeModel extends AuditModel {
 
-	private static final long serialVersionUID = -3990973417396713887L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
