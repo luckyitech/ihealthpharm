@@ -287,4 +287,22 @@ public class SalesController {
 		Integer result = salesService.findYesterdayDiff();
 		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
+	
+	@GetMapping("/upiCustomers")
+	public ResponseEntity<BaseDto<Integer>> getUpiCustomers(){
+		Integer result = salesService.findUpiCustomers();
+		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/creditCardCustomers")
+	public ResponseEntity<BaseDto<Integer>> getCreditCardCustomers(){
+		Integer result = salesService.findCreditCardCustomers();
+		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/chequeCustomers")
+	public ResponseEntity<BaseDto<Integer>> getChequeCustomers(){
+		Integer result = salesService.findChequeCustomers();
+		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
 }

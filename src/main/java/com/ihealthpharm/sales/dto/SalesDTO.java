@@ -7,11 +7,12 @@ import lombok.Data;
 public class SalesDTO {
 
 	private LocalDate billDate;
-	private  long totalSales;
-	
-	public SalesDTO( LocalDate billDate, long totalSales) {
+	private  Double totalSales;
+	public SalesDTO(LocalDate billDate, Long totalSales) {
 		super();
 		this.billDate = billDate;
-		this.totalSales = totalSales;
+		this.totalSales =  ((double)totalSales/1000);
 	}
+	
+	
 }

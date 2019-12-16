@@ -24,10 +24,10 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 	// @Query("select s from sales s order by s.billDate desc limit 100")
 	List<SalesModel> findFirst100ByOrderByBillCodeDesc();
 
-	@Query("SELECT new com.ihealthpharm.sales.dto.SalesDTO(billDate, sum((totalProducts*totalQty)/1000) as totalSales) FROM sales s where year(billDate)=YEAR(CURDATE()) GROUP BY year(billDate), month(billDate)  order by billDate desc")
+	@Query("SELECT new com.ihealthpharm.sales.dto.SalesDTO(billDate, sum(totalQty) as totalSales) FROM sales s where year(billDate)=YEAR(CURDATE()) GROUP BY month(billDate)  order by billDate")
 	List<SalesDTO> getAllSalesDataForCharts();
 
-	// SCL
+	// SC
 
 	@Query("select distinct m.name from sales s,sales_items si,provider p,items i,stock st,manufacturer m where s.billId=si.billId.billId and s.providerModel.providerId=p.providerId  and si.itemsModel.itemId=i.itemId and st.item.itemId=i.itemId and i.manufacturer.manufacturerId=m.manufacturerId and m.name like :searchTerm%")
 	List<String> findManufacturerInSalesSCL(@Param("searchTerm") String searchTerm);
@@ -134,17 +134,20 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 	@Query("select s from sales s where s.paymentStatus = :key order by s.lastUpdateTs DESC")
 	List<SalesModel> findSalesByPaymentStatus(@Param("key") String key, Pageable limit);
 	
-	@Query("select s from sales s where s.paymentStatus = :status and s.billDate between :start and :end and s.customerModel.customerName like :code% or s.billCode like :code% order by s.lastUpdateTs DESC")
+	@Query("select s from sales s where s.paymentStatus = :status and s.billDate between :start and :end "
+			+ "and s.customerNm like :code% or s.billCode like :code% order by s.lastUpdateTs DESC")
 	List<SalesModel> findSalesSearchByStatusSearchCodeDate(@Param("status") String status,@Param("code") String code,@Param("start") LocalDate start,@Param("end") LocalDate end, Pageable limit);
 
 	@Query("select s from sales s where s.paymentStatus = :status and s.billDate between :start and :end  order by s.lastUpdateTs DESC")
 	List<SalesModel> findSalesSearchByStatusDate(@Param("status") String status,@Param("start") LocalDate start,@Param("end") LocalDate end, Pageable limit);
 
+	@Query("select s from sales s where (s.billDate between :start and :end) and (s.customerNm like :code% or s.billCode like :code%) order by s.lastUpdateTs DESC")
+	List<SalesModel> findSalesSearchByCodeDate(@Param("code") String code,@Param("start") LocalDate start,@Param("end") LocalDate end, Pageable limit);
+	
 	@Query("select s from sales s where s.billCode like :key% order by s.lastUpdateTs DESC")
 	List<SalesModel> findSalesByBillCode(@Param("key") String key, Pageable limit);
 
-	@Query("select s from sales s inner join customer c on s.customerModel.customerId = c.customerId where c.customerName like :key% or "
-			+ "c.lastName like :key% order by s.lastUpdateTs DESC")
+	@Query("select s from sales s where s.customerNm like :key% order by s.lastUpdateTs DESC")
 	List<SalesModel> findSalesByCustomerName(@Param("key") String key, Pageable limit);
 
 	@Query("select s from sales s where s.billDate between :start and :end order by s.lastUpdateTs DESC")
@@ -152,11 +155,14 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 
 	//counts
 	
-	@Query("select count(s) from sales s where s.paymentStatus = :status and s.billDate between :start and :end and s.customerModel.customerName like :code% or s.billCode like :code% order by s.lastUpdateTs DESC")
+	@Query("select count(s) from sales s where s.paymentStatus = :status and s.billDate between :start and :end and s.customerNm like :code% or s.billCode like :code% order by s.lastUpdateTs DESC")
 	Integer findSalesSearchByStatusSearchCodeDateCount(@Param("status") String status,@Param("code") String code,@Param("start") LocalDate start,@Param("end") LocalDate end);
 
 	@Query("select count(s) from sales s where s.paymentStatus = :status and s.billDate between :start and :end  order by s.lastUpdateTs DESC")
 	Integer findSalesSearchByStatusDateCount(@Param("status") String status,@Param("start") LocalDate start,@Param("end") LocalDate end);
+	
+	@Query("select count(s) from sales s where (s.billDate between :start and :end) and (s.customerNm like :code% or s.billCode like :code%)  order by s.lastUpdateTs DESC")
+	Integer findSalesSearchByCodeDateCount(@Param("code") String code,@Param("start") LocalDate start,@Param("end") LocalDate end);
 	
 	@Query("select count(s) from sales s where s.paymentStatus = :key order by s.lastUpdateTs DESC")
 	Integer findSalesByPaymentStatusCount(@Param("key") String key );
@@ -164,8 +170,7 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 	@Query("select count(s) from sales s where s.billCode like :key% order by s.lastUpdateTs DESC")
 	Integer findSalesByBillCodeCount(@Param("key") String key);
 
-	@Query("select count(s) from sales s inner join customer c on s.customerModel.customerId = c.customerId where c.customerName like :key% or "
-			+ "c.lastName like :key% order by s.lastUpdateTs DESC")
+	@Query("select count(s) from sales s where s.customerNm like :key% order by s.lastUpdateTs DESC")
 	Integer findSalesByCustomerNameCount(@Param("key") String key);
 
 	@Query("select count(s) from sales s where s.billDate between :start and :end order by s.billDate DESC")
@@ -174,12 +179,21 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 	@Query("SELECT sum(s.netAmount) from sales s where date(s.billDate) = CURDATE() group by s.billDate")
 	Integer todaySalesRepo();
 	
-	@Query("select count(s.customerNm) from sales s where date(billDate) = CURDATE() and s.cashAmount is not null  group by billDate")
+	@Query("select count(s.customerModel.customerId) from sales s where date(billDate) = CURDATE() and s.cashAmount is not null  group by billDate")
 	Integer cashRepo();
 	
-	@Query("select count(s.customerNm) from sales s where date(billDate) = CURDATE() and s.creditAmount is not null  group by billDate")
+	@Query("select count(s.customerModel.customerId) from sales s where date(billDate) = CURDATE() and s.creditAmount is not null  group by billDate")
 	Integer creditRepo();
 	
 	@Query("SELECT sum(s.netAmount) AS YesterdaySales  from sales s where date(billDate) = subdate(curdate(),1)")
 	Integer yesterdayDiff();
+	
+	@Query("select count(s.customerModel.customerId) from sales s where date(billDate) = CURDATE() and s.upiAmount is not null  group by billDate")
+	Integer upiCustomers();
+	
+	@Query("select count(s.customerModel.customerId) from sales s where date(billDate) = CURDATE() and s.creditCardAmount is not null  group by billDate")
+	Integer creditCardCustomers();
+	
+	@Query("select count(s.customerModel.customerId) from sales s where date(billDate) = CURDATE() and s.chequeAmount is not null  group by billDate")
+	Integer chequeCustomers();
 }
