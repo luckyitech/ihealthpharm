@@ -21,6 +21,8 @@ import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.finance.helper.AccountPayablesHelper;
 import com.ihealthpharm.finance.model.AccountPayablesModel;
 import com.ihealthpharm.finance.service.AccountPayablesService;
+import com.ihealthpharm.sales.helper.SalesHelper;
+import com.ihealthpharm.sales.model.SalesModel;
 import com.ihealthpharm.stock.helper.InvoiceHelper;
 import com.ihealthpharm.stock.model.InvoiceModel;
 
@@ -36,6 +38,9 @@ public class AccountPayablesController {
 	
 	@Autowired
 	InvoiceHelper invoiceHelper;
+	
+	@Autowired
+	SalesHelper salesHelper;
 
 	@PostMapping("/save/accountPayables")
 	public ResponseEntity<BaseDto<AccountPayablesModel>> insertAccountPayablesData(@Valid @RequestBody AccountPayablesModel accountPayablesModel) {
@@ -81,6 +86,14 @@ public class AccountPayablesController {
 		AccountPayablesModel result = accountPayablesService.findAccountPayablesById(accountPayablesId);
 		return new BaseDto<>(result, accountPayablesHelper.getRetrieveAccountPayablesMessage(), OK).respond();
 	}
+	
+	/*@GetMapping("/getcustomersbycustomerid")
+	public ResponseEntity<BaseDto<List<SalesModel>>> getAllCustomersBasedOnCustomerId(@RequestParam Integer customerId){
+		
+		List<SalesModel> result=accountPayablesService.getAllCustomersByCustomerId(customerId);
+		
+		return new BaseDto<>(result,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}*/
 
 	@GetMapping("/getinvoicesbysupplierid")
 	public ResponseEntity<BaseDto<List<InvoiceModel>>> getAllInvoicesBasedOnSupplierId(@RequestParam Integer supplierId){

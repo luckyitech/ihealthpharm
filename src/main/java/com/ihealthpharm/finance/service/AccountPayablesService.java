@@ -3,6 +3,7 @@ package com.ihealthpharm.finance.service;
 import java.util.List;
 
 import com.ihealthpharm.finance.model.AccountPayablesModel;
+import com.ihealthpharm.sales.model.SalesModel;
 import com.ihealthpharm.stock.model.InvoiceModel;
 
 public interface AccountPayablesService
@@ -23,6 +24,8 @@ public interface AccountPayablesService
 	 void deleteAccountsPayablesById(Integer[] accountPayablesIds);
 	 
 	 List<InvoiceModel> getAllInvoicesBySupplierId(Integer supplierId);
+	 
+	// List<SalesModel> getAllCustomersByCustomerId(Integer customerId);
 	 
 	 
 	

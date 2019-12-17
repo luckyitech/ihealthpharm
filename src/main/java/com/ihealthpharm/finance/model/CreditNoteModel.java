@@ -57,6 +57,13 @@ public class CreditNoteModel extends AuditModel{
 
     @Column(name="INVOICE_ID",length=11)
     private String invoiceId;  
+    
+    @Column(name="APPROVED_BY",length=20)
+    private String approvedBy;
+    
+    @Column(name="APPROVED_DATE")
+    private LocalDate approvedDate;
+
 
     @Column(name="REMARKS",length=200)
     private String remarks;

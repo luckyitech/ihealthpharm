@@ -84,7 +84,10 @@ public class AccountPayablesModel extends AuditModel {
 	private Double chequeAmount;
 
 	@Column(name = "PAYMENT_STATUS", length = 20)
-	private String paymentStatus;
+	private String selectedPaymentStatus;
+	
+	@Column(name="SOURCE_ID",length=11)
+	private String source;
 
 	@OneToOne
 	@JoinColumn(name="SUPPLIER_ID")
