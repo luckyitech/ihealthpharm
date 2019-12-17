@@ -40,6 +40,12 @@ public class PurchaseReturnItemController {
 		PurchaseReturnItemModel purchaseReturnItemModelRes = purchaseReturnItemService.savePurchaseReturnItemData(PurchaseReturnItemModel);
 		return new BaseDto<>(purchaseReturnItemModelRes, purchaseReturnItemHelper.getSavePurchaseReturnItemMessage(), OK).respond();
 	}
+	
+	@PostMapping("/save/purchaseReturnItems")
+	public ResponseEntity<BaseDto<List<PurchaseReturnItemModel>>> insertPurchaseReturnItems(@Valid @RequestBody List<PurchaseReturnItemModel> PurchaseReturnItemsModel) {
+		List<PurchaseReturnItemModel> purchaseReturnItemsRes = purchaseReturnItemService.savePurchaseReturnItems(PurchaseReturnItemsModel);
+		return new BaseDto<>(purchaseReturnItemsRes, purchaseReturnItemHelper.getSavePurchaseReturnItemMessage(), OK).respond();
+	}
 
 	@PutMapping("/update/purchaseReturnItem")
 	public ResponseEntity<BaseDto<PurchaseReturnItemModel>> updatePurchaseReturnItemsData(@Valid @RequestBody PurchaseReturnItemModel PurchaseReturnItemModel) {

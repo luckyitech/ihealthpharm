@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import com.ihealthpharm.masters.model.AuditModel;
+import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.SupplierModel;
 
@@ -75,6 +76,10 @@ public class CreditNoteModel extends AuditModel{
 	@OneToOne
 	@JoinColumn(name="SUPPLIER_ID")
 	SupplierModel supplierModel;
+	
+	@OneToOne
+	@JoinColumn(name="CUSTOMER_ID")
+	CustomerModel customerModel;
     
     @Column(name = "ACTIVE_S",  columnDefinition = "default 'Y'")
 	private String activeS = "Y";

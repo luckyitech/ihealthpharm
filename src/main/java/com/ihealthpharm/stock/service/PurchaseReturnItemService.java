@@ -9,6 +9,8 @@ import com.ihealthpharm.stock.model.PurchaseReturnItemModel;
 public interface PurchaseReturnItemService {
 
 	PurchaseReturnItemModel savePurchaseReturnItemData(@Valid PurchaseReturnItemModel purchaseReturnItemModel);
+	
+	List<PurchaseReturnItemModel> savePurchaseReturnItems(@Valid List<PurchaseReturnItemModel> purchaseReturnItems);
 
 	PurchaseReturnItemModel updatePurchaseReturnItemData(@Valid PurchaseReturnItemModel purchaseReturnItemModel);
 
