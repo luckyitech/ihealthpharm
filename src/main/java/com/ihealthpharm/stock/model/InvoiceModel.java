@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
@@ -61,27 +62,30 @@ public class InvoiceModel extends AuditModel {
 	private String remarks;
 	
 	//bi-directional many-to-one association to Employee
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="CREATED_BY")
-	private EmployeeModel createdBy;
+	//@OneToOne(fetch=FetchType.LAZY)
+	//@JoinColumn(name="CREATED_BY")
+	@Column(name="CREATED_BY")
+	private Integer createdBy;
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name="APPROVED_DT")
 	private Date approvedDt;
 	
 	//bi-directional many-to-one association to Employee
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="APPROVED_BY")
-	private EmployeeModel approvedBy;
+	//@OneToOne(fetch=FetchType.LAZY)
+	//@JoinColumn(name="APPROVED_BY")
+	@Column(name="APPROVED_BY")
+	private Integer approvedBy;
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name="MODIFIED_DT")
 	private Date modifiedDt;
 	
 	//bi-directional many-to-one association to Employee
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="MODIFIED_BY")
-	private EmployeeModel modifiedBy;
+	//@OneToOne(fetch=FetchType.LAZY)
+	//@JoinColumn(name="MODIFIED_BY")
+	@Column(name="MODIFIED_BY")
+	private Integer modifiedBy;
 	
 	//bi-directional many-to-one association to PaymentType
 	@ManyToOne(fetch=FetchType.LAZY)
