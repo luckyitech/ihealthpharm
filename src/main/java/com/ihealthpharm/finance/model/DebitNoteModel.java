@@ -56,6 +56,12 @@ public class DebitNoteModel extends AuditModel{
   
     @Column(name="REMARKS",length=200)
     private String remarks;
+    
+    @Column(name="APPROVED_BY",length=20)
+    private String approvedBy;
+    
+    @Column(name="APPROVED_DATE")
+    private LocalDate approvedDate;
 
     @Column(name="RETURN_CODE",length=50)
     private String returnCode;

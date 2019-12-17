@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.ihealthpharm.finance.model.AccountPayablesModel;
+import com.ihealthpharm.sales.model.SalesModel;
 import com.ihealthpharm.stock.model.InvoiceModel;
 
 @Repository
@@ -18,4 +19,7 @@ public interface AccountPayablesRepository extends JpaRepository<AccountPayables
 	
 	@Query("select i from invoice i inner join supplier d on i.supplierModel=d.supplierId where i.supplierModel.supplierId=:supplier")
 	List<InvoiceModel> getAllInvoicesBySupplierId(@Param ("supplier")Integer supplier);
+	
+	/*@Query("select i from sales i inner join customer c on i.customerModel.customerId=c.customerId where i.customerModel.customerId=:customerId")
+	List<SalesModel> getAllCustomersByCustomerId(@Param ("customerId")Integer customerId);*/
 }
