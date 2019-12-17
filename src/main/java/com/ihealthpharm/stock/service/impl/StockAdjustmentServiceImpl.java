@@ -72,6 +72,7 @@ public class StockAdjustmentServiceImpl implements StockAdjustmentService {
 
 
 		List<StockAdjustmentDTO> result= stockAdjustmentRepo.getStockItemsOnItemCodes(searchTerm,batch,dates,pharmacyId);
+		   System.out.println(result);
 		return result;
 	}
 
@@ -171,6 +172,7 @@ public class StockAdjustmentServiceImpl implements StockAdjustmentService {
 		}
 
 		List<StockModel> response=stockAdjustmentRepo.getAllStocksMatchWithStockAdjId(batch,date,pharmacyId);
+		System.out.println(response);
 		return response;
 	}
 
