@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -123,6 +124,17 @@ public class PurchaseReturnItemServiceImpl implements PurchaseReturnItemService 
 			throw new IHealthPharmException(purchaseReturnItemsHelper.getNotFoundPurchaseReturnItemMessage(),
 					HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	@Override
+	public List<PurchaseReturnItemModel> savePurchaseReturnItems(@Valid List<PurchaseReturnItemModel> purchaseReturnItems) {
+		List<PurchaseReturnItemModel> purchaseRtnItmList = new ArrayList<PurchaseReturnItemModel>();
+		for (PurchaseReturnItemModel purchaseRtnItems : purchaseReturnItems) {
+			PurchaseReturnItemModel purchaseReturnItemsRes = purchaseReturnItemRepository.save(purchaseRtnItems);
+			purchaseRtnItmList.add(purchaseReturnItemsRes);
+			log.info("PurchaseReturnItems data with ID : " + purchaseReturnItemsRes.getPurchaseReturnItemId() + " saved succesfully");
+		}
+		return purchaseRtnItmList;
 	}
 
 }
