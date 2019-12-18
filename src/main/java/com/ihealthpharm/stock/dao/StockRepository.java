@@ -151,16 +151,16 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 	List<String> findallSBML();
 
 	// stock adjustment searches to get date and batch numbers
-	@Query("select new com.ihealthpharm.stock.dto.StockAdjustmentDTO(b.batchNo)  from stock b  inner join items i on b.item.itemId=i.itemId where i.itemCode like :searchTerm% ")
+	@Query("select new com.ihealthpharm.stock.dto.StockAdjustmentDTO(b.batchNo)  from stock b  inner join items i on b.item.itemId=i.itemId where i.itemCode=:searchTerm")
 	List<StockAdjustmentDTO> findAllBatchesOnCode(@Param("searchTerm") String searchTerm);
 
-	@Query("select new com.ihealthpharm.stock.dto.StockAdjustmentDTO(b.batchNo)  from stock b  inner join items i on b.item.itemId=i.itemId where i.itemName like :searchTerm% ")
+	@Query("select new com.ihealthpharm.stock.dto.StockAdjustmentDTO(b.batchNo)  from stock b  inner join items i on b.item.itemId=i.itemId where i.itemName =:searchTerm")
 	List<StockAdjustmentDTO> findAllBatchesBasedOnName(@Param("searchTerm") String searchTerm);
 	
 	@Query("select new com.ihealthpharm.stock.dto.StockAdjustmentDTO(b.batchNo)  from stock b  inner join items i on b.item.itemId=i.itemId where i.itemDescription =:searchTerm")
 	List<StockAdjustmentDTO> findAllBatchesBasedOnItemDesc(@Param("searchTerm") String searchTerm);
 
-	@Query("select new com.ihealthpharm.stock.dto.StockAdjustmentDTO(b.batchNo) from stock b inner join items i on b.item.itemId=i.itemId where i.itemGenericName.genericName like %:searchTerm% ")
+	@Query("select new com.ihealthpharm.stock.dto.StockAdjustmentDTO(b.batchNo) from stock b inner join items i on b.item.itemId=i.itemId where i.itemGenericName.genericName =:searchTerm ")
 	List<StockAdjustmentDTO> findAllBatchesBasedOnItemGeneric(@Param("searchTerm") String searchTerm);
 
 	@Query("select b.expiryDt from stock b  inner join items i on b.item.itemId=i.itemId inner join items_generic_names ig on i.itemId=ig.itemGenericNameId where i.itemId =:itemId "+ 

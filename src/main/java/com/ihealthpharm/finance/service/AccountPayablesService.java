@@ -23,6 +23,10 @@ public interface AccountPayablesService
 	 void deleteAccountsPayablesById(Integer[] accountPayablesIds);
 	 
 	 List<InvoiceModel> getAllInvoicesBySupplierId(Integer supplierId);
+
+	List<InvoiceModel> getAllInvoicesBySearch(String invoiceNo);
+	 
+	// List<InvoiceModel> getAllCustomersByCustomerId(Integer customerId);
 	 
 	 
 	

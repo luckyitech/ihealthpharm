@@ -119,10 +119,25 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 		}
 	}
 
+
+/*	@Override
+	public List<InvoiceModel> getAllCustomersByCustomerId(Integer customerId) {
+		log.info("given  id :" + customerId);
+	List<InvoiceModel> res=accountPayablesRepository.getAllCustomersByCustomerId(customerId);
+		return res;
+	}
+	*/
+	
 	@Override
 	public List<InvoiceModel> getAllInvoicesBySupplierId(Integer supplierId) {
 		log.info("given  id :" + supplierId);
 		return accountPayablesRepository.getAllInvoicesBySupplierId(supplierId);
+	}
+
+	@Override
+	public List<InvoiceModel> getAllInvoicesBySearch(String invoiceNo) {
+
+		return accountPayablesRepository.getInvoiceBasedOnInvoiceSearch(invoiceNo);
 	}
 	
 }
