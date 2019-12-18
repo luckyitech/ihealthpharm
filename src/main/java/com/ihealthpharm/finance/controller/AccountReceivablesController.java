@@ -112,7 +112,11 @@ public class AccountReceivablesController {
 		return new BaseDto<>(result, accountReceivablesHelper.getRetrieveAccountReceivablesMessage(), OK).respond();
 	}
 	
-	
+	@GetMapping("/getsalesbasedon/SalesNumber")
+	public ResponseEntity<BaseDto<List<SalesModel>>> getSalesBasedOnSalesNumber(@RequestParam String billCode){
+		List<SalesModel> response=accountReceivablesService.getAllSalesBySearch(billCode);
+		return new BaseDto<>(response,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
 	
 	
 }
