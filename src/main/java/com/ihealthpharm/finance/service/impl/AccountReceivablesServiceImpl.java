@@ -17,6 +17,7 @@ import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.finance.service.AccountReceivablesService;
 import com.ihealthpharm.masters.dao.CustomerInsuranceRepository;
 import com.ihealthpharm.sales.model.SalesModel;
+import com.ihealthpharm.stock.model.InvoiceModel;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -151,6 +152,12 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 
 		List<AccountReceivablesModel> response=accountReceivablesRepository.getAccountRecievablesBillId(billId);
 		return response;
+	}
+	
+	@Override
+	public List<SalesModel> getAllSalesBySearch(String billCode) {
+
+		return accountReceivablesRepository.getSalesBasedOnSalesSearch(billCode);
 	}
 	
 

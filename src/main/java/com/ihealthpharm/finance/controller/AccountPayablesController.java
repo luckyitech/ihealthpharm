@@ -22,7 +22,6 @@ import com.ihealthpharm.finance.helper.AccountPayablesHelper;
 import com.ihealthpharm.finance.model.AccountPayablesModel;
 import com.ihealthpharm.finance.service.AccountPayablesService;
 import com.ihealthpharm.sales.helper.SalesHelper;
-import com.ihealthpharm.sales.model.SalesModel;
 import com.ihealthpharm.stock.helper.InvoiceHelper;
 import com.ihealthpharm.stock.model.InvoiceModel;
 
@@ -87,12 +86,12 @@ public class AccountPayablesController {
 		return new BaseDto<>(result, accountPayablesHelper.getRetrieveAccountPayablesMessage(), OK).respond();
 	}
 	
-	/*@GetMapping("/getcustomersbycustomerid")
-	public ResponseEntity<BaseDto<List<SalesModel>>> getAllCustomersBasedOnCustomerId(@RequestParam Integer customerId){
+	/*@GetMapping("/getcustomersbyinvoicesid")
+	public ResponseEntity<BaseDto<List<InvoiceModel>>> getAllCustomersBasedOnCustomerId(@RequestParam Integer customerId){
 		
-		List<SalesModel> result=accountPayablesService.getAllCustomersByCustomerId(customerId);
+		List<InvoiceModel> result=accountPayablesService.getAllCustomersByCustomerId(customerId);
 		
-		return new BaseDto<>(result,salesHelper.getRetrieveSalesMessage(),OK).respond();
+		return new BaseDto<>(result,invoiceHelper.getRetrieveInvoiceMessage(),OK).respond();
 	}*/
 
 	@GetMapping("/getinvoicesbysupplierid")
@@ -100,6 +99,12 @@ public class AccountPayablesController {
 		List<InvoiceModel> result=accountPayablesService.getAllInvoicesBySupplierId(supplierId);
 
 		return new BaseDto<>(result,invoiceHelper.getRetrieveInvoiceMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getinvoicebasedon/InvoiceNumber")
+	public ResponseEntity<BaseDto<List<InvoiceModel>>> getInvoiceBasedOnInvoiceNumber(@RequestParam String invoiceNo){
+		List<InvoiceModel> response=accountPayablesService.getAllInvoicesBySearch(invoiceNo);
+		return new BaseDto<>(response,invoiceHelper.getRetrieveInvoiceMessage(),OK).respond();
 	}
 		
 	
