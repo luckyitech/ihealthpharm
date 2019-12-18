@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.sales.model.SalesModel;
+import com.ihealthpharm.stock.model.InvoiceModel;
 
 public interface AccountReceivablesService
 {
@@ -29,5 +30,7 @@ public interface AccountReceivablesService
 	 List<SalesModel> getAllCustomersByCustomerId(Integer customerId);
 
 	List<AccountReceivablesModel> findAccountReceivablesByBillId(Integer billId);
+	
+	List<SalesModel> getAllSalesBySearch(String billCode);
 	 
 }

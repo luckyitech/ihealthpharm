@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.sales.model.SalesModel;
+import com.ihealthpharm.stock.model.InvoiceModel;
 
 @Repository
 public interface AccountReceivablesRepository extends JpaRepository<AccountReceivablesModel,Integer>
@@ -24,6 +25,9 @@ public interface AccountReceivablesRepository extends JpaRepository<AccountRecei
 	
 	@Query("select s from account_receivables s where s.salesModel.billId=:billId")
 	List<AccountReceivablesModel> getAccountRecievablesBillId( @Param ("billId")Integer billId);
+	
+	@Query("select s from sales s where s.billCode=:billCode")
+	List<SalesModel> getSalesBasedOnSalesSearch(@Param("billCode")String billCode);
 	
 	
 }
