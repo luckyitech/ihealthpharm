@@ -330,7 +330,8 @@ public class QuotationServiceImpl implements QuotationService {
 	
 	@Override
 	public List<ItemSupplierDTO> getItemsBySupplierQuotationId(Integer supplierId, Integer quotationId) {
-		List<ItemSupplierDTO> itemsModels = quotationRepository.getSupplierItemsQuotationId(supplierId, quotationId);
+		System.out.println("Supplier Id:"+supplierId+"     quotationId"+quotationId);
+		List<ItemSupplierDTO> itemsModels = quotationRepository.getSupplierItemsQuotationId( quotationId,supplierId);
 		
 		return itemsModels;
 	}
