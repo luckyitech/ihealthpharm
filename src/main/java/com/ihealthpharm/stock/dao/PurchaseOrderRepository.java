@@ -47,8 +47,9 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrderMode
 			+ " from purchase_order i where i.pharmacyModel.pharmacyId = :pharmacyId ")
 	List<PurchaseOrderModel> getPurchaseOrderByPharmacy(@Param("pharmacyId") Integer pharmacyId);
 	
-	@Query("select new com.ihealthpharm.stock.model.PurchaseOrderModel(i.purchaseOrderId, i.purchaseOrderNo, i.supplierModel.name, i.remarks, i.rejectedDate, "
-			+ " i.modifiedDate, i.approvedDate, i.sentDate, i.creationTimeStamp) from purchase_order i where i.pharmacyModel.pharmacyId = :pharmacyId and i.purchaseOrderStatusModel.status = :status ")
+	@Query("select i from purchase_order i inner join purchase_order_status ps "
+			+ "on i.purchaseOrderStatusModel.purchaseOrderStatusId = ps.purchaseOrderStatusId "
+			+ " where i.pharmacyModel.pharmacyId = :pharmacyId and ps.status = :status ")
 	List<PurchaseOrderModel> getPurchaseOrderByPharmacyAndStatus(@Param("pharmacyId") Integer pharmacyId, @Param("status") String status);
 	
 	@Query("select new com.ihealthpharm.stock.model.PurchaseOrderModel(i.purchaseOrderId, i.purchaseOrderNo, i.supplierModel.name, i.remarks, i.rejectedDate, "
