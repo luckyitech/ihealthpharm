@@ -100,6 +100,8 @@ public class ItemSupplierDTO {
 		this.quantity = quantity;
 	}
 	
+	
+	
 	public ItemSupplierDTO(Integer itemId, String itemCode, String itemName, String itemDescription) {
 		this.itemCode = itemCode;
 		this.itemDescription = itemDescription;
@@ -189,6 +191,20 @@ public class ItemSupplierDTO {
 		this.itemName = itemName;
 		this.itemId = itemsId;
 		this.manufacturerName = manufacturerName;
+	}
+
+	public ItemSupplierDTO(Integer itemId, String itemCode, String itemName, String itemDescription,String formulation,String manufacturerName, 
+			 Integer supplierId,String supplierName,  Integer quantity) {
+		super();
+		this.supplierName = supplierName;
+		this.itemName = itemName;
+		this.manufacturerName = manufacturerName;
+		this.itemDescription = itemDescription;
+		this.itemId = itemId;
+		this.supplierId = supplierId;
+		this.formulation = formulation;
+		this.itemCode = itemCode;
+		this.quantity = quantity;
 	}
 	
 	
