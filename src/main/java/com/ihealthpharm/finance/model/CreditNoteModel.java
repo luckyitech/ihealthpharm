@@ -63,6 +63,9 @@ public class CreditNoteModel extends AuditModel{
     
     @Column(name="APPROVED_DATE")
     private LocalDate approvedDate;
+    
+    @Column(name="STATUS",length=20)
+	private String status;
 
 
     @Column(name="REMARKS",length=200)
