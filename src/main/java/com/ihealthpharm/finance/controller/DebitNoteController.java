@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.finance.dto.CreditCustomerDTO;
 import com.ihealthpharm.finance.helper.DebitNoteHelper;
 import com.ihealthpharm.finance.model.DebitNoteModel;
 import com.ihealthpharm.finance.service.DebitNoteService;
@@ -72,4 +73,14 @@ public class DebitNoteController {
 		DebitNoteModel debitNoteRes= debitNoteService.findDebitById(DebitNoteId);
 		return new BaseDto<>(debitNoteRes,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
 	}
+	
+	@GetMapping("/getCustomers/fromdebit")
+	public ResponseEntity<BaseDto<List<CreditCustomerDTO>>> getCustomersByDebitNote(){
+		List<CreditCustomerDTO> result=debitNoteService.getAllCustomersMappedWithDebit();
+		return new BaseDto<>(result,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
+	}
+	
+	
+	
+	
 }
