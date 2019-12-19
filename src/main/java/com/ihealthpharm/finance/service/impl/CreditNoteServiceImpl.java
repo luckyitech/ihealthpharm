@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.finance.dao.CreditNoteRepository;
+import com.ihealthpharm.finance.dto.CreditCustomerDTO;
 import com.ihealthpharm.finance.helper.CreditNoteHelper;
 import com.ihealthpharm.finance.model.CreditNoteModel;
 import com.ihealthpharm.finance.service.CreditNoteService;
@@ -112,6 +113,11 @@ public class CreditNoteServiceImpl implements CreditNoteService {
 		}catch(NoSuchElementException noSuchElementException) {
 			throw new IHealthPharmException(creditNoteHelper.getNotFoundCreditNoteMessage(), HttpStatus.NOT_FOUND);
 		}
+	}
+
+	@Override
+	public List<CreditCustomerDTO> getAllCustomersFromCreditNotes() {
+		return creditNoteRepo.getCustomersFromCreditNote();
 	}
    
 }
