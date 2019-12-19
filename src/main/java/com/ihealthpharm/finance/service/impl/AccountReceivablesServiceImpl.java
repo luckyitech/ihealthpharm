@@ -12,12 +12,12 @@ import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.finance.dao.AccountReceivablesRepository;
+import com.ihealthpharm.finance.dto.CreditCustomerDTO;
 import com.ihealthpharm.finance.helper.AccountReceivablesHelper;
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.finance.service.AccountReceivablesService;
 import com.ihealthpharm.masters.dao.CustomerInsuranceRepository;
 import com.ihealthpharm.sales.model.SalesModel;
-import com.ihealthpharm.stock.model.InvoiceModel;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -159,6 +159,8 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 
 		return accountReceivablesRepository.getSalesBasedOnSalesSearch(billCode);
 	}
+
+	
 	
 
 }

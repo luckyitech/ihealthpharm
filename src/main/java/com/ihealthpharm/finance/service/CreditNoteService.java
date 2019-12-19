@@ -2,6 +2,7 @@ package com.ihealthpharm.finance.service;
 
 import java.util.List;
 
+import com.ihealthpharm.finance.dto.CreditCustomerDTO;
 import com.ihealthpharm.finance.model.CreditNoteModel;
 
 public interface CreditNoteService
@@ -20,10 +21,7 @@ public interface CreditNoteService
     CreditNoteModel updateCreditData(CreditNoteModel creditNoteModel);
     
     List<CreditNoteModel> updateListOfCreditData(List<CreditNoteModel> creditNoteModel);
-    
-   
-       
-    
-    
+
+	List<CreditCustomerDTO> getAllCustomersFromCreditNotes();
 	
 }
