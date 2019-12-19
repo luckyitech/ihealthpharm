@@ -53,7 +53,6 @@ public class DebitNoteModel extends AuditModel{
 
     @Column(name="INVOICE_ID",length=11)
     private String invoiceId;
-
   
     @Column(name="REMARKS",length=200)
     private String remarks;
