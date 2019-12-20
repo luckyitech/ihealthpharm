@@ -15,15 +15,13 @@ import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.SupplierModel;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 
 @Entity (name="CREDIT_NOTE")
-@Getter
-@Setter
-@ToString
+@Data
+@EqualsAndHashCode(of="creditNoteId",callSuper=false)
 public class CreditNoteModel extends AuditModel{
     
     /**
@@ -63,6 +61,9 @@ public class CreditNoteModel extends AuditModel{
     
     @Column(name="APPROVED_DATE")
     private LocalDate approvedDate;
+    
+    @Column(name="STATUS",length=20)
+	private String status;
 
 
     @Column(name="REMARKS",length=200)

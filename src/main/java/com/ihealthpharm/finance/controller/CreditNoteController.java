@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.finance.dto.CreditCustomerDTO;
 import com.ihealthpharm.finance.helper.CreditNoteHelper;
 import com.ihealthpharm.finance.model.CreditNoteModel;
 import com.ihealthpharm.finance.service.CreditNoteService;
@@ -77,4 +78,11 @@ public class CreditNoteController {
 		System.out.println(creditNoteRes);
 		return new BaseDto<>(creditNoteRes,creditNoteHelper.getRetriveCreditNoteMessage(),OK).respond();
 	}
+	
+	@GetMapping("/getcustomersfrom/creditnotes")
+	public ResponseEntity<BaseDto<List<CreditCustomerDTO>>> getCustomers(){
+		List<CreditCustomerDTO> response=creditNoteService.getAllCustomersFromCreditNotes();
+		return new BaseDto<>(response,creditNoteHelper.getRetriveCreditNoteMessage(),OK).respond();
+	}
+	
 	}

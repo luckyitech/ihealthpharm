@@ -2,6 +2,7 @@ package com.ihealthpharm.finance.service;
 
 import java.util.List;
 
+import com.ihealthpharm.finance.dto.CreditCustomerDTO;
 import com.ihealthpharm.finance.model.DebitNoteModel;
 
 public interface DebitNoteService
@@ -19,4 +20,6 @@ public interface DebitNoteService
     void deleteDebitById(Integer debitNoteId);
     
     void deleteMultipleDebit(Integer[] debitNoteId);
+
+	List<CreditCustomerDTO> getAllCustomersMappedWithDebit();
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.finance.dto.CreditCustomerDTO;
 import com.ihealthpharm.finance.helper.AccountReceivablesHelper;
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.finance.service.AccountReceivablesService;
@@ -117,6 +118,5 @@ public class AccountReceivablesController {
 		List<SalesModel> response=accountReceivablesService.getAllSalesBySearch(billCode);
 		return new BaseDto<>(response,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
-	
 	
 }
