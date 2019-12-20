@@ -134,97 +134,84 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 		Row dataRow4=sheet.createRow(currentRow+6);
 		Row dataRow5=sheet.createRow(currentRow+7);
 			
-		Cell cell = dataRow.createCell(0);
-		Cell cell1=dataRow1.createCell(0);
-		Cell cell2=dataRow2.createCell(0);
-		Cell cell3=dataRow3.createCell(0);
-		Cell cell4=dataRow4.createCell(0);
-		Cell cell5=dataRow5.createCell(0);
+		Cell cell_cash_amount = dataRow.createCell(0);
+		Cell cell_card_amount=dataRow1.createCell(0);
+		Cell cell_credit_amount=dataRow2.createCell(0);
+		Cell cell_mpesa_amount=dataRow3.createCell(0);
+		Cell cell_cheque_amount=dataRow4.createCell(0);
+		Cell cell_insurance_amount=dataRow5.createCell(0);
 		
-		cell.setCellValue("");
-		cell1.setCellValue("");
-		cell2.setCellValue("");
-		cell3.setCellValue("");
-		cell4.setCellValue("");
-		cell5.setCellValue("");
+		cell_cash_amount.setCellValue("");
+		cell_card_amount.setCellValue("");
+		cell_credit_amount.setCellValue("");
+		cell_mpesa_amount.setCellValue("");
+		cell_cheque_amount.setCellValue("");
+		cell_insurance_amount.setCellValue("");
 		
-		/*for (Map<String, Object> map : responseList) {
-			if(map.containsValue("CASH")) {
-				System.out.println("TOTAL Cash AMT:"+totalCashAmt);
-				cell = dataRow.createCell(5);
-				cell.setCellValue("Cash: ");
-				cell = dataRow.createCell(6);
-				cell.setCellValue("Total Cash Amount : ");
-				cell = dataRow.createCell(7);
-				cell.setCellValue(totalCashAmt);
-			}
-			if(map.containsValue("CARD")) {
-				System.out.println("TOTAL Card AMT:"+totalCardAmt);
-				cell1 = dataRow.createCell(5);
-				cell1.setCellValue("Card: ");
-				cell1 = dataRow.createCell(6);
-				cell1.setCellValue("Total Card Amount : ");
-				cell1 = dataRow.createCell(7);
-				cell1.setCellValue(totalCardAmt);
-			}
-			if(map.containsValue("M-PESA")) {
-				System.out.println("TOTAL M-PESA AMT:"+totalMPesaAmt);
-				cell2 = dataRow.createCell(5);
-				cell2.setCellValue("M-Pesa: ");
-				cell2 = dataRow.createCell(6);
-				cell2.setCellValue("Total M-Pesa Amount : ");
-				cell2 = dataRow.createCell(7);
-				cell2.setCellValue(totalMPesaAmt);
-			}
-			if(map.containsValue("CREDIT")) {
-				System.out.println("TOTAL Credit AMT:"+totalCreditAmt);
-				cell3 = dataRow.createCell(5);
-				cell3.setCellValue("Credit: ");
-				cell3 = dataRow.createCell(6);
-				cell3.setCellValue("Total Credit Amount : ");
-				cell3 = dataRow.createCell(7);
-				cell3.setCellValue(totalCreditAmt);
-			}
-			if(map.containsValue("CHEQUE")) {
-				System.out.println("TOTAL Cheque AMT:"+totalChequeAmt);
-				cell4 = dataRow.createCell(5);
-				cell4.setCellValue("Cheque: ");
-				cell4 = dataRow.createCell(6);
-				cell4.setCellValue("Total Cheque Amount : ");
-				cell4 = dataRow.createCell(7);
-				cell4.setCellValue(totalChequeAmt);
-			}
-	}*/
+	
 		
-				cell = dataRow.createCell(6);
-				cell1=dataRow1.createCell(6);
-				cell2=dataRow2.createCell(6);
-				cell3=dataRow3.createCell(6);
-				cell4=dataRow4.createCell(6);
-				cell5=dataRow5.createCell(6);
+				cell_cash_amount = dataRow.createCell(6);
+				cell_card_amount=dataRow1.createCell(6);
+				cell_credit_amount=dataRow2.createCell(6);
+				cell_mpesa_amount=dataRow3.createCell(6);
+				cell_cheque_amount=dataRow4.createCell(6);
+				cell_insurance_amount=dataRow5.createCell(6);
 
+				cell_cash_amount.setCellValue("CASH AMOUNT");
+				cell_card_amount.setCellValue("CARD AMOUNT");
+				cell_credit_amount.setCellValue("CREDIT AMOUNT");
+				cell_mpesa_amount.setCellValue("M-PESA AMOUNT");
+				cell_cheque_amount.setCellValue("CHEQUE AMOUNT");
+				cell_insurance_amount.setCellValue("INSURANCE AMOUNT");
 				
-				cell.setCellValue("CASH AMOUNT");
-				cell1.setCellValue("CARD AMOUNT");
-				cell2.setCellValue("CREDIT AMOUNT");
-				cell3.setCellValue("M-PESA AMOUNT");
-				cell4.setCellValue("CHEQUE AMOUNT");
-				cell5.setCellValue("INSURANCE AMOUNT");
+				cell_cash_amount = dataRow.createCell(7);
+				cell_card_amount=dataRow1.createCell(7);
+				cell_credit_amount=dataRow2.createCell(7);
+				cell_mpesa_amount=dataRow3.createCell(7);
+				cell_cheque_amount=dataRow4.createCell(7);
+				cell_insurance_amount=dataRow5.createCell(7);
 				
-				cell = dataRow.createCell(7);
-				cell1=dataRow1.createCell(7);
-				cell2=dataRow2.createCell(7);
-				cell3=dataRow3.createCell(7);
-				cell4=dataRow4.createCell(7);
-				cell5=dataRow5.createCell(7);
+				if(NumberUtils.isNumber(String.valueOf(totalCashAmt))) {
+					cell_cash_amount.setCellType(CellType.NUMERIC);		
+					cell_cash_amount.setCellValue(Double.parseDouble(String.valueOf(totalCashAmt)));
+				}else {	
+					cell_cash_amount.setCellValue(String.valueOf(totalCashAmt));
+				}
 				
-				cell.setCellValue(df2.format(totalCashAmt));
-				cell1.setCellValue(df2.format(totalCardAmt));
-				cell2.setCellValue(df2.format(totalCreditAmt));
-				cell3.setCellValue(df2.format(totalMPesaAmt));
-				cell4.setCellValue(df2.format(totalChequeAmt));
-				cell5.setCellValue(df2.format(totalInsuranceAmt));
-				//cell.setCellStyle(borderStyle);
+				if(NumberUtils.isNumber(String.valueOf(totalCardAmt))) {
+					cell_card_amount.setCellType(CellType.NUMERIC);		
+					cell_card_amount.setCellValue(Double.parseDouble(String.valueOf(totalCardAmt)));
+				}else {	
+				   cell_card_amount.setCellValue(String.valueOf(totalCardAmt));
+				}
+				
+				if(NumberUtils.isNumber(String.valueOf(totalCreditAmt))) {
+					cell_credit_amount.setCellType(CellType.NUMERIC);		
+					cell_credit_amount.setCellValue(Double.parseDouble(String.valueOf(totalCreditAmt)));
+				}else {	
+				   cell_credit_amount.setCellValue(String.valueOf(totalCreditAmt));
+				}
+				
+				if(NumberUtils.isNumber(String.valueOf(totalMPesaAmt))) {
+					cell_mpesa_amount.setCellType(CellType.NUMERIC);		
+					cell_mpesa_amount.setCellValue(Double.parseDouble(String.valueOf(totalMPesaAmt)));
+				}else {
+				   cell_mpesa_amount.setCellValue(String.valueOf(totalMPesaAmt));
+				}
+	
+				if(NumberUtils.isNumber(String.valueOf(totalChequeAmt))) {
+					cell_cheque_amount.setCellType(CellType.NUMERIC);		
+					cell_cheque_amount.setCellValue(Double.parseDouble(String.valueOf(totalChequeAmt)));
+				}else {	
+				   cell_cheque_amount.setCellValue(String.valueOf(totalChequeAmt));
+				}
+				
+				if(NumberUtils.isNumber(String.valueOf(totalInsuranceAmt))) {
+					cell_insurance_amount.setCellType(CellType.NUMERIC);		
+					cell_insurance_amount.setCellValue(Double.parseDouble(String.valueOf(totalInsuranceAmt)));
+				}else {	
+				   cell_insurance_amount.setCellValue(String.valueOf(totalInsuranceAmt));
+				}
 				
 			}
 			
@@ -315,20 +302,47 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 				value = rowData.containsKey("AMOUNT") ? rowData.get("AMOUNT") : "0.00";
 				sheet.autoSizeColumn(5);
 				cell = dataRow.createCell(5);
-				cell.setCellValue(String.valueOf(value));
+				if(NumberUtils.isNumber(String.valueOf(value))) {
+					System.out.println("Integer Value is : "+value);
+					cell.setCellType(CellType.NUMERIC);		
+					cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				}else {	
+					System.out.println("String Value is : "+value);
+				   cell.setCellValue(String.valueOf(value));
+				}
+				//cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 
 				
 				value = rowData.containsKey("PAID_AMOUNT") ? rowData.get("PAID_AMOUNT") : "";
 				sheet.autoSizeColumn(6);
 				cell = dataRow.createCell(6);
-				cell.setCellValue(String.valueOf(value));
+				
+				if(NumberUtils.isNumber(String.valueOf(value))) {
+					System.out.println("Integer Value is : "+value);
+					cell.setCellType(CellType.NUMERIC);		
+					cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				}else {	
+					System.out.println("String Value is : "+value);
+				   cell.setCellValue(String.valueOf(value));
+				}
+				//cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("BALANCE_AMOUNT") ? rowData.get("BALANCE_AMOUNT") : "";
 				sheet.autoSizeColumn(7);
 				cell = dataRow.createCell(7);
-				cell.setCellValue(String.valueOf(value));
+				System.out.println("Outside if Value is : "+String.valueOf(value));
+				
+				if(NumberUtils.isNumber(String.valueOf(value))) {
+					System.out.println("Integer Value is : "+value);
+					cell.setCellType(CellType.NUMERIC);		
+					cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				}else {	
+					System.out.println("String Value is : "+value);
+				   cell.setCellValue(String.valueOf(value));
+				}
+				//cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("PAYMENT_STATUS") ? rowData.get("PAYMENT_STATUS") : "";

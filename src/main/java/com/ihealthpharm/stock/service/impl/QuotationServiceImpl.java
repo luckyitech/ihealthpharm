@@ -353,8 +353,8 @@ public class QuotationServiceImpl implements QuotationService {
 
 	@Override
 	public List<ItemSupplierDTO> getItemsByItemCodeOrItemNameorItemDesc(String itemCode, String itemName,
-			String itemDescription) {
-		return quotationRepository.getItemsByItemCodeOrItemNameorItemDesc(itemCode, itemName, itemDescription);
+			String itemDescription,Integer supplierId) {
+		return quotationRepository.getItemsByItemCodeOrItemNameorItemDesc(itemCode, itemName, itemDescription,supplierId);
 	}
 
 	@Override
