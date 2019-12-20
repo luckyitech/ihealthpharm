@@ -115,10 +115,10 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 			+ " from items_supplier id "
 			+ " join supplier d on id.suppliersId = d.supplierId "
 			+ " join items i on i.itemId = id.itemsId "
-			+ " where id.activeS = 'Y' and "
+			+ " where id.activeS = 'Y' and id.suppliersId = :supplierId and"
 			+ " (i.itemCode like %:itemCode%  or i.itemName like %:itemName% or i.itemDescription like %:itemDescription% ) ")
 	List<ItemSupplierDTO> getItemsByItemCodeOrItemNameorItemDesc(@Param("itemCode") String itemCode, @Param("itemName") String itemName, 
-			@Param("itemDescription") String itemDescription);
+			@Param("itemDescription") String itemDescription,@Param("supplierId") Integer supplierId);
 	
 //	@Query("select new com.ihealthpharm.stock.model.QuotationModel(q.quotationId, q.quotationNo, "
 //			+ "q.requestedName, q.createdName, q.creationTimeStamp,q.quotationExpiryDt) "
