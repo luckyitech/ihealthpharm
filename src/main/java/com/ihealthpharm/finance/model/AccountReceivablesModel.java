@@ -61,12 +61,8 @@ public class AccountReceivablesModel extends AuditModel{
 	@Column(name="STATUS",length=20)
 	private String status;
 
-
-
 	@Column(name="CREDIT_DAYS",length=11)
 	private Integer creditDays;
-
-
 	
 	@Column(name = "CASH_AMOUNT", length = 25)
 	private Float cashAmount;
