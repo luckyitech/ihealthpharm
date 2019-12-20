@@ -494,8 +494,8 @@ public class QuotationController {
 	 */
 	@GetMapping("/getitemsbyitemcodeoritemnameoritemdesc")
 	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsByItemCodeOrItemNameOrItemDesc(@RequestParam(required=false) String itemCode, 
-			@RequestParam(required=false) String itemName, @RequestParam(required=false) String itemDescription) {
-		List<ItemSupplierDTO> result = quotationService.getItemsByItemCodeOrItemNameorItemDesc(itemCode, itemName, itemDescription);
+			@RequestParam(required=false) String itemName, @RequestParam(required=false) String itemDescription,@RequestParam(required=true) Integer supplierId) {
+		List<ItemSupplierDTO> result = quotationService.getItemsByItemCodeOrItemNameorItemDesc(itemCode, itemName, itemDescription,supplierId);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 	
