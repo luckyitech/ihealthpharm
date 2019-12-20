@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.EmployeeAccessRepository;
 import com.ihealthpharm.masters.dao.EmployeeRepository;
+import com.ihealthpharm.masters.dto.EmployeeNameAndAcessDTO;
 import com.ihealthpharm.masters.helper.EmployeeHelper;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.service.EmployeeService;
@@ -119,6 +120,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public List<EmployeeModel> findEmployeeByFirstNameAndLastName(String name) {
 		return employeeRepository.findByFirstNameOrLastName(name);
+	}
+
+	@Override
+	public List<EmployeeNameAndAcessDTO> getAllEmployeesWithAccess() {
+		return employeeRepository.getAllEmployeesHavingAccess();
 	}
 	
 }
