@@ -12,6 +12,7 @@ import javax.persistence.OneToOne;
 
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.CustomerModel;
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.SupplierModel;
 
@@ -56,11 +57,16 @@ public class CreditNoteModel extends AuditModel{
     @Column(name="INVOICE_ID",length=11)
     private String invoiceId;  
     
-    @Column(name="APPROVED_BY",length=20)
-    private String approvedBy;
+
+    @OneToOne
+    @JoinColumn(name="APPROVED_BY")
+    private EmployeeModel approvedBy;
     
-    @Column(name="APPROVED_DATE")
-    private LocalDate approvedDate;
+    @Column(name="APPROVED_BY_EMP",length=20)
+    private String approvedByPin;
+    
+    @Column(name="APPROVED_Pin",length=4)
+    private String approvedPin;
     
     @Column(name="STATUS",length=20)
 	private String status;

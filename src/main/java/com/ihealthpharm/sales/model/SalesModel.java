@@ -68,6 +68,9 @@ public class SalesModel {
 
 	@Column(name = "CREDIT_CARD_NO", length = 20)
 	private String creditCardNo;
+	
+	@Column(name = "TAXNO", length = 50)
+	private String creditCardAuthNo;
 
 	@Column(name = "CUSTOMER_NM", length = 100)
 	private String customerNm;
