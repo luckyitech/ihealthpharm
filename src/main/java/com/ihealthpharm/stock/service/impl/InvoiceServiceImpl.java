@@ -84,7 +84,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 		accountPayablesModel.setTotalInvoiceAmount(invoiceModelres.getInvoiceAmount().floatValue());
 		//accountPayablesModel.setPaymentType("");
 		accountPayablesModel.setPaymentNumber("");
-		accountPayablesModel.setStatus("");
+		accountPayablesModel.setSelectedStatus("");
 		
 		AccountPayablesModel accountPayablesModelres = accountPayablesRepository.save(accountPayablesModel);
 		
@@ -132,16 +132,19 @@ public class InvoiceServiceImpl implements InvoiceService {
 			historyModel.setSaleDiscountAmount(it.getSaleDiscountAmount());
 			historyModel.setMargin(it.getMargin());
 			historyModel.setSupplier(invoiceModelres.getSupplierModel());
-			
+			System.out.println(invoiceModelres.getPurchaseReturnModel());
 			it.setInvoice(invoiceModelres);
+			
 			invoiceItemRepository.save(it);
 			
 			stockRepository.save(stockModel);
 			stockHistoryRepository.save(historyModel);
 		}
-		
+		System.out.println("----------------------------------------------------------");
+		System.out.println(purchaseReturnModel);
+		System.out.println("----------------------------------------------------------");
 		if(purchaseReturnModel != null && purchaseReturnModel.getPurchaseReturnNo() != null) {
-			
+			System.out.println("in if condition");
 			purchaseReturnModel.setInvoiceModel(invoiceModelres);
 			PurchaseReturnModel returnModel = purchaseReturnRepository.save(purchaseReturnModel);
 			

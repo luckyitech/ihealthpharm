@@ -96,6 +96,9 @@ public class AccountPayablesModel extends AuditModel {
 	
 	@Column(name="SOURCE_ID",length=11)
 	private String source;
+	
+	@Column(name="SOURCE_REF",length=20)
+	private String sourceRef;
 
 	@OneToOne
 	@JoinColumn(name="SUPPLIER_ID")
@@ -104,4 +107,7 @@ public class AccountPayablesModel extends AuditModel {
 	@OneToOne
 	@JoinColumn(name="PHARMACY_ID")
 	private PharmacyModel pharmacyModel;
+	
+	
+	
 }

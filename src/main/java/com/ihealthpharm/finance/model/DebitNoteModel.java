@@ -74,8 +74,7 @@ public class DebitNoteModel extends AuditModel{
     @Column(name="STATUS",length=20)
    	private String selectedStatus;
 
-    @Column(name="RETURN_CODE",length=50)
-    private String returnCode;
+ 
 
     @Column(name="PURCHASE_RETURN_TYPE",length=20)
     private String purchaseReturnType;

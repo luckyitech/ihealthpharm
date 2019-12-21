@@ -279,13 +279,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		log.info("Pharmacy Id: "+ pharmacyId+" Status "+status);
 		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderRepository.getPurchaseOrderByPharmacyAndStatus(pharmacyId, status);
 		
-		for(PurchaseOrderModel q : purchaseOrderModels) {
+		/*for(PurchaseOrderModel q : purchaseOrderModels) {
 			q.setCreatedName(purchaseorderRepository.createdPurchaseOrderUser(q.getPurchaseOrderId()));
 			q.setModifiedName(purchaseorderRepository.modifiedPurchaseOrderUser(q.getPurchaseOrderId()));
 			q.setRejectedName(purchaseorderRepository.rejectedPurchaseOrderUser(q.getPurchaseOrderId()));
 			q.setApprovedName(purchaseorderRepository.approvedPurchaseOrderUser(q.getPurchaseOrderId()));
 			q.setSentName(purchaseorderRepository.sentPurchaseOrderUser(q.getPurchaseOrderId()));
-		}
+		}*/
 		
 		return purchaseOrderModels;
 	}
