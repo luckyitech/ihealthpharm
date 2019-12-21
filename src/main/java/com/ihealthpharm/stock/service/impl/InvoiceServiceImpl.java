@@ -81,7 +81,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 		AccountPayablesModel accountPayablesModel = new AccountPayablesModel();
 		accountPayablesModel.setPharmacyModel(invoiceModelres.getPharmacy());
 		accountPayablesModel.setSupplierModel(invoiceModelres.getSupplierModel());
-		accountPayablesModel.setTotalInvoiceAmount(invoiceModelres.getInvoiceAmount().floatValue());
+		accountPayablesModel.setTotalInvoiceAmount(invoiceModelres.getInvoiceAmount() != null?invoiceModelres.getInvoiceAmount() != null?invoiceModelres.getInvoiceAmount().floatValue():0:0);
 		//accountPayablesModel.setPaymentType("");
 		accountPayablesModel.setPaymentNumber("");
 		accountPayablesModel.setSelectedStatus("");
@@ -92,11 +92,11 @@ public class InvoiceServiceImpl implements InvoiceService {
 		accountPayablesInvoicesModel.setAccountPayablesModel(accountPayablesModelres);
 		accountPayablesInvoicesModel.setPharmacyModel(invoiceModelres.getPharmacy());
 		accountPayablesInvoicesModel.setSupplierModel(invoiceModelres.getSupplierModel());
-		accountPayablesInvoicesModel.setInvoiceAmount(invoiceModelres.getInvoiceAmount().floatValue());
+		accountPayablesInvoicesModel.setInvoiceAmount(invoiceModelres.getInvoiceAmount() != null?invoiceModelres.getInvoiceAmount().floatValue():0);
 		accountPayablesInvoicesModel.setCreditNoteAmount(0f);
 		accountPayablesInvoicesModel.setDebitNoteAmount(0f);
-		accountPayablesInvoicesModel.setAmountToBePaid(invoiceModelres.getInvoiceAmount().floatValue());
-		accountPayablesInvoicesModel.setAdvance(invoiceModel.getAdvance().floatValue());
+		accountPayablesInvoicesModel.setAmountToBePaid(invoiceModelres.getInvoiceAmount() != null?invoiceModelres.getInvoiceAmount().floatValue():0);
+		accountPayablesInvoicesModel.setAdvance(invoiceModel.getAdvance() != null ?invoiceModel.getAdvance().floatValue():0);
 		accountPayablesInvoicesModel.setInvoiceNumber(0f);
 		
 		accountPayablesInvoicesRepository.save(accountPayablesInvoicesModel);
@@ -109,14 +109,20 @@ public class InvoiceServiceImpl implements InvoiceService {
 			stockModel.setBatchNo(it.getBatchNo());
 			stockModel.setPharmacy(invoiceModelres.getPharmacy());
 			stockModel.setItem(it.getItemsModel());
-			stockModel.setQuantity(it.getTotalQuantity());
+			stockModel.setQuantity(it.getQuantityApproved());
 			stockModel.setManufactureDt(it.getManufactureDt());
 			stockModel.setExpiryDt(it.getExpiryDt());
 			stockModel.setUnitSaleRate(it.getUnitSaleRate());
+			stockModel.setSaleDiscountPercentage(it.getSaleDiscountPercentage());
+			stockModel.setUnitPurchaseRate(it.getUnitRate());
+			
 			stockModel.setMrp(it.getMrp());
+			stockModel.setPack(it.getPack());
 			stockModel.setSaleDiscountPercentage(it.getSaleDiscountPercentage());
 			stockModel.setSaleDiscountAmount(it.getSaleDiscountAmount());
 			stockModel.setMargin(it.getMargin());
+			stockModel.setTaxCategoryModel(it.getTax());
+			stockModel.setVat(it.getTax().getCategoryValue() != null ?it.getTax().getCategoryValue().doubleValue():0);
 			stockModel.setSupplier(invoiceModelres.getSupplierModel());
 			
 			historyModel.setInvoice(invoiceModelres);
@@ -132,7 +138,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 			historyModel.setSaleDiscountAmount(it.getSaleDiscountAmount());
 			historyModel.setMargin(it.getMargin());
 			historyModel.setSupplier(invoiceModelres.getSupplierModel());
-			System.out.println(invoiceModelres.getPurchaseReturnModel());
+			
 			it.setInvoice(invoiceModelres);
 			
 			invoiceItemRepository.save(it);
@@ -140,9 +146,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 			stockRepository.save(stockModel);
 			stockHistoryRepository.save(historyModel);
 		}
-		System.out.println("----------------------------------------------------------");
-		System.out.println(purchaseReturnModel);
-		System.out.println("----------------------------------------------------------");
+		
 		if(purchaseReturnModel != null && purchaseReturnModel.getPurchaseReturnNo() != null) {
 			System.out.println("in if condition");
 			purchaseReturnModel.setInvoiceModel(invoiceModelres);

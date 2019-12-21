@@ -86,11 +86,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		purchaseorder.setSentBy(sentBy);
 		
 		PurchaseOrderModel purchaseorderRes = purchaseorderRepository.save(purchaseorder);
-		
-		for(PurchaseOrderItemsModel p : itemsModels) {
-			p.setPurchaseOrderModel(purchaseorderRes);
-			purchaseOrderItemsRepository.save(p);
+		if(itemsModels != null)
+		{
+			for(PurchaseOrderItemsModel p : itemsModels) {
+				p.setPurchaseOrderModel(purchaseorderRes);
+				purchaseOrderItemsRepository.save(p);
+			}
 		}
+		
 		
 		log.info("PurchaseOrder data with ID : " + purchaseorderRes.getPurchaseOrderId() + " Saved succesfully");
 		return purchaseorderRes;
