@@ -41,7 +41,7 @@ public class PurchaseOrderItemsModel extends AuditModel {
 	private Integer auditId;
 
 	@Column(name = "DISCOUNT_PERCENTAGE")
-	private Float discount_percentage;
+	private Float discountPercentage;
 
 	@OneToOne
 	@JoinColumn(name = "TAX")
