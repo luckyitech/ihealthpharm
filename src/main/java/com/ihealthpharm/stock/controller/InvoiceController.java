@@ -60,7 +60,7 @@ public class InvoiceController {
 	 */
 	@PostMapping("/save/invoice")
 	public ResponseEntity<BaseDto<InvoiceModel>> saveInvoice(@Valid @RequestBody InvoiceModel invoiceModel) {
-		log.info("Request Object insert is: "+ invoiceModel.toString());
+		//log.info("Request Object insert is: "+ invoiceModel.toString());
 		PurchaseReturnModel purchaseReturnModel = invoiceModel.getPurchaseReturnModel();
 		InvoiceModel model = invoiceService.saveInvoice(invoiceModel, purchaseReturnModel);
 		model.setInvoiceItems(null);
