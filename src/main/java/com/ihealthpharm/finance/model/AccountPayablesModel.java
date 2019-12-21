@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import com.ihealthpharm.masters.model.AuditModel;
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.SupplierModel;
 
@@ -44,7 +45,14 @@ public class AccountPayablesModel extends AuditModel {
 	private String paymentNumber;
 
 	@Column(name="STATUS",length=20)
-	private String status;
+	private String selectedStatus;
+	
+	   @OneToOne
+	    @JoinColumn(name="APPROVED_BY")
+	    private EmployeeModel approvedBy;
+	   
+	   @Column(name="APPROVED_Pin",length=4)
+	    private String approvedPin;
 
 	@Column(name="TOTAL_INVOICE_AMOUNT")
 	private Float totalInvoiceAmount;

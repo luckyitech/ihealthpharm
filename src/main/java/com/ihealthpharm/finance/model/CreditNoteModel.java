@@ -63,10 +63,13 @@ public class CreditNoteModel extends AuditModel{
     private EmployeeModel approvedBy;
     
     @Column(name="APPROVED_BY_EMP",length=20)
-    private String approvedByPin;
+    private String approvedByEmp;
     
     @Column(name="APPROVED_Pin",length=4)
     private String approvedPin;
+    
+    @Column(name="APPROVED_DATE")
+    private LocalDate approvedDate;
     
     @Column(name="STATUS",length=20)
 	private String status;
