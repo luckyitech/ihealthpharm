@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import com.ihealthpharm.masters.model.AuditModel;
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.sales.model.SalesModel;
 import com.ihealthpharm.stock.model.PaymentTypeModel;
@@ -88,6 +89,16 @@ public class AccountReceivablesModel extends AuditModel{
 
 	@Column(name = "PAYMENT_STATUS", length = 20)
 	private String paymentStatus;
+
+	@OneToOne
+	@JoinColumn(name="APPROVED_BY")
+	private EmployeeModel approvedBy;
+
+
+	@Column(name="SOURCE_REF",length=20)
+	private String SourceRef;
+
+
 
 	@OneToOne
 	@JoinColumn(name="PHARMACY_ID")
