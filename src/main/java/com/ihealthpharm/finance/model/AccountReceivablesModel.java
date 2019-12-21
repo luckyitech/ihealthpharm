@@ -13,6 +13,7 @@ import javax.persistence.OneToOne;
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.sales.model.SalesModel;
+import com.ihealthpharm.stock.model.PaymentTypeModel;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -36,8 +37,12 @@ public class AccountReceivablesModel extends AuditModel{
 	@Column(name="AUDIT_ID",length=11)
 	private Integer auditId;
 
-	@Column(name="PAYMENT_TYPE",length=30)
-	private String paymentType;
+	/*@Column(name="PAYMENT_TYPE",length=30)
+	private String paymentType;*/
+
+	@OneToOne
+	@JoinColumn(name="PAYMENT_TYPE_ID")
+	private PaymentTypeModel paymentTypeId;
 
 	@Column(name="RECEIPT_DATE",length=25)
 	private LocalDate receiptDate;
@@ -45,13 +50,9 @@ public class AccountReceivablesModel extends AuditModel{
 	@Column(name="RECEIPT_NO",length=25)
 	private String receiptNumber;
 
-	/*	@Column(name="SOURCE_TYPE",length=20)
+	@Column(name="SOURCE_TYPE",length=30)
 	private String sourceType;
 
-
-	@Column(name="SOURCE_VALUE",length=20)
-	private String sourceValue;*/
-	
 	@Column(name="SOURCE_ID",length=11)
 	private String source;
 
@@ -63,7 +64,7 @@ public class AccountReceivablesModel extends AuditModel{
 
 	@Column(name="CREDIT_DAYS",length=11)
 	private Integer creditDays;
-	
+
 	@Column(name = "CASH_AMOUNT", length = 25)
 	private Float cashAmount;
 
@@ -87,11 +88,6 @@ public class AccountReceivablesModel extends AuditModel{
 
 	@Column(name = "PAYMENT_STATUS", length = 20)
 	private String paymentStatus;
-
-
-	@OneToOne
-	@JoinColumn(name="BILL_ID")
-	SalesModel salesModel;
 
 	@OneToOne
 	@JoinColumn(name="PHARMACY_ID")
