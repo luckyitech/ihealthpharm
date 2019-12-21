@@ -64,6 +64,12 @@ public class CreditNoteModel extends AuditModel{
     @JoinColumn(name="APPROVED_BY")
     private EmployeeModel approvedBy;
     
+    @Column(name="APPROVED_BY_EMP",length=20)
+    private String approvedByEmp;
+    
+    @Column(name="APPROVED_Pin",length=4)
+    private String approvedPin;
+    
     @Column(name="STATUS",length=20)
 	private String status;
 
