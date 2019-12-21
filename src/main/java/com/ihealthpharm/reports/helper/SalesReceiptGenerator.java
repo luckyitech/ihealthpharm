@@ -46,6 +46,8 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		try {
 			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(responseFile));
 			//writer.setSpaceCharRatio(PdfWriter.NO_SPACE_CHAR_RATIO);
+			document.setMargins(40,30,0,0);
+			document.setMarginMirroringTopBottom(true);
 			document.open();
 			addHeader(writer, document,model);
 			addBillDetails(document, model, responseList);
@@ -259,34 +261,42 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		
 		cell = new PdfPCell(new Phrase("Tot. Qty.    :",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
 		cell = new PdfPCell(new Phrase(String.valueOf(totalQty.intValue()),bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
 		cell = new PdfPCell(new Phrase("Tot. Dis.  : ",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
 		cell = new PdfPCell(new Phrase(ReportsPDFUtility.decilFormatter.format(totalDiscount),bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
 		cell = new PdfPCell(new Phrase("Tax Amt    :",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
 		cell = new PdfPCell(new Phrase(ReportsPDFUtility.decilFormatter.format(totalVat),bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 
 		cell = new PdfPCell(new Phrase("Net Amt   :",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
 		cell = new PdfPCell(new Phrase(ReportsPDFUtility.decilFormatter.format(totalNetAmount),bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
 		cell = new PdfPCell(new Phrase("Bal Amt    :",bold));
@@ -392,10 +402,12 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		
 		cell = new PdfPCell(new Phrase("Dt.    : ",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
 		cell = new PdfPCell(new Phrase(DateUtility.getDateStringHH(),bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
 		cell = getCell("",Element.ALIGN_LEFT);
@@ -406,12 +418,23 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		
 		cell = new PdfPCell(new Phrase("Cust. :",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
 		table.addCell(cell);
 		
 		cell = new PdfPCell(new Phrase(customerName,bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
 		table.addCell(cell);
 		
+		cell = new PdfPCell(new Phrase());
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
+		table.addCell(cell); 
+		
+		cell = new PdfPCell(new Phrase());
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
+		table.addCell(cell); 
 		table.completeRow();
 		
 		document.add(table);
