@@ -70,11 +70,11 @@ public class CreditNoteModel extends AuditModel{
     @Column(name="REMARKS",length=200)
     private String remarks;
 
-    @Column(name="PURCHASE_RETURN_TYPE",length=20)
-    private String purchaseReturnType;
+    @Column(name="RETURN_TYPE",length=20)
+    private String returnType;
     
-    @Column(name="SALES_RETURN_TYPE",length=20)
-    private String salesReturnType;
+    @Column(name="RETURN_TYPE_REASON",length=100)
+    private String returnTypeReason;
 
 /*   @Column(name="SUPPLIER_OR_CUSTOMER",length=50)
     private String supplierOrCustomer;*/
