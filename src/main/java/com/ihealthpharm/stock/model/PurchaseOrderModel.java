@@ -46,7 +46,10 @@ public class PurchaseOrderModel extends AuditModel {
 
 	@Column(name = "ADVANCE", length = 25)
 	private Double advance;
-
+	
+	@Column(name = "PO_DESC", length = 50)
+	private String poDesc;
+	
 	@OneToOne
 	@JoinColumn(name = "APPROVED_BY")
 	private EmployeeModel approvedBy;
@@ -70,6 +73,9 @@ public class PurchaseOrderModel extends AuditModel {
 
 	@Column(name = "DELIVERY_TIME", length = 11)
 	private Integer deliveryTime;
+	
+	@Column(name = "DELIVERY_DATE")
+	private String deliveryDate;
 
 	@Column(name = "DISCOUNT")
 	private Double discount;

@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.ItemsModel;
+import com.ihealthpharm.tax.model.TaxCategoryModel;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -42,8 +43,9 @@ public class PurchaseOrderItemsModel extends AuditModel {
 	@Column(name = "DISCOUNT_PERCENTAGE")
 	private Float discount_percentage;
 
-	@Column(name = "TAX")
-	private Double tax;
+	@OneToOne
+	@JoinColumn(name = "TAX")
+	private TaxCategoryModel tax;
 
 	@Column(name = "DISCOUNT")
 	private Double discount;
@@ -77,6 +79,9 @@ public class PurchaseOrderItemsModel extends AuditModel {
 
 	@Column(name = "PACK", length = 11)
 	private Integer pack;
+	
+	@Column(name = "NET_AMT", length = 11)
+	private Double netAmount;
 
 	@OneToOne
 	@JoinColumn(name = "ITEM_ID")
