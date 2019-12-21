@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.ihealthpharm.tax.model.TaxCategoryModel;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -172,7 +173,7 @@ public class ItemsModel extends AuditModel {
 
 	@OneToOne
 	@JoinColumn(name="TAX_ID")
-	private TaxModel tax;
+	private TaxCategoryModel tax;
 
 	@Column(name="DEFAULT_PO_QTY")
 	private Integer defaultPOQuantity;
