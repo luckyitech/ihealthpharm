@@ -42,7 +42,7 @@ public class SalesReturnController {
 	@PostMapping("/save/salesreturns")
 	public ResponseEntity<BaseDto<SalesReturnModel>> saveSalesReturn(@Valid @RequestBody  SalesReturnModel salesReturnModel ){
 		log.info("Request Object to insert is :"+salesReturnModel);
-		SalesReturnModel salesReturn=salesReturnService.saveSalesReturnDate(salesReturnModel);
+		SalesReturnModel salesReturn=salesReturnService.saveSalesReturnData(salesReturnModel);
 		return new BaseDto<>(salesReturn,salesReturnHelper.getSaveSalesReturnMessage(),OK).respond();
 	}
 		

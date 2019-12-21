@@ -21,6 +21,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.ExceptionConverter;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
@@ -95,7 +96,7 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 				 * }
 				 */
 				for(HeaderFooterContentDetailsDto dto:contentDto.getCenterContent()) {		
-					Paragraph phrase=new Paragraph(dto.getText(), FontFactory.getFont(dto.getFontName(), dto.getSize())); 
+					Paragraph phrase=new Paragraph(dto.getText(), FontFactory.getFont(dto.getFontName(), dto.getSize(),Font.BOLD)); 
 					phrase.setAlignment(1); 
 					centerContent.addElement(phrase);					
 				}
@@ -117,7 +118,9 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 			PdfPTable title = new PdfPTable(1);
 			title.setTotalWidth(Utilities.millimetersToPoints(80));
 			//title.setWidthPercentage(50);
-			PdfPCell titleCell = new PdfPCell(new Phrase(model.getTitle(), title08)); 
+			
+			Font bold = new Font(FontFamily.HELVETICA,7, Font.BOLD);
+			PdfPCell titleCell = new PdfPCell(new Phrase(model.getTitle(), bold)); 
 			titleCell.setColspan(3);
 			titleCell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			titleCell.setVerticalAlignment(Element.ALIGN_CENTER);
@@ -163,11 +166,13 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 			Paragraph headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
 			headerCell.add(hearder.getDisplayName());
+			//headerCell.setFont(FontFactory.getFont("Helvetica",7,Font.BOLD));
 			
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if(!model.isShowVerticalLines())
 			  cell.setBorder(Rectangle.BOTTOM);
+			
 
 			table.addCell(cell);
 		}
@@ -182,7 +187,8 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 						
 						
 					}
-					cell = new PdfPCell(new Phrase(String.valueOf(value),title06));
+					Font bold = new Font(FontFamily.HELVETICA,6, Font.BOLD);
+					cell = new PdfPCell(new Phrase(String.valueOf(value),bold));
 					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 					if(!model.isShowVerticalLines())
 					 cell.setBorder(Rectangle.BOTTOM);
@@ -203,6 +209,7 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		table.setSpacingAfter(10); 
 		table.getDefaultCell().setBorder(0);
 		table.setLockedWidth(true);
+		
 		System.out.println(responseList);
 		int totalItems = responseList.size();
 		double totalAmount = Double.parseDouble(String.valueOf(responseList.get(0).get("TOTAL_AMOUNT")));//responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TOTAL_AMOUNT")?String.valueOf(mapper.get("TOTAL_AMOUNT")):"0.0")).sum(); 
@@ -229,61 +236,119 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		totalNetAmount += totalVat;
 		totalNetAmount = Math.round(totalNetAmount - totalDiscount);*/
 		
-		PdfPCell cell = null;
-		cell = getCellWithBorder("Tot. Items  :",Element.ALIGN_LEFT,Rectangle.TOP);	
-		table.addCell(cell);
-		cell = getCellWithBorder(String.valueOf(totalItems) ,Element.ALIGN_LEFT,Rectangle.TOP);
-		table.addCell(cell);
-		cell = getCellWithBorder("Tot. Amt  : ",Element.ALIGN_LEFT,Rectangle.TOP);
-		table.addCell(cell);
-		cell = getCellWithBorder(ReportsPDFUtility.decilFormatter.format(totalAmount),Element.ALIGN_LEFT,Rectangle.TOP);
+		Font bold = new Font(FontFamily.HELVETICA,7, Font.BOLD);
+		PdfPCell cell = new PdfPCell(new Phrase("Tot. Items  :",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.TOP);
 		table.addCell(cell);
 		
-		cell = getCell("Tot. Qty.    :",Element.ALIGN_LEFT);
-		table.addCell(cell);
-		cell = getCell(String.valueOf(totalQty.intValue()),Element.ALIGN_LEFT);
-		table.addCell(cell);
-		cell = getCell("Tot. Dis.  : ",Element.ALIGN_LEFT);
-		table.addCell(cell);
-		cell = getCell(ReportsPDFUtility.decilFormatter.format(totalDiscount),Element.ALIGN_LEFT);
+		cell = new PdfPCell(new Phrase(String.valueOf(totalItems),bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.TOP);
 		table.addCell(cell);
 		
+		cell = new PdfPCell(new Phrase("Tot. Amt  : ",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.TOP);
+		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase(ReportsPDFUtility.decilFormatter.format(totalAmount),bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.TOP);
+		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase("Tot. Qty.    :",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase(String.valueOf(totalQty.intValue()),bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase("Tot. Dis.  : ",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase(ReportsPDFUtility.decilFormatter.format(totalDiscount),bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase("Tax Amt    :",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase(ReportsPDFUtility.decilFormatter.format(totalVat),bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		table.addCell(cell);
 
-		cell = getCell("Tax Amt    :",Element.ALIGN_LEFT);	
-		table.addCell(cell);
-		cell = getCell(ReportsPDFUtility.decilFormatter.format(totalVat),Element.ALIGN_LEFT);	
-		table.addCell(cell);	
-		cell = getCell("Net Amt   :",Element.ALIGN_LEFT);	
-		table.addCell(cell);		
-		cell = getCell(ReportsPDFUtility.decilFormatter.format(totalNetAmount),Element.ALIGN_LEFT);	
+		cell = new PdfPCell(new Phrase("Net Amt   :",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		table.addCell(cell);
 		
-		cell = getCellWithBorder("Bal Amt    :",Element.ALIGN_LEFT,Rectangle.BOTTOM);	
-		table.addCell(cell);
-		cell = getCellWithBorder(ReportsPDFUtility.decilFormatter.format(balanceAmt),Element.ALIGN_LEFT,Rectangle.BOTTOM);	
-		table.addCell(cell);	
-		cell = getCellWithBorder("Paid Amt   :",Element.ALIGN_LEFT,Rectangle.BOTTOM);	
-		table.addCell(cell);		
-		cell = getCellWithBorder(ReportsPDFUtility.decilFormatter.format(paidAmt),Element.ALIGN_LEFT,Rectangle.BOTTOM);	
+		cell = new PdfPCell(new Phrase(ReportsPDFUtility.decilFormatter.format(totalNetAmount),bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		table.addCell(cell);
 		
-		cell = getCellWithBorder("Serv By     :",Element.ALIGN_LEFT,Rectangle.BOTTOM);	
-		table.addCell(cell);
-		cell = getCellWithBorder(servBy,Element.ALIGN_LEFT,Rectangle.BOTTOM);	
-		table.addCell(cell);	
-		cell = getCellWithBorder("Paid Status:",Element.ALIGN_LEFT,Rectangle.BOTTOM);	
-		table.addCell(cell);		
-		cell = getCellWithBorder(paymentStatus,Element.ALIGN_LEFT,Rectangle.BOTTOM);	
+		cell = new PdfPCell(new Phrase("Bal Amt    :",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
 		table.addCell(cell);
 		
-		cell = getCellWithBorder("Tax Codes:",Element.ALIGN_LEFT,Rectangle.BOTTOM);	
+		cell = new PdfPCell(new Phrase(ReportsPDFUtility.decilFormatter.format(balanceAmt),bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
 		table.addCell(cell);
-		cell = getCellWithBorder("A - 16%:",Element.ALIGN_LEFT,Rectangle.BOTTOM);	
-		table.addCell(cell);	
-		cell = getCellWithBorder("B - 0%:",Element.ALIGN_LEFT,Rectangle.BOTTOM);	
+		
+		cell = new PdfPCell(new Phrase("Paid Amt   :",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
 		table.addCell(cell);
-		cell = getCellWithBorder("E - Exempt",Element.ALIGN_LEFT,Rectangle.BOTTOM);	
+		
+		cell = new PdfPCell(new Phrase(ReportsPDFUtility.decilFormatter.format(paidAmt),bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
 		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase("Serv By     :",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
+		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase(servBy,bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
+		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase("Paid Status:",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
+		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase(paymentStatus,bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
+		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase("Tax Codes:",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
+		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase("A - 16%:",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
+		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase("B - 0%:",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
+		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase("E - Exempt",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
+		table.addCell(cell);
+	
 		table.completeRow();
 		
 		document.add(table);
@@ -304,31 +369,48 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		table.getDefaultCell().setBorder(0);
 		table.setWidths(new int[] {1,3,2,2});
 		
-		PdfPCell cell = null;		
-		cell = getCellWithBorder("Bill # : ",Element.ALIGN_LEFT,Rectangle.TOP);		
+		Font bold = new Font(FontFamily.HELVETICA,7, Font.BOLD);
+		PdfPCell cell = new PdfPCell(new Phrase("Bill # : ",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.TOP);
 		table.addCell(cell);
-		cell = getCellWithBorder(billCode,Element.ALIGN_LEFT,Rectangle.TOP);
+		
+		cell = new PdfPCell(new Phrase(billCode,bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.TOP);
 		table.addCell(cell);
-		cell = getCellWithBorder("Dr.Name   :",Element.ALIGN_LEFT,Rectangle.TOP);
+		
+		cell = new PdfPCell(new Phrase("Dr.Name   :",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.TOP);
 		table.addCell(cell);
-		cell = getCellWithBorder(doctorName,Element.ALIGN_LEFT,Rectangle.TOP);
+		
+		cell = new PdfPCell(new Phrase(doctorName,bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.TOP);
 		table.addCell(cell);
-		cell = getCell("Dt.    : ",Element.ALIGN_LEFT);
+		
+		cell = new PdfPCell(new Phrase("Dt.    : ",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		table.addCell(cell);
-		cell = getCell(DateUtility.getDateStringHH(),Element.ALIGN_LEFT);
-		//cell.setNoWrap(true);
+		
+		cell = new PdfPCell(new Phrase(DateUtility.getDateStringHH(),bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		table.addCell(cell);
+		
 		cell = getCell("",Element.ALIGN_LEFT);
 		cell.setNoWrap(true);
 		table.addCell(cell);
 		cell = getCell("",Element.ALIGN_LEFT);
 		table.addCell(cell);
 		
-		cell = getCell("Cust. :",Element.ALIGN_LEFT);
-		table.addCell(cell);
-		cell = getCell(customerName,Element.ALIGN_LEFT);
+		cell = new PdfPCell(new Phrase("Cust. :",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		table.addCell(cell);
 		
+		cell = new PdfPCell(new Phrase(customerName,bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		table.addCell(cell);
 		
 		table.completeRow();
 		
@@ -348,7 +430,7 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 			if(!ObjectUtils.isEmpty(footerContent)) {
 				HeaderFooterContentDto contentDto = (HeaderFooterContentDto) JsonUtility.jsonToObject(footerContent,HeaderFooterContentDto.class);				
 				for(HeaderFooterContentDetailsDto dto:contentDto.getCenterContent()) {		
-					Paragraph phrase=new Paragraph(dto.getText(), FontFactory.getFont(dto.getFontName(), dto.getSize()));
+					Paragraph phrase=new Paragraph(dto.getText(), FontFactory.getFont(dto.getFontName(), dto.getSize(),Font.BOLD));
 					phrase.setAlignment(1); 
 					centerContent.addElement(phrase);
 				}

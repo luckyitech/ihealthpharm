@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
-import com.ihealthpharm.finance.dto.CreditCustomerDTO;
 import com.ihealthpharm.finance.helper.AccountReceivablesHelper;
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.finance.service.AccountReceivablesService;
@@ -108,7 +107,7 @@ public class AccountReceivablesController {
 	//to update salesreturn totalAmount
 	@GetMapping("/getaccreceipts/basedonbillid")
 		public ResponseEntity<BaseDto<List<AccountReceivablesModel>>> getAccountRecivableData(@RequestParam Integer salesModel){
-		
+		System.out.println(salesModel);
 		List<AccountReceivablesModel> result = accountReceivablesService.findAccountReceivablesByBillId(salesModel);
 		return new BaseDto<>(result, accountReceivablesHelper.getRetrieveAccountReceivablesMessage(), OK).respond();
 	}
