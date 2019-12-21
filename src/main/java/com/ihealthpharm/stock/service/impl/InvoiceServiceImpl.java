@@ -84,7 +84,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 		accountPayablesModel.setTotalInvoiceAmount(invoiceModelres.getInvoiceAmount().floatValue());
 		//accountPayablesModel.setPaymentType("");
 		accountPayablesModel.setPaymentNumber("");
-		accountPayablesModel.setStatus("");
+		accountPayablesModel.setSelectedStatus("");
 		
 		AccountPayablesModel accountPayablesModelres = accountPayablesRepository.save(accountPayablesModel);
 		
