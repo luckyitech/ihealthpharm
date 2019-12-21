@@ -46,13 +46,10 @@ public class AccountPayablesModel extends AuditModel {
 
 	@Column(name="STATUS",length=20)
 	private String selectedStatus;
-	
-	   @OneToOne
-	    @JoinColumn(name="APPROVED_BY")
-	    private EmployeeModel approvedBy;
-	   
-	   @Column(name="APPROVED_Pin",length=4)
-	    private String approvedPin;
+
+	@OneToOne
+	@JoinColumn(name="APPROVED_BY")
+	private EmployeeModel approvedBy;
 
 	@Column(name="TOTAL_INVOICE_AMOUNT")
 	private Float totalInvoiceAmount;
@@ -93,10 +90,10 @@ public class AccountPayablesModel extends AuditModel {
 
 	@Column(name = "PAYMENT_STATUS", length = 20)
 	private String selectedPaymentStatus;
-	
+
 	@Column(name="SOURCE_ID",length=11)
 	private String source;
-	
+
 	@Column(name="SOURCE_REF",length=20)
 	private String sourceRef;
 
@@ -107,7 +104,7 @@ public class AccountPayablesModel extends AuditModel {
 	@OneToOne
 	@JoinColumn(name="PHARMACY_ID")
 	private PharmacyModel pharmacyModel;
-	
-	
-	
+
+
+
 }
