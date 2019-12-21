@@ -29,7 +29,7 @@ public class SalesReturnsServiceImpl implements SalesReturnService {
 	
 	
 	@Override
-	public SalesReturnModel saveSalesReturnDate(SalesReturnModel  salesReturnModel) {
+	public SalesReturnModel saveSalesReturnData(SalesReturnModel  salesReturnModel) {
 		salesReturnModel = salesReturnRepo.save(salesReturnModel);
 		log.info("SalesReturn data with ID: "+ salesReturnModel.getSalesReturnId()+" saved succesfully");
 		return salesReturnModel;

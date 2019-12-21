@@ -69,13 +69,12 @@ public class DebitNoteModel extends AuditModel{
     private String approvedPin;
     
     @Column(name="APPROVED_BY_EMP",length=20)
-    private String approvedByPin;
+    private String approvedByEmp;
     
     @Column(name="STATUS",length=20)
-   	private String status;
+   	private String selectedStatus;
 
-    @Column(name="RETURN_CODE",length=50)
-    private String returnCode;
+ 
 
     @Column(name="PURCHASE_RETURN_TYPE",length=20)
     private String purchaseReturnType;
