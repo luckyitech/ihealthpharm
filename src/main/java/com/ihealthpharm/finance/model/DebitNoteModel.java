@@ -65,16 +65,8 @@ public class DebitNoteModel extends AuditModel{
     @Column(name="APPROVED_DATE")
     private LocalDate approvedDate;
     
-    @Column(name="APPROVED_Pin",length=4)
-    private String approvedPin;
-    
-    @Column(name="APPROVED_BY_EMP",length=20)
-    private String approvedByEmp;
-    
     @Column(name="STATUS",length=20)
    	private String selectedStatus;
-
- 
 
     @Column(name="PURCHASE_RETURN_TYPE",length=20)
     private String purchaseReturnType;
