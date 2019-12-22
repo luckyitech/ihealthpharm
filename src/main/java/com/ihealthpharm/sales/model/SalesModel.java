@@ -21,7 +21,6 @@ import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.HospitalModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.ProviderModel;
-import com.ihealthpharm.tax.model.TaxCategoryModel;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
