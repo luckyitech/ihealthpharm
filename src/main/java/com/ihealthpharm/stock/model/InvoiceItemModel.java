@@ -77,6 +77,10 @@ public class InvoiceItemModel extends AuditModel {
 
 	@Column(name="UNIT_SALE_RATE")
 	private Double unitSaleRate;
+	
+	@Column(name="SALE_DISCOUNT_PERCENTAGE", length=11)
+	private Double saleDiscountPercentage;
+	
 
 	@Column(name="BONUS", length=11)
 	private Integer bonus;
@@ -135,7 +139,6 @@ public class InvoiceItemModel extends AuditModel {
 	@Transient
 	private Double saleDiscountAmount;
 
-	@Transient
-	private Double saleDiscountPercentage;
+	
 
 }
