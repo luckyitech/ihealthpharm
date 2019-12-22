@@ -129,7 +129,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 			stockModel.setBatchNo(it.getBatchNo());
 			stockModel.setPharmacy(invoiceModelres.getPharmacy());
 			stockModel.setItem(it.getItemsModel());
-			stockModel.setQuantity(it.getQuantityApproved());
+			stockModel.setQuantity(it.getQuantityApproved() != null && it.getPack() != null ?it.getQuantityApproved()*it.getPack():1);
 			stockModel.setManufactureDt(it.getManufactureDt());
 			stockModel.setExpiryDt(it.getExpiryDt());
 			stockModel.setUnitSaleRate(it.getUnitSaleRate());
