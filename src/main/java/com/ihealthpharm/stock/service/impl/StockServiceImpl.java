@@ -356,6 +356,12 @@ public class StockServiceImpl implements StockService {
 		public String getStockExpiryBasedOnItemName(Integer  itemId, String batch) {
 			return stockRepository.getExpiryDateByItemName( itemId,  batch);
 		}
+
+		@Override
+		public List<StockModel> findStockByItemIdAndPharmacyId(Integer itemId, Integer pharmacyId) {
+
+			return stockRepository.getStockByItemIdAndPharmacyId(itemId,pharmacyId);
+		}
 		
 		
 
