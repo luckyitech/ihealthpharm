@@ -1,5 +1,7 @@
 package com.ihealthpharm.stock.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -14,7 +16,6 @@ import org.springframework.stereotype.Service;
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.finance.dao.AccountPayablesInvoicesRepository;
 import com.ihealthpharm.finance.dao.AccountPayablesRepository;
-import com.ihealthpharm.finance.model.AccountPayablesInvoicesModel;
 import com.ihealthpharm.finance.model.AccountPayablesModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.stock.dao.InvoiceItemRepository;
@@ -31,6 +32,7 @@ import com.ihealthpharm.stock.model.PurchaseReturnModel;
 import com.ihealthpharm.stock.model.StockHistoryModel;
 import com.ihealthpharm.stock.model.StockModel;
 import com.ihealthpharm.stock.service.InvoiceService;
+import com.ihealthpharm.uniquecode.service.UniqueCodeService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -66,6 +68,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 	@Autowired
 	InvoiceHelper invoiceHelper;
 	
+	@Autowired
+	UniqueCodeService uniqueCodeService;
+	
 	@Override
 	public List<InvoiceModel> findAllInvoiceByNo(String searchTerm) {
 		return invoiceRepository.findAllByInvoiceNoSearch(searchTerm);
@@ -81,14 +86,14 @@ public class InvoiceServiceImpl implements InvoiceService {
 		AccountPayablesModel accountPayablesModel = new AccountPayablesModel();
 		accountPayablesModel.setPharmacyModel(invoiceModelres.getPharmacy());
 		accountPayablesModel.setSupplierModel(invoiceModelres.getSupplierModel());
-		accountPayablesModel.setTotalInvoiceAmount(invoiceModelres.getInvoiceAmount() != null?invoiceModelres.getInvoiceAmount() != null?invoiceModelres.getInvoiceAmount().floatValue():0:0);
+		accountPayablesModel.setTotalInvoiceAmount(invoiceModelres.getInvoiceAmount() != null?invoiceModelres.getInvoiceAmount().floatValue():0);
 		//accountPayablesModel.setPaymentType("");
 		accountPayablesModel.setPaymentNumber("");
 		accountPayablesModel.setSelectedStatus("");
 		
 		AccountPayablesModel accountPayablesModelres = accountPayablesRepository.save(accountPayablesModel);
 		
-		AccountPayablesInvoicesModel accountPayablesInvoicesModel = new AccountPayablesInvoicesModel();
+		/*AccountPayablesInvoicesModel accountPayablesInvoicesModel = new AccountPayablesInvoicesModel();
 		accountPayablesInvoicesModel.setAccountPayablesModel(accountPayablesModelres);
 		accountPayablesInvoicesModel.setPharmacyModel(invoiceModelres.getPharmacy());
 		accountPayablesInvoicesModel.setSupplierModel(invoiceModelres.getSupplierModel());
@@ -99,7 +104,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 		accountPayablesInvoicesModel.setAdvance(invoiceModel.getAdvance() != null ?invoiceModel.getAdvance().floatValue():0);
 		accountPayablesInvoicesModel.setInvoiceNumber(0f);
 		
-		accountPayablesInvoicesRepository.save(accountPayablesInvoicesModel);
+		accountPayablesInvoicesRepository.save(accountPayablesInvoicesModel);*/
 		
 		for(InvoiceItemModel it : invoiceItemModels) {
 			StockModel stockModel = new StockModel();
@@ -115,15 +120,21 @@ public class InvoiceServiceImpl implements InvoiceService {
 			stockModel.setUnitSaleRate(it.getUnitSaleRate());
 			stockModel.setSaleDiscountPercentage(it.getSaleDiscountPercentage());
 			stockModel.setUnitPurchaseRate(it.getUnitRate());
-			
+			stockModel.setPurchaseDiscountPercentage(it.getDiscountPercentage());
+			//SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+			stockModel.setStockDt(new Date());
+			stockModel.setEntryType("Invoice Addition");
+			stockModel.setStatus("Approved");
 			stockModel.setMrp(it.getMrp());
 			stockModel.setPack(it.getPack());
 			stockModel.setSaleDiscountPercentage(it.getSaleDiscountPercentage());
 			stockModel.setSaleDiscountAmount(it.getSaleDiscountAmount());
 			stockModel.setMargin(it.getMargin());
 			stockModel.setTaxCategoryModel(it.getTax());
-			stockModel.setVat(it.getTax().getCategoryValue() != null ?it.getTax().getCategoryValue().doubleValue():0);
+			stockModel.setVat(it.getTax() != null ?it.getTax().getCategoryValue().doubleValue():0);
 			stockModel.setSupplier(invoiceModelres.getSupplierModel());
+			stockModel.setInvoiceNo(it.getInvoice().getGrnNo());
+			stockModel.setStockNumber(uniqueCodeService.findByUniqueCodeName("ST"));
 			
 			historyModel.setInvoice(invoiceModelres);
 			historyModel.setBatchNo(it.getBatchNo());
