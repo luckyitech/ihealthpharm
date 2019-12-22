@@ -107,5 +107,11 @@ public class AccountPayablesModel extends AuditModel {
 
 	@Column(name="APPROVED_DATE")
 	private LocalDate approvedDate;
+	
+	@Column(name="CUSTOMER_NAME")
+	private String customerName;
+	
+	@Column(name="SUPPLIER_NAME")
+	private String supplierName;
 
 }
