@@ -203,6 +203,13 @@ public class StockController {
 
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}
+	
+	@GetMapping("/getstockbyitemidandpharmacyid")
+	public ResponseEntity<BaseDto<List<StockModel>>> getStockByItemIdAndPharmacy(@RequestParam Integer itemId,@RequestParam Integer pharmacyId){
+		List<StockModel> result = stockService.findStockByItemIdAndPharmacyId(itemId,pharmacyId);
+
+		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
+	}	
 
 	@GetMapping("/getstockbyitemandpharmacyidcount")
 	public ResponseEntity<BaseDto<Integer>> getStockByItemNameAndPharmacyCount(@RequestParam String searchTerm,@RequestParam String searchCode, @RequestParam Integer pharmacyId){
@@ -333,4 +340,5 @@ public class StockController {
 		return new BaseDto<>(result,stockHelper.getRetrieveStockMessage(),OK).respond();
 	}
 
+	
 }
