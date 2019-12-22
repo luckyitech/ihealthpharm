@@ -37,9 +37,6 @@ public class AccountReceivablesModel extends AuditModel{
 	@Column(name="AUDIT_ID",length=11)
 	private Integer auditId;
 
-	/*@Column(name="PAYMENT_TYPE",length=30)
-	private String paymentType;*/
-
 	@OneToOne
 	@JoinColumn(name="PAYMENT_TYPE_ID")
 	private PaymentTypeModel paymentTypeId;
