@@ -64,26 +64,17 @@ public class CreditNoteModel extends AuditModel{
     @JoinColumn(name="APPROVED_BY")
     private EmployeeModel approvedBy;
     
-    @Column(name="APPROVED_BY_EMP",length=20)
-    private String approvedByEmp;
-    
-    @Column(name="APPROVED_Pin",length=4)
-    private String approvedPin;
-    
     @Column(name="STATUS",length=20)
 	private String status;
 
     @Column(name="REMARKS",length=200)
     private String remarks;
 
-    @Column(name="PURCHASE_RETURN_TYPE",length=20)
-    private String purchaseReturnType;
+    @Column(name="RETURN_TYPE",length=20)
+    private String returnType;
     
-    @Column(name="SALES_RETURN_TYPE",length=20)
-    private String salesReturnType;
-
-/*   @Column(name="SUPPLIER_OR_CUSTOMER",length=50)
-    private String supplierOrCustomer;*/
+    @Column(name="RETURN_TYPE_REASON",length=100)
+    private String returnTypeReason;
     
 	@OneToOne
 	@JoinColumn(name="SUPPLIER_ID")
@@ -96,5 +87,4 @@ public class CreditNoteModel extends AuditModel{
     @Column(name = "ACTIVE_S",  columnDefinition = "default 'Y'")
 	private String activeS = "Y";
     
-	
 }

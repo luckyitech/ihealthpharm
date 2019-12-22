@@ -105,6 +105,7 @@ public class AccountPayablesModel extends AuditModel {
 	@JoinColumn(name="PHARMACY_ID")
 	private PharmacyModel pharmacyModel;
 
-
+	@Column(name="APPROVED_DATE")
+	private LocalDate approvedDate;
 
 }
