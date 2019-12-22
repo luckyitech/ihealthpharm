@@ -74,9 +74,6 @@ public class DebitNoteModel extends AuditModel{
     @Column(name="return_type_reason",length=100)
     private String returnTypeReason;
     
-/*    @Column(name="SUPPLIER_OR_CUSTOMER",length=50)
-    private String supplierOrCustomer;*/
-    
 	@OneToOne
 	@JoinColumn(name="SUPPLIER_ID")
 	SupplierModel supplierModel;
@@ -88,9 +85,4 @@ public class DebitNoteModel extends AuditModel{
     @Column(name = "ACTIVE_S",  columnDefinition = "default 'Y'")
 	private String activeS = "Y";
     
-   /* public void setDates(Date debitDate) throws ParseException {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String debitDates=simpleDateFormat.format(debitDate);  
-		this.dates = debitDates;
-	}*/
 }
