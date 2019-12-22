@@ -1,6 +1,5 @@
 package com.ihealthpharm.stock.service.impl;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -17,6 +16,7 @@ import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.finance.dao.AccountPayablesInvoicesRepository;
 import com.ihealthpharm.finance.dao.AccountPayablesRepository;
 import com.ihealthpharm.finance.model.AccountPayablesModel;
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.stock.dao.InvoiceItemRepository;
 import com.ihealthpharm.stock.dao.InvoiceRepository;
@@ -84,13 +84,28 @@ public class InvoiceServiceImpl implements InvoiceService {
 		InvoiceModel invoiceModelres = invoiceRepository.save(invoiceModel);
 		
 		AccountPayablesModel accountPayablesModel = new AccountPayablesModel();
+		
 		accountPayablesModel.setPharmacyModel(invoiceModelres.getPharmacy());
 		accountPayablesModel.setSupplierModel(invoiceModelres.getSupplierModel());
 		accountPayablesModel.setTotalInvoiceAmount(invoiceModelres.getInvoiceAmount() != null?invoiceModelres.getInvoiceAmount().floatValue():0);
-		//accountPayablesModel.setPaymentType("");
-		accountPayablesModel.setPaymentNumber("");
-		accountPayablesModel.setSelectedStatus("");
+		accountPayablesModel.setPaymentDate(new Date());
 		
+		accountPayablesModel.setPaymentNumber(uniqueCodeService.findByUniqueCodeName("AP"));
+		accountPayablesModel.setSelectedStatus(invoiceModel.getInvoiceStatus() != null ?invoiceModel.getInvoiceStatus().getStatus():"");
+		accountPayablesModel.setCreatedUser(invoiceModelres.getCreatedUser());
+		accountPayablesModel.setLastUpdateUser(invoiceModelres.getLastUpdateUser());
+		if(invoiceModelres.getLastUpdateUser() != null)
+		{
+			EmployeeModel e = new EmployeeModel();
+			e.setEmployeeId(invoiceModelres.getLastUpdateUser());
+			
+			accountPayablesModel.setApprovedBy(e);
+		}
+		
+		accountPayablesModel.setApprovedDate(new Date());
+		accountPayablesModel.setSelectedPaymentStatus("Pending");
+		accountPayablesModel.setSource(invoiceModelres.getInvoiceId().toString());
+		accountPayablesModel.setSourceRef("Invoice");
 		AccountPayablesModel accountPayablesModelres = accountPayablesRepository.save(accountPayablesModel);
 		
 		/*AccountPayablesInvoicesModel accountPayablesInvoicesModel = new AccountPayablesInvoicesModel();

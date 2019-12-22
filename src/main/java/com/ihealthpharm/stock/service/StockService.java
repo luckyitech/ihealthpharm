@@ -85,4 +85,6 @@ public interface StockService {
 	List<StockProfitDTO> findProfitService();
 	
 	List<StockRevenueDTO> findSuppliersRevenue();
+
+	List<StockModel> findStockByItemIdAndPharmacyId(Integer itemId, Integer pharmacyId);
 }
