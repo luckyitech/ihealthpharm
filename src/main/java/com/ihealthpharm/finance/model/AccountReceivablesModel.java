@@ -37,9 +37,6 @@ public class AccountReceivablesModel extends AuditModel{
 	@Column(name="AUDIT_ID",length=11)
 	private Integer auditId;
 
-	/*@Column(name="PAYMENT_TYPE",length=30)
-	private String paymentType;*/
-
 	@OneToOne
 	@JoinColumn(name="PAYMENT_TYPE_ID")
 	private PaymentTypeModel paymentTypeId;
@@ -54,7 +51,7 @@ public class AccountReceivablesModel extends AuditModel{
 	private String sourceType;
 
 	@Column(name="SOURCE_ID",length=11)
-	private String source;
+	private Integer source;
 
 	@Column(name="AMOUNT_TO_BE_RECEIVED",length=25)
 	private Float amountToBeReceived;
@@ -97,10 +94,17 @@ public class AccountReceivablesModel extends AuditModel{
 	@Column(name="SOURCE_REF",length=20)
 	private String SourceRef;
 
-
+	@Column(name="APPROVED_DATE")
+	private LocalDate approvedDate;
 
 	@OneToOne
 	@JoinColumn(name="PHARMACY_ID")
 	private PharmacyModel pharmacyModel;
+	
+	@Column(name="CUSTOMER_NAME")
+	private String customerName;
+	
+	@Column(name="SUPPLIER_NAME")
+	private String supplierName;
 
 }

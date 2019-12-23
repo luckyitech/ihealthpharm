@@ -135,6 +135,7 @@ public class InvoiceController {
 	
 	@GetMapping("/getinvoicebynum")
 	public ResponseEntity<BaseDto<InvoiceModel>> getInvoiceByNum(@RequestParam String invoiceNo) {
+		System.out.println(invoiceNo);
 		InvoiceModel result = invoiceService.findInvoiceByNum(invoiceNo);
 		return new BaseDto<>(result, invoiceHelper.getRetrieveInvoiceMessage(), OK).respond();
 	}
