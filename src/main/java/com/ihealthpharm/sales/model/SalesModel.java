@@ -21,7 +21,6 @@ import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.HospitalModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.ProviderModel;
-import com.ihealthpharm.tax.model.TaxCategoryModel;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -38,6 +37,7 @@ public class SalesModel {
 
 	@Column(name = "ADJUSTED_QTY", length = 11)
 	private Integer adjustedQty;
+	
 	@Column(name = "BALANCE_AMOUNT", length = 25)
 	private Float balanceAmount;
 

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.ihealthpharm.finance.dto.CustomerDTO;
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.sales.model.SalesModel;
 
@@ -27,5 +28,16 @@ public interface AccountReceivablesRepository extends JpaRepository<AccountRecei
 	
 	@Query("select s from sales s where s.billCode=:billCode")
 	List<SalesModel> getSalesBasedOnSalesSearch(@Param("billCode")String billCode);
+	
+	
+	@Query(value="select c.customerId,a.receiptNumber, a.receiptDate,a.SourceRef, a.sourceType, concat(c.customerName,' ',c.lastName) as customerName , "
+			+ "a.status, a.paymentTypeId.paymentTypeId,a.amountToBeReceived," + 
+			"a.paymentStatus,p.type " + 
+			" from account_receivables a, CREDIT_NOTE b, customer c, payment_types p where a.source = b.creditNoteId " + 
+			"and b.customerModel.customerId = c.customerId and p.paymentTypeId=a.paymentTypeId UNION "+
+"select  c.customerId, a.receiptNumber, a.receiptDate,a.SourceRef, a.sourceType, concat(c.customerName,' ',c.lastName) as customerName, a.status, a.paymentTypeId.paymentTypeId,a.amountToBeReceived, a.paymentStatus,p.type" + 
+			" from account_receivables a, sales b, customer c,payment_types p where a.source = b.billId " + 
+			"and b.customerModel.customerId = c.customerId and p.paymentTypeId=a.paymentTypeId", nativeQuery=true)
+	List<CustomerDTO> getAllCustomersData();
 	
 }

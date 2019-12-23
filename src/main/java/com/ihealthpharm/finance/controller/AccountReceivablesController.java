@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.finance.dto.CustomerDTO;
 import com.ihealthpharm.finance.helper.AccountReceivablesHelper;
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.finance.service.AccountReceivablesService;
@@ -39,7 +40,7 @@ public class AccountReceivablesController {
 	
 	@Autowired
 	SalesHelper salesHelper;
-
+	
 	@PostMapping("/save/accountReceivables")
 	public ResponseEntity<BaseDto<AccountReceivablesModel>> insertAccountReceivablesData(@Valid @RequestBody AccountReceivablesModel accountReceivablesModel) {
 		AccountReceivablesModel accountReceivablesModelRes = accountReceivablesService.saveAccountReceivablesData(accountReceivablesModel);
@@ -117,5 +118,13 @@ public class AccountReceivablesController {
 		List<SalesModel> response=accountReceivablesService.getAllSalesBySearch(billCode);
 		return new BaseDto<>(response,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
+	
+	@GetMapping("/getdata/accountrecievables/creditandsales")
+	public ResponseEntity<BaseDto<List<CustomerDTO>>> getAllCustomersData(){
+		List<CustomerDTO> response=accountReceivablesService.getAllCustomersData();
+		return new BaseDto<>(response,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	
 	
 }

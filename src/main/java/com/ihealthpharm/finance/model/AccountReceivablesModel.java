@@ -13,7 +13,6 @@ import javax.persistence.OneToOne;
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
-import com.ihealthpharm.sales.model.SalesModel;
 import com.ihealthpharm.stock.model.PaymentTypeModel;
 
 import lombok.Data;
