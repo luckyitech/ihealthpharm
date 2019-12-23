@@ -85,14 +85,6 @@ public class AccountPayablesController {
 		AccountPayablesModel result = accountPayablesService.findAccountPayablesById(accountPayablesId);
 		return new BaseDto<>(result, accountPayablesHelper.getRetrieveAccountPayablesMessage(), OK).respond();
 	}
-	
-	/*@GetMapping("/getcustomersbyinvoicesid")
-	public ResponseEntity<BaseDto<List<InvoiceModel>>> getAllCustomersBasedOnCustomerId(@RequestParam Integer customerId){
-		
-		List<InvoiceModel> result=accountPayablesService.getAllCustomersByCustomerId(customerId);
-		
-		return new BaseDto<>(result,invoiceHelper.getRetrieveInvoiceMessage(),OK).respond();
-	}*/
 
 	@GetMapping("/getinvoicesbysupplierid")
 	public ResponseEntity<BaseDto<List<InvoiceModel>>> getAllInvoicesBasedOnSupplierId(@RequestParam Integer supplierId){
@@ -105,6 +97,18 @@ public class AccountPayablesController {
 	public ResponseEntity<BaseDto<List<InvoiceModel>>> getInvoiceBasedOnInvoiceNumber(@RequestParam String invoiceNo){
 		List<InvoiceModel> response=accountPayablesService.getAllInvoicesBySearch(invoiceNo);
 		return new BaseDto<>(response,invoiceHelper.getRetrieveInvoiceMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getAll/accountpayables")
+	public ResponseEntity<BaseDto<List<AccountPayablesModel>>> getAllPayables(){
+		List<AccountPayablesModel> response=accountPayablesService.getAllAccountPayables();
+		return new BaseDto<>(response,accountPayablesHelper.getRetrieveAccountPayablesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getAll/Accountpayables/basedonCustomer")
+	public ResponseEntity<BaseDto<List<AccountPayablesModel>>> getAllAccountPayables(@RequestParam String customerName){
+		List<AccountPayablesModel> response=accountPayablesService.getAllCustomersBasedOnName(customerName);
+		return new BaseDto<>(response,accountPayablesHelper.getRetrieveAccountPayablesMessage(),OK).respond();
 	}
 		
 	

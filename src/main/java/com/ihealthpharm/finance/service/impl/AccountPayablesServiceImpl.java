@@ -139,5 +139,15 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 
 		return accountPayablesRepository.getInvoiceBasedOnInvoiceSearch(invoiceNo);
 	}
+
+	@Override
+	public List<AccountPayablesModel> getAllAccountPayables() {
+		return accountPayablesRepository.getAllAccountPayables();
+	}
+
+	@Override
+	public List<AccountPayablesModel> getAllCustomersBasedOnName(String customerName) {
+		return accountPayablesRepository.getAllAccountPayablesByCustomer(customerName);
+	}
 	
 }
