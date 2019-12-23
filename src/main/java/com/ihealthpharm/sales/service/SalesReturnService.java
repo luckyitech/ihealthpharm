@@ -6,7 +6,7 @@ import com.ihealthpharm.sales.model.SalesReturnModel;
 
 public interface SalesReturnService {
 	
-	SalesReturnModel saveSalesReturnDate(SalesReturnModel  salesReturnModel);
+	SalesReturnModel saveSalesReturnData(SalesReturnModel  salesReturnModel);
 	
 	List<SalesReturnModel> findAllSalesReturns();
 

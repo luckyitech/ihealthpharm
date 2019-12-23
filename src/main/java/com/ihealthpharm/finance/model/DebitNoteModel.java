@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import com.ihealthpharm.masters.model.AuditModel;
+import com.ihealthpharm.masters.model.CustomerModel;
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.SupplierModel;
 
@@ -52,39 +54,35 @@ public class DebitNoteModel extends AuditModel{
 
     @Column(name="INVOICE_ID",length=11)
     private String invoiceId;
-
   
     @Column(name="REMARKS",length=200)
     private String remarks;
     
-    @Column(name="APPROVED_BY",length=20)
-    private String approvedBy;
+    @OneToOne
+    @JoinColumn(name="APPROVED_BY")
+    private EmployeeModel approvedBy;
     
     @Column(name="APPROVED_DATE")
     private LocalDate approvedDate;
-
-    @Column(name="RETURN_CODE",length=50)
-    private String returnCode;
-
-    @Column(name="PURCHASE_RETURN_TYPE",length=20)
-    private String purchaseReturnType;
     
-    @Column(name="SALES_RETURN_TYPE",length=20)
-    private String salesReturnType;
+    @Column(name="STATUS",length=20)
+   	private String selectedStatus;
+
+    @Column(name="RETURN_TYPE",length=20)
+    private String returnType;
     
-/*    @Column(name="SUPPLIER_OR_CUSTOMER",length=50)
-    private String supplierOrCustomer;*/
+    @Column(name="return_type_reason",length=100)
+    private String returnTypeReason;
     
 	@OneToOne
 	@JoinColumn(name="SUPPLIER_ID")
 	SupplierModel supplierModel;
     
+	@OneToOne
+	@JoinColumn(name="CUSTOMER_ID")
+	CustomerModel customerModel;
+	
     @Column(name = "ACTIVE_S",  columnDefinition = "default 'Y'")
 	private String activeS = "Y";
     
-   /* public void setDates(Date debitDate) throws ParseException {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String debitDates=simpleDateFormat.format(debitDate);  
-		this.dates = debitDates;
-	}*/
 }

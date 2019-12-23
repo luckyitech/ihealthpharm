@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.masters.dto.EmployeeNameAndAcessDTO;
 import com.ihealthpharm.masters.helper.EmployeeHelper;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.EmployeeTypeModel;
@@ -41,7 +42,7 @@ public class EmployeeController {
 
 	@Autowired
 	private EmployeeHelper employeeHelper;
-	
+
 	@Autowired
 	private EmployeeTypeService employeeTypeService; 
 
@@ -53,7 +54,7 @@ public class EmployeeController {
 			//@RequestParam("resume") MultipartFile resume,
 			//@RequestParam("signedContract") MultipartFile signedContract
 			) throws IOException {
-		
+
 		EmployeeModel employeeModel = null;
 		log.info(employeeData);
 		try {
@@ -69,13 +70,13 @@ public class EmployeeController {
 		EmployeeModel employeeRes = employeeService.saveEmployeeData(employeeModel);
 		return new BaseDto<>(employeeRes, employeeHelper.getSaveEmployeeMessage(), OK).respond();
 	}
-	
+
 	@PutMapping("/save/employeewithprofileimage")
 	public ResponseEntity<BaseDto<EmployeeModel>> insertEmployeeDataWithImage(@Valid @RequestParam("employee") String employeeData, 
 			@RequestParam("image") MultipartFile image) throws IOException {
-		
+
 		EmployeeModel employeeModel = null;
-		
+
 		log.info(employeeData);
 		try {
 			employeeModel = new ObjectMapper().readValue(employeeData, EmployeeModel.class);
@@ -90,9 +91,9 @@ public class EmployeeController {
 	@PutMapping("/save/employeewithidentificationdocument")
 	public ResponseEntity<BaseDto<EmployeeModel>> insertEmployeeDataWithIdentificationDocument(@Valid @RequestParam("employee") String employeeData, 
 			@RequestParam("identificationDocument") MultipartFile identificationDocument) throws IOException {
-		
+
 		EmployeeModel employeeModel = null;
-		
+
 		log.info(employeeData);
 		try {
 			employeeModel = new ObjectMapper().readValue(employeeData, EmployeeModel.class);
@@ -103,13 +104,13 @@ public class EmployeeController {
 		EmployeeModel employeeRes = employeeService.saveEmployeeData(employeeModel);
 		return new BaseDto<>(employeeRes, employeeHelper.getSaveEmployeeMessage(), OK).respond();
 	}
-	
+
 	@PutMapping("/save/employeewithpolicegoodconductcertificate")
 	public ResponseEntity<BaseDto<EmployeeModel>> insertEmployeeDataWithPoliceGoodConductCertificate(@Valid @RequestParam("employee") String employeeData, 
 			@RequestParam("policeGoodConductCertificate") MultipartFile policeGoodConductCertificate) throws IOException {
-		
+
 		EmployeeModel employeeModel = null;
-		
+
 		log.info(employeeData);
 		try {
 			employeeModel = new ObjectMapper().readValue(employeeData, EmployeeModel.class);
@@ -120,13 +121,13 @@ public class EmployeeController {
 		EmployeeModel employeeRes = employeeService.saveEmployeeData(employeeModel);
 		return new BaseDto<>(employeeRes, employeeHelper.getSaveEmployeeMessage(), OK).respond();
 	}
-	
+
 	@PutMapping("/save/employeewithresume")
 	public ResponseEntity<BaseDto<EmployeeModel>> insertEmployeeDataWithResume(@Valid @RequestParam("employee") String employeeData, 
 			@RequestParam("resume") MultipartFile resume) throws IOException {
-		
+
 		EmployeeModel employeeModel = null;
-		
+
 		log.info(employeeData);
 		try {
 			employeeModel = new ObjectMapper().readValue(employeeData, EmployeeModel.class);
@@ -137,13 +138,13 @@ public class EmployeeController {
 		EmployeeModel employeeRes = employeeService.saveEmployeeData(employeeModel);
 		return new BaseDto<>(employeeRes, employeeHelper.getSaveEmployeeMessage(), OK).respond();
 	}
-	
+
 	@PutMapping("/save/employeewithsignedcontract")
 	public ResponseEntity<BaseDto<EmployeeModel>> insertEmployeeDataWithSignedContract(@Valid @RequestParam("employee") String employeeData, 
 			@RequestParam("signedContract") MultipartFile signedContract) throws IOException {
-		
+
 		EmployeeModel employeeModel = null;
-		
+
 		log.info(employeeData);
 		try {
 			employeeModel = new ObjectMapper().readValue(employeeData, EmployeeModel.class);
@@ -154,7 +155,7 @@ public class EmployeeController {
 		EmployeeModel employeeRes = employeeService.saveEmployeeData(employeeModel);
 		return new BaseDto<>(employeeRes, employeeHelper.getSaveEmployeeMessage(), OK).respond();
 	}
-	
+
 	@PutMapping("/update/employees")
 	public ResponseEntity<BaseDto<List<EmployeeModel>>> updateEmployeesData(@Valid @RequestBody List<EmployeeModel> EmployeeModels) throws ParseException {
 		log.info("Request Object for update is: "+ EmployeeModels.toString());
@@ -165,20 +166,20 @@ public class EmployeeController {
 	@PutMapping("/update/employee")
 	public ResponseEntity<BaseDto<EmployeeModel>> updateEmployeeData(@Valid @RequestBody EmployeeModel employeeData) throws IOException {
 
-		
-		
+
+
 		//EmployeeModel employeeModel = null;
-//		try {
-//			employeeModel = new ObjectMapper().readValue(employeeData, EmployeeModel.class);
-//		} catch (IOException e) {
-//			
-//			e.printStackTrace();
-//		}
+		//		try {
+		//			employeeModel = new ObjectMapper().readValue(employeeData, EmployeeModel.class);
+		//		} catch (IOException e) {
+		//			
+		//			e.printStackTrace();
+		//		}
 		EmployeeModel employeeRes = employeeService.updateEmployeeData(employeeData);
 		return new BaseDto<>(employeeRes, employeeHelper.getUpdateEmployeeMessage(), OK).respond();
 	}
-	
-	
+
+
 	@PutMapping("update/employee/image")
 	public ResponseEntity<BaseDto<EmployeeModel>> updateEmployeeDataWithoutImage(@Valid @RequestBody EmployeeModel employeeData){
 		log.info("Request Object for Update :"+employeeData);
@@ -223,6 +224,7 @@ public class EmployeeController {
 		return new BaseDto<>(employeeRes, employeeHelper.getUpdateEmployeeMessage(), OK).respond();
 	}
 	
+
 	@DeleteMapping("/delete/employee")
 	public ResponseEntity<BaseDto<Object>> deleteEmployeeData(@RequestParam Integer employeeId) {
 		log.info("Request Object for delete is: "+ employeeId);
@@ -236,7 +238,7 @@ public class EmployeeController {
 		employeeService.deleteEmployeesById(employeeIds);
 		return new BaseDto<>(employeeHelper.getDeleteEmployeeMessage(), OK).respond();
 	}
-	
+
 	@GetMapping("/getallemployeesdata")
 	public ResponseEntity<BaseDto<List<EmployeeModel>>> getEmployeesdata() {
 		List<EmployeeModel> result = employeeService.findAllEmployees();
@@ -246,27 +248,33 @@ public class EmployeeController {
 	@GetMapping("/getemployeedatabyid")
 	public ResponseEntity<BaseDto<EmployeeModel>> getEmployeeDataById(@RequestParam Integer employeeId) {
 		EmployeeModel result = employeeService.findEmployeeById(employeeId);
-		
+
 		return new BaseDto<>(result, employeeHelper.getRetrieveEmployeeMessage(), OK).respond();
 	}
-	
+
 	@GetMapping("/getallemployeetypedata")
 	public ResponseEntity<BaseDto<List<EmployeeTypeModel>>> getEmployeeTypedata() {
 		List<EmployeeTypeModel> result = employeeTypeService.getAllEmployeeTypes();
 		return new BaseDto<>(result, employeeHelper.getRetrieveEmployeeMessage(), OK).respond();
 	}
-	
+
 	@GetMapping("/getemployeeid")
 	public ResponseEntity<BaseDto<EmployeeModel>> getLasteCreatedEmployeeId() {
 		EmployeeModel result = employeeService.findLastCreatedEmployeeId();
 		return new BaseDto<>(result, employeeHelper.getRetrieveEmployeeMessage(), OK).respond();
 	}
-	
+
 	@GetMapping("/getemployeebyname")
 	public ResponseEntity<BaseDto<List<EmployeeModel>>> getEmployeeByName(@RequestParam String name) {
 		List<EmployeeModel> result = employeeService.findEmployeeByFirstNameAndLastName(name);
 		return new BaseDto<>(result, employeeHelper.getRetrieveEmployeeMessage(), OK).respond();
 	}
-	
+
+	@GetMapping("/getEmployess/havingAccess")
+	public ResponseEntity<BaseDto<List<EmployeeNameAndAcessDTO>>>  getAllEmployeesHavingAccess(){
+		List<EmployeeNameAndAcessDTO> response=employeeService.getAllEmployeesWithAccess();
+		return new BaseDto<>(response,employeeHelper.getRetrieveEmployeeMessage(),OK).respond();
+	}
+
 
 }

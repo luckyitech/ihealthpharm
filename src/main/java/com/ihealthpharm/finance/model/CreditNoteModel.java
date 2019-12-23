@@ -12,18 +12,17 @@ import javax.persistence.OneToOne;
 
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.CustomerModel;
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.SupplierModel;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 
 @Entity (name="CREDIT_NOTE")
-@Getter
-@Setter
-@ToString
+@Data
+@EqualsAndHashCode(of="creditNoteId",callSuper=false)
 public class CreditNoteModel extends AuditModel{
     
     /**
@@ -58,27 +57,24 @@ public class CreditNoteModel extends AuditModel{
     @Column(name="INVOICE_ID",length=11)
     private String invoiceId;  
     
-    @Column(name="APPROVED_BY",length=20)
-    private String approvedBy;
-    
     @Column(name="APPROVED_DATE")
     private LocalDate approvedDate;
-
+    
+    @OneToOne
+    @JoinColumn(name="APPROVED_BY")
+    private EmployeeModel approvedBy;
+    
+    @Column(name="STATUS",length=20)
+	private String status;
 
     @Column(name="REMARKS",length=200)
     private String remarks;
 
-    @Column(name="RETURN_CODE",length=50)
-    private String returnCode;
-
-    @Column(name="PURCHASE_RETURN_TYPE",length=20)
-    private String purchaseReturnType;
+    @Column(name="RETURN_TYPE",length=20)
+    private String returnType;
     
-    @Column(name="SALES_RETURN_TYPE",length=20)
-    private String salesReturnType;
-
-   /* @Column(name="SUPPLIER_OR_CUSTOMER",length=50)
-    private String supplierOrCustomer;*/
+    @Column(name="RETURN_TYPE_REASON",length=100)
+    private String returnTypeReason;
     
 	@OneToOne
 	@JoinColumn(name="SUPPLIER_ID")
@@ -91,11 +87,4 @@ public class CreditNoteModel extends AuditModel{
     @Column(name = "ACTIVE_S",  columnDefinition = "default 'Y'")
 	private String activeS = "Y";
     
-   /* public void setCreditDate(Date creditDate) throws ParseException {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String creditDates=simpleDateFormat.format(creditDate);  
-		this.creditDate = creditDates;
-	}
-*/
-	
 }

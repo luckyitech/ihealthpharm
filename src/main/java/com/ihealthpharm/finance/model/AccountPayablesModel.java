@@ -2,7 +2,7 @@ package com.ihealthpharm.finance.model;
 
 
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import com.ihealthpharm.masters.model.AuditModel;
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.SupplierModel;
 
@@ -38,13 +39,17 @@ public class AccountPayablesModel extends AuditModel {
 	private Integer auditId;
 
 	@Column(name="PAYMENT_DATE")
-	private LocalDate paymentDate;
+	private Date paymentDate;
 
 	@Column(name="PAYMENT_NO",length=30)
 	private String paymentNumber;
 
 	@Column(name="STATUS",length=20)
-	private String status;
+	private String selectedStatus;
+
+	@OneToOne
+	@JoinColumn(name="APPROVED_BY")
+	private EmployeeModel approvedBy;
 
 	@Column(name="TOTAL_INVOICE_AMOUNT")
 	private Float totalInvoiceAmount;
@@ -85,9 +90,12 @@ public class AccountPayablesModel extends AuditModel {
 
 	@Column(name = "PAYMENT_STATUS", length = 20)
 	private String selectedPaymentStatus;
-	
+
 	@Column(name="SOURCE_ID",length=11)
 	private String source;
+
+	@Column(name="SOURCE_REF",length=20)
+	private String sourceRef;
 
 	@OneToOne
 	@JoinColumn(name="SUPPLIER_ID")
@@ -96,4 +104,16 @@ public class AccountPayablesModel extends AuditModel {
 	@OneToOne
 	@JoinColumn(name="PHARMACY_ID")
 	private PharmacyModel pharmacyModel;
+
+	@Column(name="APPROVED_DATE")
+	private Date approvedDate;
+	
+	@Column(name="CUSTOMER_NAME")
+	private String customerName;
+	
+	@Column(name="SUPPLIER_NAME")
+	private String supplierName;
+
+	
+
 }

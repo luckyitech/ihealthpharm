@@ -73,9 +73,11 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 	@Query("select qi.supplier from quotation q join q.quotationItems qi where q.quotationId = :quotationId group by qi.supplier ")
 	List<SupplierModel> getSupplierQuotationId(@Param("quotationId") Integer quotationId );
 	
-	@Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(i.itemCode, i.itemName, i.itemDescription, qi.quantity) "
-			+ " from quotation q join q.quotationItems qi join qi.item i where q.quotationId = :quotationId and "
-			+ " qi.supplier.supplierId = :supplierId ")
+	@Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(i.itemId,i.itemCode, i.itemName, i.itemDescription,i.itemForm.form ,i.manufacturer.name,"
+			+ "qi.supplier.supplierId,qi.supplier.name,qi.quantity) "
+			+ " from quotation q inner join quotation_items qi on q.quotationId = qi.quotation.quotationId "
+			+ "inner join items i on qi.item.itemId = i.itemId where qi.quotation.quotationId = :quotationId and "
+			+ " qi.supplier.supplierId = :supplierId")
 	List<ItemSupplierDTO> getSupplierItemsQuotationId(@Param("quotationId") Integer quotationId, @Param("supplierId") Integer supplierId );
 	
 	@Query("select e from employee e where e.employeeId = :employeeId ")
@@ -113,10 +115,10 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 			+ " from items_supplier id "
 			+ " join supplier d on id.suppliersId = d.supplierId "
 			+ " join items i on i.itemId = id.itemsId "
-			+ " where id.activeS = 'Y' and "
+			+ " where id.activeS = 'Y' and id.suppliersId = :supplierId and"
 			+ " (i.itemCode like %:itemCode%  or i.itemName like %:itemName% or i.itemDescription like %:itemDescription% ) ")
 	List<ItemSupplierDTO> getItemsByItemCodeOrItemNameorItemDesc(@Param("itemCode") String itemCode, @Param("itemName") String itemName, 
-			@Param("itemDescription") String itemDescription);
+			@Param("itemDescription") String itemDescription,@Param("supplierId") Integer supplierId);
 	
 //	@Query("select new com.ihealthpharm.stock.model.QuotationModel(q.quotationId, q.quotationNo, "
 //			+ "q.requestedName, q.createdName, q.creationTimeStamp,q.quotationExpiryDt) "

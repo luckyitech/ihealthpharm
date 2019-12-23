@@ -10,15 +10,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.ItemsModel;
+import com.ihealthpharm.tax.model.TaxCategoryModel;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -76,6 +77,10 @@ public class InvoiceItemModel extends AuditModel {
 
 	@Column(name="UNIT_SALE_RATE")
 	private Double unitSaleRate;
+	
+	@Column(name="SALE_DISCOUNT_PERCENTAGE", length=11)
+	private Double saleDiscountPercentage;
+	
 
 	@Column(name="BONUS", length=11)
 	private Integer bonus;
@@ -101,7 +106,7 @@ public class InvoiceItemModel extends AuditModel {
 	private Date expiryDt;
 	
 	@Column(name="PACK")
-	private String pack;
+	private Integer pack;
 
 	@Column(name="MRP")
 	private Double mrp;
@@ -120,7 +125,11 @@ public class InvoiceItemModel extends AuditModel {
 
 	@Column(name="REMARKS", length=200)
 	private String remarks;
-
+	
+	@OneToOne
+	@JoinColumn(name="TAX")
+	private TaxCategoryModel tax;
+	
 	@Column(name="TOTAL_QUANTITY", length=11)
 	private Integer totalQuantity;
 
@@ -130,7 +139,6 @@ public class InvoiceItemModel extends AuditModel {
 	@Transient
 	private Double saleDiscountAmount;
 
-	@Transient
-	private Double saleDiscountPercentage;
+	
 
 }

@@ -181,4 +181,7 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 	
 	@Query("select new com.ihealthpharm.stock.dto.StockRevenueDTO(sup.name, sum((s.quantity * s.unitSaleRate)/1000) as revenue) from supplier sup join stock s on s.supplier = sup.supplierId group by sup.name order by revenue desc")
 	List<StockRevenueDTO> suppliersRevenueRepo(Pageable pageable);
+
+	@Query("select s from stock s where s.item.itemId =:itemId and s.pharmacy.pharmacyId =:pharmacyId order by s.stockDt desc")
+	List<StockModel> getStockByItemIdAndPharmacyId(@Param("itemId") Integer itemId,@Param("pharmacyId") Integer pharmacyId);
 }

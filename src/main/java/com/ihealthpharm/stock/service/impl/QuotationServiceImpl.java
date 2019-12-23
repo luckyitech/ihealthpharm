@@ -29,6 +29,7 @@ import com.ihealthpharm.stock.model.QuotationItemsModel;
 import com.ihealthpharm.stock.model.QuotationModel;
 import com.ihealthpharm.stock.model.QuotationStatusModel;
 import com.ihealthpharm.stock.service.QuotationService;
+import com.ihealthpharm.tax.model.TaxCategoryModel;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -266,10 +267,10 @@ public class QuotationServiceImpl implements QuotationService {
 			itemsModel.setItemName(i.getItemName());
 			itemsModel.setItemDescription(i.getItemDescription());
 			
-			TaxModel taxModel = new TaxModel();
-			taxModel.setPercentage(i.getPercentage());
+			//TaxCategoryModel taxModel = new TaxCategoryModel();
+			//taxModel = i.get;
 			
-			itemsModel.setTax(taxModel);
+			//itemsModel.setTax(taxModel);
 			i.setItemsModel(itemsModel);
 		}
 		return model;
@@ -286,10 +287,10 @@ public class QuotationServiceImpl implements QuotationService {
 			itemsModel.setItemName(i.getItemName());
 			itemsModel.setItemDescription(i.getItemDescription());
 			
-			TaxModel taxModel = new TaxModel();
-			taxModel.setPercentage(i.getPercentage());
+			//TaxModel taxModel = new TaxModel();
+			//taxModel.setPercentage(i.getPercentage());
 			
-			itemsModel.setTax(taxModel);
+			//itemsModel.setTax(taxModel);
 			i.setItemsModel(itemsModel);
 		}
 		return model;
@@ -330,7 +331,8 @@ public class QuotationServiceImpl implements QuotationService {
 	
 	@Override
 	public List<ItemSupplierDTO> getItemsBySupplierQuotationId(Integer supplierId, Integer quotationId) {
-		List<ItemSupplierDTO> itemsModels = quotationRepository.getSupplierItemsQuotationId(supplierId, quotationId);
+		System.out.println("Supplier Id:"+supplierId+"     quotationId"+quotationId);
+		List<ItemSupplierDTO> itemsModels = quotationRepository.getSupplierItemsQuotationId( quotationId,supplierId);
 		
 		return itemsModels;
 	}
@@ -352,8 +354,8 @@ public class QuotationServiceImpl implements QuotationService {
 
 	@Override
 	public List<ItemSupplierDTO> getItemsByItemCodeOrItemNameorItemDesc(String itemCode, String itemName,
-			String itemDescription) {
-		return quotationRepository.getItemsByItemCodeOrItemNameorItemDesc(itemCode, itemName, itemDescription);
+			String itemDescription,Integer supplierId) {
+		return quotationRepository.getItemsByItemCodeOrItemNameorItemDesc(itemCode, itemName, itemDescription,supplierId);
 	}
 
 	@Override

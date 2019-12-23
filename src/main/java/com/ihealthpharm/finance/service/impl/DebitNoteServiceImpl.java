@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.finance.dao.DebitNoteRepository;
+import com.ihealthpharm.finance.dto.CreditCustomerDTO;
 import com.ihealthpharm.finance.helper.DebitNoteHelper;
 import com.ihealthpharm.finance.model.DebitNoteModel;
 import com.ihealthpharm.finance.service.DebitNoteService;
@@ -103,5 +104,11 @@ public class DebitNoteServiceImpl implements DebitNoteService{
 			throw new IHealthPharmException(debitNoteHelper.getNotFoundDebitNoteMessage(), HttpStatus.NOT_FOUND);
 		}
 				
+	}
+
+	@Override
+	public List<CreditCustomerDTO> getAllCustomersMappedWithDebit() {
+        List<CreditCustomerDTO> response=debitNoteRepo.getAllCustomersMappedWithDebit();
+		return response;
 	}
 }

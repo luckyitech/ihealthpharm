@@ -107,12 +107,15 @@ public class AccountReceivablesController {
 	//to update salesreturn totalAmount
 	@GetMapping("/getaccreceipts/basedonbillid")
 		public ResponseEntity<BaseDto<List<AccountReceivablesModel>>> getAccountRecivableData(@RequestParam Integer salesModel){
-		
+		System.out.println(salesModel);
 		List<AccountReceivablesModel> result = accountReceivablesService.findAccountReceivablesByBillId(salesModel);
 		return new BaseDto<>(result, accountReceivablesHelper.getRetrieveAccountReceivablesMessage(), OK).respond();
 	}
 	
-	
-	
+	@GetMapping("/getsalesbasedon/SalesNumber")
+	public ResponseEntity<BaseDto<List<SalesModel>>> getSalesBasedOnSalesNumber(@RequestParam String billCode){
+		List<SalesModel> response=accountReceivablesService.getAllSalesBySearch(billCode);
+		return new BaseDto<>(response,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
 	
 }

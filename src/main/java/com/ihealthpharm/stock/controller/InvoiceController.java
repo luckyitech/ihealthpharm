@@ -60,7 +60,7 @@ public class InvoiceController {
 	 */
 	@PostMapping("/save/invoice")
 	public ResponseEntity<BaseDto<InvoiceModel>> saveInvoice(@Valid @RequestBody InvoiceModel invoiceModel) {
-		log.info("Request Object insert is: "+ invoiceModel.toString());
+		//log.info("Request Object insert is: "+ invoiceModel.toString());
 		PurchaseReturnModel purchaseReturnModel = invoiceModel.getPurchaseReturnModel();
 		InvoiceModel model = invoiceService.saveInvoice(invoiceModel, purchaseReturnModel);
 		model.setInvoiceItems(null);
@@ -135,6 +135,7 @@ public class InvoiceController {
 	
 	@GetMapping("/getinvoicebynum")
 	public ResponseEntity<BaseDto<InvoiceModel>> getInvoiceByNum(@RequestParam String invoiceNo) {
+		System.out.println(invoiceNo);
 		InvoiceModel result = invoiceService.findInvoiceByNum(invoiceNo);
 		return new BaseDto<>(result, invoiceHelper.getRetrieveInvoiceMessage(), OK).respond();
 	}
