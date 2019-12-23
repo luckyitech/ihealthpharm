@@ -27,6 +27,7 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -39,7 +40,7 @@ public class ReportsPDFUtility implements ReportGenerator{
 
 	protected static  Font title06 = FontFactory.getFont(Font.FontFamily.HELVETICA.toString(), 6);
 	protected static  Font title08 = FontFactory.getFont(Font.FontFamily.HELVETICA.toString(), 8);
-	protected static  Font headerFont = FontFactory.getFont(Font.FontFamily.HELVETICA.toString(), 8,Font.BOLD);
+	protected static  Font headerFont = FontFactory.getFont(Font.FontFamily.HELVETICA.toString(),7,Font.BOLD);
 	protected static  DecimalFormat decilFormatter = new DecimalFormat("0.00");
 
 
@@ -134,21 +135,16 @@ public class ReportsPDFUtility implements ReportGenerator{
 		String reportHeader = model.getReportHeader();
 		List<HeaderDto> headerList = JsonUtility.jsonToList(reportHeader, HeaderDto.class);
 
-		
 		PdfPTable table = new PdfPTable(headerList.size());
 		table.setWidthPercentage(100);
 		table.setSpacingBefore(30);
 		table.setSpacingAfter(50); 
 		PdfPCell cell = null;
 		
-		
-		
 		for (HeaderDto hearder : headerList) {
-			
 			Paragraph headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
 			headerCell.add(hearder.getDisplayName());
-			
 			
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);

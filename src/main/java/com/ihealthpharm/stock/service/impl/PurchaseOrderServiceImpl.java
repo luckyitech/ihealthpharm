@@ -391,4 +391,15 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		return purchaseorderRepository.findallsuppliersPRLS();
 	}
 
+	//Purchase Order Details By PO NO
+	@Override
+	public List<String> findPurNobysearchPDPO(String searchTerm) {
+		return purchaseorderRepository.findPurNoBySearch(searchTerm);
+	}
+
+	@Override
+	public List<String> findallPurNoPDPO() {
+		return purchaseorderRepository.findAllPurNoINPDPO();
+	}
+
 }

@@ -118,7 +118,7 @@ public class ReportsExcelUtility implements ExcelReportGenerator{
 							: "";
 					sheet.autoSizeColumn(colNum);
 					Cell cell = dataRow.createCell(colNum++);
-					
+					System.out.println("In Excel Cell:"     +    String.valueOf(value));
 					try {
 						if(NumberUtils.isNumber(String.valueOf(value))) {
 							cell.setCellType(CellType.NUMERIC);		
