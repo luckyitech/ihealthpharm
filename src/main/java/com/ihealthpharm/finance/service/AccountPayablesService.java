@@ -25,9 +25,9 @@ public interface AccountPayablesService
 	 List<InvoiceModel> getAllInvoicesBySupplierId(Integer supplierId);
 
 	List<InvoiceModel> getAllInvoicesBySearch(String invoiceNo);
+
+	List<AccountPayablesModel> getAllAccountPayables();
+
+	List<AccountPayablesModel> getAllCustomersBasedOnName(String customerName);
 	 
-	// List<InvoiceModel> getAllCustomersByCustomerId(Integer customerId);
-	 
-	 
-	
 }
