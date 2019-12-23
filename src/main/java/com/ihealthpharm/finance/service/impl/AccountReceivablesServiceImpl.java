@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.finance.dao.AccountReceivablesRepository;
-import com.ihealthpharm.finance.dto.CreditCustomerDTO;
+import com.ihealthpharm.finance.dto.CustomerDTO;
 import com.ihealthpharm.finance.helper.AccountReceivablesHelper;
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.finance.service.AccountReceivablesService;
@@ -159,6 +160,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 
 		return accountReceivablesRepository.getSalesBasedOnSalesSearch(billCode);
 	}
+
 
 	
 	
