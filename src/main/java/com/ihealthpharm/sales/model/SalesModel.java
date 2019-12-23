@@ -37,6 +37,7 @@ public class SalesModel {
 
 	@Column(name = "ADJUSTED_QTY", length = 11)
 	private Integer adjustedQty;
+	
 	@Column(name = "BALANCE_AMOUNT", length = 25)
 	private Float balanceAmount;
 

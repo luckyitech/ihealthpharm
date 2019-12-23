@@ -16,7 +16,7 @@ public interface ItemFormRepository extends JpaRepository<ItemFormModel,  Intege
 	
     List<ItemFormModel> findAllByOrderByLastUpdateTimestampDesc();
 	
-	@Query("select i from items_forms i where i.medicalOrNonMedical = :medicalOrNonMedical and i.formCode like %:searchTerm% order by i.creationTimeStamp desc")
+	@Query("select i from items_forms i where i.medicalOrNonMedical = :medicalOrNonMedical and i.form like :searchTerm%")
 	List<ItemFormModel> findAllBySearchCriteria(@Param("medicalOrNonMedical") String medicalOrNonMedical,@Param("searchTerm") String searchTerm);
 	
 }
