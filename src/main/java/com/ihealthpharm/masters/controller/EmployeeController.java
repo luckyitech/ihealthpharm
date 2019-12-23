@@ -5,6 +5,7 @@ import static org.springframework.http.HttpStatus.OK;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Objects;
 
 import javax.validation.Valid;
 
@@ -183,6 +184,43 @@ public class EmployeeController {
 		log.info("Request Object for Update :"+employeeData);
 		EmployeeModel empModel=employeeService.updateEmployeeData(employeeData);
 		return new BaseDto<>(empModel,employeeHelper.getUpdateEmployeeMessage(),OK).respond();
+	}
+	
+	@PutMapping("/update/employee/withimages")
+	public ResponseEntity<BaseDto<EmployeeModel>> updateEmployeeData(@Valid @RequestParam("employee") String employeeData, 
+@RequestParam(value="image",required=false) MultipartFile image,
+			@RequestParam(value="identificationDocument",required=false) MultipartFile identificationDocument,
+			@RequestParam(value="policeGoodConductCertificate",required=false) MultipartFile policeGoodConductCertificate,
+			@RequestParam(value="resume",required=false) MultipartFile resume,
+			@RequestParam(value="signedContract",required=false) MultipartFile signedContract) throws IOException {
+		
+		log.info(employeeData);
+		log.info("----------------------------------------------------------------------");
+		EmployeeModel employeeModel = null;
+		try {
+			employeeModel = new ObjectMapper().readValue(employeeData, EmployeeModel.class);
+			if (Objects.nonNull(image)) {
+				employeeModel.setProfileImage(image.getBytes());
+			}
+			if (Objects.nonNull(identificationDocument)) {
+			employeeModel.setIdentificationDocument(identificationDocument.getBytes());
+			}
+			if (Objects.nonNull(policeGoodConductCertificate)) {
+			employeeModel.setPoliceGoodConductCertificate(policeGoodConductCertificate.getBytes());
+			}
+			if (Objects.nonNull(resume)) {
+			
+			employeeModel.setResume(resume.getBytes());
+			}
+			if (Objects.nonNull(signedContract)) {
+			employeeModel.setSignedContract(signedContract.getBytes());
+			}
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+		EmployeeModel employeeRes = employeeService.updateEmployeeData(employeeModel);
+		return new BaseDto<>(employeeRes, employeeHelper.getUpdateEmployeeMessage(), OK).respond();
 	}
 	
 	@DeleteMapping("/delete/employee")
