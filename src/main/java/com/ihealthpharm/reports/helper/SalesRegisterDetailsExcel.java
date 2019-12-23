@@ -303,11 +303,9 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 				sheet.autoSizeColumn(5);
 				cell = dataRow.createCell(5);
 				if(NumberUtils.isNumber(String.valueOf(value))) {
-					System.out.println("Integer Value is : "+value);
 					cell.setCellType(CellType.NUMERIC);		
 					cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				}else {	
-					System.out.println("String Value is : "+value);
 				   cell.setCellValue(String.valueOf(value));
 				}
 				//cell.setCellValue(String.valueOf(value));
@@ -319,11 +317,9 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 				cell = dataRow.createCell(6);
 				
 				if(NumberUtils.isNumber(String.valueOf(value))) {
-					System.out.println("Integer Value is : "+value);
 					cell.setCellType(CellType.NUMERIC);		
 					cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				}else {	
-					System.out.println("String Value is : "+value);
 				   cell.setCellValue(String.valueOf(value));
 				}
 				//cell.setCellValue(String.valueOf(value));
@@ -332,14 +328,11 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 				value = rowData.containsKey("BALANCE_AMOUNT") ? rowData.get("BALANCE_AMOUNT") : "";
 				sheet.autoSizeColumn(7);
 				cell = dataRow.createCell(7);
-				System.out.println("Outside if Value is : "+String.valueOf(value));
-				
+			
 				if(NumberUtils.isNumber(String.valueOf(value))) {
-					System.out.println("Integer Value is : "+value);
 					cell.setCellType(CellType.NUMERIC);		
 					cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				}else {	
-					System.out.println("String Value is : "+value);
 				   cell.setCellValue(String.valueOf(value));
 				}
 				//cell.setCellValue(String.valueOf(value));

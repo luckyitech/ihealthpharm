@@ -189,7 +189,7 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 						
 						
 					}
-					Font bold = new Font(FontFamily.HELVETICA,6, Font.BOLD);
+					Font bold = new Font(FontFamily.HELVETICA,7,Font.BOLD);
 					cell = new PdfPCell(new Phrase(String.valueOf(value),bold));
 					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 					if(!model.isShowVerticalLines())
@@ -416,7 +416,7 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		cell = getCell("",Element.ALIGN_LEFT);
 		table.addCell(cell);
 		
-		cell = new PdfPCell(new Phrase("Cust. :",bold));
+		cell = new PdfPCell(new Phrase("Cust :",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setBorder(Rectangle.BOTTOM);
 		table.addCell(cell);

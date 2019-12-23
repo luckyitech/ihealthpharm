@@ -35,8 +35,5 @@ public interface AccountReceivablesService
 	List<AccountReceivablesModel> getAllAccountPayables();
 
 	List<AccountReceivablesModel> getAllCustomersBasedonCustomerName(String customerName);
-
-	//List<CustomerDTO> getAllCustomersData();
-
 	 
 }

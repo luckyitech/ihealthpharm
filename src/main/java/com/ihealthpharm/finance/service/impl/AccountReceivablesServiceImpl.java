@@ -124,12 +124,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 		}
 	}
 	
-	/*@Override
-	public List<SalesModel> getAllBillsByCustomerId(CustomerInsuranceModel customerId) {
-		log.info("given  id :" + customerId);
-		CustomerInsuranceModel id=customerInsuranceRepository.findByPolicyCode(customerId.getPolicyCode());
-		return accountReceivablesRepository.getAllBillsByCustomerId(id);
-	}*/
+
 	
 	@Override
 	public List<SalesModel> getAllBillsByCustomerId(Integer customerId) {
@@ -168,9 +163,5 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 	public List<AccountReceivablesModel> getAllCustomersBasedonCustomerName(String customerName) {
 		return accountReceivablesRepository.getAllCustomersBasedOnName(customerName);
 	}
-
-
-	
-	
 
 }
