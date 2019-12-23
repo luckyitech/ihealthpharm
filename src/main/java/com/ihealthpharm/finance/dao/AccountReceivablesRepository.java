@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.ihealthpharm.finance.dto.CustomerDTO;
+
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.sales.model.SalesModel;
 
@@ -31,6 +31,6 @@ public interface AccountReceivablesRepository extends JpaRepository<AccountRecei
 	
 	
 	
-	//List<CustomerDTO> getAllCustomersData();
+
 	
 }
