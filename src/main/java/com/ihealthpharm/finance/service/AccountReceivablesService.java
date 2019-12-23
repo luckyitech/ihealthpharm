@@ -34,7 +34,7 @@ public interface AccountReceivablesService
 	
 	List<SalesModel> getAllSalesBySearch(String billCode);
 
-	List<CustomerDTO> getAllCustomersData();
+	//List<CustomerDTO> getAllCustomersData();
 
 	 
 }

@@ -119,11 +119,11 @@ public class AccountReceivablesController {
 		return new BaseDto<>(response,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
 	
-	@GetMapping("/getdata/accountrecievables/creditandsales")
+	/*@GetMapping("/getdata/accountrecievables/creditandsales")
 	public ResponseEntity<BaseDto<List<CustomerDTO>>> getAllCustomersData(){
 		List<CustomerDTO> response=accountReceivablesService.getAllCustomersData();
 		return new BaseDto<>(response,salesHelper.getRetrieveSalesMessage(),OK).respond();
-	}
+	}*/
 	
 	
 	

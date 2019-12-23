@@ -30,14 +30,7 @@ public interface AccountReceivablesRepository extends JpaRepository<AccountRecei
 	List<SalesModel> getSalesBasedOnSalesSearch(@Param("billCode")String billCode);
 	
 	
-	@Query(value="select c.customerId,a.receiptNumber, a.receiptDate,a.SourceRef, a.sourceType, concat(c.customerName,' ',c.lastName) as customerName , "
-			+ "a.status, a.paymentTypeId.paymentTypeId,a.amountToBeReceived," + 
-			"a.paymentStatus,p.type " + 
-			" from account_receivables a, CREDIT_NOTE b, customer c, payment_types p where a.source = b.creditNoteId " + 
-			"and b.customerModel.customerId = c.customerId and p.paymentTypeId=a.paymentTypeId UNION "+
-"select  c.customerId, a.receiptNumber, a.receiptDate,a.SourceRef, a.sourceType, concat(c.customerName,' ',c.lastName) as customerName, a.status, a.paymentTypeId.paymentTypeId,a.amountToBeReceived, a.paymentStatus,p.type" + 
-			" from account_receivables a, sales b, customer c,payment_types p where a.source = b.billId " + 
-			"and b.customerModel.customerId = c.customerId and p.paymentTypeId=a.paymentTypeId", nativeQuery=true)
-	List<CustomerDTO> getAllCustomersData();
+	
+	//List<CustomerDTO> getAllCustomersData();
 	
 }

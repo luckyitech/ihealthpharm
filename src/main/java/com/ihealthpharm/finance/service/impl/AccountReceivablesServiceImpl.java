@@ -161,10 +161,6 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 		return accountReceivablesRepository.getSalesBasedOnSalesSearch(billCode);
 	}
 
-	@Override
-	public List<CustomerDTO> getAllCustomersData() {
-		return accountReceivablesRepository.getAllCustomersData();
-	}
 
 	
 	
