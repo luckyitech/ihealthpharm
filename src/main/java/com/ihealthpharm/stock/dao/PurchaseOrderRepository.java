@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.ihealthpharm.masters.dto.ItemSupplierDTO;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.model.SupplierModel;
+import com.ihealthpharm.sales.dto.SalesBillDTO;
 import com.ihealthpharm.stock.model.PurchaseOrderModel;
 
 @Repository
@@ -160,5 +161,13 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrderMode
 				+ "where  inv.supplierModel.supplierId=sp.supplierId "
 				+ "and inv.supplierModel.supplierId=po.supplierModel.supplierId order by sp.name")
 		List<String> findallsuppliersPRLS();
+		
+		//Purchase Details By PO NO
+		@Query("SELECT distinct po.purchaseOrderNo from purchase_order po order by po.purchaseOrderNo")
+		List<String> findAllPurNoINPDPO();
+
+	 
+		@Query("select po.purchaseOrderNo from purchase_order po where po.purchaseOrderNo like :poNo%")
+		List<String> findPurNoBySearch(@Param("poNo") String poNo);
 	
 }
