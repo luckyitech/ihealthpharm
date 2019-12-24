@@ -29,6 +29,12 @@ public interface AccountReceivablesRepository extends JpaRepository<AccountRecei
 	@Query("select s from sales s where s.billCode=:billCode")
 	List<SalesModel> getSalesBasedOnSalesSearch(@Param("billCode")String billCode);
 	
+	@Query("select  ac from account_receivables ac group by ac.customerName")
+	List<AccountReceivablesModel> getAllAccountPayables();
+	
+	@Query("select ac from account_receivables ac where ac.customerName=:customerName")
+	List<AccountReceivablesModel> getAllCustomersBasedOnName(@Param("customerName")String customerName);
+	
 	
 	
 

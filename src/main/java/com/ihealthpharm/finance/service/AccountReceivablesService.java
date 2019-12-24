@@ -2,8 +2,6 @@ package com.ihealthpharm.finance.service;
 
 import java.util.List;
 
-import com.ihealthpharm.finance.dto.CreditCustomerDTO;
-
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.sales.model.SalesModel;
 
@@ -34,7 +32,8 @@ public interface AccountReceivablesService
 	
 	List<SalesModel> getAllSalesBySearch(String billCode);
 
-	
+	List<AccountReceivablesModel> getAllAccountPayables();
 
+	List<AccountReceivablesModel> getAllCustomersBasedonCustomerName(String customerName);
 	 
 }

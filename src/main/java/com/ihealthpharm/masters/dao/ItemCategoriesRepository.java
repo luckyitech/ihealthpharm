@@ -16,7 +16,7 @@ public interface ItemCategoriesRepository extends JpaRepository<ItemCategoryMode
 
 	List<ItemCategoryModel> findAllByOrderByLastUpdateTimestampDesc();
 
-	@Query("select i from items_categories i where i.medicalOrNonMedical = :medicalOrNonMedical and i.categoryCode  like %:searchTerm% order by i.creationTimeStamp desc")
+	@Query("select i from items_categories i where i.medicalOrNonMedical = :medicalOrNonMedical and i.categoryName  like :searchTerm% ")
 	List<ItemCategoryModel> findAllBySearchCriteria(@Param("medicalOrNonMedical") String medicalOrNonMedical,@Param("searchTerm") String searchTerm);
 
 
