@@ -160,4 +160,21 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 		return accountPayablesRepository.findAllAccountPayablesForSuppliers();
 	}
 	
+
+	@Override
+	public Integer getCountOfPending() {
+
+		return accountPayablesRepository.getPending();
+	}
+	
+	@Override
+	public Integer getCountPartiallyPaid() {
+		return accountPayablesRepository.getPartiallyPaid();
+	}
+	
+	@Override
+	public Integer getCountPaid() {
+		return accountPayablesRepository.getPaid();
+	}
+	
 }

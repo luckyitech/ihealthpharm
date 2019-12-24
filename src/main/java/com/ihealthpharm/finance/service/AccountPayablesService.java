@@ -33,5 +33,11 @@ public interface AccountPayablesService
 	List<AccountPayablesModel> getAllSuppliersBasedonSupplierName(String supplierName);
 
 	List<AccountPayablesModel> getAllSuppliersForAccountPayables();
+	
+    Integer getCountOfPending();
+	
+	Integer getCountPartiallyPaid();
+	
+	Integer getCountPaid();
 	 
 }

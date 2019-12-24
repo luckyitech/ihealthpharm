@@ -33,4 +33,13 @@ public interface AccountPayablesRepository extends JpaRepository<AccountPayables
 	
 	@Query("select ap from ACCOUNT_PAYABLES ap group by ap.supplierName")
 	List<AccountPayablesModel> findAllAccountPayablesForSuppliers();
+	
+	@Query("select count(paymentDate) from ACCOUNT_PAYABLES where selectedPaymentStatus='pending'")
+	Integer getPending();
+	
+	@Query("select count(paymentDate) from ACCOUNT_PAYABLES where selectedPaymentStatus='partially paid'")
+	Integer getPartiallyPaid();
+	
+	@Query("select count(paymentDate) from ACCOUNT_PAYABLES where selectedPaymentStatus='paid'")
+	Integer getPaid();
 }
