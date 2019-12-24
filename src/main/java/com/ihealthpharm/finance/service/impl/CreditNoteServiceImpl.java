@@ -119,5 +119,15 @@ public class CreditNoteServiceImpl implements CreditNoteService {
 	public List<CreditCustomerDTO> getAllCustomersFromCreditNotes() {
 		return creditNoteRepo.getCustomersFromCreditNote();
 	}
+
+	@Override
+	public List<String> findCreditNoteNobysearchCN(String searchTerm) {
+		return creditNoteRepo.findCreditNoteNoBySearch(searchTerm);
+	}
+
+	@Override
+	public List<String> findallCreditNoteNoCN() {
+		return creditNoteRepo.findAllCreditNoteNoINCN();
+	}
    
 }

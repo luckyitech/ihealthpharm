@@ -23,5 +23,9 @@ public interface CreditNoteService
     List<CreditNoteModel> updateListOfCreditData(List<CreditNoteModel> creditNoteModel);
 
 	List<CreditCustomerDTO> getAllCustomersFromCreditNotes();
+	//Credit Note
+	List<String> findCreditNoteNobysearchCN(String searchTerm);
+	
+	List<String> findallCreditNoteNoCN();
 	
 }
