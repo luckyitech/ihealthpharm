@@ -14,7 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 public class ItemSupplierDTO {
 	
-	private int itemSupplierId;
+	private Integer itemSupplierId;
 	
 	private String activeS;
 	
@@ -32,7 +32,7 @@ public class ItemSupplierDTO {
 	
 	private Integer supplierId;
 	
-	private int supplierPriority;
+	private Integer supplierPriority;
 	
 	private String formulation;
 
@@ -50,11 +50,11 @@ public class ItemSupplierDTO {
 	
 	private SupplierModel supplierModel;
 	
-	private int itemsId;
+	private Integer itemsId;
 	
 	private Integer quantity;
 	
-	public ItemSupplierDTO(int itemSupplierId, int itemId, int supplierId, String activeS, String supplierName, String itemName) {
+	public ItemSupplierDTO(Integer itemSupplierId, Integer itemId, Integer supplierId, String activeS, String supplierName, String itemName) {
 		this.itemSupplierId = itemSupplierId;
 		this.itemId = itemId;
 		this.supplierId = supplierId;
@@ -64,7 +64,7 @@ public class ItemSupplierDTO {
 	}
 	
 	public ItemSupplierDTO(Double unitRate, Double discountPercentage, String itemCode, String itemName, String itemDescription, 
-			Double percentage, int itemsId) {
+			Double percentage, Integer itemsId) {
 		this.unitRate = unitRate;
 		this.discountPercentage = discountPercentage;
 		this.itemCode = itemCode;
@@ -74,8 +74,8 @@ public class ItemSupplierDTO {
 		this.itemId = itemsId;
 	}
 	
-	public ItemSupplierDTO(int itemSupplierId,String activeS,String supplierName,String itemName,String manufacturerName,String manufacturerLicense,String itemDescription,Integer itemId,
-			Integer supplierId,int supplierPriority,String formulation,String itemCode,Double unitRate,Double discountPercentage,String validity) {
+	public ItemSupplierDTO(Integer itemSupplierId,String activeS,String supplierName,String itemName,String manufacturerName,String manufacturerLicense,String itemDescription,Integer itemId,
+			Integer supplierId,Integer supplierPriority,String formulation,String itemCode,Double unitRate,Double discountPercentage,String validity) {
 		this.itemSupplierId=itemSupplierId;
 		this.activeS=activeS;
 		this.supplierName=supplierName;
@@ -133,7 +133,7 @@ public class ItemSupplierDTO {
 	}
 	
 	public ItemSupplierDTO(Double unitRate, Double discountPercentage, String itemCode, String itemName, String itemDescription, 
-			Double percentage, int itemsId, String manufacturerName, String formulation) {
+			Double percentage, Integer itemsId, String manufacturerName, String formulation) {
 		this.unitRate = unitRate;
 		this.discountPercentage = discountPercentage;
 		this.itemCode = itemCode;
@@ -146,7 +146,7 @@ public class ItemSupplierDTO {
 	}
 	
 	public ItemSupplierDTO(Double unitRate, Float discountPercentage, String itemCode, String itemName, String itemDescription, 
-			Double percentage, int itemsId, String manufacturerName, String formulation) {
+			Double percentage, Integer itemsId, String manufacturerName, String formulation) {
 		this.unitRate = unitRate;
 		if(discountPercentage != null) {
 			this.discountPercentage = discountPercentage.doubleValue();
@@ -161,7 +161,7 @@ public class ItemSupplierDTO {
 	}
 	
 	public ItemSupplierDTO(Double unitRate, Double discountPercentage, String itemCode, String itemName, String itemDescription, 
-			int itemsId, String manufacturerName) {
+			Integer itemsId, String manufacturerName) {
 		this.unitRate = unitRate;
 		this.discountPercentage = discountPercentage;
 		this.itemCode = itemCode;
@@ -172,7 +172,7 @@ public class ItemSupplierDTO {
 	}
 	
 	public ItemSupplierDTO(Double unitRate, Float discountPercentage, String itemCode, String itemName, String itemDescription, 
-			int itemsId, String manufacturerName) {
+			Integer itemsId, String manufacturerName) {
 		this.unitRate = unitRate;
 		if(discountPercentage != null) {
 			this.discountPercentage = discountPercentage.doubleValue();
@@ -185,7 +185,7 @@ public class ItemSupplierDTO {
 	}
 	
 	public ItemSupplierDTO(String itemCode, String itemName, String itemDescription, 
-			int itemsId, String manufacturerName) {
+			Integer itemsId, String manufacturerName) {
 		this.itemCode = itemCode;
 		this.itemDescription = itemDescription;
 		this.itemName = itemName;
