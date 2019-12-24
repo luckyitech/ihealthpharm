@@ -22,6 +22,14 @@ public interface AccountPayablesRepository extends JpaRepository<AccountPayables
 	@Query("select i from invoice i where i.invoiceNo=:invoiceNo")
 	List<InvoiceModel> getInvoiceBasedOnInvoiceSearch(@Param("invoiceNo")String invoiceNo);
 	
+
+	@Query("SELECT distinct ap.paymentNumber from ACCOUNT_PAYABLES ap order by ap.paymentNumber")
+	List<String> findAllPaymentNoINAP();
+
+	@Query("SELECT distinct ap.paymentNumber from ACCOUNT_PAYABLES ap where ap.paymentNumber like :PNo%")
+	List<String> findPaymentNosBySearch(@Param("PNo") String PNo);
+	
+
 	@Query("select ap from ACCOUNT_PAYABLES ap group by ap.customerName")
 	List<AccountPayablesModel> getAllAccountPayables();
 	
