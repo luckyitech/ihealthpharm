@@ -83,7 +83,7 @@ public class AccountPayablesModel extends AuditModel {
 	private String upiPhoneNo;
 
 	@Column(name="CHEQUE_NUMBER")
-	private Integer chequeNumber;
+	private String chequeNumber;
 
 	@Column(name="CHEQUE_AMT")
 	private Double chequeAmount;
@@ -93,13 +93,22 @@ public class AccountPayablesModel extends AuditModel {
 
 	@Column(name="SOURCE_ID",length=11)
 	private String source;
+	
+	@Column(name="AUTH_CODE",length=50)
+	private String authCode;
+	
+	@Column(name="CHEQUE_DATE")
+	private Date chequeDate;
 
 	@Column(name="SOURCE_REF",length=20)
 	private String sourceRef;
+	
+	@Column(name="SOURCE_TYPE",length=30)
+	private String sourceType;
 
 	@OneToOne
 	@JoinColumn(name="SUPPLIER_ID")
-	SupplierModel supplierModel;
+	private SupplierModel supplierModel;
 
 	@OneToOne
 	@JoinColumn(name="PHARMACY_ID")
@@ -113,7 +122,5 @@ public class AccountPayablesModel extends AuditModel {
 	
 	@Column(name="SUPPLIER_NAME")
 	private String supplierName;
-
-	
 
 }
