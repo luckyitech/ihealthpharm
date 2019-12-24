@@ -28,4 +28,9 @@ public interface AccountPayablesRepository extends JpaRepository<AccountPayables
 	@Query("select ap from ACCOUNT_PAYABLES ap where ap.customerName=:customerName")
 	List<AccountPayablesModel> getAllAccountPayablesByCustomer(@Param("customerName")String customerName);
 	
+	@Query("select ap from ACCOUNT_PAYABLES ap where ap.supplierName=:supplierName")
+	List<AccountPayablesModel> getAllAccountPayablesBySupplier(@Param ("supplierName")String supplierName);
+	
+	@Query("select ap from ACCOUNT_PAYABLES ap group by ap.supplierName")
+	List<AccountPayablesModel> findAllAccountPayablesForSuppliers();
 }

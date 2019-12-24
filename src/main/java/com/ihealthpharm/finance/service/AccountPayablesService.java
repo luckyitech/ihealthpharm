@@ -29,5 +29,9 @@ public interface AccountPayablesService
 	List<AccountPayablesModel> getAllAccountPayables();
 
 	List<AccountPayablesModel> getAllCustomersBasedOnName(String customerName);
+
+	List<AccountPayablesModel> getAllSuppliersBasedonSupplierName(String supplierName);
+
+	List<AccountPayablesModel> getAllSuppliersForAccountPayables();
 	 
 }

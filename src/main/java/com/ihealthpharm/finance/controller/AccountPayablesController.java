@@ -110,6 +110,20 @@ public class AccountPayablesController {
 		List<AccountPayablesModel> response=accountPayablesService.getAllCustomersBasedOnName(customerName);
 		return new BaseDto<>(response,accountPayablesHelper.getRetrieveAccountPayablesMessage(),OK).respond();
 	}
+	
+	@GetMapping("/getAll/AccountPayables/basedonSupplier")
+	public ResponseEntity<BaseDto<List<AccountPayablesModel>>> getAllAccountPayablesBasedOnSupplier(@RequestParam String supplierName){
+		List<AccountPayablesModel> response=accountPayablesService.getAllSuppliersBasedonSupplierName(supplierName);
+		return new BaseDto<>(response,accountPayablesHelper.getRetrieveAccountPayablesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getAll/AccountPayables/basedonsuppliers")
+	public ResponseEntity<BaseDto<List<AccountPayablesModel>>> getAllAccountPayablesForSuppliers(){
+		List<AccountPayablesModel> response=accountPayablesService.getAllSuppliersForAccountPayables();
+		return new BaseDto<>(response,accountPayablesHelper.getRetrieveAccountPayablesMessage(),OK).respond();
+		
+	}
+	
 		
 	
 }
