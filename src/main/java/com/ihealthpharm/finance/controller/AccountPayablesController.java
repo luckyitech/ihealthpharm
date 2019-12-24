@@ -107,5 +107,14 @@ public class AccountPayablesController {
 		return new BaseDto<>(response,invoiceHelper.getRetrieveInvoiceMessage(),OK).respond();
 	}
 		
-	
+	@GetMapping("/getallpaymentnosinap")
+	public ResponseEntity<BaseDto<List<String>>> getAllPaymentNosInAP(){
+		List<String> results=accountPayablesService.findAllPaymentNosINAP();
+		return new BaseDto<>(results,invoiceHelper.getRetrieveInvoiceMessage(),OK).respond();
+	}
+	@GetMapping("/getpaymentnosinapbysearch")
+	public ResponseEntity<BaseDto<List<String>>> getPaymentNosInAP(@RequestParam String PNO){
+		List<String> results=accountPayablesService.findPaymentNoINAP(PNO);
+		return new BaseDto<>(results,invoiceHelper.getRetrieveInvoiceMessage(),OK).respond();
+	}
 }

@@ -111,4 +111,14 @@ public class DebitNoteServiceImpl implements DebitNoteService{
         List<CreditCustomerDTO> response=debitNoteRepo.getAllCustomersMappedWithDebit();
 		return response;
 	}
+
+	@Override
+	public List<String> findDebitNoINDN(String DNNo) {
+		return debitNoteRepo.findDebitNoteNoBySearch(DNNo);
+	}
+
+	@Override
+	public List<String> findAllDebitNosINDN() {
+		return debitNoteRepo.findAllDebitNoteNoINDN();
+	}
 }

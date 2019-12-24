@@ -80,7 +80,16 @@ public class DebitNoteController {
 		return new BaseDto<>(result,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
 	}
 	
-	
+	@GetMapping("/getalldebitnosindn")
+	public ResponseEntity<BaseDto<List<String>>> getAllDebitNosInDN(){
+		List<String> results=debitNoteService.findAllDebitNosINDN();
+		return new BaseDto<>(results,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
+	}
+	@GetMapping("/getdebitnosindnbysearch")
+	public ResponseEntity<BaseDto<List<String>>> getDebitNosInDN(@RequestParam String DNNO){
+		List<String> results=debitNoteService.findDebitNoINDN(DNNO);
+		return new BaseDto<>(results,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
+	}
 	
 	
 }
