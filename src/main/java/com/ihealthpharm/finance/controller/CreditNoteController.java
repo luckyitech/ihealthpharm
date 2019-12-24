@@ -84,5 +84,17 @@ public class CreditNoteController {
 		List<CreditCustomerDTO> response=creditNoteService.getAllCustomersFromCreditNotes();
 		return new BaseDto<>(response,creditNoteHelper.getRetriveCreditNoteMessage(),OK).respond();
 	}
+	//Credit Note
+	@GetMapping("/getcreditnotenobysearchCN")
+	public ResponseEntity<BaseDto<List<String>>> findCreditNoteNoBySearchCN(@RequestParam String searchTerm){
+		List<String> results=creditNoteService.findCreditNoteNobysearchCN(searchTerm);
+		return new BaseDto<>(results,creditNoteHelper.getRetriveCreditNoteMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getallcreditnotenoCN")
+	public ResponseEntity<BaseDto<List<String>>> findAllCreditNoteNoCN(){
+		List<String> results=creditNoteService.findallCreditNoteNoCN();
+		return new BaseDto<>(results,creditNoteHelper.getRetriveCreditNoteMessage(),OK).respond();
+	}
 	
 	}

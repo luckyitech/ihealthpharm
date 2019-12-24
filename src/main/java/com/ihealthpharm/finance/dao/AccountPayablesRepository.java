@@ -33,4 +33,5 @@ public interface AccountPayablesRepository extends JpaRepository<AccountPayables
 	
 	@Query("select ap from ACCOUNT_PAYABLES ap group by ap.supplierName")
 	List<AccountPayablesModel> findAllAccountPayablesForSuppliers();
+
 }
