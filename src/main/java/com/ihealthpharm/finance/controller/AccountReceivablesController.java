@@ -39,7 +39,7 @@ public class AccountReceivablesController {
 	
 	@Autowired
 	SalesHelper salesHelper;
-
+	
 	@PostMapping("/save/accountReceivables")
 	public ResponseEntity<BaseDto<AccountReceivablesModel>> insertAccountReceivablesData(@Valid @RequestBody AccountReceivablesModel accountReceivablesModel) {
 		AccountReceivablesModel accountReceivablesModelRes = accountReceivablesService.saveAccountReceivablesData(accountReceivablesModel);
@@ -116,6 +116,20 @@ public class AccountReceivablesController {
 	public ResponseEntity<BaseDto<List<SalesModel>>> getSalesBasedOnSalesNumber(@RequestParam String billCode){
 		List<SalesModel> response=accountReceivablesService.getAllSalesBySearch(billCode);
 		return new BaseDto<>(response,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	
+	@GetMapping("/getAll/accountrecievables")
+	public ResponseEntity<BaseDto<List<AccountReceivablesModel>>> getAll(){
+		List<AccountReceivablesModel> response=accountReceivablesService.getAllAccountPayables();
+		return new BaseDto<>(response,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
+	}
+	
+	
+	@GetMapping("/getAll/accountrecievables/basedon/customername")
+	public ResponseEntity<BaseDto<List<AccountReceivablesModel>>> getAllBasedOnCustomerName(@RequestParam String customerName){
+		List<AccountReceivablesModel> result=accountReceivablesService.getAllCustomersBasedonCustomerName(customerName);
+		return new BaseDto<>(result,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
 	}
 	
 }

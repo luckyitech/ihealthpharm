@@ -19,16 +19,27 @@ public interface AccountPayablesRepository extends JpaRepository<AccountPayables
 	@Query("select i from invoice i inner join supplier d on i.supplierModel=d.supplierId where i.supplierModel.supplierId=:supplier")
 	List<InvoiceModel> getAllInvoicesBySupplierId(@Param ("supplier")Integer supplier);
 	
-/*	@Query("select i from invoice i inner join customer c on i.customerModel.customerId=c.customerId where i.customerModel.customerId=:customerId")
-	List<InvoiceModel> getAllCustomersByCustomerId(@Param ("customerId")Integer customerId);*/
-	
 	@Query("select i from invoice i where i.invoiceNo=:invoiceNo")
 	List<InvoiceModel> getInvoiceBasedOnInvoiceSearch(@Param("invoiceNo")String invoiceNo);
 	
+
 	@Query("SELECT distinct ap.paymentNumber from ACCOUNT_PAYABLES ap order by ap.paymentNumber")
 	List<String> findAllPaymentNoINAP();
 
 	@Query("SELECT distinct ap.paymentNumber from ACCOUNT_PAYABLES ap where ap.paymentNumber like :PNo%")
 	List<String> findPaymentNosBySearch(@Param("PNo") String PNo);
 	
+
+	@Query("select ap from ACCOUNT_PAYABLES ap group by ap.customerName")
+	List<AccountPayablesModel> getAllAccountPayables();
+	
+	@Query("select ap from ACCOUNT_PAYABLES ap where ap.customerName=:customerName")
+	List<AccountPayablesModel> getAllAccountPayablesByCustomer(@Param("customerName")String customerName);
+	
+	@Query("select ap from ACCOUNT_PAYABLES ap where ap.supplierName=:supplierName")
+	List<AccountPayablesModel> getAllAccountPayablesBySupplier(@Param ("supplierName")String supplierName);
+	
+	@Query("select ap from ACCOUNT_PAYABLES ap group by ap.supplierName")
+	List<AccountPayablesModel> findAllAccountPayablesForSuppliers();
+
 }

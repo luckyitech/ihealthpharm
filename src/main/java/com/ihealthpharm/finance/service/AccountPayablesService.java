@@ -25,7 +25,16 @@ public interface AccountPayablesService
 	 List<InvoiceModel> getAllInvoicesBySupplierId(Integer supplierId);
 
 	List<InvoiceModel> getAllInvoicesBySearch(String invoiceNo);
+
+	List<AccountPayablesModel> getAllAccountPayables();
+
+	List<AccountPayablesModel> getAllCustomersBasedOnName(String customerName);
+
+	List<AccountPayablesModel> getAllSuppliersBasedonSupplierName(String supplierName);
+
+	List<AccountPayablesModel> getAllSuppliersForAccountPayables();
 	 
+
 	// List<InvoiceModel> getAllCustomersByCustomerId(Integer customerId);
 	 
 	List<String> findPaymentNoINAP(String PNo);
@@ -33,4 +42,5 @@ public interface AccountPayablesService
 	List<String> findAllPaymentNosINAP();
 	 
 	
+
 }
