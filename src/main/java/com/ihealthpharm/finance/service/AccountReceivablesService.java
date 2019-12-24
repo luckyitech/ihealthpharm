@@ -35,5 +35,8 @@ public interface AccountReceivablesService
 	List<AccountReceivablesModel> getAllAccountPayables();
 
 	List<AccountReceivablesModel> getAllCustomersBasedonCustomerName(String customerName);
-	 
+	//Account Receivables 
+	List<String> findReceiptNobysearchAR(String searchTerm);
+	
+	List<String> findallReceiptNoAR();
 }

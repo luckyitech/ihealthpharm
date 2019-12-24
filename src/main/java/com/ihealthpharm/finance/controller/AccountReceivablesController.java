@@ -131,5 +131,18 @@ public class AccountReceivablesController {
 		List<AccountReceivablesModel> result=accountReceivablesService.getAllCustomersBasedonCustomerName(customerName);
 		return new BaseDto<>(result,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
 	}
+	//Account Receivables 
+	//Credit Note
+		@GetMapping("/getreceiptnobysearchAR")
+		public ResponseEntity<BaseDto<List<String>>> findReceiptNoBySearchAR(@RequestParam String searchTerm){
+			List<String> results=accountReceivablesService.findReceiptNobysearchAR(searchTerm);
+			return new BaseDto<>(results,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
+		}
+		
+		@GetMapping("/getallreceiptnoAR")
+		public ResponseEntity<BaseDto<List<String>>> findAllReceiptNoAR(){
+			List<String> results=accountReceivablesService.findallReceiptNoAR();
+			return new BaseDto<>(results,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
+		}
 	
 }

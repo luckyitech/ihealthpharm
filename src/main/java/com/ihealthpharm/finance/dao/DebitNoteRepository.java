@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.ihealthpharm.finance.dto.CreditCustomerDTO;
@@ -16,5 +17,11 @@ extends JpaRepository<DebitNoteModel,Integer>
 
 	@Query("select  new com.ihealthpharm.finance.dto.CreditCustomerDTO(dn.customerModel.customerId, CONCAT(c.customerName,' ', c.lastName )) from DEBIT_NOTE dn  inner join customer c on  dn.customerModel.customerId=c.customerId")
 	List<CreditCustomerDTO> getAllCustomersMappedWithDebit();
+	
+	@Query("SELECT distinct d.debitNoteNo from DEBIT_NOTE d order by d.debitNoteNo")
+	List<String> findAllDebitNoteNoINDN();
+
+	@Query("SELECT distinct d.debitNoteNo from DEBIT_NOTE d  where d.debitNoteNo like :DNNo%")
+	List<String> findDebitNoteNoBySearch(@Param("DNNo") String DNNo);
 	
 }
