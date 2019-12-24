@@ -40,4 +40,13 @@ public interface AccountPayablesService
 	
 	Integer getCountPaid();
 	 
+
+	// List<InvoiceModel> getAllCustomersByCustomerId(Integer customerId);
+	 
+	List<String> findPaymentNoINAP(String PNo);
+	
+	List<String> findAllPaymentNosINAP();
+	 
+	
+
 }

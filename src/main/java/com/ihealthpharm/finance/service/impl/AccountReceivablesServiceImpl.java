@@ -164,4 +164,14 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 		return accountReceivablesRepository.getAllCustomersBasedOnName(customerName);
 	}
 
+	@Override
+	public List<String> findReceiptNobysearchAR(String searchTerm) {
+		return accountReceivablesRepository.findReceiptNoBySearch(searchTerm);
+	}
+
+	@Override
+	public List<String> findallReceiptNoAR() {
+		return accountReceivablesRepository.findAllReceiptNoINAR();
+	}
+
 }
