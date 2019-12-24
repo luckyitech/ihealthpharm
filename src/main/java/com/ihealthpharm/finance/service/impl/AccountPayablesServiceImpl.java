@@ -141,6 +141,17 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 	}
 
 	@Override
+
+	public List<String> findPaymentNoINAP(String PNo) {
+		
+		return accountPayablesRepository.findPaymentNosBySearch(PNo);
+	}
+
+	@Override
+	public List<String> findAllPaymentNosINAP() {
+		return accountPayablesRepository.findAllPaymentNoINAP();
+	}
+
 	public List<AccountPayablesModel> getAllAccountPayables() {
 		return accountPayablesRepository.getAllAccountPayables();
 	}
@@ -158,6 +169,7 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 	@Override
 	public List<AccountPayablesModel> getAllSuppliersForAccountPayables() {
 		return accountPayablesRepository.findAllAccountPayablesForSuppliers();
+
 	}
 	
 }

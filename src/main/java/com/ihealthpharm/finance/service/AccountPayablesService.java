@@ -34,4 +34,13 @@ public interface AccountPayablesService
 
 	List<AccountPayablesModel> getAllSuppliersForAccountPayables();
 	 
+
+	// List<InvoiceModel> getAllCustomersByCustomerId(Integer customerId);
+	 
+	List<String> findPaymentNoINAP(String PNo);
+	
+	List<String> findAllPaymentNosINAP();
+	 
+	
+
 }

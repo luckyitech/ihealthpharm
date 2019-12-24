@@ -22,4 +22,8 @@ public interface DebitNoteService
     void deleteMultipleDebit(Integer[] debitNoteId);
 
 	List<CreditCustomerDTO> getAllCustomersMappedWithDebit();
+	
+	List<String> findDebitNoINDN(String DNNo);
+	
+	List<String> findAllDebitNosINDN();
 }
