@@ -87,4 +87,17 @@ public class PurchaseReturnItemController {
 		List<PurchaseReturnItemModel> purchaseReturnItemModelRes = purchaseReturnItemService.updatePurchaseReturnItemsData(PurchaseReturnItemModel);
 		return new BaseDto<>(purchaseReturnItemModelRes, purchaseReturnItemHelper.getUpdatePurchaseReturnItemMessage(), OK).respond();
 	}
+	//Purchase Return
+	@GetMapping("/getinvoicenobysearchpr")
+	public ResponseEntity<BaseDto<List<String>>> getInvoiceNoBySearchPR(@RequestParam String searchTerm){
+		List<String> results=purchaseReturnItemService.findInvoiceNoByPR(searchTerm);
+		return new BaseDto<>(results,purchaseReturnItemHelper.getRetrievePurchaseReturnItemMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getallinvoicenopr")
+	public ResponseEntity<BaseDto<List<String>>> getAllInvoiceNoByPR(){
+		List<String> results=purchaseReturnItemService.findAllInvoiceNoByPR();
+		return new BaseDto<>(results,purchaseReturnItemHelper.getRetrievePurchaseReturnItemMessage(),OK).respond();
+	}
+	
 }
