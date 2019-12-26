@@ -82,6 +82,10 @@ public class InvoiceItemModel extends AuditModel {
 	private Double saleDiscountPercentage;
 	
 
+	@Column(name="PACK_PRICE")
+	private Double packPPrice;
+
+	
 	@Column(name="BONUS", length=11)
 	private Integer bonus;
 
