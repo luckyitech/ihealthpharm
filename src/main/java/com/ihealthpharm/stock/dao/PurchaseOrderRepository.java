@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import com.ihealthpharm.masters.dto.ItemSupplierDTO;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.model.SupplierModel;
-import com.ihealthpharm.sales.dto.SalesBillDTO;
 import com.ihealthpharm.stock.model.PurchaseOrderModel;
 
 @Repository
@@ -45,18 +44,18 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrderMode
 	SupplierModel getSupplierByPurchaseOrder(@Param("purchaseOrderId") Integer purchaseOrderId);
 	
 	@Query("select i "
-			+ " from purchase_order i where purchaseOrderStatusModel.status='APPROVED' and i.pharmacyModel.pharmacyId = :pharmacyId ")
+			+ " from purchase_order i where purchaseOrderStatusModel.status='APPROVED' and i.pharmacyModel.pharmacyId = :pharmacyId order by i.purchaseOrderDate desc ")
 	List<PurchaseOrderModel> getPurchaseOrderByPharmacy(@Param("pharmacyId") Integer pharmacyId);
 	
 	@Query("select i from purchase_order i inner join purchase_order_status ps "
 			+ "on i.purchaseOrderStatusModel.purchaseOrderStatusId = ps.purchaseOrderStatusId "
-			+ " where i.pharmacyModel.pharmacyId = :pharmacyId and ps.status = :status ")
+			+ " where i.pharmacyModel.pharmacyId = :pharmacyId and ps.status = :status order by i.purchaseOrderDate desc ")
 	List<PurchaseOrderModel> getPurchaseOrderByPharmacyAndStatus(@Param("pharmacyId") Integer pharmacyId, @Param("status") String status);
 	
 	@Query("select new com.ihealthpharm.stock.model.PurchaseOrderModel(i.purchaseOrderId, i.purchaseOrderNo, i.supplierModel.name, i.remarks, i.rejectedDate, "
 			+ " i.modifiedDate, i.approvedDate, i.sentDate, i.creationTimeStamp) "
 			+ " from purchase_order i where i.pharmacyModel.pharmacyId = :pharmacyId and i.purchaseOrderStatusModel.status = :status and "
-			+ " (i.purchaseOrderNo like %:purchaseOrderNo%) ")
+			+ " (i.purchaseOrderNo like :purchaseOrderNo%) ")
 	List<PurchaseOrderModel> getPurchaseOrderByPharmacyAndStatus(@Param("pharmacyId") Integer pharmacyId, @Param("status") String status, 
 			@Param("purchaseOrderNo") String purchaseOrderNo);
 	
@@ -68,7 +67,7 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrderMode
 	@Query("select new com.ihealthpharm.stock.model.PurchaseOrderModel(i.purchaseOrderId, i.purchaseOrderNo, i.supplierModel.name, i.remarks, i.rejectedDate, "
 			+ " i.modifiedDate, i.approvedDate, i.sentDate, i.creationTimeStamp) "
 			+ " from purchase_order i where i.pharmacyModel.pharmacyId = :pharmacyId and i.sentDate is not null and "
-			+ " (i.purchaseOrderNo like %:purchaseOrderNo%) ")
+			+ " (i.purchaseOrderNo like :purchaseOrderNo%) ")
 	List<PurchaseOrderModel> getSentPurchaseOrderByPharmacy(@Param("pharmacyId") Integer pharmacyId, 
 			@Param("purchaseOrderNo") String purchaseOrderNo);
 	

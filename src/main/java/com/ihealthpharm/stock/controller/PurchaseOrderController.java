@@ -115,7 +115,7 @@ public class PurchaseOrderController {
 	 */
 	@PostMapping("/save/approvedpurchaseorder")
 	public ResponseEntity<BaseDto<PurchaseOrderModel>> saveApprovedPurchaseOrder(@Valid @RequestBody PurchaseOrderModel purchaseorderModel) {
-		purchaseorderModel.setApprovedDate(new Date());
+		//purchaseorderModel.setApprovedDate(new Date());
 		PurchaseOrderModel purchaseorderModelRes = purchaseorderService.savePurchaseOrderData(purchaseorderModel, "APPROVED");
 		return new BaseDto<>(purchaseorderModelRes, purchaseorderHelper.getSavePurchaseOrderMessage(), OK).respond();
 	}
