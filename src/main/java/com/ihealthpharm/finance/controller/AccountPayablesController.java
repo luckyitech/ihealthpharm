@@ -124,7 +124,23 @@ public class AccountPayablesController {
 		
 	}
 	
-		
+	@GetMapping("/getPendingCount")
+	public ResponseEntity<BaseDto<Integer>> getPendingDetals() {
+		Integer response = accountPayablesService.getCountOfPending();
+		return new BaseDto<>(response, accountPayablesHelper.getRetrieveAccountPayablesMessage(), OK).respond();
+	}
+	
+	@GetMapping("/getPartallyPaidCount")
+	public ResponseEntity<BaseDto<Integer>> getPartiallyPaid(){
+		Integer response = accountPayablesService.getCountPartiallyPaid();
+		return new BaseDto<>(response, accountPayablesHelper.getRetrieveAccountPayablesMessage(), OK).respond();
+	}
+	@GetMapping("/getPaidCount")
+	public ResponseEntity<BaseDto<Integer>> getPaidCount(){
+		Integer response = accountPayablesService.getCountPaid();
+		return new BaseDto<>(response, accountPayablesHelper.getRetrieveAccountPayablesMessage(), OK).respond();
+	}	
+	
 	@GetMapping("/getallpaymentnosinap")
 	public ResponseEntity<BaseDto<List<String>>> getAllPaymentNosInAP(){
 		List<String> results=accountPayablesService.findAllPaymentNosINAP();
