@@ -1,5 +1,6 @@
 package com.ihealthpharm.stock.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -43,6 +44,9 @@ public class PurchaseOrderModel extends AuditModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "PURCHASE_ORDER_ID", length = 11)
 	private Integer purchaseOrderId;
+	
+	@Column(name = "PURCHASE_ORDER_DT")
+	private LocalDate purchaseOrderDate;
 
 	@Column(name = "ADVANCE", length = 25)
 	private Double advance;
@@ -55,7 +59,7 @@ public class PurchaseOrderModel extends AuditModel {
 	private EmployeeModel approvedBy;
 
 	@Column(name = "APPROVED_DT")
-	private Date approvedDate;
+	private LocalDate approvedDate;
 
 	@Column(name = "AUDIT_ID", length = 11)
 	private Integer auditId;
@@ -66,7 +70,7 @@ public class PurchaseOrderModel extends AuditModel {
 
 	@Column(name = "SENT_DT")
 	private Date sentDate;
-
+	
 	@OneToOne
 	@JoinColumn(name = "CREATED_BY")
 	private EmployeeModel createdBy;
@@ -88,7 +92,13 @@ public class PurchaseOrderModel extends AuditModel {
 	
 	@Column(name = "SHIPPING_ADDRESS", length = 500)
 	private String shippingAddress;
+	
+	@Column(name = "TOTAL_VALUE")
+	private Double totalValue;
 
+	@Column(name = "TOTAL_QUANTITY", length = 11)
+	private Integer totalQuantity;
+	
 	@OneToOne
 	@JoinColumn(name = "MODIFIED_BY")
 	private EmployeeModel modifiedBy;
@@ -101,7 +111,11 @@ public class PurchaseOrderModel extends AuditModel {
 
 	@Column(name = "PAYMENT_TIME", length = 11)
 	private Integer paymentTime;
-
+	
+	@OneToOne
+	@JoinColumn(name = "PAYMENT_TYPE_ID")
+	private PaymentTypeModel paymentType;
+	
 	@Column(name = "PO_AMOUNT")
 	private Double poAmount;
 
@@ -111,17 +125,8 @@ public class PurchaseOrderModel extends AuditModel {
 	@Column(name = "PO_NATURE", length = 20)
 	private String poNature;
 
-	@Column(name = "PO_TERM", length = 20)
-	private String poTerm;
-
-	@Column(name = "PURCHASE_ORDER_DT")
-	private Date purchaseOrderDate;
-
 	@Column(name = "PURCHASE_ORDER_NO", length = 20)
 	private String purchaseOrderNo;
-
-	@Column(name = "REMARKS", length = 200)
-	private String remarks;
 
 	@OneToOne
 	@JoinColumn(name = "REJECTED_BY")
@@ -135,9 +140,6 @@ public class PurchaseOrderModel extends AuditModel {
 
 	@Column(name = "MEDICAL_OR_NON_MEDICAL", length = 1)
 	private String medicalOrNonMedical;
-
-	@Column(name = "CASH", length = 1)
-	private String cash;
 
 	@OneToOne
 	@JoinColumn(name = "SUPPLIER_ID")
@@ -199,12 +201,18 @@ public class PurchaseOrderModel extends AuditModel {
 	@Transient
 	private String name;
 	
+	@Column(name = "PO_TERM", length = 200)
+	private String poTerm;
+	
+	@Column(name = "REMARKS", length = 200)
+	private String remarks;
+	
 	public PurchaseOrderModel() {
 		
 	}
 	
 	public PurchaseOrderModel(Integer purchaseOrderId, String purchaseOrderNo, String name, String remarks, 
-			Date rejectedDate, Date modifiedDate, Date approvedDate, Date sentDate, Date creationTimeStamp) {
+			Date rejectedDate, Date modifiedDate, LocalDate approvedDate, Date sentDate, Date creationTimeStamp) {
 		this.purchaseOrderId = purchaseOrderId;
 		this.purchaseOrderNo = purchaseOrderNo;
 		this.name = name;

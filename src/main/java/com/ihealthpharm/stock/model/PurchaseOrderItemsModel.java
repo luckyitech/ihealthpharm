@@ -53,35 +53,26 @@ public class PurchaseOrderItemsModel extends AuditModel {
 	@Column(name = "QUANTITY", length = 11)
 	private Integer quantity;
 
-	@Column(name = "REMARKS", length = 200)
-	private String remarks;
-
-	@Column(name = "STATUS", length = 1)
-	private Character status;
-
-	@Column(name = "UNIT_RATE")
+	@Column(name = "UNIT_PURCHASE_RATE")
 	private Double unitRate;
 
-	@Column(name = "UNIT_SALE_RATE")
-	private Double unitSaleRate;
-
+	@Column(name = "PACK_PURCHASE_PRICE")
+	private Double packRate;
+	
+	@Column(name = "NET_AMT")
+	private Double netAmount;
+	
+	/*@Column(name = "UNIT_SALE_RATE")
+	private Double unitSaleRate;*/
+	
 	@Column(name = "BONUS")
 	private Double bonus;
-
-	@Column(name = "TOTAL_VALUE")
-	private Double totalValue;
-
-	@Column(name = "TOTAL_QUANTITY", length = 11)
-	private Integer totalQuantity;
-
-	@Column(name = "ACTUAL_VALUE")
-	private Double actualValue;
 
 	@Column(name = "PACK", length = 11)
 	private Integer pack;
 	
-	@Column(name = "NET_AMT", length = 11)
-	private Double netAmount;
+	@Column(name = "STATUS", length = 1)
+	private Character status;
 
 	@OneToOne
 	@JoinColumn(name = "ITEM_ID")
