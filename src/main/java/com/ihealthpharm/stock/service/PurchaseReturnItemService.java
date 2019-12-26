@@ -24,4 +24,8 @@ public interface PurchaseReturnItemService {
 
 	List<PurchaseReturnItemModel> updatePurchaseReturnItemsData(@Valid List<PurchaseReturnItemModel> purchaseReturnItemModel);
 
+	//Purchase Returns
+	List<String> findInvoiceNoByPR(String searchTerm);
+	
+	List<String> findAllInvoiceNoByPR();
 }
