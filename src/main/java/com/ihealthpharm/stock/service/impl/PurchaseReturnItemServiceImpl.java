@@ -136,5 +136,16 @@ public class PurchaseReturnItemServiceImpl implements PurchaseReturnItemService 
 		}
 		return purchaseRtnItmList;
 	}
+	//Purchase Returns
+	@Override
+	public List<String> findInvoiceNoByPR(String searchTerm) {
+		return purchaseReturnItemRepository.findinvoiceNoInPR(searchTerm);
+		
+	}
+
+	@Override
+	public List<String> findAllInvoiceNoByPR() {
+		return purchaseReturnItemRepository.findAllinvoiceNoInPR();
+	}
 
 }
