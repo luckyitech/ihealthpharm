@@ -84,8 +84,8 @@ public class PurchaseOrderModel extends AuditModel {
 	@Column(name = "DISCOUNT")
 	private Double discount;
 
-	@Column(name = "DISCOUNT_PERCENTAGE")
-	private Float discountPercentage;
+	@Column(name = "DISC_PERCENTAGE")
+	private Float discPercentage;
 
 	@Column(name = "EMERGENCY", length = 1)
 	private String emergency;
@@ -108,6 +108,9 @@ public class PurchaseOrderModel extends AuditModel {
 
 	@Column(name = "OTHER_CHARGES")
 	private Double otherCharges;
+	
+	@Column(name = "BALANCE")
+	private Double balance;
 
 	@Column(name = "PAYMENT_TIME", length = 11)
 	private Integer paymentTime;
@@ -131,6 +134,9 @@ public class PurchaseOrderModel extends AuditModel {
 	@OneToOne
 	@JoinColumn(name = "REJECTED_BY")
 	private EmployeeModel rejectedBy;
+
+	@Column(name = "REJECT_REASON")
+	private String rejectReason;
 
 	@Column(name = "REJECTED_DT")
 	private Date rejectedDate;
