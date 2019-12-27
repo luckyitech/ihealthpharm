@@ -48,7 +48,7 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 			Map<String, List<Map<String, Object>>> purchaseInvoiceDetails = responseList.stream()
 					.collect(Collectors.groupingBy(map -> (String) map.get("SP_NAME")));
 			Map<String, List<Map<String, Object>>> purchaseInvoiceDetailsInv = responseList.stream()
-					.collect(Collectors.groupingBy(map -> (String) map.get("INVOICE_NO")));
+					.collect(Collectors.groupingBy(map -> (String) map.get("GRN_NO")));
 			Map<Date, List<Map<String, Object>>> purchaseInvoiceDetailsInvDate = responseList.stream()
 					.collect(Collectors.groupingBy(map -> (Date) map.get("INVOICE_DT")));
 			
@@ -89,10 +89,13 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 
 	private void generateTotalTable(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException {
 		
-		double grossTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("TOTAL_VALUE") && !ObjectUtils.isEmpty(mapper.get("TOTAL_VALUE"))) ?String.valueOf(mapper.get("TOTAL_VALUE")):"0")).sum(); 
-		//double netTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("ACTUAL_VALUE")&& !ObjectUtils.isEmpty(mapper.get("ACTUAL_VALUE")))?String.valueOf(mapper.get("ACTUAL_VALUE")):"0")).sum(); 
+		double subTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("TOTAL_VALUE") && !ObjectUtils.isEmpty(mapper.get("TOTAL_VALUE"))) ?String.valueOf(mapper.get("TOTAL_VALUE")):"0")).sum(); 
 		double discount = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("DISCOUNT")&& !ObjectUtils.isEmpty(mapper.get("DISCOUNT")))?String.valueOf(mapper.get("DISCOUNT")):"0")).sum(); 
 		double charges = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("HANDLING_CHARGES")&& !ObjectUtils.isEmpty(mapper.get("HANDLING_CHARGES")))?String.valueOf(mapper.get("HANDLING_CHARGES")):"0")).sum(); 
+		double totalVat = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("HANDLING_CHARGES")&& !ObjectUtils.isEmpty(mapper.get("VAT_AMT")))?String.valueOf(mapper.get("VAT_AMT")):"0")).sum(); 
+		double netTotal=(((subTotal-totalVat)-discount)+charges);
+		
+		
 		
 		PdfPTable totalQtyTable = new PdfPTable(3);
 		totalQtyTable.setTotalWidth(500);
@@ -101,7 +104,7 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 		totalQtyTable.setLockedWidth(true);
 		totalQtyTable.getDefaultCell().setBorder(0); 
 		
-		PdfPCell nameCell = new PdfPCell(new Phrase("GROSS TOTAL : "+grossTotal, title08)); 
+		PdfPCell nameCell = new PdfPCell(new Phrase("SUB TOTAL : "+subTotal, title08)); 
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell.setVerticalAlignment(Element.ALIGN_TOP);
@@ -121,7 +124,7 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 		totalQtyTable.setTotalWidth(500);
 		totalQtyTable.getDefaultCell().setBorder(0); 
 		
-		PdfPCell nameCell3 = new PdfPCell(new Phrase("DISCOUNT : "+discount, title08)); 
+		PdfPCell nameCell3 = new PdfPCell(new Phrase("VAT : "+totalVat, title08)); 
 		nameCell3.setColspan(3);
 		nameCell3.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell3.setVerticalAlignment(Element.ALIGN_TOP);
@@ -131,12 +134,23 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 		totalQtyTable.setTotalWidth(500);
 		totalQtyTable.getDefaultCell().setBorder(0);
 		
-		PdfPCell nameCell4 = new PdfPCell(new Phrase("NET TOTAL : "+"netTotal", title08)); 
+		PdfPCell nameCell4 = new PdfPCell(new Phrase("DISCOUNT : "+discount, title08)); 
 		nameCell4.setColspan(3);
 		nameCell4.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell4.setVerticalAlignment(Element.ALIGN_TOP);
 		nameCell4.setBorder(0);
 		totalQtyTable.addCell(nameCell4);
+		totalQtyTable.setLockedWidth(true);
+		totalQtyTable.setTotalWidth(500);
+		totalQtyTable.getDefaultCell().setBorder(0);
+		
+		
+		PdfPCell nameCell5 = new PdfPCell(new Phrase("NET TOTAL : "+netTotal, title08)); 
+		nameCell5.setColspan(3);
+		nameCell5.setHorizontalAlignment(Element.ALIGN_RIGHT);
+		nameCell5.setVerticalAlignment(Element.ALIGN_TOP);
+		nameCell5.setBorder(0);
+		totalQtyTable.addCell(nameCell5);
 		totalQtyTable.setLockedWidth(true);
 		totalQtyTable.setTotalWidth(500);
 		totalQtyTable.getDefaultCell().setBorder(0);
@@ -150,7 +164,7 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 	}
 
 	private void createTable(Document document, ReportsMappingModel model, List<Map<String, Object>> purchaseInvoiceDetailsList,
-			String supplierName,String invoiceNo,Date invoiceDate) throws DocumentException {
+			String supplierName,String grnNo,Date invoiceDate) throws DocumentException {
 
 		String reportHeader = model.getReportHeader();
 		List<HeaderDto> headerList = JsonUtility.jsonToList(reportHeader, HeaderDto.class);
@@ -164,7 +178,7 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 		
 		PdfPTable supllierNameTable = new PdfPTable(2);
 		PdfPCell nameCell = new PdfPCell(new Phrase("Supplier Name  : "+supplierName+  "      "
-				+ "Invoice NO   :  "+invoiceNo+"          "+"Invoice Date   : "+invoiceDate, title08)); 
+				+ "GRN NO   :  "+grnNo+"          "+"Invoice Date   : "+invoiceDate, title08)); 
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		nameCell.setVerticalAlignment(Element.ALIGN_TOP);
@@ -255,7 +269,7 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("GROSS AMT");
+			headerCell.add("TOTAL AMT");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
@@ -275,7 +289,7 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("VAT%");
+			headerCell.add("VAT");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
@@ -285,14 +299,13 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("NET AMT");
+			headerCell.add("CHARGES");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
 				cell.setBorder(Rectangle.BOTTOM);
 			
 			table.addCell(cell);
-			
 			
 		//}
 		table.setHeaderRows(1);
@@ -376,7 +389,7 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 
 				table.addCell(cell);
 				
-				value = rowData.containsKey("VAT") ? rowData.get("VAT") : "";
+				value = rowData.containsKey("VAT_AMT") ? rowData.get("VAT_AMT") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
@@ -384,7 +397,7 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 
 				table.addCell(cell);
 				
-				value = rowData.containsKey("ACTUAL_VALUE") ? rowData.get("ACTUAL_VALUE") : "";
+				value = rowData.containsKey("HANDLING_CHARGES") ? rowData.get("HANDLING_CHARGES") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
