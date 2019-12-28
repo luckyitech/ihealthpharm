@@ -33,7 +33,7 @@ public interface InvoiceRepository extends JpaRepository<InvoiceModel, Integer> 
 	
 	List<InvoiceModel> findByInvoiceNo(String invoiceNo);
 	
-	@Query("select i from invoice i where i.invoiceNo like %:searchTerm% order by i.creationTimeStamp desc")
+	@Query("select i from invoice i where i.invoiceNo like :searchTerm% order by i.creationTimeStamp desc")
 	List<InvoiceModel> findAllByInvoiceNoSearch(@Param("searchTerm") String searchTerm);
 	
 	//Purchase Invoice Report
