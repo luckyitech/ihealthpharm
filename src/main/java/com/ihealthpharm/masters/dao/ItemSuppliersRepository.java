@@ -47,7 +47,7 @@ public interface ItemSuppliersRepository extends JpaRepository<ItemSupplierModel
 			" inner join manufacturer m on m.manufacturerId=i.manufacturer where i.itemId=:itemId")
    List<ItemSupplierDTO> getAllItemSuppliersBasedOnItemId(@Param("itemId")Integer itemId);
 	
-	@Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(id.itemSupplierId,id.activeS,d.name as supplierName,i.itemName,m.name as manufacturerName,m.licence as manufacturerLicense,i.itemDescription,i.itemId,d.supplierId,id.supplierPriority,f.form as formulation,i.itemCode,id.unitRate,id.discountPercentage,id.validity) from items_supplier id inner join supplier d on id.suppliersId=d.supplierId inner join items i on i.itemId=id.itemsId inner join items_forms f on i.itemForm=f.itemformId " + 
+	@Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(id.itemSupplierId,id.activeS,d.name as supplierName,i.itemName,m.name as manufacturerName,m.licence as manufacturerLicense,i.itemDescription,i.itemId,d.supplierId,id.supplierPriority,f.form as formulation,i.itemCode,id.unitRate,id.discountPercentage,id.validity,i) from items_supplier id inner join supplier d on id.suppliersId=d.supplierId inner join items i on i.itemId=id.itemsId inner join items_forms f on i.itemForm=f.itemformId " + 
 			" inner join manufacturer m on m.manufacturerId=i.manufacturer where d.supplierId=:supplierIds ")
 	List<ItemSupplierDTO> getAllSupplierItemBasedOnDistId(@Param("supplierIds")Integer supplierIds);
 
