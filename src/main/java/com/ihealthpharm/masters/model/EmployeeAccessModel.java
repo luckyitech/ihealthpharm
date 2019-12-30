@@ -12,7 +12,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@Entity (name="EMPLOYEE_ACCESS")
+@Entity (name="employee_access")
 @EqualsAndHashCode(of = "employeeAccessId", callSuper = false)
 public class EmployeeAccessModel extends AuditModel{
     
@@ -31,7 +31,7 @@ public class EmployeeAccessModel extends AuditModel{
     EmployeeModel employeeModel;
 
    
-    @JoinColumn(name="PHARMA_ACCESS_ID")
+    @Column(name="PHARMA_ACCESS_ID")
     Integer pharmaAccessModel;
 
     @Column(name="ACTIVE_S",length=1, columnDefinition = "Y")
