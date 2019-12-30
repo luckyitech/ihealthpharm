@@ -30,9 +30,9 @@ public class EmployeeAccessModel extends AuditModel{
     @JoinColumn(name="EMPLOYEE_ID")
     EmployeeModel employeeModel;
 
-    @OneToOne
+   
     @JoinColumn(name="PHARMA_ACCESS_ID")
-    PharmaAccessModel pharmaAccessModel;
+    Integer pharmaAccessModel;
 
     @Column(name="ACTIVE_S",length=1, columnDefinition = "Y")
     private Character activeS;

@@ -46,7 +46,7 @@ public class EmployeeAccessServiceImpl implements EmployeeAccessService {
 		for(Integer i=0; i<employeeAccessDto.getPharmaAccessids().length;i++) {
 			employeeAccessModel = new EmployeeAccessModel();
 			employeeAccessModel.setEmployeeModel(employeeAccessDto.getEmployee());
-			//employeeAccessModel.setPharmaAccessModel(employeeAccessDto.getPharmaAccessids()[i]);
+			employeeAccessModel.setPharmaAccessModel(employeeAccessDto.getPharmaAccessids()[i]);
 			if(employeeAccessDto.getFlag()[i])
 			{
 				employeeAccessModel.setActiveS('Y');
@@ -64,7 +64,7 @@ public class EmployeeAccessServiceImpl implements EmployeeAccessService {
 	public EmployeeAccessModel updateEmployeeAccessData(EmployeeAccessDTO employeeAccessDto) {
 		EmployeeAccessModel employeeAccessRes = null;
 		EmployeeAccessModel employeeAccessModel = null;
-		
+		employeeAccessRepository.deleteByEmployeeModel(employeeAccessDto.getEmployee().getEmployeeId());
 		for(Integer i=0; i<employeeAccessDto.getPharmaAccessids().length;i++) {
 			employeeAccessModel = new EmployeeAccessModel();
 //			Commented as permission is not mandatory			
@@ -81,7 +81,7 @@ public class EmployeeAccessServiceImpl implements EmployeeAccessService {
 			
 			if(employeeAccessDto.getPharmaAccessids().length>0)
 			{
-				//employeeAccessModel.setPharmaAccessModel(employeeAccessDto.getPharmaAccessids()[i]);	
+				employeeAccessModel.setPharmaAccessModel(employeeAccessDto.getPharmaAccessids()[i]);	
 			}
 			if(employeeAccessDto.getFlag()[i])
 			{
