@@ -75,6 +75,26 @@ public class ItemSupplierDTO {
 	}
 	
 	public ItemSupplierDTO(Integer itemSupplierId,String activeS,String supplierName,String itemName,String manufacturerName,String manufacturerLicense,String itemDescription,Integer itemId,
+			Integer supplierId,Integer supplierPriority,String formulation,String itemCode,Double unitRate,Double discountPercentage,String validity, ItemsModel itemsModel) {
+		this.itemSupplierId=itemSupplierId;
+		this.activeS=activeS;
+		this.supplierName=supplierName;
+		this.itemName=itemName;
+		this.manufacturerName=manufacturerName;
+		this.manufacturerLicense=manufacturerLicense;
+		this.itemDescription=itemDescription;
+		this.itemId=itemId;
+		this.supplierId=supplierId;
+		this.supplierPriority=supplierPriority;
+		this.formulation=formulation;
+		this.itemCode=itemCode;
+		this.unitRate=unitRate;
+		this.discountPercentage=discountPercentage;
+		this.validity=validity;
+		this.itemsModel = itemsModel;
+	}
+	
+	public ItemSupplierDTO(Integer itemSupplierId,String activeS,String supplierName,String itemName,String manufacturerName,String manufacturerLicense,String itemDescription,Integer itemId,
 			Integer supplierId,Integer supplierPriority,String formulation,String itemCode,Double unitRate,Double discountPercentage,String validity) {
 		this.itemSupplierId=itemSupplierId;
 		this.activeS=activeS;
@@ -91,6 +111,7 @@ public class ItemSupplierDTO {
 		this.unitRate=unitRate;
 		this.discountPercentage=discountPercentage;
 		this.validity=validity;
+		
 	}
 	
 	public ItemSupplierDTO(String itemCode, String itemName, String itemDescription, Integer quantity) {
