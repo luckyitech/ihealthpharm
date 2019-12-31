@@ -176,7 +176,7 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 	@Query("select count(s) from sales s where s.billDate between :start and :end order by s.billDate DESC")
 	Integer findSalesByBillDateCount(@Param("start") LocalDate start,@Param("end") LocalDate end);
 	
-	@Query("SELECT sum(s.netAmount) from sales s where date(s.billDate) = CURDATE() group by s.billDate")
+	@Query("SELECT sum(s.netAmount) from sales s where date(s.billDate) = CURDATE() and PAYMENT_STATUS not in ('CANCEL','DUMMY BILL') group by s.billDate")
 	Integer todaySalesRepo();
 	
 	@Query("select count(s.customerModel.customerId) from sales s where date(billDate) = CURDATE() and s.cashAmount is not null  group by billDate")
@@ -185,7 +185,7 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 	@Query("select count(s.customerModel.customerId) from sales s where date(billDate) = CURDATE() and s.creditAmount is not null  group by billDate")
 	Integer creditRepo();
 	
-	@Query("SELECT sum(s.netAmount) AS YesterdaySales  from sales s where billDate = (select max(billDate) from sales where billDate < curdate())")
+	@Query("SELECT sum(s.netAmount) AS YesterdaySales  from sales s where PAYMENT_STATUS not in ('CANCEL','DUMMY BILL') and billDate = (select max(billDate) from sales where billDate < curdate())")
 	Integer yesterdayDiff();
 	
 	@Query("select count(s.customerModel.customerId) from sales s where date(billDate) = CURDATE() and s.upiAmount is not null  group by billDate")
