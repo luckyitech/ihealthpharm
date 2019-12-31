@@ -438,5 +438,30 @@ public class SalesServiceImpl implements SalesService {
 		return salesRepository.chequeCustomers();
 	}
 
+	@Override
+	public Integer findCashAmount() {
+		return salesRepository.cashAmount();
+	}
+
+	@Override
+	public Integer findCreditAmount() {
+		return salesRepository.creditAmount();
+	}
+
+	@Override
+	public Integer finUpiAmount() {
+		return salesRepository.upiAmount();
+	}
+
+	@Override
+	public Integer findCreditCardAmount() {
+		return salesRepository.CreditCardAmount();
+	}
+
+	@Override
+	public Integer findChequeAmount() {
+		return salesRepository.chequeAmount();
+	}
+
 	
 }

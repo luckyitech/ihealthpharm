@@ -196,4 +196,20 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 	
 	@Query("select count(s.customerModel.customerId) from sales s where date(billDate) = CURDATE() and s.chequeAmount is not null  group by billDate")
 	Integer chequeCustomers();
+	
+	@Query("select sum(s.cashAmount) from sales s where date(billDate) = CURDATE() and s.cashAmount is not null and PAYMENT_STATUS not in ('CANCEL','DUMMY BILL') group by billDate")
+	Integer cashAmount();
+	
+	@Query("select sum(s.creditAmount) from sales s where date(billDate) = CURDATE() and s.creditAmount is not null and PAYMENT_STATUS not in ('CANCEL','DUMMY BILL') group by billDate")
+	Integer creditAmount();
+	
+	@Query("select sum(s.upiAmount) from sales s where date(billDate) = CURDATE() and s.upiAmount is not null and PAYMENT_STATUS not in ('CANCEL','DUMMY BILL') group by billDate")
+	Integer upiAmount();
+	
+	@Query("select sum(s.creditCardAmount) from sales s where date(billDate) = CURDATE() and s.creditCardAmount is not null and PAYMENT_STATUS not in ('CANCEL','DUMMY BILL') group by billDate")
+	Integer CreditCardAmount();
+	
+	@Query("select sum(s.chequeAmount) from sales s where date(billDate) = CURDATE() and s.chequeAmount is not null and PAYMENT_STATUS not in ('CANCEL','DUMMY BILL') group by billDate")
+	Integer chequeAmount();
+	
 }
