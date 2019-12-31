@@ -92,6 +92,7 @@ public class ItemSupplierDTO {
 		this.discountPercentage=discountPercentage;
 		this.validity=validity;
 		this.itemsModel = itemsModel;
+		
 	}
 	
 	public ItemSupplierDTO(Integer itemSupplierId,String activeS,String supplierName,String itemName,String manufacturerName,String manufacturerLicense,String itemDescription,Integer itemId,
