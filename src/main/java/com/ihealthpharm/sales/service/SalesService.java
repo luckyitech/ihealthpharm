@@ -57,7 +57,18 @@ public interface SalesService
 	
 	Integer findCreditCardCustomers();
 	
-	Integer findChequeCustomers();	
+	Integer findChequeCustomers();
+	
+	
+	Integer findCashAmount();
+	
+	Integer findCreditAmount();
+	
+	Integer finUpiAmount();
+	
+	Integer findCreditCardAmount();
+	
+	Integer findChequeAmount();
 	
 
 	//DBL

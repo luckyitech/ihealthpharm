@@ -305,4 +305,34 @@ public class SalesController {
 		Integer result = salesService.findChequeCustomers();
 		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
+	
+	@GetMapping("/cashAmount")
+	public ResponseEntity<BaseDto<Integer>> getCashAmount(){
+		Integer result = salesService.findCashAmount();
+		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/creditAmount")
+	public ResponseEntity<BaseDto<Integer>> getCreditAmount(){
+		Integer result = salesService.findCreditAmount();
+		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/upiAmount")
+	public ResponseEntity<BaseDto<Integer>> getUpiAmount(){
+		Integer result = salesService.findUpiCustomers();
+		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/creditCardAmount")
+	public ResponseEntity<BaseDto<Integer>> getCreditCardAmount(){
+		Integer result = salesService.findCreditCardAmount();
+		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/chequeAmount")
+	public ResponseEntity<BaseDto<Integer>> getChequeAmount(){
+		Integer result = salesService.findChequeAmount();
+		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
 }
