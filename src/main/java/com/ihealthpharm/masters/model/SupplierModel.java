@@ -13,6 +13,7 @@ import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ihealthpharm.masters.dto.ItemSupplierDTO;
+import com.ihealthpharm.stock.model.PaymentTypeModel;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -146,6 +147,10 @@ public class SupplierModel extends AuditModel {
 	@OneToOne
 	@JoinColumn(name = "RETURN_CREDIT_TYPE_ID")
 	private ReturnCreditTypeModel returnCreditTypeId;
+	
+	@OneToOne
+	@JoinColumn(name = "PAYMENT_TYPE_ID")
+	private PaymentTypeModel paymentType;
 	
 	@Transient
 	private List<ItemSupplierDTO> itemsModels;

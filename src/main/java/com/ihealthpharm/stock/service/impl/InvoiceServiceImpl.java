@@ -88,24 +88,26 @@ public class InvoiceServiceImpl implements InvoiceService {
 		accountPayablesModel.setPharmacyModel(invoiceModelres.getPharmacy());
 		accountPayablesModel.setSupplierModel(invoiceModelres.getSupplierModel());
 		accountPayablesModel.setTotalInvoiceAmount(invoiceModelres.getInvoiceAmount() != null?invoiceModelres.getInvoiceAmount().floatValue():0);
+		accountPayablesModel.setTotalAdvanceAmount(invoiceModelres.getAdvance()!= null?invoiceModelres.getAdvance().floatValue():0);
+		//accountPayablesModel.setTotalAmountToBePaid(invoiceModelres.getInvoiceAmount() != null?invoiceModelres.getInvoiceAmount().doubleValue():0);
 		accountPayablesModel.setPaymentDate(new Date());
 		
 		accountPayablesModel.setPaymentNumber(uniqueCodeService.findByUniqueCodeName("AP"));
 		accountPayablesModel.setSelectedStatus(invoiceModel.getInvoiceStatus() != null ?invoiceModel.getInvoiceStatus().getStatus():"");
-		accountPayablesModel.setCreatedUser(invoiceModelres.getCreatedUser());
-		accountPayablesModel.setLastUpdateUser(invoiceModelres.getLastUpdateUser());
-		if(invoiceModelres.getLastUpdateUser() != null)
-		{
-			EmployeeModel e = new EmployeeModel();
-			e.setEmployeeId(invoiceModelres.getLastUpdateUser());
-			
-			accountPayablesModel.setApprovedBy(e);
-		}
-		
 		accountPayablesModel.setApprovedDate(new Date());
 		accountPayablesModel.setSelectedPaymentStatus("Pending");
 		accountPayablesModel.setSource(invoiceModelres.getInvoiceId().toString());
 		accountPayablesModel.setSourceRef("Invoice");
+		accountPayablesModel.setCreatedUser(invoiceModelres.getCreatedUser());
+		accountPayablesModel.setLastUpdateUser(invoiceModelres.getLastUpdateUser());
+		
+		if(invoiceModelres.getLastUpdateUser() != null)
+		{
+			EmployeeModel e = new EmployeeModel();
+			e.setEmployeeId(invoiceModelres.getLastUpdateUser());
+			accountPayablesModel.setApprovedBy(e);
+		}
+		
 		AccountPayablesModel accountPayablesModelres = accountPayablesRepository.save(accountPayablesModel);
 		
 		/*AccountPayablesInvoicesModel accountPayablesInvoicesModel = new AccountPayablesInvoicesModel();
