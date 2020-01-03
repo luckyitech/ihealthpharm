@@ -53,8 +53,11 @@ public class AccountReceivablesModel extends AuditModel{
 	@Column(name="SOURCE_ID",length=11)
 	private Integer source;
 
-	@Column(name="AMOUNT_TO_BE_RECEIVED",length=25)
+	@Column(name="AMOUNT_TO_BE_RECEIVED")
 	private Float amountToBeReceived;
+	
+	@Column(name="AMOUNT_RECEIVED")
+	private Float amountReceived;
 
 	@Column(name="STATUS",length=20)
 	private String status;
