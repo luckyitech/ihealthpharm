@@ -1,5 +1,7 @@
 package com.ihealthpharm.masters.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -137,6 +139,37 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public ItemsModel saveItemsData(ItemsModel itemsModel) {
+		itemsModel = itemRepository.save(itemsModel);
+
+		if (itemsModel.getItemCode().isEmpty()) {
+			
+		String itemCode ="";
+		if(itemsModel.getItemId().toString().length() == 1) {
+			itemCode += "IC"+"000000"+itemsModel.getItemId().toString(); 
+		}
+		else if(itemsModel.getItemId().toString().length() == 2)
+		{
+			itemCode += "IC"+"00000"+itemsModel.getItemId().toString(); 
+		}
+		else if(itemsModel.getItemId().toString().length() == 3)
+		{
+			itemCode += "IC"+"0000"+itemsModel.getItemId().toString(); 
+		}
+		else if(itemsModel.getItemId().toString().length() == 4)
+		{
+			itemCode += "IC"+"000"+itemsModel.getItemId().toString(); 
+		}
+		else if(itemsModel.getItemId().toString().length() == 5) {
+			itemCode += "IC"+"00"+itemsModel.getItemId().toString(); 
+		}
+		else if(itemsModel.getItemId().toString().length() == 6) {
+			itemCode += "IC"+"0"+itemsModel.getItemId().toString(); 
+		}
+		else {
+			itemCode += "IC"+itemsModel.getItemId().toString(); 
+		}
+		itemsModel.setItemCode(itemCode);
+		}
 		itemsModel = itemRepository.save(itemsModel);
 		log.info("Items data with ID: "+ itemsModel.getItemId()+" saved succesfully");
 		return itemsModel;
