@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Entity (name="pharma_access")
+@Entity (name="pharma_access1")
 @Data
 @EqualsAndHashCode(of="pharmaAccessId",callSuper=false)
 public class PharmaAccessModel extends AuditModel{
