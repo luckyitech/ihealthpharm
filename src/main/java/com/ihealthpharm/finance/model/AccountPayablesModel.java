@@ -65,7 +65,9 @@ public class AccountPayablesModel extends AuditModel {
 
 	@Column(name="TOTAL_AMOUNT_TO_BE_PAID")
 	private Double totalAmountToBePaid;
-
+	
+	@Column(name="TOTAL_AMOUNT_PAID")
+	private Float totalAmountPaid;
 
 	@Column(name = "CASH_AMOUNT", length = 25)
 	private Float cashAmount;
