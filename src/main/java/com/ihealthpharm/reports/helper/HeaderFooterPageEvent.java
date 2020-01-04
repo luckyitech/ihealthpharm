@@ -1,5 +1,13 @@
 package com.ihealthpharm.reports.helper;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.util.ObjectUtils;
 
 import com.ihealthpharm.commons.DateUtility;
@@ -15,6 +23,7 @@ import com.itextpdf.text.ExceptionConverter;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
@@ -58,7 +67,47 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 	public void onStartPage(PdfWriter writer, Document document) {
 		addHeader(writer, document);
 	}
-
+	
+//	public Document generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model,
+//			File responseFile,String inputJson) {
+//		
+//		HeaderFooterPageEvent event =new HeaderFooterPageEvent(model);
+//		 Document document = new Document(PageSize.A4, 36, 36, 150, 36);
+//
+//		try {
+//			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(responseFile));
+//			writer.setPageEvent(event); 
+//			document.open();
+//			
+//			Map<String, List<Map<String, Object>>> purchaseInvoiceDetails = responseList.stream()
+//					.collect(Collectors.groupingBy(map -> (String) map.get("SP_NAME")));
+//		
+//			Map<String, List<Map<String, Object>>> purchaseInvoiceDetailsInv = responseList.stream()
+//					.collect(Collectors.groupingBy(map -> (String) map.get("GRN_NO")));
+//		
+//			if(!ObjectUtils.isEmpty(purchaseInvoiceDetails)) { 
+//				String suppName = null;
+//				for(String supplierName :purchaseInvoiceDetails.keySet()) {	
+//					List<Map<String, Object>> purchaseInvoiceDetailsMap = purchaseInvoiceDetails.get(supplierName);
+//					suppName=supplierName;
+//					//createTable(document,model,purchaseInvoiceDetailsMap,supplierName);
+//				}
+//				
+//				for(String invoiceNo :purchaseInvoiceDetailsInv.keySet()) {	
+//					List<Map<String, Object>> purchaseInvoiceDetailsMap = purchaseInvoiceDetails.get(suppName);
+//				}
+//				
+//			}
+//
+//		} catch (Exception e) {
+//
+//		} finally {
+//			document.close();
+//		}
+//		
+//		return document;
+//	}
+//	
 	@Override
 	public void onEndPage(PdfWriter writer, Document document) {
 		addFooter(writer,document);
@@ -77,8 +126,8 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 			 * header.getDefaultCell().setBorderColor(BaseColor.LIGHT_GRAY);
 			 */
 			// add text
-			PdfPCell leftContent = new PdfPCell();
-			leftContent.setBorder(Rectangle.NO_BORDER);
+	PdfPCell leftContent = new PdfPCell();
+			leftContent.setBorder(Rectangle.BOTTOM);
 			/*
 			 * leftContent.setPaddingBottom(15); leftContent.setPaddingLeft(10);
 			 * leftContent.setBorder(Rectangle.BOTTOM);
@@ -87,7 +136,7 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 			
 
 			PdfPCell centerContent = new PdfPCell();
-			centerContent.setBorder(Rectangle.NO_BORDER);
+			centerContent.setBorder(Rectangle.BOTTOM);
 			/*
 			 * centerContent.setPaddingBottom(15);
 			 * centerContent.setBorder(Rectangle.BOTTOM);
@@ -95,7 +144,7 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 			 */	
 			
 			PdfPCell rightContent = new PdfPCell();
-			rightContent.setBorder(Rectangle.NO_BORDER);
+			rightContent.setBorder(Rectangle.BOTTOM);
 			/*
 			 * rightContent.setPaddingBottom(15); rightContent.setPaddingRight(10);
 			 * rightContent.setBorder(Rectangle.BOTTOM);
@@ -103,10 +152,21 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 			 */
 			
 			String headerContent = reportsMappingModel.getHeaderContent();
+			System.out.println("------------------------------------------------------------");
+			System.out.println(headerContent);
+			System.out.println("------------------------------------------------------------");
 			if(!ObjectUtils.isEmpty(headerContent)) {
-				HeaderFooterContentDto contentDto = (HeaderFooterContentDto) JsonUtility.jsonToObject(headerContent,HeaderFooterContentDto.class);				
-				for(HeaderFooterContentDetailsDto dto:contentDto.getLeftContent()) {					
+				HeaderFooterContentDto contentDto = (HeaderFooterContentDto) JsonUtility.jsonToObject(headerContent,HeaderFooterContentDto.class);	
+				System.out.println(contentDto);
+				for(HeaderFooterContentDetailsDto dto:contentDto.getLeftContent()) {		
+					/*
+					 * if(dto.getText().equalsIgnoreCase("DOCPHARMA LIMITED")) { String titleText =
+					 * dto.getText(); titleText += "                                "+ "Grn No:";
+					 * dto.setText(titleText); }
+					 */
 					leftContent.addElement(new Phrase(dto.getText(), FontFactory.getFont(dto.getFontName(), dto.getSize())));
+					System.out.println(dto.getText());
+					leftContent.setPaddingBottom(5);
 					
 				}
 				
@@ -114,13 +174,18 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 					centerContent.addElement(new Phrase(dto.getText(), FontFactory.getFont(dto.getFontName(), dto.getSize())));
 					
 				}
-				
+//				HeaderFooterContentDetailsDto grnData = new HeaderFooterContentDetailsDto();
+//				grnData.setFontName("Helvetica");
+//				grnData.setSize(12);
+//				grnData.setText("GRN No:");
+//				contentDto.getRightContent().set(0, grnData);
 				for(HeaderFooterContentDetailsDto dto:contentDto.getRightContent()) {					
 					rightContent.addElement(new Phrase(dto.getText(), FontFactory.getFont(dto.getFontName(), dto.getSize())));
-					
+					//rightContent.addElement(new Phrase(String.format("GRN NO:", writer.getPageNumber()), FontFactory.getFont(dto.getFontName(), dto.getSize())));
 				}
 				
 			}
+			
 			header.addCell(leftContent);
 			header.addCell(centerContent);
 			header.addCell(rightContent);
@@ -133,11 +198,11 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 
 			PdfPCell titleCell = new PdfPCell(new Phrase(reportsMappingModel.getTitle(), title12)); 
 			titleCell.setColspan(3);
-			titleCell.setPaddingBottom(15);
+			titleCell.setPaddingBottom(5);
 			titleCell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			titleCell.setVerticalAlignment(Element.ALIGN_TOP);
 
-			titleCell.setBorder(Rectangle.BOTTOM);
+			titleCell.setBorder(Rectangle.NO_BORDER);
 			titleCell.setBorderColor(BaseColor.LIGHT_GRAY);
 			title.addCell(titleCell);
 			
@@ -148,12 +213,10 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 			finalFeader.getDefaultCell().setBorder(0);
 			finalFeader.setLockedWidth(true);
 			header.getDefaultCell().setBorder(0);
-			title.getDefaultCell().setBorder(0);
-
-
+			title.getDefaultCell().setBorder(0);	
 			
-			finalFeader.addCell(header);
 			finalFeader.addCell(title);
+			finalFeader.addCell(header);
 			
 
 			// write content
