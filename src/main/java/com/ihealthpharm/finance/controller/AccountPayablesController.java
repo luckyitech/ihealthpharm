@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.commons.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -49,10 +50,21 @@ public class AccountPayablesController {
 	}
 
 	@PutMapping("/update/accountPayables")
+	public ResponseEntity<BaseDto<List<AccountPayablesModel>>> updateAccountPayablesData(@RequestBody List<AccountPayablesModel> accountPayablesModels) {
+		System.out.println(accountPayablesModels);
+		System.out.println("iam in acc payables ==================================");
+		List<AccountPayablesModel> accountPayablesModelRes = accountPayablesService.updateAccountPayablesData(accountPayablesModels);
+		return new BaseDto<>(accountPayablesModelRes, accountPayablesHelper.getUpdateAccountPayablesMessage(), OK).respond();
+	}
+	
+	
+	/*@PutMapping("/update/accountPayables")
 	public ResponseEntity<BaseDto<AccountPayablesModel>> updateAccountPayablesData(@Valid @RequestBody AccountPayablesModel accountPayablesModel) {
 		AccountPayablesModel accountPayablesModelRes = accountPayablesService.updateAccountPayablesData(accountPayablesModel);
 		return new BaseDto<>(accountPayablesModelRes, accountPayablesHelper.getUpdateAccountPayablesMessage(), OK).respond();
 	}
+	*/
+	
 
 	@PutMapping("/update/accountsPayables")
 	public ResponseEntity<BaseDto<List<AccountPayablesModel>>> updateAccountsPayablesData(@Valid @RequestBody List<AccountPayablesModel> accountPayablesModel) {
