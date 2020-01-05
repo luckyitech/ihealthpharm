@@ -55,13 +55,16 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 
 	@Override
 	public List<AccountReceivablesModel> updateAccountsReceivablesData(List<AccountReceivablesModel> accountsReceivables) {
+		int i=1;
 		for (AccountReceivablesModel accountReceivables : accountsReceivables) {
 			AccountReceivablesModel accountReceivablesRes = getValidAccountsReceivables(accountReceivables.getAccountReceivablesId());
 			if (!Objects.nonNull(accountReceivablesRes)) {
 				throw new IHealthPharmException(accountReceivablesHelper.getNotFoundAccountReceivablesMessage(), HttpStatus.NOT_FOUND);
 			}
-
+			int empId =accountReceivables.getApprovedBy().getEmployeeId();
+			accountReceivables.getApprovedBy().setEmployeeId(empId-i);
 			accountReceivablesRes = accountReceivablesRepository.save(accountReceivables);
+			i++;
 			log.info("AccountReceivables data with ID : " + accountReceivablesRes.getAccountReceivablesId() + " updated succesfully");
 		}
 		return accountsReceivables;
