@@ -62,6 +62,15 @@ public class SalesReturnItemController {
 		return new BaseDto<>(response,salesReturnItemHelper.getRetrieveSalesReturnItemMessage(),OK).respond();
 	}
 	
-	
+	@GetMapping("/getsalesreturnnobysearchsr")
+	public ResponseEntity<BaseDto<List<String>>> getsalesReturnNoBySearchSBPS(@RequestParam String searchTerm){
+		List<String> results=salesReturnItemService.findSalesReturnNoInSalesReturn(searchTerm);
+		return new BaseDto<>(results,salesReturnItemHelper.getRetrieveSalesReturnItemMessage(),OK).respond();
+	}
+	@GetMapping("/getallsalesreturnnosr")
+	public ResponseEntity<BaseDto<List<String>>> getallsalesReturnNoBySearchSBPS(){
+		List<String> results=salesReturnItemService.findAllSalesReturnNumbersInSalesReturn();
+		return new BaseDto<>(results,salesReturnItemHelper.getRetrieveSalesReturnItemMessage(),OK).respond();
+	}
 
 }

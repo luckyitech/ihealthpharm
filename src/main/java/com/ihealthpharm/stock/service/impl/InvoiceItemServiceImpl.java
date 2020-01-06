@@ -172,4 +172,14 @@ public class InvoiceItemServiceImpl implements InvoiceItemService {
 		return invoiceItemRepository.findAllSuppliersInInvoiceItemsPMC();
 	}
 
+	@Override
+	public List<String> findInvoiceNumbersByInvoiceItems(String searchTerm) {
+		return invoiceItemRepository.findinvoiceNumberInInvoiceItems(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllInvoiceNumbersByInvoiceItems() {
+		return invoiceItemRepository.findAllinvoiceNumbersInInvoiceItems();
+	}
+
 }

@@ -33,13 +33,13 @@ public interface InvoiceItemRepository extends JpaRepository<InvoiceItemModel, I
 	@Query("select distinct inv.grnNo from invoice_items init,invoice inv,items i,stock st,supplier sp "
 			+ "where init.invoice=inv.invoiceId and "
 			+ "init.itemsModel.itemId=i.itemId and st.item.itemId=i.itemId and "
-			+ "inv.supplierModel.supplierId=sp.supplierId and inv.invoiceNo like :searchTerm%")
+			+ "inv.supplierModel.supplierId=sp.supplierId and inv.grnNo like :searchTerm%")
 	List<String> findinvoiceNoInInvoiceItems(@Param("searchTerm") String searchTerm);
 	
 	@Query("select distinct inv.grnNo from invoice_items init,invoice inv,items i,stock st,supplier sp "
 			+ "where init.invoice=inv.invoiceId and "
 			+ "init.itemsModel.itemId=i.itemId and st.item.itemId=i.itemId and "
-			+ "inv.supplierModel.supplierId=sp.supplierId order by inv.invoiceNo")
+			+ "inv.supplierModel.supplierId=sp.supplierId order by inv.grnNo")
 	List<String> findAllinvoiceNoInInvoiceItems();
 	
 	@Query("select distinct inv.invoiceDt from invoice_items init,invoice inv,items i,stock st,supplier sp "
@@ -53,6 +53,14 @@ public interface InvoiceItemRepository extends JpaRepository<InvoiceItemModel, I
 			+ "init.itemsModel.itemId=i.itemId and st.item.itemId=i.itemId and "
 			+ "inv.supplierModel.supplierId=sp.supplierId order by inv.invoiceDt")
 	List<String> findAllinvoiceDtInInvoiceItems();
+	
+	@Query("select distinct inv.invoiceNo from invoice_items init,invoice inv "
+			+ "where init.invoice.invoiceId=inv.invoiceId and inv.invoiceNo like :searchTerm%")
+	List<String> findinvoiceNumberInInvoiceItems(@Param("searchTerm") String searchTerm);
+	
+	@Query("select distinct inv.invoiceNo from invoice_items init,invoice inv "
+			+ "where init.invoice.invoiceId=inv.invoiceId order by inv.invoiceNo")
+	List<String> findAllinvoiceNumbersInInvoiceItems();
 	
 	//Purchase Margin Comparison
 	

@@ -20,5 +20,9 @@ public interface SalesReturnItemService {
 	SalesReturnItemsModel findSalesReturnItemsById(Integer salesReturnItemId);
 
 	void deletePurchaseReturnItemsById(Integer[] salesReturnItemIds);
+	
+	List<String> findSalesReturnNoInSalesReturn(String searchTerm);
+	
+	List<String> findAllSalesReturnNumbersInSalesReturn();
 
 }

@@ -130,14 +130,14 @@ public class InvoiceItemController {
 		return new BaseDto<>(results,invoiceItemHelper.getRetrieveInvoiceItemMessage(),OK).respond();
 	}
 	
-	@GetMapping("/getinvoicenosbysearchpid")
+	@GetMapping("/getgrnnosbysearchpid")
 	public ResponseEntity<BaseDto<List<String>>> getInvoiceNoByInvoiceItems(@RequestParam String searchTerm){
 		List<String> results=invoiceItemService.findInvoiceNoByInvoiceItems(searchTerm);
 		return new BaseDto<>(results,invoiceItemHelper.getRetrieveInvoiceItemMessage(),OK).respond();
 	}
 	
 
-	@GetMapping("/getallinvoicenospid")
+	@GetMapping("/getallgrnnospid")
 	public ResponseEntity<BaseDto<List<String>>> getAllInvoiceNoByInvoiceItems(){
 		List<String> results=invoiceItemService.findAllInvoiceNoByInvoiceItems();
 		return new BaseDto<>(results,invoiceItemHelper.getRetrieveInvoiceItemMessage(),OK).respond();
@@ -152,6 +152,18 @@ public class InvoiceItemController {
 	@GetMapping("/getallinvoicedatepid")
 	public ResponseEntity<BaseDto<List<String>>> getAllInvoiceDtByInvoiceItems(){
 		List<String> results=invoiceItemService.findAllInvoiceDtByInvoiceItems();
+		return new BaseDto<>(results,invoiceItemHelper.getRetrieveInvoiceItemMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getinvoicenosbysearchpid")
+	public ResponseEntity<BaseDto<List<String>>> getInvoiceNUMBERSByInvoiceItems(@RequestParam String searchTerm){
+		List<String> results=invoiceItemService.findInvoiceNumbersByInvoiceItems(searchTerm);
+		return new BaseDto<>(results,invoiceItemHelper.getRetrieveInvoiceItemMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getallinvoicenumberspid")
+	public ResponseEntity<BaseDto<List<String>>> getAllInvoiceNumbersByInvoiceItems(){
+		List<String> results=invoiceItemService.findAllInvoiceNumbersByInvoiceItems();
 		return new BaseDto<>(results,invoiceItemHelper.getRetrieveInvoiceItemMessage(),OK).respond();
 	}
 	
