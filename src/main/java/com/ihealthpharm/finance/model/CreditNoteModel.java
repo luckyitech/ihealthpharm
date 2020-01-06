@@ -15,6 +15,7 @@ import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.SupplierModel;
+import com.ihealthpharm.stock.model.PaymentTypeModel;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -86,5 +87,9 @@ public class CreditNoteModel extends AuditModel{
     
     @Column(name = "ACTIVE_S",  columnDefinition = "default 'Y'")
 	private String activeS = "Y";
+    
+    @OneToOne
+	@JoinColumn(name = "PAYMENT_TYPE_ID")
+	private PaymentTypeModel paymentType;
     
 }

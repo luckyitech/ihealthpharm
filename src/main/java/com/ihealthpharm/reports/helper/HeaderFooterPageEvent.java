@@ -135,12 +135,12 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 					
 				}
 
+
 				for(HeaderFooterContentDetailsDto dto:contentDto.getRightContent()) {					
 					rightContent.addElement(new Phrase(dto.getText(), FontFactory.getFont(dto.getFontName(), dto.getSize())));
+
 				}
-				
 			}
-			
 			header.addCell(leftContent);
 			header.addCell(centerContent);
 			header.addCell(rightContent);
