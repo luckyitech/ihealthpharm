@@ -320,7 +320,7 @@ public class SalesController {
 	
 	@GetMapping("/upiAmount")
 	public ResponseEntity<BaseDto<Integer>> getUpiAmount(){
-		Integer result = salesService.findUpiCustomers();
+		Integer result = salesService.finUpiAmount();
 		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
 	
