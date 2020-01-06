@@ -88,16 +88,38 @@ public class PurchaseReturnItemController {
 		return new BaseDto<>(purchaseReturnItemModelRes, purchaseReturnItemHelper.getUpdatePurchaseReturnItemMessage(), OK).respond();
 	}
 	//Purchase Return
-	@GetMapping("/getinvoicenobysearchpr")
-	public ResponseEntity<BaseDto<List<String>>> getInvoiceNoBySearchPR(@RequestParam String searchTerm){
-		List<String> results=purchaseReturnItemService.findInvoiceNoByPR(searchTerm);
+	@GetMapping("/getgrnnosbysearchpurret")
+	public ResponseEntity<BaseDto<List<String>>> getGRNNoBySearchPR(@RequestParam String searchTerm){
+		List<String> results=purchaseReturnItemService.findGRNNoByPR(searchTerm);
 		return new BaseDto<>(results,purchaseReturnItemHelper.getRetrievePurchaseReturnItemMessage(),OK).respond();
 	}
 	
-	@GetMapping("/getallinvoicenopr")
+	@GetMapping("/getallgrnnospurret")
+	public ResponseEntity<BaseDto<List<String>>> getAllGRNNoByPR(){
+		List<String> results=purchaseReturnItemService.findAllGRNNoByPR();
+		return new BaseDto<>(results,purchaseReturnItemHelper.getRetrievePurchaseReturnItemMessage(),OK).respond();
+	}
+	@GetMapping("/getsuppliersbysearchpurret")
+	public ResponseEntity<BaseDto<List<String>>> getSupplierBySearchPR(@RequestParam String searchTerm){
+		List<String> results=purchaseReturnItemService.findSupplierBySearchPR(searchTerm);
+		return new BaseDto<>(results,purchaseReturnItemHelper.getRetrievePurchaseReturnItemMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getallsupplierspurret")
+	public ResponseEntity<BaseDto<List<String>>> getAllSuppliersByPR(){
+		List<String> results=purchaseReturnItemService.findAllSuppliersByPR();
+		return new BaseDto<>(results,purchaseReturnItemHelper.getRetrievePurchaseReturnItemMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getinvoicenosbysearchpurret")
+	public ResponseEntity<BaseDto<List<String>>> getInvoiceNoBySearchPR(@RequestParam String searchTerm){
+		List<String> results=purchaseReturnItemService.findInvoiceNoBySearchPR(searchTerm);
+		return new BaseDto<>(results,purchaseReturnItemHelper.getRetrievePurchaseReturnItemMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getallinvoicenospurret")
 	public ResponseEntity<BaseDto<List<String>>> getAllInvoiceNoByPR(){
 		List<String> results=purchaseReturnItemService.findAllInvoiceNoByPR();
 		return new BaseDto<>(results,purchaseReturnItemHelper.getRetrievePurchaseReturnItemMessage(),OK).respond();
 	}
-	
 }
