@@ -38,17 +38,34 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 	}
 
 	@Override
-	public AccountPayablesModel updateAccountPayablesData(AccountPayablesModel accountPayables) {
-		AccountPayablesModel accountPayablesRes = getValidAccountsPayables(accountPayables.getAccountPayablesId());
+	public List<AccountPayablesModel> updateAccountPayablesData(List<AccountPayablesModel> accountPayables) {
+		/*AccountPayablesModel accountPayablesRes = getValidAccountsPayables(accountPayables.getAccountPayablesId());
 		if (!Objects.nonNull(accountPayablesRes)) {
 			throw new IHealthPharmException(accountPayablesHelper.getNotFoundAccountPayablesMessage(), HttpStatus.NOT_FOUND);
 		}
 
 		accountPayablesRes = accountPayablesRepository.save(accountPayables);
 		log.info("AccountPayables data with ID : " + accountPayablesRes.getAccountPayablesId() + " updated succesfully");
-		return accountPayablesRes;
+		return accountPayablesRes;*/
+		int i=1;
+		for (AccountPayablesModel accountPayable : accountPayables) {
+			AccountPayablesModel accountPayablesRes = getValidAccountsPayables(accountPayable.getAccountPayablesId());
+			if (!Objects.nonNull(accountPayablesRes)) {
+				throw new IHealthPharmException(accountPayablesHelper.getNotFoundAccountPayablesMessage(), HttpStatus.NOT_FOUND);
+			}
+
+			int empId =accountPayable.getApprovedBy().getEmployeeId();
+			accountPayable.getApprovedBy().setEmployeeId(empId-i);
+			accountPayablesRes = accountPayablesRepository.save(accountPayable);
+			i++;
+			
+			log.info("AccountPayables data with ID : " + accountPayablesRes.getAccountPayablesId() + " updated succesfully");
+		}
+		return accountPayables;
+		
 	}
 
+	
 	@Override
 	public List<AccountPayablesModel> updateAccountsPayablesData(List<AccountPayablesModel> accountsPayables) {
 		for (AccountPayablesModel accountPayables : accountsPayables) {
