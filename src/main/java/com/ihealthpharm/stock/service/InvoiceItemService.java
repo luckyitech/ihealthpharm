@@ -34,6 +34,10 @@ public interface InvoiceItemService {
 	
 	List<String> findAllInvoiceDtByInvoiceItems();
 	
+	List<String> findInvoiceNumbersByInvoiceItems(String searchTerm);
+	
+	List<String> findAllInvoiceNumbersByInvoiceItems();
+	
 	//Purchase Margin Comparison
 	
 	List<String> findItemNamesByInvoiceItemsPMC(String searchTerm);

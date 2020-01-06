@@ -156,7 +156,8 @@ public void createTable(Document document, ReportsMappingModel model, List<Map<S
 
 	
 	PdfPTable table = new PdfPTable(headerList.size());
-	table.setWidths(new int[] {1,3,1,1,1,1});
+	table.setWidthPercentage(80);
+	table.setWidths(new int[] {8,28,8,8,13,15});
 	table.setTotalWidth(Utilities.millimetersToPoints(80));
 	table.setLockedWidth(true);
 	table.setSpacingAfter(10);
@@ -211,16 +212,20 @@ private void addTotals(Document document, ReportsMappingModel model, List<Map<St
 	
 	System.out.println(responseList);
 	int totalItems = responseList.size();
-	double totalAmount = Double.parseDouble(String.valueOf(responseList.get(0).get("TOTAL_AMOUNT")));//responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TOTAL_AMOUNT")?String.valueOf(mapper.get("TOTAL_AMOUNT")):"0.0")).sum(); 
-	Double totalQty = Double.parseDouble(String.valueOf(responseList.get(0).get("TOTAL_QTY")));//responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TOTAL_QTY")?String.valueOf(mapper.get("TOTAL_QTY")):"0.0")).sum(); 
+	//double totalAmount = Double.parseDouble(String.valueOf(responseList.get(0).get("TOTAL_AMOUNT")));//responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TOTAL_AMOUNT")?String.valueOf(mapper.get("TOTAL_AMOUNT")):"0.0")).sum(); 
+	double totalAmount = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")?String.valueOf(mapper.get("AMOUNT")):"0.0")).sum(); 
+	//Double totalQty = Double.parseDouble(String.valueOf(responseList.get(0).get("TOTAL_QTY")));//responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TOTAL_QTY")?String.valueOf(mapper.get("TOTAL_QTY")):"0.0")).sum(); 
+	Double totalQty = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("SALE_QTY")?String.valueOf(mapper.get("SALE_QTY")):"0.0")).sum(); 
 	double totalDiscount = Double.parseDouble(String.valueOf(responseList.get(0).get("OVERALL_DISCOUNT")));//responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("OVERALL_DISCOUNT")?String.valueOf(mapper.get("EFFECTIVE_OVERALL_DISCOUNT")):"0.0")).sum(); 
 	
 	double totalVat = Double.parseDouble(String.valueOf(responseList.get(0).get("VAT_AMT")));//responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("EFFECTIVE_VAT")?String.valueOf(mapper.get("VAT")):"0.0")).sum();
 	
 	//double totalNetAmount = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("SALE_AMOUNT")?String.valueOf(mapper.get("SALE_AMOUNT")):"0.0")).sum();
-	double totalNetAmount =Double.parseDouble(String.valueOf(responseList.get(0).get("NET_AMOUNT")));
+	//double totalNetAmount =Double.parseDouble(String.valueOf(responseList.get(0).get("NET_AMOUNT")));
+	double totalNetAmount =responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("NET_AMOUNT")?String.valueOf(mapper.get("NET_AMOUNT")):"0.0")).sum();
 	double balanceAmt =Double.parseDouble(String.valueOf(responseList.get(0).get("BALANCE_AMOUNT")));
-	double paidAmt =Double.parseDouble(String.valueOf(responseList.get(0).get("PAID_AMOUNT")));
+	//double paidAmt =Double.parseDouble(String.valueOf(responseList.get(0).get("PAID_AMOUNT")));
+	double paidAmt =responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("PAID_AMOUNT")?String.valueOf(mapper.get("PAID_AMOUNT")):"0.0")).sum();
 	String servBy = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("FIRST_NM"));
 	String paymentStatus = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("PAYMENT_STATUS"));
 	
@@ -256,9 +261,29 @@ private void addTotals(Document document, ReportsMappingModel model, List<Map<St
 	cell.setBorder(Rectangle.TOP);
 	table.addCell(cell);
 	
+//	cell = new PdfPCell(new Phrase("Tot. Qty.    :",bold));
+//	cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+//	cell.setBorder(Rectangle.BOTTOM );
+//	table.addCell(cell);
+//	
+//	cell = new PdfPCell(new Phrase(String.valueOf(totalQty.intValue()),bold));
+//	cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+//	cell.setBorder(Rectangle.BOTTOM);
+//	table.addCell(cell);
+//	
+//	cell = new PdfPCell(new Phrase("Tot. Dis.  : ",bold));
+//	cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+//	cell.setBorder(Rectangle.BOTTOM);
+//	table.addCell(cell);
+//	
+//	cell = new PdfPCell(new Phrase(ReportsPDFUtility.decilFormatter.format(totalDiscount),bold));
+//	cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+//	cell.setBorder(Rectangle.BOTTOM);
+//	table.addCell(cell);
+	
 	cell = new PdfPCell(new Phrase("Tot. Qty.    :",bold));
 	cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-	cell.setBorder(Rectangle.NO_BORDER);
+	cell.setBorder(Rectangle.NO_BORDER );
 	table.addCell(cell);
 	
 	cell = new PdfPCell(new Phrase(String.valueOf(totalQty.intValue()),bold));
@@ -275,7 +300,6 @@ private void addTotals(Document document, ReportsMappingModel model, List<Map<St
 	cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 	cell.setBorder(Rectangle.NO_BORDER);
 	table.addCell(cell);
-	
 	cell = new PdfPCell(new Phrase("Tax Amt    :",bold));
 	cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 	cell.setBorder(Rectangle.NO_BORDER);
@@ -366,6 +390,7 @@ private void addTotals(Document document, ReportsMappingModel model, List<Map<St
 private void addBillDetails(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException {
 	
 	String billCode = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("BILL_CODE"));
+	String salesReturnNo = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("SALES_RETURN_NO"));
 	String customerName = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("CUSTOMER_NM"));
 	String doctorName = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("DOCTOR_NM"));
 	
@@ -374,15 +399,15 @@ private void addBillDetails(Document document, ReportsMappingModel model, List<M
 	table.setTotalWidth(Utilities.millimetersToPoints(80)); 
 	table.setLockedWidth(true);
 	table.getDefaultCell().setBorder(0);
-	table.setWidths(new int[] {1,3,2,2});
+	table.setWidths(new int[] {15,25,15,25});
 	
 	Font bold = new Font(FontFamily.HELVETICA,7, Font.BOLD);
-	PdfPCell cell = new PdfPCell(new Phrase("Bill # : ",bold));
+	PdfPCell cell = new PdfPCell(new Phrase("SR # : ",bold));
 	cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 	cell.setBorder(Rectangle.TOP);
 	table.addCell(cell);
 	
-	cell = new PdfPCell(new Phrase(billCode,bold));
+	cell = new PdfPCell(new Phrase(salesReturnNo,bold));
 	cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 	cell.setBorder(Rectangle.TOP);
 	table.addCell(cell);
@@ -407,11 +432,20 @@ private void addBillDetails(Document document, ReportsMappingModel model, List<M
 	cell.setBorder(Rectangle.NO_BORDER);
 	table.addCell(cell);
 	
-	cell = getCell("",Element.ALIGN_LEFT);
-	cell.setNoWrap(true);
+	cell = new PdfPCell(new Phrase("BILL #   :",bold));
+	cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+	cell.setBorder(Rectangle.NO_BORDER);
 	table.addCell(cell);
-	cell = getCell("",Element.ALIGN_LEFT);
+	
+	cell = new PdfPCell(new Phrase(billCode,bold));
+	cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+	cell.setBorder(Rectangle.NO_BORDER);
 	table.addCell(cell);
+//	cell = getCell("",Element.ALIGN_LEFT);
+//	cell.setNoWrap(true);
+//	table.addCell(cell);
+//	cell = getCell("",Element.ALIGN_LEFT);
+//	table.addCell(cell);
 	
 	cell = new PdfPCell(new Phrase("Cust :",bold));
 	cell.setHorizontalAlignment(Element.ALIGN_LEFT);
