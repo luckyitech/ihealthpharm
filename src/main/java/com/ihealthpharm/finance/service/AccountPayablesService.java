@@ -10,7 +10,7 @@ public interface AccountPayablesService
     
 	AccountPayablesModel saveAccountPayablesData(AccountPayablesModel accountPayables);
 
-	AccountPayablesModel updateAccountPayablesData(AccountPayablesModel accountPayables);
+	List<AccountPayablesModel> updateAccountPayablesData(List<AccountPayablesModel> accountPayables);
 	
 	 List<AccountPayablesModel> updateAccountsPayablesData(List<AccountPayablesModel> accountsPayables);
 	

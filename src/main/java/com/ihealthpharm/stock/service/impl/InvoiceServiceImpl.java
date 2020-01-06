@@ -87,17 +87,19 @@ public class InvoiceServiceImpl implements InvoiceService {
 		
 		accountPayablesModel.setPharmacyModel(invoiceModelres.getPharmacy());
 		accountPayablesModel.setSupplierModel(invoiceModelres.getSupplierModel());
-		accountPayablesModel.setTotalInvoiceAmount(invoiceModelres.getInvoiceAmount() != null?invoiceModelres.getInvoiceAmount().floatValue():0);
-		accountPayablesModel.setTotalAdvanceAmount(invoiceModelres.getAdvance()!= null?invoiceModelres.getAdvance().floatValue():0);
-		//accountPayablesModel.setTotalAmountToBePaid(invoiceModelres.getInvoiceAmount() != null?invoiceModelres.getInvoiceAmount().doubleValue():0);
+		accountPayablesModel.setSupplierName(invoiceModelres.getSupplierModel().getName());
+		accountPayablesModel.setTotalInvoiceAmount(invoiceModelres.getInvoiceAmount() != null?-invoiceModelres.getInvoiceAmount().floatValue():0);
+		//accountPayablesModel.setTotalAdvanceAmount(invoiceModelres.getAdvance()!= null?invoiceModelres.getAdvance().floatValue():0);
+		accountPayablesModel.setTotalAmountToBePaid(invoiceModelres.getInvoiceAmount() != null?invoiceModelres.getInvoiceAmount().doubleValue():0);
 		accountPayablesModel.setPaymentDate(new Date());
 		
 		accountPayablesModel.setPaymentNumber(uniqueCodeService.findByUniqueCodeName("AP"));
-		accountPayablesModel.setSelectedStatus(invoiceModel.getInvoiceStatus() != null ?invoiceModel.getInvoiceStatus().getStatus():"");
+		accountPayablesModel.setSelectedStatus("Not Approved");
 		accountPayablesModel.setApprovedDate(new Date());
 		accountPayablesModel.setSelectedPaymentStatus("Pending");
 		accountPayablesModel.setSource(invoiceModelres.getInvoiceId().toString());
-		accountPayablesModel.setSourceRef("Invoice");
+		accountPayablesModel.setSourceRef(invoiceModelres.getGrnNo());
+		accountPayablesModel.setSourceType("Invoice");
 		accountPayablesModel.setCreatedUser(invoiceModelres.getCreatedUser());
 		accountPayablesModel.setLastUpdateUser(invoiceModelres.getLastUpdateUser());
 		

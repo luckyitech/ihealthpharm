@@ -55,6 +55,7 @@ public class AccountReceivablesController {
 
 	@PutMapping("/update/accountsReceivables")
 	public ResponseEntity<BaseDto<List<AccountReceivablesModel>>> updateAccountsReceivablesData(@Valid @RequestBody List<AccountReceivablesModel> accountReceivablesModel) {
+		System.out.println("In accout recievables updating");
 		log.info("Request Object for update is: " , accountReceivablesModel);
 		List<AccountReceivablesModel> AccountReceivablesModelRes = accountReceivablesService.updateAccountsReceivablesData(accountReceivablesModel);
 		return new BaseDto<>(AccountReceivablesModelRes, accountReceivablesHelper.getUpdateAccountReceivablesMessage(), OK).respond();
