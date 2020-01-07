@@ -149,8 +149,6 @@ public class PurchaseReturns extends ReportsPDFUtility{
 				HeaderFooterContentDto contentDto = (HeaderFooterContentDto) JsonUtility.jsonToObject(headerContent,HeaderFooterContentDto.class);	
 				for(HeaderFooterContentDetailsDto dto:contentDto.getLeftContent()) {		
 					leftContent.addElement(new Phrase(dto.getText(), FontFactory.getFont(dto.getFontName(), dto.getSize())));
-					System.out.println(dto.getText());
-					leftContent.setPaddingBottom(5);
 					
 				}
 				

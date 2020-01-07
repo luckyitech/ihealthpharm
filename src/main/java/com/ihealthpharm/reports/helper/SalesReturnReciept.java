@@ -221,8 +221,8 @@ private void addTotals(Document document, ReportsMappingModel model, List<Map<St
 	double totalVat = Double.parseDouble(String.valueOf(responseList.get(0).get("VAT_AMT")));//responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("EFFECTIVE_VAT")?String.valueOf(mapper.get("VAT")):"0.0")).sum();
 	
 	//double totalNetAmount = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("SALE_AMOUNT")?String.valueOf(mapper.get("SALE_AMOUNT")):"0.0")).sum();
-	//double totalNetAmount =Double.parseDouble(String.valueOf(responseList.get(0).get("NET_AMOUNT")));
-	double totalNetAmount =responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("NET_AMOUNT")?String.valueOf(mapper.get("NET_AMOUNT")):"0.0")).sum();
+	double totalNetAmount =Double.parseDouble(String.valueOf(responseList.get(0).get("NET_AMOUNT")));
+	//double totalNetAmount =responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("NET_AMOUNT")?String.valueOf(mapper.get("NET_AMOUNT")):"0.0")).sum();
 	double balanceAmt =Double.parseDouble(String.valueOf(responseList.get(0).get("BALANCE_AMOUNT")));
 	//double paidAmt =Double.parseDouble(String.valueOf(responseList.get(0).get("PAID_AMOUNT")));
 	double paidAmt =responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("PAID_AMOUNT")?String.valueOf(mapper.get("PAID_AMOUNT")):"0.0")).sum();
