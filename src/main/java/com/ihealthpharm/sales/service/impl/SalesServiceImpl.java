@@ -162,7 +162,8 @@ public class SalesServiceImpl implements SalesService {
 			temp.add(obj.getTotalSales());
 			finalObj.add(temp);
 		}
-	   	return finalObj;
+	   return finalObj; 	
+	   		   	
 	}
 
 	@Override
