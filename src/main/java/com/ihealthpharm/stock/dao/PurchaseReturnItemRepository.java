@@ -11,16 +11,30 @@ import com.ihealthpharm.stock.model.PurchaseReturnItemModel;
 
 @Repository
 public interface PurchaseReturnItemRepository extends JpaRepository<PurchaseReturnItemModel, Integer> {
-	//Purchase Return
 	
-		@Query("select distinct inv.invoiceNo from invoice inv where inv.invoiceNo like :searchTerm%")
-		List<String> findinvoiceNoInPR(@Param("searchTerm") String searchTerm);
+		//Purchase Returns
 		
-		@Query("select distinct i.itemName,inv.invoiceNo,pr.purchaseReturnDt,pri.amount,"
-				+ "pri.returnQuantity,pri.purchaseQuantity from invoice inv,items i,"
-				+ "purchase_return_item pri,purchase_return pr where "
-				+ "pr.invoiceModel.invoiceId=inv.invoiceId and "
-				+ "pri.purchaseReturnModel.purchaseReturnId=pr.purchaseReturnId "
-				+ "and pri.itemsModel.itemId=i.itemId order by inv.invoiceNo")
-		List<String> findAllinvoiceNoInPR();
+		@Query("select distinct sp.name from purchase_return pr,supplier sp "
+				+ "where pr.supplierModel.supplierId=sp.supplierId and sp.name like :searchTerm%")
+		List<String> findSupplierInPurchaseReturnItems(@Param("searchTerm") String searchTerm);
+		
+		@Query("select distinct sp.name from purchase_return pr,supplier sp "
+				+ "where pr.supplierModel.supplierId=sp.supplierId order by sp.name")
+		List<String> findAllSuppliersInPurchaseReturnItems();
+		
+		@Query("select distinct inv.grnNo from invoice inv,purchase_return pr "
+				+ "where pr.invoiceModel.invoiceId=inv.invoiceId and inv.grnNo like :searchTerm%")
+		List<String> findGRNNoInPurchaseReturnItems(@Param("searchTerm") String searchTerm);
+		
+		@Query("select distinct inv.grnNo from invoice inv,purchase_return pr "
+				+ "where pr.invoiceModel.invoiceId=inv.invoiceId order by inv.grnNo")
+		List<String> findAllGRNNoPurchaseReturnItems();
+			
+		@Query("select distinct pr.purchaseReturnNo from purchase_return_item prit,purchase_return pr "
+				+ "where prit.purchaseReturnModel.purchaseReturnId=pr.purchaseReturnId and pr.purchaseReturnNo like :searchTerm%")
+		List<String> findInvoiceNoInPurchaseReturnItems(@Param("searchTerm") String searchTerm);
+		
+		@Query("select distinct pr.purchaseReturnNo from purchase_return_item prit,purchase_return pr "
+				+ "where prit.purchaseReturnModel.purchaseReturnId=pr.purchaseReturnId order by pr.purchaseReturnNo")
+		List<String> findAllInvoiceNoPurchaseReturnItems();
 }

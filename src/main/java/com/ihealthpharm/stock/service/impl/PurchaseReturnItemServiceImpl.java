@@ -137,15 +137,35 @@ public class PurchaseReturnItemServiceImpl implements PurchaseReturnItemService 
 		return purchaseRtnItmList;
 	}
 	//Purchase Returns
+
 	@Override
-	public List<String> findInvoiceNoByPR(String searchTerm) {
-		return purchaseReturnItemRepository.findinvoiceNoInPR(searchTerm);
-		
+	public List<String> findGRNNoByPR(String searchTerm) {
+		return purchaseReturnItemRepository.findGRNNoInPurchaseReturnItems(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllGRNNoByPR() {
+		return purchaseReturnItemRepository.findAllGRNNoPurchaseReturnItems() ;
+	}
+
+	@Override
+	public List<String> findSupplierBySearchPR(String searchTerm) {
+		return purchaseReturnItemRepository.findSupplierInPurchaseReturnItems(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllSuppliersByPR() {
+		return purchaseReturnItemRepository.findAllSuppliersInPurchaseReturnItems();
+	}
+
+	@Override
+	public List<String> findInvoiceNoBySearchPR(String searchTerm) {
+		return purchaseReturnItemRepository.findInvoiceNoInPurchaseReturnItems(searchTerm);
 	}
 
 	@Override
 	public List<String> findAllInvoiceNoByPR() {
-		return purchaseReturnItemRepository.findAllinvoiceNoInPR();
+		return purchaseReturnItemRepository.findAllInvoiceNoPurchaseReturnItems();
 	}
-
+	
 }

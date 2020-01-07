@@ -68,46 +68,6 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 		addHeader(writer, document);
 	}
 	
-//	public Document generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model,
-//			File responseFile,String inputJson) {
-//		
-//		HeaderFooterPageEvent event =new HeaderFooterPageEvent(model);
-//		 Document document = new Document(PageSize.A4, 36, 36, 150, 36);
-//
-//		try {
-//			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(responseFile));
-//			writer.setPageEvent(event); 
-//			document.open();
-//			
-//			Map<String, List<Map<String, Object>>> purchaseInvoiceDetails = responseList.stream()
-//					.collect(Collectors.groupingBy(map -> (String) map.get("SP_NAME")));
-//		
-//			Map<String, List<Map<String, Object>>> purchaseInvoiceDetailsInv = responseList.stream()
-//					.collect(Collectors.groupingBy(map -> (String) map.get("GRN_NO")));
-//		
-//			if(!ObjectUtils.isEmpty(purchaseInvoiceDetails)) { 
-//				String suppName = null;
-//				for(String supplierName :purchaseInvoiceDetails.keySet()) {	
-//					List<Map<String, Object>> purchaseInvoiceDetailsMap = purchaseInvoiceDetails.get(supplierName);
-//					suppName=supplierName;
-//					//createTable(document,model,purchaseInvoiceDetailsMap,supplierName);
-//				}
-//				
-//				for(String invoiceNo :purchaseInvoiceDetailsInv.keySet()) {	
-//					List<Map<String, Object>> purchaseInvoiceDetailsMap = purchaseInvoiceDetails.get(suppName);
-//				}
-//				
-//			}
-//
-//		} catch (Exception e) {
-//
-//		} finally {
-//			document.close();
-//		}
-//		
-//		return document;
-//	}
-//	
 	@Override
 	public void onEndPage(PdfWriter writer, Document document) {
 		addFooter(writer,document);
@@ -174,18 +134,13 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 					centerContent.addElement(new Phrase(dto.getText(), FontFactory.getFont(dto.getFontName(), dto.getSize())));
 					
 				}
-//				HeaderFooterContentDetailsDto grnData = new HeaderFooterContentDetailsDto();
-//				grnData.setFontName("Helvetica");
-//				grnData.setSize(12);
-//				grnData.setText("GRN No:");
-//				contentDto.getRightContent().set(0, grnData);
+
+
 				for(HeaderFooterContentDetailsDto dto:contentDto.getRightContent()) {					
 					rightContent.addElement(new Phrase(dto.getText(), FontFactory.getFont(dto.getFontName(), dto.getSize())));
-					//rightContent.addElement(new Phrase(String.format("GRN NO:", writer.getPageNumber()), FontFactory.getFont(dto.getFontName(), dto.getSize())));
+
 				}
-				
 			}
-			
 			header.addCell(leftContent);
 			header.addCell(centerContent);
 			header.addCell(rightContent);
@@ -218,15 +173,9 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 			finalFeader.addCell(title);
 			finalFeader.addCell(header);
 			
-
-			// write content
-			// header.writeSelectedRows(0, -1, 34, 803, writer.getDirectContent());
 			finalFeader.writeSelectedRows(0, -1, document.left(),
 					document.top() + ((document.topMargin() + header.getTotalHeight()) / 2), writer.getDirectContent());
-			 
-			
-			
-			
+	
 		} catch (DocumentException de) {
 			throw new ExceptionConverter(de);
 		} catch (Exception e) {
