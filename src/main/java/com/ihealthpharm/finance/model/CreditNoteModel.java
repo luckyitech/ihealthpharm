@@ -77,6 +77,13 @@ public class CreditNoteModel extends AuditModel{
     @Column(name="RETURN_TYPE_REASON",length=100)
     private String returnTypeReason;
     
+	@Column(name = "DISCOUNT")
+	private Double discount;
+	
+	
+	@Column(name = "TAX")
+	private Double tax;
+    
 	@OneToOne
 	@JoinColumn(name="SUPPLIER_ID")
 	SupplierModel supplierModel;
