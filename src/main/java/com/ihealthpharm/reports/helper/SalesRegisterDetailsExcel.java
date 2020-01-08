@@ -24,6 +24,8 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.streaming.SXSSFSheet;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
@@ -41,9 +43,8 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 	DecimalFormat df2 = new DecimalFormat("#.00");
 	public void generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile) {
 
-		XSSFWorkbook workbook = new XSSFWorkbook();
-	
-		XSSFSheet sheet = workbook.createSheet("Report Data");
+		SXSSFWorkbook workbook = new SXSSFWorkbook(100);
+		SXSSFSheet sheet = workbook.createSheet("Report Data");
 		
 		if (ObjectUtils.isEmpty(responseList)) {
 			Row headerRow = sheet.createRow(0);
@@ -109,7 +110,7 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 		 
 	}
 
-	private void generateTotalTable(XSSFSheet sheet,File responseFile, CellStyle borderStyle, ReportsMappingModel model,
+	private void generateTotalTable(SXSSFSheet sheet,File responseFile, CellStyle borderStyle, ReportsMappingModel model,
 			List<Map<String, Object>> responseList) {
 	
 		int currentRow = sheet.getLastRowNum();
@@ -216,7 +217,7 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 			}
 			
 	
-	private void createSalesRegisterTable(XSSFSheet sheet,File responseFile, CellStyle borderStyle ,CellStyle style,
+	private void createSalesRegisterTable(SXSSFSheet sheet,File responseFile, CellStyle borderStyle ,CellStyle style,
 			CellStyle headerStyle, List<Map<String, Object>> salesRegisterDetails,int rowNum) {
 
 		rowNum = rowNum + 3;
@@ -269,38 +270,38 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 					
 				Row dataRow = sheet.createRow(rowNum++);
 				Object value =  String.valueOf(salesRegisterDetails.indexOf(rowData) + 1);
-				sheet.autoSizeColumn(0);
+				//sheet.autoSizeColumn(0);
 				cell = dataRow.createCell(0);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				
 				value = rowData.containsKey("BILL_CODE") ? rowData.get("BILL_CODE") : "";
-				sheet.autoSizeColumn(1);
+				//sheet.autoSizeColumn(1);
 				cell = dataRow.createCell(1);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("FROM_BILL_DATE") ? rowData.get("FROM_BILL_DATE") : "";
-				sheet.autoSizeColumn(2);
+				//sheet.autoSizeColumn(2);
 				cell = dataRow.createCell(2);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("CUSTOMER_NM") ? rowData.get("CUSTOMER_NM") : "";
-				sheet.autoSizeColumn(3);
+				//sheet.autoSizeColumn(3);
 				cell = dataRow.createCell(3);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("TYPE") ? rowData.get("TYPE") : "";
-				sheet.autoSizeColumn(4);
+				//sheet.autoSizeColumn(4);
 				cell = dataRow.createCell(4);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("AMOUNT") ? rowData.get("AMOUNT") : "0.00";
-				sheet.autoSizeColumn(5);
+				//sheet.autoSizeColumn(5);
 				cell = dataRow.createCell(5);
 				if(NumberUtils.isNumber(String.valueOf(value))) {
 					cell.setCellType(CellType.NUMERIC);		
@@ -313,7 +314,7 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 
 				
 				value = rowData.containsKey("PAID_AMOUNT") ? rowData.get("PAID_AMOUNT") : "";
-				sheet.autoSizeColumn(6);
+				//sheet.autoSizeColumn(6);
 				cell = dataRow.createCell(6);
 				
 				if(NumberUtils.isNumber(String.valueOf(value))) {
@@ -326,7 +327,7 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("BALANCE_AMOUNT") ? rowData.get("BALANCE_AMOUNT") : "";
-				sheet.autoSizeColumn(7);
+				//sheet.autoSizeColumn(7);
 				cell = dataRow.createCell(7);
 			
 				if(NumberUtils.isNumber(String.valueOf(value))) {
@@ -339,7 +340,7 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("PAYMENT_STATUS") ? rowData.get("PAYMENT_STATUS") : "";
-				sheet.autoSizeColumn(8);
+				//sheet.autoSizeColumn(8);
 				cell = dataRow.createCell(8);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);

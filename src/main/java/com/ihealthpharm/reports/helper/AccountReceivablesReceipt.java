@@ -151,13 +151,19 @@ public class AccountReceivablesReceipt extends ReportsPDFUtility {
 	
 	private void addCreditNoteDetails(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException {
 		
-		String receiptNo = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("RECEIPT_NO"));
-		String customerName = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("CUSTOMER_NAME"));
-		String receiptDate = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("RECEIPT_DATE"));
-		String billNo = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("BILL_NUMBER"));
-		String amount = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("AMOUNT_TO_BE_RECEIVED"));
-		String remarks = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("REMARKS"));
-		String approvedBy = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("APPROVED_BY"));
+
+		String paymentNo = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("RECEIPT_NO"));
+		String supplierName = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("CUSTOMER_NAME"));
+		String paymentDate = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("RECEIPT_DATE"));
+		String sourceRef = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("SOURCE_REF"));
+		String amount_paid = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("AMOUNT_RECEIVED"));
+		String amount_to_be_paid = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("AMOUNT_TO_BE_RECEIVED"));
+		String paymentStatus = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("PAYMENT_STATUS"));
+		String approvedBy = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("FIRST_NM"));
+		String status = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("STATUS"));
+		String sourceType = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("SOURCE_TYPE"));
+		String approvedDate = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("FROM_APPROVED_DATE"));
+		
 		
 		PdfPTable table = new PdfPTable(4);
 		table.setSpacingAfter(10); 
@@ -167,87 +173,135 @@ public class AccountReceivablesReceipt extends ReportsPDFUtility {
 		table.setWidths(new int[] {1,3,2,2});
 		
 		Font bold = new Font(FontFamily.HELVETICA,7, Font.BOLD);
-		PdfPCell cell = new PdfPCell(new Phrase("Credit Note No		:",bold));
+		
+		
+		PdfPCell cell = new PdfPCell(new Phrase("Supplier Name		:",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setColspan(2);
 		cell.setBorder(Rectangle.TOP);
 		table.addCell(cell);
 		
-		cell = new PdfPCell(new Phrase(receiptNo,bold));
+		cell = new PdfPCell(new Phrase(supplierName,bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setColspan(2);
 		cell.setBorder(Rectangle.TOP);
 		table.addCell(cell);
 		
-		cell = new PdfPCell(new Phrase("Customer Name		:",bold));
+		cell = new PdfPCell(new Phrase("Payment No		:",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setColspan(2);
 		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
-		cell = new PdfPCell(new Phrase(customerName,bold));
+		cell = new PdfPCell(new Phrase(paymentNo,bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setColspan(2);
 		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
-		cell = new PdfPCell(new Phrase("Credit Date		:",bold));
+		cell = new PdfPCell(new Phrase("Source Ref		:",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setColspan(2);
 		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
-		cell = new PdfPCell(new Phrase(receiptDate,bold));
+		cell = new PdfPCell(new Phrase(sourceRef,bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setColspan(2);
 		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
-		cell = new PdfPCell(new Phrase("Bill No		:",bold));
+		cell = new PdfPCell(new Phrase("Payment Date		:",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setColspan(2);
 		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
-		cell = new PdfPCell(new Phrase(billNo,bold));
+		cell = new PdfPCell(new Phrase(paymentDate,bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setColspan(2);
 		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
-		cell = new PdfPCell(new Phrase("Amount		:",bold));
+		cell = new PdfPCell(new Phrase("Status		:",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setColspan(2);
 		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
-		cell = new PdfPCell(new Phrase(amount,bold));
+		cell = new PdfPCell(new Phrase(status,bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setColspan(2);
 		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
-		
-		cell = new PdfPCell(new Phrase("Remarks		:",bold));
+		cell = new PdfPCell(new Phrase("Amount Paid		:",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setColspan(2);
 		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
-		cell = new PdfPCell(new Phrase(remarks,bold));
+		cell = new PdfPCell(new Phrase(amount_paid,bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setColspan(2);
 		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
-		table.completeRow();
+		
+		cell = new PdfPCell(new Phrase("Amount To Be Paid		:",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setColspan(2);
+		cell.setBorder(Rectangle.NO_BORDER);
+		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase(amount_to_be_paid,bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setColspan(2);
+		cell.setBorder(Rectangle.NO_BORDER);
+		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase("Payment Status		:",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setColspan(2);
+		cell.setBorder(Rectangle.NO_BORDER);
+		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase(paymentStatus,bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setColspan(2);
+		cell.setBorder(Rectangle.NO_BORDER);
+		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase("Source Type		:",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setColspan(2);
+		cell.setBorder(Rectangle.NO_BORDER);
+		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase(sourceType,bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setColspan(2);
+		cell.setBorder(Rectangle.NO_BORDER);
+		table.addCell(cell);
 		
 		cell = new PdfPCell(new Phrase("Approved By		:",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setColspan(2);
+		cell.setBorder(Rectangle.NO_BORDER);
+		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase(approvedBy,bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setColspan(2);
+		cell.setBorder(Rectangle.NO_BORDER);
+		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase("Approved Dt		:",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setColspan(2);
 		cell.setBorder(Rectangle.BOTTOM);
 		table.addCell(cell);
 		
-		cell = new PdfPCell(new Phrase(approvedBy,bold));
+		cell = new PdfPCell(new Phrase(approvedDate,bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setColspan(2);
 		cell.setBorder(Rectangle.BOTTOM);
@@ -255,6 +309,7 @@ public class AccountReceivablesReceipt extends ReportsPDFUtility {
 		table.completeRow();
 		
 		document.add(table);
+		
 		
 	}
 

@@ -107,6 +107,9 @@ public class AccountPayablesModel extends AuditModel {
 	
 	@Column(name="SOURCE_TYPE",length=30)
 	private String sourceType;
+	
+	@Column(name="NET_AMOUNT")
+	private Float netAmount;
 
 	@OneToOne
 	@JoinColumn(name="SUPPLIER_ID")
