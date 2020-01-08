@@ -88,6 +88,9 @@ public class AccountReceivablesModel extends AuditModel{
 
 	@Column(name = "PAYMENT_STATUS", length = 20)
 	private String paymentStatus;
+	
+	@Column(name="NET_AMOUNT")
+	private Float netAmount;
 
 	@OneToOne
 	@JoinColumn(name="APPROVED_BY")
