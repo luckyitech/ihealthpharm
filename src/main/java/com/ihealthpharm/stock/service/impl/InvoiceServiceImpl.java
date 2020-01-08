@@ -89,6 +89,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 		accountPayablesModel.setSupplierModel(invoiceModelres.getSupplierModel());
 		accountPayablesModel.setSupplierName(invoiceModelres.getSupplierModel().getName());
 		accountPayablesModel.setTotalInvoiceAmount(invoiceModelres.getInvoiceAmount() != null?invoiceModelres.getInvoiceAmount().floatValue():0);
+		accountPayablesModel.setNetAmount(invoiceModelres.getInvoiceAmount() != null?invoiceModelres.getInvoiceAmount().floatValue():0);
 		//accountPayablesModel.setTotalAdvanceAmount(invoiceModelres.getAdvance()!= null?invoiceModelres.getAdvance().floatValue():0);
 		accountPayablesModel.setTotalAmountToBePaid(invoiceModelres.getInvoiceAmount() != null?invoiceModelres.getInvoiceAmount().doubleValue():0);
 		accountPayablesModel.setPaymentDate(new Date());
