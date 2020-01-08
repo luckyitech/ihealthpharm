@@ -22,6 +22,8 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.streaming.SXSSFSheet;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
@@ -43,9 +45,9 @@ public class ReportsExcelUtility implements ExcelReportGenerator{
 
 	public void generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile) {
 
-		XSSFWorkbook workbook = new XSSFWorkbook();
-		XSSFSheet sheet = workbook.createSheet("Report Data");
-
+		SXSSFWorkbook workbook = new SXSSFWorkbook();
+		SXSSFSheet sheet = workbook.createSheet("Report Data");
+		
 		
 		if (ObjectUtils.isEmpty(responseList)) {
 			Row headerRow = sheet.createRow(0);
@@ -65,8 +67,6 @@ public class ReportsExcelUtility implements ExcelReportGenerator{
 		borderStyle.setTopBorderColor(IndexedColors.BLACK.getIndex());  
 		borderStyle.setBorderLeft(BorderStyle.THIN);  
 		borderStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());  
-		
-		
 		
 		Font font = workbook.createFont();
 		font.setFontHeightInPoints((short)11);
@@ -116,7 +116,7 @@ public class ReportsExcelUtility implements ExcelReportGenerator{
 				for (HeaderDto hearder : headerList) {
 					Object value = rowData.containsKey(hearder.getColumnName()) ? rowData.get(hearder.getColumnName())
 							: "";
-					sheet.autoSizeColumn(colNum);
+					//sheet.autoSizeColumn(colNum);
 					Cell cell = dataRow.createCell(colNum++);
 					System.out.println("In Excel Cell:"     +    String.valueOf(value));
 					try {
@@ -148,7 +148,7 @@ public class ReportsExcelUtility implements ExcelReportGenerator{
 	 * RegionUtil.setBorderTop(BorderStyle.THIN, region, sheet); }
 	 */
 
-	public int setHeader(XSSFWorkbook workbook, XSSFSheet sheet, ReportsMappingModel model) { 
+	public int setHeader(SXSSFWorkbook workbook, SXSSFSheet sheet, ReportsMappingModel model) { 
 		CellStyle wrapStyle = workbook.createCellStyle();
 		wrapStyle.setWrapText(true);
 		wrapStyle.setVerticalAlignment(VerticalAlignment.TOP);
@@ -278,8 +278,8 @@ public class ReportsExcelUtility implements ExcelReportGenerator{
 
 	public void generateErrorReport(File responseFile, String errorMessage) {
 
-		XSSFWorkbook workbook = new XSSFWorkbook();
-		XSSFSheet sheet = workbook.createSheet("Report Data");
+		SXSSFWorkbook workbook = new SXSSFWorkbook(100);
+		SXSSFSheet sheet = workbook.createSheet("Report Data");
 
 		Row headerRow = sheet.createRow(1);
 		Cell cell = headerRow.createCell(1);
@@ -288,7 +288,7 @@ public class ReportsExcelUtility implements ExcelReportGenerator{
 
 	}
 
-	public void writeToFile(XSSFWorkbook workbook, File responseFile) {
+	public void writeToFile(SXSSFWorkbook workbook, File responseFile) {
 		try {
 			FileOutputStream outputStream = new FileOutputStream(responseFile);
 			workbook.write(outputStream);

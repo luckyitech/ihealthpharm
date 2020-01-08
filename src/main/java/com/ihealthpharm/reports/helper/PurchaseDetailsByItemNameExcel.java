@@ -15,6 +15,8 @@ import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.xssf.streaming.SXSSFSheet;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
@@ -27,8 +29,8 @@ public class PurchaseDetailsByItemNameExcel extends ReportsExcelUtility {
 
 	public void generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile) {
 
-		XSSFWorkbook workbook = new XSSFWorkbook();
-		XSSFSheet sheet = workbook.createSheet("Report Data");
+		SXSSFWorkbook workbook = new SXSSFWorkbook(100);
+		SXSSFSheet sheet = workbook.createSheet("Report Data");
 		
 		if (ObjectUtils.isEmpty(responseList)) {
 			Row headerRow = sheet.createRow(0);
@@ -95,7 +97,7 @@ public class PurchaseDetailsByItemNameExcel extends ReportsExcelUtility {
 		 
 	}
 
-	private void createSupplierTable(XSSFSheet sheet,File responseFile, CellStyle borderStyle ,
+	private void createSupplierTable(SXSSFSheet sheet,File responseFile, CellStyle borderStyle ,
 			CellStyle headerStyle, List<Map<String, Object>> purchaseDetailsList, String itemName, int rowNum) {
 
 		rowNum = rowNum + 3;
@@ -147,45 +149,45 @@ public class PurchaseDetailsByItemNameExcel extends ReportsExcelUtility {
 				
 				Row dataRow = sheet.createRow(rowNum++);
 				value =  String.valueOf(purchaseDetailsList.indexOf(rowData) + 1);
-				sheet.autoSizeColumn(0);
+				//sheet.autoSizeColumn(0);
 				cell = dataRow.createCell(0);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				
 				value = rowData.containsKey("SP_NAME") ? rowData.get("SP_NAME") : "";
-				sheet.autoSizeColumn(1);
+				//sheet.autoSizeColumn(1);
 				cell = dataRow.createCell(1);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("INVOICE_DT") ? rowData.get("INVOICE_DT") : "";
-				sheet.autoSizeColumn(2);
+				//sheet.autoSizeColumn(2);
 				cell = dataRow.createCell(2);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("INVOICE_NO") ? rowData.get("INVOICE_NO ") : "";
-				sheet.autoSizeColumn(3);
+				//sheet.autoSizeColumn(3);
 				cell = dataRow.createCell(3);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("BATCH_NO") ? rowData.get("BATCH_NO") : "";
-				sheet.autoSizeColumn(4);
+				//sheet.autoSizeColumn(4);
 				cell = dataRow.createCell(4);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("QUANTITY") ? rowData.get("QUANTITY") : "";
-				sheet.autoSizeColumn(5);
+				//sheet.autoSizeColumn(5);
 				cell = dataRow.createCell(5);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 
 				
 				value = rowData.containsKey("INVOICE_AMOUNT") ? rowData.get("INVOICE_AMOUNT") : "";
-				sheet.autoSizeColumn(6);
+				//sheet.autoSizeColumn(6);
 				cell = dataRow.createCell(6);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
