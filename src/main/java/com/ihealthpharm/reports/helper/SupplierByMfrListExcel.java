@@ -15,6 +15,8 @@ import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.xssf.streaming.SXSSFSheet;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
@@ -28,8 +30,8 @@ public class SupplierByMfrListExcel extends ReportsExcelUtility{
 
 	public void generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile) {
 
-		XSSFWorkbook workbook = new XSSFWorkbook();
-		XSSFSheet sheet = workbook.createSheet("Report Data");
+		SXSSFWorkbook workbook = new SXSSFWorkbook(100);
+		SXSSFSheet sheet = workbook.createSheet("Report Data");
 		
 		if (ObjectUtils.isEmpty(responseList)) {
 			Row headerRow = sheet.createRow(0);
@@ -96,7 +98,7 @@ public class SupplierByMfrListExcel extends ReportsExcelUtility{
 		 
 	}
 
-	private void createSupplierTable(XSSFSheet sheet,File responseFile, CellStyle borderStyle ,
+	private void createSupplierTable(SXSSFSheet sheet,File responseFile, CellStyle borderStyle ,
 			CellStyle headerStyle, List<Map<String, Object>> supplierList, String supplierName, int rowNum) {
 
 		rowNum = rowNum + 3;
@@ -127,14 +129,15 @@ public class SupplierByMfrListExcel extends ReportsExcelUtility{
 				
 				Row dataRow = sheet.createRow(rowNum++);
 				value =  String.valueOf(supplierList.indexOf(rowData) + 1);
-				sheet.autoSizeColumn(0);
+				
+				//sheet.autoSizeColumn(0);
 				cell = dataRow.createCell(0);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				
 				value = rowData.containsKey("MFR_NAME") ? rowData.get("MFR_NAME") : "";
-				sheet.autoSizeColumn(1);
+				//sheet.autoSizeColumn(1);
 				cell = dataRow.createCell(1);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
