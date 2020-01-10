@@ -80,9 +80,11 @@ public class CreditNoteModel extends AuditModel{
 	@Column(name = "DISCOUNT")
 	private Double discount;
 	
-	
 	@Column(name = "TAX")
 	private Double tax;
+	
+	@Column(name="NET_AMOUNT")
+	private Float netAmount;
     
 	@OneToOne
 	@JoinColumn(name="SUPPLIER_ID")
