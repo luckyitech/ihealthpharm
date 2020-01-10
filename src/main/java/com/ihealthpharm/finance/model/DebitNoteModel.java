@@ -16,7 +16,6 @@ import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.SupplierModel;
 import com.ihealthpharm.stock.model.PaymentTypeModel;
-import com.ihealthpharm.tax.model.TaxCategoryModel;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -79,9 +78,11 @@ public class DebitNoteModel extends AuditModel{
 	@Column(name = "DISCOUNT")
 	private Double discount;
 	
-	
 	@Column(name = "TAX")
 	private Double tax;
+	
+	@Column(name="NET_AMOUNT")
+	private Float netAmount;
     
 	@OneToOne
 	@JoinColumn(name="SUPPLIER_ID")
