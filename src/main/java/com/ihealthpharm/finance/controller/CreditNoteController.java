@@ -39,7 +39,6 @@ public class CreditNoteController {
 	@PostMapping("/save/creditNote")
 	public ResponseEntity<BaseDto<CreditNoteModel>> saveCreditNote(@Valid @RequestBody  CreditNoteModel creditNoteModel ){
 		log.info("Request Object to insert is :"+creditNoteModel);
-		System.out.println(creditNoteModel.toString());
 		CreditNoteModel creditNote= creditNoteService.saveCreditData(creditNoteModel);
 		System.out.println(creditNote);
 		return new BaseDto<>(creditNote,creditNoteHelper.getSaveCreditNoteMessage(),OK).respond();
