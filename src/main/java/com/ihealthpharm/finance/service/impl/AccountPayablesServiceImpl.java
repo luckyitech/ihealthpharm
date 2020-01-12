@@ -198,5 +198,11 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 	public Integer getCountPaid() {
 		return accountPayablesRepository.getPaid();
 	}
+
+	@Override
+	public List<AccountPayablesModel> getAllPayablesBasedOnSuppliers(String supplierName) {
+		
+		return accountPayablesRepository.getAllPayablesBasedOnSuppierSearch(supplierName);
+	}
 	
 }
