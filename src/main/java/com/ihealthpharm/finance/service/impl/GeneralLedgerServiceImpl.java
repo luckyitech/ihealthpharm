@@ -124,18 +124,18 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 			
 			if(accountRecievablesModel.getSourceType().equalsIgnoreCase("Debit Note")) {
 				
-				generalLedgerModel.setDebit(new Float(0.0));
-				generalLedgerModel.setCredit(accountRecievablesModel.getAmountReceived());
+				generalLedgerModel.setDebit(-1 *  accountRecievablesModel.getAmountReceived());
+				generalLedgerModel.setCredit(new Float(0.0));
 				
 			}else if(accountRecievablesModel.getSourceType().equalsIgnoreCase("Credit Note")) {
 				
 				
-				generalLedgerModel.setDebit(accountRecievablesModel.getAmountReceived());
-				generalLedgerModel.setCredit(new Float(0.0));
+				generalLedgerModel.setDebit( new Float(0.0) );
+				generalLedgerModel.setCredit(-1 * accountRecievablesModel.getAmountReceived());
 				
 			}else if(accountRecievablesModel.getSourceType().equalsIgnoreCase("Sales Returns - Credit Note")) {
-				generalLedgerModel.setDebit(accountRecievablesModel.getAmountReceived());
-				generalLedgerModel.setCredit(new Float(0.0));
+				generalLedgerModel.setDebit(new Float(0.0));
+				generalLedgerModel.setCredit(-1 * accountRecievablesModel.getAmountReceived());
 			}
 			/*else if(accountPayablesModel.getSourceType().equalsIgnoreCase("Invoice")) {
 				ā

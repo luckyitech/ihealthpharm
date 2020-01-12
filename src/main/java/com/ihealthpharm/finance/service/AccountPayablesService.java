@@ -46,6 +46,8 @@ public interface AccountPayablesService
 	List<String> findPaymentNoINAP(String PNo);
 	
 	List<String> findAllPaymentNosINAP();
+
+	List<AccountPayablesModel> getAllPayablesBasedOnSuppliers(String supplierName);
 	 
 	
 
