@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.model.CustomerModel;
+import com.ihealthpharm.masters.model.ProviderModel;
 import com.ihealthpharm.sales.dao.SalesRepository;
 import com.ihealthpharm.sales.dto.SalesBillDTO;
 import com.ihealthpharm.sales.dto.SalesDTO;
@@ -59,6 +60,12 @@ public class SalesServiceImpl implements SalesService {
 
 	@Override
 	public SalesModel saveSalesData(SalesModel salesModel) {
+		if(!Objects.nonNull(salesModel.getProviderModel()))
+		{
+			ProviderModel provider = new ProviderModel();
+			provider.setProviderId(512);
+			salesModel.setProviderModel(provider);
+		}
 		salesModel = salesRepository.save(salesModel);
 		return salesModel;
 	}

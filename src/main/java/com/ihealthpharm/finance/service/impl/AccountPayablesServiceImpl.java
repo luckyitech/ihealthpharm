@@ -39,14 +39,7 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 
 	@Override
 	public List<AccountPayablesModel> updateAccountPayablesData(List<AccountPayablesModel> accountPayables) {
-		/*AccountPayablesModel accountPayablesRes = getValidAccountsPayables(accountPayables.getAccountPayablesId());
-		if (!Objects.nonNull(accountPayablesRes)) {
-			throw new IHealthPharmException(accountPayablesHelper.getNotFoundAccountPayablesMessage(), HttpStatus.NOT_FOUND);
-		}
-
-		accountPayablesRes = accountPayablesRepository.save(accountPayables);
-		log.info("AccountPayables data with ID : " + accountPayablesRes.getAccountPayablesId() + " updated succesfully");
-		return accountPayablesRes;*/
+		
 		int i=1;
 		for (AccountPayablesModel accountPayable : accountPayables) {
 			AccountPayablesModel accountPayablesRes = getValidAccountsPayables(accountPayable.getAccountPayablesId());
@@ -204,6 +197,12 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 	@Override
 	public Integer getCountPaid() {
 		return accountPayablesRepository.getPaid();
+	}
+
+	@Override
+	public List<AccountPayablesModel> getAllPayablesBasedOnSuppliers(String supplierName) {
+		
+		return accountPayablesRepository.getAllPayablesBasedOnSuppierSearch(supplierName);
 	}
 	
 }
