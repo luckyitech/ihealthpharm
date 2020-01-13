@@ -177,4 +177,9 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 		return accountReceivablesRepository.findAllReceiptNoINAR();
 	}
 
+	@Override
+	public List<AccountReceivablesModel> getAllRecievablesCustomerNameSearch(String customerName) {
+		return accountReceivablesRepository.getAllRecievablesCustNames(customerName);
+	}
+
 }

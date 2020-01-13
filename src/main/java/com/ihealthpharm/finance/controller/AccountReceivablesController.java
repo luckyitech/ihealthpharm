@@ -145,5 +145,11 @@ public class AccountReceivablesController {
 			List<String> results=accountReceivablesService.findallReceiptNoAR();
 			return new BaseDto<>(results,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
 		}
+		
+		@GetMapping("/getAccountRecievables/customername/search")
+		public ResponseEntity<BaseDto<List<AccountReceivablesModel>>> getAllRecievablesCustNamesSearch(@RequestParam String customerName){
+			List<AccountReceivablesModel> response=accountReceivablesService.getAllRecievablesCustomerNameSearch(customerName);
+			return new BaseDto<>(response,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
+		}
 	
 }
