@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.finance.dao.GeneralLedgerRepository;
-import com.ihealthpharm.finance.helper.GeneralLedgerHelper;
 import com.ihealthpharm.finance.model.AccountPayablesModel;
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.finance.model.GeneralLedgerModel;
 import com.ihealthpharm.finance.service.GeneralLedgerService;
 import com.ihealthpharm.masters.model.EmployeeModel;
+import com.ihealthpharm.masters.service.PharmacyService;
 import com.ihealthpharm.uniquecode.service.UniqueCodeService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +34,11 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 	
 	@Autowired
 	UniqueCodeService uniqueCodeService;
+	
+	@Autowired
+	private PharmacyService pharmacyService;
+	
+	
 
 	@Override
 	public GeneralLedgerModel saveGeneraledger(GeneralLedgerModel generalLedgerModel) {
@@ -62,6 +67,9 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 			generalLedgerModel.setEntryType(accountPayablesModel.getSourceType());
 			generalLedgerModel.setCounterParty(accountPayablesModel.getSupplierName());
 			generalLedgerModel.setEntryDate(new Date());
+			generalLedgerModel.setCreatedUser(accountPayablesModel.getCreatedUser());
+			generalLedgerModel.setLastUpdateUser(accountPayablesModel.getLastUpdateUser());
+			generalLedgerModel.setParty(pharmacyService.findPharmacyById(accountPayablesModel.getPharmacyModel().getPharmacyId()).getPharmacyName());
 			
 			if(accountPayablesModel.getSourceType().equalsIgnoreCase("Debit Note")) {
 				generalLedgerModel.setDebit(-1 * accountPayablesModel.getTotalAmountPaid());
@@ -80,10 +88,7 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 			generalLedgerModel.setBalance(0.0);
 			generalLedgerModel.setPharmacyModel(accountPayablesModel.getPharmacyModel());
 			
-			
-
 			modelRes.add(generalLegderRepo.save(generalLedgerModel));
-			
 
 			log.info("GeneralLedger data saved succesfully");
 			i++;
@@ -113,21 +118,24 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 			generalLedgerModel.setEntryType(accountRecievablesModel.getSourceType());
 			generalLedgerModel.setCounterParty(accountRecievablesModel.getCustomerName());
 			generalLedgerModel.setEntryDate(new Date());
+			generalLedgerModel.setCreatedUser(accountRecievablesModel.getCreatedUser());
+			generalLedgerModel.setLastUpdateUser(accountRecievablesModel.getLastUpdateUser());
+			generalLedgerModel.setParty(pharmacyService.findPharmacyById(accountRecievablesModel.getPharmacyModel().getPharmacyId()).getPharmacyName());
 			
 			if(accountRecievablesModel.getSourceType().equalsIgnoreCase("Debit Note")) {
 				
-				generalLedgerModel.setDebit(new Float(0.0));
-				generalLedgerModel.setCredit(accountRecievablesModel.getAmountReceived());
+				generalLedgerModel.setDebit(-1 *  accountRecievablesModel.getAmountReceived());
+				generalLedgerModel.setCredit(new Float(0.0));
 				
 			}else if(accountRecievablesModel.getSourceType().equalsIgnoreCase("Credit Note")) {
 				
 				
-				generalLedgerModel.setDebit(accountRecievablesModel.getAmountReceived());
-				generalLedgerModel.setCredit(new Float(0.0));
+				generalLedgerModel.setDebit( new Float(0.0) );
+				generalLedgerModel.setCredit(-1 * accountRecievablesModel.getAmountReceived());
 				
 			}else if(accountRecievablesModel.getSourceType().equalsIgnoreCase("Sales Returns - Credit Note")) {
-				generalLedgerModel.setDebit(accountRecievablesModel.getAmountReceived());
-				generalLedgerModel.setCredit(new Float(0.0));
+				generalLedgerModel.setDebit(new Float(0.0));
+				generalLedgerModel.setCredit(-1 * accountRecievablesModel.getAmountReceived());
 			}
 			/*else if(accountPayablesModel.getSourceType().equalsIgnoreCase("Invoice")) {
 				ā
