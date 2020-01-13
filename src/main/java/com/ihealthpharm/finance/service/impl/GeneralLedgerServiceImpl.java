@@ -31,14 +31,13 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 
 	//@Autowired
 	//private GeneralLedgerHelper generalLedgerHelper;
-	
+
 	@Autowired
 	UniqueCodeService uniqueCodeService;
-	
+
 	@Autowired
 	private PharmacyService pharmacyService;
-	
-	
+
 
 	@Override
 	public GeneralLedgerModel saveGeneraledger(GeneralLedgerModel generalLedgerModel) {
@@ -48,12 +47,12 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 		return generalRes;
 	}
 
-	
+
 
 	@Override
 	public List<GeneralLedgerModel> saveMutipleLedgersData(List<AccountPayablesModel> accountPayablesModels) {
 		List<GeneralLedgerModel> modelRes = new ArrayList<>();
-		
+
 		int i=0;
 		for (AccountPayablesModel accountPayablesModel : accountPayablesModels) {
 			Integer empId = accountPayablesModel.getApprovedBy().getEmployeeId() - i;
@@ -70,24 +69,25 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 			generalLedgerModel.setCreatedUser(accountPayablesModel.getCreatedUser());
 			generalLedgerModel.setLastUpdateUser(accountPayablesModel.getLastUpdateUser());
 			generalLedgerModel.setParty(pharmacyService.findPharmacyById(accountPayablesModel.getPharmacyModel().getPharmacyId()).getPharmacyName());
-			
+
 			if(accountPayablesModel.getSourceType().equalsIgnoreCase("Debit Note")) {
-				generalLedgerModel.setDebit(-1 * accountPayablesModel.getTotalAmountPaid());
-				generalLedgerModel.setCredit(new Float(0.0));
-				
-			}else if(accountPayablesModel.getSourceType().equalsIgnoreCase("Credit Note")) {
 				generalLedgerModel.setDebit(new Float(0.0));
-				generalLedgerModel.setCredit(-1 * accountPayablesModel.getTotalAmountPaid());
+				generalLedgerModel.setCredit( -1 * accountPayablesModel.getTotalAmountPaid());
+
+			}else if(accountPayablesModel.getSourceType().equalsIgnoreCase("Credit Note")) {
+				generalLedgerModel.setCredit(new Float(0.0));
+				generalLedgerModel.setDebit(accountPayablesModel.getTotalAmountPaid());
 			}else if(accountPayablesModel.getSourceType().equalsIgnoreCase("Purchase Returns - Debit Note")) {
 				generalLedgerModel.setDebit(-1 * accountPayablesModel.getTotalAmountPaid());
 				generalLedgerModel.setCredit(new Float(0.0));
-			}/*else if(accountPayablesModel.getSourceType().equalsIgnoreCase("Invoice")) {
-				ā
-			}*/
-			
+			}else if(accountPayablesModel.getSourceType().equalsIgnoreCase("Invoice")) {
+				generalLedgerModel.setDebit(accountPayablesModel.getTotalAmountPaid());
+				generalLedgerModel.setCredit(new Float(0.0));
+			}
+
 			generalLedgerModel.setBalance(0.0);
 			generalLedgerModel.setPharmacyModel(accountPayablesModel.getPharmacyModel());
-			
+
 			modelRes.add(generalLegderRepo.save(generalLedgerModel));
 
 			log.info("GeneralLedger data saved succesfully");
@@ -109,9 +109,9 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 			EmployeeModel emp = new EmployeeModel();
 			emp.setEmployeeId(empId);
 			accountRecievablesModel.setApprovedBy(emp);
-			
+
 			GeneralLedgerModel generalLedgerModel=new GeneralLedgerModel();
-			
+
 			generalLedgerModel.setJournalId(uniqueCodeService.findByUniqueCodeName("GL"));
 			generalLedgerModel.setJournalRef(accountRecievablesModel.getReceiptNumber());
 			generalLedgerModel.setEntryNo(accountRecievablesModel.getSourceRef());
@@ -121,38 +121,77 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 			generalLedgerModel.setCreatedUser(accountRecievablesModel.getCreatedUser());
 			generalLedgerModel.setLastUpdateUser(accountRecievablesModel.getLastUpdateUser());
 			generalLedgerModel.setParty(pharmacyService.findPharmacyById(accountRecievablesModel.getPharmacyModel().getPharmacyId()).getPharmacyName());
-			
+
 			if(accountRecievablesModel.getSourceType().equalsIgnoreCase("Debit Note")) {
-				
-				generalLedgerModel.setDebit(-1 *  accountRecievablesModel.getAmountReceived());
-				generalLedgerModel.setCredit(new Float(0.0));
-				
-			}else if(accountRecievablesModel.getSourceType().equalsIgnoreCase("Credit Note")) {
-				
-				
-				generalLedgerModel.setDebit( new Float(0.0) );
-				generalLedgerModel.setCredit(-1 * accountRecievablesModel.getAmountReceived());
-				
-			}else if(accountRecievablesModel.getSourceType().equalsIgnoreCase("Sales Returns - Credit Note")) {
+
 				generalLedgerModel.setDebit(new Float(0.0));
-				generalLedgerModel.setCredit(-1 * accountRecievablesModel.getAmountReceived());
+				generalLedgerModel.setCredit(accountRecievablesModel.getAmountReceived());
+
+			}else if(accountRecievablesModel.getSourceType().equalsIgnoreCase("Credit Note")) {
+
+
+				generalLedgerModel.setDebit(-1 * accountRecievablesModel.getAmountReceived());
+				generalLedgerModel.setCredit(new Float(0.0));
+
+			}else if(accountRecievablesModel.getSourceType().equalsIgnoreCase("Sales Returns - Credit Note")) {
+				generalLedgerModel.setDebit(-1 * accountRecievablesModel.getAmountReceived());
+				generalLedgerModel.setCredit(new Float(0.0));
 			}
-			/*else if(accountPayablesModel.getSourceType().equalsIgnoreCase("Invoice")) {
-				ā
-			}*/
-			
+
+			/* else if(accountRecievablesModel.getSourceType().equalsIgnoreCase("Sales Billing")) {
+                if(accountRecievablesModel.getAmountReceived() > 0){
+                               generalLedgerModel.setCredit(accountRecievablesModel.getAmountReceived());
+                      generalLedgerModel.setDebit(new Float(0.0));
+               }else {
+                  generalLedgerModel.setDebit(accountRecievablesModel.getAmountReceived());
+             generalLedgerModel.setCredit(new Float(0.0));
+             }
+
+            }*/
+
 			generalLedgerModel.setBalance(0.0);
 			generalLedgerModel.setPharmacyModel(accountRecievablesModel.getPharmacyModel());
-			
-			
+
+
 
 			modelRes.add(generalLegderRepo.save(generalLedgerModel));
-			
+
 
 			log.info("GeneralLedger data saved succesfully");
 			i++;
 		}
 		return modelRes;
+	}
+
+
+
+	@Override
+	public GeneralLedgerModel saveGeneralLedgerData(AccountReceivablesModel generalLedgerModel) {
+		GeneralLedgerModel ledgerModelObj=new GeneralLedgerModel();
+		
+		ledgerModelObj.setJournalId(uniqueCodeService.findByUniqueCodeName("GL"));
+		ledgerModelObj.setJournalRef(generalLedgerModel.getReceiptNumber());
+		ledgerModelObj.setEntryNo(generalLedgerModel.getSourceRef());
+		ledgerModelObj.setEntryType(generalLedgerModel.getSourceType());
+		ledgerModelObj.setCounterParty(generalLedgerModel.getCustomerName());
+		ledgerModelObj.setParty(pharmacyService.findPharmacyById(generalLedgerModel.getPharmacyModel().getPharmacyId()).getPharmacyName());
+		ledgerModelObj.setEntryDate(new Date());
+		ledgerModelObj.setCreatedUser(generalLedgerModel.getCreatedUser());
+		ledgerModelObj.setLastUpdateUser(generalLedgerModel.getLastUpdateUser());
+		if(generalLedgerModel.getAmountReceived() > 0) {
+			ledgerModelObj.setCredit(generalLedgerModel.getAmountReceived());
+			ledgerModelObj.setDebit(new Float(0.0));
+		} else {
+			ledgerModelObj.setDebit(generalLedgerModel.getAmountReceived());
+			ledgerModelObj.setCredit(new Float(0.0));
+		}
+		ledgerModelObj.setBalance(0.0);
+		ledgerModelObj.setPharmacyModel(generalLedgerModel.getPharmacyModel());
+		
+		GeneralLedgerModel respose=generalLegderRepo.save(ledgerModelObj);
+		
+		
+		return respose;
 	}
 
 }
