@@ -41,4 +41,7 @@ public interface AccountReceivablesRepository extends JpaRepository<AccountRecei
 
 		@Query("select ar.receiptNumber from account_receivables ar where ar.receiptNumber like :RecNo%")
 		List<String> findReceiptNoBySearch(@Param("RecNo") String RecNo);
+		
+		@Query("select ar from account_receivables ar where ar.customerName like :customerName% group by ar.customerName")
+		List<AccountReceivablesModel> getAllRecievablesCustNames(@Param ("customerName") String customerName);
 }
