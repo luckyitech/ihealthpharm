@@ -135,6 +135,14 @@ public class AccountPayablesController {
 		
 	}
 	
+	
+	@GetMapping("/getAll/suppliersby/nameSearch")
+	public ResponseEntity<BaseDto<List<AccountPayablesModel>>> getAllPayablesBasedOnSupplierSearch(@RequestParam String supplierName){
+		List<AccountPayablesModel> res=accountPayablesService.getAllPayablesBasedOnSuppliers(supplierName);
+		return new BaseDto<>(res,accountPayablesHelper.getRetrieveAccountPayablesMessage(),OK).respond();
+	}
+	
+	
 	@GetMapping("/getPendingCount")
 	public ResponseEntity<BaseDto<Integer>> getPendingDetals() {
 		Integer response = accountPayablesService.getCountOfPending();
