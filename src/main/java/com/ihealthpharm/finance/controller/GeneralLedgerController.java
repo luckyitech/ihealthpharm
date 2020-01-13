@@ -55,6 +55,12 @@ public class GeneralLedgerController {
 	}
   	
 	
+	@PostMapping("/save/recievableLedger/fomSalesBilling")
+	public ResponseEntity<BaseDto<GeneralLedgerModel>> saveAccountRecievablesFromSalesBilling(@RequestBody AccountReceivablesModel generalLedgerModel){
+		GeneralLedgerModel generalLedgerRes=generalLedgerService.saveGeneralLedgerData(generalLedgerModel);
+		return new BaseDto<>(generalLedgerRes, generalLedgerHelper.getSaveGeneralLedgerMessage(), OK).respond();
+	}
+	
 	
 	
 }
