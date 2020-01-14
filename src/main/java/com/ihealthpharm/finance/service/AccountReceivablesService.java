@@ -39,4 +39,6 @@ public interface AccountReceivablesService
 	List<String> findReceiptNobysearchAR(String searchTerm);
 	
 	List<String> findallReceiptNoAR();
+
+	List<AccountReceivablesModel> getAllRecievablesCustomerNameSearch(String customerName);
 }

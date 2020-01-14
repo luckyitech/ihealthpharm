@@ -13,4 +13,6 @@ public interface GeneralLedgerService {
 	List<GeneralLedgerModel> saveMutipleLedgersData(List<AccountPayablesModel> generalLedgerModels);
 	
     List<GeneralLedgerModel> saveMultipleLedgersDataForAccRecievables(List<AccountReceivablesModel> generalLedgerModels);
+    
+    GeneralLedgerModel saveGeneralLedgerData(AccountReceivablesModel generalLedgerModel);
 }
