@@ -2,10 +2,8 @@ package com.ihealthpharm.reports.helper;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.stereotype.Component;
@@ -24,10 +22,8 @@ import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-
 @Component
-public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
-	
+public class AccountReceivablesPdf extends ReportsPDFUtility{
 	@Override
 	public Document generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model,
 			File responseFile,String inputJson) {
@@ -39,20 +35,9 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(responseFile));
 			writer.setPageEvent(event); 
 			document.open();
-			
-			Map<String, List<Map<String, Object>>> salesRegisterDetails = responseList.stream()
-					.collect(Collectors.groupingBy(map -> (String) map.get("TYPE")));
-			
-			if(!ObjectUtils.isEmpty(salesRegisterDetails)) { 
-				
-				for(String billType :salesRegisterDetails.keySet()) {	
-					List<Map<String, Object>> salesRegisterDetailsMap = salesRegisterDetails.get(billType);
-					
-					createTable(document,model,salesRegisterDetailsMap);
-				}
-				
-				generateTotalTable(document,model,responseList);
-			}
+			Map<String,Object> dataMap= (Map<String, Object>) JsonUtility.jsonToMap(inputJson);
+			createTable(document,model,responseList,dataMap);
+			generateTotalTable(document,model,responseList);
 
 		} catch (Exception e) {
 			//log.error(ExceptionUtils.getMessage(e));
@@ -69,31 +54,18 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 	}
 
 	private void generateTotalTable(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException {
-		
-		double totalCashAmt=0.0;
-		double totalCardAmt=0.0;
-		double totalMPesaAmt=0.0;
-		double totalCreditAmt=0.0;
-		double totalChequeAmt=0.0;
-		double totalInsuranceAmt=0.0;
-		double grandTotal=0.0;
-		
-		totalCashAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsValue("CASH")&&mapper.containsKey("AMOUNT")?String.valueOf(mapper.get("AMOUNT")):"0")).sum();  
-		totalMPesaAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("M-PESA")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
-		totalCardAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("CARD")?String.valueOf(mapper.get("AMOUNT")):"0")).sum();
-		totalChequeAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("CHEQUE")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
-		totalCreditAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("CREDIT")?String.valueOf(mapper.get("AMOUNT")):"0")).sum();
-		totalInsuranceAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("INSURANCE")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
-		grandTotal = (totalCashAmt+totalMPesaAmt+totalCardAmt+totalChequeAmt+totalCreditAmt+totalInsuranceAmt);
-		
-		PdfPTable totalQtyTable = new PdfPTable(3);
+		double totalAmtreceived;
+		double totalAmtToBereceived;
+		totalAmtreceived  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("AMOUNT_RECEIVED") && !ObjectUtils.isEmpty(mapper.get("AMOUNT_RECEIVED"))) ?String.valueOf(mapper.get("AMOUNT_RECEIVED")):"0")).sum();    
+		totalAmtToBereceived  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("AMOUNT_TO_BE_RECEIVED") && !ObjectUtils.isEmpty(mapper.get("AMOUNT_TO_BE_RECEIVED"))) ?String.valueOf(mapper.get("AMOUNT_TO_BE_RECEIVED")):"0")).sum();   
+		PdfPTable totalQtyTable = new PdfPTable(2);
 		totalQtyTable.setTotalWidth(500);
 		totalQtyTable.setSpacingBefore(30); 
 		totalQtyTable.setWidthPercentage(50);
 		totalQtyTable.setLockedWidth(true);
 		totalQtyTable.getDefaultCell().setBorder(0); 
 		
-		PdfPCell nameCell = new PdfPCell(new Phrase("CASH AMOUNT"+"		"+":"+"		"+totalCashAmt, title08)); 
+		PdfPCell nameCell = new PdfPCell(new Phrase("Total Amount Received"+" "+" : "+"	"+totalAmtreceived, title08)); 
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell.setVerticalAlignment(Element.ALIGN_TOP);
@@ -103,7 +75,7 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 		totalQtyTable.setTotalWidth(500);
 		totalQtyTable.getDefaultCell().setBorder(0); 
 		
-		PdfPCell nameCell2 = new PdfPCell(new Phrase("CARD AMOUNT"+"		"+":"+"		"+totalCardAmt, title08)); 
+		PdfPCell nameCell2 = new PdfPCell(new Phrase("Total Amount To Be Received"+"	"+" : "+"	"+totalAmtToBereceived, title08)); 
 		nameCell2.setColspan(3);
 		nameCell2.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell2.setVerticalAlignment(Element.ALIGN_TOP);
@@ -113,63 +85,10 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 		totalQtyTable.setTotalWidth(500);
 		totalQtyTable.getDefaultCell().setBorder(0); 
 		
-		PdfPCell nameCell3 = new PdfPCell(new Phrase("CREDIT AMOUNT"+"		"+":"+"		"+totalCreditAmt, title08)); 
-		nameCell3.setColspan(3);
-		nameCell3.setHorizontalAlignment(Element.ALIGN_RIGHT);
-		nameCell3.setVerticalAlignment(Element.ALIGN_TOP);
-		nameCell3.setBorder(0);
-		totalQtyTable.addCell(nameCell3);
-		totalQtyTable.setLockedWidth(true);
-		totalQtyTable.setTotalWidth(500);
-		totalQtyTable.getDefaultCell().setBorder(0);
-		
-		PdfPCell nameCell4 = new PdfPCell(new Phrase("M-PESA AMOUNT"+"		"+":"+"		"+totalMPesaAmt, title08)); 
-		nameCell4.setColspan(3);
-		nameCell4.setHorizontalAlignment(Element.ALIGN_RIGHT);
-		nameCell4.setVerticalAlignment(Element.ALIGN_TOP);
-		nameCell4.setBorder(0);
-		totalQtyTable.addCell(nameCell4);
-		totalQtyTable.setLockedWidth(true);
-		totalQtyTable.setTotalWidth(500);
-		totalQtyTable.getDefaultCell().setBorder(0);
-		
-		PdfPCell nameCell5 = new PdfPCell(new Phrase("CHEQUE AMOUNT"+"		"+":"+"		"+totalChequeAmt, title08)); 
-		nameCell5.setColspan(3);
-		nameCell5.setHorizontalAlignment(Element.ALIGN_RIGHT);
-		nameCell5.setVerticalAlignment(Element.ALIGN_TOP);
-		nameCell5.setBorder(0);
-		totalQtyTable.addCell(nameCell5);
-		totalQtyTable.setLockedWidth(true);
-		totalQtyTable.setTotalWidth(500);
-		totalQtyTable.getDefaultCell().setBorder(0);
-		
-		PdfPCell nameCell6 = new PdfPCell(new Phrase("INSURANCE AMOUNT"+"		"+":"+"		"+totalInsuranceAmt, title08)); 
-		nameCell6.setColspan(3);
-		nameCell6.setHorizontalAlignment(Element.ALIGN_RIGHT);
-		nameCell6.setVerticalAlignment(Element.ALIGN_TOP);
-		nameCell6.setBorder(0);
-		totalQtyTable.addCell(nameCell6);
-		totalQtyTable.setLockedWidth(true);
-		totalQtyTable.setTotalWidth(500);
-		totalQtyTable.getDefaultCell().setBorder(0);
-		
-		PdfPCell nameCell7 = new PdfPCell(new Phrase("GRAND TOTAL"+"		"+":"+"		"+grandTotal, title08)); 
-		nameCell7.setColspan(3);
-		nameCell7.setHorizontalAlignment(Element.ALIGN_RIGHT);
-		nameCell7.setVerticalAlignment(Element.ALIGN_TOP);
-		nameCell7.setBorder(0);
-		totalQtyTable.addCell(nameCell7);
-		totalQtyTable.setLockedWidth(true);
-		totalQtyTable.setTotalWidth(500);
-		totalQtyTable.getDefaultCell().setBorder(0);
-		
 		document.add(totalQtyTable);
-			
-		
+	
 	}
-
-	public void createTable(Document document, ReportsMappingModel model, 
-			List<Map<String, Object>> salesRegisterDetailsList) throws DocumentException {
+	private void createTable(Document document, ReportsMappingModel model, List<Map<String, Object>> accountPayablesList,Map<String,Object> dataMap) throws DocumentException {
 
 		String reportHeader = model.getReportHeader();
 		List<HeaderDto> headerList = JsonUtility.jsonToList(reportHeader, HeaderDto.class);
@@ -181,8 +100,19 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 		finalTable.setLockedWidth(true);
 		finalTable.getDefaultCell().setBorder(0); 
 		
+//		PdfPTable supllierNameTable = new PdfPTable(2);
+//		PdfPCell nameCell = new PdfPCell(new Phrase("Product Name : "+itemName, title08)); 
+//		nameCell.setColspan(3);
+//		nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+//		nameCell.setVerticalAlignment(Element.ALIGN_TOP);
+//		nameCell.setBorder(0);
+//		supllierNameTable.addCell(nameCell);
+//		supllierNameTable.setLockedWidth(true);
+//		supllierNameTable.setTotalWidth(500);
+//		supllierNameTable.getDefaultCell().setBorder(0); 
 		
-		PdfPTable table = new PdfPTable(9);
+		
+		PdfPTable table = new PdfPTable(12);
 		table.setTotalWidth(500);
 		table.setWidthPercentage(50);
 		table.setLockedWidth(true);
@@ -197,27 +127,7 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
 				cell.setBorder(Rectangle.BOTTOM);
-	
-			table.addCell(cell);	
-		
-			headerCell = new Paragraph();
-			headerCell.setFont(headerFont);
-			headerCell.add("BILL NO");
-			cell = new PdfPCell(headerCell);
-			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-			if (!model.isShowVerticalLines())
-				cell.setBorder(Rectangle.BOTTOM);
 
-			table.addCell(cell);
-			
-			headerCell = new Paragraph();
-			headerCell.setFont(headerFont);
-			headerCell.add("DATE");
-			cell = new PdfPCell(headerCell);
-			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-			if (!model.isShowVerticalLines())
-				cell.setBorder(Rectangle.BOTTOM);
-			
 			table.addCell(cell);
 			
 			headerCell = new Paragraph();
@@ -232,7 +142,7 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("BILL TYPE");
+			headerCell.add("RECEIPT NO");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
@@ -242,7 +152,7 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("AMOUNT");
+			headerCell.add("SOURCE REF");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
@@ -252,7 +162,7 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("PAID AMOUNT");
+			headerCell.add("RECEIPT DATE");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
@@ -262,7 +172,7 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("BALANCE AMOUNT");
+			headerCell.add("STATUS");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
@@ -270,7 +180,26 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 			
 			table.addCell(cell);
 			
-
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("AMOUNT RECEIVED");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("AMOUNT TO BE RECEIVED");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
 			headerCell.add("PAYMENT STATUS");
@@ -281,17 +210,53 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 			
 			table.addCell(cell);
 			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("SOURCE TYPE");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("APPROVED BY");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("APPROVED DATE");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
 			
 		//}
 		table.setHeaderRows(1);
 
 		// populate Date
-		if (!ObjectUtils.isEmpty(salesRegisterDetailsList)) {
-			for (Map<String, Object> rowData : salesRegisterDetailsList) {
+		if (!ObjectUtils.isEmpty(accountPayablesList)) {
+			for (Map<String, Object> rowData : accountPayablesList) {
 				//for (HeaderDto hearder : headerList) {
 
+				Object value = String.valueOf(accountPayablesList.indexOf(rowData) + 1);
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
 
-				Object value = String.valueOf(salesRegisterDetailsList.indexOf(rowData) + 1);
+				table.addCell(cell);
+
+				value = rowData.containsKey("CUSTOMER_NAME") ? rowData.get("CUSTOMER_NAME") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
@@ -299,7 +264,7 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 
 				table.addCell(cell);
 				
-				value = rowData.containsKey("BILL_CODE") ? rowData.get("BILL_CODE") : "";
+				value = rowData.containsKey("RECEIPT_NO") ? rowData.get("RECEIPT_NO") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
@@ -307,7 +272,7 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 
 				table.addCell(cell);
 				
-				value = rowData.containsKey("FROM_BILL_DATE") ? rowData.get("FROM_BILL_DATE") : "";
+				value = rowData.containsKey("SOURCE_REF") ? rowData.get("SOURCE_REF") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
@@ -315,7 +280,7 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 
 				table.addCell(cell);
 				
-				value = rowData.containsKey("CUSTOMER_NM") ? rowData.get("CUSTOMER_NM") : "";
+				value = rowData.containsKey("RECEIPT_DATE") ? rowData.get("RECEIPT_DATE") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
@@ -323,7 +288,7 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 
 				table.addCell(cell);
 				
-				value = rowData.containsKey("TYPE") ? rowData.get("TYPE") : "";
+				value = rowData.containsKey("STATUS") ? rowData.get("STATUS") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
@@ -331,7 +296,7 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 
 				table.addCell(cell);
 				
-				value = rowData.containsKey("AMOUNT") ? rowData.get("AMOUNT") : "";
+				value = rowData.containsKey("AMOUNT_RECEIVED") ? rowData.get("AMOUNT_RECEIVED") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
@@ -339,15 +304,7 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 
 				table.addCell(cell);
 				
-				value = rowData.containsKey("PAID_AMOUNT") ? rowData.get("PAID_AMOUNT") : "";
-				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				if (!model.isShowVerticalLines())
-					cell.setBorder(Rectangle.BOTTOM);
-
-				table.addCell(cell);
-				
-				value = rowData.containsKey("BALANCE_AMOUNT") ? rowData.get("BALANCE_AMOUNT") : "";
+				value = rowData.containsKey("AMOUNT_TO_BE_RECEIVED") ? rowData.get("AMOUNT_TO_BE_RECEIVED") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
@@ -363,15 +320,39 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 
 				table.addCell(cell);
 				
+				value = rowData.containsKey("SOURCE_TYPE") ? rowData.get("SOURCE_TYPE") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("FIRST_NM") ? rowData.get("FIRST_NM") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("FROM_APPROVED_DATE") ? rowData.get("FROM_APPROVED_DATE") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+
+
 				//}
 			}
 		}
 		
+		//finalTable.addCell(finalTable);
 		finalTable.addCell(table); 
 		//log.info("table width [{}]", table.getTotalWidth());
 		document.add(finalTable);
 
 	}
-
-
 }
