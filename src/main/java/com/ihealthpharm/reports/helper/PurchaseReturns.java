@@ -163,8 +163,8 @@ public class PurchaseReturns extends ReportsPDFUtility{
 				grnData.setFontName("Helvetica");
 				grnData.setSize(12);
 				PurRetNoData.setSize(12);
-				grnData.setText("  GRN No:"+grnNo);
-				PurRetNoData.setText("  PR Ref No:"+purchaseReturnNo);
+				grnData.setText("GRN No:"+grnNo);
+				PurRetNoData.setText("PR Ref No:"+purchaseReturnNo);
 				contentDto.getRightContent().set(0, grnData);
 				contentDto.getRightContent().set(1, PurRetNoData);
 				
