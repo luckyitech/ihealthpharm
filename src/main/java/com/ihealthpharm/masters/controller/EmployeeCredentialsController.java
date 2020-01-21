@@ -112,6 +112,14 @@ public class EmployeeCredentialsController {
 		return new BaseDto<>(employeeCredentialsModel, employeeCredentialsHelper.getDeleteEmployeeCredentialsMessage(),
 				OK).respond();
 	}
+	
+	@PutMapping("update/employeeresetpwdcredential")
+	public ResponseEntity<BaseDto<EmployeeCredentialsModel>> updateEmployeePassword (@RequestBody EmployeeCredentialsModel resetpwd){
+	   EmployeeCredentialsModel empCredentials=employeeCredentialsService.updateEmpCredentialsData(resetpwd.getEmployeeCredentialsId(),resetpwd.getCurrentPassword());
+		return new BaseDto<>(empCredentials,employeeCredentialsHelper.getUpdateEmployeeCredentialsMessage(),OK).respond();
+		
+	}
+	
 
 	/*
 	 * @PostMapping("employeelogin") public ResponseEntity<BaseDto<TokenModel>>
