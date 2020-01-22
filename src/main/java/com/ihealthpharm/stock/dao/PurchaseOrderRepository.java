@@ -165,7 +165,13 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrderMode
 		@Query("SELECT distinct po.purchaseOrderNo from purchase_order po order by po.purchaseOrderNo")
 		List<String> findAllPurNoINPDPO();
 
-		@Query("select po.purchaseOrderNo from purchase_order po where po.purchaseOrderNo like :poNo%")
+		@Query("select distinct po.purchaseOrderNo from purchase_order po where po.purchaseOrderNo like :poNo%")
 		List<String> findPurNoBySearch(@Param("poNo") String poNo);
+		
+		@Query("select distinct sp.name from purchase_order  po,supplier sp where po.supplierModel.supplierId=sp.supplierId and sp.name like :searchTerm%")
+		List<String> findsupplierNameBySearchPOD(@Param("searchTerm") String searchTerm);
+		
+		@Query("select distinct sp.name from purchase_order  po,supplier sp where po.supplierModel.supplierId=sp.supplierId  order by sp.name")
+		List<String> findsupplierNameByPOD();
 	
 }

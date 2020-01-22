@@ -401,5 +401,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	public List<String> findallPurNoPDPO() {
 		return purchaseorderRepository.findAllPurNoINPDPO();
 	}
+	@Override
+	public List<String> findSupplierbysearchPDPO(String searchTerm) {
+		return purchaseorderRepository.findsupplierNameBySearchPOD(searchTerm);
+	}
 
+	@Override
+	public List<String> findallSuppliersPDPO() {
+		return purchaseorderRepository.findsupplierNameByPOD();
+	}
 }
