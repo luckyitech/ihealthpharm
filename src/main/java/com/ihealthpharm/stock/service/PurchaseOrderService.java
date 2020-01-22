@@ -79,5 +79,10 @@ public interface PurchaseOrderService {
 		
 		List<String> findallPurNoPDPO();
 		
+		
+List<String> findSupplierbysearchPDPO(String searchTerm);
+		
+		List<String> findallSuppliersPDPO();
+		
 	
 }
