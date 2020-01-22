@@ -155,4 +155,11 @@ public class EmployeeCredentialsImpl implements EmployeeCredentialsService {
 		return employeeCredentialsRepository.findByEmployee(employeeModel);
 	}
 
+	@Override
+	public EmployeeCredentialsModel updateEmpCredentialsData(int empCredId, String newPwd) {
+		 employeeCredentialsRepository.updateEmpCredentials(empCredId,newPwd);
+		 return null;
+	}
+
+
 }
