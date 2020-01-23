@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -59,8 +58,8 @@ public class EmployeeImageController {
 	@PutMapping("update/employeeImage")
 	public ResponseEntity<BaseDto<EmployeeImageModel>> updateEmployeeImageData(@Valid @RequestParam("employee") String employeeData,
 			@RequestParam("imageDesc") String imageDesc,
-			@RequestParam("imageId") Integer employeeImageId,
-			@RequestParam("image") MultipartFile image) throws IOException {
+			@RequestParam(name="imageId",required = false) Integer employeeImageId,
+			@RequestParam(name="image",required = false) MultipartFile image) throws IOException {
 		EmployeeImageModel employeeImageModel = new EmployeeImageModel();
 		EmployeeModel employeeModel = null;
 		log.info(employeeData);
@@ -73,14 +72,30 @@ public class EmployeeImageController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		EmployeeImageModel employeeRes = employeeImageService.updateEmployeeImage(employeeImageModel);
+		EmployeeImageModel employeeRes=null;
+		if(employeeImageModel.getEmployeeImageId() != null) {
+			 employeeRes = employeeImageService.updateEmployeeImage(employeeImageModel);
+		}
+		else {
+			employeeRes = employeeImageService.saveEmployeeImage(employeeImageModel);
+		}
+		
 		return new BaseDto<>(employeeRes, "Employee Image Updated wiht Desc:"+imageDesc, OK).respond();
-	}
+ }
 	
-	@PostMapping("/getimagesbyemployeeid")
-	public ResponseEntity<BaseDto<List<EmployeeImageModel>>> getImagesByEmployeeId(@RequestBody EmployeeModel employeeId){
+	
+	@GetMapping("/getimagesbyemployeeid")
+	public ResponseEntity<BaseDto<List<EmployeeImageModel>>> getImagesByEmployeeId(@RequestParam EmployeeModel employeeId){
 		
 		List<EmployeeImageModel> imageList = employeeImageService.getByEmployeeId(employeeId);
+		
+		return new BaseDto<>(imageList, "Employee Image Retrived Successfully", OK).respond();
+	}
+	
+	@GetMapping("/getimagesbyemployeeidandimagedesc")
+	public ResponseEntity<BaseDto<EmployeeImageModel>> getImagesByEmployeeIdAndImageDesc(@RequestParam Integer employeeId,@RequestParam String imageDesc){
+		
+		EmployeeImageModel imageList = employeeImageService.getByEmployeeIdAndImageDesc(employeeId,imageDesc);
 		
 		return new BaseDto<>(imageList, "Employee Image Retrived Successfully", OK).respond();
 	}
