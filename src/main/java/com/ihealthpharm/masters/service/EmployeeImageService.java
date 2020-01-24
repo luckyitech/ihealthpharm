@@ -18,4 +18,6 @@ public interface EmployeeImageService {
 	public void deleteEmployeeImage(Integer employeeImageId);
 	
 	public List<EmployeeImageModel> getByEmployeeId(EmployeeModel employee);
+	
+	public EmployeeImageModel getByEmployeeIdAndImageDesc(Integer employeeId,String imageDesc);
 }
