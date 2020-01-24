@@ -78,4 +78,10 @@ public class EmployeeImageServiceImpl implements EmployeeImageService {
 			throw new IHealthPharmException("Image Not Fount",HttpStatus.NOT_FOUND);
 		}
 	}
+
+	@Override
+	public EmployeeImageModel getByEmployeeIdAndImageDesc(Integer employeeId, String imageDesc) {
+		
+		return employeeImageRepository.findByEmployeeIdAndImageDesc(employeeId,imageDesc);
+	}
 }
