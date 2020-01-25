@@ -225,7 +225,9 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		double balanceAmt =Double.parseDouble(String.valueOf(responseList.get(0).get("BALANCE_AMOUNT")));
 		double paidAmt =Double.parseDouble(String.valueOf(responseList.get(0).get("PAID_AMOUNT")));
 		String servBy = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("FIRST_NM"));
+		String printedBy = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("SERVED_BY"));
 		String paymentStatus = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("PAYMENT_STATUS"));
+		String remarks = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("REMARKS"));
 		
 		/*for(Map<String, Object> obj:responseList) {
 			
@@ -321,23 +323,45 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		
 		cell = new PdfPCell(new Phrase("Serv By     :",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-		cell.setBorder(Rectangle.BOTTOM);
+		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
 		cell = new PdfPCell(new Phrase(servBy,bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-		cell.setBorder(Rectangle.BOTTOM);
+		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
 		cell = new PdfPCell(new Phrase("Paid Status:",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-		cell.setBorder(Rectangle.BOTTOM);
+		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
 		cell = new PdfPCell(new Phrase(paymentStatus,bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.NO_BORDER);
+		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase("Print By     :",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setBorder(Rectangle.BOTTOM);
 		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase(printedBy ,bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
+		table.addCell(cell);
+		
+		
+		cell = new PdfPCell(new Phrase("     "));
+	cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
+		table.addCell(cell);
+	
+		cell = new PdfPCell(new Phrase("     "));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
+		table.addCell(cell);
+	
 		
 		cell = new PdfPCell(new Phrase("Tax Codes:",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -358,11 +382,35 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setBorder(Rectangle.BOTTOM);
 		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase("Remarks   :",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
+		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase(remarks ,bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
+		table.addCell(cell);
+		
+		
+		cell = new PdfPCell(new Phrase("     "));
+	cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
+		table.addCell(cell);
 	
+		cell = new PdfPCell(new Phrase("     "));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
+		table.addCell(cell);
+		
 		table.completeRow();
+		
+		//REMARKStable.completeRow();
 		
 		document.add(table);
 		
+		//document.add(REMARKStable);
 		
 	}
 

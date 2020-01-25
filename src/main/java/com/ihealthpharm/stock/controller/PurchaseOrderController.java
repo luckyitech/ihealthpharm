@@ -421,4 +421,15 @@ public class PurchaseOrderController {
 				List<String> results=purchaseorderService.findallPurNoPDPO();
 				return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
 			}
+			@GetMapping("/getsupplierbysearchspdpo")
+			public ResponseEntity<BaseDto<List<String>>> findSupplierBySearchPDPO(@RequestParam String searchTerm){
+				List<String> results=purchaseorderService.findSupplierbysearchPDPO(searchTerm);
+				return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
+			}
+			
+			@GetMapping("/getallsuppliersinpdpo")
+			public ResponseEntity<BaseDto<List<String>>> findAllSupplierNamesPDPO(){
+				List<String> results=purchaseorderService.findallSuppliersPDPO();
+				return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
+}
 }

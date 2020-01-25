@@ -30,6 +30,5 @@ public interface EmployeeCredentialsService {
 	
 	public EmployeeCredentialsModel findEmployeeCredentialsByEmployee(EmployeeModel employeeModel);
 
-
-
+	EmployeeCredentialsModel updateEmpCredentialsData(int empCredId,String newPwd);
 }
