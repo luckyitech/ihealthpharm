@@ -149,6 +149,9 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 
 	@Query("select s from sales s where s.customerNm like :key% order by s.lastUpdateTs DESC")
 	List<SalesModel> findSalesByCustomerName(@Param("key") String key, Pageable limit);
+	
+	@Query("select s from sales s inner join customer c on s.customerModel.customerId=c.customerId where c.phoneNumber  like :key% order by s.lastUpdateTs DESC")
+	List<SalesModel> findSalesByCustomerPhoneNumber(@Param("key") String key, Pageable limit);
 
 	@Query("select s from sales s where s.billDate between :start and :end order by s.lastUpdateTs DESC")
 	List<SalesModel> findSalesByBillDate(@Param("start") LocalDate start,@Param("end") LocalDate end, Pageable limit);
@@ -172,6 +175,9 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 
 	@Query("select count(s) from sales s where s.customerNm like :key% order by s.lastUpdateTs DESC")
 	Integer findSalesByCustomerNameCount(@Param("key") String key);
+	
+	@Query("select count(s) from sales s inner join customer c on s.customerModel.customerId=c.customerId where c.phoneNumber like :key% order by s.lastUpdateTs DESC")
+	Integer findSalesByCustomerPhoneNumberCount(@Param("key") String key);
 
 	@Query("select count(s) from sales s where s.billDate between :start and :end order by s.billDate DESC")
 	Integer findSalesByBillDateCount(@Param("start") LocalDate start,@Param("end") LocalDate end);
