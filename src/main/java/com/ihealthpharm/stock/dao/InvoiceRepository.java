@@ -1,8 +1,8 @@
 package com.ihealthpharm.stock.dao;
 
 import java.util.List;
-import java.util.Optional;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,6 +21,13 @@ public interface InvoiceRepository extends JpaRepository<InvoiceModel, Integer> 
 	
 	@Query("select i from invoice i where i.pharmacy.pharmacyId = :pharmacyId ")
 	List<InvoiceModel> findAllInvoicesByPharmacyId(@Param("pharmacyId") Integer pharmacyId);
+	
+	@Query("select i from invoice i where i.pharmacy.pharmacyId = :pharmacyId and i.invoiceStatus.invoiceStatusId = :invoiceStatusId and invoiceNo like :invoiceNo%")
+	List<InvoiceModel> findAllInvoicesByPharmacyIdAndInvoiceSatusId(@Param("pharmacyId") Integer pharmacyId,@Param("invoiceStatusId") Integer invoiceStatusId,
+			Pageable limit,@Param("invoiceNo") String invoiceNo);
+	
+	@Query("select count(i) from invoice i where i.pharmacy.pharmacyId = :pharmacyId and i.invoiceStatus.invoiceStatusId = :invoiceStatusId and invoiceNo like :invoiceNo%")
+	Integer findAllInvoicesByPharmacyIdAndInvoiceSatusIdCount(@Param("pharmacyId") Integer pharmacyId,@Param("invoiceStatusId") Integer invoiceStatusId,@Param("invoiceNo") String invoiceNo);
 	
 	@Query("select count(*) from invoice i where i.pharmacy.pharmacyId = :pharmacyId ")
 	Long getInvoiceCount(@Param("pharmacyId") Integer pharmacyId);
@@ -52,5 +59,7 @@ public interface InvoiceRepository extends JpaRepository<InvoiceModel, Integer> 
 		@Query("select distinct inv.invoiceDt from invoice inv,invoice_items init,supplier sp where init.invoice=inv.invoiceId and "
 				+ "inv.supplierModel.supplierId=sp.supplierId order by inv.invoiceDt")
 		List<String> findAllInvoiceDtInInvoicePIR();
+
+		
 		
 }
