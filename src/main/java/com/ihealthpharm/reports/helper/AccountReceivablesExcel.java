@@ -46,9 +46,7 @@ public class AccountReceivablesExcel extends ReportsExcelUtility{
 		borderStyle.setTopBorderColor(IndexedColors.BLACK.getIndex());  
 		borderStyle.setBorderLeft(BorderStyle.THIN);  
 		borderStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());  
-		
-		
-		
+			
 		Font font = workbook.createFont();
 		font.setFontHeightInPoints((short)11);
 		font.setFontName(HSSFFont.FONT_ARIAL);
@@ -70,25 +68,10 @@ public class AccountReceivablesExcel extends ReportsExcelUtility{
 		headerStyle.setBorderLeft(BorderStyle.THIN);  
 		headerStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());  
 		
-		
-		Map<String, List<Map<String, Object>>> accountPayables = responseList.stream()
-				.collect(Collectors.groupingBy(map -> (String) map.get("RECEIPT_NO")));			
-		
-		
 		setHeader(workbook,sheet,model);
-		
-		
-		if(!ObjectUtils.isEmpty(accountPayables)) { 
-			
-			for(String paymentNo :accountPayables.keySet()) {	
-				int currentRow = sheet.getLastRowNum();
-				List<Map<String, Object>> purchaseMarginList = accountPayables.get(paymentNo);
-				createSupplierTable(sheet, responseFile, borderStyle, headerStyle,purchaseMarginList, paymentNo, currentRow); 
-			}
-			generateTotalTable(sheet, responseFile,borderStyle,model,responseList);
-		}
-		
-		
+		int currentRow = sheet.getLastRowNum();
+		createSupplierTable(sheet, responseFile, borderStyle, headerStyle,responseList,currentRow);
+		generateTotalTable(sheet, responseFile,borderStyle,model,responseList);
 		writeToFile(workbook, responseFile);
 		 
 	}
@@ -102,8 +85,6 @@ public class AccountReceivablesExcel extends ReportsExcelUtility{
 		Row dataRow = sheet.createRow(currentRow+2);
 		Row dataRow1=sheet.createRow(currentRow+3);
 		
-		
-
 		Cell cell = dataRow.createCell(0);
 		Cell cell1=dataRow1.createCell(0);
 	
@@ -124,15 +105,14 @@ public class AccountReceivablesExcel extends ReportsExcelUtility{
 	
 	}
 	private void createSupplierTable(SXSSFSheet sheet,File responseFile, CellStyle borderStyle ,
-			CellStyle headerStyle, List<Map<String, Object>> purchaseMarginList, String itemName, int rowNum) {
+			CellStyle headerStyle, List<Map<String, Object>> purchaseMarginList,int rowNum) {
 
 		rowNum = rowNum + 3;
 		int headRow=rowNum-2;
 				
 		// populate Date
 		if (!ObjectUtils.isEmpty(purchaseMarginList)) {
-			
-			
+				
 			Row headerRow = sheet.createRow(rowNum++);
 			Cell cell = headerRow.createCell(0);
 			cell.setCellValue("S.NO");
@@ -187,15 +167,15 @@ public class AccountReceivablesExcel extends ReportsExcelUtility{
 			
 			for (Map<String, Object> rowData : purchaseMarginList) {
 				
-				Row displayRow = sheet.createRow(headRow);
-				Cell headCell = displayRow.createCell(0);
-				Object value = rowData.containsKey("RECEIPT_NO") ? rowData.get("RECEIPT_NO") : "";
-				headCell.setCellValue("RECEIPT NO:");
-				headCell=displayRow.createCell(1);
-				headCell.setCellValue(String.valueOf(value));
+//				Row displayRow = sheet.createRow(headRow);
+//				Cell headCell = displayRow.createCell(0);
+//				Object value = rowData.containsKey("RECEIPT_NO") ? rowData.get("RECEIPT_NO") : "";
+//				headCell.setCellValue("RECEIPT NO:");
+//				headCell=displayRow.createCell(1);
+//				headCell.setCellValue(String.valueOf(value));
 				
 				Row dataRow = sheet.createRow(rowNum++);
-				value =  String.valueOf(purchaseMarginList.indexOf(rowData) + 1);
+				Object value =  String.valueOf(purchaseMarginList.indexOf(rowData) + 1);
 				//sheet.autoSizeColumn(0);
 				cell = dataRow.createCell(0);
 				cell.setCellValue(String.valueOf(value));
