@@ -208,7 +208,7 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 	private void addTotals(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException {
 		PdfPTable table = new PdfPTable(4);
 		table.setTotalWidth(Utilities.millimetersToPoints(80));
-		table.setSpacingAfter(10); 
+		table.setSpacingAfter(0); 
 		table.getDefaultCell().setBorder(0);
 		table.setLockedWidth(true);
 		
@@ -353,7 +353,7 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		
 		
 		cell = new PdfPCell(new Phrase("     "));
-	cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+	    cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setBorder(Rectangle.BOTTOM);
 		table.addCell(cell);
 	
@@ -383,35 +383,23 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		cell.setBorder(Rectangle.BOTTOM);
 		table.addCell(cell);
 		
-		cell = new PdfPCell(new Phrase("Remarks   :",bold));
-		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-		cell.setBorder(Rectangle.BOTTOM);
-		table.addCell(cell);
-		
-		cell = new PdfPCell(new Phrase(remarks ,bold));
-		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-		cell.setBorder(Rectangle.BOTTOM);
-		table.addCell(cell);
-		
-		
-		cell = new PdfPCell(new Phrase("     "));
-	cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-		cell.setBorder(Rectangle.BOTTOM);
-		table.addCell(cell);
-	
-		cell = new PdfPCell(new Phrase("     "));
-		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-		cell.setBorder(Rectangle.BOTTOM);
-		table.addCell(cell);
-		
 		table.completeRow();
-		
-		//REMARKStable.completeRow();
 		
 		document.add(table);
 		
-		//document.add(REMARKStable);
+		PdfPTable table_remarks = new PdfPTable(1);
+		table_remarks.setTotalWidth(Utilities.millimetersToPoints(80));
+		table_remarks.getDefaultCell().setBorder(0);
+		table_remarks.setLockedWidth(true);
 		
+		cell = new PdfPCell(new Phrase("Remarks   :  " + remarks ,bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
+		table_remarks.addCell(cell);
+		
+		table_remarks.completeRow();
+		
+		document.add(table_remarks);
 	}
 
 	private void addBillDetails(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException {
@@ -482,6 +470,7 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		cell = new PdfPCell(new Phrase());
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setBorder(Rectangle.BOTTOM);
+	
 		table.addCell(cell); 
 		table.completeRow();
 		
