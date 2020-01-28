@@ -61,7 +61,7 @@ public class InsuranceController {
 	
 	
 	@PutMapping("/update/insurance/image")
-	public ResponseEntity<BaseDto<InsuranceModel>> updateInsurance(@Valid @RequestParam("insuraceModel") String insuranceData,@Valid @RequestParam ("termsAndConditionsFile") MultipartFile termsAndConditionsFile){
+	public ResponseEntity<BaseDto<InsuranceModel>> updateInsurance(@Valid @RequestParam("insuranceModel") String insuranceData,@Valid @RequestParam ("termsAndConditionsFile") MultipartFile termsAndConditionsFile){
 		log.info("Request Object for update is: ", insuranceData);
 		InsuranceModel insuranceModel = null;
 		try {
