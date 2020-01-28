@@ -18,28 +18,22 @@ public interface InvoiceItemRepository extends JpaRepository<InvoiceItemModel, I
 
 	List<InvoiceItemModel> findAllByOrderByCreationTimeStampDesc();
 	//Purchase Invoice Details Queries
-	@Query("select distinct sp.name from invoice_items init,invoice inv,items i,stock st,supplier sp "
-			+ "where init.invoice=inv.invoiceId and "
-			+ "init.itemsModel.itemId=i.itemId and st.item.itemId=i.itemId and "
+	@Query("select distinct sp.name from invoice_items init,invoice inv,supplier sp "
+			+ "where init.invoice.invoiceId=inv.invoiceId and "
 			+ "inv.supplierModel.supplierId=sp.supplierId and sp.name like :searchTerm%")
 	List<String> findSupplierInInvoiceItems(@Param("searchTerm") String searchTerm);
 	
-	@Query("select distinct sp.name from invoice_items init,invoice inv,items i,stock st,supplier sp "
-			+ "where init.invoice=inv.invoiceId and "
-			+ "init.itemsModel.itemId=i.itemId and st.item.itemId=i.itemId and "
+	@Query("select distinct sp.name from invoice_items init,invoice inv,supplier sp "
+			+ "where init.invoice.invoiceId=inv.invoiceId and "
 			+ "inv.supplierModel.supplierId=sp.supplierId order by sp.name")
 	List<String> findAllSuppliersInInvoiceItems();
 	
-	@Query("select distinct inv.grnNo from invoice_items init,invoice inv,items i,stock st,supplier sp "
-			+ "where init.invoice=inv.invoiceId and "
-			+ "init.itemsModel.itemId=i.itemId and st.item.itemId=i.itemId and "
-			+ "inv.supplierModel.supplierId=sp.supplierId and inv.grnNo like :searchTerm%")
+	@Query("select distinct inv.grnNo from invoice_items init,invoice inv "
+			+ "where init.invoice.invoiceId=inv.invoiceId and inv.grnNo like :searchTerm%")
 	List<String> findinvoiceNoInInvoiceItems(@Param("searchTerm") String searchTerm);
 	
-	@Query("select distinct inv.grnNo from invoice_items init,invoice inv,items i,stock st,supplier sp "
-			+ "where init.invoice=inv.invoiceId and "
-			+ "init.itemsModel.itemId=i.itemId and st.item.itemId=i.itemId and "
-			+ "inv.supplierModel.supplierId=sp.supplierId order by inv.grnNo")
+	@Query("select distinct inv.grnNo from invoice_items init,invoice inv "
+			+ "where init.invoice.invoiceId=inv.invoiceId order by inv.grnNo")
 	List<String> findAllinvoiceNoInInvoiceItems();
 	
 	@Query("select distinct inv.invoiceDt from invoice_items init,invoice inv,items i,stock st,supplier sp "
