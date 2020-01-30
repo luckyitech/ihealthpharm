@@ -15,4 +15,7 @@ public interface LatinCodesRepository extends JpaRepository<LatinShortCodesModel
 	@Query("SELECT l FROM latin_short_codes l  where l.activeS='Y' order  by l.lastUpdateTimestamp desc")
 	List<LatinShortCodesModel> getAllLatestRecords();
 
+	/*@Query("select concat(latinShortCode , ':' , latinShortCodeDesc) from latin_short_codes")
+	List<LatinShortCodesModel> findLatinCodeByConcatenate();*/
+	
 }
