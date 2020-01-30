@@ -144,8 +144,7 @@ public class ItemFormsServiceImpl implements ItemFormService {
 	
 	@Override
 	public List<ItemFormModel> findAllItemForms() {
-
-		return itemFormRepository.findAllByOrderByLastUpdateTimestampDesc();
+		return itemFormRepository.findAllLastRecordsDesc();
 	}
 
 }

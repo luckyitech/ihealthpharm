@@ -43,28 +43,16 @@ public class AccountPayablesController {
 
 	@PostMapping("/save/accountPayables")
 	public ResponseEntity<BaseDto<AccountPayablesModel>> insertAccountPayablesData(@Valid @RequestBody AccountPayablesModel accountPayablesModel) {
-
 		AccountPayablesModel accountPayablesModelRes = accountPayablesService.saveAccountPayablesData(accountPayablesModel);
 		return new BaseDto<>(accountPayablesModelRes, accountPayablesHelper.getSaveAccountPayablesMessage(), OK).respond();
 	}
 
 	@PutMapping("/update/accountPayables")
 	public ResponseEntity<BaseDto<List<AccountPayablesModel>>> updateAccountPayablesData(@RequestBody List<AccountPayablesModel> accountPayablesModels) {
-		System.out.println(accountPayablesModels);
-		System.out.println("iam in acc payables ==================================");
 		List<AccountPayablesModel> accountPayablesModelRes = accountPayablesService.updateAccountPayablesData(accountPayablesModels);
 		return new BaseDto<>(accountPayablesModelRes, accountPayablesHelper.getUpdateAccountPayablesMessage(), OK).respond();
 	}
 	
-	
-	/*@PutMapping("/update/accountPayables")
-	public ResponseEntity<BaseDto<AccountPayablesModel>> updateAccountPayablesData(@Valid @RequestBody AccountPayablesModel accountPayablesModel) {
-		AccountPayablesModel accountPayablesModelRes = accountPayablesService.updateAccountPayablesData(accountPayablesModel);
-		return new BaseDto<>(accountPayablesModelRes, accountPayablesHelper.getUpdateAccountPayablesMessage(), OK).respond();
-	}
-	*/
-	
-
 	@PutMapping("/update/accountsPayables")
 	public ResponseEntity<BaseDto<List<AccountPayablesModel>>> updateAccountsPayablesData(@Valid @RequestBody List<AccountPayablesModel> accountPayablesModel) {
 		List<AccountPayablesModel> AccountPayablesModelRes = accountPayablesService.updateAccountsPayablesData(accountPayablesModel);

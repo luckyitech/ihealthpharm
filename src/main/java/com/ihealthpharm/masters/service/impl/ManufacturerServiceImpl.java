@@ -38,7 +38,6 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 
 	@Override
 	public List<ManufacturerModel> findManufacturerByActive() {
-
 		return manufacturerRepository.findByActiveS('Y');
 	}
 
@@ -74,14 +73,12 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 	public ManufacturerModel findManufacturerById(Integer manufacturerId) {
 
 		ManufacturerModel manufacturerModelRes = getValidManufacturer(manufacturerId);
-
 		if(!Objects.nonNull(manufacturerModelRes))
 		{
 			throw new IHealthPharmException(manufacturerHelper.getNotFoundManufacturerMessage(),HttpStatus.NOT_FOUND);
 		}
 		log.info("Manufacturer data with ID : "+ manufacturerModelRes.getManufacturerId()+" retrieved succesfully");
 		return manufacturerModelRes;
-
 	}
 
 
@@ -136,10 +133,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 
 	@Override
 	public List<ManufacturerModel> findAllManufacturersData(String searchTerm) {
-
 		return manufacturerRepository.findAllBySearchCriteria(searchTerm);
-		
 	}
-
 	
 }

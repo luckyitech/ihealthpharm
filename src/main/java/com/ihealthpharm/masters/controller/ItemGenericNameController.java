@@ -35,11 +35,9 @@ public class ItemGenericNameController {
 	@Autowired
 	private ItemGenericNamesHelper itemGenericHelper;
 	
-	
 	@PostMapping("/save/itemgeneric")
 	public ResponseEntity<BaseDto<ItemGenericNamesModel>> insertItemGenericData(@Valid @RequestBody ItemGenericNamesModel itemGenericNamesModel) {
 		log.info("Request Object insert is: "+ itemGenericNamesModel);
-		
 		ItemGenericNamesModel itemGenericModelRes = itemGenericNamesService.saveItemGenericNamesData(itemGenericNamesModel);
 		return new BaseDto<>(itemGenericModelRes,itemGenericHelper.getSaveItemGenericNameMessage(),OK).respond();
 	}
@@ -50,7 +48,6 @@ public class ItemGenericNameController {
 		ItemGenericNamesModel itemModelRes = itemGenericNamesService.updateItemGenericNameData(itemGenericNamesModel);
 		return new BaseDto<>(itemModelRes,itemGenericHelper.getUpdateItemGenericNameMessage(),OK).respond();
 	}
-	
 	
 	@PutMapping("/update/itemgenerics")
 	public ResponseEntity<BaseDto<List<ItemGenericNamesModel>>> updateItemsGenericNamesData(@Valid @RequestBody List<ItemGenericNamesModel> itemGenericNamesModels) {
@@ -73,13 +70,11 @@ public class ItemGenericNameController {
 		return new BaseDto<>(itemGenericHelper.getDeleteItemGenericNameMessage(), OK).respond();
 	}
 	
-	
 	@GetMapping("/getallitemgenericsdata")
 	public ResponseEntity<BaseDto<List<ItemGenericNamesModel>>> getAllItemGenericsdata() {
 		List<ItemGenericNamesModel> result = itemGenericNamesService.getAllGenerics();
 		return new BaseDto<>(result, itemGenericHelper.getRetrieveItemGenericNameMessage(), OK).respond();
 	}
-	
 
 	@GetMapping("/getactiveitemgenericsdata")
 	public ResponseEntity<BaseDto<List<ItemGenericNamesModel>>> getItemGenericdata() {
@@ -98,7 +93,5 @@ public class ItemGenericNameController {
 		List<ItemGenericNamesModel> result = itemGenericNamesService.findAllItemGenericNamesData(medicalOrNonMedical, searchTerm, itemGroupId);
 		return new BaseDto<>(result, itemGenericHelper.getRetrieveItemGenericNameMessage(), OK).respond();
 	}
-	
-	
 
 }

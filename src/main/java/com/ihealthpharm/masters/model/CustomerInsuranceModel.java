@@ -65,6 +65,9 @@ public class CustomerInsuranceModel extends AuditModel{
 	@OneToOne
 	@JoinColumn(name="PHARMACY_ID")
 	private PharmacyModel pharmacyModel;
+	
+	@Column(name="ACTIVE_S")
+	private Character activeS;
 
 	public void setPolicyStart(Date startDate) throws ParseException {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");

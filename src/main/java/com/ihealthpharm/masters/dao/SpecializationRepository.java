@@ -14,10 +14,10 @@ public interface SpecializationRepository extends JpaRepository<SpecializationMo
 
 	public List<SpecializationModel> findByActiveS(String active);
 	
-	List<SpecializationModel> findAllByOrderByLastUpdateTimestampDesc();
+	@Query("SELECT s FROM specialization s where s.activeS='Y' order by s.lastUpdateTimestamp desc")
+	List<SpecializationModel> findAllLastestRecords();
 	
-	
-	@Query("select i from specialization i where i.specializationName like %:searchTerm% order by i.creationTimeStamp desc")
+	@Query("select i from specialization i where i.specializationName like %:searchTerm% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	List<SpecializationModel> findAllBySearchCriteria(@Param("searchTerm") String searchTerm);
 	
 	

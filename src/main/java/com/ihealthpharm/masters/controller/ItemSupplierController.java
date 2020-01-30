@@ -164,8 +164,6 @@ public class ItemSupplierController {
 	//for getting grid data based on itemId
 	@GetMapping("/getitemsuppliers/basedonItemId")
 	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getAllItemSuppliersBasedOnItemId(@RequestParam Integer  itemId){
-		System.out.println("=================================================");
-		System.out.println(itemId);
 		List<ItemSupplierDTO> response=itemSupplierService.findAllMappedItemSuppliersOnItemName(itemId);
 		return new BaseDto<>(response,itemSupplierHelper.getRetrieveItemSupplierMessage(),OK).respond();
 	}
@@ -180,7 +178,6 @@ public class ItemSupplierController {
 	@GetMapping("/getitemsuppliersbyitemid")
 	public ResponseEntity<BaseDto<List<SupplierModel>>> getAllSuppliersItemId(@RequestParam Integer itemId){
 		List<SupplierModel> result=itemSupplierService.getAllSuppliersByItemId(itemId);
-		log.info(result.toString());
 		return new BaseDto<>(result,itemSupplierHelper.getRetrieveItemSupplierMessage(),OK).respond();
 	}
 }
