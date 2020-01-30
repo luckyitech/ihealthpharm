@@ -334,6 +334,10 @@ public class SalesServiceImpl implements SalesService {
 			{
 				return salesRepository.findSalesByCustomerName(codeValue,limit);
 			}
+			else if(code.equalsIgnoreCase("customer Phone Number"))
+			{
+				return salesRepository.findSalesByCustomerPhoneNumber(codeValue,limit);
+			}
 			
 		}
 
@@ -393,6 +397,11 @@ public class SalesServiceImpl implements SalesService {
 			{
 				log.info("Code :"+code+ "\t Code Value:"+codeValue);
 				return salesRepository.findSalesByCustomerNameCount(codeValue);
+			}
+			else if(code.equalsIgnoreCase("customer Phone Number"))
+			{
+				log.info("Code :"+code+ "\t Code Value:"+codeValue);
+				return salesRepository.findSalesByCustomerPhoneNumberCount(codeValue);
 			}
 			
 		}
