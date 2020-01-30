@@ -10,4 +10,7 @@ import com.ihealthpharm.masters.model.LatinShortCodesModel;
 @Repository
 public interface LatinCodesRepository extends JpaRepository<LatinShortCodesModel, Serializable>{
 
+	/*@Query("select concat(latinShortCode , ':' , latinShortCodeDesc) from latin_short_codes")
+	List<LatinShortCodesModel> findLatinCodeByConcatenate();*/
+	
 }
