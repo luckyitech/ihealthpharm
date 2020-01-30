@@ -89,7 +89,6 @@ public class ItemAlternativeController {
 		  itemAlternativeService.updateItemAlternativeBasedOnItemModel(itemAlternativeModels,item);
 		log.info(itemAlternativeHelper.getUpdateItemAlternativeMessage());
 		return new BaseDto<>(itemAlternativeHelper.getUpdateItemAlternativeMessage(),OK).respond();
-		
 	}
 	
 	

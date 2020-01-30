@@ -38,7 +38,6 @@ public class ManufacturerController {
 	@PostMapping("/save/manufacturer")
 	public ResponseEntity<BaseDto<ManufacturerModel>> insertManufacturerData(@Valid @RequestBody ManufacturerModel manufacturerModel) {
 		log.info("Request Object insert is: "+ manufacturerModel);
-		
 		ManufacturerModel manufacturerModelRes = manufacturerService.saveManufacturerData(manufacturerModel);
 		return new BaseDto<>(manufacturerModelRes,manufacturerHelper.getSaveManufacturerMessage(),OK).respond();
 	}

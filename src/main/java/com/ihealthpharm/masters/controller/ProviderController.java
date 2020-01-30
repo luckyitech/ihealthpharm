@@ -101,7 +101,6 @@ public class ProviderController {
 
 	@DeleteMapping("/delete/providers")
 	public ResponseEntity<BaseDto<Object>> deleteProvidersData(@RequestParam Integer[] providersId) {
-
 		log.info("Request Object for delete is: "+providersId[0]);
 		providerService.deleteProvidersById(providersId);
 		return new BaseDto<>(providerHelper.getDeleteProviderMessage(), OK).respond();

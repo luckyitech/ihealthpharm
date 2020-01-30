@@ -144,7 +144,7 @@ public class ItemCategoryServiceImpl implements ItemCategoryService {
 
 	@Override
 	public List<ItemCategoryModel> findAllCategories() {
-		return itemCategoriesRepository.findAllByOrderByLastUpdateTimestampDesc();
+		return itemCategoriesRepository.findAllByLastUpdated();
 	}
 
 }

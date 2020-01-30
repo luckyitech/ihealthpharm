@@ -201,4 +201,7 @@ public class SalesModel {
 	HospitalModel hospitalModel;
 	
 	
+	@Column(name="ACTIVE_S")
+	private Character activeS;
+	
 }

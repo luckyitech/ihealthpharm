@@ -150,7 +150,7 @@ public class ItemGenericNamesServiceImpl implements ItemGenericNamesService {
 
 	@Override
 	public List<ItemGenericNamesModel> getAllGenerics() {
-		return itemGenericNameRepository.findAllByOrderByLastUpdateTimestampDesc();
+		return itemGenericNameRepository.findAllByLastestRecords();
 	}
 
 }

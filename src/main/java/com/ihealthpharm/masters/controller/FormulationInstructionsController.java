@@ -58,7 +58,6 @@ public class FormulationInstructionsController {
 	{
 		log.info("Request object for retrieval");
 		List<FormulationInstructionsModel> result=formulationService.getAllFormulationInstructions();
-		System.out.println(result);
 		return new BaseDto<>(result,formulationHelper.getRetrieveFormulationinstructionMessage(),OK).respond();
 	}
 	

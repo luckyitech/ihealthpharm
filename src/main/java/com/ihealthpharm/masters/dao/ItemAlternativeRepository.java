@@ -15,7 +15,7 @@ import com.ihealthpharm.masters.model.ItemsModel;
 
 public interface ItemAlternativeRepository extends JpaRepository<ItemAlternativeModel, Integer> {
 
-	@Query("select new com.ihealthpharm.masters.dto.AlternativeItemDTO(i.alternativeItemId.itemId,i.alternativeItemId.itemName) from item_alternative i where i.itemId.itemId=:itemId")
+	@Query("select new com.ihealthpharm.masters.dto.AlternativeItemDTO(i.alternativeItemId.itemId,i.alternativeItemId.itemName) from item_alternative i where i.itemId.itemId=:itemId and i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	List<AlternativeItemDTO> findByItemsId(@Param("itemId") Integer itemId);
 
 	@Query("select i.itemId  from item_alternative i where i.itemId=:item")
