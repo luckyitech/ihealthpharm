@@ -26,13 +26,13 @@ public class LatinAndScheduleCodesServiceImpl implements LatinAndScheduleCodesSe
 	@Override
 	public List<LatinShortCodesModel> findAllLatinCodes() {
 		
-		return latinRepository.findAll();
+		return latinRepository.getAllLatestRecords();
 	}
 
 	@Override
 	public List<ScheduleCodeModel> findAllScheduleCodes() {
 		
-		return scheduleRepo.findAll();
+		return scheduleRepo.findAllLatestRecords();
 	}
 	
 	/*@Override

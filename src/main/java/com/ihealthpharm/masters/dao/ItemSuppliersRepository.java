@@ -20,13 +20,11 @@ public interface ItemSuppliersRepository extends JpaRepository<ItemSupplierModel
 
 	List<ItemSupplierModel> findAllByOrderByLastUpdateTimestampDesc();
 
-	@Query("SELECT i from supplier i where supplierId not in (select d.suppliersId from items_supplier d,items p where d.itemsId=:itemsModelId)")
+	@Query("SELECT i from supplier i where i.activeS='Y' and i.supplierId not in (select d.suppliersId from items_supplier d,items p where d.itemsId=:itemsModelId)")
 	List<SupplierModel> getAllUnMappedSuppliers(@Param ("itemsModelId")Integer itemsModelId);
 
-
-	@Query("select i from items i where itemId not in (select h.itemsId from items_supplier h where h.suppliersId=:supplierId)")
+	@Query("select i from items i where i.activeS='Y' and i.itemId not in (select h.itemsId from items_supplier h where h.suppliersId=:supplierId)")
 	List<ItemsModel> getAllUnMappedItems(@Param ("supplierId")Integer supplierId);
-
 	
 	@Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(id.itemSupplierId,id.activeS,d.name,i.itemName,m.name,m.licence,i.itemDescription,i.itemId,d.supplierId,id.supplierPriority,f.form,i.itemCode,id.unitRate,id.discountPercentage,id.validity) from items_supplier id inner join supplier d on id.suppliersId=d.supplierId inner join items i on i.itemId=id.itemsId inner join items_forms f on i.itemId=f.itemformId inner join manufacturer m on m.manufacturerId=id.itemsId order by id.lastUpdateTimestamp")
 	List<ItemSupplierDTO> getAllItemSuppliers();

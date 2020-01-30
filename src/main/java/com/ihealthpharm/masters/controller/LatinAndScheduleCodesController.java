@@ -23,13 +23,11 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class LatinAndScheduleCodesController {
 	
-	
 	@Autowired
 	private LatinAndScheduleCodesService latinAndScheduleCodesService;
 	
 	@Autowired
 	private LatinAndScheduleCodesHelper latinAndScheduleHelper;
-	
 	
 	@GetMapping("/getall/latincodes")
 	public ResponseEntity<BaseDto<List<LatinShortCodesModel>>> getAllLatinCodesData() {

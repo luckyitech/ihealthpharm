@@ -32,7 +32,6 @@ import lombok.extern.slf4j.Slf4j;
 @CrossOrigin
 public class UnitOfMesurementController {
 	
-	
 	@Autowired
 	private UnitOfMessurementService uomService;
 	
@@ -81,14 +80,12 @@ public class UnitOfMesurementController {
 	
 	@GetMapping("uom/findAll/measurements")
 	public ResponseEntity<BaseDto<List<UnitOfMeasurementModel>>> findAllUnitOfMeasurements(){
-		
 		List<UnitOfMeasurementModel> result=uomService.findAllMeasurements();
       return new BaseDto<>(result,uomHelper.getRetrieveUomMessage(),OK).respond();
 	}
 	
 	@GetMapping("/getallunitsdatabysearch")
 	public ResponseEntity<BaseDto<List<UnitOfMeasurementModel>>> getAllUnitsOfMeasurementsdata(@RequestParam String searchTerm) {
-	
 		List<UnitOfMeasurementModel> result=uomService.findAllUOMMethodsOnSerch(searchTerm);
 		return new BaseDto<>(result, uomHelper.getRetrieveUomMessage(), OK).respond();
 	}

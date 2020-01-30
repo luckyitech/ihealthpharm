@@ -123,7 +123,7 @@ public class HospitalModelServiceImpl implements HospitalModelService{
 
 	@Override
 	public List<HospitalModel> findAllHospitals() {
-		return hospitalRepository.findAllByOrderByCreationTimeStampDesc();
+		return hospitalRepository.findAllLatestRecords();
 	}
 
 	@Override

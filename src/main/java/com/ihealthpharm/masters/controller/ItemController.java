@@ -93,7 +93,6 @@ public class ItemController {
 
 	@GetMapping("/getitemdatabyid")
 	public ResponseEntity<BaseDto<ItemsModel>> getItemDataById(@RequestParam Integer itemId) {
-		System.out.println("entered into ");
 		ItemsModel result = itemService.findItemsById(itemId);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
@@ -112,7 +111,6 @@ public class ItemController {
 	@GetMapping("/getallby/MedicalAndItemDescSearch")
 	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllMedicalAndItemDesc(@RequestParam String medicalOrNonMedical,
 			@RequestParam String searchTerm) {
-
 		List<ItemsModel> result = itemService.findAllByMedicalAndItemDesc(medicalOrNonMedical, searchTerm);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
@@ -134,7 +132,6 @@ public class ItemController {
 	// based on itemDescription
 	@GetMapping("/getallby/ItemDescriptionSearch")
 	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllItemsByItemDesc(@RequestParam String searchTerm) {
-
 		List<ItemsModel> result = itemService.findAllByItemDescription(searchTerm);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
@@ -149,7 +146,6 @@ public class ItemController {
 	// based on groupcode
 	@GetMapping("/getallby/groupcodeSearch")
 	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllItemsByGroupCodeSearch(@RequestParam String searchTerm) {
-		log.info(searchTerm);
 		List<ItemsModel> response = itemService.findAllByItemGroupCodeSearch(searchTerm);
 		return new BaseDto<>(response, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
@@ -165,17 +161,11 @@ public class ItemController {
 	@GetMapping("/getallby/searchkeyandsearchcode")
 	public ResponseEntity<BaseDto<List<ItemDTO>>> getAllItemsBySearchkeyAndCode(@RequestParam String searchTerm,@RequestParam String searchCode,
 			@RequestParam Integer start,@RequestParam Integer end) {
-		log.info(searchTerm);
-
 		List<ItemDTO> response = itemService.findBySearchKey(searchTerm,searchCode,start,end);
-		log.info("----------------------------------");
-		log.info("Size:"+response.size());
-		log.info("----------------------------------");
 		return new BaseDto<>(response, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 	@GetMapping("/getlimiteditemdata")
 	public ResponseEntity<BaseDto<List<ItemsModel>>> getLimitetems() {
-
 		List<ItemsModel> response = itemService.getLimitedItems();
 		return new BaseDto<>(response, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
@@ -183,28 +173,24 @@ public class ItemController {
 	@GetMapping("/getitemsdatabyname")
 	public ResponseEntity<BaseDto<List<AlternativeItemDTO>>> getItemsDataByName(@RequestParam("key") String itemName) {
 		List<AlternativeItemDTO> result = itemService.findItemsByName(itemName);
-		log.info(result.toString());
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 	
 	@GetMapping("/getitemsdatabycode")
 	public ResponseEntity<BaseDto<List<AlternativeItemDTO>>> getItemsDataByCode(@RequestParam("key")String itemCode){
 		List<AlternativeItemDTO> result=itemService.findItemsByCode(itemCode);
-		log.info(result.toString());
 		return new BaseDto<>(result,propertyHelper.getRetrieveMessage(),OK).respond();
 	}
 	
 	@GetMapping("/getitemsdatabygenericname")
 	public ResponseEntity<BaseDto<List<AlternativeItemDTO>>> getItemsDataByGeneric(@RequestParam("key")String itemGeneric){
 		List<AlternativeItemDTO> result=itemService.findItemsByGenericName(itemGeneric);
-		log.info(result.toString());
 		return new BaseDto<>(result,propertyHelper.getRetrieveMessage(),OK).respond();
 	}
 
 	@GetMapping("/getitemsdatabydesc")
 	public ResponseEntity<BaseDto<List<AlternativeItemDTO>>> getItemsDataByDesc(@RequestParam("key")String itemdesc){
 		List<AlternativeItemDTO> response=itemService.findItemsByDesc(itemdesc);
-		log.info(response.toString());
 		return new BaseDto<>(response,propertyHelper.getRetrieveMessage(),OK).respond();
 	}
 	
@@ -240,19 +226,13 @@ public class ItemController {
 	@GetMapping("/getitemsbyanysearch")
 	public ResponseEntity<BaseDto<List<ItemDTO>>> getAllByItemSearches(@RequestParam String searchTerm){
 		List<ItemDTO> response=itemService.findAllByItemsSearch(searchTerm);
-		log.info(response.toString());
 		return new BaseDto<>(response,propertyHelper.getRetrieveMessage(),OK).respond();
-
 	}
 
 	@GetMapping("/getitemscountbysearch")
 	public ResponseEntity<BaseDto<Integer>> getCountOfItemsBySearch(@RequestParam String searchTerm,@RequestParam String searchType){
 		Integer response=itemService.findItemsCountBySearch(searchTerm,searchType);
-		log.info("----------------------------------");
-		log.info("Size:"+response);
-		log.info("----------------------------------");
 		return new BaseDto<>(response,propertyHelper.getRetrieveMessage(),OK).respond();
-
 	}
 
 }

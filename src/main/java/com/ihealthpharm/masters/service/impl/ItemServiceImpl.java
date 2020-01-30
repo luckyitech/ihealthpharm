@@ -90,8 +90,6 @@ public class ItemServiceImpl implements ItemService {
 		}catch(NoSuchElementException noSuchElementException) {
 			throw new IHealthPharmException(itemPropertyHelper.getNotFoundMessage(),HttpStatus.NOT_FOUND);
 		}
-
-
 	}
 
 
@@ -102,9 +100,7 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public ItemsModel findItemsById(Integer itemId) {
-
 		ItemsModel itemsModelRes = getValidItems(itemId);
-
 		if(!Objects.nonNull(itemsModelRes))
 		{
 			throw new IHealthPharmException(itemPropertyHelper.getNotFoundMessage(),HttpStatus.NOT_FOUND);
@@ -142,68 +138,59 @@ public class ItemServiceImpl implements ItemService {
 		itemsModel = itemRepository.save(itemsModel);
 
 		if (itemsModel.getItemCode().isEmpty()) {
-			
-		String itemCode ="";
-		if(itemsModel.getItemId().toString().length() == 1) {
-			itemCode += "IC"+"000000"+itemsModel.getItemId().toString(); 
-		}
-		else if(itemsModel.getItemId().toString().length() == 2)
-		{
-			itemCode += "IC"+"00000"+itemsModel.getItemId().toString(); 
-		}
-		else if(itemsModel.getItemId().toString().length() == 3)
-		{
-			itemCode += "IC"+"0000"+itemsModel.getItemId().toString(); 
-		}
-		else if(itemsModel.getItemId().toString().length() == 4)
-		{
-			itemCode += "IC"+"000"+itemsModel.getItemId().toString(); 
-		}
-		else if(itemsModel.getItemId().toString().length() == 5) {
-			itemCode += "IC"+"00"+itemsModel.getItemId().toString(); 
-		}
-		else if(itemsModel.getItemId().toString().length() == 6) {
-			itemCode += "IC"+"0"+itemsModel.getItemId().toString(); 
-		}
-		else {
-			itemCode += "IC"+itemsModel.getItemId().toString(); 
-		}
-		itemsModel.setItemCode(itemCode);
+
+			String itemCode ="";
+			if(itemsModel.getItemId().toString().length() == 1) {
+				itemCode += "IC"+"000000"+itemsModel.getItemId().toString(); 
+			}
+			else if(itemsModel.getItemId().toString().length() == 2)
+			{
+				itemCode += "IC"+"00000"+itemsModel.getItemId().toString(); 
+			}
+			else if(itemsModel.getItemId().toString().length() == 3)
+			{
+				itemCode += "IC"+"0000"+itemsModel.getItemId().toString(); 
+			}
+			else if(itemsModel.getItemId().toString().length() == 4)
+			{
+				itemCode += "IC"+"000"+itemsModel.getItemId().toString(); 
+			}
+			else if(itemsModel.getItemId().toString().length() == 5) {
+				itemCode += "IC"+"00"+itemsModel.getItemId().toString(); 
+			}
+			else if(itemsModel.getItemId().toString().length() == 6) {
+				itemCode += "IC"+"0"+itemsModel.getItemId().toString(); 
+			}
+			else {
+				itemCode += "IC"+itemsModel.getItemId().toString(); 
+			}
+			itemsModel.setItemCode(itemCode);
 		}
 		itemsModel = itemRepository.save(itemsModel);
 		log.info("Items data with ID: "+ itemsModel.getItemId()+" saved succesfully");
 		return itemsModel;
-
 	}
 
 	@Override
 	public List<ItemsModel> findAllItems() {
-		return itemRepository.findAllByOrderByLastUpdateTimestampDesc();
+		return itemRepository.findAllLastestRecords();
 	}
-
 
 	@Override
 	public List<ItemsModel> findAllByMedicalAndItemName(String medicalOrNonMedical, String searchTerm) {
 		return itemRepository.findAllByMedicalAndItemName(medicalOrNonMedical, searchTerm);
 	}
 
-
 	@Override
 	public List<ItemsModel> findAllByItemName(String searchTerm) {
-
 		List<ItemsModel> resp =itemRepository.findAllByItemNameSearch(searchTerm);
-
 		return resp;
 	}
 
-
-
 	@Override
 	public List<ItemsModel> findAllByMedicalAndItemDesc(String medicalOrNonMedical, String searchTerm) {
-
 		return itemRepository.findAllByMedicalAndItemDesc(medicalOrNonMedical, searchTerm);
 	}
-
 
 	@Override
 	public List<ItemsModel> findAllByItemDescription(String searchTerm) {
@@ -214,18 +201,14 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public List<ItemsModel> findAllGerericNamesBySearch(String searchTerm) {
-		
 		List<ItemsModel> itemsRes = itemRepository.findByItemGenericName(searchTerm);
 		return itemsRes;
 	}
 
 	@Override
 	public List<ItemsModel> findAllByItemGroupCodeSearch(String searchTerm) {
-
 		ItemGroupModel groupCodes=itemGroupRepo.findByGroupNameContaining(searchTerm);
-
 		List<ItemsModel> itemModelRes=itemRepository.findByItemGroup(groupCodes);
-
 		return itemModelRes;
 	}
 
@@ -236,25 +219,21 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public List<ItemsModel> findBySearchKey(String searchTerm) {
-		
 		return itemRepository.findByItemCodeOrItemNameOrItemDescription(searchTerm);
 	}
 
 	@Override
 	public List<ItemsModel> getLimitedItems() {
-
 		return itemRepository.findFirst100ByOrderByItemCode();
-
 	}
 
 	@Override
 	public List<ItemDTO> findBySearchKey(String searchTerm, String searchType,Integer pageNumber, Integer pageSize) {
 		Pageable limit = new PageRequest(pageNumber,pageSize);
-		
+
 		if(searchType.equalsIgnoreCase("item code"))
 		{
 			return itemRepository.getAllItemsDataByItemCode(searchTerm,limit);
-			
 		}
 		else if(searchType.equalsIgnoreCase("item name") )
 		{
@@ -268,11 +247,11 @@ public class ItemServiceImpl implements ItemService {
 		{
 			return itemRepository.getAllItemsDataByItemGenericName(searchTerm,limit);
 		}
-		
+
 		return null;
-		
+
 		/*return itemRepository.findAll(new Specification<ItemsModel>() {
-			
+
 			private static final long serialVersionUID = -2059726564132190131L;
 
 			@Override
@@ -280,15 +259,15 @@ public class ItemServiceImpl implements ItemService {
 					CriteriaBuilder criteriaBuilder) {
 				List<Predicate> predicates = new ArrayList<>();
 				if (searchCode.equalsIgnoreCase("item code") || searchCode.equalsIgnoreCase("itemcode")) {
-					
+
 					predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("itemCode"), searchTerm+"%")));
 				}
 				else if(searchCode.equalsIgnoreCase("item name") || searchCode.equalsIgnoreCase("itemname")) {
-					
+
 					predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("itemName"), searchTerm+"%")));
 				}
 				else if(searchCode.equalsIgnoreCase("item description") || searchCode.equalsIgnoreCase("itemdescription")) {
-					
+
 					predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("itemDescription"), searchTerm+"%")));
 				}
 				return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
@@ -301,39 +280,22 @@ public class ItemServiceImpl implements ItemService {
 	public List<AlternativeItemDTO> findItemsByCode(String itemCode) {
 		return itemRepository.getAlternativeItemsDataByItemCode(itemCode);
 	}
-	
+
 
 	@Override
 	public List<AlternativeItemDTO> findItemsByGenericName(String itemGeneric) {
 		return itemRepository.getAlternativeItemsDataByItemGenericName(itemGeneric);
 	}
 
-	
+
 	@Override
 	public List<AlternativeItemDTO> findItemsByDesc(String itemdesc) {
 		return itemRepository.getAlternativeItemsDataByItemDesc(itemdesc);
 	}
-	
+
 	@Override
 	public List<AlternativeItemDTO> findItemsByName(String itemName) {
 		return itemRepository.getAlternativeItemsDataByItemName(itemName); 
-		/*return itemRepository.findAll(new Specification<ItemsModel>() {
-			
-			 
-			private static final long serialVersionUID = -2059726564132190131L;
-
-			@Override
-			public Predicate toPredicate(Root<ItemsModel> root, CriteriaQuery<?> query,
-					CriteriaBuilder criteriaBuilder) {
-				List<Predicate> predicates = new ArrayList<>();
-				if (!itemName.equals(null) && !itemName.equals("undefined") &&  !itemName.equals("")) {
-					
-					predicates.add(criteriaBuilder.or(criteriaBuilder.like(root.get("itemName"), itemName+"%")));
-				}
-				
-				return criteriaBuilder.or(predicates.toArray(new Predicate[predicates.size()]));
-			}
-		});*/
 	}
 
 	@Override
@@ -342,38 +304,35 @@ public class ItemServiceImpl implements ItemService {
 		Pageable limit = PageRequest.of(pageNumber,pageSize);
 		return itemRepository.findItemsByLimit(limit);
 	}
-	
+
 	@Override
 	public List<StockAdjustmentItemDTO> findItemsByLimitWithItemCode(Integer pageNumber, Integer pageSize) {
 		Pageable limit=PageRequest.of(pageNumber, pageSize);
 		return itemRepository.findItemsByLimitWithItemCode(limit);
 	}
-	
+
 	@Override
 	public List<StockAdjustmentItemDTO> findItemsByLimitWithItemGenericName(Integer pageNumber, Integer pageSize) {
-       Pageable limit=PageRequest.of(pageNumber, pageSize);
+		Pageable limit=PageRequest.of(pageNumber, pageSize);
 		return itemRepository.findItemsByLimitWithItemGenericName(limit);
 	}
-	
+
 	@Override
 	public List<StockAdjustmentItemDTO> findItemsByLimitWithItemDesc(Integer pageNumber, Integer pageSize) {
-   Pageable limit=PageRequest.of(pageNumber, pageSize);
-   
+		Pageable limit=PageRequest.of(pageNumber, pageSize);
 		return itemRepository.findItemsByLimitWithItemDesc(limit);
 	}
 
 
 	public List<ItemDTO> findAllByItemsSearch(String searchTerm) {
-	//	return itemRepository.getAllItemsDataByAnySearch(searchTerm);
 		return null;
-		}
+	}
 
 	@Override
 	public Integer findItemsCountBySearch(String searchTerm,String searchType) {
 		if(searchType.equalsIgnoreCase("item code"))
 		{
 			return itemRepository.getCountOfItemsByItemCode(searchTerm);
-			
 		}
 		else if(searchType.equalsIgnoreCase("item name") )
 		{
@@ -390,10 +349,6 @@ public class ItemServiceImpl implements ItemService {
 		else {
 			return itemRepository.getAllCountOfItems();
 		}
-		//return null;
 	}
 
-	
-
-	
 }

@@ -14,7 +14,8 @@ public interface PharmacyRepository extends JpaRepository<PharmacyModel,Integer>
 
   	List<PharmacyModel> findByActiveS(Character active);
   	
-  	List<PharmacyModel> findAllByOrderByLastUpdateTimestampDesc();
+  	@Query("select p from pharmacy p where p.activeS='Y' order by p.lastUpdateTimestamp desc ")
+  	List<PharmacyModel> findAllLastestRecords();
 
   	@Query("select p from pharmacy p where p.pharmacyName like :pharmacyName% or p.addressLine1 like :pharmacyName%")
 	List<PharmacyModel> findByPharmacyNameContains(@Param("pharmacyName")String pharmacyName);

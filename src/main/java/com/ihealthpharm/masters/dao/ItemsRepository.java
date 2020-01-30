@@ -22,9 +22,10 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 
 	public List<ItemsModel> findByActiveS(String s);
 
-	List<ItemsModel> findAllByOrderByLastUpdateTimestampDesc();
+	@Query("SELECT i FROM items i where i.activeS='Y' order by i.lastUpdateTimestamp desc")
+	List<ItemsModel> findAllLastestRecords();
 
-	@Query("select i from items i where i.itemName like :searchTerm% order by i.creationTimeStamp desc")
+	@Query("select i from items i where i.itemName like :searchTerm% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	List<ItemsModel> findAllByItemNameSearch(@Param("searchTerm") String searchTerm);
 
 	@Query("select i from items i where i.medicalOrNonMedical =:medicalOrNonMedical and i.itemName like %:searchTerm% order by i.creationTimeStamp desc")
@@ -33,11 +34,11 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 	@Query("select i from items i where i.medicalOrNonMedical =:medicalOrNonMedical and i.itemDescription like %:searchTerm% order by i.creationTimeStamp desc")
 	List<ItemsModel> findAllByMedicalAndItemDesc(@Param("medicalOrNonMedical")String medicalOrNonMedical,@Param("searchTerm")String searchTerm);
 
-	@Query("select i from items i where i.itemDescription like %:searchTerm% order by i.creationTimeStamp desc")
+	@Query("select i from items i where i.itemDescription like %:searchTerm% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	List<ItemsModel> findAllByItemDescription(@Param("searchTerm") String searchTerm);
 
 	@Query("select i from items i inner join com.ihealthpharm.masters.model.ItemGenericNamesModel ig on i.itemGenericName.itemGenericNameId=ig.itemGenericNameId "
-			+ "where ig.genericName like %:searchTerm%")
+			+ "where ig.genericName like %:searchTerm% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	List<ItemsModel> findByItemGenericName(@Param("searchTerm") String searchTerm);
 
 	List<ItemsModel> findByItemGroup(ItemGroupModel groupCode);
@@ -46,7 +47,7 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 
 	@Query("select i from items i inner join com.ihealthpharm.masters.model.ItemGenericNamesModel ig on "
 			+ "i.itemGenericName.itemGenericNameId=ig.itemGenericNameId "
-			+ "where i.itemDescription like %:searchTerm% OR  i.itemCode like %:searchTerm% OR  i.itemName like %:searchTerm% or ig.genericName like %:searchTerm%")
+			+ "where i.itemDescription like %:searchTerm% OR  i.itemCode like %:searchTerm% OR  i.itemName like %:searchTerm% or ig.genericName like %:searchTerm% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	public List<ItemsModel> findByItemCodeOrItemNameOrItemDescription(@Param("searchTerm") String searchTerm);
 
 	public List<ItemsModel> findFirst100ByOrderByItemCode();
@@ -55,8 +56,7 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 
 	public List<ItemsModel> findByItemGenericNameContains(ItemGenericNamesModel genericRes);
 
-
-	@Query("select new com.ihealthpharm.masters.dto.ItemDTO(i.itemId,i.medicalOrNonMedical,i.itemCode,i.itemName,i.itemDescription,i.drugDose) from items i")
+	@Query("select new com.ihealthpharm.masters.dto.ItemDTO(i.itemId,i.medicalOrNonMedical,i.itemCode,i.itemName,i.itemDescription,i.drugDose) from items i where i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	 List<ItemDTO> findItemsByLimit(Pageable pageable);
 
 	@Query("select new com.ihealthpharm.stock.dto.StockAdjustmentItemDTO(i.itemId,i.itemCode) from items i")
@@ -67,62 +67,53 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 	
 	@Query("select new com.ihealthpharm.stock.dto.StockAdjustmentItemDTO(i.itemId,ig.genericName) from items i inner join items_generic_names ig on i.itemGenericName=ig.itemGenericNameId")
 	 List<StockAdjustmentItemDTO> findItemsByLimitWithItemGenericName(Pageable limit);
-
-
-	/*i.itemId,i.medicalOrNonMedical,i.itemCode,i.itemName,i.drugDose,*/
-
+	
 	@Query("select new com.ihealthpharm.masters.dto.ItemDTO(i.itemId,i.medicalOrNonMedical,i.itemCode,i.itemName,i.itemDescription,i.drugDose) from items i  "
-			+ "where  i.itemName like :searchTerm%")
+			+ "where  i.itemName like :searchTerm% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	List<ItemDTO> getAllItemsDataByItemName(@Param("searchTerm")String searchTerm, Pageable pageable);
 
 	@Query("select new com.ihealthpharm.masters.dto.ItemDTO(i.itemId,i.medicalOrNonMedical,i.itemCode,i.itemName,i.itemDescription,i.drugDose) from items i  "
-			+ "where  i.itemCode like :searchTerm%")
+			+ "where  i.itemCode like :searchTerm% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	List<ItemDTO> getAllItemsDataByItemCode(@Param("searchTerm")String searchTerm, Pageable pageable);
 
 	@Query("select new com.ihealthpharm.masters.dto.ItemDTO(i.itemId,i.medicalOrNonMedical,i.itemCode,i.itemName,i.itemDescription,i.drugDose) from items i  "
-			+ "where  i.itemDescription like %:searchTerm%")
+			+ "where  i.itemDescription like %:searchTerm% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	List<ItemDTO> getAllItemsDataByItemDescription(@Param("searchTerm")String searchTerm, Pageable pageable);
 
 	@Query("select new com.ihealthpharm.masters.dto.ItemDTO(i.itemId,i.medicalOrNonMedical,i.itemCode,i.itemName,i.itemDescription,i.drugDose) from items i  "
-			+ "where  i.itemGenericName.genericName like %:searchTerm%")
+			+ "where  i.itemGenericName.genericName like %:searchTerm% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	List<ItemDTO> getAllItemsDataByItemGenericName(@Param("searchTerm")String searchTerm, Pageable pageable);
 
 	@Query("select new com.ihealthpharm.masters.dto.AlternativeItemDTO(i.itemId,i.itemName) from items i  "
-			+ "where  i.itemName like :searchTerm%")
+			+ "where  i.itemName like :searchTerm% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	List<AlternativeItemDTO> getAlternativeItemsDataByItemName(@Param("searchTerm") String searchTerm);
 
 	@Query("select new com.ihealthpharm.masters.dto.AlternativeItemDTO(i.itemId,i.itemCode) from items i  "
-			+ "where  i.itemCode like :itemCode%")
+			+ "where  i.itemCode like :itemCode% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	 List<AlternativeItemDTO> getAlternativeItemsDataByItemCode(@Param("itemCode") String itemCode);
 	
 	@Query("select new com.ihealthpharm.masters.dto.AlternativeItemDTO(i.itemId,i.itemDescription) from items i  "
-			+ "where  i.itemDescription like :itemdesc%")
+			+ "where  i.itemDescription like :itemdesc% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	List<AlternativeItemDTO> getAlternativeItemsDataByItemDesc(@Param("itemdesc") String itemdesc);
 
 	@Query("select new com.ihealthpharm.masters.dto.AlternativeItemDTO(i.itemId,ig.genericName) from items i "
 			+ " inner join items_generic_names ig on i.itemGenericName=ig.itemGenericNameId "
-			+ "where  ig.genericName like :itemGeneric%")
+			+ "where  ig.genericName like :itemGeneric% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
     List<AlternativeItemDTO> getAlternativeItemsDataByItemGenericName(@Param("itemGeneric")String itemGeneric);
 	
-	@Query("select count(i) from items i where i.itemName like :searchTerm%")
+	@Query("select count(i) from items i where i.itemName like :searchTerm% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	public Integer getCountOfItemsByItemName(@Param("searchTerm") String searchTerm);
 
-	@Query("select count(i) from items i where i.itemCode like :searchTerm%")
+	@Query("select count(i) from items i where i.itemCode like :searchTerm% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	public Integer getCountOfItemsByItemCode(@Param("searchTerm") String searchTerm);
 
-	@Query("select count(i) from items i where i.itemDescription like :searchTerm%")
+	@Query("select count(i) from items i where i.itemDescription like :searchTerm% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	public Integer getCountOfItemsByItemDescription(@Param("searchTerm") String searchTerm);
 
-	@Query("select count(i) from items i where i.itemGenericName.genericName like :searchTerm%")
+	@Query("select count(i) from items i where i.itemGenericName.genericName like :searchTerm% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	public Integer getCountOfItemsByItemGenericName(@Param("searchTerm") String searchTerm);
 
 	@Query("select count(i) from items i order by i.itemCode")
 	public Integer getAllCountOfItems();
-
-
-
-	
-
-	
 	
 }
