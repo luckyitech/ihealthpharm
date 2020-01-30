@@ -49,7 +49,6 @@ public class ItemGroupController {
 		return new BaseDto<>(itemModelRes,itemGroupHelper.getUpdateItemGroupMessage(),OK).respond();
 	}
 	
-	
 	@PutMapping("/update/itemgroups")
 	public ResponseEntity<BaseDto<List<ItemGroupModel>>> updateItemsGroupData(@Valid @RequestBody List<ItemGroupModel> itemGroupModels) {
 		log.info("Request Object for update is: "+ itemGroupModels);
@@ -92,9 +91,7 @@ public class ItemGroupController {
 	
 	@GetMapping("/getallitemgroupsdata")
 	public ResponseEntity<BaseDto<List<ItemGroupModel>>> getAllItemGroupdata(@RequestParam String medicalOrNonMedical,@RequestParam String searchTerm) {
-		log.info(medicalOrNonMedical + " "+searchTerm);
 		List<ItemGroupModel> result = itemGroupService.findAllItemGroupData(medicalOrNonMedical, searchTerm);
-		log.info(result.toString());
 		return new BaseDto<>(result, itemGroupHelper.getRetrieveItemGroupMessage(), OK).respond();
 	}
 }

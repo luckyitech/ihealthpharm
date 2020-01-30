@@ -41,9 +41,7 @@ public class PharmaAccessServiceImpl implements PharmaAccessService {
 
 	@Override
 	public PharmaAccessModel findPharmaAccessDataById(Integer pharmaAccessId) {
-		
 		PharmaAccessModel pharmaAccessRes = getValidPharmaAccess(pharmaAccessId);
-		
 		if (!Objects.nonNull(pharmaAccessRes)) {
 			throw new IHealthPharmException(pharmaAccessHelper.getNotFoundPharmaAccessMessage(), HttpStatus.NOT_FOUND);
 		}
@@ -53,10 +51,8 @@ public class PharmaAccessServiceImpl implements PharmaAccessService {
 
 	@Override
 	public List<PharmaAccessModel> findAllPharmaAccessData() {
-		
 		log.info(pharmaAccessHelper.retrievePharmaAccessMessage);
-		
-		return pharmaAccessRepository.findAll();
+		return pharmaAccessRepository.findAllLatestRecords();
 	}
 
 	@Override
@@ -69,7 +65,6 @@ public class PharmaAccessServiceImpl implements PharmaAccessService {
 	@Override
 	public PharmaAccessModel updatePharmaAccessData(PharmaAccessModel pharmaAccessModel) {
 		PharmaAccessModel pharmaAccessRes = getValidPharmaAccess(pharmaAccessModel.getPharmaAccessId());
-		
 		if (!Objects.nonNull(pharmaAccessRes)) {
 			throw new IHealthPharmException(pharmaAccessHelper.getNotFoundPharmaAccessMessage(), HttpStatus.NOT_FOUND);
 		}

@@ -10,9 +10,10 @@ import com.ihealthpharm.masters.model.UnitOfMeasurementModel;
 
 public interface UnitOfMeasurementRepository extends JpaRepository<UnitOfMeasurementModel, Integer> {
 	
-	List<UnitOfMeasurementModel> findAllByOrderByLastUpdateTimestampDesc();
+	@Query("SELECT u FROM unit_of_measurement u where u.activeS='Y' order by u.lastUpdateTimestamp desc")
+	List<UnitOfMeasurementModel> getAllLastestRecordsWithActive();
 	
-	@Query("select i from unit_of_measurement i where i.measurementName like :searchTerm%")
+	@Query("select i from unit_of_measurement i where i.measurementName like :searchTerm% and i.activeS='Y' order by i.lastUpdateTimestamp desc ")
 	List<UnitOfMeasurementModel> findAllBySearchCriteria(@Param("searchTerm") String searchTerm);
 
 	List<UnitOfMeasurementModel> findByActiveS(String string);

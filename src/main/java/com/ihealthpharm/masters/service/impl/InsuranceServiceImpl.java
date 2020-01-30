@@ -42,7 +42,7 @@ public class InsuranceServiceImpl implements InsuranceService  {
 
 	@Override
 	public List<InsuranceModel> findAllByInsurances() {
-		return insuranceRepo.findAllByOrderByLastUpdateTimestampDesc();
+		return insuranceRepo.findAllLastestRecords();
 	}
 
 	@Override
@@ -61,9 +61,7 @@ public class InsuranceServiceImpl implements InsuranceService  {
 	@Override
 	public List<InsuranceModel> updateMultipleInsurances(@Valid List<InsuranceModel> insuranceModels) {
 		insuranceModels = insuranceRepo.saveAll(insuranceModels);
-
 		log.info("Multiple Insurance data  updated succesfully");
-
 		return insuranceModels;
 
 	}
@@ -118,13 +116,11 @@ public class InsuranceServiceImpl implements InsuranceService  {
 
 	@Override
 	public InsuranceModel findInsuranceByPolicyCode(String policyCode) {
-		
 		return insuranceRepo.findByPolicyCode(policyCode);
 	}
 
 	@Override
 	public List<InsuranceModel> findInsuranceByPolicyCodeOrPolicyDescription(String searchTerm) {
-		
 		return insuranceRepo.findByPolicyCodeOrPolicyDescription(searchTerm);
 	}
 

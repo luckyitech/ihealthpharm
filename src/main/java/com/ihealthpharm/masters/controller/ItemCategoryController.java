@@ -29,13 +29,11 @@ import lombok.extern.slf4j.Slf4j;
 @CrossOrigin
 public class ItemCategoryController {
 
-	
 	@Autowired
 	private ItemCategoryService itemCategoryService;
 	
 	@Autowired
 	private ItemCategoryHelper itemCategoryHelper;
-	
 	
 	@PostMapping("/save/itemcategory")
 	public ResponseEntity<BaseDto<ItemCategoryModel>> insertItemCategoryData(@Valid @RequestBody ItemCategoryModel itemCategoryModel) {
@@ -83,7 +81,6 @@ public class ItemCategoryController {
 		return new BaseDto<>(result, itemCategoryHelper.getRetrieveItemCategoryMessage(), OK).respond();
 	}
 	
-
 	@GetMapping("/getactiveitemcategoriesdata")
 	public ResponseEntity<BaseDto<List<ItemCategoryModel>>> getItemCategorydata() {
 		List<ItemCategoryModel> result = itemCategoryService.findItemCategoryByActive();

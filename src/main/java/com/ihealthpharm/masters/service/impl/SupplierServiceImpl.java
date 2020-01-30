@@ -50,7 +50,6 @@ public class SupplierServiceImpl implements SupplierService {
 		if (!Objects.nonNull(supplierRes)) {
 			throw new IHealthPharmException(supplierHelper.getNotFoundSupplierMessage(), HttpStatus.NOT_FOUND);
 		}
-
 		supplierRes = supplierRepository.save(supplierModel);
 		log.info("Supplier data with ID : " + supplierRes.getSupplierId() + " updated succesfully");
 		return supplierRes;
@@ -58,7 +57,6 @@ public class SupplierServiceImpl implements SupplierService {
 
 	@Override
 	public List<SupplierModel> findSupplierByActive() {
-
 		return supplierRepository.findByActiveS('Y');
 	}
 
@@ -74,7 +72,6 @@ public class SupplierServiceImpl implements SupplierService {
 
 	@Override
 	public void deleteSupplierById(Integer supplierId) {
-
 		SupplierModel supplierRes = getValidSupplier(supplierId);
 		if (!Objects.nonNull(supplierRes)) {
 			throw new IHealthPharmException(supplierHelper.getNotFoundSupplierMessage(), HttpStatus.NOT_FOUND);
@@ -85,7 +82,6 @@ public class SupplierServiceImpl implements SupplierService {
 
 	public SupplierModel getValidSupplier(int supplierId) {
 		SupplierModel distrubutorRes = null;
-
 		try {
 			distrubutorRes = supplierRepository.findById(supplierId).get();
 			return distrubutorRes;
@@ -96,13 +92,11 @@ public class SupplierServiceImpl implements SupplierService {
 
 	@Override
 	public List<SupplierModel> updateSuppliersData(List<SupplierModel> supplierModels) {
-
 		for (SupplierModel supplier : supplierModels) {
 			SupplierModel distrubutorRes = getValidSupplier(supplier.getSupplierId());
 			if (!Objects.nonNull(distrubutorRes)) {
 				throw new IHealthPharmException(supplierHelper.getNotFoundSupplierMessage(), HttpStatus.NOT_FOUND);
 			}
-
 			distrubutorRes = supplierRepository.save(supplier);
 			log.info("Supplier data with ID : " + distrubutorRes.getSupplierId() + " updated succesfully");
 		}
@@ -120,12 +114,11 @@ public class SupplierServiceImpl implements SupplierService {
 			supplierRepository.delete(supplierRes);
 			log.info("distrubutor data with ID: " + supplierRes.getSupplierId() + " deleted succesfully");
 		}
-
 	}
 
 	@Override
 	public List<SupplierModel> findAllSuppliers() {
-		return supplierRepository.findAllByOrderByLastUpdateTimestampDesc();
+		return supplierRepository.findAllLastestRecords();
 	}
 
 	@Override
@@ -137,8 +130,6 @@ public class SupplierServiceImpl implements SupplierService {
 	public List<SupplierModel> findLimitedSuppliers() {
 		return supplierRepository.findFirst100ByOrderByName();
 	}
-	
-	
 	
 	@Override
 	public List<SupplierModel> findSuppliersByName(String name) {
@@ -154,10 +145,8 @@ public class SupplierServiceImpl implements SupplierService {
 					CriteriaBuilder criteriaBuilder) {
 				List<Predicate> predicates = new ArrayList<>();
 				if (!name.equals(null) && !name.equals("undefined") &&  !name.equals("")) {
-					
 					predicates.add(criteriaBuilder.or(criteriaBuilder.like(root.get("name"), name+"%")));
 				}
-				
 				return criteriaBuilder.or(predicates.toArray(new Predicate[predicates.size()]));
 			}
 		});
@@ -166,8 +155,6 @@ public class SupplierServiceImpl implements SupplierService {
 	@Override
 	public List<SupplierModel> findSuppliersBySearch(String name, Integer pageNumber, Integer pageSize) {
 		Pageable limit = PageRequest.of(pageNumber,pageSize);
-		
 		return supplierRepository.getAllSuppliersBySearch(name,limit);
 	}
-
 }

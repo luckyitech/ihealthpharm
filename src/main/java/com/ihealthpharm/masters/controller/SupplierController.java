@@ -86,14 +86,12 @@ public class SupplierController {
 	@GetMapping("/getallsuppliersdata") 
 	public ResponseEntity<BaseDto<List<SupplierModel>>> getAllSupplierdata() {
 		List<SupplierModel> result = supplierService.findAllSuppliers();
-		
 		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
 	}
 	
 	@GetMapping("/getlimitedsuppliersdata") 
 	public ResponseEntity<BaseDto<List<SupplierModel>>> getLimitedSupplierdata() {
 		List<SupplierModel> result = supplierService.findLimitedSuppliers();
-		
 		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
 	}
 
@@ -120,19 +118,15 @@ public class SupplierController {
 	
 	@GetMapping("/getsuppliersdatabyname")
 	public ResponseEntity<BaseDto<List<SupplierModel>>> getSuppliersDataByName(@RequestParam("key") String name) {
-		
 		List<SupplierModel> result = supplierService.findSuppliersByName(name);
-		log.info(result.toString());
 		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
 	}
 
 	@GetMapping("/getsuppliersdatabysearch")
 	public ResponseEntity<BaseDto<List<SupplierModel>>> getSuppliersDataBySearch(@RequestParam("key") String name,
 			@RequestParam("pageNumber") Integer pageNumber,@RequestParam("limit") Integer pageSize) {
-		
 		List<SupplierModel> result = supplierService.findSuppliersBySearch(name,pageNumber,pageSize);
 		log.info(result.toString());
 		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
 	}
-
 }

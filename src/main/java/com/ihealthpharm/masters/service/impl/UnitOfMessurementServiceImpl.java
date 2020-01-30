@@ -105,7 +105,7 @@ public class UnitOfMessurementServiceImpl implements UnitOfMessurementService {
 
 	@Override
 	public List<UnitOfMeasurementModel> findAllMeasurements() {
-		return uomRepository.findAllByOrderByLastUpdateTimestampDesc();
+		return uomRepository.getAllLastestRecordsWithActive();
 	}
 
 	
