@@ -2,6 +2,7 @@ package com.ihealthpharm.reports.helper;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -55,6 +56,7 @@ public class AccountPayablespdf extends ReportsPDFUtility{
 	}
 
 	private void generateTotalTable(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException {
+		DecimalFormat df=new DecimalFormat("0.00");
 		double totalAmtpaid;
 		double totalAmtToBePaid;
 		totalAmtpaid  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("TOTAL_AMOUNT_PAID") && !ObjectUtils.isEmpty(mapper.get("TOTAL_AMOUNT_PAID"))) ?String.valueOf(mapper.get("TOTAL_AMOUNT_PAID")):"0")).sum();  
@@ -66,7 +68,10 @@ public class AccountPayablespdf extends ReportsPDFUtility{
 		totalQtyTable.setLockedWidth(true);
 		totalQtyTable.getDefaultCell().setBorder(0); 
 		
-		PdfPCell nameCell = new PdfPCell(new Phrase("Total Amount Paid"+" "+" : "+"	"+totalAmtpaid, title08)); 
+		String totAmountPaid=df.format(totalAmtpaid);
+		Double totalPaid=Double.parseDouble(totAmountPaid);
+		
+		PdfPCell nameCell = new PdfPCell(new Phrase("Total Amount Paid"+" "+" : "+"	"+totalPaid, title08)); 
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell.setVerticalAlignment(Element.ALIGN_TOP);
@@ -193,7 +198,7 @@ public class AccountPayablespdf extends ReportsPDFUtility{
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("AMOUNT TO BE APID");
+			headerCell.add("AMOUNT TO BE PAID");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
