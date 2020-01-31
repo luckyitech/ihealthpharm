@@ -17,7 +17,6 @@ public class EmployeeTypeServiceImpl implements EmployeeTypeService{
 
 	@Override
 	public List<EmployeeTypeModel> getAllEmployeeTypes() {
-		
 		return employeeTypeRepository.findAll();
 	}
 }

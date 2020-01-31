@@ -15,10 +15,10 @@ import com.ihealthpharm.masters.model.CustomerModel;
 public interface CustomerRepository extends JpaRepository<CustomerModel,Integer>
 {
 	List<CustomerModel> findByActiveS(Character active);
-	
-	 List<CustomerModel> findAllByOrderByLastUpdateTimestampDesc();
 
-	 @Query("SELECT new com.ihealthpharm.masters.model.CustomerModel(c.customerId, concat(c.customerName,' ', c.lastName) as customerName,phoneNumber)  FROM customer c")
+	List<CustomerModel> findAllByOrderByLastUpdateTimestampDesc();
+
+	@Query("SELECT c  FROM customer c where c.activeS='Y' order by c.lastUpdateTimestamp desc ")
 	List<CustomerModel> findFirst100ByOrderByCustomerNameAsc(Pageable limit);
 
 	List<CustomerModel> findByCustomerNameIgnoreCaseContaining(String customerName);
@@ -34,5 +34,5 @@ public interface CustomerRepository extends JpaRepository<CustomerModel,Integer>
 
 	@Query("select  c from customer c where c.customerName like  :customerName% or c.lastName like :customerName% or c.phoneNumber like :customerName%")
 	List<CustomerModel> findCustomerBySearchingName(@Param("customerName") String customerName);
-	
+
 }

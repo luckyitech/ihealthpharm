@@ -69,26 +69,22 @@ public class PharmacyServiceImpl implements PharmacyService {
 
 	@Override
 	public List<PharmacyModel> findPharmacyByActive() {
-
 		return pharmacyRepository.findByActiveS('Y');
 	}
 
 	@Override
 	public PharmacyModel findPharmacyById(Integer pharmacyId) {
-
 		PharmacyModel pharmacyModelRes=getValidPharmacy(pharmacyId);
 		if(!Objects.nonNull(pharmacyModelRes)){
 			throw new IHealthPharmException(pharmacyHelper.getNotFoundPharmacyMessage(),HttpStatus.NOT_FOUND);
 		}
 		
 		log.info("Pharmacy data with ID:"+pharmacyModelRes.getPharmacyId()+"retrieved successfully");
-		
 		return pharmacyModelRes;
 	}
 
 	@Override
 	public void deletePharmacyById(Integer pharmacyId) {
-	
 		PharmacyModel pharmacyModelRes=getValidPharmacy(pharmacyId);
 		if(!Objects.nonNull(pharmacyModelRes)){
 			throw new IHealthPharmException(pharmacyHelper.notFoundPharmacyMessage, HttpStatus.NOT_FOUND);
@@ -100,7 +96,6 @@ public class PharmacyServiceImpl implements PharmacyService {
 	
 	private PharmacyModel getValidPharmacy(int pharmacyId){
 		PharmacyModel pharmacyRes=null;
-		
 		try{
 			pharmacyRes=pharmacyRepository.findById(pharmacyId).get();
 			
@@ -129,7 +124,7 @@ public class PharmacyServiceImpl implements PharmacyService {
 
 	@Override
 	public List<PharmacyModel> getAllPharmacies() {
-		List<PharmacyModel> response=pharmacyRepository.findAllByOrderByLastUpdateTimestampDesc();
+		List<PharmacyModel> response=pharmacyRepository.findAllLastestRecords();
 		return response;
 	}
 

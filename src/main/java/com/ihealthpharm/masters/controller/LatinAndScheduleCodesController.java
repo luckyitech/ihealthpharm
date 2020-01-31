@@ -23,13 +23,11 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class LatinAndScheduleCodesController {
 	
-	
 	@Autowired
 	private LatinAndScheduleCodesService latinAndScheduleCodesService;
 	
 	@Autowired
 	private LatinAndScheduleCodesHelper latinAndScheduleHelper;
-	
 	
 	@GetMapping("/getall/latincodes")
 	public ResponseEntity<BaseDto<List<LatinShortCodesModel>>> getAllLatinCodesData() {
@@ -44,5 +42,11 @@ public class LatinAndScheduleCodesController {
 		List<ScheduleCodeModel> result = latinAndScheduleCodesService.findAllScheduleCodes();
 		return new BaseDto<>(result, latinAndScheduleHelper.getRetrieveScheduleCodeMessage(), OK).respond();
 	}
-
+	
+	/*@GetMapping("/getconcatenatecode")
+	public ResponseEntity<BaseDto<List<LatinShortCodesModel>>> getConcatenateByLatinCode() {
+		List<LatinShortCodesModel> result=latinAndScheduleCodesService.findConcatenateCode();
+		return new BaseDto<>(result, latinAndScheduleHelper.getRetrieveLatinCodeMessage(), OK).respond();
+	}*/
+	
 }

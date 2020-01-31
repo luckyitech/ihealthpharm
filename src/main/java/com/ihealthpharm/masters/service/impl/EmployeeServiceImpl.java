@@ -57,7 +57,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public List<EmployeeModel> findAllEmployees() {
-		return employeeRepository.findAllByOrderByLastUpdateTimestampDesc();
+		return employeeRepository.findAllLastUpdatedTimestampRecords();
 	}
 
 	@Override

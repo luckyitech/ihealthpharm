@@ -37,7 +37,6 @@ public class PharmacyController {
 	
 	@Autowired
 	private PharmacyHelper pharmacyHelper;
-	
 
 	@PostMapping("/save/pharmacywithlogo")
 	public ResponseEntity<BaseDto<PharmacyModel>> insertPharmacyData(@Valid @RequestParam("pharmacyModel") String pharmacyData,@RequestParam("pharmacyLogoPath") MultipartFile pharmacyLogoPath){

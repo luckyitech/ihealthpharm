@@ -11,4 +11,6 @@ public interface LatinAndScheduleCodesService {
 	
 	List<ScheduleCodeModel> findAllScheduleCodes();
 	
+	//List<LatinShortCodesModel> findConcatenateCode();
+	
 }

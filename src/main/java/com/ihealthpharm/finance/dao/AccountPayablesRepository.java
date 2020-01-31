@@ -22,13 +22,11 @@ public interface AccountPayablesRepository extends JpaRepository<AccountPayables
 	@Query("select i from invoice i where i.invoiceNo=:invoiceNo")
 	List<InvoiceModel> getInvoiceBasedOnInvoiceSearch(@Param("invoiceNo")String invoiceNo);
 	
-
 	@Query("SELECT distinct ap.paymentNumber from ACCOUNT_PAYABLES ap order by ap.paymentNumber")
 	List<String> findAllPaymentNoINAP();
 
 	@Query("SELECT distinct ap.paymentNumber from ACCOUNT_PAYABLES ap where ap.paymentNumber like :PNo%")
 	List<String> findPaymentNosBySearch(@Param("PNo") String PNo);
-	
 
 	@Query("select ap from ACCOUNT_PAYABLES ap group by ap.customerName")
 	List<AccountPayablesModel> getAllAccountPayables();
@@ -36,16 +34,15 @@ public interface AccountPayablesRepository extends JpaRepository<AccountPayables
 	@Query("select ap from ACCOUNT_PAYABLES ap where ap.customerName=:customerName")
 	List<AccountPayablesModel> getAllAccountPayablesByCustomer(@Param("customerName")String customerName);
 	
-	@Query("select ap from ACCOUNT_PAYABLES ap where ap.supplierName=:supplierName")
+	@Query("select ap from ACCOUNT_PAYABLES ap where  ap.activeS='Y' and  ap.supplierName=:supplierName ")
 	List<AccountPayablesModel> getAllAccountPayablesBySupplier(@Param ("supplierName")String supplierName);
 	
-	@Query("select ap from ACCOUNT_PAYABLES ap group by ap.supplierName")
+	@Query("select ap from ACCOUNT_PAYABLES ap where ap.activeS='Y' group by ap.supplierName")
 	List<AccountPayablesModel> findAllAccountPayablesForSuppliers();
 	
-	@Query("select a from ACCOUNT_PAYABLES a  where a.supplierName like :supplierName%  group by a.supplierName")
+	@Query("select a from ACCOUNT_PAYABLES a  where a.supplierName like :supplierName% and a.activeS='Y' group by a.supplierName")
 	List<AccountPayablesModel> getAllPayablesBasedOnSuppierSearch(@Param ("supplierName")String supplierName);
 
-	
 	@Query("select count(paymentDate) from ACCOUNT_PAYABLES where selectedPaymentStatus='pending'")
 	Integer getPending();
 	
@@ -54,6 +51,4 @@ public interface AccountPayablesRepository extends JpaRepository<AccountPayables
 	
 	@Query("select count(paymentDate) from ACCOUNT_PAYABLES where selectedPaymentStatus='paid'")
 	Integer getPaid();
-	
-	
 }
