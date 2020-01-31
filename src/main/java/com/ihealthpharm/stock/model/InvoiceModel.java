@@ -173,6 +173,9 @@ public class InvoiceModel extends AuditModel {
 	@Column(name="TOTAL_REJECTS")
 	private Integer totalRejects;
 	
+	@Column(name="INVOICE_DESC")
+	private String reason;
+	
 	@Transient
 	private PurchaseReturnModel purchaseReturnModel;
 	
