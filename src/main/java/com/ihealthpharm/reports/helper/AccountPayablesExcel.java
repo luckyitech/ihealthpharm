@@ -148,7 +148,7 @@ public class AccountPayablesExcel extends ReportsExcelUtility{
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(7);
-			cell.setCellValue("AMOUNT TO BE APID");
+			cell.setCellValue("AMOUNT TO BE PAID");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(8);
