@@ -15,9 +15,10 @@ public interface ItemGroupRepository extends JpaRepository<ItemGroupModel, Seria
 
 	List<ItemGroupModel> findByActiveS(String s);
 	
-	List<ItemGroupModel> findAllByOrderByLastUpdateTimestampDesc();
+	@Query("SELECT g FROM items_group g where g.activeS='Y' order by g.lastUpdateTimestamp  desc")
+	List<ItemGroupModel> findAllLastUpdateTimestampRecords();
 	
-	@Query("select i from items_group i where i.medicalOrNonMedical = :medicalOrNonMedical and i.groupName like :searchTerm% ")
+	@Query("select i from items_group i where i.medicalOrNonMedical = :medicalOrNonMedical and i.groupName like :searchTerm% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	List<ItemGroupModel> findAllBySearchCriteria(@Param("medicalOrNonMedical") String medicalOrNonMedical,@Param("searchTerm") String searchTerm);
 	
 	ItemGroupModel findByGroupName(String searchTerm);

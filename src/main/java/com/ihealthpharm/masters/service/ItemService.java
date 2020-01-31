@@ -33,7 +33,6 @@ public interface ItemService {
 	// based on medical and itemDescription
 	List<ItemsModel> findAllByMedicalAndItemDesc(String medicalOrNonMedical,String searchTerm);
 
-
 	List<ItemsModel> findAllByItemName(String searchTerm);
 
 	List<ItemsModel> findAllByItemDescription(String searchTerm);
@@ -70,6 +69,4 @@ public interface ItemService {
 
 	List<StockAdjustmentItemDTO> findItemsByLimitWithItemGenericName(Integer start, Integer end);
 
-	
-	
 }

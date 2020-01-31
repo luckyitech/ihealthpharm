@@ -2,8 +2,6 @@ package com.ihealthpharm.masters.service;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.ihealthpharm.masters.model.SupplierModel;
 
 public interface SupplierService {

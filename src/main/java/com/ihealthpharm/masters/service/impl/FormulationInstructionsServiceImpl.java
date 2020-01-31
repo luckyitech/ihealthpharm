@@ -77,15 +77,13 @@ public class FormulationInstructionsServiceImpl implements FormulationInstructio
 	
 	@Override
 	public List<FormulationInstructionsModel> getAllFormulationInstructions() {
-	
-		List<FormulationInstructionsModel> response=formulationInstructionsRepository.findAllByOrderByLastUpdateTimestampDesc();
+		List<FormulationInstructionsModel> response=formulationInstructionsRepository.findAllLastUpdated();
 		return response;
 	}
 	
 
     @Override
 	public List<FormulationInstructionsModel> findFormulationInstructionsByActive() {
-
 		return formulationInstructionsRepository.findByActiveS('Y');
     }
     

@@ -208,7 +208,7 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 	private void addTotals(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException {
 		PdfPTable table = new PdfPTable(4);
 		table.setTotalWidth(Utilities.millimetersToPoints(80));
-		table.setSpacingAfter(10); 
+		table.setSpacingAfter(0); 
 		table.getDefaultCell().setBorder(0);
 		table.setLockedWidth(true);
 		
@@ -225,7 +225,9 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		double balanceAmt =Double.parseDouble(String.valueOf(responseList.get(0).get("BALANCE_AMOUNT")));
 		double paidAmt =Double.parseDouble(String.valueOf(responseList.get(0).get("PAID_AMOUNT")));
 		String servBy = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("FIRST_NM"));
+		String printedBy = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("SERVED_BY"));
 		String paymentStatus = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("PAYMENT_STATUS"));
+		String remarks = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("REMARKS"));
 		
 		/*for(Map<String, Object> obj:responseList) {
 			
@@ -321,23 +323,45 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		
 		cell = new PdfPCell(new Phrase("Serv By     :",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-		cell.setBorder(Rectangle.BOTTOM);
+		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
 		cell = new PdfPCell(new Phrase(servBy,bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-		cell.setBorder(Rectangle.BOTTOM);
+		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
 		cell = new PdfPCell(new Phrase("Paid Status:",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-		cell.setBorder(Rectangle.BOTTOM);
+		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
 		cell = new PdfPCell(new Phrase(paymentStatus,bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.NO_BORDER);
+		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase("Print By     :",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setBorder(Rectangle.BOTTOM);
 		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase(printedBy ,bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
+		table.addCell(cell);
+		
+		
+		cell = new PdfPCell(new Phrase("     "));
+	    cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
+		table.addCell(cell);
+	
+		cell = new PdfPCell(new Phrase("     "));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
+		table.addCell(cell);
+	
 		
 		cell = new PdfPCell(new Phrase("Tax Codes:",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -358,12 +382,24 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setBorder(Rectangle.BOTTOM);
 		table.addCell(cell);
-	
+		
 		table.completeRow();
 		
 		document.add(table);
 		
+		PdfPTable table_remarks = new PdfPTable(1);
+		table_remarks.setTotalWidth(Utilities.millimetersToPoints(80));
+		table_remarks.getDefaultCell().setBorder(0);
+		table_remarks.setLockedWidth(true);
 		
+		cell = new PdfPCell(new Phrase("Remarks   :  " + remarks ,bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
+		table_remarks.addCell(cell);
+		
+		table_remarks.completeRow();
+		
+		document.add(table_remarks);
 	}
 
 	private void addBillDetails(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException {
@@ -434,6 +470,7 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		cell = new PdfPCell(new Phrase());
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setBorder(Rectangle.BOTTOM);
+	
 		table.addCell(cell); 
 		table.completeRow();
 		

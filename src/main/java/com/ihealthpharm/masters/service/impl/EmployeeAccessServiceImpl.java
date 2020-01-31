@@ -2,7 +2,6 @@ package com.ihealthpharm.masters.service.impl;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,7 +45,7 @@ public class EmployeeAccessServiceImpl implements EmployeeAccessService {
 		for(Integer i=0; i<employeeAccessDto.getPharmaAccessids().length;i++) {
 			employeeAccessModel = new EmployeeAccessModel();
 			employeeAccessModel.setEmployeeModel(employeeAccessDto.getEmployee());
-			//employeeAccessModel.setPharmaAccessModel(employeeAccessDto.getPharmaAccessids()[i]);
+			employeeAccessModel.setPharmaAccessModel(employeeAccessDto.getPharmaAccessids()[i]);
 			if(employeeAccessDto.getFlag()[i])
 			{
 				employeeAccessModel.setActiveS('Y');
@@ -67,15 +66,6 @@ public class EmployeeAccessServiceImpl implements EmployeeAccessService {
 		employeeAccessRepository.deleteByEmployeeModel(employeeAccessDto.getEmployee().getEmployeeId());
 		for(Integer i=0; i<employeeAccessDto.getPharmaAccessids().length;i++) {
 			employeeAccessModel = new EmployeeAccessModel();
-//			Commented as permission is not mandatory			
-//			employeeAccessModel.setEmployeeAccessId(employeeAccessDto.getEmployeeAccessId()[i]);
-//			
-//			employeeAccessRes = getValidEmployeeAccess(employeeAccessModel.getEmployeeAccessId());
-//			
-//			if (!Objects.nonNull(employeeAccessRes)) {
-//				throw new IHealthPharmException("Employee Access Not Found",
-//						HttpStatus.NOT_FOUND);
-//			}
 			
 			employeeAccessModel.setEmployeeModel(employeeAccessDto.getEmployee());
 			

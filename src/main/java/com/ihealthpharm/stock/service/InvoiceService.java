@@ -10,7 +10,7 @@ public interface InvoiceService {
 
 	InvoiceModel saveInvoice(InvoiceModel invoiceModel, PurchaseReturnModel purchaseReturnModel);
 
-	InvoiceModel updateInvoice(InvoiceModel invoiceModel);
+	InvoiceModel updateInvoice(InvoiceModel invoiceModel,  PurchaseReturnModel purchaseReturnModel);
 
 	List<InvoiceModel> updateInvoices(List<InvoiceModel> invoiceModels);
 
@@ -44,5 +44,9 @@ public interface InvoiceService {
 	List<String> findInvoiceDtByInvoicePIR(String searchTerm);
 	
 	List<String> findAllInvoiceDtByInvoicePIR();
+
+	List<InvoiceModel> findAllInvoicesByPharmacyIdAndInvoiceSatusId(Integer pharmacyId, Integer invoiceStatusId,Integer pageNumber, Integer pageSize,String invoiceNo);
+
+	Integer findAllInvoicesByPharmacyIdAndInvoiceSatusIdCount(Integer pharmacyId, Integer invoiceStatusId,String invoiceNo);
 	
 }

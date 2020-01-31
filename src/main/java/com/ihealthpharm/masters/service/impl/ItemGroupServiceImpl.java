@@ -112,12 +112,10 @@ public class ItemGroupServiceImpl implements ItemGroupService {
 		}		
 		itemGroupRepository.delete(itemGroupModelRes);
 		log.info("ItemGroup data with ID: "+ itemGroupModelRes.getItemGroupId()+" deleted succesfully");
-
 	}
 
 	@Override
 	public void deleteMultipleItemGroupsById(Integer[] itemGroupIds) {
-
 		ItemGroupModel itemGroupRes;
 		for (int items : itemGroupIds) {
 			itemGroupRes = getValidItemGroup(items);
@@ -127,7 +125,6 @@ public class ItemGroupServiceImpl implements ItemGroupService {
 			itemGroupRepository.delete(itemGroupRes);
 			log.info("Manufacturer data with ID: " + itemGroupRes.getItemGroupId() + " deleted succesfully");
 		}
-
 	}
 
 
@@ -142,8 +139,7 @@ public class ItemGroupServiceImpl implements ItemGroupService {
 
 	@Override
 	public List<ItemGroupModel> findAllItemGroups() {
-
-		return itemGroupRepository.findAllByOrderByLastUpdateTimestampDesc();
+		return itemGroupRepository.findAllLastUpdateTimestampRecords();
 	}
 
 }

@@ -109,5 +109,7 @@ public class AccountReceivablesModel extends AuditModel{
 	
 	@Column(name="SUPPLIER_NAME")
 	private String supplierName;
-
+	
+	@Column(name="ACTIVE_S",length=1)
+    private Character activeS;
 }

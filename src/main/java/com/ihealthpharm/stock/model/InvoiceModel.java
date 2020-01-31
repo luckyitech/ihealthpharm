@@ -144,7 +144,10 @@ public class InvoiceModel extends AuditModel {
 	
 	@Column(name="PURCHASE_TAX_AMOUNT")
 	private Double purchaseTaxAmount;
-
+	
+	@Column(name="REJECTED_REASON")
+	private String rejectedReason;
+	
 	@Column(name="GRN_NO", length=20)
 	private String grnNo;
 
@@ -169,6 +172,9 @@ public class InvoiceModel extends AuditModel {
 	
 	@Column(name="TOTAL_REJECTS")
 	private Integer totalRejects;
+	
+	@Column(name="INVOICE_DESC")
+	private String reason;
 	
 	@Transient
 	private PurchaseReturnModel purchaseReturnModel;

@@ -57,7 +57,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public List<EmployeeModel> findAllEmployees() {
-		return employeeRepository.findAllByOrderByLastUpdateTimestampDesc();
+		return employeeRepository.findAllLastUpdatedTimestampRecords();
 	}
 
 	@Override
@@ -98,7 +98,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 		return employeeModels;
 	}
-
+	
+	
 	@Override
 	public void deleteEmployeesById(Integer[] employeeIds) {
 		EmployeeModel employeeRes;

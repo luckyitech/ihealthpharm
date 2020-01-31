@@ -48,7 +48,6 @@ public class PharmacyRolesServiceImpl implements PharmacyRolesService {
 
 	@Override
 	public List<PharmacyRolesModel> findAllPharmacyRolesData() {
-		
 		return pharmacyRolesRepository.findAll();
 	}
 

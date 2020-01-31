@@ -38,7 +38,6 @@ public class ProviderServiceImpl implements ProviderService {
 
 	@Override
 	public List<ProviderModel> findProviderByActive() {
-
 		return providerRepository.findByActiveS('Y');
 	}
 
@@ -54,13 +53,10 @@ public class ProviderServiceImpl implements ProviderService {
 
 	@Override
 	public ProviderModel updateProviderData(ProviderModel providerModel) {
-
 		ProviderModel providerModelRes = getValidProvider(providerModel.getProviderId());
-
 		if (!Objects.nonNull(providerModelRes)) {
 			throw new IHealthPharmException(providerHelper.getNotFoundProvideMessage(), HttpStatus.NOT_FOUND);
 		}
-
 		providerModelRes = providerRepository.save(providerModel);
 		log.info("Provider data with ID : " + providerModelRes.getProviderId() + " updated succesfully");
 		return providerModelRes;
@@ -69,7 +65,6 @@ public class ProviderServiceImpl implements ProviderService {
 	@Override
 	public ProviderModel findProviderById(Integer providerId) {
 		ProviderModel providerRes = getValidProvider(providerId);
-
 		if (!Objects.nonNull(providerRes)) {
 			throw new IHealthPharmException(providerHelper.getNotFoundProvideMessage(), HttpStatus.NOT_FOUND);
 		}
@@ -86,19 +81,15 @@ public class ProviderServiceImpl implements ProviderService {
 		} catch (NoSuchElementException noSuchElementException) {
 			throw new IHealthPharmException(providerHelper.getNotFoundProvideMessage(), HttpStatus.NOT_FOUND);
 		}
-
 	}
 
 	@Override
 	public List<ProviderModel> updateProvidersData(List<ProviderModel> providersModel) {
-
 		for (ProviderModel provider : providersModel) {
 			ProviderModel providerModelRes = getValidProvider(provider.getProviderId());
-
 			if (!Objects.nonNull(providerModelRes)) {
 				throw new IHealthPharmException(providerHelper.getNotFoundProvideMessage(), HttpStatus.NOT_FOUND);
 			}
-
 			providerModelRes = providerRepository.save(provider);
 			log.info("Provider data with ID : " + providerModelRes.getProviderId() + " updated succesfully");
 		}
@@ -120,19 +111,16 @@ public class ProviderServiceImpl implements ProviderService {
 
 	@Override
 	public List<ProviderModel> findAllProviders() {
-
-		return providerRepository.findAllByOrderByLastUpdateTimestampDesc();
+		return providerRepository.findAllLastestRecords();
 	}
 
 	@Override
 	public List<ProviderModel> findLimitProviders() {
-		
 		return providerRepository.findFirst100ByOrderByLastUpdateTimestampDesc();
 	}
 
 	@Override
 	public List<ProviderModel> findProvidersDataByName(String firstName) {
-		
 		return providerRepository.findByNameIgnoreCaseContaining(firstName);
 	}
 }

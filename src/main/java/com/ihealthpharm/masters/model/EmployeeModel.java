@@ -1,6 +1,5 @@
 package com.ihealthpharm.masters.model;
 
-import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,7 +14,6 @@ import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -29,6 +27,11 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(of="employeeId",callSuper=false)
 public class EmployeeModel extends AuditModel {
 
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4675546682807759949L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
