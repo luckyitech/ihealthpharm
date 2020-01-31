@@ -34,5 +34,12 @@ public class LatinAndScheduleCodesServiceImpl implements LatinAndScheduleCodesSe
 		
 		return scheduleRepo.findAllLatestRecords();
 	}
-
+	
+	/*@Override
+	public List<LatinShortCodesModel> findConcatenateCode() {
+	
+		
+		return latinRepository.findLatinCodeByConcatenate();
+	}
+*/
 }
