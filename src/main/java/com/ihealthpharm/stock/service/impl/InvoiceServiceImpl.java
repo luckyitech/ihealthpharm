@@ -111,6 +111,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 			accountPayablesModel.setSource(invoiceModelres.getInvoiceId().toString());
 			accountPayablesModel.setSourceRef(invoiceModelres.getGrnNo());
 			accountPayablesModel.setSourceType("Invoice");
+			accountPayablesModel.setActiveS('Y');
 			accountPayablesModel.setCreatedUser(invoiceModelres.getCreatedUser());
 			accountPayablesModel.setLastUpdateUser(invoiceModelres.getLastUpdateUser());
 
@@ -251,12 +252,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 		}
 		
 		invoiceModelres = invoiceRepository.save(invoiceModel);
-		log.info("--------------------------------------------------------------------------");
-		log.info("Status Id",invoiceModelres.getInvoiceStatus().getInvoiceStatusId());
-		log.info("--------------------------------------------------------------------------");
 		if (invoiceModelres.getInvoiceStatus().getInvoiceStatusId() == 2) {
-			log.info("in if ");
-			log.info("--------------------------------------------------------------------------");
 			AccountPayablesModel accountPayablesModel = new AccountPayablesModel();
 
 			accountPayablesModel.setPharmacyModel(invoiceModelres.getPharmacy());
@@ -278,6 +274,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 			accountPayablesModel.setSource(invoiceModelres.getInvoiceId().toString());
 			accountPayablesModel.setSourceRef(invoiceModelres.getGrnNo());
 			accountPayablesModel.setSourceType("Invoice");
+			accountPayablesModel.setActiveS('Y');
 			accountPayablesModel.setCreatedUser(invoiceModelres.getCreatedUser());
 			accountPayablesModel.setLastUpdateUser(invoiceModelres.getLastUpdateUser());
 
