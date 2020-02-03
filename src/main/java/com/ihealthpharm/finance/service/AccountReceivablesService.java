@@ -41,4 +41,9 @@ public interface AccountReceivablesService
 	List<String> findallReceiptNoAR();
 
 	List<AccountReceivablesModel> getAllRecievablesCustomerNameSearch(String customerName);
+	
+	List<String> findallCustNamesAR();
+	
+	List<String> findCustNamesbysearchAR(String searchTerm);
+	
 }
