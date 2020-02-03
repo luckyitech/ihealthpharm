@@ -127,5 +127,7 @@ public class AccountPayablesModel extends AuditModel {
 	
 	@Column(name="ACTIVE_S")
 	private Character activeS;
-
+	
+	@Column(name="INVOICE_NO")
+	private String invoiceNo;
 }
