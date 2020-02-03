@@ -49,6 +49,12 @@ public interface AccountPayablesService
 
 	List<AccountPayablesModel> getAllPayablesBasedOnSuppliers(String supplierName);
 	 
+	List<String> findSupplierNamesINAP(String searchTerm);
 	
+	List<String> findAllSupplierNamesINAP();
+	
+List<String> findPaymentStatusINAP(String searchTerm);
+	
+	List<String> findAllPaymentStatusINAP();
 
 }
