@@ -204,5 +204,25 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 		
 		return accountPayablesRepository.getAllPayablesBasedOnSuppierSearch(supplierName);
 	}
+
+	@Override
+	public List<String> findSupplierNamesINAP(String searchTerm) {
+		return accountPayablesRepository.findSupplierNameBySearchINAP(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllSupplierNamesINAP() {
+		return accountPayablesRepository.findAllSupplierNamesINAP();
+	}
+
+	@Override
+	public List<String> findPaymentStatusINAP(String searchTerm) {
+		return accountPayablesRepository.findPaymentStautusBySearchINAP(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllPaymentStatusINAP() {
+		return accountPayablesRepository.findAllPaymentStatusINAP();
+	}
 	
 }
