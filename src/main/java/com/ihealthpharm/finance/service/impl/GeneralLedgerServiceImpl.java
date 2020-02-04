@@ -66,6 +66,7 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 			generalLedgerModel.setEntryType(accountPayablesModel.getSourceType());
 			generalLedgerModel.setCounterParty(accountPayablesModel.getSupplierName());
 			generalLedgerModel.setEntryDate(new Date());
+			generalLedgerModel.setInvoiceNo(accountPayablesModel.getInvoiceNo());
 			generalLedgerModel.setCreatedUser(accountPayablesModel.getCreatedUser());
 			generalLedgerModel.setLastUpdateUser(accountPayablesModel.getLastUpdateUser());
 			generalLedgerModel.setParty(pharmacyService.findPharmacyById(accountPayablesModel.getPharmacyModel().getPharmacyId()).getPharmacyName());
