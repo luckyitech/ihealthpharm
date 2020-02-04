@@ -134,6 +134,4 @@ public class PharmacyServiceImpl implements PharmacyService {
 		return pharmacyRepository.findByPharmacyNameContains(pharmacyName);
 	}
 
-	
-
 }

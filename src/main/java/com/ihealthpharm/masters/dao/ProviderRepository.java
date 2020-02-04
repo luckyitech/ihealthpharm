@@ -12,7 +12,7 @@ public interface ProviderRepository extends JpaRepository<ProviderModel, Integer
     
 	List<ProviderModel> findByActiveS(char c);
 	
-	@Query("select p from provider p where p.activeS='Y' order by p.lastUpdateTimestamp desc")
+	@Query("select p from provider p order by p.lastUpdateTimestamp desc")
 	List<ProviderModel> findAllLastestRecords();
 
 	List<ProviderModel> findFirst100ByOrderByLastUpdateTimestampDesc();

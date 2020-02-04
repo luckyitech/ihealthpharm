@@ -81,6 +81,13 @@ public class ItemCategoryController {
 		return new BaseDto<>(result, itemCategoryHelper.getRetrieveItemCategoryMessage(), OK).respond();
 	}
 	
+	@GetMapping("/getallitemcategories/mapwith/items")
+	public ResponseEntity<BaseDto<List<ItemCategoryModel>>> getAllItemCategoriesData(){
+		List<ItemCategoryModel> result = itemCategoryService.findAllCategoriesMapWithItems();
+		return new BaseDto<>(result, itemCategoryHelper.getRetrieveItemCategoryMessage(), OK).respond();
+	}
+	
+	
 	@GetMapping("/getactiveitemcategoriesdata")
 	public ResponseEntity<BaseDto<List<ItemCategoryModel>>> getItemCategorydata() {
 		List<ItemCategoryModel> result = itemCategoryService.findItemCategoryByActive();

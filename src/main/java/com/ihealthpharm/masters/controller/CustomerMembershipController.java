@@ -58,7 +58,6 @@ public class CustomerMembershipController {
 
 	@GetMapping("/getallcustomermembershipsdata")
 	public ResponseEntity<BaseDto<List<CustomerMembershipModel>>> getCustomerMembershipData() {
-		
 		List<CustomerMembershipModel> result = customerMembershipService.findAllCustomersMembership();
 		return new BaseDto<>(result, customerMembershipHelper.retrieveCustomerMembershipMessage, OK).respond();
 	}
@@ -94,6 +93,5 @@ public class CustomerMembershipController {
 		List<CustomerMembershipModel> result = customerMembershipService.findCustomersMembershipBySearch(searchKey);
 		return new BaseDto<>(result, customerMembershipHelper.getRetrieveCustomerMembershipMessage(), OK).respond();
 	}
-	
 	
 }

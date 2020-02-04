@@ -120,7 +120,12 @@ public class SupplierServiceImpl implements SupplierService {
 	public List<SupplierModel> findAllSuppliers() {
 		return supplierRepository.findAllLastestRecords();
 	}
-
+	
+	@Override
+	public List<SupplierModel> findAllActiveSuppliers() {
+		return supplierRepository.getAllSuppliersHavingActiveStatus();
+	}
+	
 	@Override
 	public List<SupplierModel> findAllSuppliersByName(String searchTerm) {
 		return supplierRepository.getAllSupplierNamesBySearch(searchTerm);
@@ -157,4 +162,5 @@ public class SupplierServiceImpl implements SupplierService {
 		Pageable limit = PageRequest.of(pageNumber,pageSize);
 		return supplierRepository.getAllSuppliersBySearch(name,limit);
 	}
+
 }

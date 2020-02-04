@@ -147,4 +147,12 @@ public class ItemCategoryServiceImpl implements ItemCategoryService {
 		return itemCategoriesRepository.findAllByLastUpdated();
 	}
 
+
+	@Override
+	public List<ItemCategoryModel> findAllCategoriesMapWithItems() {
+		return itemCategoriesRepository.findAllByLastUpdatedRecords();
+	}
+	
+	
+
 }

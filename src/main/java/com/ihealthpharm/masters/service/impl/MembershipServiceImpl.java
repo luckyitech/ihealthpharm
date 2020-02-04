@@ -113,17 +113,19 @@ public class MembershipServiceImpl implements MembershipService  {
 		}
 	}
 
-
 	@Override
 	public List<MembershipModel> findAllByMemberships() {
 		return membershipRepo.findAllLastestRecords();
 	}
-
+	
+	@Override
+	public List<MembershipModel> getAllMemberships() {
+		return membershipRepo.getAllLatestRecordsForCustomers();
+	}
 
 	@Override
 	public List<MembershipModel> findMembershipByName(@Valid String membershipName) {
 		return membershipRepo.findByMembershipCardNameContains(membershipName);
 	}
-
 
 }
