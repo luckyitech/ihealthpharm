@@ -136,34 +136,38 @@ public class AccountPayablesExcel extends ReportsExcelUtility{
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(4);
-			cell.setCellValue("PAYMENT DATE");
+			cell.setCellValue("INVOICE NO");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(5);
-			cell.setCellValue("STATUS");
+			cell.setCellValue("PAYMENT DATE");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(6);
-			cell.setCellValue("AMOUNT PAID");
+			cell.setCellValue("STATUS");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(7);
-			cell.setCellValue("AMOUNT TO BE PAID");
+			cell.setCellValue("AMOUNT PAID");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(8);
-			cell.setCellValue("PAYMENT STATUS");
+			cell.setCellValue("AMOUNT TO BE PAID");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(9);
-			cell.setCellValue("SOURCE TYP");
+			cell.setCellValue("PAYMENT STATUS");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(10);
-			cell.setCellValue("APPROVED BY");
+			cell.setCellValue("SOURCE TYP");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(11);
+			cell.setCellValue("APPROVED BY");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(12);
 			cell.setCellValue("APPROVED DATE");
 			cell.setCellStyle(headerStyle);	
 			
@@ -203,52 +207,58 @@ public class AccountPayablesExcel extends ReportsExcelUtility{
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
+				value = rowData.containsKey("INVOICE_NO") ? rowData.get("INVOICE_NO") : "";
+				//sheet.autoSizeColumn(3);
+				cell = dataRow.createCell(4);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
 				value = rowData.containsKey("PAYMENT_DATE") ? rowData.get("PAYMENT_DATE") : "";
 				//sheet.autoSizeColumn(4);
-				cell = dataRow.createCell(4);
+				cell = dataRow.createCell(5);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("STATUS") ? rowData.get("STATUS") : "";
 				//sheet.autoSizeColumn(5);
-				cell = dataRow.createCell(5);
+				cell = dataRow.createCell(6);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 
 				
 				value = rowData.containsKey("TOTAL_AMOUNT_PAID") ? rowData.get("TOTAL_AMOUNT_PAID") : "";
 				//sheet.autoSizeColumn(6);
-				cell = dataRow.createCell(6);
+				cell = dataRow.createCell(7);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("TOTAL_AMOUNT_TO_BE_PAID") ? rowData.get("TOTAL_AMOUNT_TO_BE_PAID") : "";
 				//sheet.autoSizeColumn(7);
-				cell = dataRow.createCell(7);
+				cell = dataRow.createCell(8);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("PAYMENT_STATUS") ? rowData.get("PAYMENT_STATUS") : "";
 				//sheet.autoSizeColumn(8);
-				cell = dataRow.createCell(8);
+				cell = dataRow.createCell(9);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("SOURCE_TYPE") ? rowData.get("SOURCE_TYPE") : "";
 				//sheet.autoSizeColumn(9);
-				cell = dataRow.createCell(9);
+				cell = dataRow.createCell(10);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("FIRST_NM") ? rowData.get("FIRST_NM") : "";
 				//sheet.autoSizeColumn(10);
-				cell = dataRow.createCell(10);
+				cell = dataRow.createCell(11);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("FROM_APPROVED_DATE") ? rowData.get("FROM_APPROVED_DATE") : "";
 				//sheet.autoSizeColumn(10);
-				cell = dataRow.createCell(11);
+				cell = dataRow.createCell(12);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
