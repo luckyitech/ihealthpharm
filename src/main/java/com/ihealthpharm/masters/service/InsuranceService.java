@@ -25,5 +25,7 @@ public interface InsuranceService {
 	void delete(Integer insurancePolicyId);
 
 	void deleteMultipleInsurances(Integer[] insurancePolicyId);
+
+	List<InsuranceModel> findAllByInsurancesToMap();
 	
 }

@@ -171,7 +171,6 @@ public class ItemSupplierServiceImpl implements ItemSupplierService {
 
 	@Override
 	public List<SupplierModel> findAllUnMappedItemSuppliersData(Integer itemId) {
-
 		List<SupplierModel> response = itemSuppliersRepository.getAllUnMappedSuppliers(itemId);
 		return response;
 	}
@@ -221,7 +220,6 @@ public class ItemSupplierServiceImpl implements ItemSupplierService {
 	@Override
 	public List<ItemSupplierDTO> findAllMappedItemSuppliersOnItemName(Integer itemId) {
 		List<ItemSupplierDTO> response=itemSuppliersRepository.getAllItemSuppliersBasedOnItemId(itemId);
-       System.out.println(response);
 		return response;
 	}
 

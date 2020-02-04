@@ -89,6 +89,13 @@ public class SupplierController {
 		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
 	}
 	
+	@GetMapping("/getallsuppliersdata/foritemsuppliers")
+	public ResponseEntity<BaseDto<List<SupplierModel>>> getAllActiveSuppliers(){
+		List<SupplierModel> response=supplierService.findAllActiveSuppliers();
+		return new BaseDto<>(response, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
+	}
+	
+	
 	@GetMapping("/getlimitedsuppliersdata") 
 	public ResponseEntity<BaseDto<List<SupplierModel>>> getLimitedSupplierdata() {
 		List<SupplierModel> result = supplierService.findLimitedSuppliers();
@@ -114,7 +121,6 @@ public class SupplierController {
 		List<SupplierModel> results=supplierService.findAllSuppliersByName(searchTerm);
 		return new BaseDto<>(results,supplierHelper.getRetrieveSupplierMessage(),OK).respond();
 	}
-	
 	
 	@GetMapping("/getsuppliersdatabyname")
 	public ResponseEntity<BaseDto<List<SupplierModel>>> getSuppliersDataByName(@RequestParam("key") String name) {

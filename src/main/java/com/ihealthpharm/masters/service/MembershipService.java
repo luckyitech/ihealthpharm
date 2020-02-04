@@ -23,5 +23,7 @@ public interface MembershipService {
 	void deleteMultipleMemberships(Integer[] membershipId);
 	
 	List<MembershipModel> findMembershipByName(@Valid String membershipName);
+
+	List<MembershipModel> getAllMemberships();
 	
 }
