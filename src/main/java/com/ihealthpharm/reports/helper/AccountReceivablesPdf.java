@@ -2,6 +2,7 @@ package com.ihealthpharm.reports.helper;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -54,6 +55,7 @@ public class AccountReceivablesPdf extends ReportsPDFUtility{
 	}
 
 	private void generateTotalTable(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException {
+		DecimalFormat df=new DecimalFormat("0.00");
 		double totalAmtreceived;
 		double totalAmtToBereceived;
 		totalAmtreceived  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("AMOUNT_RECEIVED") && !ObjectUtils.isEmpty(mapper.get("AMOUNT_RECEIVED"))) ?String.valueOf(mapper.get("AMOUNT_RECEIVED")):"0")).sum();    
@@ -65,7 +67,13 @@ public class AccountReceivablesPdf extends ReportsPDFUtility{
 		totalQtyTable.setLockedWidth(true);
 		totalQtyTable.getDefaultCell().setBorder(0); 
 		
-		PdfPCell nameCell = new PdfPCell(new Phrase("Total Amount Received"+" "+" : "+"	"+totalAmtreceived, title08)); 
+		String totAmountReceived=df.format(totalAmtreceived);
+		Double totalReceived=Double.parseDouble(totAmountReceived);
+		
+		String totAmountToBeReceived=df.format(totalAmtToBereceived);
+		Double totalToBePaid=Double.parseDouble(totAmountToBeReceived);
+		
+		PdfPCell nameCell = new PdfPCell(new Phrase("Total Amount Received"+" "+" : "+"	"+totalReceived, title08)); 
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell.setVerticalAlignment(Element.ALIGN_TOP);
@@ -75,7 +83,7 @@ public class AccountReceivablesPdf extends ReportsPDFUtility{
 		totalQtyTable.setTotalWidth(500);
 		totalQtyTable.getDefaultCell().setBorder(0); 
 		
-		PdfPCell nameCell2 = new PdfPCell(new Phrase("Total Amount To Be Received"+"	"+" : "+"	"+totalAmtToBereceived, title08)); 
+		PdfPCell nameCell2 = new PdfPCell(new Phrase("Total Amount To Be Received"+"	"+" : "+"	"+totalToBePaid, title08)); 
 		nameCell2.setColspan(3);
 		nameCell2.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell2.setVerticalAlignment(Element.ALIGN_TOP);
