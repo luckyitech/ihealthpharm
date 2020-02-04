@@ -71,6 +71,9 @@ public class AccountPayablespdf extends ReportsPDFUtility{
 		String totAmountPaid=df.format(totalAmtpaid);
 		Double totalPaid=Double.parseDouble(totAmountPaid);
 		
+		String totAmountToBePaid=df.format(totalAmtToBePaid);
+		Double totalAmtsToBePaid=Double.parseDouble(totAmountToBePaid);
+		
 		PdfPCell nameCell = new PdfPCell(new Phrase("Total Amount Paid"+" "+" : "+"	"+totalPaid, title08)); 
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -81,7 +84,7 @@ public class AccountPayablespdf extends ReportsPDFUtility{
 		totalQtyTable.setTotalWidth(500);
 		totalQtyTable.getDefaultCell().setBorder(0); 
 		
-		PdfPCell nameCell2 = new PdfPCell(new Phrase("Total Amount To Be Paid"+"	"+" : "+"	"+totalAmtToBePaid, title08)); 
+		PdfPCell nameCell2 = new PdfPCell(new Phrase("Total Amount To Be Paid"+"	"+" : "+"	"+totalAmtsToBePaid, title08)); 
 		nameCell2.setColspan(3);
 		nameCell2.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell2.setVerticalAlignment(Element.ALIGN_TOP);
@@ -118,7 +121,7 @@ public class AccountPayablespdf extends ReportsPDFUtility{
 //		supllierNameTable.getDefaultCell().setBorder(0); 
 		
 		
-		PdfPTable table = new PdfPTable(12);
+		PdfPTable table = new PdfPTable(13);
 		table.setTotalWidth(500);
 		table.setWidthPercentage(50);
 		table.setLockedWidth(true);
@@ -159,6 +162,16 @@ public class AccountPayablespdf extends ReportsPDFUtility{
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
 			headerCell.add("SOURCE REF");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("INVOICE NO");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
@@ -279,6 +292,14 @@ public class AccountPayablespdf extends ReportsPDFUtility{
 				table.addCell(cell);
 				
 				value = rowData.containsKey("SOURCE_REF") ? rowData.get("SOURCE_REF") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("INVOICE_NO") ? rowData.get("INVOICE_NO") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
