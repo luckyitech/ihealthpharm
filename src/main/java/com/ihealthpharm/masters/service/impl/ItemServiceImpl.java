@@ -66,7 +66,6 @@ public class ItemServiceImpl implements ItemService {
 			for(int i=0;i<response.size();i++) {
 				if(response.get(i).getQuantity() != 0)
 				{
-					System.out.println("imn for loop");
 					throw new IHealthPharmException("Item Have Stock can`t be deactivated",HttpStatus.NOT_FOUND);
 				}
 			}

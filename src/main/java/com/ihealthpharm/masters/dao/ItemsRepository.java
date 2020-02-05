@@ -126,18 +126,16 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 			+ "where  ig.genericName like :itemGeneric% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
     List<AlternativeItemDTO> getAlternativeItemsDataByItemGenericNameForStock(@Param("itemGeneric")String itemGeneric);
 	
-	
-	
-	@Query("select count(i) from items i where i.itemName like :searchTerm% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
+	@Query("select count(i) from items i where i.itemName like :searchTerm%  order by i.lastUpdateTimestamp desc")
 	public Integer getCountOfItemsByItemName(@Param("searchTerm") String searchTerm);
 
-	@Query("select count(i) from items i where i.itemCode like :searchTerm% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
+	@Query("select count(i) from items i where i.itemCode like :searchTerm% order by i.lastUpdateTimestamp desc")
 	public Integer getCountOfItemsByItemCode(@Param("searchTerm") String searchTerm);
 
-	@Query("select count(i) from items i where i.itemDescription like :searchTerm% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
+	@Query("select count(i) from items i where i.itemDescription like :searchTerm% order by i.lastUpdateTimestamp desc")
 	public Integer getCountOfItemsByItemDescription(@Param("searchTerm") String searchTerm);
 
-	@Query("select count(i) from items i where i.itemGenericName.genericName like :searchTerm% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
+	@Query("select count(i) from items i where i.itemGenericName.genericName like :searchTerm% order by i.lastUpdateTimestamp desc")
 	public Integer getCountOfItemsByItemGenericName(@Param("searchTerm") String searchTerm);
 
 	@Query("select count(i) from items i order by i.itemCode")
