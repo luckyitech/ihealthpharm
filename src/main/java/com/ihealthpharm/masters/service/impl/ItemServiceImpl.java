@@ -198,6 +198,12 @@ public class ItemServiceImpl implements ItemService {
 		List<ItemsModel> resp =itemRepository.findAllByItemNameSearch(searchTerm);
 		return resp;
 	}
+	
+	@Override
+	public List<ItemsModel> findAllByItemNameForItemSupplier(String searchTerm) {
+		List<ItemsModel> resp =itemRepository.findAllByItemNameSearchForSupplier(searchTerm);
+		return resp;
+	}
 
 	@Override
 	public List<ItemsModel> findAllByMedicalAndItemDesc(String medicalOrNonMedical, String searchTerm) {

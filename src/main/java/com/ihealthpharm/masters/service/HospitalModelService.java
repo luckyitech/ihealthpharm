@@ -27,6 +27,8 @@ public interface HospitalModelService {
 	List<HospitalModel> findAllHospitals();
 
 	List<HospitalModel> findLimitedHospitals();
+	
+	List<HospitalModel> findLimitedHospitalsForSales();
 
 	List<HospitalModel> findHospitalsByHospitalName(String hospitalName);
 

@@ -27,6 +27,9 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 
 	@Query("select i from items i where i.itemName like :searchTerm%  order by i.lastUpdateTimestamp desc")
 	List<ItemsModel> findAllByItemNameSearch(@Param("searchTerm") String searchTerm);
+	
+	@Query("select i from items i where (i.itemName like :searchTerm%) and i.activeS='Y' order by i.lastUpdateTimestamp desc")
+	List<ItemsModel> findAllByItemNameSearchForSupplier(@Param("searchTerm") String searchTerm);
 
 	@Query("select i from items i where i.medicalOrNonMedical =:medicalOrNonMedical and i.itemName like %:searchTerm% order by i.creationTimeStamp desc")
 	List<ItemsModel> findAllByMedicalAndItemName(@Param("medicalOrNonMedical") String medicalOrNonMedical,@Param("searchTerm") String searchTerm);

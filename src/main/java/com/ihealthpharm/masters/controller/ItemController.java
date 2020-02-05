@@ -121,6 +121,12 @@ public class ItemController {
 		List<ItemsModel> results = itemService.findAllByItemName(searchTerm);
 		return new BaseDto<>(results, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
+	
+	@GetMapping("/getallby/ItemNameSearch/foritemsupplier")
+	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllByItemNameSearchForItemSupplier(@RequestParam String searchTerm) {
+		List<ItemsModel> results = itemService.findAllByItemNameForItemSupplier(searchTerm);
+		return new BaseDto<>(results, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
 
 	// based on itemCode search
 	@GetMapping("/getallby/ItemCodeSearch")
@@ -175,6 +181,7 @@ public class ItemController {
 	public ResponseEntity<BaseDto<List<AlternativeItemDTO>>> getItemsDataByName(@RequestParam("key") String itemName) {
 		List<AlternativeItemDTO> result = itemService.findItemsByName(itemName);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
+		//sdsdd
 	}
 	
 	

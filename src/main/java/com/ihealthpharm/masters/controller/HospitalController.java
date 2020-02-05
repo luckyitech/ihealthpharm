@@ -95,6 +95,14 @@ public class HospitalController {
 		return new BaseDto<>(result, StandardResponse.SUCCESS.toString(), OK).respond();
 	}
 	
+	
+	@GetMapping("/getlimitedhospitaldata/forsalesbilling")
+	public ResponseEntity<BaseDto<List<HospitalModel>>> getLimitedHospitaldataForSales() {
+		List<HospitalModel> result = hospitalModelService.findLimitedHospitalsForSales();
+		return new BaseDto<>(result, StandardResponse.SUCCESS.toString(), OK).respond();
+	}
+	
+	
 	@GetMapping("/gethospitaldatabyname")
 	public ResponseEntity<BaseDto<List<HospitalModel>>> getHospitaldataHospitalName(@RequestParam("key") String hospitalName) {
 		List<HospitalModel> result = hospitalModelService.findHospitalsByHospitalName(hospitalName);

@@ -23,6 +23,8 @@ public interface ProviderService {
 	 List<ProviderModel> findAllProviders();
 	 
 	 List<ProviderModel> findLimitProviders();
+	 
+	 List<ProviderModel> findLimitProvidersForSalesBilling();
 
 	List<ProviderModel> findProvidersDataByName(String providerName);
 	

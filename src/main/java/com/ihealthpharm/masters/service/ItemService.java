@@ -34,6 +34,8 @@ public interface ItemService {
 	List<ItemsModel> findAllByMedicalAndItemDesc(String medicalOrNonMedical,String searchTerm);
 
 	List<ItemsModel> findAllByItemName(String searchTerm);
+	
+	List<ItemsModel> findAllByItemNameForItemSupplier(String searchTerm);
 
 	List<ItemsModel> findAllByItemDescription(String searchTerm);
 

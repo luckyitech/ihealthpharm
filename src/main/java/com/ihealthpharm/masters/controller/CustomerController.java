@@ -88,9 +88,11 @@ public class CustomerController {
 		return new BaseDto<>(result, customerHelper.getRetrieveCustomerMessage(), OK).respond();
 	}
 	
-	//@GetMapping
-	
-	
+	@GetMapping("/getlimitedcustomerdata/forSalesbilling")
+	public ResponseEntity<BaseDto<List<CustomerModel>>> getLimitedCustomersData(){
+		List<CustomerModel> result = customerService.findLimitedCustomersData();
+		return new BaseDto<>(result, customerHelper.getRetrieveCustomerMessage(), OK).respond();
+	}
 	
 	
 	@GetMapping("/getlimitedcustomerdata/tomap/membership")
