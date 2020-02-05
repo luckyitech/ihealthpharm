@@ -58,15 +58,11 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public ItemsModel updateItemData(ItemsModel itemsModel) {
 		ItemsModel itemsModelRes = getValidItems(itemsModel.getItemId());
-		System.out.println("sdds");
 
 		if(itemsModel.getActiveS().equals("N")) {
-			System.out.println("sdds:"+ itemsModel.getItemId());
 			List<StockModel> response=stockRepo.findByItem(itemsModel); 
-			System.out.println("sdds:"+ response.size());
 			if(response.size()>0)
 			{
-				System.out.println("in if");
 			for(int i=0;i<response.size();i++) {
 				if(response.get(i).getQuantity() != 0)
 				{
@@ -76,7 +72,6 @@ public class ItemServiceImpl implements ItemService {
 			}
 			}
 		}
-		System.out.println("in else");
 		itemsModelRes = itemRepository.save(itemsModel);
 		log.info("Items data with ID : "+ itemsModelRes.getItemId()+" updated succesfully");
 		return itemsModelRes;
@@ -298,11 +293,22 @@ public class ItemServiceImpl implements ItemService {
 	public List<AlternativeItemDTO> findItemsByCode(String itemCode) {
 		return itemRepository.getAlternativeItemsDataByItemCode(itemCode);
 	}
+	
+	@Override
+	public List<AlternativeItemDTO> findItemsByCodeForStock(String itemCode) {
+		return itemRepository.getAlternativeItemsDataByItemCodeForStock(itemCode);
+	}
+	
 
 
 	@Override
 	public List<AlternativeItemDTO> findItemsByGenericName(String itemGeneric) {
 		return itemRepository.getAlternativeItemsDataByItemGenericName(itemGeneric);
+	}
+	
+	@Override
+	public List<AlternativeItemDTO> findItemsByGenericNameForStock(String itemGeneric) {
+		return itemRepository.getAlternativeItemsDataByItemGenericNameForStock(itemGeneric);
 	}
 
 
@@ -312,9 +318,21 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
+	public List<AlternativeItemDTO> findItemsByDescForStock(String itemdesc) {
+		return itemRepository.getAlternativeItemsDataByItemDescForStock(itemdesc);
+	}
+	
+	
+	@Override
 	public List<AlternativeItemDTO> findItemsByName(String itemName) {
 		return itemRepository.getAlternativeItemsDataByItemName(itemName); 
 	}
+	
+	@Override
+	public List<AlternativeItemDTO> findItemsByNameForStock(String itemName) {
+		return itemRepository.getAlternativeItemsDataByItemNameForStock(itemName);
+	}
+	
 
 	@Override
 

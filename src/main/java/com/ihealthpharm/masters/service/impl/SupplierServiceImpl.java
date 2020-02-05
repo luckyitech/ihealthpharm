@@ -136,6 +136,7 @@ public class SupplierServiceImpl implements SupplierService {
 		return supplierRepository.findFirst100ByOrderByName();
 	}
 	
+	
 	@Override
 	public List<SupplierModel> findSuppliersByName(String name) {
 		
@@ -161,6 +162,12 @@ public class SupplierServiceImpl implements SupplierService {
 	public List<SupplierModel> findSuppliersBySearch(String name, Integer pageNumber, Integer pageSize) {
 		Pageable limit = PageRequest.of(pageNumber,pageSize);
 		return supplierRepository.getAllSuppliersBySearch(name,limit);
+	}
+
+	@Override
+	public List<SupplierModel> findLimitedSuppliersData(Integer pageNumber, Integer pageSize) {
+		Pageable limit = PageRequest.of(pageNumber,pageSize);
+		return supplierRepository.findSuppliersByLimit(limit);
 	}
 
 }
