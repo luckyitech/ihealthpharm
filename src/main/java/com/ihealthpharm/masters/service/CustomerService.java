@@ -25,10 +25,11 @@ public interface CustomerService
 	
 	 void deleteCustomersById(Integer[] customerIds);
 	 
-
 	List<CustomerModel> findCustomerByActive();
 
 	List<CustomerModel> findCustomersByName(String customerName);
+	
+	List<CustomerModel> findCustomersByPhNo(String phno);
 
 	List<CustomerModel> findAllCustomersByNameSearch(String customerName);
 
