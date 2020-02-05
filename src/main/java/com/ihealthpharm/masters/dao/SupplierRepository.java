@@ -20,7 +20,7 @@ public interface SupplierRepository extends JpaRepository<SupplierModel, Integer
 	@Query("select s from supplier s where s.activeS='Y'  order by s.lastUpdateTimestamp desc")
 	List<SupplierModel> getAllSuppliersHavingActiveStatus();
 	
-	@Query("select d from supplier d where d.name like :searchTerm% or d.license like :searchTerm% and d.activeS='Y' order by d.lastUpdateTimestamp desc")
+	@Query("select d from supplier d where (d.name like :searchTerm% or d.license like :searchTerm%) and d.activeS='Y' order by d.lastUpdateTimestamp desc")
 	List<SupplierModel> getAllSupplierNamesBySearch(@Param("searchTerm") String searchTerm);
 
 	List<SupplierModel> findFirst100ByOrderByName();

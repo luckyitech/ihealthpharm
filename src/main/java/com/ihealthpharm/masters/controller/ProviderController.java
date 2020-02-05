@@ -88,6 +88,7 @@ public class ProviderController {
 	
 	@GetMapping("/getprovidersdatabyname")
 	public ResponseEntity<BaseDto<List<ProviderModel>>> getProviderDataByName(@RequestParam("key") String name) {
+		System.out.println(name);
 		List<ProviderModel> result = providerService.findProvidersDataByName(name);
 		return new BaseDto<>(result, providerHelper.getRetrieveProvideMessage(), OK).respond();
 	}

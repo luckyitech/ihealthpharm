@@ -135,13 +135,13 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 	List<SalesModel> findSalesByPaymentStatus(@Param("key") String key, Pageable limit);
 	
 	@Query("select s from sales s where s.paymentStatus = :status and s.billDate between :start and :end "
-			+ "and s.customerNm like :code% or s.billCode like :code% order by s.lastUpdateTs DESC")
+			+ "and (s.customerNm like :code% or s.billCode like :code% ) and s.activeS='Y' order by s.lastUpdateTs DESC")
 	List<SalesModel> findSalesSearchByStatusSearchCodeDate(@Param("status") String status,@Param("code") String code,@Param("start") LocalDate start,@Param("end") LocalDate end, Pageable limit);
 
-	@Query("select s from sales s where s.paymentStatus = :status and s.billDate between :start and :end  order by s.lastUpdateTs DESC")
+	@Query("select s from sales s where s.paymentStatus = :status and s.billDate between :start and :end and s.activeS='Y' order by s.lastUpdateTs DESC")
 	List<SalesModel> findSalesSearchByStatusDate(@Param("status") String status,@Param("start") LocalDate start,@Param("end") LocalDate end, Pageable limit);
 
-	@Query("select s from sales s where (s.billDate between :start and :end) and (s.customerNm like :code% or s.billCode like :code%) order by s.lastUpdateTs DESC")
+	@Query("select s from sales s where (s.billDate between :start and :end) and (s.customerNm like :code% or s.billCode like :code%) and s.activeS='Y' order by s.lastUpdateTs DESC")
 	List<SalesModel> findSalesSearchByCodeDate(@Param("code") String code,@Param("start") LocalDate start,@Param("end") LocalDate end, Pageable limit);
 	
 	@Query("select s from sales s where s.billCode like :key% order by s.lastUpdateTs DESC")

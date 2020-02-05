@@ -50,7 +50,7 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 
 	@Query("select i from items i inner join com.ihealthpharm.masters.model.ItemGenericNamesModel ig on "
 			+ "i.itemGenericName.itemGenericNameId=ig.itemGenericNameId "
-			+ "where i.itemDescription like %:searchTerm% OR  i.itemCode like %:searchTerm% OR  i.itemName like %:searchTerm% or ig.genericName like %:searchTerm% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
+			+ "where (i.itemDescription like %:searchTerm% OR  i.itemCode like %:searchTerm% OR  i.itemName like %:searchTerm% or ig.genericName like %:searchTerm%) and i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	public List<ItemsModel> findByItemCodeOrItemNameOrItemDescription(@Param("searchTerm") String searchTerm);
 
 	public List<ItemsModel> findFirst100ByOrderByItemCode();
