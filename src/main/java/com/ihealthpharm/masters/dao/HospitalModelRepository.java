@@ -17,7 +17,7 @@ public interface HospitalModelRepository extends JpaRepository<HospitalModel, Se
 
 	HospitalModel findByHospitalId(Integer hospitalId);
 	
-	@Query("select h from hospital h where h.activeS='Y' order by h.lastUpdatedTimeStamp desc")
+	@Query("select h from hospital h order by h.lastUpdatedTimeStamp desc")
 	List<HospitalModel> findAllLatestRecords();
 
 	List<HospitalModel> findFirst100ByOrderByLastUpdatedTimeStampDesc();

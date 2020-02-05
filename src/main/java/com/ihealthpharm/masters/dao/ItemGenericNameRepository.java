@@ -15,7 +15,7 @@ public interface ItemGenericNameRepository extends JpaRepository<ItemGenericName
 
 	List<ItemGenericNamesModel> findByActiveS(String s);
 	
-	@Query("SELECT gn FROM items_generic_names gn where gn.activeS='Y' order by gn.lastUpdateTimestamp desc")
+	@Query("SELECT gn FROM items_generic_names gn order by gn.lastUpdateTimestamp desc")
 	List<ItemGenericNamesModel> findAllByLastestRecords();
 	
 	@Query("select i from items_generic_names i where i.medicalOrNonMedical = :medicalOrNonMedical and i.genericCode like :searchTerm% and i.itemGroupId =:itemGroupModel and i.activeS='Y' order by i.lastUpdateTimestamp desc")

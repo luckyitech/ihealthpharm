@@ -24,7 +24,9 @@ import com.ihealthpharm.masters.helper.ItemPropertyHelper;
 import com.ihealthpharm.masters.model.ItemGroupModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.service.ItemService;
+import com.ihealthpharm.stock.dao.StockRepository;
 import com.ihealthpharm.stock.dto.StockAdjustmentItemDTO;
+import com.ihealthpharm.stock.model.StockModel;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,17 +50,33 @@ public class ItemServiceImpl implements ItemService {
 
 	@Autowired
 	private ItemPropertyHelper itemPropertyHelper;
+	
+	@Autowired
+	private StockRepository stockRepo;
 
 
 	@Override
 	public ItemsModel updateItemData(ItemsModel itemsModel) {
 		ItemsModel itemsModelRes = getValidItems(itemsModel.getItemId());
+		System.out.println("sdds");
 
-		if(!Objects.nonNull(itemsModelRes))
-		{
-			throw new IHealthPharmException(itemPropertyHelper.getNotFoundMessage(),HttpStatus.NOT_FOUND);
+		if(itemsModel.getActiveS().equals("N")) {
+			System.out.println("sdds:"+ itemsModel.getItemId());
+			List<StockModel> response=stockRepo.findByItem(itemsModel); 
+			System.out.println("sdds:"+ response.size());
+			if(response.size()>0)
+			{
+				System.out.println("in if");
+			for(int i=0;i<response.size();i++) {
+				if(response.get(i).getQuantity() != 0)
+				{
+					System.out.println("imn for loop");
+					throw new IHealthPharmException("Item Have Stock can`t be deactivated",HttpStatus.NOT_FOUND);
+				}
+			}
+			}
 		}
-
+		System.out.println("in else");
 		itemsModelRes = itemRepository.save(itemsModel);
 		log.info("Items data with ID : "+ itemsModelRes.getItemId()+" updated succesfully");
 		return itemsModelRes;

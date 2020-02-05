@@ -44,7 +44,14 @@ public class InsuranceServiceImpl implements InsuranceService  {
 	public List<InsuranceModel> findAllByInsurances() {
 		return insuranceRepo.findAllLastestRecords();
 	}
+	
+	
+	@Override
+	public List<InsuranceModel> findAllByInsurancesToMap() {
 
+		return insuranceRepo.findAllLatestRecordsToMapCustomers();
+	}
+	
 	@Override
 	public InsuranceModel updateInsuranceData(@Valid InsuranceModel insuranceModel) {
 		InsuranceModel insuranceRes = getValidInsurance(insuranceModel.getInsurancePolicyId());

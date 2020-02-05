@@ -10,13 +10,13 @@ import com.ihealthpharm.masters.model.EmployeeModel;
 
 public interface EmployeeRepository extends JpaRepository<EmployeeModel, Integer>{
 
-	@Query("SELECT e FROM employee e where e.activeS='Y' order by e.lastUpdateTimestamp desc")
+	@Query("SELECT e FROM employee e order by e.lastUpdateTimestamp desc")
 	List<EmployeeModel> findAllLastUpdatedTimestampRecords();
 	
 	@Query(value="SELECT * from employee e order by e.EMPLOYEE_ID desc limit 1", nativeQuery=true)
 	public EmployeeModel findLastCreatedEmployeeId();
 
-	@Query("select e from employee e where e.activeS='Y' and (e.firstName like :name% or e.lastName like :name% or e.employeeCode like :name%)")
+	@Query("select e from employee e where  (e.firstName like :name% or e.lastName like :name% or e.employeeCode like :name%)")
 	List<EmployeeModel> findByFirstNameOrLastName(@Param("name") String name);
 
 	@Query("select new com.ihealthpharm.masters.dto.EmployeeNameAndAcessDTO(e.employeeId,concat(e.firstName ,' ', e.lastName),ec.approvalAccessPin) "

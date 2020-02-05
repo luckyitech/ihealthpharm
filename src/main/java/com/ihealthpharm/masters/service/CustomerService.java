@@ -8,6 +8,7 @@ import com.ihealthpharm.masters.model.CustomerModel;
 
 public interface CustomerService
 {
+
     
 	 CustomerModel saveCustomerData(CustomerModel customer);
 
@@ -24,7 +25,7 @@ public interface CustomerService
 	 void deleteCustomerById(Integer customerIds);
 	
 	 void deleteCustomersById(Integer[] customerIds);
-	 
+
 	List<CustomerModel> findCustomerByActive();
 
 	List<CustomerModel> findCustomersByName(String customerName);
@@ -32,5 +33,7 @@ public interface CustomerService
 	List<CustomerModel> findCustomersByPhNo(String phno);
 
 	List<CustomerModel> findAllCustomersByNameSearch(String customerName);
+
+	List<CustomerModel> findAllLimitedCustomersData();
 
 }

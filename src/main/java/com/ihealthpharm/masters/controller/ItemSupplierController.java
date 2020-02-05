@@ -117,9 +117,6 @@ public class ItemSupplierController {
 		return new BaseDto<>(response,itemSupplierHelper.getRetrieveItemSupplierMessage(),OK).respond();
 	}
 	
-	
-	
-	
 	//itemsupplier dropdown item search
 	
 	@GetMapping("/getunmapped/suppliers")
@@ -127,7 +124,6 @@ public class ItemSupplierController {
 		List<SupplierModel> response=itemSupplierService.findAllUnMappedItemSuppliersData(itemId);
 		return new BaseDto<>(response,itemSupplierHelper.getRetrieveItemSupplierMessage(),OK).respond();
 	}
-	
 	
 	//ItemSupplier dropdown search for unmapped suppliers
 	

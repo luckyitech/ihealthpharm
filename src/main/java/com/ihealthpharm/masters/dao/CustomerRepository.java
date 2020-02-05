@@ -18,8 +18,11 @@ public interface CustomerRepository extends JpaRepository<CustomerModel,Integer>
 
 	List<CustomerModel> findAllByOrderByLastUpdateTimestampDesc();
 
-	@Query("SELECT c  FROM customer c where c.activeS='Y' order by c.lastUpdateTimestamp desc ")
+	@Query("SELECT c  FROM customer c order by c.lastUpdateTimestamp desc ")
 	List<CustomerModel> findFirst100ByOrderByCustomerNameAsc(Pageable limit);
+	
+	@Query("SELECT c  FROM customer c where c.activeS='Y' order by c.lastUpdateTimestamp desc ")
+	List<CustomerModel> findFirst100Records(Pageable limit);
 
 	List<CustomerModel> findByCustomerNameIgnoreCaseContaining(String customerName);
 
