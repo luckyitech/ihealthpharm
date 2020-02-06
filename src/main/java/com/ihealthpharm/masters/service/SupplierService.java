@@ -28,6 +28,8 @@ public interface SupplierService {
 
 	 List<SupplierModel> findAllSuppliersByName(String searchTerm);
 	 
+	 List<SupplierModel> findAllSuppliersByNameForSearch(String searchTerm);
+	 
 	 List<SupplierModel> findSuppliersByName(String name);
 	 
 	 List<SupplierModel> findSuppliersByNameForSupplierItem(String name);

@@ -229,6 +229,12 @@ public class ItemSupplierServiceImpl implements ItemSupplierService {
 		List<ItemSupplierDTO> response=itemSuppliersRepository.getAllSupplierItemBasedOnDistId(supplierId);
 		return response;
 	}
+	
+	@Override
+	public List<ItemSupplierDTO> findAllSupplierItemOnSupplierIdForPO(Integer supplierId) {
+		List<ItemSupplierDTO> response=itemSuppliersRepository.getAllSupplierItemBasedOnDistIdForPO(supplierId);
+		return response;
+	}
 
 	
 	
