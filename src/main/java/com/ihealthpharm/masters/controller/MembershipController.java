@@ -70,6 +70,12 @@ public class MembershipController {
 		return new BaseDto<>(response,membershipHelper.getRetrieveMembershipMessage(),OK).respond();
 	}
 	
+	@GetMapping("/getmemberships/forcustomers")
+	public ResponseEntity<BaseDto<List<MembershipModel>>> getAllMembershipsForCustomers(){
+		List<MembershipModel> result=membershipService.getAllMemberships();
+		return new BaseDto<>(result,membershipHelper.getRetrieveMembershipMessage(),OK).respond();
+	}
+	
 	@GetMapping("/getmembership/byid")
 	public ResponseEntity<BaseDto<MembershipModel>> getMembershipById(@Valid @RequestParam Integer membershipId){
 		MembershipModel membershipRes=membershipService.findMembershipById(membershipId);
@@ -78,7 +84,6 @@ public class MembershipController {
 	
 	@GetMapping("/getmembership/byname")
 	public ResponseEntity<BaseDto<List<MembershipModel>>> getMembershipByName(@RequestParam String membershipName){
-		System.out.println(membershipName);
 		List<MembershipModel> membershipRes=membershipService.findMembershipByName(membershipName);
 		return new BaseDto<>(membershipRes,membershipHelper.getRetrieveMembershipMessage(),OK).respond();
 	}

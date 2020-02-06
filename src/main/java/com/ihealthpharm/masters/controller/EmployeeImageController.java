@@ -52,7 +52,7 @@ public class EmployeeImageController {
 			e.printStackTrace();
 		}
 		EmployeeImageModel employeeRes = employeeImageService.saveEmployeeImage(employeeImageModel);
-		return new BaseDto<>(employeeRes, "Employee Image Saved wiht Desc:"+imageDesc, OK).respond();
+		return new BaseDto<>(employeeRes, "Employee Image Saved With Desc:"+imageDesc, OK).respond();
 	}
 	
 	@PutMapping("update/employeeImage")
@@ -80,7 +80,7 @@ public class EmployeeImageController {
 			employeeRes = employeeImageService.saveEmployeeImage(employeeImageModel);
 		}
 		
-		return new BaseDto<>(employeeRes, "Employee Image Updated wiht Desc:"+imageDesc, OK).respond();
+		return new BaseDto<>(employeeRes, "Employee Image Updated With Desc:"+imageDesc, OK).respond();
  }
 	
 	

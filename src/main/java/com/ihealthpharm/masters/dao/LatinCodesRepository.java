@@ -12,10 +12,7 @@ import com.ihealthpharm.masters.model.LatinShortCodesModel;
 @Repository
 public interface LatinCodesRepository extends JpaRepository<LatinShortCodesModel, Serializable>{
 	
-	@Query("SELECT l FROM latin_short_codes l  where l.activeS='Y' order  by l.lastUpdateTimestamp desc")
+	@Query("SELECT l FROM latin_short_codes l   order  by l.lastUpdateTimestamp desc")
 	List<LatinShortCodesModel> getAllLatestRecords();
-
-	/*@Query("select concat(latinShortCode , ':' , latinShortCodeDesc) from latin_short_codes")
-	List<LatinShortCodesModel> findLatinCodeByConcatenate();*/
 	
 }

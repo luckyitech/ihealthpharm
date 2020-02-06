@@ -23,7 +23,7 @@ public class EmployeeImageModel {
 	@JoinColumn(name="EMPLOYEE_ID")
 	private EmployeeModel employee;
 	
-	@Column(name="IMAGE_DESC",length=50)
+	@Column(name="IMAGE_DESC")
 	private String imageDesc;
 	
 	@Column(name="IMAGE")

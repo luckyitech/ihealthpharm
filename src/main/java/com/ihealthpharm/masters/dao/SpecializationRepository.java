@@ -19,6 +19,4 @@ public interface SpecializationRepository extends JpaRepository<SpecializationMo
 	
 	@Query("select i from specialization i where i.specializationName like %:searchTerm% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	List<SpecializationModel> findAllBySearchCriteria(@Param("searchTerm") String searchTerm);
-	
-	
 }

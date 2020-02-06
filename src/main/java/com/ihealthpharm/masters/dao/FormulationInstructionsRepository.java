@@ -13,7 +13,7 @@ extends JpaRepository<FormulationInstructionsModel,Integer>
 {
 	List<FormulationInstructionsModel> findByActiveS(Character active);
 
-	@Query("SELECT f FROM FORMULATION_INSTRUCTIONS f where f.activeS='Y'  order by f.lastUpdateTimestamp desc")
+	@Query("SELECT f FROM FORMULATION_INSTRUCTIONS f  order by f.lastUpdateTimestamp desc")
 	List<FormulationInstructionsModel> findAllLastUpdated();
 
 }

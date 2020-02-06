@@ -12,8 +12,11 @@ import com.ihealthpharm.masters.model.InsuranceModel;
 @Repository
 public interface InsuranceRepository  extends JpaRepository<InsuranceModel, Integer>{
 
-	@Query("select i from insurance i where i.activeS='Y' order by i.lastUpdateTimestamp desc")
+	@Query("select i from insurance i order by i.lastUpdateTimestamp desc")
 	List<InsuranceModel> findAllLastestRecords();
+	
+	@Query("select i from insurance i  where i.activeS='Y' order by i.lastUpdateTimestamp desc")
+	List<InsuranceModel> findAllLatestRecordsToMapCustomers();
 
 	InsuranceModel findByPolicyCode(String policyCode);
 

@@ -12,9 +12,12 @@ public interface MembershipRepository extends JpaRepository<MembershipModel,Inte
 {
 	List<MembershipModel> findByActiveS(Character active);
 
-	@Query("select m from membership m where m.activeS='Y' order by m.lastUpdateTimestamp desc")
+	@Query("select m from membership m order by m.lastUpdateTimestamp desc")
 	List<MembershipModel> findAllLastestRecords();
 
 	@Query("select m from membership m where m.membershipCardName like :membershipName% ")
 	List<MembershipModel> findByMembershipCardNameContains(@Param("membershipName") String membershipName);
+
+	@Query("select m from membership m where m.activeS='Y' order by m.lastUpdateTimestamp desc")
+	List<MembershipModel> getAllLatestRecordsForCustomers();
 }

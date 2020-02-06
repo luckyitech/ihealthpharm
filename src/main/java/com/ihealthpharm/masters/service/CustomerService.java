@@ -8,28 +8,31 @@ import com.ihealthpharm.masters.model.CustomerModel;
 
 public interface CustomerService
 {
-    
-	 CustomerModel saveCustomerData(CustomerModel customer);
 
-	 CustomerModel updateCustomerData(CustomerModel customer);
+	CustomerModel saveCustomerData(CustomerModel customer);
+
+	CustomerModel updateCustomerData(CustomerModel customer);
+
+	List<CustomerModel> updateCustomersData(List<CustomerModel> customers);
+
+	List<CustomerModel> findAllCustomers();
+
+	List<CustomerModel> findLimitedCustomers();
 	
-	 List<CustomerModel> updateCustomersData(List<CustomerModel> customers);
-	
-	 List<CustomerModel> findAllCustomers();
-	 
-	 List<CustomerModel> findLimitedCustomers();
-	
-	 CustomerModel findCustomerById(Integer customerId);
-	
-	 void deleteCustomerById(Integer customerIds);
-	
-	 void deleteCustomersById(Integer[] customerIds);
-	 
+	List<CustomerModel> findLimitedCustomersData();
+
+	CustomerModel findCustomerById(Integer customerId);
+
+	void deleteCustomerById(Integer customerIds);
+
+	void deleteCustomersById(Integer[] customerIds);
 
 	List<CustomerModel> findCustomerByActive();
 
 	List<CustomerModel> findCustomersByName(String customerName);
 
 	List<CustomerModel> findAllCustomersByNameSearch(String customerName);
+
+	List<CustomerModel> findAllLimitedCustomersData();
 
 }

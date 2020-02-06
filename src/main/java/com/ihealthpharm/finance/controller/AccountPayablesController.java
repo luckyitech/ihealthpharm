@@ -158,4 +158,24 @@ public class AccountPayablesController {
 		List<String> results=accountPayablesService.findPaymentNoINAP(PNO);
 		return new BaseDto<>(results,invoiceHelper.getRetrieveInvoiceMessage(),OK).respond();
 	}
+	@GetMapping("/getallsuppliernamesinap")
+	public ResponseEntity<BaseDto<List<String>>> getAllSupplierNamesInAP(){
+		List<String> results=accountPayablesService.findAllSupplierNamesINAP();
+		return new BaseDto<>(results,invoiceHelper.getRetrieveInvoiceMessage(),OK).respond();
+	}
+	@GetMapping("/getsuppliernamesinapbysearch")
+	public ResponseEntity<BaseDto<List<String>>> getSupplierNamesInAP(@RequestParam String searchTerm){
+		List<String> results=accountPayablesService.findSupplierNamesINAP(searchTerm);
+		return new BaseDto<>(results,invoiceHelper.getRetrieveInvoiceMessage(),OK).respond();
+	}
+	@GetMapping("/getallpaymentstatusinap")
+	public ResponseEntity<BaseDto<List<String>>> getAllPayementStatusInAP(){
+		List<String> results=accountPayablesService.findAllPaymentStatusINAP();
+		return new BaseDto<>(results,invoiceHelper.getRetrieveInvoiceMessage(),OK).respond();
+	}
+	@GetMapping("/getpaymentstatusinapbysearch")
+	public ResponseEntity<BaseDto<List<String>>> getPaymentStatusInAP(@RequestParam String searchTerm){
+		List<String> results=accountPayablesService.findPaymentStatusINAP(searchTerm);
+		return new BaseDto<>(results,invoiceHelper.getRetrieveInvoiceMessage(),OK).respond();
+	}
 }

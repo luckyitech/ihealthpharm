@@ -117,9 +117,6 @@ public class ItemSupplierController {
 		return new BaseDto<>(response,itemSupplierHelper.getRetrieveItemSupplierMessage(),OK).respond();
 	}
 	
-	
-	
-	
 	//itemsupplier dropdown item search
 	
 	@GetMapping("/getunmapped/suppliers")
@@ -127,7 +124,6 @@ public class ItemSupplierController {
 		List<SupplierModel> response=itemSupplierService.findAllUnMappedItemSuppliersData(itemId);
 		return new BaseDto<>(response,itemSupplierHelper.getRetrieveItemSupplierMessage(),OK).respond();
 	}
-	
 	
 	//ItemSupplier dropdown search for unmapped suppliers
 	
@@ -171,6 +167,13 @@ public class ItemSupplierController {
 	@GetMapping("/getitemsuppliers/basedonSupplierId")
 	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getAllSupplierItemsBasedonSupplierId(@RequestParam Integer supplierId){
 		List<ItemSupplierDTO> result=itemSupplierService.findAllSupplierItemOnSupplierId(supplierId);
+		return new BaseDto<>(result,itemSupplierHelper.getRetrieveItemSupplierMessage(),OK).respond();
+	}
+	
+	
+	@GetMapping("/getitemsuppliers/basedonSupplierId/po")
+	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getAllSupplierItemsBasedonSupplierIdForPo(@RequestParam Integer supplierId){
+		List<ItemSupplierDTO> result=itemSupplierService.findAllSupplierItemOnSupplierIdForPO(supplierId);
 		return new BaseDto<>(result,itemSupplierHelper.getRetrieveItemSupplierMessage(),OK).respond();
 	}
 	 
