@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.w3c.dom.stylesheets.LinkStyle;
-
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.helper.CustomerHelper;
 import com.ihealthpharm.masters.model.CustomerModel;
@@ -89,6 +87,13 @@ public class CustomerController {
 		List<CustomerModel> result = customerService.findLimitedCustomers();
 		return new BaseDto<>(result, customerHelper.getRetrieveCustomerMessage(), OK).respond();
 	}
+	
+	@GetMapping("/getlimitedcustomerdata/forSalesbilling")
+	public ResponseEntity<BaseDto<List<CustomerModel>>> getLimitedCustomersData(){
+		List<CustomerModel> result = customerService.findLimitedCustomersData();
+		return new BaseDto<>(result, customerHelper.getRetrieveCustomerMessage(), OK).respond();
+	}
+	
 	
 	@GetMapping("/getlimitedcustomerdata/tomap/membership")
 	public ResponseEntity<BaseDto<List<CustomerModel>>> getAllLimitedCustomersToMapMembership(){

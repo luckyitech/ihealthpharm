@@ -131,12 +131,24 @@ public class HospitalModelServiceImpl implements HospitalModelService{
 		
 		return hospitalRepository.findFirst100ByOrderByLastUpdatedTimeStampDesc();
 	}
+	
+	@Override
+	public List<HospitalModel> findLimitedHospitalsForSales() {
+		return hospitalRepository.firstAllLatestRecords();
+	}
+	
+		
+	
 
 	@Override
 	public List<HospitalModel> findHospitalsByHospitalName(String hospitalName) {
 		
 		return hospitalRepository.findByHospitalNameIgnoreCaseContaining(hospitalName);
 	}
-	
-	
+
+	@Override
+	public List<HospitalModel> findHospitalsByHospitalNameForEditSearch(String hospitalName) {
+		return hospitalRepository.findByHospitalNameIgnoreCaseContainingForEditSearch(hospitalName);
+	}
+
 }

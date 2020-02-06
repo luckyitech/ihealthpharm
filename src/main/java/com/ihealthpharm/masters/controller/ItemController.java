@@ -121,6 +121,12 @@ public class ItemController {
 		List<ItemsModel> results = itemService.findAllByItemName(searchTerm);
 		return new BaseDto<>(results, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
+	
+	@GetMapping("/getallby/ItemNameSearch/foritemsupplier")
+	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllByItemNameSearchForItemSupplier(@RequestParam String searchTerm) {
+		List<ItemsModel> results = itemService.findAllByItemNameForItemSupplier(searchTerm);
+		return new BaseDto<>(results, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
 
 	// based on itemCode search
 	@GetMapping("/getallby/ItemCodeSearch")
@@ -164,6 +170,7 @@ public class ItemController {
 		List<ItemDTO> response = itemService.findBySearchKey(searchTerm,searchCode,start,end);
 		return new BaseDto<>(response, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
+	
 	@GetMapping("/getlimiteditemdata")
 	public ResponseEntity<BaseDto<List<ItemsModel>>> getLimitetems() {
 		List<ItemsModel> response = itemService.getLimitedItems();
@@ -174,6 +181,14 @@ public class ItemController {
 	public ResponseEntity<BaseDto<List<AlternativeItemDTO>>> getItemsDataByName(@RequestParam("key") String itemName) {
 		List<AlternativeItemDTO> result = itemService.findItemsByName(itemName);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
+		//sdsdd
+	}
+	
+	
+	@GetMapping("/getitemsdatabyname/forstock")
+	public ResponseEntity<BaseDto<List<AlternativeItemDTO>>> getItemsDataByNameForStockAdjust(@RequestParam("key") String itemName){
+		List<AlternativeItemDTO> results=itemService.findItemsByNameForStock(itemName);
+		return new BaseDto<>(results, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 	
 	@GetMapping("/getitemsdatabycode")
@@ -182,17 +197,37 @@ public class ItemController {
 		return new BaseDto<>(result,propertyHelper.getRetrieveMessage(),OK).respond();
 	}
 	
+	@GetMapping("/getitemsdatabycode/forstock")
+	public ResponseEntity<BaseDto<List<AlternativeItemDTO>>> getItemsDataByCodeForStockAdjust(@RequestParam("key")String itemCode){
+		List<AlternativeItemDTO> result=itemService.findItemsByCodeForStock(itemCode);
+		return new BaseDto<>(result,propertyHelper.getRetrieveMessage(),OK).respond();
+	}
+	
 	@GetMapping("/getitemsdatabygenericname")
 	public ResponseEntity<BaseDto<List<AlternativeItemDTO>>> getItemsDataByGeneric(@RequestParam("key")String itemGeneric){
 		List<AlternativeItemDTO> result=itemService.findItemsByGenericName(itemGeneric);
 		return new BaseDto<>(result,propertyHelper.getRetrieveMessage(),OK).respond();
 	}
+	
+	@GetMapping("/getitemsdatabygenericname/forstock")
+	public ResponseEntity<BaseDto<List<AlternativeItemDTO>>> getItemsDataByGenericForStockAdjust(@RequestParam("key")String itemGeneric){
+		List<AlternativeItemDTO> result=itemService.findItemsByGenericNameForStock(itemGeneric);
+		return new BaseDto<>(result,propertyHelper.getRetrieveMessage(),OK).respond();
+	}
+	
 
 	@GetMapping("/getitemsdatabydesc")
 	public ResponseEntity<BaseDto<List<AlternativeItemDTO>>> getItemsDataByDesc(@RequestParam("key")String itemdesc){
 		List<AlternativeItemDTO> response=itemService.findItemsByDesc(itemdesc);
 		return new BaseDto<>(response,propertyHelper.getRetrieveMessage(),OK).respond();
 	}
+	
+	@GetMapping("/getitemsdatabydesc/forstock")
+	public ResponseEntity<BaseDto<List<AlternativeItemDTO>>> getItemsDataByDescForStock(@RequestParam("key")String itemdesc){
+		List<AlternativeItemDTO> response=itemService.findItemsByDescForStock(itemdesc);
+		return new BaseDto<>(response,propertyHelper.getRetrieveMessage(),OK).respond();
+	}
+	
 	
 
 	@GetMapping("/getitemdatabylimit")

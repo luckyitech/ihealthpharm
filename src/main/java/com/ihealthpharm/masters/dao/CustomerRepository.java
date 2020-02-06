@@ -21,6 +21,9 @@ public interface CustomerRepository extends JpaRepository<CustomerModel,Integer>
 	@Query("SELECT c  FROM customer c order by c.lastUpdateTimestamp desc ")
 	List<CustomerModel> findFirst100ByOrderByCustomerNameAsc(Pageable limit);
 	
+	@Query("SELECT c  FROM customer c  where c.activeS='Y' order by c.lastUpdateTimestamp desc ")
+	List<CustomerModel> findFirst100ActiveByOrderByCustomerNameAsc(Pageable limit);
+	
 	@Query("SELECT c  FROM customer c where c.activeS='Y' order by c.lastUpdateTimestamp desc ")
 	List<CustomerModel> findFirst100Records(Pageable limit);
 

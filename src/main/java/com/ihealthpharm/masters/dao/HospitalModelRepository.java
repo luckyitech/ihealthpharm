@@ -16,12 +16,18 @@ public interface HospitalModelRepository extends JpaRepository<HospitalModel, Se
 	List<HospitalModel> findByActiveS(String status);
 
 	HospitalModel findByHospitalId(Integer hospitalId);
-	
+
 	@Query("select h from hospital h order by h.lastUpdatedTimeStamp desc")
 	List<HospitalModel> findAllLatestRecords();
 
 	List<HospitalModel> findFirst100ByOrderByLastUpdatedTimeStampDesc();
 
-	@Query("select h from hospital h where h.hospitalName like :searchKey% or h.license like :searchKey% or h.addressLine1 like :searchKey%")
+	@Query("select h from hospital h where h.activeS='Y' order by h.lastUpdatedTimeStamp desc")
+	List<HospitalModel>	firstAllLatestRecords();
+
+	@Query("select h from hospital h where (h.hospitalName like :searchKey% or h.license like :searchKey% or h.addressLine1 like :searchKey% ) and h.activeS='Y' order by h.lastUpdatedTimeStamp desc")
 	List<HospitalModel> findByHospitalNameIgnoreCaseContaining(@Param("searchKey") String searchKey);
+	
+	@Query("select h from hospital h where h.hospitalName like :searchKey% or h.license like :searchKey% or h.addressLine1 like :searchKey% ")
+	List<HospitalModel> findByHospitalNameIgnoreCaseContainingForEditSearch(@Param("searchKey") String searchKey);
 }

@@ -16,10 +16,18 @@ public interface ProviderRepository extends JpaRepository<ProviderModel, Integer
 	List<ProviderModel> findAllLastestRecords();
 
 	List<ProviderModel> findFirst100ByOrderByLastUpdateTimestampDesc();
+	
+	@Query("select p from provider p where p.activeS='Y' order by p.lastUpdateTimestamp desc")
+	List<ProviderModel> findAllSupplierRecords();
 
 	List<ProviderModel> findByFirstNameIgnoreCaseContaining(String firstName);
 
-	@Query("select p from provider p where p.firstName like :name% or p.lastName like :name% or p.deaNumber like :name% or p.licenseNumber like :name%")
+	@Query("select p from provider p where p.firstName like :name% or p.lastName like :name% or p.deaNumber like :name% or p.licenseNumber like :name% and p.activeS='Y' order by p.lastUpdateTimestamp desc")
 	List<ProviderModel> findByNameIgnoreCaseContaining(@Param("name") String name);
 
+	
+
+	@Query("select p from provider p where p.firstName like :providerName% or p.lastName like :providerName% or p.deaNumber like :providerName% or p.licenseNumber like :providerName% order by p.lastUpdateTimestamp desc")
+	List<ProviderModel> findByNameIgnoreCaseContainingForProvider(@Param("providerName") String providerName);
+	
 }

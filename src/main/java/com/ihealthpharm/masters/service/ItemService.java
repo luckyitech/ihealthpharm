@@ -26,14 +26,16 @@ public interface ItemService {
 	void deleteMultipleItemsById(Integer[] itemIds);
 
 	List<ItemsModel> findAllItems();
-	
+
 	// based on medical and itemName
 	List<ItemsModel> findAllByMedicalAndItemName(String medicalOrNonMedical, String searchTerm);
-	
+
 	// based on medical and itemDescription
 	List<ItemsModel> findAllByMedicalAndItemDesc(String medicalOrNonMedical,String searchTerm);
 
 	List<ItemsModel> findAllByItemName(String searchTerm);
+	
+	List<ItemsModel> findAllByItemNameForItemSupplier(String searchTerm);
 
 	List<ItemsModel> findAllByItemDescription(String searchTerm);
 
@@ -42,17 +44,17 @@ public interface ItemService {
 	List<ItemsModel> findAllByItemGroupCodeSearch(String searchTerm);
 
 	List<ItemsModel> findAllByItemCode(String searchTerm);
-	
+
 	List<ItemsModel> findBySearchKey(String searchTerm);
-	
+
 	List<ItemDTO> findBySearchKey(String searchTerm, String searchCode,Integer start, Integer end);
-	
+
 	List<ItemsModel> getLimitedItems();
 
 	List<ItemDTO> findAllByItemsSearch(String searchTerm);
-	
+
 	List<ItemDTO> findItemsByLimit(Integer start,Integer end);
-	
+
 	Integer findItemsCountBySearch(String searchTerm,String searchType);
 
 	List<StockAdjustmentItemDTO> findItemsByLimitWithItemCode(Integer start, Integer end);
@@ -61,12 +63,20 @@ public interface ItemService {
 
 	List<AlternativeItemDTO> findItemsByCode(String itemCode);
 	
+	List<AlternativeItemDTO> findItemsByCodeForStock(String itemCode);
+
 	List<AlternativeItemDTO> findItemsByName(String itemName);
-	
+
+	List<AlternativeItemDTO>  findItemsByNameForStock(String itemName);
+
 	List<AlternativeItemDTO> findItemsByDesc(String itemdesc);
 	
+	List<AlternativeItemDTO> findItemsByDescForStock(String itemdesc);
+
 	List<AlternativeItemDTO> findItemsByGenericName(String itemGeneric);
 
+	List<AlternativeItemDTO> findItemsByGenericNameForStock(String itemGeneric);
+	
 	List<StockAdjustmentItemDTO> findItemsByLimitWithItemGenericName(Integer start, Integer end);
 
 }

@@ -101,6 +101,14 @@ public class SupplierController {
 		List<SupplierModel> result = supplierService.findLimitedSuppliers();
 		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
 	}
+	
+	@GetMapping("/getall/limitedsuppliersdata")
+	public ResponseEntity<BaseDto<List<SupplierModel>>> getLimitedSuppliersData(@RequestParam Integer start,@RequestParam Integer end){
+		List<SupplierModel> result=supplierService.findLimitedSuppliersData(start,end);
+		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
+	}
+	
+	
 
 	@GetMapping("/getsupplierdatabyid")
 	public ResponseEntity<BaseDto<SupplierModel>> getSupplierDataById(@RequestParam Integer supplierId) {
@@ -122,9 +130,22 @@ public class SupplierController {
 		return new BaseDto<>(results,supplierHelper.getRetrieveSupplierMessage(),OK).respond();
 	}
 	
+	@GetMapping("/getallSuppliers/byName/editsupplier")
+	public ResponseEntity<BaseDto<List<SupplierModel>>>  getAllSuppliersBasedOnNameForSearch(@RequestParam String searchTerm){
+		List<SupplierModel> results=supplierService.findAllSuppliersByNameForSearch(searchTerm);
+		return new BaseDto<>(results,supplierHelper.getRetrieveSupplierMessage(),OK).respond();
+	}
+	
+	
 	@GetMapping("/getsuppliersdatabyname")
 	public ResponseEntity<BaseDto<List<SupplierModel>>> getSuppliersDataByName(@RequestParam("key") String name) {
 		List<SupplierModel> result = supplierService.findSuppliersByName(name);
+		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
+	}
+	
+	@GetMapping("/getsuppliersdatabyname/forsupplieritem")
+	public ResponseEntity<BaseDto<List<SupplierModel>>> getSuppliersDataByNameForSupplierSearch(@RequestParam("key") String name) {
+		List<SupplierModel> result = supplierService.findSuppliersByNameForSupplierItem(name);
 		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
 	}
 
