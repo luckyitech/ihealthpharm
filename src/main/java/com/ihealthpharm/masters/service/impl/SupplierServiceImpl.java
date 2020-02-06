@@ -130,11 +130,18 @@ public class SupplierServiceImpl implements SupplierService {
 	public List<SupplierModel> findAllSuppliersByName(String searchTerm) {
 		return supplierRepository.getAllSupplierNamesBySearch(searchTerm);
 	}
+	
+	@Override
+	public List<SupplierModel> findAllSuppliersByNameForSearch(String searchTerm) {
+		return supplierRepository.getAllSupplierNamesBySearchAll(searchTerm);
+	}	
+	
 
 	@Override
 	public List<SupplierModel> findLimitedSuppliers() {
 		return supplierRepository.findFirst100ByOrderByName();
 	}
+	
 	
 	@Override
 	public List<SupplierModel> findSuppliersByName(String name) {
@@ -156,11 +163,26 @@ public class SupplierServiceImpl implements SupplierService {
 			}
 		});
 	}
+	
+	
 
+	@Override
+	public List<SupplierModel> findSuppliersByNameForSupplierItem(String name) {
+
+		return supplierRepository.getAllSupplierBasedOnName(name);
+	}
+	
+	
 	@Override
 	public List<SupplierModel> findSuppliersBySearch(String name, Integer pageNumber, Integer pageSize) {
 		Pageable limit = PageRequest.of(pageNumber,pageSize);
 		return supplierRepository.getAllSuppliersBySearch(name,limit);
+	}
+
+	@Override
+	public List<SupplierModel> findLimitedSuppliersData(Integer pageNumber, Integer pageSize) {
+		Pageable limit = PageRequest.of(pageNumber,pageSize);
+		return supplierRepository.findSuppliersByLimit(limit);
 	}
 
 }

@@ -118,9 +118,20 @@ public class ProviderServiceImpl implements ProviderService {
 	public List<ProviderModel> findLimitProviders() {
 		return providerRepository.findFirst100ByOrderByLastUpdateTimestampDesc();
 	}
+	
+	@Override
+	public List<ProviderModel> findLimitProvidersForSalesBilling() {
+		return providerRepository.findAllSupplierRecords();
+	}	
 
 	@Override
 	public List<ProviderModel> findProvidersDataByName(String firstName) {
 		return providerRepository.findByNameIgnoreCaseContaining(firstName);
 	}
+
+	@Override
+	public List<ProviderModel> findProvidersDataByNameForProvider(String providerName) {
+		return providerRepository.findByNameIgnoreCaseContainingForProvider(providerName);
+	}
+
 }

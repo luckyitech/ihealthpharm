@@ -219,6 +219,7 @@ public class ItemSupplierServiceImpl implements ItemSupplierService {
 
 	@Override
 	public List<ItemSupplierDTO> findAllMappedItemSuppliersOnItemName(Integer itemId) {
+		System.out.println(itemId);
 		List<ItemSupplierDTO> response=itemSuppliersRepository.getAllItemSuppliersBasedOnItemId(itemId);
 		return response;
 	}
@@ -226,6 +227,12 @@ public class ItemSupplierServiceImpl implements ItemSupplierService {
 	@Override
 	public List<ItemSupplierDTO> findAllSupplierItemOnSupplierId(Integer supplierId) {
 		List<ItemSupplierDTO> response=itemSuppliersRepository.getAllSupplierItemBasedOnDistId(supplierId);
+		return response;
+	}
+	
+	@Override
+	public List<ItemSupplierDTO> findAllSupplierItemOnSupplierIdForPO(Integer supplierId) {
+		List<ItemSupplierDTO> response=itemSuppliersRepository.getAllSupplierItemBasedOnDistIdForPO(supplierId);
 		return response;
 	}
 

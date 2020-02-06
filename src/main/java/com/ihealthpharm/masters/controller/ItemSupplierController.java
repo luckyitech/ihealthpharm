@@ -169,6 +169,13 @@ public class ItemSupplierController {
 		List<ItemSupplierDTO> result=itemSupplierService.findAllSupplierItemOnSupplierId(supplierId);
 		return new BaseDto<>(result,itemSupplierHelper.getRetrieveItemSupplierMessage(),OK).respond();
 	}
+	
+	
+	@GetMapping("/getitemsuppliers/basedonSupplierId/po")
+	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getAllSupplierItemsBasedonSupplierIdForPo(@RequestParam Integer supplierId){
+		List<ItemSupplierDTO> result=itemSupplierService.findAllSupplierItemOnSupplierIdForPO(supplierId);
+		return new BaseDto<>(result,itemSupplierHelper.getRetrieveItemSupplierMessage(),OK).respond();
+	}
 	 
 
 	@GetMapping("/getitemsuppliersbyitemid")
