@@ -28,4 +28,6 @@ public interface ProviderService {
 
 	List<ProviderModel> findProvidersDataByName(String providerName);
 	
+	List<ProviderModel> findProvidersDataByNameForProvider(String providerName);
+	
 }

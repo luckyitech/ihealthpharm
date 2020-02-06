@@ -30,6 +30,9 @@ public interface SupplierRepository extends JpaRepository<SupplierModel, Integer
 	@Query("select d from supplier d where d.name like %:searchTerm% or d.license like %:searchTerm% order by d.creationTimeStamp desc")
 	List<SupplierModel> getAllSuppliersBySearch(@Param("searchTerm") String searchTerm, Pageable pageable);
 
+	@Query("select d from supplier d where d.name like %:names% and d.activeS='Y' order by d.lastUpdateTimestamp desc")
+	List<SupplierModel> getAllSupplierBasedOnName(@Param("names") String name);
+	
 	@Query("select s from supplier s where s.activeS='Y' order by s.lastUpdateTimestamp desc")
 	List<SupplierModel> findSuppliersByLimit(Pageable limit);
 }

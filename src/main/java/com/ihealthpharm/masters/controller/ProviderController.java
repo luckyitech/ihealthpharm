@@ -88,8 +88,13 @@ public class ProviderController {
 	
 	@GetMapping("/getprovidersdatabyname")
 	public ResponseEntity<BaseDto<List<ProviderModel>>> getProviderDataByName(@RequestParam("key") String name) {
-		System.out.println(name);
 		List<ProviderModel> result = providerService.findProvidersDataByName(name);
+		return new BaseDto<>(result, providerHelper.getRetrieveProvideMessage(), OK).respond();
+	}
+	
+	@GetMapping("/getprovidersdatabyname/editprovider")
+	public ResponseEntity<BaseDto<List<ProviderModel>>> getProviderDataByNameForProvider(@RequestParam("key") String name) {
+		List<ProviderModel> result = providerService.findProvidersDataByNameForProvider(name);
 		return new BaseDto<>(result, providerHelper.getRetrieveProvideMessage(), OK).respond();
 	}
 	

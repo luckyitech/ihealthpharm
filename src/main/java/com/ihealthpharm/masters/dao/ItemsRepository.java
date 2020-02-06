@@ -92,7 +92,7 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 	List<AlternativeItemDTO> getAlternativeItemsDataByItemName(@Param("searchTerm") String searchTerm);
 	
 	@Query("select new com.ihealthpharm.masters.dto.AlternativeItemDTO(i.itemId,i.itemName) from items i  "
-			+ "where  i.itemName like :searchTerm%  order by i.lastUpdateTimestamp desc")
+			+ "where  i.itemName like :searchTerm% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	List<AlternativeItemDTO> getAlternativeItemsDataByItemNameForStock(@Param("searchTerm") String searchTerm);
 
 	@Query("select new com.ihealthpharm.masters.dto.AlternativeItemDTO(i.itemId,i.itemCode) from items i  "
@@ -116,17 +116,14 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 			+ "where  i.itemDescription like :itemdesc% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	List<AlternativeItemDTO> getAlternativeItemsDataByItemDescForStock(@Param("itemdesc") String itemdesc);
 	
-	
-
 	@Query("select new com.ihealthpharm.masters.dto.AlternativeItemDTO(i.itemId,ig.genericName) from items i "
 			+ " inner join items_generic_names ig on i.itemGenericName=ig.itemGenericNameId "
-			+ "where  ig.genericName like :itemGeneric%  order by i.lastUpdateTimestamp desc")
+			+ "where  ig.genericName like :itemGeneric% order by i.lastUpdateTimestamp desc")
     List<AlternativeItemDTO> getAlternativeItemsDataByItemGenericName(@Param("itemGeneric")String itemGeneric);
 	
-	
 	@Query("select new com.ihealthpharm.masters.dto.AlternativeItemDTO(i.itemId,ig.genericName) from items i "
 			+ " inner join items_generic_names ig on i.itemGenericName=ig.itemGenericNameId "
-			+ "where  ig.genericName like :itemGeneric% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
+			+ "where ( ig.genericName like :itemGeneric% ) and i.activeS='Y' order by i.lastUpdateTimestamp desc")
     List<AlternativeItemDTO> getAlternativeItemsDataByItemGenericNameForStock(@Param("itemGeneric")String itemGeneric);
 	
 	@Query("select count(i) from items i where i.itemName like :searchTerm%  order by i.lastUpdateTimestamp desc")

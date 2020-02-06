@@ -135,6 +135,12 @@ public class SupplierController {
 		List<SupplierModel> result = supplierService.findSuppliersByName(name);
 		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
 	}
+	
+	@GetMapping("/getsuppliersdatabyname/forsupplieritem")
+	public ResponseEntity<BaseDto<List<SupplierModel>>> getSuppliersDataByNameForSupplierSearch(@RequestParam("key") String name) {
+		List<SupplierModel> result = supplierService.findSuppliersByNameForSupplierItem(name);
+		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
+	}
 
 	@GetMapping("/getsuppliersdatabysearch")
 	public ResponseEntity<BaseDto<List<SupplierModel>>> getSuppliersDataBySearch(@RequestParam("key") String name,

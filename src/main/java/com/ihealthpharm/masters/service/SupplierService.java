@@ -30,6 +30,8 @@ public interface SupplierService {
 	 
 	 List<SupplierModel> findSuppliersByName(String name);
 	 
+	 List<SupplierModel> findSuppliersByNameForSupplierItem(String name);
+	 
 	 List<SupplierModel> findSuppliersBySearch(String name,Integer pageNumber, Integer pageSize);
 
 	List<SupplierModel> findLimitedSuppliersData(Integer start, Integer end);

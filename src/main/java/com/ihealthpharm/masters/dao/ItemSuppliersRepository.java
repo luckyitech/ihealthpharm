@@ -49,7 +49,7 @@ public interface ItemSuppliersRepository extends JpaRepository<ItemSupplierModel
    List<ItemSupplierDTO> getAllItemSuppliersBasedOnItemId(@Param("itemId")Integer itemId);
 	
 	@Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(id.itemSupplierId,id.activeS,d.name as supplierName,i.itemName,m.name as manufacturerName,m.licence as manufacturerLicense,i.itemDescription,i.itemId,d.supplierId,id.supplierPriority,f.form as formulation,i.itemCode,id.unitRate,id.discountPercentage,id.validity,i as itemsModel) from items_supplier id inner join supplier d on id.suppliersId=d.supplierId inner join items i on i.itemId=id.itemsId inner join items_forms f on i.itemForm=f.itemformId " + 
-			" inner join manufacturer m on m.manufacturerId=i.manufacturer where d.supplierId=:supplierIds and id.activeS='Y' order by id.lastUpdateTimestamp desc")
+			" inner join manufacturer m on m.manufacturerId=i.manufacturer where d.supplierId=:supplierIds order by id.lastUpdateTimestamp desc")
 	List<ItemSupplierDTO> getAllSupplierItemBasedOnDistId(@Param("supplierIds")Integer supplierIds);
 
 	@Query("select sup from items_supplier items inner join supplier sup on items.suppliersId = sup.supplierId where items.itemsId=:itemsId")

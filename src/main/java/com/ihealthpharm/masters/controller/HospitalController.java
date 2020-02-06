@@ -109,6 +109,13 @@ public class HospitalController {
 		return new BaseDto<>(result, StandardResponse.SUCCESS.toString(), OK).respond();
 	}
 	
+	
+	@GetMapping("/gethospitaldatabyname/edithospital")
+	public ResponseEntity<BaseDto<List<HospitalModel>>> getHospitaldataHospitalNameForEdit(@RequestParam("key") String hospitalName) {
+		List<HospitalModel> result = hospitalModelService.findHospitalsByHospitalNameForEditSearch(hospitalName);
+		return new BaseDto<>(result, StandardResponse.SUCCESS.toString(), OK).respond();
+	}
+	
 	@GetMapping("/gethospitaldatabyid")
 	public ResponseEntity<BaseDto<HospitalModel>> getManufacturerDataById(@RequestParam Integer hospitalId) {
 		HospitalModel result = hospitalModelService.findHospitalById(hospitalId);

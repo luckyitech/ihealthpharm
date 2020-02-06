@@ -129,4 +129,9 @@ public class ProviderServiceImpl implements ProviderService {
 		return providerRepository.findByNameIgnoreCaseContaining(firstName);
 	}
 
+	@Override
+	public List<ProviderModel> findProvidersDataByNameForProvider(String providerName) {
+		return providerRepository.findByNameIgnoreCaseContainingForProvider(providerName);
+	}
+
 }

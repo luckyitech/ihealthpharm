@@ -146,4 +146,9 @@ public class HospitalModelServiceImpl implements HospitalModelService{
 		return hospitalRepository.findByHospitalNameIgnoreCaseContaining(hospitalName);
 	}
 
+	@Override
+	public List<HospitalModel> findHospitalsByHospitalNameForEditSearch(String hospitalName) {
+		return hospitalRepository.findByHospitalNameIgnoreCaseContainingForEditSearch(hospitalName);
+	}
+
 }

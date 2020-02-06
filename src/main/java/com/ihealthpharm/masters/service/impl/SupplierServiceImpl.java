@@ -157,6 +157,18 @@ public class SupplierServiceImpl implements SupplierService {
 			}
 		});
 	}
+	
+	
+
+	@Override
+	public List<SupplierModel> findSuppliersByNameForSupplierItem(String name) {
+
+		return supplierRepository.getAllSupplierBasedOnName(name);
+	}
+	
+	
+	
+	
 
 	@Override
 	public List<SupplierModel> findSuppliersBySearch(String name, Integer pageNumber, Integer pageSize) {
