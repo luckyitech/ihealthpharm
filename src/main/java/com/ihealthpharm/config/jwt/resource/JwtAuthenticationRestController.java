@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.config.jwt.JwtTokenUtil;
 import com.ihealthpharm.config.jwt.JwtUserDetails;
+import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dto.EmployeePharmacyRoleDTO;
 import com.ihealthpharm.masters.model.EmployeeAccessModel;
 import com.ihealthpharm.masters.model.EmployeeCredentialsModel;
@@ -68,17 +69,18 @@ public class JwtAuthenticationRestController {
 		
 		authenticate(authenticationRequest.getUserName(), authenticationRequest.getPassword());
 		EmployeeCredentialsModel users = employeeCredentialsService.findEmployeeCredentialsByUserName(authenticationRequest.getUserName());
+		if(users.getActiveS()== 'N')
+		{
+			throw new IHealthPharmException("Account Disabled", HttpStatus.NOT_FOUND);
+		}
 		final UserDetails userDetails = jwtInMemoryUserDetailsService
 				.loadUserByUsername(authenticationRequest.getUserName());
 		EmployeePharmacyRoleDTO employeePharmacyRoleModels = employeePharmacyRoleService.findEmployeePharmacyRoleDataByEmployeeId(users.getEmployee());
 		
 		final String token = jwtTokenUtil.generateToken(userDetails);
-		System.out.println("User ID : "+users.getEmployee().getEmployeeId());
 		List<EmployeeAccessModel> result = employeeAccessService.findByEmployee(users.getEmployee());
-
 	
 		return new BaseDto<>(new JwtTokenResponse(token,users.getEmployee().getEmployeeId(),result,employeePharmacyRoleModels.getPharmacyModel()),"Authentication Success",OK).respond();
-
 	}
 
 	@RequestMapping(value = "${jwt.refresh.token.uri}", method = RequestMethod.GET)
