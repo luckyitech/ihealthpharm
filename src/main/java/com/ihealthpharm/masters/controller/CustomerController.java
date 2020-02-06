@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.helper.CustomerHelper;
 import com.ihealthpharm.masters.model.CustomerModel;
@@ -87,7 +88,7 @@ public class CustomerController {
 		List<CustomerModel> result = customerService.findLimitedCustomers();
 		return new BaseDto<>(result, customerHelper.getRetrieveCustomerMessage(), OK).respond();
 	}
-	
+
 	@GetMapping("/getlimitedcustomerdata/forSalesbilling")
 	public ResponseEntity<BaseDto<List<CustomerModel>>> getLimitedCustomersData(){
 		List<CustomerModel> result = customerService.findLimitedCustomersData();
@@ -95,18 +96,28 @@ public class CustomerController {
 	}
 	
 	
+
 	@GetMapping("/getlimitedcustomerdata/tomap/membership")
 	public ResponseEntity<BaseDto<List<CustomerModel>>> getAllLimitedCustomersToMapMembership(){
 		List<CustomerModel> repsonse=customerService.findAllLimitedCustomersData();
 		return new BaseDto<>(repsonse, customerHelper.getRetrieveCustomerMessage(), OK).respond();
 	}
 	
+
 	@GetMapping("/getcustomerdatabyname")
 	public ResponseEntity<BaseDto<List<CustomerModel>>> getCustomerDataByName(@RequestParam("key") String customerName) {
 		List<CustomerModel> result = customerService.findCustomersByName(customerName);
 		return new BaseDto<>(result, customerHelper.getRetrieveCustomerMessage(), OK).respond();
 	}
 	
+
+	@GetMapping("/getcustomerdatabyphno")
+	public ResponseEntity<BaseDto<List<CustomerModel>>> getCustomerDataByPhNo(@RequestParam("key") String phno) {
+		List<CustomerModel> result = customerService.findCustomersByPhNo(phno);
+		return new BaseDto<>(result, customerHelper.getRetrieveCustomerMessage(), OK).respond();
+	}
+	
+
 	@GetMapping("/getcustomerdatabynamesearch")
 	public ResponseEntity<BaseDto<List<CustomerModel>>> getCustomersDataBySearchingName(@RequestParam("key")String customerName){
 		List<CustomerModel> response=customerService.findAllCustomersByNameSearch(customerName);
