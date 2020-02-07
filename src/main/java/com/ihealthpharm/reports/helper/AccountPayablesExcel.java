@@ -229,13 +229,13 @@ public class AccountPayablesExcel extends ReportsExcelUtility{
 				value = rowData.containsKey("TOTAL_AMOUNT_PAID") ? rowData.get("TOTAL_AMOUNT_PAID") : "";
 				//sheet.autoSizeColumn(6);
 				cell = dataRow.createCell(7);
-				cell.setCellValue(String.valueOf(value));
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("TOTAL_AMOUNT_TO_BE_PAID") ? rowData.get("TOTAL_AMOUNT_TO_BE_PAID") : "";
 				//sheet.autoSizeColumn(7);
 				cell = dataRow.createCell(8);
-				cell.setCellValue(String.valueOf(value));
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("PAYMENT_STATUS") ? rowData.get("PAYMENT_STATUS") : "";
