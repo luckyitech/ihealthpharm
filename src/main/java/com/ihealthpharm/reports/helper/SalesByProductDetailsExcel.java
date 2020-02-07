@@ -228,25 +228,25 @@ public class SalesByProductDetailsExcel extends ReportsExcelUtility {
 				value = rowData.containsKey("SALE_QTY") ? rowData.get("SALE_QTY") : "";
 				//sheet.autoSizeColumn(8);
 				cell = dataRow.createCell(8);
-				cell.setCellValue(String.valueOf(value));
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("UNIT_SALE_PRICE") ? rowData.get("UNIT_SALE_PRICE") : "";
 				//sheet.autoSizeColumn(9);
 				cell = dataRow.createCell(9);
-				cell.setCellValue(String.valueOf(value));
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("DISCOUNT") ? rowData.get("DISCOUNT") : "";
 				//sheet.autoSizeColumn(10);
 				cell = dataRow.createCell(10);
-				cell.setCellValue(String.valueOf(value));
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("TOTAL_AMOUNT") ? rowData.get("TOTAL_AMOUNT") : "";
 				//sheet.autoSizeColumn(11);
 				cell = dataRow.createCell(11);
-				cell.setCellValue(String.valueOf(value));
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 			}
 		}

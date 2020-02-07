@@ -239,14 +239,14 @@ public class SalesRegisterAreaWiseDetailsExcel extends ReportsExcelUtility {
 				value = rowData.containsKey("PAID_AMOUNT") ? rowData.get("PAID_AMOUNT") : "";
 				//sheet.autoSizeColumn(5);
 				cell = dataRow.createCell(5);
-				cell.setCellValue(String.valueOf(value));
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				
 				value = rowData.containsKey("TOTAL_AMOUNT") ? rowData.get("TOTAL_AMOUNT") : "";
 				//sheet.autoSizeColumn(6);
 				cell = dataRow.createCell(6);
-				cell.setCellValue(String.valueOf(value));
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 			}
