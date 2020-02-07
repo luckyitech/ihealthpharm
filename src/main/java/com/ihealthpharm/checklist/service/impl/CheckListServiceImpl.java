@@ -1,14 +1,12 @@
-package com.ihealthpharm.notfications.service.impl;
+package com.ihealthpharm.checklist.service.impl;
 
 import java.util.List;
-
 import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ihealthpharm.notifications.dao.CheckListRepository;
-import com.ihealthpharm.notifications.model.CheckListModel;
-import com.ihealthpharm.notifications.service.CheckListService;
+import com.ihealthpharm.checklist.dao.CheckListRepository;
+import com.ihealthpharm.checklist.model.CheckListModel;
+import com.ihealthpharm.checklist.service.CheckListService;
 
 @Service
 @Transactional
@@ -33,9 +31,7 @@ public class CheckListServiceImpl implements CheckListService {
 		List<CheckListModel> checkListRes = checkListRepo.saveAll(checkListModel);
 		return checkListRes;
 	}
-
-
-	
+		
 	@Override
 	public Integer countCheckListPending() {
 		return checkListRepo.countPendingStatusRepo();
@@ -49,6 +45,16 @@ public class CheckListServiceImpl implements CheckListService {
 	@Override
 	public CheckListModel addCheckList(CheckListModel checkListModel) {
 		return checkListRepo.save(checkListModel);
+	}
+	
+	@Override
+	public List<CheckListModel> onlyTitleService(){
+		return checkListRepo.onlyTitle();
+	}
+	
+	@Override
+	public List<CheckListModel> getFilteredCheckList(String title){
+		return checkListRepo.findFilteredCheckList(title);
 	}
 	
 	

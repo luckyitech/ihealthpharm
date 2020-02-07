@@ -1,4 +1,4 @@
-package com.ihealthpharm.notfications.helper;
+package com.ihealthpharm.checklist.helper;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package com.ihealthpharm.notifications.model;
+package com.ihealthpharm.checklist.model;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -33,17 +33,36 @@ public class CheckListModel {
 	
 	@Column(name="ASSIGNED_TO")
 	private String assignedTo;
-	
-	@Column(name="TARGET_DATE")
-	private LocalDate targetDate;
-	
+		
 	@Column(name="STATUS")
 	private String status;
 	
 	@Column(name="DONE_BY")
 	private String doneBy;
 	
-	@Column(name="DATE")
-	private Date date;
+	@Column(name="TARGET_DATE")
+	private LocalDate targetDate;
 	
+	@Column(name="TARGET_DATE_TS")
+	private String targetTime;
+	
+	@Column(name="CHECKLIST_NAME")
+	private String checkListName;
+	
+	@Column(name="DONE_DATE_TS")
+	private Date doneDateTS;
+	
+	@Column(name="ASSIGNED_DATE")
+	private LocalDate assignedDate;
+
+	public CheckListModel(String title, LocalDate assignedDate) {
+		super();
+		this.title = title;
+		this.assignedDate = assignedDate;
+	}
+	
+	public CheckListModel() {
+		super();
+	
+	}
 }

@@ -1,8 +1,8 @@
-package com.ihealthpharm.notifications.service;
+package com.ihealthpharm.checklist.service;
 
 import java.util.List;
 
-import com.ihealthpharm.notifications.model.CheckListModel;
+import com.ihealthpharm.checklist.model.CheckListModel;
 
 public interface CheckListService {
 
@@ -15,4 +15,8 @@ public interface CheckListService {
 	Integer countCheckListPending();
 
 	CheckListModel addCheckList(CheckListModel checkListModel);
+	
+	List<CheckListModel> onlyTitleService();
+	
+	List<CheckListModel> getFilteredCheckList(String title);
 }
