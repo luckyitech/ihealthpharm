@@ -254,20 +254,20 @@ public class SalesByProductSummaryExcel extends ReportsExcelUtility {
 				value = rowData.containsKey("UNIT_SALE_PRICE") ? rowData.get("UNIT_SALE_PRICE") : "";
 				//sheet.autoSizeColumn(6);
 				cell = dataRow.createCell(6);
-				cell.setCellValue(String.valueOf(value));
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("SALE_QTY") ? rowData.get("SALE_QTY") : "";
 				//sheet.autoSizeColumn(7);
 				cell = dataRow.createCell(7);
-				cell.setCellValue(String.valueOf(value));
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 
 				value = rowData.containsKey("TOTAL_AMOUNT") ? rowData.get("TOTAL_AMOUNT") : "";
 				//sheet.autoSizeColumn(8);
 				cell = dataRow.createCell(8);
-				cell.setCellValue(String.valueOf(value));
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 			}
 		}

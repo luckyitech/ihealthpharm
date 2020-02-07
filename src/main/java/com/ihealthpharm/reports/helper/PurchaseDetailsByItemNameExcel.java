@@ -182,14 +182,14 @@ public class PurchaseDetailsByItemNameExcel extends ReportsExcelUtility {
 				value = rowData.containsKey("QUANTITY") ? rowData.get("QUANTITY") : "";
 				//sheet.autoSizeColumn(5);
 				cell = dataRow.createCell(5);
-				cell.setCellValue(String.valueOf(value));
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 
 				
 				value = rowData.containsKey("INVOICE_AMOUNT") ? rowData.get("INVOICE_AMOUNT") : "";
 				//sheet.autoSizeColumn(6);
 				cell = dataRow.createCell(6);
-				cell.setCellValue(String.valueOf(value));
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				

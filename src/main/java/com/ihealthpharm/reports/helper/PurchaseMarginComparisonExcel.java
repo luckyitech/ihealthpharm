@@ -5,10 +5,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
@@ -186,50 +189,60 @@ public class PurchaseMarginComparisonExcel extends ReportsExcelUtility{
 				value = rowData.containsKey("QUANTITY_APPROVED") ? rowData.get("QUANTITY_APPROVED") : "";
 				//sheet.autoSizeColumn(3);
 				cell = dataRow.createCell(3);
-				cell.setCellValue(String.valueOf(value));
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("BONUS") ? rowData.get("BONUS") : "";
 				//sheet.autoSizeColumn(4);
 				cell = dataRow.createCell(4);
-				cell.setCellValue(String.valueOf(value));
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("UNIT_RATE") ? rowData.get("UNIT_RATE") : "";
 				//sheet.autoSizeColumn(5);
 				cell = dataRow.createCell(5);
-				cell.setCellValue(String.valueOf(value));
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 
 				
 				value = rowData.containsKey("MRP") ? rowData.get("MRP") : "";
 				//sheet.autoSizeColumn(6);
 				cell = dataRow.createCell(6);
-				cell.setCellValue(String.valueOf(value));
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("DISCOUNT") ? rowData.get("DISCOUNT") : "";
 				//sheet.autoSizeColumn(7);
 				cell = dataRow.createCell(7);
-				cell.setCellValue(String.valueOf(value));
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("NET_AMOUNT") ? rowData.get("NET_AMOUNT") : "";
 				//sheet.autoSizeColumn(8);
 				cell = dataRow.createCell(8);
+				try {
+					if(NumberUtils.isNumber(String.valueOf(value))) {
+						cell.setCellType(CellType.NUMERIC);		
+						cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+					}else {	
+					   cell.setCellValue(String.valueOf(value));
+					}
+				} catch (Exception e) {
+					//log.error(ExceptionUtils.getStackTrace(e)); 
+				}
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("MARGIN_AMT") ? rowData.get("MARGIN_AMT") : "";
 				//sheet.autoSizeColumn(9);
 				cell = dataRow.createCell(9);
-				cell.setCellValue(String.valueOf(value));
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("MARGIN_AMT_ITEM") ? rowData.get("MARGIN_AMT_ITEM") : "";
 				//sheet.autoSizeColumn(10);
 				cell = dataRow.createCell(10);
-				cell.setCellValue(String.valueOf(value));
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				
