@@ -73,13 +73,15 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 
 			if(accountPayablesModel.getSourceType().equalsIgnoreCase("Debit Note")) {
 				generalLedgerModel.setDebit(new Float(0.0));
-				generalLedgerModel.setCredit( -1 * accountPayablesModel.getTotalAmountPaid());
+				//-1 * accountPayablesModel.getTotalAmountPaid()
+				generalLedgerModel.setCredit( accountPayablesModel.getTotalAmountPaid());
 
 			}else if(accountPayablesModel.getSourceType().equalsIgnoreCase("Credit Note")) {
 				generalLedgerModel.setCredit(new Float(0.0));
 				generalLedgerModel.setDebit(accountPayablesModel.getTotalAmountPaid());
 			}else if(accountPayablesModel.getSourceType().equalsIgnoreCase("Purchase Returns - Debit Note")) {
-				generalLedgerModel.setDebit(-1 * accountPayablesModel.getTotalAmountPaid());
+				//removed -1 * from -1 * accountPayablesModel.getTotalAmountPaid()
+				generalLedgerModel.setDebit(accountPayablesModel.getTotalAmountPaid());
 				generalLedgerModel.setCredit(new Float(0.0));
 			}else if(accountPayablesModel.getSourceType().equalsIgnoreCase("Invoice")) {
 				generalLedgerModel.setDebit(accountPayablesModel.getTotalAmountPaid());
@@ -130,12 +132,13 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 
 			}else if(accountRecievablesModel.getSourceType().equalsIgnoreCase("Credit Note")) {
 
-
-				generalLedgerModel.setDebit(-1 * accountRecievablesModel.getAmountReceived());
+				//-1 * accountRecievablesModel.getAmountReceived()
+				generalLedgerModel.setDebit( accountRecievablesModel.getAmountReceived());
 				generalLedgerModel.setCredit(new Float(0.0));
 
 			}else if(accountRecievablesModel.getSourceType().equalsIgnoreCase("Sales Returns - Credit Note")) {
-				generalLedgerModel.setDebit(-1 * accountRecievablesModel.getAmountReceived());
+				//-1 * accountRecievablesModel.getAmountReceived()
+				generalLedgerModel.setDebit(accountRecievablesModel.getAmountReceived());
 				generalLedgerModel.setCredit(new Float(0.0));
 			}
 
@@ -153,8 +156,6 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 			generalLedgerModel.setBalance(0.0);
 			generalLedgerModel.setPharmacyModel(accountRecievablesModel.getPharmacyModel());
 
-
-
 			modelRes.add(generalLegderRepo.save(generalLedgerModel));
 
 
@@ -169,7 +170,7 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 	@Override
 	public GeneralLedgerModel saveGeneralLedgerData(AccountReceivablesModel generalLedgerModel) {
 		GeneralLedgerModel ledgerModelObj=new GeneralLedgerModel();
-		
+
 		ledgerModelObj.setJournalId(uniqueCodeService.findByUniqueCodeName("GL"));
 		ledgerModelObj.setJournalRef(generalLedgerModel.getReceiptNumber());
 		ledgerModelObj.setEntryNo(generalLedgerModel.getSourceRef());
@@ -188,10 +189,10 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 		}
 		ledgerModelObj.setBalance(0.0);
 		ledgerModelObj.setPharmacyModel(generalLedgerModel.getPharmacyModel());
-		
+
 		GeneralLedgerModel respose=generalLegderRepo.save(ledgerModelObj);
-		
-		
+
+
 		return respose;
 	}
 
