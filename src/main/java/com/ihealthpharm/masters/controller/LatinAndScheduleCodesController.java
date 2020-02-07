@@ -42,11 +42,4 @@ public class LatinAndScheduleCodesController {
 		List<ScheduleCodeModel> result = latinAndScheduleCodesService.findAllScheduleCodes();
 		return new BaseDto<>(result, latinAndScheduleHelper.getRetrieveScheduleCodeMessage(), OK).respond();
 	}
-	
-	/*@GetMapping("/getconcatenatecode")
-	public ResponseEntity<BaseDto<List<LatinShortCodesModel>>> getConcatenateByLatinCode() {
-		List<LatinShortCodesModel> result=latinAndScheduleCodesService.findConcatenateCode();
-		return new BaseDto<>(result, latinAndScheduleHelper.getRetrieveLatinCodeMessage(), OK).respond();
-	}*/
-	
 }

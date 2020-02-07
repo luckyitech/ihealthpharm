@@ -22,11 +22,20 @@ public interface SupplierService {
 	
 	 List<SupplierModel> findAllSuppliers();
 	 
+	 List<SupplierModel> findAllActiveSuppliers();
+	 
 	 List<SupplierModel> findLimitedSuppliers();
 
 	 List<SupplierModel> findAllSuppliersByName(String searchTerm);
 	 
+	 List<SupplierModel> findAllSuppliersByNameForSearch(String searchTerm);
+	 
 	 List<SupplierModel> findSuppliersByName(String name);
 	 
+	 List<SupplierModel> findSuppliersByNameForSupplierItem(String name);
+	 
 	 List<SupplierModel> findSuppliersBySearch(String name,Integer pageNumber, Integer pageSize);
+
+	List<SupplierModel> findLimitedSuppliersData(Integer start, Integer end);
+
 }

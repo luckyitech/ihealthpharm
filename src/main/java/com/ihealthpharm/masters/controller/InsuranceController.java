@@ -103,6 +103,14 @@ public class InsuranceController {
 		return new BaseDto<>(response,insuranceHelper.getRetrieveInsuranceMessage(),OK).respond();
 	}
 	
+	
+	@GetMapping("/getinsurancies/mapCustomers")
+	public ResponseEntity<BaseDto<List<InsuranceModel>>> getAllInsuranciesToMapwithCustomers(){
+		List<InsuranceModel> response=insuranceService.findAllByInsurancesToMap();
+		return new BaseDto<>(response,insuranceHelper.getRetrieveInsuranceMessage(),OK).respond();
+	}
+	
+	
 	@GetMapping("/getinsurance/byid")
 	public ResponseEntity<BaseDto<InsuranceModel>> getInsuranceById(@Valid @RequestParam Integer insurancePolicyId){
 		InsuranceModel insuranceRes=insuranceService.findInsuranceById(insurancePolicyId);

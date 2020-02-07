@@ -182,4 +182,14 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 		return accountReceivablesRepository.getAllRecievablesCustNames(customerName);
 	}
 
+	@Override
+	public List<String> findallCustNamesAR() {
+		return accountReceivablesRepository.findAllCustomersNamesINAR();
+	}
+
+	@Override
+	public List<String> findCustNamesbysearchAR(String searchTerm) {
+		return accountReceivablesRepository.findCustomersNamesBySearch(searchTerm);
+	}
+
 }

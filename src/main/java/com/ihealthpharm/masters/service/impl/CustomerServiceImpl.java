@@ -1,26 +1,19 @@
 package com.ihealthpharm.masters.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.CustomerRepository;
-import com.ihealthpharm.masters.dto.CustomerDTO;
 import com.ihealthpharm.masters.helper.CustomerHelper;
 import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.masters.service.CustomerService;
@@ -139,6 +132,20 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
+	public List<CustomerModel> findLimitedCustomersData() {
+      Pageable limit=new PageRequest(0, 100);
+		return customerRepository.findFirst100ActiveByOrderByCustomerNameAsc(limit);
+	}
+
+	
+
+	@Override
+	public List<CustomerModel> findAllLimitedCustomersData() {
+		Pageable limit = new PageRequest(0,100);
+		return customerRepository.findFirst100Records(limit);
+	}	
+	
+	@Override
 	public List<CustomerModel> findCustomersByName(String customerName) {
 		
 		/*return customerRepository.findAll(new Specification<CustomerModel>() {
@@ -165,5 +172,13 @@ public class CustomerServiceImpl implements CustomerService {
 	public List<CustomerModel> findAllCustomersByNameSearch(String customerName) {
 		return customerRepository.findCustomerBySearchingName(customerName);
 	}
+
+	@Override
+	public List<CustomerModel> findCustomersByPhNo(String phno) {
+		
+		return customerRepository.findByPhoneNumber(phno);
+	}
+	
+	
 
 }

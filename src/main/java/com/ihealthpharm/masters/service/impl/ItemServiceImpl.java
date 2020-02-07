@@ -24,7 +24,9 @@ import com.ihealthpharm.masters.helper.ItemPropertyHelper;
 import com.ihealthpharm.masters.model.ItemGroupModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.service.ItemService;
+import com.ihealthpharm.stock.dao.StockRepository;
 import com.ihealthpharm.stock.dto.StockAdjustmentItemDTO;
+import com.ihealthpharm.stock.model.StockModel;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,17 +50,27 @@ public class ItemServiceImpl implements ItemService {
 
 	@Autowired
 	private ItemPropertyHelper itemPropertyHelper;
+	
+	@Autowired
+	private StockRepository stockRepo;
 
 
 	@Override
 	public ItemsModel updateItemData(ItemsModel itemsModel) {
 		ItemsModel itemsModelRes = getValidItems(itemsModel.getItemId());
 
-		if(!Objects.nonNull(itemsModelRes))
-		{
-			throw new IHealthPharmException(itemPropertyHelper.getNotFoundMessage(),HttpStatus.NOT_FOUND);
+		if(itemsModel.getActiveS().equals("N")) {
+			List<StockModel> response=stockRepo.findByItem(itemsModel); 
+			if(response.size()>0)
+			{
+			for(int i=0;i<response.size();i++) {
+				if(response.get(i).getQuantity() != 0)
+				{
+					throw new IHealthPharmException("Item Have Stock can`t be deactivated",HttpStatus.NOT_FOUND);
+				}
+			}
+			}
 		}
-
 		itemsModelRes = itemRepository.save(itemsModel);
 		log.info("Items data with ID : "+ itemsModelRes.getItemId()+" updated succesfully");
 		return itemsModelRes;
@@ -186,6 +198,12 @@ public class ItemServiceImpl implements ItemService {
 		List<ItemsModel> resp =itemRepository.findAllByItemNameSearch(searchTerm);
 		return resp;
 	}
+	
+	@Override
+	public List<ItemsModel> findAllByItemNameForItemSupplier(String searchTerm) {
+		List<ItemsModel> resp =itemRepository.findAllByItemNameSearchForSupplier(searchTerm);
+		return resp;
+	}
 
 	@Override
 	public List<ItemsModel> findAllByMedicalAndItemDesc(String medicalOrNonMedical, String searchTerm) {
@@ -280,11 +298,22 @@ public class ItemServiceImpl implements ItemService {
 	public List<AlternativeItemDTO> findItemsByCode(String itemCode) {
 		return itemRepository.getAlternativeItemsDataByItemCode(itemCode);
 	}
+	
+	@Override
+	public List<AlternativeItemDTO> findItemsByCodeForStock(String itemCode) {
+		return itemRepository.getAlternativeItemsDataByItemCodeForStock(itemCode);
+	}
+	
 
 
 	@Override
 	public List<AlternativeItemDTO> findItemsByGenericName(String itemGeneric) {
 		return itemRepository.getAlternativeItemsDataByItemGenericName(itemGeneric);
+	}
+	
+	@Override
+	public List<AlternativeItemDTO> findItemsByGenericNameForStock(String itemGeneric) {
+		return itemRepository.getAlternativeItemsDataByItemGenericNameForStock(itemGeneric);
 	}
 
 
@@ -294,9 +323,21 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
+	public List<AlternativeItemDTO> findItemsByDescForStock(String itemdesc) {
+		return itemRepository.getAlternativeItemsDataByItemDescForStock(itemdesc);
+	}
+	
+	
+	@Override
 	public List<AlternativeItemDTO> findItemsByName(String itemName) {
 		return itemRepository.getAlternativeItemsDataByItemName(itemName); 
 	}
+	
+	@Override
+	public List<AlternativeItemDTO> findItemsByNameForStock(String itemName) {
+		return itemRepository.getAlternativeItemsDataByItemNameForStock(itemName);
+	}
+	
 
 	@Override
 

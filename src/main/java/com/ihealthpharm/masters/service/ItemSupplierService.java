@@ -41,6 +41,8 @@ public interface ItemSupplierService {
 	List<ItemSupplierDTO> findAllMappedItemSuppliersOnItemName(Integer  itemId);
 
 	List<ItemSupplierDTO> findAllSupplierItemOnSupplierId(Integer supplierId);
+	
+	List<ItemSupplierDTO> findAllSupplierItemOnSupplierIdForPO(Integer supplierId);
 
 	ItemSupplierModel saveItemSupplierDataModel(ItemSupplierModel itemSupplierModel);
 

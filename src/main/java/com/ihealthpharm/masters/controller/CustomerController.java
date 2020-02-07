@@ -88,13 +88,36 @@ public class CustomerController {
 		List<CustomerModel> result = customerService.findLimitedCustomers();
 		return new BaseDto<>(result, customerHelper.getRetrieveCustomerMessage(), OK).respond();
 	}
+
+	@GetMapping("/getlimitedcustomerdata/forSalesbilling")
+	public ResponseEntity<BaseDto<List<CustomerModel>>> getLimitedCustomersData(){
+		List<CustomerModel> result = customerService.findLimitedCustomersData();
+		return new BaseDto<>(result, customerHelper.getRetrieveCustomerMessage(), OK).respond();
+	}
+	
+	
+
+	@GetMapping("/getlimitedcustomerdata/tomap/membership")
+	public ResponseEntity<BaseDto<List<CustomerModel>>> getAllLimitedCustomersToMapMembership(){
+		List<CustomerModel> repsonse=customerService.findAllLimitedCustomersData();
+		return new BaseDto<>(repsonse, customerHelper.getRetrieveCustomerMessage(), OK).respond();
+	}
+	
+
 	@GetMapping("/getcustomerdatabyname")
 	public ResponseEntity<BaseDto<List<CustomerModel>>> getCustomerDataByName(@RequestParam("key") String customerName) {
 		List<CustomerModel> result = customerService.findCustomersByName(customerName);
 		return new BaseDto<>(result, customerHelper.getRetrieveCustomerMessage(), OK).respond();
 	}
 	
+
+	@GetMapping("/getcustomerdatabyphno")
+	public ResponseEntity<BaseDto<List<CustomerModel>>> getCustomerDataByPhNo(@RequestParam("key") String phno) {
+		List<CustomerModel> result = customerService.findCustomersByPhNo(phno);
+		return new BaseDto<>(result, customerHelper.getRetrieveCustomerMessage(), OK).respond();
+	}
 	
+
 	@GetMapping("/getcustomerdatabynamesearch")
 	public ResponseEntity<BaseDto<List<CustomerModel>>> getCustomersDataBySearchingName(@RequestParam("key")String customerName){
 		List<CustomerModel> response=customerService.findAllCustomersByNameSearch(customerName);

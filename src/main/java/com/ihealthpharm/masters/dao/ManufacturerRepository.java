@@ -14,9 +14,9 @@ public interface ManufacturerRepository  extends JpaRepository<ManufacturerModel
 	
 	List<ManufacturerModel> findByActiveS(Character active);
 	
-	@Query("select m from manufacturer m where m.activeS='Y' order by m.lastUpdateTimestamp desc")
+	@Query("select m from manufacturer m  order by m.lastUpdateTimestamp desc")
 	List<ManufacturerModel> findAllByOrderByLastUpdateTimestampDesc();
 
-	@Query("select i from manufacturer i where i.name like :searchTerm% or i.licence like :searchTerm% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
+	@Query("select i from manufacturer i where i.name like :searchTerm% or i.licence like :searchTerm%  order by i.lastUpdateTimestamp desc")
 	List<ManufacturerModel> findAllBySearchCriteria(@Param("searchTerm") String searchTerm);
 }

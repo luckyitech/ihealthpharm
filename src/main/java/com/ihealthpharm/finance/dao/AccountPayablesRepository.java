@@ -51,4 +51,18 @@ public interface AccountPayablesRepository extends JpaRepository<AccountPayables
 	
 	@Query("select count(paymentDate) from ACCOUNT_PAYABLES where selectedPaymentStatus='paid'")
 	Integer getPaid();
+	
+	//Account payables
+	
+	@Query("SELECT distinct ap.supplierName from ACCOUNT_PAYABLES ap order by ap.supplierName")
+	List<String> findAllSupplierNamesINAP();
+
+	@Query("select distinct ap.supplierName from ACCOUNT_PAYABLES ap where ap.supplierName like :searchTerm%")
+	List<String> findSupplierNameBySearchINAP(@Param("searchTerm") String searchTerm);
+	
+	@Query("SELECT distinct ap.selectedPaymentStatus from ACCOUNT_PAYABLES ap order by ap.selectedPaymentStatus")
+	List<String> findAllPaymentStatusINAP();
+
+	@Query("select distinct ap.selectedPaymentStatus from ACCOUNT_PAYABLES ap where ap.selectedPaymentStatus like :searchTerm%")
+	List<String> findPaymentStautusBySearchINAP(@Param("searchTerm") String searchTerm);
 }
