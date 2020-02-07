@@ -94,8 +94,8 @@ public class AccountReceivablesExcel extends ReportsExcelUtility{
 		cell = dataRow.createCell(9);
 		cell1=dataRow1.createCell(9);
 		
-		cell.setCellValue("Total Amount Paid : ");
-		cell1.setCellValue("Total Amount To Be Paid : ");
+		cell.setCellValue("Total Amount Received : ");
+		cell1.setCellValue("Total Amount To Be Received : ");
 		
 		cell = dataRow.createCell(10);
 		cell1=dataRow1.createCell(10);
