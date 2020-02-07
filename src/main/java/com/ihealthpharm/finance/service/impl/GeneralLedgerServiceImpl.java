@@ -73,15 +73,13 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 
 			if(accountPayablesModel.getSourceType().equalsIgnoreCase("Debit Note")) {
 				generalLedgerModel.setDebit(new Float(0.0));
-				//-1 * accountPayablesModel.getTotalAmountPaid()
-				generalLedgerModel.setCredit( accountPayablesModel.getTotalAmountPaid());
+				generalLedgerModel.setCredit(-1 * accountPayablesModel.getTotalAmountPaid());
 
 			}else if(accountPayablesModel.getSourceType().equalsIgnoreCase("Credit Note")) {
 				generalLedgerModel.setCredit(new Float(0.0));
 				generalLedgerModel.setDebit(accountPayablesModel.getTotalAmountPaid());
 			}else if(accountPayablesModel.getSourceType().equalsIgnoreCase("Purchase Returns - Debit Note")) {
-				//removed -1 * from -1 * accountPayablesModel.getTotalAmountPaid()
-				generalLedgerModel.setDebit(accountPayablesModel.getTotalAmountPaid());
+				generalLedgerModel.setDebit(-1 * accountPayablesModel.getTotalAmountPaid());
 				generalLedgerModel.setCredit(new Float(0.0));
 			}else if(accountPayablesModel.getSourceType().equalsIgnoreCase("Invoice")) {
 				generalLedgerModel.setDebit(accountPayablesModel.getTotalAmountPaid());
@@ -132,26 +130,13 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 
 			}else if(accountRecievablesModel.getSourceType().equalsIgnoreCase("Credit Note")) {
 
-				//-1 * accountRecievablesModel.getAmountReceived()
-				generalLedgerModel.setDebit( accountRecievablesModel.getAmountReceived());
+				generalLedgerModel.setDebit(-1 * accountRecievablesModel.getAmountReceived());
 				generalLedgerModel.setCredit(new Float(0.0));
 
 			}else if(accountRecievablesModel.getSourceType().equalsIgnoreCase("Sales Returns - Credit Note")) {
-				//-1 * accountRecievablesModel.getAmountReceived()
-				generalLedgerModel.setDebit(accountRecievablesModel.getAmountReceived());
+				generalLedgerModel.setDebit(-1 * accountRecievablesModel.getAmountReceived());
 				generalLedgerModel.setCredit(new Float(0.0));
 			}
-
-			/* else if(accountRecievablesModel.getSourceType().equalsIgnoreCase("Sales Billing")) {
-                if(accountRecievablesModel.getAmountReceived() > 0){
-                               generalLedgerModel.setCredit(accountRecievablesModel.getAmountReceived());
-                      generalLedgerModel.setDebit(new Float(0.0));
-               }else {
-                  generalLedgerModel.setDebit(accountRecievablesModel.getAmountReceived());
-             generalLedgerModel.setCredit(new Float(0.0));
-             }
-
-            }*/
 
 			generalLedgerModel.setBalance(0.0);
 			generalLedgerModel.setPharmacyModel(accountRecievablesModel.getPharmacyModel());
