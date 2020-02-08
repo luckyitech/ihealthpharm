@@ -73,7 +73,7 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 
 			if(accountPayablesModel.getSourceType().equalsIgnoreCase("Debit Note")) {
 				generalLedgerModel.setDebit(new Float(0.0));
-				generalLedgerModel.setCredit( -1 * accountPayablesModel.getTotalAmountPaid());
+				generalLedgerModel.setCredit(-1 * accountPayablesModel.getTotalAmountPaid());
 
 			}else if(accountPayablesModel.getSourceType().equalsIgnoreCase("Credit Note")) {
 				generalLedgerModel.setCredit(new Float(0.0));
@@ -130,7 +130,6 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 
 			}else if(accountRecievablesModel.getSourceType().equalsIgnoreCase("Credit Note")) {
 
-
 				generalLedgerModel.setDebit(-1 * accountRecievablesModel.getAmountReceived());
 				generalLedgerModel.setCredit(new Float(0.0));
 
@@ -139,21 +138,8 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 				generalLedgerModel.setCredit(new Float(0.0));
 			}
 
-			/* else if(accountRecievablesModel.getSourceType().equalsIgnoreCase("Sales Billing")) {
-                if(accountRecievablesModel.getAmountReceived() > 0){
-                               generalLedgerModel.setCredit(accountRecievablesModel.getAmountReceived());
-                      generalLedgerModel.setDebit(new Float(0.0));
-               }else {
-                  generalLedgerModel.setDebit(accountRecievablesModel.getAmountReceived());
-             generalLedgerModel.setCredit(new Float(0.0));
-             }
-
-            }*/
-
 			generalLedgerModel.setBalance(0.0);
 			generalLedgerModel.setPharmacyModel(accountRecievablesModel.getPharmacyModel());
-
-
 
 			modelRes.add(generalLegderRepo.save(generalLedgerModel));
 
@@ -169,7 +155,7 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 	@Override
 	public GeneralLedgerModel saveGeneralLedgerData(AccountReceivablesModel generalLedgerModel) {
 		GeneralLedgerModel ledgerModelObj=new GeneralLedgerModel();
-		
+
 		ledgerModelObj.setJournalId(uniqueCodeService.findByUniqueCodeName("GL"));
 		ledgerModelObj.setJournalRef(generalLedgerModel.getReceiptNumber());
 		ledgerModelObj.setEntryNo(generalLedgerModel.getSourceRef());
@@ -188,10 +174,10 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 		}
 		ledgerModelObj.setBalance(0.0);
 		ledgerModelObj.setPharmacyModel(generalLedgerModel.getPharmacyModel());
-		
+
 		GeneralLedgerModel respose=generalLegderRepo.save(ledgerModelObj);
-		
-		
+
+
 		return respose;
 	}
 
