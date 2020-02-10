@@ -16,7 +16,7 @@ public interface LatinCodesRepository extends JpaRepository<LatinShortCodesModel
 	@Query("SELECT l FROM latin_short_codes l   order  by l.lastUpdateTimestamp desc")
 	List<LatinShortCodesModel> getAllLatestRecords();
 	
-	@Query("select new com.ihealthpharm.masters.dto.LatinCodesDTO(l.latinShortCodeId,concat(l.latinShortCode,' : ',l.latinShortCodeDesc) ) from latin_short_codes l")
+	@Query("select new com.ihealthpharm.masters.dto.LatinCodesDTO(l.latinShortCodeId,concat( l.latinShortCode,' ',':',' ',l.latinShortCodeDesc) ) from latin_short_codes l")
 	List<LatinCodesDTO> getAllLatestRecordsWithDesc();
 	
 }
