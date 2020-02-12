@@ -9,8 +9,10 @@ import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellValue;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
@@ -27,10 +29,12 @@ import com.ihealthpharm.reports.model.ReportsMappingModel;
 @Component
 public class SalesByProductSummaryExcel extends ReportsExcelUtility {
 
+	
 	public void generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile) {
 
 		SXSSFWorkbook workbook = new SXSSFWorkbook(100);
 		SXSSFSheet sheet = workbook.createSheet("Report Data");
+		FormulaEvaluator formulaEval = workbook.getCreationHelper().createFormulaEvaluator();
 		
 		if (ObjectUtils.isEmpty(responseList)) {
 			Row headerRow = sheet.createRow(0);
@@ -50,9 +54,7 @@ public class SalesByProductSummaryExcel extends ReportsExcelUtility {
 		borderStyle.setTopBorderColor(IndexedColors.BLACK.getIndex());  
 		borderStyle.setBorderLeft(BorderStyle.THIN);  
 		borderStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());  
-		
-		
-		
+			
 		Font font = workbook.createFont();
 		font.setFontHeightInPoints((short)11);
 		font.setFontName(HSSFFont.FONT_ARIAL);
@@ -89,64 +91,39 @@ public class SalesByProductSummaryExcel extends ReportsExcelUtility {
 				List<Map<String, Object>> supplierList =salesProductMap.get(productSummary);
 				createSupplierTable(sheet, responseFile, borderStyle, headerStyle,supplierList, productSummary, currentRow); 
 			}
-			
 			generateTotalTable(sheet, responseFile,borderStyle,model,responseList);
-			
 		}
 		
-		
-		writeToFile(workbook, responseFile);
-		 
+		writeToFile(workbook, responseFile);	 
 	}
 
 	private void generateTotalTable(SXSSFSheet sheet,File responseFile, CellStyle borderStyle, ReportsMappingModel model,
 			List<Map<String, Object>> responseList) {
 		int currentRow = sheet.getLastRowNum();
 		
-		double totalAmount = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("SALE_AMOUNT")?String.valueOf(mapper.get("SALE_AMOUNT")):"0")).sum(); 
+		double totalAmount = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TOTAL_AMOUNT")?String.valueOf(mapper.get("TOTAL_AMOUNT")):"0")).sum(); 
 		int quantity = responseList.stream().mapToInt(mapper->Integer.parseInt(mapper.containsKey("SALE_QTY")?String.valueOf(mapper.get("SALE_QTY")):"0")).sum(); 
 		Row dataRow = sheet.createRow(currentRow+2);
+		Row dataRow1=sheet.createRow(currentRow+3);
 		
 		Cell cell = dataRow.createCell(0);
-		cell.setCellValue("");
-		//cell.setCellStyle(borderStyle);
-		
-		//sheet.autoSizeColumn(1);
-		cell = dataRow.createCell(1);
-		cell.setCellValue("");
-		
-		//sheet.autoSizeColumn(2);
-		cell = dataRow.createCell(2);
-		cell.setCellValue("");
-		
-		//sheet.autoSizeColumn(3);
-		cell = dataRow.createCell(3);
-		cell.setCellValue("");
-		
-		//sheet.autoSizeColumn(4);
-		cell = dataRow.createCell(4);
-		cell.setCellValue("");
-		
-		
-		//sheet.autoSizeColumn(5);
-		cell = dataRow.createCell(5);
-		cell.setCellValue("");
+		Cell cell1=dataRow1.createCell(0);
 	
-		//sheet.autoSizeColumn(6);
-		cell = dataRow.createCell(6);
-		cell.setCellValue("Total Qty&Amt : ");
+		cell.setCellValue("");
+		cell1.setCellValue("");
 		
-		//sheet.autoSizeColumn(7);
-		cell = dataRow.createCell(7);
+		cell = dataRow.createCell(9);
+		cell1=dataRow1.createCell(9);
+		
+		cell.setCellValue("Total Quantity : ");
+		cell1.setCellValue("Total Amount : ");
+		
+		cell = dataRow.createCell(10);
+		cell1=dataRow1.createCell(10);
+		
 		cell.setCellValue(quantity);
+		cell1.setCellValue(totalAmount);
 	
-		
-		//sheet.autoSizeColumn(8);
-		cell = dataRow.createCell(8);
-		cell.setCellValue(totalAmount);
-		//cell.setCellStyle(borderStyle); 
-		
-		
 	}
 
 	private void createSupplierTable(SXSSFSheet sheet,File responseFile, CellStyle borderStyle ,
@@ -196,8 +173,16 @@ public class SalesByProductSummaryExcel extends ReportsExcelUtility {
 			cell.setCellValue("QTY");
 			cell.setCellStyle(headerStyle);	
 			
-
 			cell = headerRow.createCell(8);
+			cell.setCellValue("QTY FREE");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(9);
+			cell.setCellValue("S DISC%");
+			cell.setCellStyle(headerStyle);	
+			
+
+			cell = headerRow.createCell(10);
 			cell.setCellValue("TOTAL AMT");
 			cell.setCellStyle(headerStyle);	
 			
@@ -211,65 +196,92 @@ public class SalesByProductSummaryExcel extends ReportsExcelUtility {
 				headCell=displayRow.createCell(1);
 				headCell.setCellValue(String.valueOf(value));
 				
+				
 				Row dataRow = sheet.createRow(rowNum++);
 				value =  String.valueOf(productList.indexOf(rowData) + 1);
-				//sheet.autoSizeColumn(0);
 				cell = dataRow.createCell(0);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				
 				value = rowData.containsKey("BILL_CODE") ? rowData.get("BILL_CODE") : "";
-				//sheet.autoSizeColumn(1);
 				cell = dataRow.createCell(1);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 							
 				
 				value = rowData.containsKey("BILL_DATE") ? rowData.get("BILL_DATE") : "";
-				//sheet.autoSizeColumn(2);
 				cell = dataRow.createCell(2);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 
 				value = rowData.containsKey("MFR_NAME") ? rowData.get("MFR_NAME") : "";
-				//sheet.autoSizeColumn(3);
 				cell = dataRow.createCell(3);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("BATCH_NO") ? rowData.get("BATCH_NO") : "";
-				//sheet.autoSizeColumn(4);
 				cell = dataRow.createCell(4);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("EXPIRY_DT") ? rowData.get("EXPIRY_DT") : "";
-				//sheet.autoSizeColumn(5);
 				cell = dataRow.createCell(5);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
-				
 				value = rowData.containsKey("UNIT_SALE_PRICE") ? rowData.get("UNIT_SALE_PRICE") : "";
-				//sheet.autoSizeColumn(6);
 				cell = dataRow.createCell(6);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("SALE_QTY") ? rowData.get("SALE_QTY") : "";
-				//sheet.autoSizeColumn(7);
 				cell = dataRow.createCell(7);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
-
-				value = rowData.containsKey("TOTAL_AMOUNT") ? rowData.get("TOTAL_AMOUNT") : "";
-				//sheet.autoSizeColumn(8);
+				value = rowData.containsKey("QTY_FREE") ? rowData.get("QTY_FREE") : "";
 				cell = dataRow.createCell(8);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("DISC_PER") ? rowData.get("DISC_PER") : "";
+				cell = dataRow.createCell(9);
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("TOTAL_AMOUNT") ? rowData.get("TOTAL_AMOUNT") : "";
+				cell = dataRow.createCell(10);
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				cell.setCellStyle(borderStyle);
 			}
+				
+				int currentRow = sheet.getLastRowNum();
+				
+				double totalAmount = productList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TOTAL_AMOUNT")?String.valueOf(mapper.get("TOTAL_AMOUNT")):"0")).sum(); 
+				int quantity = productList.stream().mapToInt(mapper->Integer.parseInt(mapper.containsKey("SALE_QTY")?String.valueOf(mapper.get("SALE_QTY")):"0")).sum(); 
+				
+				Row dataRow1 = sheet.createRow(currentRow+2);
+				Row dataRow2=sheet.createRow(currentRow+3);
+				
+				Cell cell1 = dataRow1.createCell(0);
+				Cell cell2=dataRow2.createCell(0);
+			
+				cell1.setCellValue("");
+				cell2.setCellValue("");
+				
+				cell1= dataRow1.createCell(9);
+				cell2=dataRow2.createCell(9);
+				
+				cell1.setCellValue("Total Quantity : ");
+				cell2.setCellValue("Total Amount : ");
+				
+				cell1 = dataRow1.createCell(10);
+				cell2=dataRow2.createCell(10);
+				
+				cell1.setCellValue(quantity);
+				cell2.setCellValue(totalAmount);
+				
 		}
 
 	}
