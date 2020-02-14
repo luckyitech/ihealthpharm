@@ -76,6 +76,7 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 		double totalCreditAmt=0.0;
 		double totalChequeAmt=0.0;
 		double totalInsuranceAmt=0.0;
+		double totalVatAmt=0.0;
 		double grandTotal=0.0;
 		
 		totalCashAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsValue("CASH")&&mapper.containsKey("AMOUNT")?String.valueOf(mapper.get("AMOUNT")):"0")).sum();  
@@ -84,7 +85,8 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 		totalChequeAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("CHEQUE")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
 		totalCreditAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("CREDIT")?String.valueOf(mapper.get("AMOUNT")):"0")).sum();
 		totalInsuranceAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("INSURANCE")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
-		grandTotal = (totalCashAmt+totalMPesaAmt+totalCardAmt+totalChequeAmt+totalCreditAmt+totalInsuranceAmt);
+		totalVatAmt=responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("VAT_AMT")?String.valueOf(mapper.get("VAT_AMT")):"0")).sum(); 
+		grandTotal = (totalCashAmt+totalMPesaAmt+totalCardAmt+totalChequeAmt+totalCreditAmt+totalInsuranceAmt+totalVatAmt);
 		
 		PdfPTable totalQtyTable = new PdfPTable(3);
 		totalQtyTable.setTotalWidth(500);
@@ -153,12 +155,22 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 		totalQtyTable.setTotalWidth(500);
 		totalQtyTable.getDefaultCell().setBorder(0);
 		
-		PdfPCell nameCell7 = new PdfPCell(new Phrase("GRAND TOTAL"+"		"+":"+"		"+grandTotal, title08)); 
+		PdfPCell nameCell7 = new PdfPCell(new Phrase("TOTAL VAT AMOUNT"+"		"+":"+"		"+totalVatAmt, title08)); 
 		nameCell7.setColspan(3);
 		nameCell7.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell7.setVerticalAlignment(Element.ALIGN_TOP);
 		nameCell7.setBorder(0);
 		totalQtyTable.addCell(nameCell7);
+		totalQtyTable.setLockedWidth(true);
+		totalQtyTable.setTotalWidth(500);
+		totalQtyTable.getDefaultCell().setBorder(0);
+		
+		PdfPCell nameCell8 = new PdfPCell(new Phrase("GRAND TOTAL"+"		"+":"+"		"+grandTotal, title08)); 
+		nameCell8.setColspan(3);
+		nameCell8.setHorizontalAlignment(Element.ALIGN_RIGHT);
+		nameCell8.setVerticalAlignment(Element.ALIGN_TOP);
+		nameCell8.setBorder(0);
+		totalQtyTable.addCell(nameCell8);
 		totalQtyTable.setLockedWidth(true);
 		totalQtyTable.setTotalWidth(500);
 		totalQtyTable.getDefaultCell().setBorder(0);
@@ -182,7 +194,7 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 		finalTable.getDefaultCell().setBorder(0); 
 		
 		
-		PdfPTable table = new PdfPTable(9);
+		PdfPTable table = new PdfPTable(10);
 		table.setTotalWidth(500);
 		table.setWidthPercentage(50);
 		table.setLockedWidth(true);
@@ -270,6 +282,15 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 			
 			table.addCell(cell);
 			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("VAT AMT");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
 
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
@@ -340,6 +361,14 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 				table.addCell(cell);
 				
 				value = rowData.containsKey("PAID_AMOUNT") ? rowData.get("PAID_AMOUNT") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("VAT_AMT") ? rowData.get("VAT_AMT") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
