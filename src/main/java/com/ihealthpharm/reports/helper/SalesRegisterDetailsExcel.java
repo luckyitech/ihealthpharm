@@ -296,20 +296,17 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 					
 				Row dataRow = sheet.createRow(rowNum++);
 				Object value =  String.valueOf(salesRegisterDetails.indexOf(rowData) + 1);
-				//sheet.autoSizeColumn(0);
 				cell = dataRow.createCell(0);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				
 				value = rowData.containsKey("BILL_CODE") ? rowData.get("BILL_CODE") : "";
-				//sheet.autoSizeColumn(1);
 				cell = dataRow.createCell(1);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("FROM_BILL_DATE") ? rowData.get("FROM_BILL_DATE") : "";
-				//sheet.autoSizeColumn(2);
 				cell = dataRow.createCell(2);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
@@ -348,7 +345,6 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 				
 				
 				value = rowData.containsKey("BALANCE_AMOUNT") ? rowData.get("BALANCE_AMOUNT") : "";
-				//sheet.autoSizeColumn(7);
 				cell = dataRow.createCell(7);
 			
 				if(NumberUtils.isNumber(String.valueOf(value))) {
@@ -357,7 +353,7 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 				}else {	
 				   cell.setCellValue(String.valueOf(value));
 				}
-				//cell.setCellValue(String.valueOf(value));
+				
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("VAT_AMT") ? rowData.get("VAT_AMT") : "";
