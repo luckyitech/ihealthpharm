@@ -1,0 +1,73 @@
+package com.ihealthpharm.finance.model;
+
+import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import com.ihealthpharm.masters.model.AuditModel;
+import com.ihealthpharm.masters.model.EmployeeModel;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Entity (name="bank_transactions")
+@Data
+@EqualsAndHashCode(of = "bankTransactionId", callSuper = false)
+public class BankTransactionsModel  extends AuditModel {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="BANK_TXN_ID")
+	private Integer bankTransactionId;
+
+	//	@OneToOne
+	//	@JoinColumn(name="ACCOUNT_ID")
+	//	private ChartsOfAccountModel bankAccount;
+
+
+	//	@OneToOne
+	//	@JoinColumn(name="ACCOUNT_ID")
+	//	private ChartsOfAccountModel bankName;
+
+	@Column(name="TRANSACTION_DATE",length=25)
+	private Date transactionDate;
+
+	@Column(name="AMOUNT",length=25)
+	private Double amount;
+
+
+	@Column(name="TRANSACTION_REF",length=20)
+	private String transactionRef;
+
+	@Column(name="TRANSACTION_TYPE",length=20)
+	private String transactionType;
+
+	@Column(name="VALUE_DATE",length=25)
+	private Date valueDate;
+
+	@Column(name="REASON",length=20)
+	private String reason;
+
+	@Column(name="MODE",length=20)
+	private String mode;
+
+	@Column(name="FLAG",length=20)
+	private Character flag;
+
+	@Column(name="AUDIT_ID",length=11)
+	private Integer auditId;
+
+	@Column(name="DONE_BY")
+	private EmployeeModel doneBy;
+
+	@Column(name="DONE_TIMESTAMP")
+	private Date DoneByTimeStamp;
+
+}
