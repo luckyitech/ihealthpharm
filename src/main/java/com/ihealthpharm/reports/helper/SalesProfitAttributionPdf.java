@@ -60,7 +60,11 @@ public class SalesProfitAttributionPdf extends ReportsPDFUtility{
 	private void generateTotalTable(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException {
 		DecimalFormat df=new DecimalFormat("0.00");
 		double totalProfit;
+		double totalPurValue;
+		double totalSaleValue;
 		totalProfit  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("PROFIT") && !ObjectUtils.isEmpty(mapper.get("PROFIT"))) ?String.valueOf(mapper.get("PROFIT")):"0")).sum();  
+		totalSaleValue  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("UNIT_SALE_PRICE") && !ObjectUtils.isEmpty(mapper.get("UNIT_SALE_PRICE"))) ?String.valueOf(mapper.get("UNIT_SALE_PRICE")):"0")).sum();  
+		totalPurValue  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("UNIT_PURCHASE_PRICE") && !ObjectUtils.isEmpty(mapper.get("UNIT_PURCHASE_PRICE"))) ?String.valueOf(mapper.get("UNIT_PURCHASE_PRICE")):"0")).sum();  
 		
 		PdfPTable totalProfitTable = new PdfPTable(2);
 		totalProfitTable.setTotalWidth(500);
@@ -72,12 +76,38 @@ public class SalesProfitAttributionPdf extends ReportsPDFUtility{
 		String totProfit=df.format(totalProfit);
 		Double profitRound=Double.parseDouble(totProfit);
 		
-		PdfPCell nameCell = new PdfPCell(new Phrase("Total Profit"+" "+" : "+"	"+profitRound, title08)); 
+		String totPur=df.format(totalPurValue);
+		Double purchaseValueTot=Double.parseDouble(totPur);
+		
+		String totSale=df.format(totalSaleValue);
+		Double saleValueTot=Double.parseDouble(totSale);
+		
+		PdfPCell nameCell = new PdfPCell(new Phrase("Total Purchase Value"+" "+" : "+"	"+purchaseValueTot, title08)); 
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell.setVerticalAlignment(Element.ALIGN_TOP);
 		nameCell.setBorder(0);
 		totalProfitTable.addCell(nameCell);
+		totalProfitTable.setLockedWidth(true);
+		totalProfitTable.setTotalWidth(500);
+		totalProfitTable.getDefaultCell().setBorder(0); 
+		
+		PdfPCell nameCell2 = new PdfPCell(new Phrase("Total Sale Value"+" "+" : "+"	"+saleValueTot, title08)); 
+		nameCell2.setColspan(3);
+		nameCell2.setHorizontalAlignment(Element.ALIGN_RIGHT);
+		nameCell2.setVerticalAlignment(Element.ALIGN_TOP);
+		nameCell2.setBorder(0);
+		totalProfitTable.addCell(nameCell2);
+		totalProfitTable.setLockedWidth(true);
+		totalProfitTable.setTotalWidth(500);
+		totalProfitTable.getDefaultCell().setBorder(0); 
+		
+		PdfPCell nameCell3 = new PdfPCell(new Phrase("Total Profit"+" "+" : "+"	"+profitRound, title08)); 
+		nameCell3.setColspan(3);
+		nameCell3.setHorizontalAlignment(Element.ALIGN_RIGHT);
+		nameCell3.setVerticalAlignment(Element.ALIGN_TOP);
+		nameCell3.setBorder(0);
+		totalProfitTable.addCell(nameCell3);
 		totalProfitTable.setLockedWidth(true);
 		totalProfitTable.setTotalWidth(500);
 		totalProfitTable.getDefaultCell().setBorder(0); 
@@ -98,9 +128,9 @@ public class SalesProfitAttributionPdf extends ReportsPDFUtility{
 		finalTable.setLockedWidth(true);
 		finalTable.getDefaultCell().setBorder(0); 
 		
-		PdfPTable table = new PdfPTable(14);
+		PdfPTable table = new PdfPTable(15);
 		table.setTotalWidth(530);
-		table.setWidths(new int[] {20,55,45,75,40,25,25,40,40,40,40,20,35,30});
+		table.setWidths(new int[] {20,55,42,70,33,25,23,35,35,35,35,20,35,30,37});
 		//table.setWidthPercentage(50);
 		table.setSpacingBefore(30);
 		table.setSpacingAfter(50); 
@@ -248,6 +278,16 @@ public class SalesProfitAttributionPdf extends ReportsPDFUtility{
 			
 			table.addCell(cell);
 			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("PROFIT%");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
 		//}
 		table.setHeaderRows(1);
 
@@ -362,6 +402,14 @@ public class SalesProfitAttributionPdf extends ReportsPDFUtility{
 				table.addCell(cell);
 				
 				value = rowData.containsKey("PROFIT") ? rowData.get("PROFIT") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("PROFIT_PER") ? rowData.get("PROFIT_PER") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
