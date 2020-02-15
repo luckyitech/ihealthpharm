@@ -4,11 +4,15 @@ import static org.springframework.http.HttpStatus.OK;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.finance.helper.ChartOfAccountsHelper;
@@ -31,5 +35,16 @@ public class ChartOfAccountsController {
 		return new BaseDto<>(response, chartAccountHelper.getSaveChartOfAccountsMessage(), OK).respond();
 	}
 	
+
+	@GetMapping("/getaccountdetails/byid")
+	public ResponseEntity<BaseDto<ChartOfAccountsModel>> getchartOfAccountsById(@Valid @RequestParam Integer accountId){
+		ChartOfAccountsModel chartOfAccountsRes= chartAccountService.findchartOfAccountsById(accountId);
+		return new BaseDto<>(chartOfAccountsRes,chartAccountHelper.getRetrieveChartOfAccountsMessage(),OK).respond();
+	}
 	
+	@PostMapping("/save/COAdetails")
+	public ResponseEntity<BaseDto<ChartOfAccountsModel>> insertChartOfAccountsData(@Valid @RequestBody ChartOfAccountsModel chartOfAccountsModel) {
+		ChartOfAccountsModel chartOfAccRes = chartAccountService.saveCOAData(chartOfAccountsModel);
+		return new BaseDto<>(chartOfAccRes, chartAccountHelper.getSaveChartOfAccountsMessage(), OK).respond();
+	}
 }

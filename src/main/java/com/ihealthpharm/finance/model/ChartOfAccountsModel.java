@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 import com.ihealthpharm.masters.model.AuditModel;
 
@@ -35,6 +37,10 @@ private static final long serialVersionUID = 1L;
     @Column(name="ACCOUNT_NAME",length=45)
     private String accountName;
 
+    @OneToOne
+	@JoinColumn(name="ACCOUNT_TYPE")
+	AccountTypeModel accountType;
+    
     @Column(name="DATE")
     private LocalDate date;
 
