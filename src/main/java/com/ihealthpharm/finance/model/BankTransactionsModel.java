@@ -6,6 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import lombok.Data;
@@ -27,14 +30,12 @@ public class BankTransactionsModel  extends AuditModel {
 	@Column(name="BANK_TXN_ID")
 	private Integer bankTransactionId;
 
-	//	@OneToOne
-	//	@JoinColumn(name="ACCOUNT_ID")
-	//	private ChartsOfAccountModel bankAccount;
+	
+	@Column(name="BANK_ACCOUNT")
+	private String bankAccount;
 
-
-	//	@OneToOne
-	//	@JoinColumn(name="ACCOUNT_ID")
-	//	private ChartsOfAccountModel bankName;
+	@Column(name="BANK_NAME")
+	private String bankName;
 
 	@Column(name="TRANSACTION_DATE",length=25)
 	private Date transactionDate;
@@ -42,9 +43,22 @@ public class BankTransactionsModel  extends AuditModel {
 	@Column(name="AMOUNT",length=25)
 	private Double amount;
 
+	@Column(name="BALANCE",length=25)
+	private Double balance;
+	
+	@OneToOne
+	@JoinColumn(name="PARTY")
+	private  ChartOfAccountsModel party;
+	
+	@OneToOne
+	@JoinColumn(name="COUNTER_PARTY")
+	private ChartOfAccountsModel counterParty;
 
 	@Column(name="TRANSACTION_REF",length=20)
 	private String transactionRef;
+	
+	@Column(name="CHEQUE_NO",length=20)
+	private String chequeNo ;
 
 	@Column(name="TRANSACTION_TYPE",length=20)
 	private String transactionType;

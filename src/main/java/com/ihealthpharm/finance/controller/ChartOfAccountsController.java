@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.finance.helper.ChartOfAccountsHelper;
@@ -31,5 +32,10 @@ public class ChartOfAccountsController {
 		return new BaseDto<>(response, chartAccountHelper.getSaveChartOfAccountsMessage(), OK).respond();
 	}
 	
+	@GetMapping("/getBalance")
+	public ResponseEntity<BaseDto<Double>> getBalance(@RequestParam Integer accountId){
+		Double results = chartAccountService.findBalance(accountId);
+		return new BaseDto<Double>(results, chartAccountHelper.getRetrieveChartOfAccountsMessage(),OK).respond();
+	}
 	
 }

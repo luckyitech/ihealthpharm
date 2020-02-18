@@ -45,7 +45,7 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 		GeneralLedgerModel generalRes = generalLegderRepo.save(generalLedgerModel);
 		log.info("GeneralLedger data" +generalRes.getGeneralLedgerId() + "saved successfully");
 		return generalRes;
-	}
+	} 
 
 
 
