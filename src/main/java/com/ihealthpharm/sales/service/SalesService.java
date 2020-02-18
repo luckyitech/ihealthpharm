@@ -7,108 +7,107 @@ import com.ihealthpharm.sales.model.SalesModel;
 
 public interface SalesService
 {
-    
-    void deleteSalesData(Integer billId);
 
-    SalesModel findSalesData(Integer billId);
-    
-    List<SalesModel> findAllSalesData();
-    
-    List<SalesModel> findLimitedSalesData();
-    
-    List<String> getBillNumbersTop100();
-    
-    List<String> getBillNumbersBySearch(String key);
-    
-    SalesModel saveSalesData(SalesModel salesModel);
+	void deleteSalesData(Integer billId);
 
-    SalesModel updateSalesData(SalesModel salesModel);
-    
-    List<SalesModel> findByCriteria(String status,String code, String codeValue, String startDate, String endDate);
-    
-    List<SalesModel> searchInSalesHistory(String status,String code, String codeValue, 
-    		String startDate, String endDate,Integer pageNumber, Integer pageSize);
+	SalesModel findSalesData(Integer billId);
+
+	List<SalesModel> findAllSalesData();
+
+	List<SalesModel> findLimitedSalesData();
+
+	List<String> getBillNumbersTop100();
+
+	List<String> getBillNumbersBySearch(String key);
+
+	SalesModel saveSalesData(SalesModel salesModel);
+
+	SalesModel updateSalesData(SalesModel salesModel);
+
+	List<SalesModel> findByCriteria(String status,String code, String codeValue, String startDate, String endDate);
+
+	List<SalesModel> searchInSalesHistory(String status,String code, String codeValue, 
+			String startDate, String endDate,Integer pageNumber, Integer pageSize);
 
 	SalesModel getSaleByBillCode(String searchTerm);
-	
+
 	List totalSalesByMonthWiseData();
-	
+
 	List<String> findManufacturerBySales(String searchTerm);
-	
+
 	List<String> findAllManufacturerBySales();
-	
+
 	List<String> findProvidersBySales(String searchTerm);
-	
+
 	List<String> findAllProvidersBySales();
-	
+
 	List<String> findBillDateBySales(String searchTerm);
-	
+
 	List<String> findAllBillDtaessBySales();
-	
+
 	Integer findTodaySales();
-	
+
 	Integer findCashCount();
-	
+
 	Integer findCreditCount();
-	
+
 	Integer findYesterdayDiff();
-	
+
 	Integer findUpiCustomers();
-	
+
 	Integer findCreditCardCustomers();
-	
+
 	Integer findChequeCustomers();
-	
-	
+
 	Integer findCashAmount();
-	
+
 	Integer findCreditAmount();
-	
+
 	Integer finUpiAmount();
-	
+
 	Integer findCreditCardAmount();
-	
+
 	Integer findChequeAmount();
-	
+
 
 	//DBL
-	
+
 	List<String> findBillDatesBySalesDBL(String searchTerm);
-	
+
 	List<String> findfirst_nmBySalesDBL(String searchTerm);
-	
+
 	List<String> findnameBySalesDBL(String searchTerm);
-	
+
 	List<String> findAllBillDatesBySalesDBL();
-	
+
 	List<String> findAllfirst_nmBySalesDBL();
-	
+
 	List<String> findAllnameBySalesDBL();
-	
-//SRD	
-	
+
+	//SRD	
+
 	List<String> findbillDateINSalesSRD(String searchTerm);
-	
+
 	List<String> findtypeINSalesSRD(String searchTerm);
-	
+
 	List<String> findAllbillDateINSalesSRD();
-	
+
 	List<String> findAlltypeINSalesSRD();
-	
-	
-//SRADL
-	
+
+
+	//SRADL
+
 	List<String> findcityNameINSalesSRADL(String searchTerm);
-	
+
 	List<String> findAllcityNameINSalesSRADL();
-	
+
 	//SRBB
 	List<String> findBillCodeINSalesSRBB(String searchTerm);
-	
+
 	List<String> findAllBillCodeINSalesSRBB();
 
 	List<SalesBillDTO> findSalesByBillId(String billCode);
 
 	Integer searchInSalesHistoryCount(String status, String code, String codeValue, String startDate, String endDate);
-	
+
 }

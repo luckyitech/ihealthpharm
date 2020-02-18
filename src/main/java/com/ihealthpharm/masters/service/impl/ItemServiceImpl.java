@@ -5,21 +5,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-
 import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.ItemGenericNameRepository;
 import com.ihealthpharm.masters.dao.ItemGroupRepository;
 import com.ihealthpharm.masters.dao.ItemsRepository;
 import com.ihealthpharm.masters.dto.AlternativeItemDTO;
 import com.ihealthpharm.masters.dto.ItemDTO;
+import com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO;
 import com.ihealthpharm.masters.helper.ItemPropertyHelper;
 import com.ihealthpharm.masters.model.ItemGroupModel;
 import com.ihealthpharm.masters.model.ItemsModel;
@@ -340,12 +338,11 @@ public class ItemServiceImpl implements ItemService {
 	
 
 	@Override
-
 	public List<ItemDTO> findItemsByLimit(Integer pageNumber, Integer pageSize) {
 		Pageable limit = PageRequest.of(pageNumber,pageSize);
 		return itemRepository.findItemsByLimit(limit);
 	}
-
+	
 	@Override
 	public List<StockAdjustmentItemDTO> findItemsByLimitWithItemCode(Integer pageNumber, Integer pageSize) {
 		Pageable limit=PageRequest.of(pageNumber, pageSize);
@@ -367,6 +364,12 @@ public class ItemServiceImpl implements ItemService {
 
 	public List<ItemDTO> findAllByItemsSearch(String searchTerm) {
 		return null;
+	}
+	
+	
+	@Override
+	public List<ItemsForStockAdjustDTO> findItemsDataByItemName(String searchTerm) {
+		return itemRepository.FindByItemNameForStockItemNameSearch(searchTerm);
 	}
 
 	@Override
@@ -390,6 +393,11 @@ public class ItemServiceImpl implements ItemService {
 		else {
 			return itemRepository.getAllCountOfItems();
 		}
+	}
+
+	@Override
+	public List<ItemsForStockAdjustDTO> getAllStockAdjustRecords() {
+		return itemRepository.getAllStockAdjustRecords();
 	}
 
 }
