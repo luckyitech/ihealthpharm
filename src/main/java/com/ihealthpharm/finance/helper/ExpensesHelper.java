@@ -1,4 +1,4 @@
-package com.ihealthpharm.expenses.helper;
+package com.ihealthpharm.finance.helper;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

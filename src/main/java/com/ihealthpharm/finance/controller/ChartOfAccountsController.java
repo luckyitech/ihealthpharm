@@ -5,11 +5,12 @@ import static org.springframework.http.HttpStatus.OK;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.finance.helper.ChartOfAccountsHelper;
 import com.ihealthpharm.finance.model.ChartOfAccountsModel;
@@ -29,6 +30,12 @@ public class ChartOfAccountsController {
 	public ResponseEntity<BaseDto<List<ChartOfAccountsModel>>> getAllChartOfAccounts(){
 		List<ChartOfAccountsModel> response=chartAccountService.findAllAccounts();
 		return new BaseDto<>(response, chartAccountHelper.getSaveChartOfAccountsMessage(), OK).respond();
+	}
+	
+	@GetMapping("/getBalance")
+	public ResponseEntity<BaseDto<Integer>> getBalance(@RequestParam Integer accountId){
+		Integer results = chartAccountService.findBalance(accountId);
+		return new BaseDto<Integer>(results, chartAccountHelper.getRetrieveChartOfAccountsMessage(),OK).respond();
 	}
 	
 	

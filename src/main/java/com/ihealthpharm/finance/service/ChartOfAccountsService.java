@@ -7,4 +7,6 @@ import com.ihealthpharm.finance.model.ChartOfAccountsModel;
 public interface ChartOfAccountsService {
 
 	 List<ChartOfAccountsModel> findAllAccounts();
+	 
+	 public Integer findBalance(Integer accountId);
 }

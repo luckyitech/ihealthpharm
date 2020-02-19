@@ -11,11 +11,9 @@ import com.ihealthpharm.finance.dao.ChartOfAccountRepository;
 import com.ihealthpharm.finance.helper.ChartOfAccountsHelper;
 import com.ihealthpharm.finance.model.ChartOfAccountsModel;
 import com.ihealthpharm.finance.service.ChartOfAccountsService;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
-@Slf4j
 public class ChartOfAccountsServiceImpl implements ChartOfAccountsService {
 
 	@Autowired
@@ -30,4 +28,8 @@ public class ChartOfAccountsServiceImpl implements ChartOfAccountsService {
 		return chartAccRepo.findAll();
 	}
 
+	@Override
+	public Integer findBalance(Integer accountId) {
+		return chartAccRepo.findBalanceRepo(accountId);
+	}
 }

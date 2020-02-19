@@ -1,4 +1,4 @@
-package com.ihealthpharm.expenses.controller;
+package com.ihealthpharm.finance.controller;
 
 import static org.springframework.http.HttpStatus.OK;
 
@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.ihealthpharm.commons.BaseDto;
-import com.ihealthpharm.expenses.helper.ExpensesHelper;
-import com.ihealthpharm.expenses.model.ExpensesModel;
-import com.ihealthpharm.expenses.service.ExpensesService;
+import com.ihealthpharm.finance.helper.ExpensesHelper;
+import com.ihealthpharm.finance.model.ExpensesModel;
+import com.ihealthpharm.finance.service.ExpensesService;
+
 
 @RestController
 @CrossOrigin
