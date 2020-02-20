@@ -24,7 +24,6 @@ public class ChartOfAccountsModel extends AuditModel{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-<<<<<<< HEAD
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ACCOUNT_ID",length=11, columnDefinition = "AUTO_INCREMENT")
     private Integer accountId;
@@ -60,30 +59,6 @@ public class ChartOfAccountsModel extends AuditModel{
     
     @Column(name="AUDIT_ID")
     private Integer auditId;
-=======
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="ACCOUNT_ID",length=11, columnDefinition = "AUTO_INCREMENT")
-	private Integer accountId;
 
-	@Column(name="ACCOUNT_NO",length=45)
-	private String accountNo;
 
-	@Column(name="ACCOUNT_NAME",length=45)
-	private String accountName;
-
-	@Column(name="DATE")
-	private LocalDate date;
-
-	@Column(name="TRANSACTION_LIMIT")
-	private Double transactionLimit;
-
-	@Column(name="TOTAL_LIMIT")
-	private Double totalLimit;
-
-	@Column(name="CURRENT_BALANCE")
-	private Double currentBalance;
-
-	@Column(name="AUDIT_ID")
-	private Integer auditId;
->>>>>>> 5275de68250b902597cd839133506ed2e2ee7ab0
 }
