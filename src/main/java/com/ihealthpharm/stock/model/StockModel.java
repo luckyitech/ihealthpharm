@@ -148,6 +148,9 @@ public class StockModel extends AuditModel {
 	@Column(name="PACK")
 	private Integer pack;
 	
+	@Column(name="BONUS")
+	private Integer bonus;
+	
 	@OneToOne
 	@JoinColumn(name = "TAX_CATEGORY_ID")
 	TaxCategoryModel taxCategoryModel;
