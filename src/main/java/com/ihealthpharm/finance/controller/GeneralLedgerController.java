@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ import com.ihealthpharm.finance.helper.GeneralLedgerHelper;
 import com.ihealthpharm.finance.model.AccountPayablesModel;
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.finance.model.GeneralLedgerModel;
+import com.ihealthpharm.finance.model.PettyCashModel;
 import com.ihealthpharm.finance.service.GeneralLedgerService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -61,6 +63,10 @@ public class GeneralLedgerController {
 		return new BaseDto<>(generalLedgerRes, generalLedgerHelper.getSaveGeneralLedgerMessage(), OK).respond();
 	}
 	
-	
+	@GetMapping("/gettotallimit")
+	public ResponseEntity<BaseDto<Double>> getTotalLimit(){
+		Double response=generalLedgerService.getTotalLimit();
+		return new BaseDto<>(response, generalLedgerHelper.getRetriveGeneralLedgerMessage(), OK).respond();
+	}
 	
 }
