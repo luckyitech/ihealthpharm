@@ -340,7 +340,6 @@ public class ItemServiceImpl implements ItemService {
 	
 
 	@Override
-
 	public List<ItemDTO> findItemsByLimit(Integer pageNumber, Integer pageSize) {
 		Pageable limit = PageRequest.of(pageNumber,pageSize);
 		return itemRepository.findItemsByLimit(limit);

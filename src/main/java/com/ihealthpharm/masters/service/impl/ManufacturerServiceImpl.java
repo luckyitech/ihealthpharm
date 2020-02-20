@@ -3,13 +3,12 @@ package com.ihealthpharm.masters.service.impl;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-
 import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.ManufacturerRepository;
 import com.ihealthpharm.masters.helper.ManufacturerHelper;
@@ -134,6 +133,22 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 	@Override
 	public List<ManufacturerModel> findAllManufacturersData(String searchTerm) {
 		return manufacturerRepository.findAllBySearchCriteria(searchTerm);
+	}
+
+	@Override
+	public List<ManufacturerModel> findAllManufacturersForItem() {
+		return manufacturerRepository.getAllManufacturersForItems();
+	}
+
+	@Override
+	public List<ManufacturerModel> findItemsByLimit(Integer pageNumber, Integer pageSize) {
+		Pageable limit = PageRequest.of(pageNumber,pageSize);
+		return manufacturerRepository.getAllManufacturersLimitedData(limit);
+	}
+
+	@Override
+	public List<ManufacturerModel> getAllManufacturersByName(String name) {
+		return manufacturerRepository.getAllLimitedManufacurersByName(name);
 	}
 	
 }
