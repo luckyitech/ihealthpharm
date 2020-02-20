@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import com.ihealthpharm.masters.model.AuditModel;
+import com.ihealthpharm.masters.model.PharmacyModel;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -43,6 +44,9 @@ private static final long serialVersionUID = 1L;
     
     @Column(name="DATE")
     private LocalDate date;
+    
+    @Column(name="AS_OF_DATE")
+    private LocalDate asOfDate;
 
     @Column(name="TRANSACTION_LIMIT")
     private Double transactionLimit;
@@ -53,6 +57,10 @@ private static final long serialVersionUID = 1L;
     @Column(name="CURRENT_BALANCE")
     private Double currentBalance;
   
+    @OneToOne
+	@JoinColumn(name="PHARMACY_ID")
+	PharmacyModel pharmacyModel;
+    
     @Column(name="AUDIT_ID")
     private Integer auditId;
 }
