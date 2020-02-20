@@ -12,7 +12,6 @@ public interface ChartOfAccountsService {
 
 	public Double findBalance(Integer accountId);
 
-
 	ChartOfAccountsModel saveCOAData(ChartOfAccountsModel chartOfAccountsModel);
 
 	ChartOfAccountsModel findchartOfAccountsById(Integer accountId); 
@@ -22,5 +21,5 @@ public interface ChartOfAccountsService {
 	ChartOfAccountsModel updateChartOfAccData(ChartOfAccountsModel chartOfAccountsModel);
 
 	List<ChartOfAccountsModel> getAllCOABasedOnAccNo(String accountNo);
-
+	 
 }
