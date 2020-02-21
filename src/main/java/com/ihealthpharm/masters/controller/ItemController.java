@@ -21,11 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.dto.AlternativeItemDTO;
 import com.ihealthpharm.masters.dto.ItemDTO;
+import com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO;
 import com.ihealthpharm.masters.helper.ItemPropertyHelper;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.service.ItemService;
 import com.ihealthpharm.stock.dto.StockAdjustmentItemDTO;
-
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -228,7 +228,7 @@ public class ItemController {
 		return new BaseDto<>(response,propertyHelper.getRetrieveMessage(),OK).respond();
 	}
 	
-	
+	//getitemdatabylimitForStockAdjust/Grid
 
 	@GetMapping("/getitemdatabylimit")
 	public ResponseEntity<BaseDto<List<ItemDTO>>> getItemDataByIdLimit(@RequestParam Integer start,@RequestParam Integer end) {
@@ -269,5 +269,27 @@ public class ItemController {
 		Integer response=itemService.findItemsCountBySearch(searchTerm,searchType);
 		return new BaseDto<>(response,propertyHelper.getRetrieveMessage(),OK).respond();
 	}
+	
+	/*@GetMapping("/getitemdataby/itemname/forStockAdjustement")
+	public ResponseEntity<BaseDto<List<ItemsForStockAdjustDTO>>> getItemDataByForItemSearch(@RequestParam String searchTerm){
+		List<ItemsForStockAdjustDTO> response=itemService.findItemsDataByItemName(searchTerm);
+		return new BaseDto<>(response, propertyHelper.getRetrieveMessage(), OK).respond();
+	}*/
+	
+	@GetMapping("/getitemsdatabynamesearch/stockadjustGrid")
+	public ResponseEntity<BaseDto<List<ItemsForStockAdjustDTO>>> getCustomersDataBySearchingName(@RequestParam("key")String itemName){
+		List<ItemsForStockAdjustDTO> response=itemService.findItemsDataByItemName(itemName);
+		return new BaseDto<>(response, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+	
+	
+	@GetMapping("/getallstocks/forStockAdjustGrid")
+	public ResponseEntity<BaseDto<List<ItemsForStockAdjustDTO>>> getAllStockAdjsutForGridRecords(){
+		List<ItemsForStockAdjustDTO> response = itemService.getAllStockAdjustRecords();
+		return new BaseDto<>(response, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+	
+	
+	
 
 }

@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import com.ihealthpharm.masters.dto.AlternativeItemDTO;
 import com.ihealthpharm.masters.dto.ItemDTO;
+import com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.stock.dto.StockAdjustmentItemDTO;
 
@@ -52,9 +53,11 @@ public interface ItemService {
 	List<ItemsModel> getLimitedItems();
 
 	List<ItemDTO> findAllByItemsSearch(String searchTerm);
+	
+	List<ItemsForStockAdjustDTO> findItemsDataByItemName(String searchTerm);
 
 	List<ItemDTO> findItemsByLimit(Integer start,Integer end);
-
+	
 	Integer findItemsCountBySearch(String searchTerm,String searchType);
 
 	List<StockAdjustmentItemDTO> findItemsByLimitWithItemCode(Integer start, Integer end);
@@ -72,11 +75,12 @@ public interface ItemService {
 	List<AlternativeItemDTO> findItemsByDesc(String itemdesc);
 	
 	List<AlternativeItemDTO> findItemsByDescForStock(String itemdesc);
-
+	
 	List<AlternativeItemDTO> findItemsByGenericName(String itemGeneric);
 
 	List<AlternativeItemDTO> findItemsByGenericNameForStock(String itemGeneric);
 	
 	List<StockAdjustmentItemDTO> findItemsByLimitWithItemGenericName(Integer start, Integer end);
-
+	
+	List<ItemsForStockAdjustDTO> getAllStockAdjustRecords();
 }

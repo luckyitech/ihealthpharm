@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.stock.dto.StockAdjustmentDTO;
 import com.ihealthpharm.stock.dto.StockItemsListDTO;
@@ -334,11 +335,23 @@ public class StockController {
 		List result=stockService.findProfitService();
 		return new BaseDto<>(result,stockHelper.getRetrieveStockMessage(),OK).respond();
 	}
+	
 	@GetMapping("/suppliersRevenue")
 	public ResponseEntity<BaseDto<List>> getSuppliersRevenue(){
 		List result=stockService.findSuppliersRevenue();
 		return new BaseDto<>(result,stockHelper.getRetrieveStockMessage(),OK).respond();
 	}
-
 	
+	@GetMapping("/update/stockadjustment")
+	public ResponseEntity<BaseDto<Integer>> insertStockAdjustData( @RequestParam Integer stockId,@RequestParam Integer previousQty , @RequestParam Integer quantity){
+		Integer stockAdjustRes=stockService.updateStock(stockId,previousQty,quantity);
+		return new BaseDto<>(stockAdjustRes,stockHelper.getSaveStockMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getstock/forStockAdjustGrid/ByStockId")
+	public ResponseEntity<BaseDto<List<ItemsForStockAdjustDTO>>> getStockForGridRecordBasedOnId(@RequestParam Integer stockId){
+		List<ItemsForStockAdjustDTO> response = stockService.getStockAdjustRecords(stockId);
+		return new BaseDto<>(response,stockHelper.getRetrieveStockMessage(),OK).respond();
+	}
+
 }

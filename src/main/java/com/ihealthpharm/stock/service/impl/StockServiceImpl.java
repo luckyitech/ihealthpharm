@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
+import com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.stock.dao.StockRepository;
@@ -359,8 +360,17 @@ public class StockServiceImpl implements StockService {
 
 		@Override
 		public List<StockModel> findStockByItemIdAndPharmacyId(Integer itemId, Integer pharmacyId) {
-
 			return stockRepository.getStockByItemIdAndPharmacyId(itemId,pharmacyId);
+		}
+
+		@Override
+		public Integer updateStock(Integer stockId,Integer previousQty, Integer quantity) {
+			return stockRepository.updateStockData(stockId,previousQty,quantity);
+		}
+
+		@Override
+		public List<ItemsForStockAdjustDTO> getStockAdjustRecords(Integer stockId) {
+			return stockRepository.getStockRecordById(stockId);
 		}
 		
 		

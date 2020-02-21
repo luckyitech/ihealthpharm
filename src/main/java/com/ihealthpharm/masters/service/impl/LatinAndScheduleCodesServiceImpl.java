@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.masters.dao.LatinCodesRepository;
 import com.ihealthpharm.masters.dao.ScheduleCategoryCodeRepository;
+import com.ihealthpharm.masters.dto.LatinCodesDTO;
+import com.ihealthpharm.masters.dto.ScheduleCodeDescDTO;
 import com.ihealthpharm.masters.model.LatinShortCodesModel;
 import com.ihealthpharm.masters.model.ScheduleCodeModel;
 import com.ihealthpharm.masters.service.LatinAndScheduleCodesService;
@@ -28,11 +30,21 @@ public class LatinAndScheduleCodesServiceImpl implements LatinAndScheduleCodesSe
 		
 		return latinRepository.getAllLatestRecords();
 	}
-
+	
 	@Override
-	public List<ScheduleCodeModel> findAllScheduleCodes() {
-		
-		return scheduleRepo.findAllLatestRecords();
+	public List<LatinCodesDTO> findAllLatinCodesWithDesc() {
+		return latinRepository.getAllLatestRecordsWithDesc();
 	}
 	
+	
+	@Override
+	public List<ScheduleCodeModel> findAllScheduleCodes() {
+		return scheduleRepo.findAllLatestRecords();
+	}
+
+	@Override
+	public List<ScheduleCodeDescDTO> findAllScheduleCodesWithDesc() {
+		return scheduleRepo.getAllLatestRecordsWithDesc();
+	}
+
 }
