@@ -2,6 +2,12 @@ package com.ihealthpharm.reports.helper;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -404,6 +410,15 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 
 	private void addBillDetails(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException {
 		
+		DateFormat f = new SimpleDateFormat("dd/MM/yyyy HH:mm a");
+		String billDate="";
+		
+		if(responseList.get(0).get("LAST_UPDATE_TS")==null) {
+			
+		}else {
+			billDate = f.format((ObjectUtils.isEmpty(responseList))?"":responseList.get(0).get("LAST_UPDATE_TS"));
+		}
+		//String billDate = f.format((ObjectUtils.isEmpty(responseList))?"":responseList.get(0).get("LAST_UPDATE_TS"));
 		String billCode = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("BILL_CODE"));
 		String customerName = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("CUSTOMER_NM"));
 		String doctorName = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("DOCTOR_NM"));
@@ -441,7 +456,8 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
-		cell = new PdfPCell(new Phrase(DateUtility.getDateStringHH(),bold));
+		//cell = new PdfPCell(new Phrase(DateUtility.getDateStringHH(),bold));
+		cell = new PdfPCell(new Phrase(billDate,bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
