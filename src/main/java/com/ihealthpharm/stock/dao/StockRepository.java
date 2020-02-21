@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.stock.dto.StockAdjustmentDTO;
@@ -190,6 +192,9 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 
 	@Transactional
 	@Modifying
-	@Query("update stock s set s.quantity=:quantity where  s.stockId=:stockId")
-	Integer updateStockData(@Param("stockId") Integer stockId,@Param("quantity") Integer quantity);
+	@Query("update stock s set s.quantity=:quantity where s.quantity=:previousQty and  s.stockId=:stockId")
+	Integer updateStockData(@Param("stockId") Integer stockId,@Param("previousQty")Integer previousQty, @Param("quantity") Integer quantity);
+
+	@Query("select new  com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO(s.stockId,i.itemName,s.item.itemId,s.invoiceNo,s.remarks,s.rack,s.batchNo,s.expiryDt,s.quantity,s.quantity,s.shelf) from stock s inner join items i on s.item=i.itemId where s.stockId=:stockId order by i.itemName,s.batchNo asc")
+	List<ItemsForStockAdjustDTO> getStockRecordById(@Param("stockId") Integer stockId);
 }
