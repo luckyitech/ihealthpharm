@@ -85,9 +85,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 
 		InvoiceModel invoiceModelres = invoiceRepository.save(invoiceModel);
 		for (InvoiceItemModel it : invoiceItemModels) {
-		it.setInvoice(invoiceModelres);
+			it.setInvoice(invoiceModelres);
 
-		invoiceItemRepository.save(it);
+			invoiceItemRepository.save(it);
 		}
 		if (invoiceModelres.getInvoiceStatus().getInvoiceStatusId() == 2) {
 			AccountPayablesModel accountPayablesModel = new AccountPayablesModel();
@@ -156,7 +156,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 				stockModel.setItem(it.getItemsModel());
 				stockModel.setQuantity(it.getQuantityApproved() != null && it.getPack() != null
 						? it.getQuantityApproved() * it.getPack() + (it.getBonus() != null ? it.getBonus() : 0)
-						: 1);
+								: 1);
 				stockModel.setManufactureDt(it.getManufactureDt());
 				stockModel.setExpiryDt(it.getExpiryDt());
 				stockModel.setUnitSaleRate(it.getUnitSaleRate());
@@ -245,14 +245,14 @@ public class InvoiceServiceImpl implements InvoiceService {
 	@Override
 	public InvoiceModel updateInvoice(InvoiceModel invoiceModel, PurchaseReturnModel purchaseReturnModel) {
 		List<InvoiceItemModel> invoiceItemModels = invoiceModel.getInvoiceItems();
-		
+
 		InvoiceModel invoiceModelres = getInvoiceModel(invoiceModel.getInvoiceId());
 		if (!Objects.nonNull(invoiceModelres)) {
 			throw new IHealthPharmException(invoiceHelper.getNotFoundInvoiceMessage(), HttpStatus.NOT_FOUND);
 		}
-		
+
 		invoiceModelres = invoiceRepository.save(invoiceModel);
-		
+
 		if (invoiceModelres.getInvoiceStatus().getInvoiceStatusId() == 2) {
 			AccountPayablesModel accountPayablesModel = new AccountPayablesModel();
 
@@ -321,7 +321,8 @@ public class InvoiceServiceImpl implements InvoiceService {
 				stockModel.setItem(it.getItemsModel());
 				stockModel.setQuantity(it.getQuantityApproved() != null && it.getPack() != null
 						? it.getQuantityApproved() * it.getPack() + (it.getBonus() != null ? it.getBonus() : 0)
-						: 1);
+								: 1);
+				stockModel.setBonus(it.getBonus() != null ?it.getBonus():0 );
 				stockModel.setManufactureDt(it.getManufactureDt());
 				stockModel.setExpiryDt(it.getExpiryDt());
 				stockModel.setUnitSaleRate(it.getUnitSaleRate());
@@ -444,7 +445,6 @@ public class InvoiceServiceImpl implements InvoiceService {
 		}
 		invoiceRepository.delete(invoiceModel);
 		log.info("Invoice data with ID: " + invoiceModel.getInvoiceId() + " deleted succesfully");
-
 	}
 
 	@Override
@@ -457,7 +457,6 @@ public class InvoiceServiceImpl implements InvoiceService {
 			invoiceRepository.delete(invoiceModel);
 			log.info("Invoice data with ID: " + invoiceModel.getInvoiceId() + " deleted succesfully");
 		}
-
 	}
 
 	private InvoiceModel getInvoiceModel(Integer invoiceId) {
@@ -473,7 +472,6 @@ public class InvoiceServiceImpl implements InvoiceService {
 		} catch (NoSuchElementException noSuchElementException) {
 			throw new IHealthPharmException(invoiceHelper.getNotFoundInvoiceMessage(), HttpStatus.NOT_FOUND);
 		}
-
 	}
 
 	@Override
@@ -527,7 +525,6 @@ public class InvoiceServiceImpl implements InvoiceService {
 	}
 
 	// Purchase Invoice Report
-
 	@Override
 	public List<String> findSuppliersByInvoicePIR(String searchTerm) {
 		return invoiceRepository.findSuppliersInInvoicePIR(searchTerm);
@@ -557,7 +554,6 @@ public class InvoiceServiceImpl implements InvoiceService {
 
 	@Override
 	public Integer findAllInvoicesByPharmacyIdAndInvoiceSatusIdCount(Integer pharmacyId, Integer invoiceStatusId,String invoiceNo) {
-		
 		return invoiceRepository.findAllInvoicesByPharmacyIdAndInvoiceSatusIdCount(pharmacyId, invoiceStatusId,invoiceNo);
 	}
 

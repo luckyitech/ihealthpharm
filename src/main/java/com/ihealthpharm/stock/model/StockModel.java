@@ -2,7 +2,6 @@
 package com.ihealthpharm.stock.model;
 
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,7 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ihealthpharm.masters.model.AuditModel;
@@ -147,6 +145,9 @@ public class StockModel extends AuditModel {
 	
 	@Column(name="PACK")
 	private Integer pack;
+	
+	@Column(name="BONUS")
+	private Integer bonus;
 	
 	@OneToOne
 	@JoinColumn(name = "TAX_CATEGORY_ID")

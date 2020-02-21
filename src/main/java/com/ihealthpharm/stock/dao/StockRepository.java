@@ -4,10 +4,13 @@ import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.stock.dto.StockAdjustmentDTO;
@@ -156,7 +159,7 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 
 	@Query("select new com.ihealthpharm.stock.dto.StockAdjustmentDTO(b.batchNo)  from stock b  inner join items i on b.item.itemId=i.itemId where i.itemName =:searchTerm")
 	List<StockAdjustmentDTO> findAllBatchesBasedOnName(@Param("searchTerm") String searchTerm);
-	
+
 	@Query("select new com.ihealthpharm.stock.dto.StockAdjustmentDTO(b.batchNo)  from stock b  inner join items i on b.item.itemId=i.itemId where i.itemDescription =:searchTerm")
 	List<StockAdjustmentDTO> findAllBatchesBasedOnItemDesc(@Param("searchTerm") String searchTerm);
 
@@ -172,13 +175,13 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 
 	@Query("select b.expiryDt  from stock b  inner join items i on b.item.itemId=i.itemId where i.itemId=:itemId and b.batchNo=:batch ")
 	String getExpiryDate(@Param("itemId") Integer itemId,@Param("batch") String batch);
-	
+
 	@Query("select b.expiryDt  from stock b  inner join items i on b.item.itemId=i.itemId where  i.itemId=:itemId and b.batchNo=:batch ")
 	String getExpiryDates(@Param("itemId") Integer itemId,@Param("batch") String batch);
 
 	@Query("select  new com.ihealthpharm.stock.dto.StockProfitDTO(sup.name, sum(((s.unitSaleRate-s.unitPurchaseRate)/s.unitPurchaseRate)*100)  as profit) from stock s join supplier sup on s.supplier = sup.supplierId where  s.unitSaleRate > s.unitPurchaseRate group by sup.name order by profit desc")
 	List<StockProfitDTO> ProfitPercentageRepo(Pageable pageable);
-	
+
 	@Query("select new com.ihealthpharm.stock.dto.StockRevenueDTO(sup.name, sum((s.quantity * s.unitSaleRate)/1000) as revenue) from supplier sup join stock s on s.supplier = sup.supplierId group by sup.name order by revenue desc")
 	List<StockRevenueDTO> suppliersRevenueRepo(Pageable pageable);
 
@@ -186,4 +189,12 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 	List<StockModel> getStockByItemIdAndPharmacyId(@Param("itemId") Integer itemId,@Param("pharmacyId") Integer pharmacyId);
 
 	List<StockModel> findByItem(Integer itemId);
+
+	@Transactional
+	@Modifying
+	@Query("update stock s set s.quantity=:quantity where s.quantity=:previousQty and  s.stockId=:stockId")
+	Integer updateStockData(@Param("stockId") Integer stockId,@Param("previousQty")Integer previousQty, @Param("quantity") Integer quantity);
+
+	@Query("select new  com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO(s.stockId,i.itemName,s.item.itemId,s.invoiceNo,s.remarks,s.rack,s.batchNo,s.expiryDt,s.quantity,s.quantity,s.shelf) from stock s inner join items i on s.item=i.itemId where s.stockId=:stockId order by i.itemName,s.batchNo asc")
+	List<ItemsForStockAdjustDTO> getStockRecordById(@Param("stockId") Integer stockId);
 }

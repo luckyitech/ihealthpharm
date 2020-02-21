@@ -28,6 +28,8 @@ public interface ManufacturerService {
 	List<ManufacturerModel> findAllManufacturers();
 
 	List<ManufacturerModel> findAllManufacturersData(String searchTerm);
+	
+	List<ManufacturerModel> findManufacturersByLimit(Integer start,Integer end);
 
 
 }

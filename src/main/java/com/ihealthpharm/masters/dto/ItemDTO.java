@@ -1,9 +1,5 @@
 package com.ihealthpharm.masters.dto;
 
-import com.ihealthpharm.masters.model.ItemFormModel;
-import com.ihealthpharm.masters.model.ItemsModel;
-import com.ihealthpharm.masters.model.ManufacturerModel;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

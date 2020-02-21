@@ -28,4 +28,6 @@ public interface ManufacturerRepository  extends JpaRepository<ManufacturerModel
 	@Query("select m from manufacturer m where m.activeS='Y' and m.name like :name% order by m.lastUpdateTimestamp desc")
 	List<ManufacturerModel> getAllLimitedManufacurersByName(@Param("name")String name);
 
+	@Query("select m from manufacturer m order by m.lastUpdateTimestamp desc")
+	List<ManufacturerModel> getAllManufacturersByLimit(Pageable limit);
 }

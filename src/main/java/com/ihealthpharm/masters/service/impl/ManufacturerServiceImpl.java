@@ -97,7 +97,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 
 	@Override
 	public List<ManufacturerModel> updateManufacturersData(List<ManufacturerModel> manufacturerModels) {
-		
+
 		for (ManufacturerModel manufacturer : manufacturerModels) {
 			ManufacturerModel manufacturerRes = getValidManufacturer(manufacturer.getManufacturerId());
 			if (!Objects.nonNull(manufacturerRes)) {
@@ -107,7 +107,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 			manufacturerRes = manufacturerRepository.save(manufacturer);
 			log.info("Manufacturer data with Multiple IDs : " + manufacturerRes.getManufacturerId() + " updated succesfully");
 		}
-		
+
 		return manufacturerModels;
 	}
 
@@ -122,7 +122,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 			manufacturerRepository.delete(manufacturerRes);
 			log.info("Manufacturer data with ID: " + manufacturerRes.getManufacturerId() + " deleted succesfully");
 		}
-		
+
 	}
 
 	@Override
@@ -149,6 +149,12 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 	@Override
 	public List<ManufacturerModel> getAllManufacturersByName(String name) {
 		return manufacturerRepository.getAllLimitedManufacurersByName(name);
+
 	}
-	
+
+	public List<ManufacturerModel> findManufacturersByLimit(Integer pageNumber, Integer pageSize) {
+		Pageable limit = PageRequest.of(pageNumber,pageSize);
+		return manufacturerRepository.getAllManufacturersByLimit(limit);
+	}
+
 }

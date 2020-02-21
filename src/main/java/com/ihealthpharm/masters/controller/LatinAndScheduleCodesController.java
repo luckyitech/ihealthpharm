@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.masters.dto.LatinCodesDTO;
+import com.ihealthpharm.masters.dto.ScheduleCodeDescDTO;
 import com.ihealthpharm.masters.helper.LatinAndScheduleCodesHelper;
 import com.ihealthpharm.masters.model.LatinShortCodesModel;
 import com.ihealthpharm.masters.model.ScheduleCodeModel;
@@ -40,6 +42,20 @@ public class LatinAndScheduleCodesController {
 	public ResponseEntity<BaseDto<List<ScheduleCodeModel>>> getAllSchedulesCodesData() {
 		log.info("Request Object for :Schedule codes");
 		List<ScheduleCodeModel> result = latinAndScheduleCodesService.findAllScheduleCodes();
+		return new BaseDto<>(result, latinAndScheduleHelper.getRetrieveScheduleCodeMessage(), OK).respond();
+	}
+	
+	@GetMapping("/getAll/latincodes/withDesc")
+	public ResponseEntity<BaseDto<List<LatinCodesDTO>>> getAllLatinCodesDataWithCombined() {
+		log.info("Request Object for :Latin codes");
+		List<LatinCodesDTO> result = latinAndScheduleCodesService.findAllLatinCodesWithDesc();
+		return new BaseDto<>(result, latinAndScheduleHelper.getRetrieveLatinCodeMessage(), OK).respond();
+	}
+	
+	@GetMapping("/getall/schedulecodes/withDesc")
+	public ResponseEntity<BaseDto<List<ScheduleCodeDescDTO>>> getAllSchedulesCodesDataWithDesc() {
+		log.info("Request Object for :Schedule codes");
+		List<ScheduleCodeDescDTO> result = latinAndScheduleCodesService.findAllScheduleCodesWithDesc();
 		return new BaseDto<>(result, latinAndScheduleHelper.getRetrieveScheduleCodeMessage(), OK).respond();
 	}
 }
