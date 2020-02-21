@@ -23,7 +23,7 @@ public class CheckListModel {
 	private Integer checkListId;
 
 	@Column(name="SNO")
-	private int sno;
+	private Integer sno;
 	
 	@Column(name="TITLE")
 	private String title;
@@ -56,7 +56,6 @@ public class CheckListModel {
 	private LocalDate assignedDate;
 
 	public CheckListModel(String title, LocalDate assignedDate) {
-		super();
 		this.title = title;
 		this.assignedDate = assignedDate;
 	}

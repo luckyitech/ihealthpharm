@@ -33,8 +33,15 @@ public class PettyCashModel extends AuditModel{
 	private LocalDate date;
 
 	@OneToOne
-	@JoinColumn(name="ACCOUNT_ID")
-	ChartOfAccountsModel chartsModel;
+	@JoinColumn(name="PARTY_NO")
+	ChartOfAccountsModel partyNo;
+	
+	@OneToOne
+	@JoinColumn(name="COUNTER_PARTY_NO")
+	ChartOfAccountsModel counterPartyNo;
+	
+//	@Column(name="COUNTER_PARTY_NO")
+//	private Integer counterPartyNo;
 
 	@Column(name="AMOUNT")
 	private Double amount;

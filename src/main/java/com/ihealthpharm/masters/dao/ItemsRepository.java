@@ -9,9 +9,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import com.ihealthpharm.masters.dto.AlternativeItemDTO;
 import com.ihealthpharm.masters.dto.ItemDTO;
+import com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO;
 import com.ihealthpharm.masters.model.ItemGenericNamesModel;
 import com.ihealthpharm.masters.model.ItemGroupModel;
 import com.ihealthpharm.masters.model.ItemsModel;
@@ -61,7 +61,7 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 
 	@Query("select new com.ihealthpharm.masters.dto.ItemDTO(i.itemId,i.medicalOrNonMedical,i.itemCode,i.itemName,i.itemDescription,i.drugDose) from items i where i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	 List<ItemDTO> findItemsByLimit(Pageable pageable);
-
+	
 	@Query("select new com.ihealthpharm.stock.dto.StockAdjustmentItemDTO(i.itemId,i.itemCode) from items i where i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	 List<StockAdjustmentItemDTO> findItemsByLimitWithItemCode(Pageable pageable);
 
@@ -105,8 +105,6 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 	 List<AlternativeItemDTO> getAlternativeItemsDataByItemCodeForStock(@Param("itemCode") String itemCode);
 	
 	
-	
-	
 	@Query("select new com.ihealthpharm.masters.dto.AlternativeItemDTO(i.itemId,i.itemDescription) from items i  "
 			+ "where  i.itemDescription like :itemdesc%  order by i.lastUpdateTimestamp desc")
 	List<AlternativeItemDTO> getAlternativeItemsDataByItemDesc(@Param("itemdesc") String itemdesc);
@@ -140,5 +138,11 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 
 	@Query("select count(i) from items i order by i.itemCode")
 	public Integer getAllCountOfItems();
+	
+	@Query("select new  com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO(s.stockId,s.stockNumber,i.itemName,s.item.itemId,s.invoiceNo,s.remarks,s.rack,s.batchNo,s.expiryDt,s.quantity) from stock s inner join items i on s.item=i.itemId where i.itemName like :searchTerm%  order by i.itemName,s.batchNo asc")
+	public List<ItemsForStockAdjustDTO> FindByItemNameForStockItemNameSearch(@Param("searchTerm")String searchTerm);
+
+	@Query("select new  com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO(s.stockId,s.stockNumber,i.itemName,s.item.itemId,s.invoiceNo,s.remarks,s.rack,s.batchNo,s.expiryDt,s.quantity) from stock s inner join items i on s.item=i.itemId  order by i.itemName,s.batchNo asc")
+	public List<ItemsForStockAdjustDTO> getAllStockAdjustRecords();
 	
 }

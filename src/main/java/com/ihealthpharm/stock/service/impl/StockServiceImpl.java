@@ -359,8 +359,12 @@ public class StockServiceImpl implements StockService {
 
 		@Override
 		public List<StockModel> findStockByItemIdAndPharmacyId(Integer itemId, Integer pharmacyId) {
-
 			return stockRepository.getStockByItemIdAndPharmacyId(itemId,pharmacyId);
+		}
+
+		@Override
+		public Integer updateStock(Integer stockId, Integer quantity) {
+			return stockRepository.updateStockData(stockId,quantity);
 		}
 		
 		
