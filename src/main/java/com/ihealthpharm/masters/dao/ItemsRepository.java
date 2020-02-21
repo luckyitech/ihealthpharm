@@ -139,10 +139,10 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 	@Query("select count(i) from items i order by i.itemCode")
 	public Integer getAllCountOfItems();
 	
-	@Query("select new  com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO(s.stockId,s.stockNumber,i.itemName,s.item.itemId,s.invoiceNo,s.remarks,s.rack,s.batchNo,s.expiryDt,s.quantity) from stock s inner join items i on s.item=i.itemId where i.itemName like :searchTerm%  order by i.itemName,s.batchNo asc")
+	@Query("select new  com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO(s.stockId,i.itemName,s.item.itemId,s.invoiceNo,s.remarks,s.rack,s.batchNo,s.expiryDt,s.quantity,s.quantity,s.shelf) from stock s inner join items i on s.item=i.itemId where i.itemName like :searchTerm% or s.rack like :searchTerm% or s.shelf like :searchTerm% order by i.itemName,s.batchNo asc")
 	public List<ItemsForStockAdjustDTO> FindByItemNameForStockItemNameSearch(@Param("searchTerm")String searchTerm);
 
-	@Query("select new  com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO(s.stockId,s.stockNumber,i.itemName,s.item.itemId,s.invoiceNo,s.remarks,s.rack,s.batchNo,s.expiryDt,s.quantity) from stock s inner join items i on s.item=i.itemId  order by i.itemName,s.batchNo asc")
+	@Query("select new  com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO(s.stockId,i.itemName,s.item.itemId,s.invoiceNo,s.remarks,s.rack,s.batchNo,s.expiryDt,s.quantity,s.quantity,s.shelf) from stock s inner join items i on s.item=i.itemId  order by i.itemName,s.batchNo asc")
 	public List<ItemsForStockAdjustDTO> getAllStockAdjustRecords();
 	
 }
