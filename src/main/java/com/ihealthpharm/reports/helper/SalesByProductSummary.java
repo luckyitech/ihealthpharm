@@ -2,6 +2,7 @@ package com.ihealthpharm.reports.helper;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -55,13 +56,11 @@ public class SalesByProductSummary extends ReportsPDFUtility {
 				
 			}
 			
-
 		} catch (Exception e) {
-			//log.error(ExceptionUtils.getMessage(e));
 			try {
 				addMessage(document, ExceptionUtils.getMessage(e));
 			} catch (DocumentException e1) {
-			//	log.error(ExceptionUtils.getMessage(e1));
+
 			}
 		} finally {
 			document.close();
@@ -71,8 +70,9 @@ public class SalesByProductSummary extends ReportsPDFUtility {
 	}
 
 	private void generateTotalTable(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException {
-		
-		double totalAmount = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("SALE_AMOUNT")?String.valueOf(mapper.get("SALE_AMOUNT")):"0")).sum(); 
+		DecimalFormat df=new DecimalFormat("0.00");
+		double totalAmount;
+		totalAmount = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TOTAL_AMOUNT")?String.valueOf(mapper.get("TOTAL_AMOUNT")):"0")).sum(); 
 		int quantity = responseList.stream().mapToInt(mapper->Integer.parseInt(mapper.containsKey("SALE_QTY")?String.valueOf(mapper.get("SALE_QTY")):"0")).sum(); 
 		
 		PdfPTable totalQtyTable = new PdfPTable(3);
@@ -82,7 +82,7 @@ public class SalesByProductSummary extends ReportsPDFUtility {
 		totalQtyTable.setLockedWidth(true);
 		totalQtyTable.getDefaultCell().setBorder(0); 
 		
-		PdfPCell nameCell = new PdfPCell(new Phrase("NET Quantity & Amount : "+quantity+"    "+totalAmount, title08)); 
+		PdfPCell nameCell = new PdfPCell(new Phrase("Total Quantity  : "+quantity+"   ", title08)); 
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell.setVerticalAlignment(Element.ALIGN_TOP);
@@ -92,9 +92,20 @@ public class SalesByProductSummary extends ReportsPDFUtility {
 		totalQtyTable.setTotalWidth(500);
 		totalQtyTable.getDefaultCell().setBorder(0); 
 		
+		String totAmt=df.format(totalAmount);
+		Double amount=Double.parseDouble(totAmt);
+		
+		PdfPCell nameCell2 = new PdfPCell(new Phrase("Total Amount  : "+amount+"   ", title08)); 
+		nameCell2.setColspan(3);
+		nameCell2.setHorizontalAlignment(Element.ALIGN_RIGHT);
+		nameCell2.setVerticalAlignment(Element.ALIGN_TOP);
+		nameCell2.setBorder(0);
+		totalQtyTable.addCell(nameCell2);
+		totalQtyTable.setLockedWidth(true);
+		totalQtyTable.setTotalWidth(500);
+		totalQtyTable.getDefaultCell().setBorder(0); 
+		
 		document.add(totalQtyTable);
-		
-		
 		
 	}
 
@@ -123,8 +134,9 @@ public class SalesByProductSummary extends ReportsPDFUtility {
 		supllierNameTable.getDefaultCell().setBorder(0); 
 		
 		
-		PdfPTable table = new PdfPTable(9);
+		PdfPTable table = new PdfPTable(11);
 		table.setTotalWidth(500);
+		table.setWidths(new int[] {25,55,45,55,50,45,45,45,45,45,55});
 		table.setWidthPercentage(50);
 		table.setLockedWidth(true);
 		PdfPCell cell = null;
@@ -213,6 +225,26 @@ public class SalesByProductSummary extends ReportsPDFUtility {
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
+			headerCell.add("QTY FREE");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("S DISC%");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
 			headerCell.add("TOTAL AMT");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -292,6 +324,22 @@ public class SalesByProductSummary extends ReportsPDFUtility {
 
 				table.addCell(cell);
 				
+				value = rowData.containsKey("QTY_FREE") ? rowData.get("QTY_FREE") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("DISC_PER") ? rowData.get("DISC_PER") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
 				value = rowData.containsKey("TOTAL_AMOUNT") ? rowData.get("TOTAL_AMOUNT") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -301,12 +349,48 @@ public class SalesByProductSummary extends ReportsPDFUtility {
 				table.addCell(cell);
 				//}
 			}
+			DecimalFormat df=new DecimalFormat("0.00");
+			double totalAmount;
+				
+			totalAmount = productList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TOTAL_AMOUNT")?String.valueOf(mapper.get("TOTAL_AMOUNT")):"0")).sum(); 
+			int quantity = productList.stream().mapToInt(mapper->Integer.parseInt(mapper.containsKey("SALE_QTY")?String.valueOf(mapper.get("SALE_QTY")):"0")).sum(); 
+			
+			PdfPTable totalQtyTable = new PdfPTable(3);
+			totalQtyTable.setTotalWidth(500);
+			totalQtyTable.setWidthPercentage(50);
+			totalQtyTable.setLockedWidth(true);
+			totalQtyTable.getDefaultCell().setBorder(0); 
+			
+			PdfPCell nameCell1 = new PdfPCell(new Phrase("Total Quantity  : "+quantity+"   ", title08)); 
+			nameCell1.setColspan(3);
+			nameCell1.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			nameCell1.setVerticalAlignment(Element.ALIGN_TOP);
+			nameCell1.setBorder(0);
+			totalQtyTable.addCell(nameCell1);
+			totalQtyTable.setLockedWidth(true);
+			totalQtyTable.setTotalWidth(500);
+			totalQtyTable.getDefaultCell().setBorder(0); 
+			
+			String totAmt=df.format(totalAmount);
+			Double amount=Double.parseDouble(totAmt);
+			
+			PdfPCell nameCell2 = new PdfPCell(new Phrase("Total Amount  : "+amount+"   ", title08)); 
+			nameCell2.setColspan(3);
+			nameCell2.setHorizontalAlignment(Element.ALIGN_RIGHT);
+			nameCell2.setVerticalAlignment(Element.ALIGN_TOP);
+			nameCell2.setBorder(0);
+			totalQtyTable.addCell(nameCell2);
+			totalQtyTable.setLockedWidth(true);
+			totalQtyTable.setTotalWidth(500);
+			totalQtyTable.getDefaultCell().setBorder(0); 
+			
+			finalTable.addCell(supllierNameTable);
+			finalTable.addCell(table); 
+			document.add(finalTable);			
+			document.add(totalQtyTable);
+			
 		}
 		
-		finalTable.addCell(supllierNameTable);
-		finalTable.addCell(table); 
-	//log.info("table width [{}]", table.getTotalWidth());
-		document.add(finalTable);
-
+		
 	}
 }

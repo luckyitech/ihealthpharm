@@ -2,6 +2,7 @@ package com.ihealthpharm.stock.service;
 
 import java.util.List;
 
+import com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.stock.dto.StockAdjustmentDTO;
@@ -87,4 +88,8 @@ public interface StockService {
 	List<StockRevenueDTO> findSuppliersRevenue();
 
 	List<StockModel> findStockByItemIdAndPharmacyId(Integer itemId, Integer pharmacyId);
+
+	Integer updateStock(Integer stockId,Integer previousQty,Integer quantity);
+
+	List<ItemsForStockAdjustDTO> getStockAdjustRecords(Integer stockId);
 }

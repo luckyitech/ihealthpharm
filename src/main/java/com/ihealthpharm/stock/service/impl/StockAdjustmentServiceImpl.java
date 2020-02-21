@@ -6,14 +6,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.ItemGenericNameRepository;
 import com.ihealthpharm.masters.model.ItemGenericNamesModel;
@@ -178,12 +175,10 @@ public class StockAdjustmentServiceImpl implements StockAdjustmentService {
 
 	@Override
 	public void  updateStocksData(@Valid List<StockModel> stockModels) {
-		//stockRepo.saveAll(stockModels);
 		for(StockModel stockModel:stockModels)
 		{
 			stockRepo.save(stockModel);
 		}
 	}
-
 
 }

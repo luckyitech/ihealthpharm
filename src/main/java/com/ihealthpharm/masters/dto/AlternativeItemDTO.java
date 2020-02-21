@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class AlternativeItemDTO {
+	
 	private Integer itemId;
 	private String itemName;
 	public AlternativeItemDTO(Integer itemId, String itemName) {
