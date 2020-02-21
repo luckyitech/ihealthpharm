@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.masters.dto.ItemDTO;
 import com.ihealthpharm.masters.helper.ManufacturerHelper;
 import com.ihealthpharm.masters.model.ManufacturerModel;
 import com.ihealthpharm.masters.service.ManufacturerService;
@@ -97,5 +98,14 @@ public class ManufacturerController {
 	   List<ManufacturerModel> result=manufacturerService.findAllManufacturersData(searchTerm);
 		return new BaseDto<>(result, manufacturerHelper.getRetrieveManufacturerMessage(), OK).respond();
 	}
+	
+	
+	@GetMapping("/getmanufacturesdatabylimit")
+	public ResponseEntity<BaseDto<List<ManufacturerModel>>> getItemDataByIdLimit(@RequestParam Integer start,@RequestParam Integer end) {
+		List<ManufacturerModel> result = manufacturerService.findManufacturersByLimit(start,end);
+		log.info("Seiz: "+result.size());
+		return new BaseDto<>(result, manufacturerHelper.getRetrieveManufacturerMessage(), OK).respond();
+	}
+
 	
 }
