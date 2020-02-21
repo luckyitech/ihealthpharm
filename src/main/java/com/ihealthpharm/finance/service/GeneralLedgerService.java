@@ -15,4 +15,6 @@ public interface GeneralLedgerService {
     List<GeneralLedgerModel> saveMultipleLedgersDataForAccRecievables(List<AccountReceivablesModel> generalLedgerModels);
     
     GeneralLedgerModel saveGeneralLedgerData(AccountReceivablesModel generalLedgerModel);
+    
+    Double getTotalLimit();
 }
