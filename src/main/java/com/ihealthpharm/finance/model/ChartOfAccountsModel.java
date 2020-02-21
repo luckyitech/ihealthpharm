@@ -60,5 +60,26 @@ public class ChartOfAccountsModel extends AuditModel{
     @Column(name="AUDIT_ID")
     private Integer auditId;
 
+	public ChartOfAccountsModel(Integer accountId, String accountNo, String accountName, AccountTypeModel accountType,
+			LocalDate date, LocalDate asOfDate, Double transactionLimit, Double totalLimit, Double currentBalance,
+			PharmacyModel pharmacyModel, Integer auditId) {
+		super();
+		this.accountId = accountId;
+		this.accountNo = accountNo;
+		this.accountName = accountName;
+		this.accountType = accountType;
+		this.date = date;
+		this.asOfDate = asOfDate;
+		this.transactionLimit = transactionLimit;
+		this.totalLimit = totalLimit;
+		this.currentBalance = currentBalance;
+		this.pharmacyModel = pharmacyModel;
+		this.auditId = auditId;
+	}
+
+	public ChartOfAccountsModel() {
+		super();
+	}
+
 
 }

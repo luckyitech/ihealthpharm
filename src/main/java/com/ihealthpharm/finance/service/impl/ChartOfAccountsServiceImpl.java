@@ -30,7 +30,7 @@ public class ChartOfAccountsServiceImpl implements ChartOfAccountsService {
 
 	@Override
 	public List<ChartOfAccountsModel> findAllAccounts() {
-		return chartAccRepo.findAll();
+		return chartAccRepo.findAllChartOfAccounts();
 	}
 
 	@Override

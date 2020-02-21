@@ -59,6 +59,12 @@ public class BankTransactionsModel  extends AuditModel {
 	
 	@Column(name="CHEQUE_NO",length=20)
 	private String chequeNo ;
+	
+	@Column(name="CARD_NO",length=20)
+	private String cardNo ;
+	
+	@Column(name="TRANSACTION_ID",length=25)
+	private String transactionId ;
 
 	@Column(name="TRANSACTION_TYPE",length=20)
 	private String transactionType;
