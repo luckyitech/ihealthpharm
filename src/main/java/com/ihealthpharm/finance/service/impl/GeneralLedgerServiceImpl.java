@@ -45,7 +45,7 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 		GeneralLedgerModel generalRes = generalLegderRepo.save(generalLedgerModel);
 		log.info("GeneralLedger data" +generalRes.getGeneralLedgerId() + "saved successfully");
 		return generalRes;
-	}
+	} 
 
 
 
@@ -66,7 +66,7 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 			generalLedgerModel.setEntryType(accountPayablesModel.getSourceType());
 			generalLedgerModel.setCounterParty(accountPayablesModel.getSupplierName());
 			generalLedgerModel.setEntryDate(new Date());
-			generalLedgerModel.setInvoiceNo(accountPayablesModel.getInvoiceNo());
+			//generalLedgerModel.setInvoiceNo(accountPayablesModel.getInvoiceNo());
 			generalLedgerModel.setCreatedUser(accountPayablesModel.getCreatedUser());
 			generalLedgerModel.setLastUpdateUser(accountPayablesModel.getLastUpdateUser());
 			generalLedgerModel.setParty(pharmacyService.findPharmacyById(accountPayablesModel.getPharmacyModel().getPharmacyId()).getPharmacyName());
@@ -180,5 +180,14 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 
 		return respose;
 	}
+
+
+
+	@Override
+	public Double getTotalLimit() {
+		
+		return generalLegderRepo.getTotalLimitFromGL();
+	}
+
 
 }

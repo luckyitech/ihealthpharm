@@ -65,6 +65,4 @@ public class GeneralLedgerModel extends AuditModel {
     @JoinColumn(name="PHARMACY_ID")
     private PharmacyModel pharmacyModel;
 	
-	@Column(name="Invoice_No")
-	private String invoiceNo;
 }

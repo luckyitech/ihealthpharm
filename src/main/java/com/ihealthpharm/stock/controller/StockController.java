@@ -334,11 +334,17 @@ public class StockController {
 		List result=stockService.findProfitService();
 		return new BaseDto<>(result,stockHelper.getRetrieveStockMessage(),OK).respond();
 	}
+	
 	@GetMapping("/suppliersRevenue")
 	public ResponseEntity<BaseDto<List>> getSuppliersRevenue(){
 		List result=stockService.findSuppliersRevenue();
 		return new BaseDto<>(result,stockHelper.getRetrieveStockMessage(),OK).respond();
 	}
-
 	
+	@GetMapping("/update/stockadjustment")
+	public ResponseEntity<BaseDto<Integer>> insertStockAdjustData( @RequestParam Integer stockId, @RequestParam Integer quantity){
+		Integer stockAdjustRes=stockService.updateStock(stockId,quantity);
+		return new BaseDto<>(stockAdjustRes,stockHelper.getSaveStockMessage(),OK).respond();
+	}
+
 }

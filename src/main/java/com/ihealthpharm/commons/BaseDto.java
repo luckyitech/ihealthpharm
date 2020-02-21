@@ -18,8 +18,6 @@ public class BaseDto<T> {
 
   private T result;
 
-
-
   private int status;
 
   private String responseCode;
