@@ -1,7 +1,6 @@
 package com.ihealthpharm.masters.service;
 
 import java.util.List;
-
 import com.ihealthpharm.masters.model.ManufacturerModel;
 
 public interface ManufacturerService {
@@ -13,8 +12,14 @@ public interface ManufacturerService {
 	List<ManufacturerModel> updateManufacturersData(List<ManufacturerModel> manufacturerModels);
 
 	List<ManufacturerModel> findManufacturerByActive();
+	
+	List<ManufacturerModel> findAllManufacturersForItem();
 
 	ManufacturerModel findManufacturerById(Integer manufacturerId);
+	
+	List<ManufacturerModel> findItemsByLimit(Integer start,Integer end);
+	
+	List<ManufacturerModel> getAllManufacturersByName(String name);
 
 	void deleteManufacturerById( Integer manufacturerId);
 

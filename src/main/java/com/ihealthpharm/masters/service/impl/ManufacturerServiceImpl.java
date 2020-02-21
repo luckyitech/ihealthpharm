@@ -3,15 +3,12 @@ package com.ihealthpharm.masters.service.impl;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-
 import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.ManufacturerRepository;
 import com.ihealthpharm.masters.helper.ManufacturerHelper;
@@ -100,7 +97,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 
 	@Override
 	public List<ManufacturerModel> updateManufacturersData(List<ManufacturerModel> manufacturerModels) {
-		
+
 		for (ManufacturerModel manufacturer : manufacturerModels) {
 			ManufacturerModel manufacturerRes = getValidManufacturer(manufacturer.getManufacturerId());
 			if (!Objects.nonNull(manufacturerRes)) {
@@ -110,7 +107,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 			manufacturerRes = manufacturerRepository.save(manufacturer);
 			log.info("Manufacturer data with Multiple IDs : " + manufacturerRes.getManufacturerId() + " updated succesfully");
 		}
-		
+
 		return manufacturerModels;
 	}
 
@@ -125,7 +122,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 			manufacturerRepository.delete(manufacturerRes);
 			log.info("Manufacturer data with ID: " + manufacturerRes.getManufacturerId() + " deleted succesfully");
 		}
-		
+
 	}
 
 	@Override
@@ -139,9 +136,25 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 	}
 
 	@Override
+	public List<ManufacturerModel> findAllManufacturersForItem() {
+		return manufacturerRepository.getAllManufacturersForItems();
+	}
+
+	@Override
+	public List<ManufacturerModel> findItemsByLimit(Integer pageNumber, Integer pageSize) {
+		Pageable limit = PageRequest.of(pageNumber,pageSize);
+		return manufacturerRepository.getAllManufacturersLimitedData(limit);
+	}
+
+	@Override
+	public List<ManufacturerModel> getAllManufacturersByName(String name) {
+		return manufacturerRepository.getAllLimitedManufacurersByName(name);
+
+	}
+
 	public List<ManufacturerModel> findManufacturersByLimit(Integer pageNumber, Integer pageSize) {
 		Pageable limit = PageRequest.of(pageNumber,pageSize);
 		return manufacturerRepository.getAllManufacturersByLimit(limit);
 	}
-	
+
 }
