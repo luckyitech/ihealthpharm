@@ -83,4 +83,6 @@ public interface ItemService {
 	List<StockAdjustmentItemDTO> findItemsByLimitWithItemGenericName(Integer start, Integer end);
 	
 	List<ItemsForStockAdjustDTO> getAllStockAdjustRecords();
+
+	List<ItemsForStockAdjustDTO> getAllStockAdjustRecordBasedOnRackAndShelf(String rack, String shelf);
 }

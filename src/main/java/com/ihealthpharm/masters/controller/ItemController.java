@@ -289,7 +289,11 @@ public class ItemController {
 		return new BaseDto<>(response, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 	
-	
+	@GetMapping("/getitemsdatabyrackandshelf/stockadjustGrid")
+	public ResponseEntity<BaseDto<List<ItemsForStockAdjustDTO>>> getAllStockAdjust(@RequestParam String rack,@RequestParam String shelf){
+		List<ItemsForStockAdjustDTO> response = itemService.getAllStockAdjustRecordBasedOnRackAndShelf(rack,shelf);
+		return new BaseDto<>(response, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
 	
 
 }
