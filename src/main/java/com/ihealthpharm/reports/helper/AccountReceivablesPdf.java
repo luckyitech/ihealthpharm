@@ -2,9 +2,12 @@ package com.ihealthpharm.reports.helper;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.stereotype.Component;
@@ -118,6 +121,30 @@ public class AccountReceivablesPdf extends ReportsPDFUtility{
 //		supllierNameTable.setLockedWidth(true);
 //		supllierNameTable.setTotalWidth(500);
 //		supllierNameTable.getDefaultCell().setBorder(0); 
+		
+		
+		if(dataMap.get("FROM_APPROVED_DATE")!=null && dataMap.get("TO_APPROVED_DATE")!=null) {
+			
+		System.out.println(dataMap.get("FROM_APPROVED_DATE"));
+//			SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+//			System.out.println("************");
+//			String fromDates=f.format(dataMap.get("FROM_APPROVED_DATE"));
+//			String toDates=f.format(dataMap.get("FROM_APPROVED_DATE"));
+//		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+//			String fromDates=formatter.format(String.valueOf(dataMap.get("FROM_APPROVED_DATE")));
+//		String toDates=formatter.format(String.valueOf(dataMap.get("TO_APPROVED_DATE")));
+			
+			PdfPTable supllierNameTable = new PdfPTable(3);
+			PdfPCell nameCell = new PdfPCell(new Phrase("From Date : "+String.valueOf((dataMap.get("FROM_APPROVED_DATE")))+"          "+"To Date   : "+String.valueOf(dataMap.get("TO_APPROVED_DATE")), title08)); 
+			//PdfPCell nameCell = new PdfPCell(new Phrase("From Date : "+fromDates+"        "+"To Date   : "+toDates, title08)); 
+			nameCell.setColspan(3);
+			nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			nameCell.setVerticalAlignment(Element.ALIGN_TOP);
+			nameCell.setBorder(0);
+			supllierNameTable.addCell(nameCell);
+			supllierNameTable.setLockedWidth(true);
+			supllierNameTable.setTotalWidth(500);
+			supllierNameTable.getDefaultCell().setBorder(0);
 		
 		
 		PdfPTable table = new PdfPTable(12);
@@ -358,9 +385,256 @@ public class AccountReceivablesPdf extends ReportsPDFUtility{
 		}
 		
 		//finalTable.addCell(finalTable);
+		finalTable.addCell(supllierNameTable);
 		finalTable.addCell(table); 
 		//log.info("table width [{}]", table.getTotalWidth());
 		document.add(finalTable);
 
+	}
+		else {
+			PdfPTable table = new PdfPTable(12);
+			table.setTotalWidth(500);
+			table.setWidthPercentage(50);
+			table.setLockedWidth(true);
+			PdfPCell cell = null;
+
+			//for (HeaderDto hearder : headerList) {
+
+				Paragraph headerCell = new Paragraph();
+				headerCell.setFont(headerFont);
+				headerCell.add("S.No");
+				cell = new PdfPCell(headerCell);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				headerCell = new Paragraph();
+				headerCell.setFont(headerFont);
+				headerCell.add("CUSTOMER NAME");
+				cell = new PdfPCell(headerCell);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+				
+				table.addCell(cell);
+				
+				headerCell = new Paragraph();
+				headerCell.setFont(headerFont);
+				headerCell.add("RECEIPT NO");
+				cell = new PdfPCell(headerCell);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+				
+				table.addCell(cell);
+				
+				headerCell = new Paragraph();
+				headerCell.setFont(headerFont);
+				headerCell.add("SOURCE REF");
+				cell = new PdfPCell(headerCell);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+				
+				table.addCell(cell);
+				
+				headerCell = new Paragraph();
+				headerCell.setFont(headerFont);
+				headerCell.add("RECEIPT DATE");
+				cell = new PdfPCell(headerCell);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+				
+				table.addCell(cell);
+				
+				headerCell = new Paragraph();
+				headerCell.setFont(headerFont);
+				headerCell.add("STATUS");
+				cell = new PdfPCell(headerCell);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+				
+				table.addCell(cell);
+				
+				headerCell = new Paragraph();
+				headerCell.setFont(headerFont);
+				headerCell.add("AMOUNT RECEIVED");
+				cell = new PdfPCell(headerCell);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+				
+				table.addCell(cell);
+				
+				headerCell = new Paragraph();
+				headerCell.setFont(headerFont);
+				headerCell.add("AMOUNT TO BE RECEIVED");
+				cell = new PdfPCell(headerCell);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+				
+				table.addCell(cell);
+				
+				headerCell = new Paragraph();
+				headerCell.setFont(headerFont);
+				headerCell.add("PAYMENT STATUS");
+				cell = new PdfPCell(headerCell);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+				
+				table.addCell(cell);
+				
+				headerCell = new Paragraph();
+				headerCell.setFont(headerFont);
+				headerCell.add("SOURCE TYPE");
+				cell = new PdfPCell(headerCell);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+				
+				table.addCell(cell);
+				
+				headerCell = new Paragraph();
+				headerCell.setFont(headerFont);
+				headerCell.add("APPROVED BY");
+				cell = new PdfPCell(headerCell);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+				
+				table.addCell(cell);
+				
+				headerCell = new Paragraph();
+				headerCell.setFont(headerFont);
+				headerCell.add("APPROVED DATE");
+				cell = new PdfPCell(headerCell);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+				
+				table.addCell(cell);
+				
+			//}
+			table.setHeaderRows(1);
+
+			// populate Date
+			if (!ObjectUtils.isEmpty(accountPayablesList)) {
+				for (Map<String, Object> rowData : accountPayablesList) {
+					//for (HeaderDto hearder : headerList) {
+
+					Object value = String.valueOf(accountPayablesList.indexOf(rowData) + 1);
+					cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					if (!model.isShowVerticalLines())
+						cell.setBorder(Rectangle.BOTTOM);
+
+					table.addCell(cell);
+
+					value = rowData.containsKey("CUSTOMER_NAME") ? rowData.get("CUSTOMER_NAME") : "";
+					cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					if (!model.isShowVerticalLines())
+						cell.setBorder(Rectangle.BOTTOM);
+
+					table.addCell(cell);
+					
+					value = rowData.containsKey("RECEIPT_NO") ? rowData.get("RECEIPT_NO") : "";
+					cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					if (!model.isShowVerticalLines())
+						cell.setBorder(Rectangle.BOTTOM);
+
+					table.addCell(cell);
+					
+					value = rowData.containsKey("SOURCE_REF") ? rowData.get("SOURCE_REF") : "";
+					cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					if (!model.isShowVerticalLines())
+						cell.setBorder(Rectangle.BOTTOM);
+
+					table.addCell(cell);
+					
+					value = rowData.containsKey("RECEIPT_DATE") ? rowData.get("RECEIPT_DATE") : "";
+					cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					if (!model.isShowVerticalLines())
+						cell.setBorder(Rectangle.BOTTOM);
+
+					table.addCell(cell);
+					
+					value = rowData.containsKey("STATUS") ? rowData.get("STATUS") : "";
+					cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					if (!model.isShowVerticalLines())
+						cell.setBorder(Rectangle.BOTTOM);
+
+					table.addCell(cell);
+					
+					value = rowData.containsKey("AMOUNT_RECEIVED") ? rowData.get("AMOUNT_RECEIVED") : "";
+					cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					if (!model.isShowVerticalLines())
+						cell.setBorder(Rectangle.BOTTOM);
+
+					table.addCell(cell);
+					
+					value = rowData.containsKey("AMOUNT_TO_BE_RECEIVED") ? rowData.get("AMOUNT_TO_BE_RECEIVED") : "";
+					cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					if (!model.isShowVerticalLines())
+						cell.setBorder(Rectangle.BOTTOM);
+
+					table.addCell(cell);
+					
+					value = rowData.containsKey("PAYMENT_STATUS") ? rowData.get("PAYMENT_STATUS") : "";
+					cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					if (!model.isShowVerticalLines())
+						cell.setBorder(Rectangle.BOTTOM);
+
+					table.addCell(cell);
+					
+					value = rowData.containsKey("SOURCE_TYPE") ? rowData.get("SOURCE_TYPE") : "";
+					cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					if (!model.isShowVerticalLines())
+						cell.setBorder(Rectangle.BOTTOM);
+
+					table.addCell(cell);
+					
+					value = rowData.containsKey("FIRST_NM") ? rowData.get("FIRST_NM") : "";
+					cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					if (!model.isShowVerticalLines())
+						cell.setBorder(Rectangle.BOTTOM);
+
+					table.addCell(cell);
+					
+					value = rowData.containsKey("FROM_APPROVED_DATE") ? rowData.get("FROM_APPROVED_DATE") : "";
+					cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					if (!model.isShowVerticalLines())
+						cell.setBorder(Rectangle.BOTTOM);
+
+					table.addCell(cell);
+
+
+					//}
+				}
+			}
+			
+			//finalTable.addCell(finalTable);
+		
+			finalTable.addCell(table); 
+			//log.info("table width [{}]", table.getTotalWidth());
+			document.add(finalTable);
+		}
+	
 	}
 }
