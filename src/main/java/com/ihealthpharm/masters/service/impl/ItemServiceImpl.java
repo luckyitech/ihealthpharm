@@ -1,7 +1,5 @@
 package com.ihealthpharm.masters.service.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -12,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import com.ihealthpharm.exception.IHealthPharmException;
-import com.ihealthpharm.masters.dao.ItemGenericNameRepository;
 import com.ihealthpharm.masters.dao.ItemGroupRepository;
 import com.ihealthpharm.masters.dao.ItemsRepository;
 import com.ihealthpharm.masters.dto.AlternativeItemDTO;
@@ -25,7 +22,6 @@ import com.ihealthpharm.masters.service.ItemService;
 import com.ihealthpharm.stock.dao.StockRepository;
 import com.ihealthpharm.stock.dto.StockAdjustmentItemDTO;
 import com.ihealthpharm.stock.model.StockModel;
-
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -39,9 +35,6 @@ public class ItemServiceImpl implements ItemService {
 
 	@Autowired
 	private ItemsRepository itemRepository;
-
-	@Autowired
-	private ItemGenericNameRepository genericRepo;
 
 	@Autowired
 	private ItemGroupRepository itemGroupRepo;
@@ -398,6 +391,11 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public List<ItemsForStockAdjustDTO> getAllStockAdjustRecords() {
 		return itemRepository.getAllStockAdjustRecords();
+	}
+
+	@Override
+	public List<ItemsForStockAdjustDTO> getAllStockAdjustRecordBasedOnRackAndShelf(String rack, String shelf) {
+		return itemRepository.getAllRecordsByRackAndShelf(rack,shelf);
 	}
 
 }
