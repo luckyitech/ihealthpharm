@@ -216,16 +216,16 @@ private void addTotals(Document document, ReportsMappingModel model, List<Map<St
 	double totalAmount = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")?String.valueOf(mapper.get("AMOUNT")):"0.0")).sum(); 
 	//Double totalQty = Double.parseDouble(String.valueOf(responseList.get(0).get("TOTAL_QTY")));//responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TOTAL_QTY")?String.valueOf(mapper.get("TOTAL_QTY")):"0.0")).sum(); 
 	Double totalQty = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("SALE_QTY")?String.valueOf(mapper.get("SALE_QTY")):"0.0")).sum(); 
-	double totalDiscount = Double.parseDouble(String.valueOf(responseList.get(0).get("OVERALL_DISCOUNT")));//responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("OVERALL_DISCOUNT")?String.valueOf(mapper.get("EFFECTIVE_OVERALL_DISCOUNT")):"0.0")).sum(); 
-	
-	double totalVat = Double.parseDouble(String.valueOf(responseList.get(0).get("VAT_AMT")));//responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("EFFECTIVE_VAT")?String.valueOf(mapper.get("VAT")):"0.0")).sum();
-	
+	//double totalDiscount = Double.parseDouble(String.valueOf(responseList.get(0).get("OVERALL_DISCOUNT")));//responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("OVERALL_DISCOUNT")?String.valueOf(mapper.get("EFFECTIVE_OVERALL_DISCOUNT")):"0.0")).sum(); 
+	double totalDiscount =responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("OVERALL_DISCOUNT")?String.valueOf(mapper.get("OVERALL_DISCOUNT")):"0.0")).sum(); 
+	//double totalVat = Double.parseDouble(String.valueOf(responseList.get(0).get("VAT_AMT")));//responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("EFFECTIVE_VAT")?String.valueOf(mapper.get("VAT")):"0.0")).sum();
+	double totalVat = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("VAT_AMT")?String.valueOf(mapper.get("VAT_AMT")):"0.0")).sum();
 	//double totalNetAmount = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("SALE_AMOUNT")?String.valueOf(mapper.get("SALE_AMOUNT")):"0.0")).sum();
-	//double totalNetAmount =Double.parseDouble(String.valueOf(responseList.get(0).get("NET_AMOUNT")));
-	double totalNetAmount =responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("NET_AMOUNT")?String.valueOf(mapper.get("NET_AMOUNT")):"0.0")).sum();
+	double totalNetAmount =Double.parseDouble(String.valueOf(responseList.get(0).get("NET_AMOUNT")));
+	//double totalNetAmount =responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("NET_AMOUNT")?String.valueOf(mapper.get("NET_AMOUNT")):"0.0")).sum();
 	double balanceAmt =Double.parseDouble(String.valueOf(responseList.get(0).get("BALANCE_AMOUNT")));
-	//double paidAmt =Double.parseDouble(String.valueOf(responseList.get(0).get("PAID_AMOUNT")));
-	double paidAmt =responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("PAID_AMOUNT")?String.valueOf(mapper.get("PAID_AMOUNT")):"0.0")).sum();
+	double paidAmt =Double.parseDouble(String.valueOf(responseList.get(0).get("PAID_AMOUNT")));
+	//double paidAmt =responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("PAID_AMOUNT")?String.valueOf(mapper.get("PAID_AMOUNT")):"0.0")).sum();
 	String servBy = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("FIRST_NM"));
 	String paymentStatus = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("PAYMENT_STATUS"));
 	

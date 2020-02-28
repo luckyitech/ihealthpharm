@@ -72,7 +72,7 @@ public class BankTransactionsModel  extends AuditModel {
 	@Column(name="VALUE_DATE",length=25)
 	private Date valueDate;
 
-	@Column(name="REASON",length=20)
+	@Column(name="REASON",length=100)
 	private String reason;
 
 	@Column(name="MODE",length=20)
@@ -90,4 +90,5 @@ public class BankTransactionsModel  extends AuditModel {
 	@Column(name="DONE_TIMESTAMP")
 	private Date DoneByTimeStamp;
 
+	
 }

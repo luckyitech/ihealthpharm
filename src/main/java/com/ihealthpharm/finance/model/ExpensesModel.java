@@ -39,13 +39,6 @@ public class ExpensesModel extends AuditModel{
 	@JoinColumn(name="PARTY_NO")
 	private ChartOfAccountsModel account;
 		
-	/*@Column(name="COUNTER_PARTY")
-	private Integer pettyCash;*/
-	
-	@OneToOne
-	@JoinColumn(name="COUNTER_PARTY")
-	private ChartOfAccountsModel counterParty;
-	
 	@Column(name="AMOUNT")
 	private Float amount;
 	
@@ -54,4 +47,7 @@ public class ExpensesModel extends AuditModel{
 	
 	@Column(name="BALANCE")
 	private Float balance;
+	
+	@Column(name="CATEGORIES")
+	private String categories;
 }

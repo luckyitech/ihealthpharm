@@ -2,6 +2,7 @@ package com.ihealthpharm.stock.dao;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -46,6 +47,14 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrderMode
 	@Query("select i "
 			+ " from purchase_order i where purchaseOrderStatusModel.status='APPROVED' and i.pharmacyModel.pharmacyId = :pharmacyId order by i.purchaseOrderDate desc ")
 	List<PurchaseOrderModel> getPurchaseOrderByPharmacy(@Param("pharmacyId") Integer pharmacyId);
+	
+	@Query("select i "
+			+ " from purchase_order i where purchaseOrderStatusModel.status='APPROVED' and i.pharmacyModel.pharmacyId = :pharmacyId order by i.purchaseOrderDate desc ")
+	List<PurchaseOrderModel> getPurchaseOrderByPharmacyFirst20(@Param("pharmacyId") Integer pharmacyId,Pageable pageable);
+	
+	@Query("select i "
+			+ " from purchase_order i where purchaseOrderStatusModel.status='APPROVED' and i.pharmacyModel.pharmacyId = :pharmacyId and i.purchaseOrderNo like :poNumber% order by i.purchaseOrderDate desc ")
+	List<PurchaseOrderModel> getPurchaseOrderByPharmacyAndPurchaseOrderNumber(@Param("pharmacyId") Integer pharmacyId,@Param("poNumber") String poNumber,Pageable pageable);
 	
 	@Query("select i from purchase_order i inner join purchase_order_status ps "
 			+ "on i.purchaseOrderStatusModel.purchaseOrderStatusId = ps.purchaseOrderStatusId "
