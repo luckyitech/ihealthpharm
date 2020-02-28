@@ -226,6 +226,12 @@ public class PurchaseOrderController {
 		return new BaseDto<>(purchaseOrderModels, purchaseorderHelper.getRetrievePurchaseOrderMessage(), OK).respond();
 	}
 	
+	@GetMapping("/getpurchaseordersbypharmacyandponumber")
+	public ResponseEntity<BaseDto<List<PurchaseOrderModel>>> getPurchaseOrderByPharmacyAndPONumbr(@RequestParam Integer pharmacyId,@RequestParam String poNumber) {
+		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderService.getPurchaseOrderByPharmacyAndPONumber(pharmacyId,poNumber);
+		return new BaseDto<>(purchaseOrderModels, purchaseorderHelper.getRetrievePurchaseOrderMessage(), OK).respond();
+	}
+	
 	/**
 	 * @author Gunasekhar 
 	 * Service is for pending purchase orders based on the pharmacyId

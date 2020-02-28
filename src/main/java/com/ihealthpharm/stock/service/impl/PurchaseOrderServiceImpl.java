@@ -7,6 +7,8 @@ import java.util.Objects;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -266,15 +268,16 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	@Override
 	public List<PurchaseOrderModel> getPurchaseOrderByPharmacy(Integer pharmacyId) {
 		log.info("Pharmacy Id: "+ pharmacyId);
-		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderRepository.getPurchaseOrderByPharmacy(pharmacyId);
-		for(PurchaseOrderModel q : purchaseOrderModels) {
-			q.setCreatedName(purchaseorderRepository.createdPurchaseOrderUser(q.getPurchaseOrderId()));
-			q.setModifiedName(purchaseorderRepository.modifiedPurchaseOrderUser(q.getPurchaseOrderId()));
-			q.setRejectedName(purchaseorderRepository.rejectedPurchaseOrderUser(q.getPurchaseOrderId()));
-			q.setApprovedName(purchaseorderRepository.approvedPurchaseOrderUser(q.getPurchaseOrderId()));
-			q.setSentName(purchaseorderRepository.sentPurchaseOrderUser(q.getPurchaseOrderId()));
-		}
-		return purchaseorderRepository.getPurchaseOrderByPharmacy(pharmacyId);
+//		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderRepository.getPurchaseOrderByPharmacy(pharmacyId);
+//		for(PurchaseOrderModel q : purchaseOrderModels) {
+//			q.setCreatedName(purchaseorderRepository.createdPurchaseOrderUser(q.getPurchaseOrderId()));
+//			q.setModifiedName(purchaseorderRepository.modifiedPurchaseOrderUser(q.getPurchaseOrderId()));
+//			q.setRejectedName(purchaseorderRepository.rejectedPurchaseOrderUser(q.getPurchaseOrderId()));
+//			q.setApprovedName(purchaseorderRepository.approvedPurchaseOrderUser(q.getPurchaseOrderId()));
+//			q.setSentName(purchaseorderRepository.sentPurchaseOrderUser(q.getPurchaseOrderId()));
+//		}
+		Pageable limit = new PageRequest(0,20);
+		return purchaseorderRepository.getPurchaseOrderByPharmacyFirst20(pharmacyId,limit);
 	}
 
 	@Override
@@ -409,5 +412,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	@Override
 	public List<String> findallSuppliersPDPO() {
 		return purchaseorderRepository.findsupplierNameByPOD();
+	}
+
+	@Override
+	public List<PurchaseOrderModel> getPurchaseOrderByPharmacyAndPONumber(Integer pharmacyId,String PONumber) {
+		Pageable limit = new PageRequest(0,50);
+		return purchaseorderRepository.getPurchaseOrderByPharmacyAndPurchaseOrderNumber(pharmacyId,PONumber,limit);
 	}
 }
