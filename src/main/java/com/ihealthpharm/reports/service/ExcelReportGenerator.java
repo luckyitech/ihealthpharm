@@ -8,6 +8,6 @@ import com.ihealthpharm.reports.model.ReportsMappingModel;
 
 public interface ExcelReportGenerator {
 
-	void generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile);
+	void generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile,String inputJson);
 	
 }
