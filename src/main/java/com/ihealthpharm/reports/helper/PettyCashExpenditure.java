@@ -57,6 +57,7 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 				for(String pettyCashSummary :pettyExpMap.keySet()) {					
 					List<Map<String, Object>> pettyExpList = pettyExpMap.get(pettyCashSummary);
 					createTable(document,model,pettyExpList,pettyCashSummary,responseList);
+					
 				}
 
 
@@ -156,20 +157,6 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 		finalTable.setLockedWidth(true);
 		finalTable.getDefaultCell().setBorder(0); 
 
-		double cashOnHand=Double.parseDouble(String.valueOf(responseList.get(0).get("BALANCE")));
-		
-		PdfPTable supllierNameTable = new PdfPTable(3);
-		PdfPCell nameCell = new PdfPCell(new Phrase("Total Balance at hand : "+cashOnHand, title08)); 
-		nameCell.setColspan(3);
-		nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);
-		nameCell.setVerticalAlignment(Element.ALIGN_TOP);
-		nameCell.setBorder(0);
-		supllierNameTable.addCell(nameCell);
-		supllierNameTable.setLockedWidth(true);
-		supllierNameTable.setTotalWidth(500);
-		supllierNameTable.getDefaultCell().setBorder(0); 
-
-
 		PdfPTable table = new PdfPTable(5);
 		table.setTotalWidth(500);
 		table.setWidths(new int[] {30,50,320,50,50});
@@ -237,9 +224,19 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 
 			double balance=Double.parseDouble(((pettyExpList.get(0).containsKey("BALANCE") ? String.valueOf(pettyExpList.get(0).get("BALANCE")) : "")));
 
+			PdfPTable supllierNameTable = new PdfPTable(3);
+			PdfPCell nameCell = new PdfPCell(new Phrase("Total Balance at hand : "+pettyExpList.get(0).get("BALANCE"), title08)); 
+			nameCell.setColspan(3);
+			nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			nameCell.setVerticalAlignment(Element.ALIGN_TOP);
+			nameCell.setBorder(0);
+			supllierNameTable.addCell(nameCell);
+			supllierNameTable.setLockedWidth(true);
+			supllierNameTable.setTotalWidth(500);
+			supllierNameTable.getDefaultCell().setBorder(0); 
 			for (Map<String, Object> rowData : pettyExpList) {
 				//for (HeaderDto hearder : headerList) {
-
+				
 				Object value = String.valueOf(pettyExpList.indexOf(rowData) + 1);
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -273,8 +270,6 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 				table.addCell(cell);
 
 				double value1=Double.parseDouble(((rowData.containsKey("AMOUNT") ? (String.valueOf(rowData.get("AMOUNT"))) : "")));
-				System.out.println(balance);
-				System.out.println(value1);
 				value = balance-value1;
 				balance=(Double) value;
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
@@ -286,6 +281,9 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 				
 				//}
 			}
+			
+			document.add(supllierNameTable);
+			
 			DecimalFormat df=new DecimalFormat("0.00");
 			double totalAmount;
 
@@ -310,7 +308,7 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 			totalTable.setTotalWidth(500);
 			totalTable.getDefaultCell().setBorder(0); 
 			
-			finalTable.addCell(supllierNameTable);
+			//finalTable.addCell(supllierNameTable);
 			finalTable.addCell(table); 
 			document.add(finalTable);		
 			document.add(totalTable);
