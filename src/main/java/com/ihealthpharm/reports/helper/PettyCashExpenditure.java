@@ -52,13 +52,14 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 			
 			
 			if(!ObjectUtils.isEmpty(pettyExpMap)) { 
+				addHeader(document,responseList);
 				
 				for(String pettyCashSummary :pettyExpMap.keySet()) {					
 					List<Map<String, Object>> pettyExpList = pettyExpMap.get(pettyCashSummary);
 					createTable(document,model,pettyExpList,pettyCashSummary,responseList);
 				}
 				
-				addHeader(responseList);
+				
 				generateTotalTable(document,model,responseList);
 				
 			}
@@ -84,7 +85,6 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 		totalAmount = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
 		totalBalance=Double.parseDouble(String.valueOf(responseList.get(0).get("BALANCE")))-totalAmount;
 		
-		System.out.println(totalBalance);
 		
 		PdfPTable totalTable = new PdfPTable(3);
 		totalTable.setTotalWidth(500);
@@ -124,26 +124,13 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 		
 	}
 	
-	private void addHeader(List<Map<String, Object>> responseList) throws DocumentException {
-	
-	}
-
-	private void createTable(Document document, ReportsMappingModel model, List<Map<String, Object>> pettyExpList,
-			String pettyCashSummary, List<Map<String, Object>> responseList) throws DocumentException {
-
-		String reportHeader = model.getReportHeader();
-		List<HeaderDto> headerList = JsonUtility.jsonToList(reportHeader, HeaderDto.class);
-
+	private void addHeader(Document document,List<Map<String, Object>> responseList) throws DocumentException {
 		
-		PdfPTable finalTable = new PdfPTable(1);
-		finalTable.setTotalWidth(500);
-		finalTable.setWidthPercentage(50);
-		finalTable.setLockedWidth(true);
-		finalTable.getDefaultCell().setBorder(0); 
+		double cashOnHand=Double.parseDouble(String.valueOf(responseList.get(0).get("BALANCE")));
 		
 		
 		PdfPTable supllierNameTable = new PdfPTable(3);
-		PdfPCell nameCell = new PdfPCell(new Phrase("Total Balance at hand : "+Double.parseDouble(String.valueOf(responseList.get(0).get("BALANCE"))), title08)); 
+		PdfPCell nameCell = new PdfPCell(new Phrase("Total Balance at hand : "+cashOnHand, title08)); 
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		nameCell.setVerticalAlignment(Element.ALIGN_TOP);
@@ -152,6 +139,22 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 		supllierNameTable.setLockedWidth(true);
 		supllierNameTable.setTotalWidth(500);
 		supllierNameTable.getDefaultCell().setBorder(0); 
+		
+		document.add(supllierNameTable);
+		
+	}
+
+	private void createTable(Document document, ReportsMappingModel model, List<Map<String, Object>> pettyExpList,
+			String pettyCashSummary, List<Map<String, Object>> responseList) throws DocumentException {
+
+		String reportHeader = model.getReportHeader();
+		List<HeaderDto> headerList = JsonUtility.jsonToList(reportHeader, HeaderDto.class);
+		
+		PdfPTable finalTable = new PdfPTable(1);
+		finalTable.setTotalWidth(500);
+		finalTable.setWidthPercentage(50);
+		finalTable.setLockedWidth(true);
+		finalTable.getDefaultCell().setBorder(0); 
 		
 		
 		PdfPTable table = new PdfPTable(5);
@@ -286,9 +289,8 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 			totalTable.setTotalWidth(500);
 			totalTable.getDefaultCell().setBorder(0); 
 			
-			finalTable.addCell(supllierNameTable);
 			finalTable.addCell(table); 
-			document.add(finalTable);			
+			document.add(finalTable);		
 			document.add(totalTable);
 			
 		}
