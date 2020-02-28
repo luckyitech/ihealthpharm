@@ -115,8 +115,8 @@ public class SalesByProductSummaryExcel extends ReportsExcelUtility {
 		cell = dataRow.createCell(9);
 		cell1=dataRow1.createCell(9);
 		
-		cell.setCellValue("Total Quantity : ");
-		cell1.setCellValue("Total Amount : ");
+		cell.setCellValue("Overall Quantity : ");
+		cell1.setCellValue("Overall Amount : ");
 		
 		cell = dataRow.createCell(10);
 		cell1=dataRow1.createCell(10);
@@ -152,7 +152,7 @@ public class SalesByProductSummaryExcel extends ReportsExcelUtility {
 			
 			
 			cell = headerRow.createCell(3);
-			cell.setCellValue("MFR");
+			cell.setCellValue("CUSTOMER");
 			cell.setCellStyle(headerStyle);	
 			
 			
@@ -215,7 +215,7 @@ public class SalesByProductSummaryExcel extends ReportsExcelUtility {
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 
-				value = rowData.containsKey("MFR_NAME") ? rowData.get("MFR_NAME") : "";
+				value = rowData.containsKey("CUSTOMER_NM") ? rowData.get("CUSTOMER_NM") : "";
 				cell = dataRow.createCell(3);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
@@ -252,7 +252,7 @@ public class SalesByProductSummaryExcel extends ReportsExcelUtility {
 				
 				value = rowData.containsKey("TOTAL_AMOUNT") ? rowData.get("TOTAL_AMOUNT") : "";
 				cell = dataRow.createCell(10);
-				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 			}
 				
