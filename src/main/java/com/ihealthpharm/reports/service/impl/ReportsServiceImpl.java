@@ -90,11 +90,11 @@ public class ReportsServiceImpl implements ReportsService {
 		}else {
 			
 			if (StringUtils.isBlank(model.getCustomExcelReportGeneratorClazz()))
-				reportsExcelUtility.generateReport(responseList, model, responseFile);
+				reportsExcelUtility.generateReport(responseList, model, responseFile,inputJson);
 			else {
 				Class beanClass = Class.forName(model.getCustomExcelReportGeneratorClazz());
 				ExcelReportGenerator reportGenerator = (ExcelReportGenerator) SpringContextUtility.getBean(beanClass);
-				reportGenerator.generateReport(responseList, model, responseFile);
+				reportGenerator.generateReport(responseList, model, responseFile,inputJson);
 			}			
 			
 			
