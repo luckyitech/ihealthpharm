@@ -10,12 +10,15 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.finance.dto.BankTransactionDTO;
 import com.ihealthpharm.finance.helper.BankTransactionsHelper;
 import com.ihealthpharm.finance.model.BankTransactionsModel;
 import com.ihealthpharm.finance.service.BankTransactionsService;
+import com.ihealthpharm.stock.service.InvoiceService;
 
 @RestController
 @CrossOrigin
@@ -42,5 +45,31 @@ public class BankTransactionsController {
 		return new BaseDto<>(response,bankTransactionsHelper.getSaveBankTransactionsMessage(),OK).respond();
 	}
 	
+	@GetMapping("/getall/transactionsIds")
+	public ResponseEntity<BaseDto<List<BankTransactionDTO>>> getAllBankTransactionsId(@RequestParam String transactionId){
+		List<BankTransactionDTO> response=bankTransService.findAllTransactionId(transactionId);
+		return new BaseDto<>(response, bankTransactionsHelper.getRetrieveBankTransactionsMessage(), OK).respond();
+	}
+	
+//	@GetMapping("/checktransctionids")
+//	
+//	public ResponseEntity<String> checkTransactionId(@RequestParam(name="transactionId") String transactionId){
+//		String res=bankTransService.checkByTransactionId(transactionId);
+//
+//		return ResponseEntity.ok().body(res);
+//		
+//	}
+	
+	@GetMapping("/getpartyaccountdetailsbysearch")
+	public ResponseEntity<BaseDto<List<String>>> getPartyAccountsBySearch(@RequestParam String searchTerm) {
+		List<String> results = bankTransService.getBySearchPartyDetails(searchTerm);
+		return new BaseDto<>(results, bankTransactionsHelper.getRetrieveBankTransactionsMessage(), OK).respond();
+	}
+
+	@GetMapping("/getallpartyaccountdetails")
+	public ResponseEntity<BaseDto<List<String>>> getAllPartyAccounts() {
+		List<String> results = bankTransService.getAllPartyDetails();
+		return new BaseDto<>(results, bankTransactionsHelper.getRetrieveBankTransactionsMessage(), OK).respond();
+	}
 	
 }

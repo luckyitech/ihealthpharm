@@ -1,6 +1,10 @@
 package com.ihealthpharm.reports.helper;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -20,10 +24,11 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
+import com.ihealthpharm.commons.JsonUtility;
 import com.ihealthpharm.reports.model.ReportsMappingModel;
 @Component
 public class AccountReceivablesExcel extends ReportsExcelUtility{
-	public void generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile) {
+	public void generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile,String inputJson) {
 
 		SXSSFWorkbook workbook = new SXSSFWorkbook(100);
 		SXSSFSheet sheet = workbook.createSheet("Report Data");
@@ -68,20 +73,35 @@ public class AccountReceivablesExcel extends ReportsExcelUtility{
 		headerStyle.setBorderLeft(BorderStyle.THIN);  
 		headerStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());  
 		
+//		Map<String, List<Map<String, Object>>> accountReceivablesMap = responseList.stream()
+//				.collect(Collectors.groupingBy(map -> (String) String.valueOf(map.get("FROM_APPROVED_DATE"))));	
+		
 		setHeader(workbook,sheet,model);
 		int currentRow = sheet.getLastRowNum();
-		createSupplierTable(sheet, responseFile, borderStyle, headerStyle,responseList,currentRow);
+//if(!ObjectUtils.isEmpty(accountReceivablesMap)) { 
+//			
+//			for(String supplierName :accountReceivablesMap.keySet()) {	
+//				List<Map<String, Object>> accountReceivablesDetails = accountReceivablesMap.get(supplierName);
+		
+		Map<String,Object> dataMap= (Map<String, Object>) JsonUtility.jsonToMap(inputJson);
+		
+		createSupplierTable(sheet, responseFile, borderStyle, headerStyle,responseList,currentRow,dataMap);
+		//	}
 		generateTotalTable(sheet, responseFile,borderStyle,model,responseList);
+//}
 		writeToFile(workbook, responseFile);
 		 
 	}
 	private void generateTotalTable(SXSSFSheet sheet,File responseFile, CellStyle borderStyle, ReportsMappingModel model,
 			List<Map<String, Object>> responseList) {
+		DecimalFormat df=new DecimalFormat("0.00");
 		int currentRow = sheet.getLastRowNum();
-		
-		double TotalAmtPaid = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT_RECEIVED")?String.valueOf(mapper.get("AMOUNT_RECEIVED")):"0")).sum(); 
-		double TotalAmtToBePaid = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT_TO_BE_RECEIVED")?String.valueOf(mapper.get("AMOUNT_TO_BE_RECEIVED")):"0")).sum(); 
 	
+		double TotalAmtReceived = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT_RECEIVED")?String.valueOf(mapper.get("AMOUNT_RECEIVED")):"0")).sum(); 
+		double TotalAmtToBeReceived = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT_TO_BE_RECEIVED")?String.valueOf(mapper.get("AMOUNT_TO_BE_RECEIVED")):"0")).sum(); 
+		
+//		DateFormat f = new SimpleDateFormat("dd-MM-yyyy");
+//		String fromDate = f.format((ObjectUtils.isEmpty(responseList))?"":responseList.get(0).get("FROM_APPROVED_DATE")); 
 		Row dataRow = sheet.createRow(currentRow+2);
 		Row dataRow1=sheet.createRow(currentRow+3);
 		
@@ -100,19 +120,53 @@ public class AccountReceivablesExcel extends ReportsExcelUtility{
 		cell = dataRow.createCell(10);
 		cell1=dataRow1.createCell(10);
 		
-		cell.setCellValue(TotalAmtPaid);
-		cell1.setCellValue(TotalAmtToBePaid);
+		String totAmountReceived=df.format(TotalAmtReceived);
+		Double totalReceived=Double.parseDouble(totAmountReceived);
+		
+		String totAmountToBeReceived=df.format(TotalAmtToBeReceived);
+		Double totalToBeReceived=Double.parseDouble(totAmountToBeReceived);
+		
+		cell.setCellValue(totalReceived);
+		cell1.setCellValue(totalToBeReceived);
 	
 	}
 	private void createSupplierTable(SXSSFSheet sheet,File responseFile, CellStyle borderStyle ,
-			CellStyle headerStyle, List<Map<String, Object>> purchaseMarginList,int rowNum) {
-
+			CellStyle headerStyle, List<Map<String, Object>> accountReceivablesDetails,int rowNum,Map<String,Object> inputJson) {
+		//DateFormat f = new SimpleDateFormat("dd-MM-yyyy");
+//		String fromDate = f.format((ObjectUtils.isEmpty(inputJson))?"":accountReceivablesDetails.get(0).get("FROM_APPROVED_DATE"));
+//		String toDate = f.format((ObjectUtils.isEmpty(inputJson))?"":accountReceivablesDetails.get(0).get("TO_APPROVED_DATE"));
+		System.out.println(inputJson.get("FROM_APPROVED_DATE"));
+		if(inputJson.get("FROM_APPROVED_DATE")!=null && inputJson.get("TO_APPROVED_DATE")!=null) {
+		String fromDate = ObjectUtils.isEmpty(inputJson)?"":String.valueOf(inputJson.get("FROM_APPROVED_DATE"));
+		String toDate = ObjectUtils.isEmpty(inputJson)?"":String.valueOf(inputJson.get("TO_APPROVED_DATE"));
+		
+//		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+//		String fromDates=formatter.format(fromDate);
+//		String toDates=formatter.format(toDate);
+		
 		rowNum = rowNum + 3;
 		int headRow=rowNum-2;
-				
+		
+		Row displayRow = sheet.createRow(headRow);
+		Cell headCell = displayRow.createCell(0);
+		headCell.setCellValue("From Date  :   ");
+		headCell=displayRow.createCell(1);
+		headCell.setCellValue(fromDate);
+		
+		headCell = displayRow.createCell(3);
+		headCell.setCellValue("To Date  :   ");
+		headCell=displayRow.createCell(4);
+		headCell.setCellValue(toDate);
+//		Row headerRow1 = sheet.createRow(rowNum++);
+//		Cell cell1 = headerRow1.createCell(0);
+//		cell1.setCellValue("From Date:");
+//		cell1.setCellStyle(headerStyle);
+		
 		// populate Date
-		if (!ObjectUtils.isEmpty(purchaseMarginList)) {
+		if (!ObjectUtils.isEmpty(accountReceivablesDetails)) {
 				
+			 
+			
 			Row headerRow = sheet.createRow(rowNum++);
 			Cell cell = headerRow.createCell(0);
 			cell.setCellValue("S.NO");
@@ -165,17 +219,23 @@ public class AccountReceivablesExcel extends ReportsExcelUtility{
 			cell.setCellStyle(headerStyle);	
 			
 			
-			for (Map<String, Object> rowData : purchaseMarginList) {
+			
+			for (Map<String, Object> rowData : accountReceivablesDetails) {
+				//DateFormat f = new SimpleDateFormat("dd/MM/yyyy HH:mm a");
+				//String billDate = f.format((ObjectUtils.isEmpty(accountReceivablesDetails))?"":accountReceivablesDetails.get(0).get("FROM_APPROVED_DATE"));
+
 				
-//				Row displayRow = sheet.createRow(headRow);
+//				Row displayRow = sheet.createRow(rowNum++);
 //				Cell headCell = displayRow.createCell(0);
 //				Object value = rowData.containsKey("RECEIPT_NO") ? rowData.get("RECEIPT_NO") : "";
 //				headCell.setCellValue("RECEIPT NO:");
 //				headCell=displayRow.createCell(1);
 //				headCell.setCellValue(String.valueOf(value));
 				
+				
+				
 				Row dataRow = sheet.createRow(rowNum++);
-				Object value =  String.valueOf(purchaseMarginList.indexOf(rowData) + 1);
+				Object value =  String.valueOf(accountReceivablesDetails.indexOf(rowData) + 1);
 				//sheet.autoSizeColumn(0);
 				cell = dataRow.createCell(0);
 				cell.setCellValue(String.valueOf(value));
@@ -254,6 +314,151 @@ public class AccountReceivablesExcel extends ReportsExcelUtility{
 				
 			}
 		}
+		}
+		else {
+			rowNum = rowNum + 3;
+			int headRow=rowNum-2;
+			
+			
+			// populate Date
+			if (!ObjectUtils.isEmpty(accountReceivablesDetails)) {
+					
+				 
+				
+				Row headerRow = sheet.createRow(rowNum++);
+				Cell cell = headerRow.createCell(0);
+				cell.setCellValue("S.NO");
+				cell.setCellStyle(headerStyle);
+				
+				
+				cell = headerRow.createCell(1);
+				cell.setCellValue("CUSTOMER NAME");
+				cell.setCellStyle(headerStyle);
+				
+				
+				cell = headerRow.createCell(2);
+				cell.setCellValue("RECEIPT NO");
+				cell.setCellStyle(headerStyle);	
+				
+				cell = headerRow.createCell(3);
+				cell.setCellValue("SOURCE REF");
+				cell.setCellStyle(headerStyle);	
+				
+				cell = headerRow.createCell(4);
+				cell.setCellValue("RECEIPT DATE");
+				cell.setCellStyle(headerStyle);	
+				
+				cell = headerRow.createCell(5);
+				cell.setCellValue("STATUS");
+				cell.setCellStyle(headerStyle);	
+				
+				cell = headerRow.createCell(6);
+				cell.setCellValue("AMOUNT RECEIVED");
+				cell.setCellStyle(headerStyle);	
+				
+				cell = headerRow.createCell(7);
+				cell.setCellValue("AMOUNT TO BE RECEIVED");
+				cell.setCellStyle(headerStyle);	
+				
+				cell = headerRow.createCell(8);
+				cell.setCellValue("PAYMENT STATUS");
+				cell.setCellStyle(headerStyle);	
+				
+				cell = headerRow.createCell(9);
+				cell.setCellValue("SOURCE TYP");
+				cell.setCellStyle(headerStyle);	
+				
+				cell = headerRow.createCell(10);
+				cell.setCellValue("APPROVED BY");
+				cell.setCellStyle(headerStyle);	
+				
+				cell = headerRow.createCell(11);
+				cell.setCellValue("APPROVED DATE");
+				cell.setCellStyle(headerStyle);	
+				
+				
+				
+				for (Map<String, Object> rowData : accountReceivablesDetails) {
+					
+					
+					
+					Row dataRow = sheet.createRow(rowNum++);
+					Object value =  String.valueOf(accountReceivablesDetails.indexOf(rowData) + 1);
+					//sheet.autoSizeColumn(0);
+					cell = dataRow.createCell(0);
+					cell.setCellValue(String.valueOf(value));
+					cell.setCellStyle(borderStyle);
+					
+					
+					value = rowData.containsKey("CUSTOMER_NAME") ? rowData.get("CUSTOMER_NAME") : "";
+					//sheet.autoSizeColumn(1);
+					cell = dataRow.createCell(1);
+					cell.setCellValue(String.valueOf(value));
+					cell.setCellStyle(borderStyle);
+					
+					value = rowData.containsKey("RECEIPT_NO") ? rowData.get("RECEIPT_NO") : "";
+					//sheet.autoSizeColumn(2);
+					cell = dataRow.createCell(2);
+					cell.setCellValue(String.valueOf(value));
+					cell.setCellStyle(borderStyle);
+					
+					value = rowData.containsKey("SOURCE_REF") ? rowData.get("SOURCE_REF") : "";
+					//sheet.autoSizeColumn(3);
+					cell = dataRow.createCell(3);
+					cell.setCellValue(String.valueOf(value));
+					cell.setCellStyle(borderStyle);
+					
+					value = rowData.containsKey("RECEIPT_DATE") ? rowData.get("RECEIPT_DATE") : "";
+					//sheet.autoSizeColumn(4);
+					cell = dataRow.createCell(4);
+					cell.setCellValue(String.valueOf(value));
+					cell.setCellStyle(borderStyle);
+					
+					value = rowData.containsKey("STATUS") ? rowData.get("STATUS") : "";
+					//sheet.autoSizeColumn(5);
+					cell = dataRow.createCell(5);
+					cell.setCellValue(String.valueOf(value));
+					cell.setCellStyle(borderStyle);
 
+					
+					value = rowData.containsKey("AMOUNT_RECEIVED") ? rowData.get("AMOUNT_RECEIVED") : "";
+					//sheet.autoSizeColumn(6);
+					cell = dataRow.createCell(6);
+					cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+					cell.setCellStyle(borderStyle);
+					
+					value = rowData.containsKey("AMOUNT_TO_BE_RECEIVED") ? rowData.get("AMOUNT_TO_BE_RECEIVED") : "";
+					//sheet.autoSizeColumn(7);
+					cell = dataRow.createCell(7);
+					cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+					cell.setCellStyle(borderStyle);
+					
+					value = rowData.containsKey("PAYMENT_STATUS") ? rowData.get("PAYMENT_STATUS") : "";
+					//sheet.autoSizeColumn(8);
+					cell = dataRow.createCell(8);
+					cell.setCellValue(String.valueOf(value));
+					cell.setCellStyle(borderStyle);
+					
+					value = rowData.containsKey("SOURCE_TYPE") ? rowData.get("SOURCE_TYPE") : "";
+					//sheet.autoSizeColumn(9);
+					cell = dataRow.createCell(9);
+					cell.setCellValue(String.valueOf(value));
+					cell.setCellStyle(borderStyle);
+					
+					value = rowData.containsKey("FIRST_NM") ? rowData.get("FIRST_NM") : "";
+					//sheet.autoSizeColumn(10);
+					cell = dataRow.createCell(10);
+					cell.setCellValue(String.valueOf(value));
+					cell.setCellStyle(borderStyle);
+					
+					value = rowData.containsKey("FROM_APPROVED_DATE") ? rowData.get("FROM_APPROVED_DATE") : "";
+					//sheet.autoSizeColumn(10);
+					cell = dataRow.createCell(11);
+					cell.setCellValue(String.valueOf(value));
+					cell.setCellStyle(borderStyle);
+			
+		}
+			}
+		}
 	}
 }

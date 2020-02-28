@@ -82,7 +82,7 @@ public class SalesByProductSummary extends ReportsPDFUtility {
 		totalQtyTable.setLockedWidth(true);
 		totalQtyTable.getDefaultCell().setBorder(0); 
 		
-		PdfPCell nameCell = new PdfPCell(new Phrase("Total Quantity  : "+quantity+"   ", title08)); 
+		PdfPCell nameCell = new PdfPCell(new Phrase("Overall Quantity  : "+quantity+"   ", title08)); 
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell.setVerticalAlignment(Element.ALIGN_TOP);
@@ -95,7 +95,7 @@ public class SalesByProductSummary extends ReportsPDFUtility {
 		String totAmt=df.format(totalAmount);
 		Double amount=Double.parseDouble(totAmt);
 		
-		PdfPCell nameCell2 = new PdfPCell(new Phrase("Total Amount  : "+amount+"   ", title08)); 
+		PdfPCell nameCell2 = new PdfPCell(new Phrase("Overall Amount  : "+amount+"   ", title08)); 
 		nameCell2.setColspan(3);
 		nameCell2.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell2.setVerticalAlignment(Element.ALIGN_TOP);
@@ -175,7 +175,7 @@ public class SalesByProductSummary extends ReportsPDFUtility {
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("MFR");
+			headerCell.add("CUSTOMER");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
@@ -284,7 +284,7 @@ public class SalesByProductSummary extends ReportsPDFUtility {
 
 				table.addCell(cell);
 					
-				value = rowData.containsKey("MFR_NAME") ? rowData.get("MFR_NAME") : "";
+				value = rowData.containsKey("CUSTOMER_NM") ? rowData.get("CUSTOMER_NM") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())

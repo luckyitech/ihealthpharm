@@ -43,7 +43,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ReportsExcelUtility implements ExcelReportGenerator{
 
-	public void generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile) {
+	public void generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile,String inputJson) {
 
 		SXSSFWorkbook workbook = new SXSSFWorkbook();
 		SXSSFSheet sheet = workbook.createSheet("Report Data");
