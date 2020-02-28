@@ -24,4 +24,5 @@ public interface ChartOfAccountRepository extends JpaRepository<ChartOfAccountsM
 			+ "ca.accountType,ca.date, ca.asOfDate,ca.transactionLimit, ca.totalLimit, ca.currentBalance, ca.pharmacyModel, ca.auditId) from CHART_OF_ACCOUNTS ca")
 	List<ChartOfAccountsModel> findAllChartOfAccounts();
 
+	
 }

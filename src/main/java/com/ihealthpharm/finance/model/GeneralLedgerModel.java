@@ -40,7 +40,7 @@ public class GeneralLedgerModel extends AuditModel {
 	@Column(name="Entry_No",length=20)
 	private String entryNo;
 	
-	@Column(name="Entry_Type",length=30)
+	@Column(name="Entry_Type",length=100)
 	private String entryType;
 	
 	@Column(name="Party",length=100)
