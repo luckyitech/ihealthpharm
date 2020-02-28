@@ -100,7 +100,7 @@ public class PettyCashExpenditureExcel extends ReportsExcelUtility {
 		int currentRow = sheet.getLastRowNum();
 
 		double totalAmount = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
-		double totalBalance=Double.parseDouble(String.valueOf(responseList.get(0).get("BALANCE")))-totalAmount; 
+		double totalBalance=Double.parseDouble(String.valueOf(responseList.get(0).get("BALANCE")))+Double.parseDouble(String.valueOf(responseList.get(0).get("AMOUNT")))-totalAmount;
 
 		Row dataRow = sheet.createRow(currentRow+2);
 		Row dataRow1=sheet.createRow(currentRow+3);
@@ -120,8 +120,8 @@ public class PettyCashExpenditureExcel extends ReportsExcelUtility {
 		cell = dataRow.createCell(5);
 		cell1=dataRow1.createCell(5);
 
-		cell.setCellValue(totalBalance);
-		cell1.setCellValue(totalAmount);
+		cell.setCellValue(totalAmount);
+		cell1.setCellValue(totalBalance);
 
 	}
 
@@ -160,15 +160,25 @@ public class PettyCashExpenditureExcel extends ReportsExcelUtility {
 			cell.setCellStyle(headerStyle);	
 
 			double balance=Double.parseDouble(((pettyExpList.get(0).containsKey("BALANCE") ? String.valueOf(pettyExpList.get(0).get("BALANCE")) : "")));
-
+			double amountDebit=Double.parseDouble(((pettyExpList.get(0).containsKey("AMOUNT") ? String.valueOf(pettyExpList.get(0).get("AMOUNT")) : "")));
+			
+			System.out.println(balance);
+			
+			System.out.println(amountDebit);
+			
+			double cashOnHand=balance+amountDebit;
+			
+			System.out.println(cashOnHand);
+			
+			Row displayRow = sheet.createRow(headRow);
+			Cell headCell = displayRow.createCell(0);
+			Object value = cashOnHand;
+			headCell.setCellValue("Total Cash On Hand  :   ");
+			headCell=displayRow.createCell(1);
+			headCell.setCellValue(Double.parseDouble(String.valueOf(value)));
+			
+			
 			for (Map<String, Object> rowData : pettyExpList) {
-				
-				Row displayRow = sheet.createRow(headRow);
-				Cell headCell = displayRow.createCell(0);
-				Object value = rowData.containsKey("BALANCE") ? pettyExpList.get(0).get("BALANCE") : "";
-				headCell.setCellValue("Total Cash On Hand  :   ");
-				headCell=displayRow.createCell(1);
-				headCell.setCellValue(String.valueOf(value));
 				
 				Row dataRow = sheet.createRow(rowNum++);
 				value =  String.valueOf(pettyExpList.indexOf(rowData) + 1);
@@ -190,14 +200,14 @@ public class PettyCashExpenditureExcel extends ReportsExcelUtility {
 
 				value = rowData.containsKey("AMOUNT") ? rowData.get("AMOUNT") : "";
 				cell = dataRow.createCell(3);
-				cell.setCellValue(String.valueOf(value));
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 
 				double value1=Double.parseDouble(((rowData.containsKey("AMOUNT") ? (String.valueOf(rowData.get("AMOUNT"))) : "")));
-				value = balance-value1;
+				value = cashOnHand-value1;
 				balance=(Double) value;
 				cell = dataRow.createCell(4);
-				cell.setCellValue(String.valueOf(value));
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 
 			}

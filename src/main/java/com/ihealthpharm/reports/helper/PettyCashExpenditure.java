@@ -84,7 +84,7 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 		Double totalBalance;
 
 		totalAmount = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
-		totalBalance=Double.parseDouble(String.valueOf(responseList.get(0).get("BALANCE")))-totalAmount;
+		totalBalance=Double.parseDouble(String.valueOf(responseList.get(0).get("BALANCE")))+Double.parseDouble(String.valueOf(responseList.get(0).get("AMOUNT")))-totalAmount;
 
 
 		PdfPTable totalTable = new PdfPTable(3);
@@ -223,9 +223,12 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 		if (!ObjectUtils.isEmpty(pettyExpList)) {
 
 			double balance=Double.parseDouble(((pettyExpList.get(0).containsKey("BALANCE") ? String.valueOf(pettyExpList.get(0).get("BALANCE")) : "")));
-
+			double amountDebit=Double.parseDouble(((pettyExpList.get(0).containsKey("AMOUNT") ? String.valueOf(pettyExpList.get(0).get("AMOUNT")) : "")));
+			
+			double cashOnHand=balance+amountDebit;
+			
 			PdfPTable supllierNameTable = new PdfPTable(3);
-			PdfPCell nameCell = new PdfPCell(new Phrase("Total Balance at hand : "+pettyExpList.get(0).get("BALANCE"), title08)); 
+			PdfPCell nameCell = new PdfPCell(new Phrase("Total Balance at hand : "+cashOnHand, title08)); 
 			nameCell.setColspan(3);
 			nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			nameCell.setVerticalAlignment(Element.ALIGN_TOP);
@@ -270,7 +273,7 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 				table.addCell(cell);
 
 				double value1=Double.parseDouble(((rowData.containsKey("AMOUNT") ? (String.valueOf(rowData.get("AMOUNT"))) : "")));
-				value = balance-value1;
+				value = cashOnHand-value1;
 				balance=(Double) value;
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
