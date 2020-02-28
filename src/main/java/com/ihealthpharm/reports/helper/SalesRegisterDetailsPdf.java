@@ -368,7 +368,7 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 
 				table.addCell(cell);
 				
-				value = rowData.containsKey("VAT_AMT") ? rowData.get("VAT_AMT") : "";
+				value = rowData.containsKey("BALANCE_AMOUNT") ? rowData.get("BALANCE_AMOUNT") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
@@ -376,7 +376,7 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 
 				table.addCell(cell);
 				
-				value = rowData.containsKey("BALANCE_AMOUNT") ? rowData.get("BALANCE_AMOUNT") : "";
+				value = rowData.containsKey("VAT_AMT") ? rowData.get("VAT_AMT") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
