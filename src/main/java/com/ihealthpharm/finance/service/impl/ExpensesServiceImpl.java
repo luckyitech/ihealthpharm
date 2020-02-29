@@ -24,5 +24,11 @@ public class ExpensesServiceImpl implements ExpensesService{
 		return expensesRepo.save(expensesModel);
 	}
 
+	@Override
+	public Integer updatePettyBalance(Integer pettyCashId, Double balance) {
+		
+		return expensesRepo.updateBalanceInPettyCash(pettyCashId,balance);
+	}
+
 	
 }

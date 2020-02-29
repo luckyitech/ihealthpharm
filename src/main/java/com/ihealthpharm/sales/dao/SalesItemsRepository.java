@@ -32,23 +32,19 @@ extends JpaRepository<SalesItemsModel,Integer>
 
 	//SBPS	 
 
-	@Query("select DISTINCT i.itemName from sales_items si,sales s,items i ,manufacturer m" 
-			+ " where si.billId.billId=s.billId and si.itemsModel.itemId=i.itemId" 
-			+ " and i.manufacturer.manufacturerId=m.manufacturerId and i.itemName like :searchTerm% ")
+	@Query("select DISTINCT i.itemName from sales_items si,sales s,items i "
+			+ "where si.billId.billId=s.billId and si.itemsModel.itemId=i.itemId "
+			+ "and i.itemName like :searchTerm% ")
 	List<String> finditemNameInSalesSBPS(@Param("searchTerm") String searchTerm);
 
-	@Query("select DISTINCT m.name from sales_items si,sales s,items i ,manufacturer m" 
-			+ " where si.billId.billId=s.billId and si.itemsModel.itemId=i.itemId" 
-			+ " and i.manufacturer.manufacturerId=m.manufacturerId and m.name like :searchTerm% ")
+	
+	@Query("select DISTINCT i.itemName from sales_items si,sales s,items i "
+			+ "where si.billId.billId=s.billId and si.itemsModel.itemId=i.itemId order by i.itemName")
+	List<String> findAllitemNameInSalesSBPS();
+	
+	@Query("select DISTINCT s.customerNm from sales s where s.customerNm like :searchTerm% ")
 	List<String> findnameInSalesSBPS(@Param("searchTerm") String searchTerm);
 
-	@Query("select DISTINCT i.itemName from sales_items si,sales s,items i ,manufacturer m" 
-			+ " where si.billId.billId=s.billId and si.itemsModel.itemId=i.itemId" 
-			+ " and i.manufacturer.manufacturerId=m.manufacturerId order by i.itemName  ")
-	List<String> findAllitemNameInSalesSBPS();
-
-	@Query("select DISTINCT m.name from sales_items si,sales s,items i ,manufacturer m" 
-			+ " where si.billId.billId=s.billId and si.itemsModel.itemId=i.itemId" 
-			+ " and i.manufacturer.manufacturerId=m.manufacturerId order by m.name ")
+	@Query("select DISTINCT s.customerNm from sales s order by s.customerNm ")
 	List<String> findAllnameInSalesSBPS();
 }

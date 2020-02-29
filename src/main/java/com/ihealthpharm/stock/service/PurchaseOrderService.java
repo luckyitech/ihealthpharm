@@ -41,6 +41,8 @@ public interface PurchaseOrderService {
 	
 	List<PurchaseOrderModel> getPurchaseOrderByPharmacy(Integer pharmacyId);
 	
+	List<PurchaseOrderModel> getPurchaseOrderByPharmacyAndPONumber(Integer pharmacyId, String PONumber);
+	
 	List<PurchaseOrderModel> getPurchaseOrderByPharmacyAndStatus(Integer pharmacyId, String status);
 	
 	List<PurchaseOrderModel> getPurchaseOrderByPharmacyAndStatus(Integer pharmacyId, String status, String purchaseOrderNo);

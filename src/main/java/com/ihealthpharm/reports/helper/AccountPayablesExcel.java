@@ -23,7 +23,7 @@ import org.springframework.util.ObjectUtils;
 import com.ihealthpharm.reports.model.ReportsMappingModel;
 @Component
 public class AccountPayablesExcel extends ReportsExcelUtility{
-	public void generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile) {
+	public void generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile,String inputJson) {
 
 		SXSSFWorkbook workbook = new SXSSFWorkbook(100);
 		SXSSFSheet sheet = workbook.createSheet("Report Data");
@@ -68,6 +68,8 @@ public class AccountPayablesExcel extends ReportsExcelUtility{
 		headerStyle.setTopBorderColor(IndexedColors.BLACK.getIndex());  
 		headerStyle.setBorderLeft(BorderStyle.THIN);  
 		headerStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());  
+		
+		
 				
 		setHeader(workbook,sheet,model);
 				

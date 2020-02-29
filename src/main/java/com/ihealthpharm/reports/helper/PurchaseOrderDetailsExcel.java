@@ -28,7 +28,7 @@ import com.ihealthpharm.reports.model.ReportsMappingModel;
 @Component
 public class PurchaseOrderDetailsExcel extends ReportsExcelUtility {
 	
-	public void generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile) {
+	public void generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile,String inputJson) {
 
 		SXSSFWorkbook workbook = new SXSSFWorkbook(100);
 		SXSSFSheet sheet = workbook.createSheet("Report Data");
