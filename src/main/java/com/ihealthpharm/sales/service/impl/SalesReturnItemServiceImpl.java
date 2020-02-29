@@ -118,14 +118,17 @@ public class SalesReturnItemServiceImpl implements SalesReturnItemService{
 
 	@Override
 	public List<String> findSalesReturnNoInSalesReturn(String searchTerm) {
-		// TODO Auto-generated method stub
 		return salesReturnItemRepo.findsalesReturnNoInSalesReturn(searchTerm);
 	}
 
 	@Override
 	public List<String> findAllSalesReturnNumbersInSalesReturn() {
-		// TODO Auto-generated method stub
 		return salesReturnItemRepo.findallsalesReturnNoInSalesReturn();
+	}
+
+	@Override
+	public Integer getReturnQtyByItemId(Integer itemId,Integer billId) {
+		return salesReturnItemRepo.getReturnQtyByItem(itemId,billId);
 	}
 
 }

@@ -131,7 +131,6 @@ public class StockServiceImpl implements StockService {
 	@Override
 	public List<ItemsModel> findAllStockItems() {
 		List<ItemsModel> listOfItems = stockRepository.findAllItem();
-		log.info(listOfItems.toString());
 		log.info("All items in stock retrieved succesfully");
 		return listOfItems;
 	}
@@ -364,8 +363,8 @@ public class StockServiceImpl implements StockService {
 		}
 
 		@Override
-		public Integer updateStock(Integer stockId,Integer previousQty, Integer quantity) {
-			return stockRepository.updateStockData(stockId,previousQty,quantity);
+		public Integer updateStock(Integer stockId,Integer previousQty, Integer quantity,Integer lastUpdateUser) {
+			return stockRepository.updateStockData(stockId,previousQty,quantity,lastUpdateUser);
 		}
 
 		@Override
