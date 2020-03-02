@@ -69,7 +69,6 @@ public class StockAdjustmentServiceImpl implements StockAdjustmentService {
 
 
 		List<StockAdjustmentDTO> result= stockAdjustmentRepo.getStockItemsOnItemCodes(searchTerm,batch,dates,pharmacyId);
-		   System.out.println(result);
 		return result;
 	}
 
