@@ -89,7 +89,7 @@ public interface StockService {
 
 	List<StockModel> findStockByItemIdAndPharmacyId(Integer itemId, Integer pharmacyId);
 
-	Integer updateStock(Integer stockId,Integer previousQty,Integer quantity);
+	Integer updateStock(Integer stockId,Integer previousQty,Integer quantity,Integer lastUpdateUser);
 
 	List<ItemsForStockAdjustDTO> getStockAdjustRecords(Integer stockId);
 }

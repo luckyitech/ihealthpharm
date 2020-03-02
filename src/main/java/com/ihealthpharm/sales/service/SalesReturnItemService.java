@@ -25,4 +25,6 @@ public interface SalesReturnItemService {
 	
 	List<String> findAllSalesReturnNumbersInSalesReturn();
 
+	Integer getReturnQtyByItemId(Integer itemId,Integer billId);
+
 }
