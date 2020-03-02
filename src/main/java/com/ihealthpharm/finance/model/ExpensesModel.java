@@ -50,4 +50,19 @@ public class ExpensesModel extends AuditModel{
 	
 	@Column(name="CATEGORIES")
 	private String categories;
+	
+	@Column(name="TRANSACTION_ID")
+	private String txnId;
+	
+	@Column(name="CHEQUE_NO")
+	private String chequeNo;
+	
+	@Column(name="CARD_NO")
+	private String cardNo;
+	
+	@Column(name="REASON")
+	private String reason;
+	
+	@Column(name="MODE")
+	private String mode;
 }
