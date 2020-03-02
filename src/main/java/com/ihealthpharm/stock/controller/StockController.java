@@ -343,8 +343,8 @@ public class StockController {
 	}
 	
 	@GetMapping("/update/stockadjustment")
-	public ResponseEntity<BaseDto<Integer>> insertStockAdjustData( @RequestParam Integer stockId,@RequestParam Integer previousQty , @RequestParam Integer quantity){
-		Integer stockAdjustRes=stockService.updateStock(stockId,previousQty,quantity);
+	public ResponseEntity<BaseDto<Integer>> insertStockAdjustData( @RequestParam Integer stockId,@RequestParam Integer previousQty , @RequestParam Integer quantity,@RequestParam Integer lastUpdateUser){
+		Integer stockAdjustRes=stockService.updateStock(stockId,previousQty,quantity,lastUpdateUser);
 		return new BaseDto<>(stockAdjustRes,stockHelper.getSaveStockMessage(),OK).respond();
 	}
 	
