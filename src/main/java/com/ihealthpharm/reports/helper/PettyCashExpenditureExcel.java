@@ -89,7 +89,7 @@ public class PettyCashExpenditureExcel extends ReportsExcelUtility {
 				List<Map<String, Object>> pettyCashExpList =pettyExpMap.get(pettyExpSummary);
 				createSupplierTable(sheet, responseFile, borderStyle, headerStyle,pettyCashExpList, pettyExpSummary, currentRow); 
 			}
-			generateTotalTable(sheet, responseFile,borderStyle,model,responseList);
+			//generateTotalTable(sheet, responseFile,borderStyle,model,responseList);
 		}
 
 		writeToFile(workbook, responseFile);	 
@@ -100,7 +100,7 @@ public class PettyCashExpenditureExcel extends ReportsExcelUtility {
 		int currentRow = sheet.getLastRowNum();
 
 		double totalAmount = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
-		double totalBalance=Double.parseDouble(String.valueOf(responseList.get(0).get("BALANCE")))+Double.parseDouble(String.valueOf(responseList.get(0).get("AMOUNT")))-totalAmount;
+		double totalBalance=Double.parseDouble(String.valueOf(responseList.get(responseList.size()-1).get("BALANCE")))+Double.parseDouble(String.valueOf(responseList.get(0).get("AMOUNT")))-totalAmount;
 
 		Row dataRow = sheet.createRow(currentRow+2);
 		Row dataRow1=sheet.createRow(currentRow+3);
@@ -162,6 +162,8 @@ public class PettyCashExpenditureExcel extends ReportsExcelUtility {
 			double balance=Double.parseDouble(((pettyExpList.get(0).containsKey("BALANCE") ? String.valueOf(pettyExpList.get(0).get("BALANCE")) : "")));
 			double amountDebit=Double.parseDouble(((pettyExpList.get(0).containsKey("AMOUNT") ? String.valueOf(pettyExpList.get(0).get("AMOUNT")) : "")));
 			
+			String asOfDate=((pettyExpList.get(0).containsKey("AS_OF_DATE") ? String.valueOf(pettyExpList.get(0).get("AS_OF_DATE")) : ""));
+			
 			System.out.println(balance);
 			
 			System.out.println(amountDebit);
@@ -177,6 +179,11 @@ public class PettyCashExpenditureExcel extends ReportsExcelUtility {
 			headCell=displayRow.createCell(1);
 			headCell.setCellValue(Double.parseDouble(String.valueOf(value)));
 			
+			headCell = displayRow.createCell(2);
+			Object date = asOfDate;
+			headCell.setCellValue("Date  :   ");
+			headCell=displayRow.createCell(3);
+			headCell.setCellValue(String.valueOf(date));
 			
 			for (Map<String, Object> rowData : pettyExpList) {
 				
@@ -205,30 +212,42 @@ public class PettyCashExpenditureExcel extends ReportsExcelUtility {
 
 				double value1=Double.parseDouble(((rowData.containsKey("AMOUNT") ? (String.valueOf(rowData.get("AMOUNT"))) : "")));
 				value = cashOnHand-value1;
-				balance=(Double) value;
+				cashOnHand=(Double) value;
 				cell = dataRow.createCell(4);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
+				
+				String value2=((rowData.containsKey("AS_OF_DATE") ? (String.valueOf(rowData.get("AS_OF_DATE"))) : ""));
+				asOfDate = value2;
 
 			}
 
 			int currentRow = sheet.getLastRowNum();
 
 			double totalAmount = pettyExpList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
-
+			double totalBalance=cashOnHand;
+			
 			Row dataRow1 = sheet.createRow(currentRow+2);
+			Row dataRow2 = sheet.createRow(currentRow+3);
 
 			Cell cell1 = dataRow1.createCell(0);
+			Cell cell2 = dataRow2.createCell(0);
 
 			cell1.setCellValue("");
+			cell2.setCellValue("");
 
 			cell1= dataRow1.createCell(4);
+			cell2= dataRow2.createCell(4);
 
 			cell1.setCellValue("Total Amount : ");
+			cell2.setCellValue("Balance : ");
+
 
 			cell1 = dataRow1.createCell(5);
+			cell2 = dataRow2.createCell(5);
 
 			cell1.setCellValue(totalAmount);
+			cell2.setCellValue(totalBalance);
 
 		}
 
