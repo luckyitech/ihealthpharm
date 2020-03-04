@@ -92,4 +92,12 @@ public interface StockService {
 	Integer updateStock(Integer stockId,Integer previousQty,Integer quantity,Integer lastUpdateUser);
 
 	List<ItemsForStockAdjustDTO> getStockAdjustRecords(Integer stockId);
+	
+	List<String> findInvoiceNosBySearchST(String searchTerm);
+	
+	List<String> findAllInvoiceNosByST();
+	
+	List<String> findItemNamesBySearchST(String searchTerm);
+	
+	List<String> findAllItemNamesByST();
 }
