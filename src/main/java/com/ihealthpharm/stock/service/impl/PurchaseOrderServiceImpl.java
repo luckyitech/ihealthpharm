@@ -295,7 +295,22 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		
 		return purchaseOrderModels;
 	}
-
+	
+	@Override
+	public List<PurchaseOrderModel> getPurchaseOrderByPharmacyAndStatusLimitedRecords(Integer pharmacyId, Integer start,
+			Integer end, String status) {
+		
+		log.info("Pharmacy Id: "+ pharmacyId+" Status "+status);
+		Pageable limit=PageRequest.of(start, end);
+		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderRepository.getPurchaseOrderByPharmacyAndStatusWithLimit(pharmacyId, status,limit);
+		
+		return purchaseOrderModels;
+	}
+	
+	
+	
+	
+	
 	@Override
 	public List<PurchaseOrderModel> getPurchaseOrderByPharmacyAndStatus(Integer pharmacyId, String status,
 			String purchaseOrderNo) {
@@ -419,4 +434,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		Pageable limit = new PageRequest(0,50);
 		return purchaseorderRepository.getPurchaseOrderByPharmacyAndPurchaseOrderNumber(pharmacyId,PONumber,limit);
 	}
+
+	
 }

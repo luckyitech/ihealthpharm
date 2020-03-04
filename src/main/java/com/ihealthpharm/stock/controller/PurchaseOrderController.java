@@ -39,16 +39,16 @@ public class PurchaseOrderController {
 
 	@Autowired
 	PurchaseOrderService purchaseorderService;
-	
+
 	@Autowired
 	PurchaseOrderHelper purchaseorderHelper;
-	
+
 	@Autowired
 	SupplierHelper supplierHelper;
-	
+
 	@Autowired
 	private ItemPropertyHelper propertyHelper;
-	
+
 	@Autowired
 	private QuotationService quotationService;
 
@@ -97,7 +97,7 @@ public class PurchaseOrderController {
 		List<PurchaseOrderModel> PurchaseOrderModelRes = purchaseorderService.updatePurchaseOrdersData(purchaseorderModel);
 		return new BaseDto<>(PurchaseOrderModelRes, purchaseorderHelper.getUpdatePurchaseOrderMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for save pending purchase order 
@@ -108,7 +108,7 @@ public class PurchaseOrderController {
 		PurchaseOrderModel purchaseorderModelRes = purchaseorderService.savePurchaseOrderData(purchaseorderModel, "PENDING");
 		return new BaseDto<>(purchaseorderModelRes, purchaseorderHelper.getSavePurchaseOrderMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for save approved purchase order 
@@ -119,7 +119,7 @@ public class PurchaseOrderController {
 		PurchaseOrderModel purchaseorderModelRes = purchaseorderService.savePurchaseOrderData(purchaseorderModel, "APPROVED");
 		return new BaseDto<>(purchaseorderModelRes, purchaseorderHelper.getSavePurchaseOrderMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for save rejected purchase order 
@@ -130,7 +130,7 @@ public class PurchaseOrderController {
 		PurchaseOrderModel purchaseorderModelRes = purchaseorderService.savePurchaseOrderData(purchaseorderModel, "REJECTED");
 		return new BaseDto<>(purchaseorderModelRes, purchaseorderHelper.getSavePurchaseOrderMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for save partially purchase order 
@@ -140,7 +140,7 @@ public class PurchaseOrderController {
 		PurchaseOrderModel purchaseorderModelRes = purchaseorderService.savePurchaseOrderData(purchaseorderModel, "PARTIALLY");
 		return new BaseDto<>(purchaseorderModelRes, purchaseorderHelper.getSavePurchaseOrderMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for save completed purchase order 
@@ -150,7 +150,7 @@ public class PurchaseOrderController {
 		PurchaseOrderModel purchaseorderModelRes = purchaseorderService.savePurchaseOrderData(purchaseorderModel, "COMPLETED");
 		return new BaseDto<>(purchaseorderModelRes, purchaseorderHelper.getSavePurchaseOrderMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for automatic generation of GRN Number 
@@ -163,7 +163,7 @@ public class PurchaseOrderController {
 		String purchaseNo = generateGRNNo.generatePONumber(pharmacyNm, purchaseNoCount);
 		return new BaseDto<>(purchaseNo, purchaseorderHelper.getRetrievePurchaseOrderMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for Supplier details based on the quotation id
@@ -173,7 +173,7 @@ public class PurchaseOrderController {
 		List<SupplierModel> suppliers = purchaseorderService.getSuppliersByQuotationId(quotationId);
 		return new BaseDto<>(suppliers, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for item details based on the quotation id and Supplier id
@@ -183,7 +183,7 @@ public class PurchaseOrderController {
 		List<ItemSupplierDTO> itemsModels = purchaseorderService.getItemsBySupplierAndQuotation(quotationId, supplierId);
 		return new BaseDto<>(itemsModels, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for item details based on the quotation id and Supplier id and itemcode and item name
@@ -195,7 +195,7 @@ public class PurchaseOrderController {
 		List<ItemSupplierDTO> itemsModels = purchaseorderService.getItemsBySupplierAndQuotation(quotationId, supplierId, itemCode, itemName);
 		return new BaseDto<>(itemsModels, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for item details based on the purchase order
@@ -205,7 +205,7 @@ public class PurchaseOrderController {
 		List<ItemsModel> itemsModels = purchaseorderService.getItemsByPurchaseOrder(purchaseOrderId);
 		return new BaseDto<>(itemsModels, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for item details based on the purchase order
@@ -215,7 +215,7 @@ public class PurchaseOrderController {
 		SupplierModel supplierModel = purchaseorderService.getSupplierByPurchaseOrder(purchaseOrderId);
 		return new BaseDto<>(supplierModel, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for purchase orders based on the pharmacyId
@@ -225,13 +225,13 @@ public class PurchaseOrderController {
 		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderService.getPurchaseOrderByPharmacy(pharmacyId);
 		return new BaseDto<>(purchaseOrderModels, purchaseorderHelper.getRetrievePurchaseOrderMessage(), OK).respond();
 	}
-	
+
 	@GetMapping("/getpurchaseordersbypharmacyandponumber")
 	public ResponseEntity<BaseDto<List<PurchaseOrderModel>>> getPurchaseOrderByPharmacyAndPONumbr(@RequestParam Integer pharmacyId,@RequestParam String poNumber) {
 		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderService.getPurchaseOrderByPharmacyAndPONumber(pharmacyId,poNumber);
 		return new BaseDto<>(purchaseOrderModels, purchaseorderHelper.getRetrievePurchaseOrderMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for pending purchase orders based on the pharmacyId
@@ -241,7 +241,7 @@ public class PurchaseOrderController {
 		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderService.getPurchaseOrderByPharmacyAndStatus(pharmacyId, "PENDING");
 		return new BaseDto<>(purchaseOrderModels, purchaseorderHelper.getRetrievePurchaseOrderMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for approved purchase orders based on the pharmacyId
@@ -251,7 +251,7 @@ public class PurchaseOrderController {
 		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderService.getPurchaseOrderByPharmacyAndStatus(pharmacyId, "APPROVED");
 		return new BaseDto<>(purchaseOrderModels, purchaseorderHelper.getRetrievePurchaseOrderMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for rejected purchase orders based on the pharmacyId
@@ -261,7 +261,7 @@ public class PurchaseOrderController {
 		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderService.getPurchaseOrderByPharmacyAndStatus(pharmacyId, "REJECTED");
 		return new BaseDto<>(purchaseOrderModels, purchaseorderHelper.getRetrievePurchaseOrderMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for partially purchase orders based on the pharmacyId
@@ -271,7 +271,7 @@ public class PurchaseOrderController {
 		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderService.getPurchaseOrderByPharmacyAndStatus(pharmacyId, "PARTIALLY");
 		return new BaseDto<>(purchaseOrderModels, purchaseorderHelper.getRetrievePurchaseOrderMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for completed purchase orders based on the pharmacyId
@@ -281,7 +281,7 @@ public class PurchaseOrderController {
 		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderService.getPurchaseOrderByPharmacyAndStatus(pharmacyId, "COMPLETED");
 		return new BaseDto<>(purchaseOrderModels, purchaseorderHelper.getRetrievePurchaseOrderMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for sent purchase orders based on the pharmacyId
@@ -291,7 +291,7 @@ public class PurchaseOrderController {
 		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderService.getSentPurchaseOrderByPharmacy(pharmacyId);
 		return new BaseDto<>(purchaseOrderModels, purchaseorderHelper.getRetrievePurchaseOrderMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for search pending purchase orders based on the pharmacyId
@@ -301,7 +301,7 @@ public class PurchaseOrderController {
 		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderService.getPurchaseOrderByPharmacyAndStatus(pharmacyId, "PENDING", purchaseOrderNo);
 		return new BaseDto<>(purchaseOrderModels, purchaseorderHelper.getRetrievePurchaseOrderMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for search approved purchase orders based on the pharmacyId
@@ -311,7 +311,7 @@ public class PurchaseOrderController {
 		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderService.getPurchaseOrderByPharmacyAndStatus(pharmacyId, "APPROVED", purchaseOrderNo);
 		return new BaseDto<>(purchaseOrderModels, purchaseorderHelper.getRetrievePurchaseOrderMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for search rejected purchase orders based on the pharmacyId
@@ -321,7 +321,7 @@ public class PurchaseOrderController {
 		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderService.getPurchaseOrderByPharmacyAndStatus(pharmacyId, "REJECTED", purchaseOrderNo);
 		return new BaseDto<>(purchaseOrderModels, purchaseorderHelper.getRetrievePurchaseOrderMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for search partially purchase orders based on the pharmacyId
@@ -331,7 +331,7 @@ public class PurchaseOrderController {
 		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderService.getPurchaseOrderByPharmacyAndStatus(pharmacyId, "PARTIALLY", purchaseOrderNo);
 		return new BaseDto<>(purchaseOrderModels, purchaseorderHelper.getRetrievePurchaseOrderMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for search completed purchase orders based on the pharmacyId
@@ -341,7 +341,7 @@ public class PurchaseOrderController {
 		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderService.getPurchaseOrderByPharmacyAndStatus(pharmacyId, "COMPLETED", purchaseOrderNo);
 		return new BaseDto<>(purchaseOrderModels, purchaseorderHelper.getRetrievePurchaseOrderMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for search sent purchase orders based on the pharmacyId
@@ -351,91 +351,98 @@ public class PurchaseOrderController {
 		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderService.getSentPurchaseOrderByPharmacy(pharmacyId, purchaseOrderNo);
 		return new BaseDto<>(purchaseOrderModels, purchaseorderHelper.getRetrievePurchaseOrderMessage(), OK).respond();
 	}
-	
+
 	//Purchase Details By Batch No
-			@GetMapping("/getbatchnobysearchpdbn")
-			public ResponseEntity<BaseDto<List<String>>> findbatchNoInpurchaseorderPDBB(@RequestParam String searchTerm){
-				List<String> results=purchaseorderService.findbatchNoInpurchaseorderPDBB(searchTerm);
-				return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
-			}
-			
-			@GetMapping("/getallbatchnopdbn")
-			public ResponseEntity<BaseDto<List<String>>> findallPDBB(){
-				List<String> results=purchaseorderService.findallPDBB();
-				return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
-			}
-			
-			@GetMapping("/getsuppliersbysearchpdbn")
-			public ResponseEntity<BaseDto<List<String>>> findSuppliersInpurchaseorderPDBB(@RequestParam String searchTerm){
-				List<String> results=purchaseorderService.findSuppliersInpurchaseorderPDBB(searchTerm);
-				return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
-			}
-			
-			@GetMapping("/getallsupplierspdbn")
-			public ResponseEntity<BaseDto<List<String>>> findAllSuppliersPDBB(){
-				List<String> results=purchaseorderService.findAllSuppliersPDBB();
-				return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
-			}
-			
-		//Purchase Details By Product Name
-			@GetMapping("/getitemsbysearchpdpn")
-			public ResponseEntity<BaseDto<List<String>>> finditemNameInpurchaseorderPDBP(@RequestParam String searchTerm){
-				List<String> results=purchaseorderService.finditemNameInpurchaseorderPDBP(searchTerm);
-				return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
-			}
-			
-			@GetMapping("/getallitemspdpn")
-			public ResponseEntity<BaseDto<List<String>>> findallPDBP(){
-				List<String> results=purchaseorderService.findallPDBP();
-				return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
-			}
-			
-			//Purchase Register List
-			@GetMapping("/getpaytypesbysearchprl")
-			public ResponseEntity<BaseDto<List<String>>> findpaymenttypebysearchPRLT(@RequestParam String searchTerm){
-				List<String> results=purchaseorderService.findpaymenttypebysearchPRLT(searchTerm);
-				return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
-			}
-			
-			@GetMapping("/getallpaytypesprl")
-			public ResponseEntity<BaseDto<List<String>>> findallpaymenttypesPRLT(){
-				List<String> results=purchaseorderService.findallpaymenttypesPRLT();
-				return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
-			}
-			
-			@GetMapping("/getsuppliersbysearchprl")
-			public ResponseEntity<BaseDto<List<String>>> findsuppliersbysearchPRLS(@RequestParam String searchTerm){
-				List<String> results=purchaseorderService.findsuppliersbysearchPRLS(searchTerm);
-				return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
-			}
-			
-			@GetMapping("/getallsuppliersprl")
-			public ResponseEntity<BaseDto<List<String>>> findallsuppliersPRLS(){
-				List<String> results=purchaseorderService.findallsuppliersPRLS();
-				return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
-			}
-			
-			//Purhase Order Details By PO NO
-			@GetMapping("/getpurNobysearchspdpo")
-			public ResponseEntity<BaseDto<List<String>>> findPurNoBySearchPDPO(@RequestParam String searchTerm){
-				List<String> results=purchaseorderService.findPurNobysearchPDPO(searchTerm);
-				return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
-			}
-			
-			@GetMapping("/getallpurNoinpdpo")
-			public ResponseEntity<BaseDto<List<String>>> findAllPurNoPDPO(){
-				List<String> results=purchaseorderService.findallPurNoPDPO();
-				return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
-			}
-			@GetMapping("/getsupplierbysearchspdpo")
-			public ResponseEntity<BaseDto<List<String>>> findSupplierBySearchPDPO(@RequestParam String searchTerm){
-				List<String> results=purchaseorderService.findSupplierbysearchPDPO(searchTerm);
-				return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
-			}
-			
-			@GetMapping("/getallsuppliersinpdpo")
-			public ResponseEntity<BaseDto<List<String>>> findAllSupplierNamesPDPO(){
-				List<String> results=purchaseorderService.findallSuppliersPDPO();
-				return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
-}
+	@GetMapping("/getbatchnobysearchpdbn")
+	public ResponseEntity<BaseDto<List<String>>> findbatchNoInpurchaseorderPDBB(@RequestParam String searchTerm){
+		List<String> results=purchaseorderService.findbatchNoInpurchaseorderPDBB(searchTerm);
+		return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
+	}
+
+	@GetMapping("/getallbatchnopdbn")
+	public ResponseEntity<BaseDto<List<String>>> findallPDBB(){
+		List<String> results=purchaseorderService.findallPDBB();
+		return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
+	}
+
+	@GetMapping("/getsuppliersbysearchpdbn")
+	public ResponseEntity<BaseDto<List<String>>> findSuppliersInpurchaseorderPDBB(@RequestParam String searchTerm){
+		List<String> results=purchaseorderService.findSuppliersInpurchaseorderPDBB(searchTerm);
+		return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
+	}
+
+	@GetMapping("/getallsupplierspdbn")
+	public ResponseEntity<BaseDto<List<String>>> findAllSuppliersPDBB(){
+		List<String> results=purchaseorderService.findAllSuppliersPDBB();
+		return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
+	}
+
+	//Purchase Details By Product Name
+	@GetMapping("/getitemsbysearchpdpn")
+	public ResponseEntity<BaseDto<List<String>>> finditemNameInpurchaseorderPDBP(@RequestParam String searchTerm){
+		List<String> results=purchaseorderService.finditemNameInpurchaseorderPDBP(searchTerm);
+		return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
+	}
+
+	@GetMapping("/getallitemspdpn")
+	public ResponseEntity<BaseDto<List<String>>> findallPDBP(){
+		List<String> results=purchaseorderService.findallPDBP();
+		return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
+	}
+
+	//Purchase Register List
+	@GetMapping("/getpaytypesbysearchprl")
+	public ResponseEntity<BaseDto<List<String>>> findpaymenttypebysearchPRLT(@RequestParam String searchTerm){
+		List<String> results=purchaseorderService.findpaymenttypebysearchPRLT(searchTerm);
+		return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
+	}
+
+	@GetMapping("/getallpaytypesprl")
+	public ResponseEntity<BaseDto<List<String>>> findallpaymenttypesPRLT(){
+		List<String> results=purchaseorderService.findallpaymenttypesPRLT();
+		return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
+	}
+
+	@GetMapping("/getsuppliersbysearchprl")
+	public ResponseEntity<BaseDto<List<String>>> findsuppliersbysearchPRLS(@RequestParam String searchTerm){
+		List<String> results=purchaseorderService.findsuppliersbysearchPRLS(searchTerm);
+		return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
+	}
+
+	@GetMapping("/getallsuppliersprl")
+	public ResponseEntity<BaseDto<List<String>>> findallsuppliersPRLS(){
+		List<String> results=purchaseorderService.findallsuppliersPRLS();
+		return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
+	}
+
+	//Purhase Order Details By PO NO
+	@GetMapping("/getpurNobysearchspdpo")
+	public ResponseEntity<BaseDto<List<String>>> findPurNoBySearchPDPO(@RequestParam String searchTerm){
+		List<String> results=purchaseorderService.findPurNobysearchPDPO(searchTerm);
+		return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
+	}
+
+	@GetMapping("/getallpurNoinpdpo")
+	public ResponseEntity<BaseDto<List<String>>> findAllPurNoPDPO(){
+		List<String> results=purchaseorderService.findallPurNoPDPO();
+		return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
+	}
+	@GetMapping("/getsupplierbysearchspdpo")
+	public ResponseEntity<BaseDto<List<String>>> findSupplierBySearchPDPO(@RequestParam String searchTerm){
+		List<String> results=purchaseorderService.findSupplierbysearchPDPO(searchTerm);
+		return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
+	}
+
+	@GetMapping("/getallsuppliersinpdpo")
+	public ResponseEntity<BaseDto<List<String>>> findAllSupplierNamesPDPO(){
+		List<String> results=purchaseorderService.findallSuppliersPDPO();
+		return new BaseDto<>(results,purchaseorderHelper.getRetrievePurchaseOrderMessage(),OK).respond();
+	}
+	
+	
+	@GetMapping("/getapprovedpurchaseordersbypharmacy/withlimit")
+	public ResponseEntity<BaseDto<List<PurchaseOrderModel>>> getApprovedPurchaseOrderByPharmacyWithLimit(@RequestParam Integer pharmacyId,@RequestParam Integer start,@RequestParam Integer end) {
+		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderService.getPurchaseOrderByPharmacyAndStatusLimitedRecords(pharmacyId,start,end, "APPROVED");
+		return new BaseDto<>(purchaseOrderModels, purchaseorderHelper.getRetrievePurchaseOrderMessage(), OK).respond();
+	}
 }
