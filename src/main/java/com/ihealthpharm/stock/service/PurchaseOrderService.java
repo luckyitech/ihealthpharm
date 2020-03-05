@@ -89,5 +89,11 @@ public interface PurchaseOrderService {
 	List<PurchaseOrderModel> getPurchaseOrderByPharmacyAndStatusLimitedRecords(Integer pharmacyId, Integer start,
 			Integer end, String status);
 
+	List<PurchaseOrderModel> getPurchaseOrderByPharmacyAndStatusForRejected(Integer pharmacyId, Integer start, Integer end, String status);
+
+	List<PurchaseOrderModel> getSentPurchaseOrderByPharmacyForSent(Integer pharmacyId, Integer start, Integer end);
+
+	List<PurchaseOrderModel> getPurchaseOrderByPharmacyAndStatusForPending(Integer pharmacyId, Integer start,
+			Integer end, String status);
 
 }

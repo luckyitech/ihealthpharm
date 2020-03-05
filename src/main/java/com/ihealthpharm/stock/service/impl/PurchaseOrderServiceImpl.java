@@ -307,10 +307,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		return purchaseOrderModels;
 	}
 	
-	
-	
-	
-	
 	@Override
 	public List<PurchaseOrderModel> getPurchaseOrderByPharmacyAndStatus(Integer pharmacyId, String status,
 			String purchaseOrderNo) {
@@ -435,5 +431,36 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		return purchaseorderRepository.getPurchaseOrderByPharmacyAndPurchaseOrderNumber(pharmacyId,PONumber,limit);
 	}
 
+	@Override
+	public List<PurchaseOrderModel> getPurchaseOrderByPharmacyAndStatusForRejected(Integer pharmacyId, Integer start,
+			Integer end, String status) {
+		Pageable limit=PageRequest.of(start, end);
+		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderRepository.getPOByPharmacyAndStatusForRejected(pharmacyId, status,limit);
+		return purchaseOrderModels;
+	}
+
+	@Override
+	public List<PurchaseOrderModel> getSentPurchaseOrderByPharmacyForSent(Integer pharmacyId,Integer start,Integer end) {
+		
+		Pageable limit=PageRequest.of(start, end);
+		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderRepository.getSentPurchaseOrderByPharmacyWithLimit(pharmacyId,limit);
+		for(PurchaseOrderModel q : purchaseOrderModels) {
+			q.setCreatedName(purchaseorderRepository.createdPurchaseOrderUser(q.getPurchaseOrderId()));
+			q.setModifiedName(purchaseorderRepository.modifiedPurchaseOrderUser(q.getPurchaseOrderId()));
+			q.setRejectedName(purchaseorderRepository.rejectedPurchaseOrderUser(q.getPurchaseOrderId()));
+			q.setApprovedName(purchaseorderRepository.approvedPurchaseOrderUser(q.getPurchaseOrderId()));
+			q.setSentName(purchaseorderRepository.sentPurchaseOrderUser(q.getPurchaseOrderId()));
+		}
+		return purchaseorderRepository.getPurchaseOrderByPharmacyWithLimit(pharmacyId,limit);
+	}
+	
+	@Override
+	public List<PurchaseOrderModel> getPurchaseOrderByPharmacyAndStatusForPending(Integer pharmacyId, Integer start,
+			Integer end, String status) {
+		Pageable limit=PageRequest.of(start, end);
+		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderRepository.getPurchaseOrderByPharmacyAndStatusRepo(pharmacyId, status, limit);
+		return purchaseOrderModels;
+	}
+		
 	
 }

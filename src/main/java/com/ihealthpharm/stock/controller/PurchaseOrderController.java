@@ -445,4 +445,22 @@ public class PurchaseOrderController {
 		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderService.getPurchaseOrderByPharmacyAndStatusLimitedRecords(pharmacyId,start,end, "APPROVED");
 		return new BaseDto<>(purchaseOrderModels, purchaseorderHelper.getRetrievePurchaseOrderMessage(), OK).respond();
 	}
+	
+	@GetMapping("/getrejectedpurchaseordersbypharmacy/withlimit")
+	public ResponseEntity<BaseDto<List<PurchaseOrderModel>>> getRejectedPurchaseOrderByPharmacyWithLimit(@RequestParam Integer pharmacyId, @RequestParam Integer start, @RequestParam Integer end) {
+		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderService.getPurchaseOrderByPharmacyAndStatusForRejected(pharmacyId,start,end, "REJECTED");
+		return new BaseDto<>(purchaseOrderModels, purchaseorderHelper.getRetrievePurchaseOrderMessage(), OK).respond();
+	}
+	
+	@GetMapping("/getsentpurchaseordersbypharmacy/withlimit")
+	public ResponseEntity<BaseDto<List<PurchaseOrderModel>>> getSentPurchaseOrderByPharmacyWithLimit(@RequestParam Integer pharmacyId, @RequestParam Integer start, @RequestParam Integer end) {
+		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderService.getSentPurchaseOrderByPharmacyForSent(pharmacyId, start, end);
+		return new BaseDto<>(purchaseOrderModels, purchaseorderHelper.getRetrievePurchaseOrderMessage(), OK).respond();
+	}
+	
+	@GetMapping("/getpendingpurchaseordersbypharmacy/withlimit")
+	public ResponseEntity<BaseDto<List<PurchaseOrderModel>>> getPendingPurchaseOrderByPharmacyWithLimit(@RequestParam Integer pharmacyId, @RequestParam Integer start, @RequestParam Integer end) {
+		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderService.getPurchaseOrderByPharmacyAndStatusForPending(pharmacyId, start, end, "PENDING");
+		return new BaseDto<>(purchaseOrderModels, purchaseorderHelper.getRetrievePurchaseOrderMessage(), OK).respond();
+	}
 }
