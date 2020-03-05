@@ -68,8 +68,8 @@ public class StockTakePdf extends ReportsPDFUtility{
 		finalTable.setWidthPercentage(50);
 		finalTable.setLockedWidth(true);
 		finalTable.getDefaultCell().setBorder(0); 
-		DateFormat f = new SimpleDateFormat("dd-MM-yyyy HH:mm a");
-		String billDate="";
+//		DateFormat f = new SimpleDateFormat("dd-MM-yyyy HH:mm a");
+//		String billDate="";
 		
 		if(dataMap.get("FROM_SYSTEM_DATE")!=null && dataMap.get("TO_SYSTEM_DATE")!=null) {
 			
@@ -305,15 +305,15 @@ public class StockTakePdf extends ReportsPDFUtility{
 
 				table.addCell(cell);
 				
-				if(rowData.get("LAST_UPDATE_TS")==null) {
-					
-				}else {
-					billDate = f.format((ObjectUtils.isEmpty(rowData))?"":rowData.get("LAST_UPDATE_TS"));
-				}
+//				if(rowData.get("LAST_UPDATE_TS")==null) {
+//					
+//				}else {
+//					billDate = f.format((ObjectUtils.isEmpty(rowData))?"":rowData.get("LAST_UPDATE_TS"));
+//				}
+//				
 				
-				
-				value =  billDate;
-//				value = rowData.containsKey("LAST_UPDATE_TS") ? rowData.get("LAST_UPDATE_TS") : "";
+			
+   	   	        value = rowData.containsKey("LAST_UPDATE_TS") ? rowData.get("LAST_UPDATE_TS") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
@@ -321,13 +321,7 @@ public class StockTakePdf extends ReportsPDFUtility{
 
 				table.addCell(cell);
 				
-//				value = rowData.containsKey("FROM_APPROVED_DATE") ? rowData.get("FROM_APPROVED_DATE") : "";
-//				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-//				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-//				if (!model.isShowVerticalLines())
-//					cell.setBorder(Rectangle.BOTTOM);
-//
-//				table.addCell(cell);
+
 
 
 				//}
@@ -558,14 +552,14 @@ public class StockTakePdf extends ReportsPDFUtility{
 
 					table.addCell(cell);
 					
-					if(rowData.get("LAST_UPDATE_TS")==null) {
-						
-					}else {
-						billDate = f.format((ObjectUtils.isEmpty(rowData))?"":rowData.get("LAST_UPDATE_TS"));
-					}
+//					if(rowData.get("LAST_UPDATE_TS")==null) {
+//						
+//					}else {
+//						billDate = f.format((ObjectUtils.isEmpty(rowData))?"":rowData.get("LAST_UPDATE_TS"));
+//					}
 					
 					
-					value =  billDate;
+					value =  rowData.containsKey("LAST_UPDATE_TS") ? rowData.get("LAST_UPDATE_TS") : "";
 					cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 					if (!model.isShowVerticalLines())

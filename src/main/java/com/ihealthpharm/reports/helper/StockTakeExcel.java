@@ -241,16 +241,16 @@ public class StockTakeExcel extends ReportsExcelUtility{
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
-               if(rowData.get("LAST_UPDATE_TS")==null) {
-					
-				}else {
-					billDate = f.format((ObjectUtils.isEmpty(rowData))?"":rowData.get("LAST_UPDATE_TS"));
-				}
+//               if(rowData.get("LAST_UPDATE_TS")==null) {
+//					
+//				}else {
+//					billDate = f.format((ObjectUtils.isEmpty(rowData))?"":rowData.get("LAST_UPDATE_TS"));
+//				}
+//				
+//				
+//				value =  billDate;
 				
-				
-				value =  billDate;
-				
-				//value = rowData.containsKey("LAST_UPDATE_TS") ? rowData.get("LAST_UPDATE_TS") : "";
+				value = rowData.containsKey("LAST_UPDATE_TS") ? rowData.get("LAST_UPDATE_TS") : "";
 				//sheet.autoSizeColumn(10);
 				cell = dataRow.createCell(10);
 				cell.setCellValue(String.valueOf(value));
@@ -400,16 +400,16 @@ public class StockTakeExcel extends ReportsExcelUtility{
 					cell.setCellValue(String.valueOf(value));
 					cell.setCellStyle(borderStyle);
 					
-					  if(rowData.get("LAST_UPDATE_TS")==null) {
-							
-						}else {
-							billDate = f.format((ObjectUtils.isEmpty(rowData))?"":rowData.get("LAST_UPDATE_TS"));
-						}
-						
-						
-						value =  billDate;
-					
-					//value = rowData.containsKey("LAST_UPDATE_TS") ? rowData.get("LAST_UPDATE_TS") : "";
+//					  if(rowData.get("LAST_UPDATE_TS")==null) {
+//							
+//						}else {
+//							billDate = f.format((ObjectUtils.isEmpty(rowData))?"":rowData.get("LAST_UPDATE_TS"));
+//						}
+//						
+//						
+//						value =  billDate;
+//					
+					value = rowData.containsKey("LAST_UPDATE_TS") ? rowData.get("LAST_UPDATE_TS") : "";
 					//sheet.autoSizeColumn(10);
 					cell = dataRow.createCell(10);
 					cell.setCellValue(String.valueOf(value));
