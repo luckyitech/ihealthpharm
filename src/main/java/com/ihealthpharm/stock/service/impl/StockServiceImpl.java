@@ -371,6 +371,26 @@ public class StockServiceImpl implements StockService {
 		public List<ItemsForStockAdjustDTO> getStockAdjustRecords(Integer stockId) {
 			return stockRepository.getStockRecordById(stockId);
 		}
+
+		@Override
+		public List<String> findInvoiceNosBySearchST(String searchTerm) {
+			return stockRepository.findInvoiceNoInST(searchTerm);
+		}
+
+		@Override
+		public List<String> findAllInvoiceNosByST() {
+			return stockRepository.findAllInvoiceNoInST();
+		}
+
+		@Override
+		public List<String> findItemNamesBySearchST(String searchTerm) {
+			return stockRepository.findItemNmaesInST(searchTerm);
+		}
+
+		@Override
+		public List<String> findAllItemNamesByST() {
+			return stockRepository.findAllItemNmaesInST();
+		}
 		
 		
 

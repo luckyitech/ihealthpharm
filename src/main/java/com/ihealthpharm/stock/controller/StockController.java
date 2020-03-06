@@ -353,5 +353,29 @@ public class StockController {
 		List<ItemsForStockAdjustDTO> response = stockService.getStockAdjustRecords(stockId);
 		return new BaseDto<>(response,stockHelper.getRetrieveStockMessage(),OK).respond();
 	}
+//stock take report
+	
+	@GetMapping("/getallinvoicenumbersST")
+	public ResponseEntity<BaseDto<List<String>>> getAllInvoiceNumbersST() {
+		List<String> results = stockService.findAllInvoiceNosByST();
+		return new BaseDto<>(results, stockHelper.getRetrieveStockMessage(), OK).respond();
+	}
 
+	@GetMapping("/getinvoicenumbersbysearchST")
+	public ResponseEntity<BaseDto<List<String>>> getInvoiceNumbersByST(@RequestParam String searchTerm) {
+		List<String> results = stockService.findInvoiceNosBySearchST(searchTerm);
+		return new BaseDto<>(results, stockHelper.getRetrieveStockMessage(), OK).respond();
+	}
+	
+	@GetMapping("/getallitemnamesST")
+	public ResponseEntity<BaseDto<List<String>>> getAllItemNmaesByST() {
+		List<String> results = stockService.findAllItemNamesByST();
+		return new BaseDto<>(results, stockHelper.getRetrieveStockMessage(), OK).respond();
+	}
+
+	@GetMapping("/getitemnamebysearchST")
+	public ResponseEntity<BaseDto<List<String>>> getItemNamesByST(@RequestParam String searchTerm) {
+		List<String> results = stockService.findItemNamesBySearchST(searchTerm);
+		return new BaseDto<>(results, stockHelper.getRetrieveStockMessage(), OK).respond();
+	}
 }
