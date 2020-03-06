@@ -1,6 +1,9 @@
 package com.ihealthpharm.reports.helper;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -75,19 +78,24 @@ public class PettyCashExpenditureExcel extends ReportsExcelUtility {
 		headerStyle.setBorderLeft(BorderStyle.THIN);  
 		headerStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());  
 
+		List<Date> datesList = new ArrayList<>();
 
-		Map<String, List<Map<String, Object>>> pettyExpMap = responseList.stream()
-				.collect(Collectors.groupingBy(map -> (String.valueOf(map.get("FROM_DATE")))));
+		Map<Date, List<Map<String, Object>>> pettyExpMap = responseList.stream()
+				.collect(Collectors.groupingBy(map -> (Date) map.get("FROM_DATE")));
 	
 		setHeader(workbook,sheet,model);
 
 
 		if(!ObjectUtils.isEmpty(pettyExpMap)) { 
 
-			for(String pettyExpSummary :pettyExpMap.keySet()) {	
+			datesList.addAll(pettyExpMap.keySet());
+
+			Collections.sort(datesList);
+			
+			for(int i = 0; i < datesList.size(); i++) {	
 				int currentRow = sheet.getLastRowNum();
-				List<Map<String, Object>> pettyCashExpList =pettyExpMap.get(pettyExpSummary);
-				createSupplierTable(sheet, responseFile, borderStyle, headerStyle,pettyCashExpList, pettyExpSummary, currentRow); 
+				List<Map<String, Object>> pettyCashExpList =pettyExpMap.get(datesList.get(i));
+				createSupplierTable(sheet, responseFile, borderStyle, headerStyle,pettyCashExpList, datesList.get(i), currentRow); 
 			}
 			//generateTotalTable(sheet, responseFile,borderStyle,model,responseList);
 		}
@@ -126,7 +134,7 @@ public class PettyCashExpenditureExcel extends ReportsExcelUtility {
 	}
 
 	private void createSupplierTable(SXSSFSheet sheet,File responseFile, CellStyle borderStyle ,
-			CellStyle headerStyle, List<Map<String, Object>>  pettyExpList, String pettyCashExpSummary, int rowNum) {
+			CellStyle headerStyle, List<Map<String, Object>>  pettyExpList, Date pettyCashExpSummary, int rowNum) {
 
 		rowNum = rowNum + 3;
 		int headRow=rowNum-2;
@@ -164,13 +172,7 @@ public class PettyCashExpenditureExcel extends ReportsExcelUtility {
 			
 			String asOfDate=((pettyExpList.get(0).containsKey("AS_OF_DATE") ? String.valueOf(pettyExpList.get(0).get("AS_OF_DATE")) : ""));
 			
-			System.out.println(balance);
-			
-			System.out.println(amountDebit);
-			
 			double cashOnHand=balance+amountDebit;
-			
-			System.out.println(cashOnHand);
 			
 			Row displayRow = sheet.createRow(headRow);
 			Cell headCell = displayRow.createCell(0);

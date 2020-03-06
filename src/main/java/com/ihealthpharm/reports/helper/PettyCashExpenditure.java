@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -55,45 +56,23 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 			writer.setPageEvent(event); 
 			document.open();
 
-			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-			System.out.println(responseList);
-			
+			List<Date> datesList = new ArrayList<>();
+
 			Map<Date, List<Map<String, Object>>> pettyExpMap = responseList.stream()
 					.collect(Collectors.groupingBy(map -> (Date) map.get("FROM_DATE")));	
-			
 
-//			Map<Date, List<Map<String,Object>>> pettyExpMap = new LinkedHashMap<>();
-//			responseList.stream()
-//			        .sorted(Map.Entry.<Date, Map<String,Object>>comparingByKey()
-//			                .reversed())
-//			        .forEachOrdered(e -> finalMap.put(e.getKey(), e.getValue()));
-//			
-//			
-			
-			System.out.println("------------------------------------");
-			System.out.println(pettyExpMap);
-			System.out.println("------------------------------------");
-			
-			
-
-			Map<Object, List<Map<String, Object>>>  finalMap = new LinkedHashMap<>();
-
-	        //Sort a map and add to finalMap
-	        pettyExpMap.entrySet().stream()
-	                .sorted().forEachOrdered(e -> finalMap.put(e.getKey(), e.getValue()));
-
-	        System.out.println(finalMap);
-			 
 			if(!ObjectUtils.isEmpty(pettyExpMap)) { 
-				//addHeader(document,responseList);
 
-				for(Object pettyCashSummary :pettyExpMap.keySet()) {					
-					List<Map<String, Object>> pettyExpList = pettyExpMap.get(pettyCashSummary);
-					createTable(document,model,pettyExpList,pettyCashSummary,responseList);
+				datesList.addAll(pettyExpMap.keySet());
 
+				Collections.sort(datesList);
+
+				for(int i = 0; i < datesList.size(); i++) {					
+					List<Map<String, Object>> pettyExpList = pettyExpMap.get(datesList.get(i));
+					createTable(document,model,pettyExpList,datesList.get(i),responseList);
 				}
-
 
 				//generateTotalTable(document,model,responseList);
 
@@ -180,7 +159,7 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 	}*/
 
 	private void createTable(Document document, ReportsMappingModel model, List<Map<String, Object>> pettyExpList,
-			Object pettyCashSummary, List<Map<String, Object>> responseList) throws DocumentException {
+			Date pettyCashSummary, List<Map<String, Object>> responseList) throws DocumentException {
 
 		String reportHeader = model.getReportHeader();
 		List<HeaderDto> headerList = JsonUtility.jsonToList(reportHeader, HeaderDto.class);
@@ -255,15 +234,18 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 
 		// populate Date
 		if (!ObjectUtils.isEmpty(pettyExpList)) {
-
+			
 			double balance=Double.parseDouble(((pettyExpList.get(0).containsKey("BALANCE") ? String.valueOf(pettyExpList.get(0).get("BALANCE")) : "")));
 			double amountDebit=Double.parseDouble(((pettyExpList.get(0).containsKey("AMOUNT") ? String.valueOf(pettyExpList.get(0).get("AMOUNT")) : "")));
 
-			double cashOnHand=balance+amountDebit;
-			String asOfDate=((pettyExpList.get(0).containsKey("AS_OF_DATE") ? String.valueOf(pettyExpList.get(0).get("AS_OF_DATE")) : ""));
+			double pettyCashAdded=0.0;
 			
+			double cashOnHand=balance+amountDebit;
+			
+			String asOfDate=((pettyExpList.get(0).containsKey("AS_OF_DATE") ? String.valueOf(pettyExpList.get(0).get("AS_OF_DATE")) : ""));
+
 			PdfPTable supllierNameTable = new PdfPTable(3);
-			PdfPCell nameCell = new PdfPCell(new Phrase("Total Balance at hand : "+cashOnHand			+"			"+"Date : "+asOfDate, title08)); 
+			PdfPCell nameCell = new PdfPCell(new Phrase("Total Balance at hand : "+cashOnHand+"        "+"Date : "+asOfDate, title08)); 
 			nameCell.setColspan(3);
 			nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			nameCell.setVerticalAlignment(Element.ALIGN_TOP);
@@ -316,10 +298,10 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 					cell.setBorder(Rectangle.BOTTOM);
 
 				table.addCell(cell);
-				
+
 				String value2=((rowData.containsKey("AS_OF_DATE") ? (String.valueOf(rowData.get("AS_OF_DATE"))) : ""));
 				asOfDate = value2;
-			
+
 				//}
 			}
 
@@ -332,7 +314,7 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 			totalAmount = pettyExpList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
 
 			totalBalance=cashOnHand;
-			
+
 			PdfPTable totalTable = new PdfPTable(3);
 			totalTable.setTotalWidth(500);
 			totalTable.setWidthPercentage(50);
@@ -351,10 +333,10 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 			totalTable.setLockedWidth(true);
 			totalTable.setTotalWidth(500);
 			totalTable.getDefaultCell().setBorder(0);
-			
+
 			String totBalance=df.format(totalBalance);
 			Double bal=Double.parseDouble(totBalance);
-
+			
 			PdfPCell nameCell2 = new PdfPCell(new Phrase("Balance  : "+bal+"   ", title08)); 
 			nameCell2.setColspan(3);
 			nameCell2.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -364,7 +346,7 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 			totalTable.setLockedWidth(true);
 			totalTable.setTotalWidth(500);
 			totalTable.getDefaultCell().setBorder(0); 
-
+			
 			//finalTable.addCell(supllierNameTable);
 			finalTable.addCell(table); 
 			document.add(finalTable);		
