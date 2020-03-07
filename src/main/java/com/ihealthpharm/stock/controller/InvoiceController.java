@@ -224,4 +224,10 @@ public class InvoiceController {
 		Integer count = invoiceService.findAllInvoicesByPharmacyIdAndInvoiceSatusIdCount(pharmacyId,invoiceStatusId,invoiceNo);
 		return new BaseDto<>(count, invoiceHelper.getRetrieveInvoiceMessage(), OK).respond();
 	}
+	
+	@GetMapping("/getall/invoicenumbers")
+	public ResponseEntity<BaseDto<List<String>>> getAllInvoiceNumbers(@RequestParam String invoiceNo){
+		List<String> response=invoiceService.findAllInvoiceNumbers(invoiceNo);
+		return new BaseDto<>(response, invoiceHelper.getRetrieveInvoiceMessage(), OK).respond();
+	}
 }
