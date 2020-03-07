@@ -32,7 +32,7 @@ public class StockAdjustementController {
 	@Autowired
 	private StockHelper stockHelper;
 	
-	@PostMapping("/save/stockadjustment")
+	@PostMapping("/save/stocktake")
 	public ResponseEntity<BaseDto<StockAdjustmentModel>> insertItemData(@Valid @RequestBody StockAdjustmentModel stockAdjustmentModel) {
 		log.info("Request Object insert is: "+ stockAdjustmentModel);
 		StockAdjustmentModel stockAdjustModelRes = stockAdjustmentService.saveStockAdjustment(stockAdjustmentModel);
