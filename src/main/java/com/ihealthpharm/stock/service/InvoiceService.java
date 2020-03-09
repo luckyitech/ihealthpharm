@@ -49,4 +49,5 @@ public interface InvoiceService {
 
 	Integer findAllInvoicesByPharmacyIdAndInvoiceSatusIdCount(Integer pharmacyId, Integer invoiceStatusId,String invoiceNo);
 	
+	List<String> findAllInvoiceNumbers(String invoiceNo);
 }

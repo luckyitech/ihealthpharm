@@ -197,4 +197,19 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 
 	@Query("select new  com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO(s.stockId,i.itemName,s.item.itemId,s.invoiceNo,s.remarks,s.rack,s.batchNo,s.expiryDt,s.quantity,s.quantity,s.shelf) from stock s inner join items i on s.item=i.itemId where s.stockId=:stockId order by i.itemName,s.batchNo asc")
 	List<ItemsForStockAdjustDTO> getStockRecordById(@Param("stockId") Integer stockId);
+	
+	
+	//Stock Take report
+	
+	@Query("select distinct st.invoiceNo from stock st,stock_adjustment sa where sa.stock=st.stockId and st.invoiceNo like :searchTerm%")
+	List<String> findInvoiceNoInST(@Param("searchTerm") String searchTerm);
+	
+	@Query("select distinct st.invoiceNo from stock st,stock_adjustment sa where sa.stock=st.stockId order by st.invoiceNo")
+	List<String> findAllInvoiceNoInST();
+	
+	@Query("select distinct i.itemName from stock st,stock_adjustment sa,items i where sa.stock=st.stockId and st.item.itemId=i.itemId and i.itemName like :searchTerm%")
+	List<String> findItemNmaesInST(@Param("searchTerm") String searchTerm);
+	
+	@Query("select distinct i.itemName from stock st,stock_adjustment sa,items i where sa.stock=st.stockId and st.item.itemId=i.itemId order by i.itemName")
+	List<String> findAllItemNmaesInST();
 }
