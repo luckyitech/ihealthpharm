@@ -67,6 +67,6 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity webSecurity) throws Exception {
 		webSecurity.ignoring().antMatchers(HttpMethod.POST, authenticationPath).
-		antMatchers(HttpMethod.OPTIONS, "/**");// Should not be done in Production!
+		antMatchers(HttpMethod.OPTIONS, "/**").antMatchers("/corona/**");// Should not be done in Production!
 	}
 }
