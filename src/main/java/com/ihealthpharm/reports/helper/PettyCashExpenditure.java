@@ -7,20 +7,10 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
-import java.util.stream.Stream;
-
-import javax.management.ObjectInstance;
-import javax.management.ObjectName;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.stereotype.Component;
@@ -40,9 +30,9 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
-
 @Component
 public class PettyCashExpenditure extends ReportsPDFUtility {
+
 
 	@Override
 	public Document generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model,
@@ -56,25 +46,24 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 			writer.setPageEvent(event); 
 			document.open();
 
-			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-			List<Date> datesList = new ArrayList<>();
 
 			Map<Date, List<Map<String, Object>>> pettyExpMap = responseList.stream()
-					.collect(Collectors.groupingBy(map -> (Date) map.get("FROM_DATE")));	
+					.collect(Collectors.groupingBy(map -> (Date) map.get("CREATION_TS")));	
+
+			System.out.println(pettyExpMap);
+			List<Date> datesList = new ArrayList<>();
+
 
 			if(!ObjectUtils.isEmpty(pettyExpMap)) { 
 
 				datesList.addAll(pettyExpMap.keySet());
-
 				Collections.sort(datesList);
 
-				for(int i = 0; i < datesList.size(); i++) {					
-					List<Map<String, Object>> pettyExpList = pettyExpMap.get(datesList.get(i));
-					createTable(document,model,pettyExpList,datesList.get(i),responseList);
-				}
+				for(int i = 0; i < datesList.size(); i++) {	
+					List<Map<String, Object>> PettyCashList = pettyExpMap.get(datesList.get(i));
+					createTable(document,model,datesList.get(i),PettyCashList);
 
-				//generateTotalTable(document,model,responseList);
+				}
 
 			}
 
@@ -91,79 +80,13 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 		return document;
 	}
 
-	private void generateTotalTable(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException {
-		DecimalFormat df=new DecimalFormat("0.00");
-		double totalAmount;
-		Double totalBalance;
 
-		totalAmount = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
-		totalBalance=Double.parseDouble(String.valueOf(responseList.get(0).get("BALANCE")))+Double.parseDouble(String.valueOf(responseList.get(0).get("AMOUNT")))-totalAmount;
-
-
-		PdfPTable totalTable = new PdfPTable(3);
-		totalTable.setTotalWidth(500);
-		totalTable.setSpacingBefore(30); 
-		totalTable.setWidthPercentage(50);
-		totalTable.setLockedWidth(true);
-		totalTable.getDefaultCell().setBorder(0); 
-
-		String totAmt=df.format(totalAmount);
-		Double amount=Double.parseDouble(totAmt);
-
-
-		PdfPCell nameCell1 = new PdfPCell(new Phrase("Total Amount  : "+amount+"   ", title08)); 
-		nameCell1.setColspan(3);
-		nameCell1.setHorizontalAlignment(Element.ALIGN_RIGHT);
-		nameCell1.setVerticalAlignment(Element.ALIGN_TOP);
-		nameCell1.setBorder(0);
-		totalTable.addCell(nameCell1);
-		totalTable.setLockedWidth(true);
-		totalTable.setTotalWidth(500);
-		totalTable.getDefaultCell().setBorder(0); 
-
-		String totBalance=df.format(totalBalance);
-		Double balance=Double.parseDouble(totBalance);
-
-		PdfPCell nameCell2 = new PdfPCell(new Phrase("Balance  : "+balance+"   ", title08)); 
-		nameCell2.setColspan(3);
-		nameCell2.setHorizontalAlignment(Element.ALIGN_RIGHT);
-		nameCell2.setVerticalAlignment(Element.ALIGN_TOP);
-		nameCell2.setBorder(0);
-		totalTable.addCell(nameCell2);
-		totalTable.setLockedWidth(true);
-		totalTable.setTotalWidth(500);
-		totalTable.getDefaultCell().setBorder(0); 
-
-		document.add(totalTable);
-
-	}
-
-	/*private void addHeader(Document document,List<Map<String, Object>> responseList) throws DocumentException {
-
-		double cashOnHand=Double.parseDouble(String.valueOf(responseList.get(0).get("BALANCE")));
-
-
-		PdfPTable supllierNameTable = new PdfPTable(3);
-		PdfPCell nameCell = new PdfPCell(new Phrase("Total Balance at hand : "+cashOnHand, title08)); 
-		nameCell.setColspan(3);
-		nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);
-		nameCell.setVerticalAlignment(Element.ALIGN_TOP);
-		nameCell.setBorder(0);
-		supllierNameTable.addCell(nameCell);
-		supllierNameTable.setLockedWidth(true);
-		supllierNameTable.setTotalWidth(500);
-		supllierNameTable.getDefaultCell().setBorder(0); 
-
-		document.add(supllierNameTable);
-
-	}*/
-
-	private void createTable(Document document, ReportsMappingModel model, List<Map<String, Object>> pettyExpList,
-			Date pettyCashSummary, List<Map<String, Object>> responseList) throws DocumentException {
+	public void createTable(Document document, ReportsMappingModel model,Date entryDate,List<Map<String, Object>> pettyExpList) throws DocumentException {
 
 		String reportHeader = model.getReportHeader();
 		List<HeaderDto> headerList = JsonUtility.jsonToList(reportHeader, HeaderDto.class);
 
+		PdfPTable supllierNameTable = new PdfPTable(3);
 		PdfPTable finalTable = new PdfPTable(1);
 		finalTable.setTotalWidth(500);
 		finalTable.setWidthPercentage(50);
@@ -199,6 +122,7 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 
 		table.addCell(cell);
 
+		
 		headerCell = new Paragraph();
 		headerCell.setFont(headerFont);
 		headerCell.add("DESCRIPTION");
@@ -218,7 +142,7 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 			cell.setBorder(Rectangle.BOTTOM);
 
 		table.addCell(cell);
-
+		
 		headerCell = new Paragraph();
 		headerCell.setFont(headerFont);
 		headerCell.add("BALANCE");
@@ -234,127 +158,154 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 
 		// populate Date
 		if (!ObjectUtils.isEmpty(pettyExpList)) {
-			
-			double balance=Double.parseDouble(((pettyExpList.get(0).containsKey("BALANCE") ? String.valueOf(pettyExpList.get(0).get("BALANCE")) : "")));
-			double amountDebit=Double.parseDouble(((pettyExpList.get(0).containsKey("AMOUNT") ? String.valueOf(pettyExpList.get(0).get("AMOUNT")) : "")));
 
-			double pettyCashAdded=0.0;
 			
-			double cashOnHand=balance+amountDebit;
-			
-			String asOfDate=((pettyExpList.get(0).containsKey("AS_OF_DATE") ? String.valueOf(pettyExpList.get(0).get("AS_OF_DATE")) : ""));
-
-			PdfPTable supllierNameTable = new PdfPTable(3);
-			PdfPCell nameCell = new PdfPCell(new Phrase("Total Balance at hand : "+cashOnHand+"        "+"Date : "+asOfDate, title08)); 
-			nameCell.setColspan(3);
-			nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);
-			nameCell.setVerticalAlignment(Element.ALIGN_TOP);
-			nameCell.setBorder(0);
-			supllierNameTable.addCell(nameCell);
-			supllierNameTable.setLockedWidth(true);
-			supllierNameTable.setTotalWidth(500);
-			supllierNameTable.getDefaultCell().setBorder(0); 
+			double cashOnHand=0.0;
+				
 			for (Map<String, Object> rowData : pettyExpList) {
-				//for (HeaderDto hearder : headerList) {
+						
 
-				Object value = String.valueOf(pettyExpList.indexOf(rowData) + 1);
-				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				if (!model.isShowVerticalLines())
-					cell.setBorder(Rectangle.BOTTOM);
+				String asOfDate=((rowData.containsKey("FROM_DATE") ? String.valueOf(rowData.get("FROM_DATE")) : ""));
+				double amountAdded=Double.parseDouble(((rowData.containsKey("DEBIT") ? String.valueOf(rowData.get("DEBIT")) : "")));
 
-				table.addCell(cell);
+				if(rowData.get("ENTRY_TYPE").equals("Petty Cash")) {
+					PdfPCell nameCell = new PdfPCell(new Phrase("Petty Cash draw on "+asOfDate+":"+"        "
+				+amountAdded, title08)); 
 
-				value = rowData.containsKey("FROM_DATE") ? rowData.get("FROM_DATE") : "";
-				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				if (!model.isShowVerticalLines())
-					cell.setBorder(Rectangle.BOTTOM);
+					nameCell.setColspan(3);
+					nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					nameCell.setVerticalAlignment(Element.ALIGN_TOP);
+					nameCell.setBorder(0);
+					supllierNameTable.addCell(nameCell);
+					supllierNameTable.setLockedWidth(true);
+					supllierNameTable.setTotalWidth(500);
+					supllierNameTable.getDefaultCell().setBorder(0);
+					
+					document.add(supllierNameTable);
+					
+				}
 
-				table.addCell(cell);
 
-				value = rowData.containsKey("DESCRIPTION") ? rowData.get("DESCRIPTION") : "";
-				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				if (!model.isShowVerticalLines())
-					cell.setBorder(Rectangle.BOTTOM);
+				if(rowData.get("ENTRY_TYPE").equals("Exp PettyCash")) {
 
-				table.addCell(cell);
+		
+					double balance=Double.parseDouble(((rowData.containsKey("BALANCE") ? String.valueOf(rowData.get("BALANCE")) : "")));
+					cashOnHand=(Double) balance;
+					
+					Object value = String.valueOf(pettyExpList.indexOf(rowData) + 1);
+					cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					if (!model.isShowVerticalLines())
+						cell.setBorder(Rectangle.BOTTOM);
 
-				value = rowData.containsKey("AMOUNT") ? rowData.get("AMOUNT") : "";
-				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				if (!model.isShowVerticalLines())
-					cell.setBorder(Rectangle.BOTTOM);
+					table.addCell(cell);
 
-				table.addCell(cell);
+					value = rowData.containsKey("FROM_DATE") ? rowData.get("FROM_DATE") : "";
+					cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					if (!model.isShowVerticalLines())
+						cell.setBorder(Rectangle.BOTTOM);
 
-				double value1=Double.parseDouble(((rowData.containsKey("AMOUNT") ? (String.valueOf(rowData.get("AMOUNT"))) : "")));
-				value = cashOnHand-value1;
-				cashOnHand=(Double) value;
-				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				if (!model.isShowVerticalLines())
-					cell.setBorder(Rectangle.BOTTOM);
+					table.addCell(cell);
 
-				table.addCell(cell);
+					value = rowData.containsKey("EXPENSES_REF") ? rowData.get("EXPENSES_REF") : "";
+					cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					if (!model.isShowVerticalLines())
+						cell.setBorder(Rectangle.BOTTOM);
 
-				String value2=((rowData.containsKey("AS_OF_DATE") ? (String.valueOf(rowData.get("AS_OF_DATE"))) : ""));
-				asOfDate = value2;
+					table.addCell(cell);
 
-				//}
+					value=rowData.containsKey("DEBIT") ? (String.valueOf(rowData.get("DEBIT"))) : "";
+					cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					if (!model.isShowVerticalLines())
+						cell.setBorder(Rectangle.BOTTOM);
+
+					table.addCell(cell);
+
+					double value1=Double.parseDouble(((rowData.containsKey("DEBIT") ? (String.valueOf(rowData.get("DEBIT"))) : "")));
+					value = cashOnHand-value1;
+					cashOnHand=(Double) value;
+					cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					if (!model.isShowVerticalLines())
+						cell.setBorder(Rectangle.BOTTOM);
+
+					table.addCell(cell);
+					
+				}
+				
 			}
-
-			document.add(supllierNameTable);
-
-			DecimalFormat df=new DecimalFormat("0.00");
-			double totalAmount;
-			double totalBalance;
-
-			totalAmount = pettyExpList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
-
-			totalBalance=cashOnHand;
-
-			PdfPTable totalTable = new PdfPTable(3);
-			totalTable.setTotalWidth(500);
-			totalTable.setWidthPercentage(50);
-			totalTable.setLockedWidth(true);
-			totalTable.getDefaultCell().setBorder(0); 
-
-			String totAmt=df.format(totalAmount);
-			Double amount=Double.parseDouble(totAmt);
-
-			PdfPCell nameCell1 = new PdfPCell(new Phrase("Total Amount  : "+amount+"   ", title08)); 
-			nameCell1.setColspan(3);
-			nameCell1.setHorizontalAlignment(Element.ALIGN_RIGHT);
-			nameCell1.setVerticalAlignment(Element.ALIGN_TOP);
-			nameCell1.setBorder(0);
-			totalTable.addCell(nameCell1);
-			totalTable.setLockedWidth(true);
-			totalTable.setTotalWidth(500);
-			totalTable.getDefaultCell().setBorder(0);
-
-			String totBalance=df.format(totalBalance);
-			Double bal=Double.parseDouble(totBalance);
+			if(!pettyExpList.get(0).get("ENTRY_TYPE").equals("Petty Cash")) {
+				
+				double balance=Double.parseDouble(((pettyExpList.get(0).containsKey("BALANCE")? String.valueOf(pettyExpList.get(0).get("BALANCE")) : "")));
+				double totBalOnHand=(Double) balance;
+				
+				PdfPTable cashOnHandTable = new PdfPTable(3);
+				PdfPCell onHandCell = new PdfPCell(new Phrase("Total Balance at hand : "+totBalOnHand, title08)); 
+				onHandCell.setColspan(3);
+				onHandCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				onHandCell.setVerticalAlignment(Element.ALIGN_TOP);
+				onHandCell.setBorder(0);
+				cashOnHandTable.addCell(onHandCell);
+				cashOnHandTable.setLockedWidth(true);
+				cashOnHandTable.setTotalWidth(500);
+				cashOnHandTable.getDefaultCell().setBorder(0); 
+				
+				document.add(cashOnHandTable);
+				
+				}
 			
-			PdfPCell nameCell2 = new PdfPCell(new Phrase("Balance  : "+bal+"   ", title08)); 
-			nameCell2.setColspan(3);
-			nameCell2.setHorizontalAlignment(Element.ALIGN_RIGHT);
-			nameCell2.setVerticalAlignment(Element.ALIGN_TOP);
-			nameCell2.setBorder(0);
-			totalTable.addCell(nameCell2);
-			totalTable.setLockedWidth(true);
-			totalTable.setTotalWidth(500);
-			totalTable.getDefaultCell().setBorder(0); 
-			
-			//finalTable.addCell(supllierNameTable);
 			finalTable.addCell(table); 
-			document.add(finalTable);		
-			document.add(totalTable);
+			document.add(finalTable);
+			System.out.println(pettyExpList);
+			if(!pettyExpList.get(0).get("ENTRY_TYPE").equals("Petty Cash")) {
+				
+				DecimalFormat df=new DecimalFormat("0.00");
+				double totalAmount;
+				double totalBalance;
 
+				totalAmount = pettyExpList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("DEBIT")&&mapper.get("ENTRY_TYPE").equals("Exp PettyCash")?String.valueOf(mapper.get("DEBIT")):"0")).sum(); 
+
+				totalBalance=cashOnHand;
+
+				PdfPTable totalTable = new PdfPTable(3);
+				totalTable.setTotalWidth(500);
+				totalTable.setWidthPercentage(50);
+				totalTable.setLockedWidth(true);
+				totalTable.getDefaultCell().setBorder(0); 
+
+				String totAmt=df.format(totalAmount);
+				Double amount=Double.parseDouble(totAmt);
+
+				PdfPCell nameCell1 = new PdfPCell(new Phrase("Total Amount  : "+amount+"   ", title08)); 
+				nameCell1.setColspan(3);
+				nameCell1.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				nameCell1.setVerticalAlignment(Element.ALIGN_TOP);
+				nameCell1.setBorder(0);
+				totalTable.addCell(nameCell1);
+				totalTable.setLockedWidth(true);
+				totalTable.setTotalWidth(500);
+				totalTable.getDefaultCell().setBorder(0);
+
+				String totBalance=df.format(totalBalance);
+				Double bal=Double.parseDouble(totBalance);
+				
+				PdfPCell nameCell2 = new PdfPCell(new Phrase("Balance  : "+bal+"   ", title08)); 
+				nameCell2.setColspan(3);
+				nameCell2.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				nameCell2.setVerticalAlignment(Element.ALIGN_TOP);
+				nameCell2.setBorder(0);
+				totalTable.addCell(nameCell2);
+				totalTable.setLockedWidth(true);
+				totalTable.setTotalWidth(500);
+				totalTable.getDefaultCell().setBorder(0); 
+				document.add(totalTable);
+				
+				}
+					
 		}
-
 
 	}
 }
-
