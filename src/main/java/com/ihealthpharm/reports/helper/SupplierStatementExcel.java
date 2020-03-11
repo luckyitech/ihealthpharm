@@ -157,21 +157,21 @@ public class SupplierStatementExcel extends ReportsExcelUtility{
 			
 			
 			cell = headerRow.createCell(1);
-			cell.setCellValue("APPROVED DATE");
+			cell.setCellValue("DATE");
 			cell.setCellStyle(headerStyle);
 			
 		
 			
 			cell = headerRow.createCell(2);
-			cell.setCellValue("SOURCE REF");
+			cell.setCellValue("REF");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(3);
-			cell.setCellValue("SOURCE TYPE");
+			cell.setCellValue("TYPE");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(4);
-			cell.setCellValue("INVOICE NO");
+			cell.setCellValue("INVOICE#");
 			cell.setCellStyle(headerStyle);	
 				
 			

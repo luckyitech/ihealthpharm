@@ -192,7 +192,7 @@ public class SupplierStatementPdf extends ReportsPDFUtility{
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("INVOICE NO");
+			headerCell.add("INVOICE#");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
