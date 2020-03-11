@@ -287,7 +287,7 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
-		cell = new PdfPCell(new Phrase("Tax Amt    :",bold));
+		cell = new PdfPCell(new Phrase("Vat Amt    :",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
