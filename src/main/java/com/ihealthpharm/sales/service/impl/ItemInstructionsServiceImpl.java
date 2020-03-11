@@ -29,5 +29,4 @@ public class ItemInstructionsServiceImpl implements ItemInstructionsService {
 		}
 		return itemInstructionsModelRes;
 	}
-
 }
