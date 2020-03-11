@@ -60,6 +60,7 @@ public interface InvoiceRepository extends JpaRepository<InvoiceModel, Integer> 
 				+ "inv.supplierModel.supplierId=sp.supplierId order by inv.invoiceDt")
 		List<String> findAllInvoiceDtInInvoicePIR();
 
-		
+		 @Query("select invoiceNo from invoice inv where inv.invoiceNo =:invoiceNo")
+		 List<String> findByInvoiceNumber(@Param("invoiceNo") String invoiceNo);
 		
 }

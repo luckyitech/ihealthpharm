@@ -557,4 +557,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 		return invoiceRepository.findAllInvoicesByPharmacyIdAndInvoiceSatusIdCount(pharmacyId, invoiceStatusId,invoiceNo);
 	}
 
+	@Override
+	public List<String> findAllInvoiceNumbers(String invoiceNo) {
+		return invoiceRepository.findByInvoiceNumber(invoiceNo);
+	}
+
 }
