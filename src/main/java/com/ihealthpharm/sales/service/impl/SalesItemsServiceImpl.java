@@ -1,15 +1,12 @@
 package com.ihealthpharm.sales.service.impl;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.sales.dao.SalesItemsRepository;
 import com.ihealthpharm.sales.helper.SalesItemsHelper;

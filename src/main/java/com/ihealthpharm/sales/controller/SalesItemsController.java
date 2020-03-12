@@ -2,11 +2,8 @@ package com.ihealthpharm.sales.controller;
 
 import static org.springframework.http.HttpStatus.OK;
 
-import java.util.Date;
 import java.util.List;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,13 +14,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.sales.helper.SalesItemsHelper;
 import com.ihealthpharm.sales.model.SalesItemsModel;
 import com.ihealthpharm.sales.model.SalesModel;
 import com.ihealthpharm.sales.service.SalesItemsService;
-
 import lombok.extern.slf4j.Slf4j;
 
 @CrossOrigin

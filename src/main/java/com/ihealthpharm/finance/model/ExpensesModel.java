@@ -48,6 +48,9 @@ public class ExpensesModel extends AuditModel{
 	@Column(name="BALANCE")
 	private Float balance;
 	
+	@Column(name="AS_OF_DATE")
+	private LocalDate asOfDate;
+	
 	@Column(name="CATEGORIES")
 	private String categories;
 }
