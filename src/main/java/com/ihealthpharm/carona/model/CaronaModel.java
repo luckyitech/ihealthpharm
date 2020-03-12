@@ -19,26 +19,26 @@ public class CaronaModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="IHEALTH_ID",length=11, columnDefinition = "AUTO_INCREMENT")
-	private int ihealthId;
+	private Integer ihealthId;
 	
 	@Column(name="COUNTRY")
 	private String country;
 	
 	@Column(name="NO_OF_CASES")
-	private int numOfCases;
+	private Integer numOfCases;
 	
 	@Column(name="NO_OF_DEATH")
-	private int numOfDeaths;
+	private Integer numOfDeaths;
 	
 
 	@Column(name="NO_OF_RECOVERIES")
-	private int numOfRecoveries;
+	private Integer numOfRecoveries;
 	
 	@Column(name="NO_OF_CRITICAL_CASES")
-	private int numOfCriticalCases;
+	private Integer numOfCriticalCases;
 	
 	@Column(name="NO_OF_NON_CRITICAL_CASES")
-	private int numOfNonCriticalCases;
+	private Integer numOfNonCriticalCases;
 	
 	@Column(name="AS_OF_DATE")
 	private LocalDate asOfDate;

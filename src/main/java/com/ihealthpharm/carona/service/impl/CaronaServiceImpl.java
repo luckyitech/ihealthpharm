@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.ihealthpharm.carona.dao.CaronaReposoitory;
+import com.ihealthpharm.carona.dto.CaronaPieChartDTO;
 import com.ihealthpharm.carona.dto.CoronaDTO;
 import com.ihealthpharm.carona.model.CaronaModel;
 import com.ihealthpharm.carona.service.CaronaService;
@@ -35,11 +36,10 @@ public class CaronaServiceImpl implements CaronaService {
 				
 	}
 	//for pie chart
-	@Override
+/*	@Override
 	public List getTopAffectedCountry() {
 		CoronaDTO res = caronaRepo.getTopCountryData();
-		System.out.println(res);
-		
+	
 		List<Object> listOfValues = new ArrayList<>();
 		
 		List<Object> tempValues = new ArrayList<>();
@@ -73,14 +73,42 @@ public class CaronaServiceImpl implements CaronaService {
 		listOfValues.add(tempValues);
 		
 		return listOfValues;
-	}
+	}*/
 	
 	//for bar chart
 	@Override
 	public List<CaronaModel> getTenCountriesDetails() {
-		Pageable limit = new PageRequest(0,5);
-		List<CaronaModel> result = caronaRepo.getTenCountriesRepo(limit);
+		List<CaronaModel> result = caronaRepo.getTenCountriesRepo();
 		return result;
+	}
+	
+	//for pie chart
+	@Override
+	public List getAllCountriesCaronaData() {
+		CaronaPieChartDTO res = caronaRepo.getAllCountriesForPie();
+		List<Object> listOfValues = new ArrayList<>();
+		
+		List<Object> tempValues = new ArrayList<>();
+		tempValues.add("critical");
+		tempValues.add(res.getCritical());
+		listOfValues.add(tempValues);
+		
+		tempValues = new ArrayList<>();
+		tempValues.add("deaths");
+		tempValues.add(res.getDeaths());
+		listOfValues.add(tempValues);
+		
+		tempValues = new ArrayList<>();
+		tempValues.add("non critical");
+		tempValues.add(res.getNonCritical());
+		listOfValues.add(tempValues);
+		
+		tempValues = new ArrayList<>();
+		tempValues.add("recoveries");
+		tempValues.add(res.getRecoveries());
+		listOfValues.add(tempValues);
+		
+		return listOfValues;
 	}
 
 	@Override
@@ -93,6 +121,6 @@ public class CaronaServiceImpl implements CaronaService {
 		return caronaRepo.save(caronaModel);
 	}
 	
-
+	
 
 }
