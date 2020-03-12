@@ -188,7 +188,7 @@ public class PettyCashExpenditureExcel extends ReportsExcelUtility {
 					cell.setCellStyle(borderStyle);
 
 
-					value = rowData.containsKey("DESCRIPTION") ? rowData.get("DESCRIPTION") : "";
+					value = rowData.containsKey("EXPENSES_REF") ? rowData.get("EXPENSES_REF") : "";
 					cell = dataRow.createCell(2);
 					cell.setCellValue(String.valueOf(value));
 					cell.setCellStyle(borderStyle);
