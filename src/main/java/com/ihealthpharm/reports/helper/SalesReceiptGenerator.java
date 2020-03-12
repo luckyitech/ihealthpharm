@@ -159,7 +159,7 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 	
 	public void createTable(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList)
 			throws DocumentException {
-
+		
 		String reportHeader = model.getReportHeader();
 		List<HeaderDto> headerList = JsonUtility.jsonToList(reportHeader, HeaderDto.class);
 
@@ -190,6 +190,7 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		if (!ObjectUtils.isEmpty(responseList)) {
 			for (Map<String, Object> rowData : responseList) {
 				for (HeaderDto hearder : headerList) {
+					 
 					Object value = rowData.containsKey(hearder.getColumnName()) ? rowData.get(hearder.getColumnName()): "";		
 					if(ObjectUtils.isEmpty(value) && true) {
 						
@@ -202,7 +203,8 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 					 cell.setBorder(Rectangle.BOTTOM);
 					
 					table.addCell(cell);
-
+					
+				
 				}
 			}
 		}
@@ -220,6 +222,7 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		
 		System.out.println(responseList);
 		int totalItems = responseList.size();
+		
 		double totalAmount = Double.parseDouble(String.valueOf(responseList.get(0).get("TOTAL_AMOUNT")));//responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TOTAL_AMOUNT")?String.valueOf(mapper.get("TOTAL_AMOUNT")):"0.0")).sum(); 
 		Double totalQty = Double.parseDouble(String.valueOf(responseList.get(0).get("TOTAL_QTY")));//responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TOTAL_QTY")?String.valueOf(mapper.get("TOTAL_QTY")):"0.0")).sum(); 
 		double totalDiscount = Double.parseDouble(String.valueOf(responseList.get(0).get("OVERALL_DISCOUNT")));//responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("OVERALL_DISCOUNT")?String.valueOf(mapper.get("EFFECTIVE_OVERALL_DISCOUNT")):"0.0")).sum(); 
@@ -235,6 +238,9 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		String paymentStatus = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("PAYMENT_STATUS"));
 		String remarks = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("REMARKS"));
 		
+		double totalAValue=responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TAX")&&mapper.get("TAX").equals("A")?String.valueOf(mapper.get("SALE_AMOUNT")):"0")).sum();
+		double totalBValue=responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TAX")&&mapper.get("TAX").equals("B")?String.valueOf(mapper.get("SALE_AMOUNT")):"0")).sum();
+		double totalEValue=responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TAX")&&mapper.get("TAX").equals("E")?String.valueOf(mapper.get("SALE_AMOUNT")):"0")).sum();
 		/*for(Map<String, Object> obj:responseList) {
 			
 			
@@ -307,6 +313,7 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
+		
 		cell = new PdfPCell(new Phrase("Bal Amt    :",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setBorder(Rectangle.BOTTOM);
@@ -316,7 +323,7 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setBorder(Rectangle.BOTTOM);
 		table.addCell(cell);
-		
+				
 		cell = new PdfPCell(new Phrase("Paid Amt   :",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setBorder(Rectangle.BOTTOM);
@@ -392,6 +399,31 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		table.completeRow();
 		
 		document.add(table);
+		
+		PdfPTable taxWiseTable = new PdfPTable(3);
+		taxWiseTable.setTotalWidth(Utilities.millimetersToPoints(80));
+		taxWiseTable.getDefaultCell().setBorder(0);
+		taxWiseTable.setLockedWidth(true);
+		
+		cell = new PdfPCell(new Phrase("A ="+"  "+totalAValue,bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
+		taxWiseTable.addCell(cell);
+		
+		
+		cell = new PdfPCell(new Phrase("B ="+"  "+totalBValue,bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
+		taxWiseTable.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase("E ="+"  "+totalEValue,bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setBorder(Rectangle.BOTTOM);
+		taxWiseTable.addCell(cell);
+		
+		taxWiseTable.completeRow();
+		
+		document.add(taxWiseTable);
 		
 		PdfPTable table_remarks = new PdfPTable(1);
 		table_remarks.setTotalWidth(Utilities.millimetersToPoints(80));
