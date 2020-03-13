@@ -7,13 +7,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
-
 import com.ihealthpharm.commons.JsonUtility;
-import com.ihealthpharm.reports.dto.HeaderDto;
 import com.ihealthpharm.reports.dto.HeaderFooterContentDetailsDto;
 import com.ihealthpharm.reports.dto.HeaderFooterContentDto;
 import com.ihealthpharm.reports.model.ReportsMappingModel;
@@ -43,7 +40,8 @@ public class LabelInstructionReceipt extends ReportsPDFUtility {
 	@Override
 		public Document generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile,String inputJson) {
 	    Document document = new Document(new RectangleReadOnly(Utilities.millimetersToPoints(80),420));
-System.out.println(".......................");
+	    System.out.println(inputJson);
+System.out.println("...............................................................................");
 System.out.println(responseList);
 		try {
 			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(responseFile));
@@ -418,8 +416,10 @@ System.out.println(responseList);
 //		}
 		//String billDate = f.format((ObjectUtils.isEmpty(responseList))?"":responseList.get(0).get("LAST_UPDATE_TS"));
 		 System.out.println("*********************************");
+		 System.out.println(responseList.size());
 		System.out.println(responseList);
 		 System.out.println("*********************************");
+		
 		String itemName = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("ITEM_NM"));
 		String quantity= (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("ITEM_QTY"));
 		String instruction= (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("INSTRUCTIONS"));
@@ -428,6 +428,7 @@ System.out.println(responseList);
 		String customerName = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("CUSTOMER_NM"));
 		
 		if(responseList.get(0).get("EXPIRY_DT")==null) {
+			
 		
 	}else {
 		expDate = f.format((ObjectUtils.isEmpty(responseList))?"":responseList.get(0).get("EXPIRY_DT"));
@@ -575,7 +576,7 @@ System.out.println(responseList);
 		table.completeRow();
 		
 		document.add(table);
-		
+			
 	}
 
 	

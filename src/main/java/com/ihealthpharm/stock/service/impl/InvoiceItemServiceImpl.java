@@ -4,22 +4,15 @@ import java.sql.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-
 import javax.transaction.Transactional;
-
 import com.ihealthpharm.stock.dao.InvoiceItemRepository;
-import com.ihealthpharm.stock.dao.InvoiceRepository;
 import com.ihealthpharm.stock.model.InvoiceItemModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import  com.ihealthpharm.stock.service.*;
 import com.ihealthpharm.stock.helper.*;
-
 import com.ihealthpharm.exception.IHealthPharmException;
-
-
 import lombok.extern.slf4j.Slf4j;
 
 @Service
