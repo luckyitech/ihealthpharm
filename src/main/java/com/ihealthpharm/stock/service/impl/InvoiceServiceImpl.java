@@ -155,13 +155,13 @@ public class InvoiceServiceImpl implements InvoiceService {
 				stockModel.setPharmacy(invoiceModelres.getPharmacy());
 				stockModel.setItem(it.getItemsModel());
 				stockModel.setQuantity(it.getQuantityApproved() != null && it.getPack() != null
-						? it.getQuantityApproved() * it.getPack() + (it.getBonus() != null ? it.getBonus() : 0)
+						? it.getQuantityApproved() * it.getPack() + (it.getBonus() != null && it.getPack() != null ? it.getBonus() * it.getPack(): 0)
 								: 1);
 				stockModel.setManufactureDt(it.getManufactureDt());
 				stockModel.setExpiryDt(it.getExpiryDt());
 				stockModel.setUnitSaleRate(it.getUnitSaleRate());
 				stockModel.setSaleDiscountPercentage(it.getSaleDiscountPercentage());
-				stockModel.setUnitPurchaseRate(it.getUnitRate());
+				stockModel.setUnitPurchaseRate(it.getUnitRate() - (it.getDiscountPercentage()/100));
 				stockModel.setPurchaseDiscountPercentage(it.getDiscountPercentage());
 				// SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 				stockModel.setStockDt(new Date());
@@ -303,7 +303,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 				stockModel.setExpiryDt(it.getExpiryDt());
 				stockModel.setUnitSaleRate(it.getUnitSaleRate());
 				stockModel.setSaleDiscountPercentage(it.getSaleDiscountPercentage());
-				stockModel.setUnitPurchaseRate(it.getUnitRate());
+				stockModel.setUnitPurchaseRate(it.getUnitRate() - (it.getDiscountPercentage()/100));
 				stockModel.setPurchaseDiscountPercentage(it.getDiscountPercentage());
 				stockModel.setStockDt(new Date());
 				stockModel.setEntryType("Invoice Addition");
