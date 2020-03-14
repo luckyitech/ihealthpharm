@@ -3,6 +3,7 @@ package com.ihealthpharm.reports.helper;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -214,6 +215,8 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 	}
 
 	private void addTotals(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException {
+		DecimalFormat df=new DecimalFormat("0.00");
+		
 		PdfPTable table = new PdfPTable(4);
 		table.setTotalWidth(Utilities.millimetersToPoints(80));
 		table.setSpacingAfter(0); 
@@ -241,6 +244,16 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		double totalAValue=responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TAX")&&mapper.get("TAX").equals("A")?String.valueOf(mapper.get("SALE_AMOUNT")):"0")).sum();
 		double totalBValue=responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TAX")&&mapper.get("TAX").equals("B")?String.valueOf(mapper.get("SALE_AMOUNT")):"0")).sum();
 		double totalEValue=responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TAX")&&mapper.get("TAX").equals("E")?String.valueOf(mapper.get("SALE_AMOUNT")):"0")).sum();
+		
+		String totAAmt=df.format(totalAValue);
+		Double Aamount=Double.parseDouble(totAAmt);
+		
+		String totBAmt=df.format(totalBValue);
+		Double Bamount=Double.parseDouble(totBAmt);
+		
+		String totEAmt=df.format(totalEValue);
+		Double Eamount=Double.parseDouble(totEAmt);
+		
 		/*for(Map<String, Object> obj:responseList) {
 			
 			
@@ -405,18 +418,18 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		taxWiseTable.getDefaultCell().setBorder(0);
 		taxWiseTable.setLockedWidth(true);
 		
-		cell = new PdfPCell(new Phrase("A ="+"  "+totalAValue,bold));
+		cell = new PdfPCell(new Phrase("A ="+"  "+Aamount,bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setBorder(Rectangle.BOTTOM);
 		taxWiseTable.addCell(cell);
 		
 		
-		cell = new PdfPCell(new Phrase("B ="+"  "+totalBValue,bold));
+		cell = new PdfPCell(new Phrase("B ="+"  "+Bamount,bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setBorder(Rectangle.BOTTOM);
 		taxWiseTable.addCell(cell);
 		
-		cell = new PdfPCell(new Phrase("E ="+"  "+totalEValue,bold));
+		cell = new PdfPCell(new Phrase("E ="+"  "+Eamount,bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setBorder(Rectangle.BOTTOM);
 		taxWiseTable.addCell(cell);
