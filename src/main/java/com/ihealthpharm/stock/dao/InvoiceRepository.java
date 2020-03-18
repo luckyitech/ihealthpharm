@@ -22,11 +22,11 @@ public interface InvoiceRepository extends JpaRepository<InvoiceModel, Integer> 
 	@Query("select i from invoice i where i.pharmacy.pharmacyId = :pharmacyId ")
 	List<InvoiceModel> findAllInvoicesByPharmacyId(@Param("pharmacyId") Integer pharmacyId);
 	
-	@Query("select i from invoice i where i.pharmacy.pharmacyId = :pharmacyId and i.invoiceStatus.invoiceStatusId = :invoiceStatusId and invoiceNo like :invoiceNo%")
+	@Query("select i from invoice i where i.pharmacy.pharmacyId = :pharmacyId and i.invoiceStatus.invoiceStatusId = :invoiceStatusId and invoiceNo like :invoiceNo% order by i.lastUpdateTimestamp desc")
 	List<InvoiceModel> findAllInvoicesByPharmacyIdAndInvoiceSatusId(@Param("pharmacyId") Integer pharmacyId,@Param("invoiceStatusId") Integer invoiceStatusId,
 			Pageable limit,@Param("invoiceNo") String invoiceNo);
 	
-	@Query("select count(i) from invoice i where i.pharmacy.pharmacyId = :pharmacyId and i.invoiceStatus.invoiceStatusId = :invoiceStatusId and invoiceNo like :invoiceNo%")
+	@Query("select count(i) from invoice i where i.pharmacy.pharmacyId = :pharmacyId and i.invoiceStatus.invoiceStatusId = :invoiceStatusId and invoiceNo like :invoiceNo% order by i.lastUpdateTimestamp desc")
 	Integer findAllInvoicesByPharmacyIdAndInvoiceSatusIdCount(@Param("pharmacyId") Integer pharmacyId,@Param("invoiceStatusId") Integer invoiceStatusId,@Param("invoiceNo") String invoiceNo);
 	
 	@Query("select count(*) from invoice i where i.pharmacy.pharmacyId = :pharmacyId ")
