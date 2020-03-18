@@ -58,7 +58,7 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrderMode
 	
 	@Query("select i from purchase_order i inner join purchase_order_status ps "
 			+ "on i.purchaseOrderStatusModel.purchaseOrderStatusId = ps.purchaseOrderStatusId "
-			+ " where i.pharmacyModel.pharmacyId = :pharmacyId and ps.status = :status order by i.purchaseOrderDate desc ")
+			+ " where i.pharmacyModel.pharmacyId = :pharmacyId and ps.status = :status order by i.lastUpdateTimestamp desc ")
 	List<PurchaseOrderModel> getPurchaseOrderByPharmacyAndStatus(@Param("pharmacyId") Integer pharmacyId, @Param("status") String status);
 	
 	@Query("select i from purchase_order i inner join purchase_order_status ps "
