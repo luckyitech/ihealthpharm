@@ -155,13 +155,13 @@ public class InvoiceServiceImpl implements InvoiceService {
 				stockModel.setPharmacy(invoiceModelres.getPharmacy());
 				stockModel.setItem(it.getItemsModel());
 				stockModel.setQuantity(it.getQuantityApproved() != null && it.getPack() != null
-						? it.getQuantityApproved() * it.getPack() + (it.getBonus() != null ? it.getBonus() : 0)
+						? it.getQuantityApproved() * it.getPack() + (it.getBonus() != null && it.getPack() != null ? it.getBonus() * it.getPack(): 0)
 								: 1);
 				stockModel.setManufactureDt(it.getManufactureDt());
 				stockModel.setExpiryDt(it.getExpiryDt());
 				stockModel.setUnitSaleRate(it.getUnitSaleRate());
 				stockModel.setSaleDiscountPercentage(it.getSaleDiscountPercentage());
-				stockModel.setUnitPurchaseRate(it.getUnitRate());
+				stockModel.setUnitPurchaseRate(it.getUnitRate() - (it.getDiscountPercentage()/100));
 				stockModel.setPurchaseDiscountPercentage(it.getDiscountPercentage());
 				// SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 				stockModel.setStockDt(new Date());
@@ -288,48 +288,23 @@ public class InvoiceServiceImpl implements InvoiceService {
 
 			AccountPayablesModel accountPayablesModelres = accountPayablesRepository.save(accountPayablesModel);
 
-			/*
-			 * AccountPayablesInvoicesModel accountPayablesInvoicesModel = new
-			 * AccountPayablesInvoicesModel();
-			 * accountPayablesInvoicesModel.setAccountPayablesModel(accountPayablesModelres)
-			 * ;
-			 * accountPayablesInvoicesModel.setPharmacyModel(invoiceModelres.getPharmacy());
-			 * accountPayablesInvoicesModel.setSupplierModel(invoiceModelres.
-			 * getSupplierModel());
-			 * accountPayablesInvoicesModel.setInvoiceAmount(invoiceModelres.
-			 * getInvoiceAmount() !=
-			 * null?invoiceModelres.getInvoiceAmount().floatValue():0);
-			 * accountPayablesInvoicesModel.setCreditNoteAmount(0f);
-			 * accountPayablesInvoicesModel.setDebitNoteAmount(0f);
-			 * accountPayablesInvoicesModel.setAmountToBePaid(invoiceModelres.
-			 * getInvoiceAmount() !=
-			 * null?invoiceModelres.getInvoiceAmount().floatValue():0);
-			 * accountPayablesInvoicesModel.setAdvance(invoiceModel.getAdvance() != null
-			 * ?invoiceModel.getAdvance().floatValue():0);
-			 * accountPayablesInvoicesModel.setInvoiceNumber(0f);
-			 * 
-			 * accountPayablesInvoicesRepository.save(accountPayablesInvoicesModel);
-			 */
-
 			for (InvoiceItemModel it : invoiceItemModels) {
 				StockModel stockModel = new StockModel();
 				StockHistoryModel historyModel = new StockHistoryModel();
 
-				// stockModel.setInvoice(invoiceModelres);
 				stockModel.setBatchNo(it.getBatchNo());
 				stockModel.setPharmacy(invoiceModelres.getPharmacy());
 				stockModel.setItem(it.getItemsModel());
 				stockModel.setQuantity(it.getQuantityApproved() != null && it.getPack() != null
-						? it.getQuantityApproved() * it.getPack() + (it.getBonus() != null ? it.getBonus() : 0)
+						? it.getQuantityApproved() * it.getPack() + (it.getBonus() != null && it.getPack() != null ? it.getBonus() * it.getPack(): 0)
 								: 1);
 				stockModel.setBonus(it.getBonus() != null ?it.getBonus():0 );
 				stockModel.setManufactureDt(it.getManufactureDt());
 				stockModel.setExpiryDt(it.getExpiryDt());
 				stockModel.setUnitSaleRate(it.getUnitSaleRate());
 				stockModel.setSaleDiscountPercentage(it.getSaleDiscountPercentage());
-				stockModel.setUnitPurchaseRate(it.getUnitRate());
+				stockModel.setUnitPurchaseRate(it.getUnitRate() - (it.getDiscountPercentage()/100));
 				stockModel.setPurchaseDiscountPercentage(it.getDiscountPercentage());
-				// SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 				stockModel.setStockDt(new Date());
 				stockModel.setEntryType("Invoice Addition");
 				stockModel.setStatus("Approved");
@@ -378,29 +353,6 @@ public class InvoiceServiceImpl implements InvoiceService {
 					p.setPurchaseReturnModel(returnModel);
 					purchaseReturnItemRepository.save(p);
 
-					// StockModel s = stockRepository.getStockByItemIdandInvoiceId(i.getItemId(),
-					// invoiceModelres.getInvoiceId());
-					// s.setQuantity(s.getQuantity() - p.getReturnQuantity());
-
-					// stockRepository.save(s);
-
-					// StockHistoryModel historyModel = new StockHistoryModel();
-
-					// historyModel.setInvoice(invoiceModelres);
-					// historyModel.setBatchNo(s.getBatchNo());
-					// historyModel.setPharmacy(invoiceModelres.getPharmacy());
-					// historyModel.setItem(s.getItem());
-					// historyModel.setQuantity(p.getReturnQuantity());
-					// historyModel.setManufactureDt(s.getManufactureDt());
-					// historyModel.setExpiryDt(s.getExpiryDt());
-					// historyModel.setUnitSaleRate(s.getUnitSaleRate());
-					// historyModel.setMrp(s.getMrp());
-					// historyModel.setSaleDiscountPercentage(s.getSaleDiscountPercentage());
-					// historyModel.setSaleDiscountAmount(s.getSaleDiscountAmount());
-					// historyModel.setMargin(s.getMargin());
-					// historyModel.setSupplier(invoiceModelres.getSupplierModel());
-
-					// stockHistoryRepository.save(historyModel);
 				}
 
 			}
