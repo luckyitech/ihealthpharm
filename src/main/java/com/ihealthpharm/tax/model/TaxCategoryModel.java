@@ -12,6 +12,7 @@ import lombok.Data;
 @Entity(name = "taxcategory")
 
 public class TaxCategoryModel {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "TAXCATEGORY_ID", length = 11, columnDefinition = "AUTO_INCREMENT")

@@ -1,7 +1,6 @@
 package com.ihealthpharm.carona.dto;
 
 import lombok.Data;
-import com.ihealthpharm.carona.model.CaronaModel;
 
 @Data
 public class CoronaDTO {
