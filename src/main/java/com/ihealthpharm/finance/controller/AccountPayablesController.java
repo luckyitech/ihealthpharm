@@ -94,8 +94,17 @@ public class AccountPayablesController {
 	
 	@GetMapping("/getinvoicebasedon/InvoiceNumber")
 	public ResponseEntity<BaseDto<List<InvoiceModel>>> getInvoiceBasedOnInvoiceNumber(@RequestParam String invoiceNo){
+		System.out.println(invoiceNo);
 		List<InvoiceModel> response=accountPayablesService.getAllInvoicesBySearch(invoiceNo);
 		return new BaseDto<>(response,invoiceHelper.getRetrieveInvoiceMessage(),OK).respond();
+	}
+	
+	
+	@GetMapping("/getall/accpay/basedoninvoice")
+	public ResponseEntity<BaseDto<List<AccountPayablesModel>>> getAllAccountPayablesBasedonInvocie(@RequestParam String invoiceNo){
+		System.out.println(invoiceNo);
+		List<AccountPayablesModel> response=accountPayablesService.getAllAccountPayablesBasedOnInvoice(invoiceNo);
+		return new BaseDto<>(response,accountPayablesHelper.getRetrieveAccountPayablesMessage(),OK).respond();
 	}
 	
 	@GetMapping("/getAll/accountpayables")

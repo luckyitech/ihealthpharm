@@ -1,8 +1,6 @@
 package com.ihealthpharm.carona.service;
 
 import java.util.List;
-
-import com.ihealthpharm.carona.dto.CaronaPieChartDTO;
 import com.ihealthpharm.carona.dto.CoronaDTO;
 import com.ihealthpharm.carona.model.CaronaModel;
 

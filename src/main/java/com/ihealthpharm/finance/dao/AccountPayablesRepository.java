@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.test.annotation.Repeat;
 
 import com.ihealthpharm.finance.model.AccountPayablesModel;
 import com.ihealthpharm.stock.model.InvoiceModel;
@@ -65,4 +66,7 @@ public interface AccountPayablesRepository extends JpaRepository<AccountPayables
 
 	@Query("select distinct ap.selectedPaymentStatus from ACCOUNT_PAYABLES ap where ap.selectedPaymentStatus like :searchTerm%")
 	List<String> findPaymentStautusBySearchINAP(@Param("searchTerm") String searchTerm);
+	
+	@Query("select p from ACCOUNT_PAYABLES p where p.invoiceNo like :searchTerm% or p.sourceRef like :searchTerm%")
+	List<AccountPayablesModel> getAllAccPayablesByInvoice(@Param("searchTerm") String invoiceNo);
 }

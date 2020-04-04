@@ -224,5 +224,10 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 	public List<String> findAllPaymentStatusINAP() {
 		return accountPayablesRepository.findAllPaymentStatusINAP();
 	}
+
+	@Override
+	public List<AccountPayablesModel> getAllAccountPayablesBasedOnInvoice(String invoiceNo) {
+		return accountPayablesRepository.getAllAccPayablesByInvoice(invoiceNo);
+	}
 	
 }
