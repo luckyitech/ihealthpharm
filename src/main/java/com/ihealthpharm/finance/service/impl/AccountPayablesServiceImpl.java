@@ -226,8 +226,8 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 	}
 
 	@Override
-	public List<AccountPayablesModel> getAllAccountPayablesBasedOnInvoice(String invoiceNo) {
-		return accountPayablesRepository.getAllAccPayablesByInvoice(invoiceNo);
+	public List<AccountPayablesModel> getAllAccountPayablesBasedOnInvoice(String invoiceNo,String supplierName) {
+		return accountPayablesRepository.getAllAccPayablesByInvoice(invoiceNo,supplierName);
 	}
 	
 }

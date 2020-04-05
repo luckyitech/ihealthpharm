@@ -67,6 +67,7 @@ public interface AccountPayablesRepository extends JpaRepository<AccountPayables
 	@Query("select distinct ap.selectedPaymentStatus from ACCOUNT_PAYABLES ap where ap.selectedPaymentStatus like :searchTerm%")
 	List<String> findPaymentStautusBySearchINAP(@Param("searchTerm") String searchTerm);
 	
-	@Query("select p from ACCOUNT_PAYABLES p where p.invoiceNo like :searchTerm% or p.sourceRef like :searchTerm%")
-	List<AccountPayablesModel> getAllAccPayablesByInvoice(@Param("searchTerm") String invoiceNo);
+	@Query("select p from ACCOUNT_PAYABLES p where p.invoiceNo like :searchTerm% or p.sourceRef like :searchTerm% and p.supplierName=:supplierName")
+	List<AccountPayablesModel> getAllAccPayablesByInvoice(@Param("searchTerm") String invoiceNo,@Param("supplierName") String supplierName);
+	
 }
