@@ -122,4 +122,10 @@ public class PurchaseReturnItemController {
 		List<String> results=purchaseReturnItemService.findAllInvoiceNoByPR();
 		return new BaseDto<>(results,purchaseReturnItemHelper.getRetrievePurchaseReturnItemMessage(),OK).respond();
 	}
+	
+	@GetMapping("/getreturnQty/basedon/invoiceIdandItemId")
+	public ResponseEntity<BaseDto<Integer>> getallsalesReturnQtyByItemId(@RequestParam Integer itemId,@RequestParam Integer invoiceId ){
+		Integer results=purchaseReturnItemService.getReturnQtyByItemId(itemId,invoiceId);
+		return new BaseDto<>(results,purchaseReturnItemHelper.getRetrievePurchaseReturnItemMessage(),OK).respond();
+	}
 }

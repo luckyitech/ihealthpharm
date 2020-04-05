@@ -37,4 +37,8 @@ public interface PurchaseReturnItemRepository extends JpaRepository<PurchaseRetu
 		@Query("select distinct pr.purchaseReturnNo from purchase_return_item prit,purchase_return pr "
 				+ "where prit.purchaseReturnModel.purchaseReturnId=pr.purchaseReturnId order by pr.purchaseReturnNo")
 		List<String> findAllInvoiceNoPurchaseReturnItems();
+
+		@Query("select sum(pri.returnQuantity) from purchase_return_item pri inner join purchase_return p on "
+				+ "p.purchaseReturnId = pri.purchaseReturnItemId where pri.itemsModel.itemId=:itemId  and  p.invoiceModel.invoiceId=:invoiceId")
+		Integer getReturnQtyByItem(@Param("itemId")Integer itemId,@Param("invoiceId") Integer invoiceId);
 }

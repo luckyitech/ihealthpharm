@@ -36,4 +36,6 @@ public interface PurchaseReturnItemService {
 	List<String> findInvoiceNoBySearchPR(String searchTerm);
 	
 	List<String> findAllInvoiceNoByPR();
+
+	Integer getReturnQtyByItemId(Integer itemId, Integer invoiceId);
 }
