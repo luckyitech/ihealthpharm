@@ -167,5 +167,10 @@ public class PurchaseReturnItemServiceImpl implements PurchaseReturnItemService 
 	public List<String> findAllInvoiceNoByPR() {
 		return purchaseReturnItemRepository.findAllInvoiceNoPurchaseReturnItems();
 	}
+
+	@Override
+	public Integer getReturnQtyByItemId(Integer itemId, Integer invoiceId) {
+		return purchaseReturnItemRepository.getReturnQtyByItem(itemId,invoiceId);
+	}
 	
 }
