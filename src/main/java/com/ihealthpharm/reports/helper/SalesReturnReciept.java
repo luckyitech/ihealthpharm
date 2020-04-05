@@ -2,6 +2,9 @@ package com.ihealthpharm.reports.helper;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -203,7 +206,7 @@ public void createTable(Document document, ReportsMappingModel model, List<Map<S
 
 }
 
-private void addTotals(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException {
+private void addTotals(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException, ParseException {
 	PdfPTable table = new PdfPTable(4);
 	table.setTotalWidth(Utilities.millimetersToPoints(80));
 	table.setSpacingAfter(10); 
@@ -228,7 +231,22 @@ private void addTotals(Document document, ReportsMappingModel model, List<Map<St
 	//double paidAmt =responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("PAID_AMOUNT")?String.valueOf(mapper.get("PAID_AMOUNT")):"0.0")).sum();
 	String servBy = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("FIRST_NM"));
 	String paymentStatus = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("PAYMENT_STATUS"));
+	String createdDate = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("LAST_UPDATE_TS"));
 	
+	
+	
+//	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//    Date date1 = sdf.parse(createdDate);
+//    Date date2 = sdf.parse("2020-04-01");
+//    String taxValue="";
+//    if(date1.after(date2) || date1.equals(date2)) {
+//    	 taxValue="14%";
+//    	
+//    }
+//    else {
+//    	taxValue ="16%";
+//    }
+
 	/*for(Map<String, Object> obj:responseList) {
 		
 		
@@ -365,7 +383,17 @@ private void addTotals(Document document, ReportsMappingModel model, List<Map<St
 	cell.setBorder(Rectangle.BOTTOM);
 	table.addCell(cell);
 	
-	cell = new PdfPCell(new Phrase("A - 16%:",bold));
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	Date taxChangeDate = sdf.parse("2020-04-01");
+	Date billedDate = sdf.parse(createdDate);
+
+
+	if(billedDate.after(taxChangeDate)|| billedDate.equals(taxChangeDate) ) {
+		cell = new PdfPCell(new Phrase("A - 14%:",bold));
+	}else{
+		cell = new PdfPCell(new Phrase("A - 16%:",bold));
+	}
+
 	cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 	cell.setBorder(Rectangle.BOTTOM);
 	table.addCell(cell);

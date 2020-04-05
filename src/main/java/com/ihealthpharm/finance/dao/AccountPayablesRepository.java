@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.test.annotation.Repeat;
+//import org.springframework.test.annotation.Repeat;
 
 import com.ihealthpharm.finance.model.AccountPayablesModel;
 import com.ihealthpharm.stock.model.InvoiceModel;
