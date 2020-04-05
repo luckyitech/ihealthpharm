@@ -156,6 +156,11 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 
 		return accountReceivablesRepository.getSalesBasedOnSalesSearch(billCode);
 	}
+	
+	@Override
+	public List<AccountReceivablesModel> getAllByBillCodeSearch(String billCode,String customerName) {
+		return accountReceivablesRepository.getAllAccRecievablesBySearchBillCode(billCode,customerName);
+	}	
 
 	@Override
 	public List<AccountReceivablesModel> getAllAccountPayables() {

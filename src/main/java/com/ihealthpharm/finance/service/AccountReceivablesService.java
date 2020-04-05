@@ -35,6 +35,7 @@ public interface AccountReceivablesService
 	List<AccountReceivablesModel> getAllAccountPayables();
 
 	List<AccountReceivablesModel> getAllCustomersBasedonCustomerName(String customerName);
+	
 	//Account Receivables 
 	List<String> findReceiptNobysearchAR(String searchTerm);
 	
@@ -45,5 +46,7 @@ public interface AccountReceivablesService
 	List<String> findallCustNamesAR();
 	
 	List<String> findCustNamesbysearchAR(String searchTerm);
+
+	List<AccountReceivablesModel> getAllByBillCodeSearch(String billCode,String customerName);
 	
 }

@@ -101,9 +101,8 @@ public class AccountPayablesController {
 	
 	
 	@GetMapping("/getall/accpay/basedoninvoice")
-	public ResponseEntity<BaseDto<List<AccountPayablesModel>>> getAllAccountPayablesBasedonInvocie(@RequestParam String invoiceNo){
-		System.out.println(invoiceNo);
-		List<AccountPayablesModel> response=accountPayablesService.getAllAccountPayablesBasedOnInvoice(invoiceNo);
+	public ResponseEntity<BaseDto<List<AccountPayablesModel>>> getAllAccountPayablesBasedonInvocie(@RequestParam String invoiceNo,@RequestParam String supplierName){
+		List<AccountPayablesModel> response=accountPayablesService.getAllAccountPayablesBasedOnInvoice(invoiceNo,supplierName);
 		return new BaseDto<>(response,accountPayablesHelper.getRetrieveAccountPayablesMessage(),OK).respond();
 	}
 	

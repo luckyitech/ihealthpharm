@@ -57,6 +57,6 @@ public interface AccountPayablesService
 
 	List<String> findAllPaymentStatusINAP();
 
-	List<AccountPayablesModel> getAllAccountPayablesBasedOnInvoice(String invoiceNo);
+	List<AccountPayablesModel> getAllAccountPayablesBasedOnInvoice(String invoiceNo,String supplierName);
 
 }
