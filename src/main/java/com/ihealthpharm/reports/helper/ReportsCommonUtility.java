@@ -51,7 +51,9 @@ public class ReportsCommonUtility {
 								stringBuffer.append(criteria.getAlias());
 								stringBuffer.append(criteria.getColumnName());
 								stringBuffer.append(" = ");
-								stringBuffer.append("'"+value+"'");
+								stringBuffer.append('"');
+								stringBuffer.append(value);
+								stringBuffer.append('"');
 								stringBuffer.append(" ");
 							} else if (StringUtils.equalsIgnoreCase("LIKE", criteria.getOperator())) {
 								stringBuffer.append(criteria.getAlias());
