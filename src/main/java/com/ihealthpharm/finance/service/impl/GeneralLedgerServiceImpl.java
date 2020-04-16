@@ -3,18 +3,14 @@ package com.ihealthpharm.finance.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.ihealthpharm.finance.dao.GeneralLedgerRepository;
 import com.ihealthpharm.finance.model.AccountPayablesModel;
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.finance.model.GeneralLedgerModel;
 import com.ihealthpharm.finance.service.GeneralLedgerService;
-import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.service.PharmacyService;
 import com.ihealthpharm.uniquecode.service.UniqueCodeService;
 
@@ -53,12 +49,9 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 	public List<GeneralLedgerModel> saveMutipleLedgersData(List<AccountPayablesModel> accountPayablesModels) {
 		List<GeneralLedgerModel> modelRes = new ArrayList<>();
 
-		int i=0;
 		for (AccountPayablesModel accountPayablesModel : accountPayablesModels) {
-			Integer empId = accountPayablesModel.getApprovedBy().getEmployeeId() - i;
-			EmployeeModel emp = new EmployeeModel();
-			emp.setEmployeeId(empId);
-			accountPayablesModel.setApprovedBy(emp);
+			Integer empId = accountPayablesModel.getApprovedBy();
+			accountPayablesModel.setApprovedBy(empId);
 			GeneralLedgerModel generalLedgerModel=new GeneralLedgerModel();
 			generalLedgerModel.setJournalId(uniqueCodeService.findByUniqueCodeName("GL"));
 			generalLedgerModel.setJournalRef(accountPayablesModel.getPaymentNumber());
@@ -66,7 +59,6 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 			generalLedgerModel.setEntryType(accountPayablesModel.getSourceType());
 			generalLedgerModel.setCounterParty(accountPayablesModel.getSupplierName());
 			generalLedgerModel.setEntryDate(new Date());
-			//generalLedgerModel.setInvoiceNo(accountPayablesModel.getInvoiceNo());
 			generalLedgerModel.setCreatedUser(accountPayablesModel.getCreatedUser());
 			generalLedgerModel.setLastUpdateUser(accountPayablesModel.getLastUpdateUser());
 			generalLedgerModel.setParty(pharmacyService.findPharmacyById(accountPayablesModel.getPharmacyModel().getPharmacyId()).getPharmacyName());
@@ -92,7 +84,6 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 			modelRes.add(generalLegderRepo.save(generalLedgerModel));
 
 			log.info("GeneralLedger data saved succesfully");
-			i++;
 		}
 		return modelRes;
 
@@ -104,12 +95,9 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 	public List<GeneralLedgerModel> saveMultipleLedgersDataForAccRecievables(List<AccountReceivablesModel> accountRecievabelsModels) {
 		List<GeneralLedgerModel> modelRes = new ArrayList<>();
 
-		int i=0;
 		for (AccountReceivablesModel accountRecievablesModel : accountRecievabelsModels) {
-			Integer empId = accountRecievablesModel.getApprovedBy().getEmployeeId() - i;
-			EmployeeModel emp = new EmployeeModel();
-			emp.setEmployeeId(empId);
-			accountRecievablesModel.setApprovedBy(emp);
+			Integer empId = accountRecievablesModel.getApprovedBy();
+			accountRecievablesModel.setApprovedBy(empId);
 
 			GeneralLedgerModel generalLedgerModel=new GeneralLedgerModel();
 
@@ -145,7 +133,6 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 
 
 			log.info("GeneralLedger data saved succesfully");
-			i++;
 		}
 		return modelRes;
 	}

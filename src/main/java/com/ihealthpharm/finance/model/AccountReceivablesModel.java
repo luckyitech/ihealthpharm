@@ -1,7 +1,6 @@
 package com.ihealthpharm.finance.model;
 
 import java.time.LocalDate;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,9 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-
 import com.ihealthpharm.masters.model.AuditModel;
-import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.stock.model.PaymentTypeModel;
 
@@ -89,9 +86,8 @@ public class AccountReceivablesModel extends AuditModel{
 	@Column(name = "PAYMENT_STATUS", length = 20)
 	private String paymentStatus;
 	
-	@OneToOne
-	@JoinColumn(name="APPROVED_BY")
-	private EmployeeModel approvedBy;
+	@Column(name="APPROVED_BY")
+	private Integer approvedBy;
 
 
 	@Column(name="SOURCE_REF",length=20)
