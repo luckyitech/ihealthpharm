@@ -11,9 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-
 import com.ihealthpharm.masters.model.AuditModel;
-import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.SupplierModel;
 
@@ -47,9 +45,8 @@ public class AccountPayablesModel extends AuditModel {
 	@Column(name="STATUS",length=20)
 	private String selectedStatus;
 
-	@OneToOne
-	@JoinColumn(name="APPROVED_BY")
-	private EmployeeModel approvedBy;
+	@Column(name="APPROVED_BY")
+	private Integer approvedBy;
 
 	@Column(name="TOTAL_INVOICE_AMOUNT")
 	private Float totalInvoiceAmount;

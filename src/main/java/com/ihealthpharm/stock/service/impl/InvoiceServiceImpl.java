@@ -5,20 +5,16 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
-
 import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.finance.dao.AccountPayablesInvoicesRepository;
 import com.ihealthpharm.finance.dao.AccountPayablesRepository;
 import com.ihealthpharm.finance.model.AccountPayablesModel;
-import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.stock.dao.InvoiceItemRepository;
 import com.ihealthpharm.stock.dao.InvoiceRepository;
@@ -98,8 +94,6 @@ public class InvoiceServiceImpl implements InvoiceService {
 			accountPayablesModel.setTotalInvoiceAmount(
 					invoiceModelres.getInvoiceAmount() != null ? invoiceModelres.getInvoiceAmount().floatValue() : 0);
 
-			// accountPayablesModel.setTotalAdvanceAmount(invoiceModelres.getAdvance()!=
-			// null?invoiceModelres.getAdvance().floatValue():0);
 			accountPayablesModel.setTotalAmountToBePaid(
 					invoiceModelres.getInvoiceAmount() != null ? invoiceModelres.getInvoiceAmount().doubleValue() : 0);
 			accountPayablesModel.setPaymentDate(new Date());
@@ -116,35 +110,11 @@ public class InvoiceServiceImpl implements InvoiceService {
 			accountPayablesModel.setLastUpdateUser(invoiceModelres.getLastUpdateUser());
 
 			if (invoiceModelres.getLastUpdateUser() != null) {
-				EmployeeModel e = new EmployeeModel();
-				e.setEmployeeId(invoiceModelres.getLastUpdateUser());
-				accountPayablesModel.setApprovedBy(e);
+				accountPayablesModel.setApprovedBy(invoiceModelres.getLastUpdateUser());
 			}
 
 			AccountPayablesModel accountPayablesModelres = accountPayablesRepository.save(accountPayablesModel);
 
-			/*
-			 * AccountPayablesInvoicesModel accountPayablesInvoicesModel = new
-			 * AccountPayablesInvoicesModel();
-			 * accountPayablesInvoicesModel.setAccountPayablesModel(accountPayablesModelres)
-			 * ;
-			 * accountPayablesInvoicesModel.setPharmacyModel(invoiceModelres.getPharmacy());
-			 * accountPayablesInvoicesModel.setSupplierModel(invoiceModelres.
-			 * getSupplierModel());
-			 * accountPayablesInvoicesModel.setInvoiceAmount(invoiceModelres.
-			 * getInvoiceAmount() !=
-			 * null?invoiceModelres.getInvoiceAmount().floatValue():0);
-			 * accountPayablesInvoicesModel.setCreditNoteAmount(0f);
-			 * accountPayablesInvoicesModel.setDebitNoteAmount(0f);
-			 * accountPayablesInvoicesModel.setAmountToBePaid(invoiceModelres.
-			 * getInvoiceAmount() !=
-			 * null?invoiceModelres.getInvoiceAmount().floatValue():0);
-			 * accountPayablesInvoicesModel.setAdvance(invoiceModel.getAdvance() != null
-			 * ?invoiceModel.getAdvance().floatValue():0);
-			 * accountPayablesInvoicesModel.setInvoiceNumber(0f);
-			 * 
-			 * accountPayablesInvoicesRepository.save(accountPayablesInvoicesModel);
-			 */
 
 			for (InvoiceItemModel it : invoiceItemModels) {
 				StockModel stockModel = new StockModel();
@@ -210,29 +180,6 @@ public class InvoiceServiceImpl implements InvoiceService {
 					p.setPurchaseReturnModel(returnModel);
 					purchaseReturnItemRepository.save(p);
 
-					// StockModel s = stockRepository.getStockByItemIdandInvoiceId(i.getItemId(),
-					// invoiceModelres.getInvoiceId());
-					// s.setQuantity(s.getQuantity() - p.getReturnQuantity());
-
-					// stockRepository.save(s);
-
-					// StockHistoryModel historyModel = new StockHistoryModel();
-
-					// historyModel.setInvoice(invoiceModelres);
-					// historyModel.setBatchNo(s.getBatchNo());
-					// historyModel.setPharmacy(invoiceModelres.getPharmacy());
-					// historyModel.setItem(s.getItem());
-					// historyModel.setQuantity(p.getReturnQuantity());
-					// historyModel.setManufactureDt(s.getManufactureDt());
-					// historyModel.setExpiryDt(s.getExpiryDt());
-					// historyModel.setUnitSaleRate(s.getUnitSaleRate());
-					// historyModel.setMrp(s.getMrp());
-					// historyModel.setSaleDiscountPercentage(s.getSaleDiscountPercentage());
-					// historyModel.setSaleDiscountAmount(s.getSaleDiscountAmount());
-					// historyModel.setMargin(s.getMargin());
-					// historyModel.setSupplier(invoiceModelres.getSupplierModel());
-
-					// stockHistoryRepository.save(historyModel);
 				}
 
 			}
@@ -262,8 +209,6 @@ public class InvoiceServiceImpl implements InvoiceService {
 			accountPayablesModel.setTotalInvoiceAmount(
 					invoiceModelres.getInvoiceAmount() != null ? invoiceModelres.getInvoiceAmount().floatValue() : 0);
 
-			// accountPayablesModel.setTotalAdvanceAmount(invoiceModelres.getAdvance()!=
-			// null?invoiceModelres.getAdvance().floatValue():0);
 			accountPayablesModel.setTotalAmountToBePaid(
 					invoiceModelres.getInvoiceAmount() != null ? invoiceModelres.getInvoiceAmount().doubleValue() : 0);
 			accountPayablesModel.setPaymentDate(new Date());
@@ -281,9 +226,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 			accountPayablesModel.setLastUpdateUser(invoiceModelres.getLastUpdateUser());
 
 			if (invoiceModelres.getLastUpdateUser() != null) {
-				EmployeeModel e = new EmployeeModel();
-				e.setEmployeeId(invoiceModelres.getLastUpdateUser());
-				accountPayablesModel.setApprovedBy(e);
+				accountPayablesModel.setApprovedBy(invoiceModelres.getLastUpdateUser());
 			}
 
 			AccountPayablesModel accountPayablesModelres = accountPayablesRepository.save(accountPayablesModel);
@@ -318,8 +261,6 @@ public class InvoiceServiceImpl implements InvoiceService {
 				stockModel.setSupplier(invoiceModelres.getSupplierModel());
 				stockModel.setInvoiceNo(it.getInvoice().getGrnNo());
 				stockModel.setStockNumber(uniqueCodeService.findByUniqueCodeName("ST"));
-				log.info("--------------------------------------------------------------------------");
-				log.info("stock Updated");
 				log.info("--------------------------------------------------------------------------");
 				historyModel.setInvoice(invoiceModelres);
 				historyModel.setBatchNo(it.getBatchNo());
