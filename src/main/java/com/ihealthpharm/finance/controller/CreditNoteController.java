@@ -29,13 +29,13 @@ import lombok.extern.slf4j.Slf4j;
 @CrossOrigin
 @Slf4j
 public class CreditNoteController {
-	
+
 	@Autowired
 	private CreditNoteService creditNoteService;
-	
+
 	@Autowired
 	private CreditNoteHelper creditNoteHelper;
-	
+
 	@PostMapping("/save/creditNote")
 	public ResponseEntity<BaseDto<CreditNoteModel>> saveCreditNote(@Valid @RequestBody  CreditNoteModel creditNoteModel ){
 		log.info("Request Object to insert is :"+creditNoteModel);
@@ -61,15 +61,15 @@ public class CreditNoteController {
 		creditNoteService.deleteCreditById(creditNoteId);
 		return new BaseDto<>(creditNoteHelper.getDeleteCreditNoteMessage(),OK).respond();
 	}
-	
-	
+
+
 	@GetMapping("/getCreditNote")
 	public ResponseEntity<BaseDto<List<CreditNoteModel>>> getAllCreditNotes(){
 		List<CreditNoteModel> response=creditNoteService.findAllCredit();
-		
+
 		return new BaseDto<>(response,creditNoteHelper.getRetriveCreditNoteMessage(),OK).respond();
 	}
-	
+
 	@GetMapping("/getCreditNote/byid")
 	public ResponseEntity<BaseDto<CreditNoteModel>> getCreditNoteById(@Valid @RequestParam Integer creditNoteId){
 		System.out.println(creditNoteId);
@@ -77,7 +77,7 @@ public class CreditNoteController {
 		System.out.println(creditNoteRes);
 		return new BaseDto<>(creditNoteRes,creditNoteHelper.getRetriveCreditNoteMessage(),OK).respond();
 	}
-	
+
 	@GetMapping("/getcustomersfrom/creditnotes")
 	public ResponseEntity<BaseDto<List<CreditCustomerDTO>>> getCustomers(){
 		List<CreditCustomerDTO> response=creditNoteService.getAllCustomersFromCreditNotes();
@@ -89,11 +89,23 @@ public class CreditNoteController {
 		List<String> results=creditNoteService.findCreditNoteNobysearchCN(searchTerm);
 		return new BaseDto<>(results,creditNoteHelper.getRetriveCreditNoteMessage(),OK).respond();
 	}
-	
+
 	@GetMapping("/getallcreditnotenoCN")
 	public ResponseEntity<BaseDto<List<String>>> findAllCreditNoteNoCN(){
 		List<String> results=creditNoteService.findallCreditNoteNoCN();
 		return new BaseDto<>(results,creditNoteHelper.getRetriveCreditNoteMessage(),OK).respond();
 	}
-	
+
+	//Getting customers for credit note
+	@GetMapping("/creditnote/getcustomers")
+	public ResponseEntity<BaseDto<List<String>>> getAllCustomers(){
+		List<String> results=creditNoteService.findAllCustomers();
+		return new BaseDto<>(results,creditNoteHelper.getRetriveCreditNoteMessage(),OK).respond();
 	}
+	
+	@GetMapping("/creditnote/getcustomersbysearch")
+	public ResponseEntity<BaseDto<List<String>>> getCustomersBySearch(@RequestParam String customer){
+		List<String> results=creditNoteService.findAllCustomersBySearch(customer);
+		return new BaseDto<>(results,creditNoteHelper.getRetriveCreditNoteMessage(),OK).respond();
+	}
+}

@@ -26,4 +26,8 @@ public interface DebitNoteService
 	List<String> findDebitNoINDN(String DNNo);
 	
 	List<String> findAllDebitNosINDN();
+
+	List<String> findAllSuppliers();
+
+	List<String> findAllSuppliersBySearch(String spName);
 }
