@@ -49,11 +49,14 @@ public class CreditNoteReceipt extends ReportsPDFUtility {
 			document.setMargins(40,30,0,0);
 			document.setMarginMirroringTopBottom(true);
 			document.open();
-			addHeader(writer, document,model);
-			addCreditNoteDetails(document, model, responseList);
-			//createTable(document, model, responseList);
-			//addTotals(document, model, responseList);
-			addFooter(writer, model,document); 
+			for(int i=0;i<responseList.size();i++) {
+				document.newPage();
+				addHeader(writer, document,model);
+				addCreditNoteDetails(document, model, responseList.get(i));
+				//createTable(document, model, responseList);
+				//addTotals(document, model, responseList);
+				addFooter(writer, model,document); 
+			}
 
 		} catch (Exception e) {
 			log.error(ExceptionUtils.getMessage(e));
@@ -149,15 +152,15 @@ public class CreditNoteReceipt extends ReportsPDFUtility {
 		}
 	}
 	
-	private void addCreditNoteDetails(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException {
+	private void addCreditNoteDetails(Document document, ReportsMappingModel model, Map<String, Object> responseList) throws DocumentException {
 		
-		String CreditNoteNo = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("credit_note_no"));
-		String customerName = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("FIRST_NM"));
-		String creditNoteDate = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("credit_date"));
-		String salesBillNo = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("bill_id"));
-		String amount = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("amount"));
-		String remarks = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("remarks"));
-		String approvedBy = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("APPROVED_BY"));
+		String CreditNoteNo = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get("credit_note_no"));
+		String customerName = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get("FIRST_NM"));
+		String creditNoteDate = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get("credit_date"));
+		String salesBillNo = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get("bill_id"));
+		String amount = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get("amount"));
+		String remarks = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get("remarks"));
+		String approvedBy = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get("APPROVED_BY"));
 		
 		PdfPTable table = new PdfPTable(4);
 		table.setSpacingAfter(10); 

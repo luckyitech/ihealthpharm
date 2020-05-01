@@ -27,5 +27,9 @@ public interface CreditNoteService
 	List<String> findCreditNoteNobysearchCN(String searchTerm);
 	
 	List<String> findallCreditNoteNoCN();
+
+	List<String> findAllCustomers();
+
+	List<String> findAllCustomersBySearch(String customer);
 	
 }
