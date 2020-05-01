@@ -1,5 +1,7 @@
 package com.ihealthpharm.finance.service.impl;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,19 @@ public class ExpensesServiceImpl implements ExpensesService{
 		
 		return expensesRepo.updateBalanceInPettyCash(pettyCashId,balance);
 	}
+
+	@Override
+	public List<String> getAllPartiesBySearch(String searchTerm) {
+	
+		return expensesRepo.findPartyDetailsBySearch(searchTerm);
+	}
+
+	@Override
+	public List<String> getAllParties() {
+		
+		return expensesRepo.findAllPartyDetails();
+	}
+	
 
 	
 }

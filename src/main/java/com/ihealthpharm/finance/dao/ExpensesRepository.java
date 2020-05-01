@@ -1,6 +1,8 @@
 package com.ihealthpharm.finance.dao;
 
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,4 +21,10 @@ public interface ExpensesRepository extends JpaRepository<ExpensesModel, Integer
 	@Modifying
 	Integer updateBalanceInPettyCash(@Param("pettyCashId")Integer pettyCashId,@Param("balance") Double balance);
 
+	//expenses report queries
+	@Query("select distinct ((concat(ca.accountName,' : ',ca.accountNo))) from  expenses ex,CHART_OF_ACCOUNTS ca where ca.accountId=ex.account.accountId and (concat(ca.accountName,' : ',ca.accountNo)) like :searchTerm%")
+	List<String> findPartyDetailsBySearch(@Param("searchTerm") String searchTerm);
+
+	@Query("select distinct ((concat(ca.accountName,' : ',ca.accountNo))) from  expenses ex,CHART_OF_ACCOUNTS ca where ca.accountId=ex.account.accountId order by (concat(ca.accountName,' : ',ca.accountNo))")
+	List<String> findAllPartyDetails();
 }
