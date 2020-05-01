@@ -91,5 +91,18 @@ public class DebitNoteController {
 		return new BaseDto<>(results,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
 	}
 	
+	//Getting suppliers for debit note report
+	@GetMapping("/debitnote/getsuppliers")
+	public ResponseEntity<BaseDto<List<String>>> getsuppliers(){
+		List<String> results=debitNoteService.findAllSuppliers();
+		return new BaseDto<>(results,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
+	}
+	
+	@GetMapping("/debitnote/getsuppliersbysearch")
+	public ResponseEntity<BaseDto<List<String>>> getsuppliersbysearch(@RequestParam String spName){
+		List<String> results=debitNoteService.findAllSuppliersBySearch(spName);
+		return new BaseDto<>(results,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
+	}
+	
 	
 }
