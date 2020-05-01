@@ -156,8 +156,9 @@ public void createTable(Document document, ReportsMappingModel model, List<Map<S
 
 	String reportHeader = model.getReportHeader();
 	List<HeaderDto> headerList = JsonUtility.jsonToList(reportHeader, HeaderDto.class);
-
-	
+    System.out.println("*************"+headerList);
+    headerList.remove(1);
+    System.out.println("*************"+headerList);
 	PdfPTable table = new PdfPTable(headerList.size());
 	table.setWidthPercentage(80);
 	table.setWidths(new int[] {8,28,8,8,13,15});
