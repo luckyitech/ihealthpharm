@@ -93,9 +93,9 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 		finalTable.setLockedWidth(true);
 		finalTable.getDefaultCell().setBorder(0); 
 
-		PdfPTable table = new PdfPTable(5);
+		PdfPTable table = new PdfPTable(6);
 		table.setTotalWidth(500);
-		table.setWidths(new int[] {30,50,320,50,50});
+		table.setWidths(new int[] {30,50,250,50,50,70});
 		table.setWidthPercentage(50);
 		table.setLockedWidth(true);
 		PdfPCell cell = null;
@@ -146,6 +146,16 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 		headerCell = new Paragraph();
 		headerCell.setFont(headerFont);
 		headerCell.add("BALANCE");
+		cell = new PdfPCell(headerCell);
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		if (!model.isShowVerticalLines())
+			cell.setBorder(Rectangle.BOTTOM);
+
+		table.addCell(cell);
+		
+		headerCell = new Paragraph();
+		headerCell.setFont(headerFont);
+		headerCell.add("SUBMITTED BY");
 		cell = new PdfPCell(headerCell);
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		if (!model.isShowVerticalLines())
@@ -227,6 +237,14 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 					double value1=Double.parseDouble(((rowData.containsKey("DEBIT") ? (String.valueOf(rowData.get("DEBIT"))) : "")));
 					value = cashOnHand-value1;
 					cashOnHand=(Double) value;
+					cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					if (!model.isShowVerticalLines())
+						cell.setBorder(Rectangle.BOTTOM);
+
+					table.addCell(cell);
+					
+					value = rowData.containsKey("SUBMITTED_BY") ? rowData.get("SUBMITTED_BY") : "";
 					cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 					if (!model.isShowVerticalLines())
