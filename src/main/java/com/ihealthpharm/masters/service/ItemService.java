@@ -85,4 +85,8 @@ public interface ItemService {
 	List<ItemsForStockAdjustDTO> getAllStockAdjustRecords();
 
 	List<ItemsForStockAdjustDTO> getAllStockAdjustRecordBasedOnRackAndShelf(String rack, String shelf);
+
+	List<ItemsForStockAdjustDTO> getAllStockAdjustRecordBasedOnItemIdBatch(Integer itemId, String batchNo);
+	
+	List<ItemsForStockAdjustDTO> getAllStockAdjustRecordBasedOnStockId(Integer stockId);
 }

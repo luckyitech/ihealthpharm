@@ -398,4 +398,16 @@ public class ItemServiceImpl implements ItemService {
 		return itemRepository.getAllRecordsByRackAndShelf(rack,shelf);
 	}
 
+	@Override
+	public List<ItemsForStockAdjustDTO> getAllStockAdjustRecordBasedOnItemIdBatch(Integer itemId, String batchNo) {
+		
+		return itemRepository.getAllRecordsByItemIdAndBatch(itemId,batchNo);
+	}
+
+	@Override
+	public List<ItemsForStockAdjustDTO> getAllStockAdjustRecordBasedOnStockId(Integer stockId) {
+		
+		return itemRepository.getAllRecordsByStockId(stockId);
+	}
+
 }
