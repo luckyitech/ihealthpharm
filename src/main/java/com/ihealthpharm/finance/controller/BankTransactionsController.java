@@ -66,10 +66,21 @@ public class BankTransactionsController {
 		return new BaseDto<>(results, bankTransactionsHelper.getRetrieveBankTransactionsMessage(), OK).respond();
 	}
 
+	
 	@GetMapping("/getallpartyaccountdetails")
 	public ResponseEntity<BaseDto<List<String>>> getAllPartyAccounts() {
 		List<String> results = bankTransService.getAllPartyDetails();
 		return new BaseDto<>(results, bankTransactionsHelper.getRetrieveBankTransactionsMessage(), OK).respond();
 	}
-	
+	@GetMapping("/getcounterpartyaccountdetailsbysearch")
+	public ResponseEntity<BaseDto<List<String>>> getCounterPartyAccountsBySearch(@RequestParam String searchTerm) {
+		List<String> results = bankTransService.getBySearchCounterPartyDetails(searchTerm);
+		return new BaseDto<>(results, bankTransactionsHelper.getRetrieveBankTransactionsMessage(), OK).respond();
+	}
+
+	@GetMapping("/getallcounterpartyaccountdetails")
+	public ResponseEntity<BaseDto<List<String>>> getAllCounterPartyAccounts() {
+		List<String> results = bankTransService.getAllCounterPartyDetails();
+		return new BaseDto<>(results, bankTransactionsHelper.getRetrieveBankTransactionsMessage(), OK).respond();
+	}
 }
