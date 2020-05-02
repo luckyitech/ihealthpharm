@@ -16,4 +16,8 @@ public interface BankTransactionsService {
 	List<String> getBySearchPartyDetails(String searchTerm);
 	
 	List<String> getAllPartyDetails();
+	
+List<String> getBySearchCounterPartyDetails(String searchTerm);
+	
+	List<String> getAllCounterPartyDetails();
 }
