@@ -295,5 +295,15 @@ public class ItemController {
 		return new BaseDto<>(response, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 	
-
+	@GetMapping("/getitemsdatabyitemidandbatch/stockadjustGrid")
+	public ResponseEntity<BaseDto<List<ItemsForStockAdjustDTO>>> getAllStockAdjustByItemAndBatch(@RequestParam Integer itemId,@RequestParam String batchNo){
+		List<ItemsForStockAdjustDTO> response = itemService.getAllStockAdjustRecordBasedOnItemIdBatch(itemId,batchNo);
+		return new BaseDto<>(response, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+	
+	@GetMapping("/getitemsdatabystock/stockadjustGrid")
+	public ResponseEntity<BaseDto<List<ItemsForStockAdjustDTO>>> getAllStockAdjustByStockId(@RequestParam Integer stockId){
+		List<ItemsForStockAdjustDTO> response = itemService.getAllStockAdjustRecordBasedOnStockId(stockId);
+		return new BaseDto<>(response, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
 }
