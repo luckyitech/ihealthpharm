@@ -49,4 +49,6 @@ public class StockAdjustmentModel {
 	@Column(name = "LAST_UPDATE_USER_ID")
 	private Integer lastUpdateUser;
 	
+	@Column(name="ENTRY_TYPE",length=20)
+	private String entryType;
 }
