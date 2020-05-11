@@ -26,16 +26,11 @@ public interface BankTransactionsRepository extends JpaRepository<BankTransactio
 	@Query("select distinct ((concat(ca.accountName,' : ',ca.accountNo))) from  bank_transactions bt,CHART_OF_ACCOUNTS ca where ca.accountId=bt.party.accountId order by (concat(ca.accountName,' : ',ca.accountNo))")
 	List<String> findAllPartyAccountDetails();
 
-//	@Query("select distinct ca.accountNo from  bank_transactions bt,CHART_OF_ACCOUNTS ca where ca.accountId=bt.party.accountId and ca.accountNo like :searchTerm%")
-//	List<String> findPartyAccountDetailsBySearch(@Param("searchTerm") String searchTerm);
-//
-//	@Query("select distinct ca.accountNo from  bank_transactions bt,CHART_OF_ACCOUNTS ca where ca.accountId=bt.party.accountId order by ca.accountNo")
-//	List<String> findAllPartyAccountDetails();
 	
-//	@Query("select distinct ca.accountNo from  bank_transactions bt,CHART_OF_ACCOUNTS ca where ca.accountId=bt.party.accountId and ca.accountNo like :searchTerm%")
-//	List<String> findPartyDetailsBySearch(@Param("searchTerm") String searchTerm);
-//
-//	@Query("select distinct ca.accountNo from  bank_transactions bt,CHART_OF_ACCOUNTS ca where ca.accountId=bt.party.accountId order by ca.accountNo")
-//	List<String> findAllPartyDetails();
+	@Query("select distinct ((concat(ca.accountName,' : ',ca.accountNo))) from  bank_transactions bt,CHART_OF_ACCOUNTS ca where ca.accountId=bt.counterParty.accountId and (concat(ca.accountName,' : ',ca.accountNo)) like :searchTerm%")
+	List<String> findCounterPartyAccountDetailsBySearch(@Param("searchTerm") String searchTerm);
+
+	@Query("select distinct ((concat(ca.accountName,' : ',ca.accountNo))) from  bank_transactions bt,CHART_OF_ACCOUNTS ca where ca.accountId=bt.counterParty.accountId order by (concat(ca.accountName,' : ',ca.accountNo))")
+	List<String> findAllCounterPartyAccountDetails();
 	
 }

@@ -82,8 +82,8 @@ public class SalesProfitAttributionExcel extends ReportsExcelUtility{
 		int currentRow = sheet.getLastRowNum();
 		
 		double totalProfit = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("PROFIT")?String.valueOf(mapper.get("PROFIT")):"0")).sum(); 
-		double totalPurValue = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("UNIT_PURCHASE_PRICE")?String.valueOf(mapper.get("UNIT_PURCHASE_PRICE")):"0")).sum(); 
-		double totalSaleValue = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("UNIT_SALE_PRICE")?String.valueOf(mapper.get("UNIT_SALE_PRICE")):"0")).sum(); 
+		double totalSaleValue = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("SALE_AMOUNT")?String.valueOf(mapper.get("SALE_AMOUNT")):"0")).sum(); 
+		double totalPurValue = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("PURCHASE_AMOUNT")?String.valueOf(mapper.get("PURCHASE_AMOUNT")):"0")).sum(); 
 		
 		Row dataRow = sheet.createRow(currentRow+2);
 		Row dataRow1=sheet.createRow(currentRow+3);
@@ -97,17 +97,17 @@ public class SalesProfitAttributionExcel extends ReportsExcelUtility{
 		cell1.setCellValue("");
 		cell2.setCellValue("");
 		
-		cell = dataRow.createCell(12);
-		cell1 = dataRow1.createCell(12);
-		cell2 = dataRow2.createCell(12);
+		cell = dataRow.createCell(14);
+		cell1 = dataRow1.createCell(14);
+		cell2 = dataRow2.createCell(14);
 		
-		cell.setCellValue("Total Purchase Value : ");
-		cell1.setCellValue("Total Sale Value : ");
+		cell.setCellValue("Total Purchase Amount : ");
+		cell1.setCellValue("Total Sale Amount : ");
 		cell2.setCellValue("Total Profit : ");
 	
-		cell = dataRow.createCell(13);
-		cell1 = dataRow1.createCell(13);
-		cell2 = dataRow2.createCell(13);
+		cell = dataRow.createCell(15);
+		cell1 = dataRow1.createCell(15);
+		cell2 = dataRow2.createCell(15);
 	
 		cell.setCellValue(totalPurValue);
 		cell1.setCellValue(totalSaleValue);
@@ -175,14 +175,18 @@ public class SalesProfitAttributionExcel extends ReportsExcelUtility{
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(12);
-			cell.setCellValue("SALE AMOUNT");
+			cell.setCellValue("P AMT");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(13);
-			cell.setCellValue("PROFIT");
+			cell.setCellValue("S AMT");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(14);
+			cell.setCellValue("PROFIT");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(15);
 			cell.setCellValue("PROFIT%");
 			cell.setCellStyle(headerStyle);	
 			
@@ -252,18 +256,23 @@ public class SalesProfitAttributionExcel extends ReportsExcelUtility{
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("SALE_AMOUNT") ? rowData.get("SALE_AMOUNT") : "";
+				value = rowData.containsKey("PURCHASE_AMOUNT") ? rowData.get("PURCHASE_AMOUNT") : "";
 				cell = dataRow.createCell(12);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("PROFIT") ? rowData.get("PROFIT") : "";
+				value = rowData.containsKey("SALE_AMOUNT") ? rowData.get("SALE_AMOUNT") : "";
 				cell = dataRow.createCell(13);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("PROFIT_PER") ? rowData.get("PROFIT_PER") : "";
+				value = rowData.containsKey("PROFIT") ? rowData.get("PROFIT") : "";
 				cell = dataRow.createCell(14);
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("PROFIT_PER") ? rowData.get("PROFIT_PER") : "";
+				cell = dataRow.createCell(15);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 			}

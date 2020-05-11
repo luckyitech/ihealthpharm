@@ -5276,7 +5276,7 @@ inner join stock st on st.ITEM_ID=i.ITEM_ID
 inner join supplier sp on pr.SUPPLIER_ID=sp.SUPPLIER_ID 
 left join taxcategory tc on tc.TAXCATEGORY_ID=init.tax'; 
 
-SET @FINAL_SQL= CONCAT(BASE_SQL,WHERECLAUSE,'GROUP BY inv.GRN_NO,i.ITEM_NM ORDER BY pr.PURCHASE_RETURN_DATE');
+SET @FINAL_SQL= CONCAT(BASE_SQL,WHERECLAUSE);
 
 PREPARE stmt FROM @FINAL_SQL;
 EXECUTE  stmt;

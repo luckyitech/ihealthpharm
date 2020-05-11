@@ -29,11 +29,15 @@ public class TillBalanceModel extends AuditModel{
 	@Column(name="PREV_BALANCE")
 	private Double prevBalance;
 
-	@Column(name="ASOFDATE")
+	@Column(name="AS_OF_DATE")
 	private LocalDate asOfDate;
 
 	@Column(name="CURRENT_BALANCE")
 	private Double curBalance;
+	
+	@Column(name="ADJUSTED_BALANCE")
+	private Double adjustedAmount;
+	
 
 	@OneToOne
 	@JoinColumn(name="PHARMACY_ID")

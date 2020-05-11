@@ -150,6 +150,11 @@ public class PettyCashExpenditureExcel extends ReportsExcelUtility {
 			cell.setCellValue("BALANCE");
 			cell.setCellStyle(headerStyle);	
 
+			
+			cell = headerRow.createCell(5);
+			cell.setCellValue("SUBMITTEd BY");
+			cell.setCellStyle(headerStyle);	
+
 			}
 			double cashOnHand=0.0;
 
@@ -205,6 +210,10 @@ public class PettyCashExpenditureExcel extends ReportsExcelUtility {
 					cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 					cell.setCellStyle(borderStyle);
 
+					value = rowData.containsKey("SUBMITTED_BY") ? rowData.get("SUBMITTED_BY") : "";
+					cell = dataRow.createCell(5);
+					cell.setCellValue(String.valueOf(value));
+					cell.setCellStyle(borderStyle);
 
 				}
 			}

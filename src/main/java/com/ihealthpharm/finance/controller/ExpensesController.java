@@ -2,7 +2,11 @@ package com.ihealthpharm.finance.controller;
 
 import static org.springframework.http.HttpStatus.OK;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,4 +42,16 @@ public class ExpensesController {
 		return new BaseDto<>(expensesRes,expensesHelper.getSaveExpensesMessage(),OK).respond();
 	}
 	
+	
+	@GetMapping("expenses/getpartiesbysearch")
+	public ResponseEntity<BaseDto<List<String>>> getPartiesBySearch(@RequestParam String searchTerm){
+		List<String> expensesRes = expensesService.getAllPartiesBySearch(searchTerm);
+		return new BaseDto<>(expensesRes,expensesHelper.getSaveExpensesMessage(),OK).respond();
+	}
+
+	@GetMapping("expenses/getallparties")
+	public ResponseEntity<BaseDto<List<String>>> getAllParties(){
+		List<String> expensesRes = expensesService.getAllParties();
+		return new BaseDto<>(expensesRes,expensesHelper.getSaveExpensesMessage(),OK).respond();
+	}
 }

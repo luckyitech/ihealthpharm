@@ -69,7 +69,7 @@ public class BankTransactionsModel  extends AuditModel {
 	@Column(name="TRANSACTION_TYPE",length=20)
 	private String transactionType;
 
-	@Column(name="VALUE_DATE",length=25)
+	@Column(name="VALUE_DATE")
 	private Date valueDate;
 
 	@Column(name="REASON",length=100)

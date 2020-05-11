@@ -1,6 +1,7 @@
 package com.ihealthpharm.stock.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -364,7 +365,9 @@ public class StockServiceImpl implements StockService {
 
 		@Override
 		public Integer updateStock(Integer stockId,Integer previousQty, Integer quantity,Integer lastUpdateUser) {
-			return stockRepository.updateStockData(stockId,previousQty,quantity,lastUpdateUser);
+			
+			 Date lastUpdateTimestamp = new Date();
+			return stockRepository.updateStockData(stockId,previousQty,quantity,lastUpdateUser,lastUpdateTimestamp);
 		}
 
 		@Override

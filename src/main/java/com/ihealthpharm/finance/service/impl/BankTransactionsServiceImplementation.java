@@ -64,5 +64,17 @@ public List<String> getAllPartyDetails() {
 	return bankTransRepo.findAllPartyAccountDetails();
 }
 
+@Override
+public List<String> getBySearchCounterPartyDetails(String searchTerm) {
+	// TODO Auto-generated method stub
+	return bankTransRepo.findCounterPartyAccountDetailsBySearch(searchTerm);
+}
+
+@Override
+public List<String> getAllCounterPartyDetails() {
+	// TODO Auto-generated method stub
+	return bankTransRepo.findAllCounterPartyAccountDetails();
+}
+
 	
 }
