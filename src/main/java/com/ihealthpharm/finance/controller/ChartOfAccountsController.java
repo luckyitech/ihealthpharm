@@ -74,4 +74,11 @@ public class ChartOfAccountsController {
 		List<ChartOfAccountsModel> result=chartAccountService.getAllCOABasedOnAccNo(accountNo);
 		return new BaseDto<>(result,chartAccountHelper.getRetrieveChartOfAccountsMessage(),OK).respond();
 	}
+	
+	@GetMapping("/getByType/byAccountType")
+	public ResponseEntity<BaseDto<List<ChartOfAccountsModel>>> getchartOfAccountsByAccType(@RequestParam String accountType){
+		List<ChartOfAccountsModel> chartOfAccountsRes= chartAccountService.findchartOfAccountsByType(accountType);
+		return new BaseDto<>(chartOfAccountsRes,chartAccountHelper.getRetrieveChartOfAccountsMessage(),OK).respond();
+	}
+
 }
