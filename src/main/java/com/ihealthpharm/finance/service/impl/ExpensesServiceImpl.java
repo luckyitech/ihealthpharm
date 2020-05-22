@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.finance.dao.ExpensesRepository;
+import com.ihealthpharm.finance.dto.expensesDTO;
 import com.ihealthpharm.finance.model.ExpensesModel;
 import com.ihealthpharm.finance.service.ExpensesService;
 
@@ -42,6 +43,12 @@ public class ExpensesServiceImpl implements ExpensesService{
 	public List<String> getAllParties() {
 		
 		return expensesRepo.findAllPartyDetails();
+	}
+
+	@Override
+	public List<expensesDTO> findAllTransactionId(String transactionId) {
+		// TODO Auto-generated method stub
+		return expensesRepo.getAllTransactionId(transactionId);
 	}
 	
 

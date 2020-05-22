@@ -68,4 +68,7 @@ public class ExpensesModel extends AuditModel{
 	
 	@Column(name="MODE")
 	private String mode;
+	
+	@Column(name="PHONE_NUMBER",length=20)
+	private String phoneNumber;
 }

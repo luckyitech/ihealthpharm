@@ -2,6 +2,8 @@ package com.ihealthpharm.finance.service;
 
 import java.util.List;
 
+import com.ihealthpharm.finance.dto.BankTransactionDTO;
+import com.ihealthpharm.finance.dto.expensesDTO;
 import com.ihealthpharm.finance.model.ExpensesModel;
 
 public interface ExpensesService {
@@ -13,5 +15,7 @@ public interface ExpensesService {
 	List<String> getAllPartiesBySearch(String searchTerm);
 
 	List<String> getAllParties();
+	
+	List<expensesDTO> findAllTransactionId(String transactionId);
 
 	}
