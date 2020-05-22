@@ -26,5 +26,25 @@ public class ModeServiceImpl implements ModeService {
 	public List<ModeModel> getAllModes() {
 		return modeRepository.findAll();
 	}
+	@Override
+	public List<ModeModel> getAllModesForExpences() {
+		
+		return modeRepository.getAllModesForExpenses();
+	}
+	@Override
+	public List<ModeModel> getAllModesOnCredit() {
+	
+		return modeRepository.getAllModesOnCredit();
+	}
+	@Override
+	public List<ModeModel> getAllModesOnDebit() {
+		
+		return modeRepository.getAllModesOnDebit();
+	}
+	@Override
+	public List<ModeModel> getAllModesOnCreditAndDebit() {
+	
+		return modeRepository.getAllModesOnCreditAndDebit();
+	}
 
 }

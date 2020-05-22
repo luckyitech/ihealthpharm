@@ -32,4 +32,26 @@ public class ModeController {
 		return new BaseDto<>(expensesRes,modeHelper.getRetrieveModeMessage(),OK).respond();
 	}
 	
+	@GetMapping("/getAllModes/expenses")
+	public ResponseEntity<BaseDto<List<ModeModel>>> getAllModesExpenses(){
+		List<ModeModel> expensesRes = modeService.getAllModesForExpences();
+		return new BaseDto<>(expensesRes,modeHelper.getRetrieveModeMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getAllModesOnCredit")
+	public ResponseEntity<BaseDto<List<ModeModel>>> getAllModesOnCredit(){
+		List<ModeModel> expensesRes = modeService.getAllModesOnCredit();
+		return new BaseDto<>(expensesRes,modeHelper.getRetrieveModeMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getAllModesOnDebit")
+	public ResponseEntity<BaseDto<List<ModeModel>>> getAllModesOnDebit(){
+		List<ModeModel> expensesRes = modeService.getAllModesOnDebit();
+		return new BaseDto<>(expensesRes,modeHelper.getRetrieveModeMessage(),OK).respond();
+	}
+	@GetMapping("/getAllModesOnDebitAndCredit")
+	public ResponseEntity<BaseDto<List<ModeModel>>> getAllModesOnDebitAndCredit(){
+		List<ModeModel> expensesRes = modeService.getAllModesOnCreditAndDebit();
+		return new BaseDto<>(expensesRes,modeHelper.getRetrieveModeMessage(),OK).respond();
+	}
 }
