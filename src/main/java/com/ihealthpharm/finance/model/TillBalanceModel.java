@@ -46,5 +46,9 @@ public class TillBalanceModel extends AuditModel{
 	@Column(name="AUDIT_ID")
 	private Integer auditId;
 
+	@OneToOne
+	@JoinColumn(name="TILL_ACCOUNT_ID")
+    ChartOfAccountsModel tillAccount;
+	
 
 }

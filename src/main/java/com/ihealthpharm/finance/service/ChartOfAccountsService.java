@@ -2,6 +2,8 @@ package com.ihealthpharm.finance.service;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.ihealthpharm.finance.model.ChartOfAccountsModel;
 import com.ihealthpharm.sales.model.SalesModel;
 
@@ -21,5 +23,7 @@ public interface ChartOfAccountsService {
 	ChartOfAccountsModel updateChartOfAccData(ChartOfAccountsModel chartOfAccountsModel);
 
 	List<ChartOfAccountsModel> getAllCOABasedOnAccNo(String accountNo);
+
+	List<ChartOfAccountsModel> findchartOfAccountsByType(String accountType);
 	 
 }
