@@ -16,5 +16,7 @@ public interface ReportsService {
 
 	
 	public List<ReportsMappingModel> getReportsDetails();
+
+	public ReportsMappingModel getReportsDetailsByReportCode(String reportCode);
 	
 }

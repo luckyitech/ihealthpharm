@@ -172,4 +172,11 @@ public class ReportsController {
 		
 	}
 	
+	@GetMapping("/getReportDataByReportCode")
+	public ResponseEntity<BaseDto<ReportsMappingModel>> getReportDataByReportCode(@RequestParam String reportCode){
+		ReportsMappingModel res=resportsService.getReportsDetailsByReportCode(reportCode);
+		return new BaseDto<>(res, reportsHelper.getReportsDataRetrieveResponse(), OK).respond();
+		
+	}
+	
 }
