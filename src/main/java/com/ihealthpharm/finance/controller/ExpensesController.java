@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.finance.dto.BankTransactionDTO;
+import com.ihealthpharm.finance.dto.expensesDTO;
 import com.ihealthpharm.finance.helper.ExpensesHelper;
 import com.ihealthpharm.finance.model.ExpensesModel;
 import com.ihealthpharm.finance.service.ExpensesService;
@@ -53,5 +55,11 @@ public class ExpensesController {
 	public ResponseEntity<BaseDto<List<String>>> getAllParties(){
 		List<String> expensesRes = expensesService.getAllParties();
 		return new BaseDto<>(expensesRes,expensesHelper.getSaveExpensesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getall/expenses/transactionsIds")
+	public ResponseEntity<BaseDto<List<expensesDTO>>> getAllBankTransactionsId(@RequestParam String transactionId){
+		List<expensesDTO> response=expensesService.findAllTransactionId(transactionId);
+		return new BaseDto<>(response, expensesHelper.getRetrieveExpenseMessage(), OK).respond();
 	}
 }

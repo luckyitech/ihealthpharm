@@ -11,6 +11,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.ihealthpharm.finance.dto.BankTransactionDTO;
+import com.ihealthpharm.finance.dto.expensesDTO;
 import com.ihealthpharm.finance.model.ExpensesModel;
 
 @Repository
@@ -27,4 +29,7 @@ public interface ExpensesRepository extends JpaRepository<ExpensesModel, Integer
 
 	@Query("select distinct ((concat(ca.accountName,' : ',ca.accountNo))) from  expenses ex,CHART_OF_ACCOUNTS ca where ca.accountId=ex.account.accountId order by (concat(ca.accountName,' : ',ca.accountNo))")
 	List<String> findAllPartyDetails();
+	
+	@Query("select new  com.ihealthpharm.finance.dto.expensesDTO(ex.txnId) from expenses ex where ex.txnId =:transactionId")
+	List<expensesDTO> getAllTransactionId(@Param("transactionId") String transactionId);
 }
