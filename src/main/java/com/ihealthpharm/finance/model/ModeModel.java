@@ -23,4 +23,7 @@ public class ModeModel {
 	
 	@Column(name="MODE_NAME")
 	private String name;
+	
+	@Column(name="TYPE")
+	private String type;
 }
