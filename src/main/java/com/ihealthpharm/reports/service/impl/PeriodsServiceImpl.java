@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ihealthpharm.reports.dao.PeriodsRepository;
 import com.ihealthpharm.reports.model.ReportsPeriodModel;
 import com.ihealthpharm.reports.service.PeriodsService;
+import com.ihealthpharm.sales.model.SalesModel;
 
 @Transactional
 @Service
@@ -27,6 +28,18 @@ public class PeriodsServiceImpl implements PeriodsService {
 	public List<ReportsPeriodModel> getThreeMonthsPeriod() {
 		int periodId=7;
 		List<ReportsPeriodModel> result=periodsRepo.getListOfThreeMonthsPeriods(periodId);
+		return result;
+	}
+	
+	@Override
+	public List<String> getCustomerNames() {
+		List<String> result=periodsRepo.getCustomersBasedOnDummyBills();
+		return result;
+	}
+	
+	@Override
+	public List<String> getBills() {
+		List<String> result=periodsRepo.getBillsBasedOnDummyBills();
 		return result;
 	}
 
