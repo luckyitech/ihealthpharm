@@ -89,6 +89,9 @@ public class BankTransactionsModel  extends AuditModel {
 
 	@Column(name="DONE_TIMESTAMP")
 	private Date DoneByTimeStamp;
+	
+	@Column(name="PHONE_NUMBER",length=20)
+	private String phoneNumber;
 
 	
 }

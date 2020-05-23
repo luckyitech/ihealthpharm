@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,6 +23,8 @@ public class AccountTypeModel {
     @Column(name="ACCOUNT_TYPE_ID",length=11, columnDefinition = "AUTO_INCREMENT")
     private Integer accountTypeId;
     
-    @Column(name="ACCOUNT_TYPE",length=45)
+	@Column(name="ACCOUNT_TYPE",length=30)
     private String accountType;
+	
+	
 }

@@ -7,4 +7,5 @@ import com.ihealthpharm.finance.model.AccountTypeModel;
 public interface AccountTypeService {
 
 	 List<AccountTypeModel> findAllAccountTypes();
+
 }

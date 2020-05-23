@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -103,6 +104,12 @@ public class ChartOfAccountsServiceImpl implements ChartOfAccountsService {
 	public List<ChartOfAccountsModel> getAllCOABasedOnAccNo(String accountNo) {
 		List<ChartOfAccountsModel> response=chartAccRepo.getAllChartOfAccounts(accountNo);
 		return response;
+	}
+
+	@Override
+	public List<ChartOfAccountsModel> findchartOfAccountsByType(String accountType) {
+		
+		return chartAccRepo.getByAccType(accountType);
 	}
 
 
