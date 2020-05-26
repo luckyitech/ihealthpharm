@@ -9,6 +9,6 @@ import com.ihealthpharm.reports.model.ReportsMappingModel;
 @Repository
 public interface ReportsMappingRepository extends JpaRepository<ReportsMappingModel, Integer> {
 
-	ReportsMappingModel findByReportCode(@Param("reportCode") String reportCode); 
+	ReportsMappingModel findByReportCode(@Param("reportCode") String reportCode);
 
 }

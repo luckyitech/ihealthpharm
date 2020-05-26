@@ -148,4 +148,10 @@ public class ReportsServiceImpl implements ReportsService {
 		return reportsMappingRepository.findAll();
 	}
 
+	@Override
+	public ReportsMappingModel getReportsDetailsByReportCode(String reportCode) {
+		
+		return reportsMappingRepository.findByReportCode(reportCode);
+	}
+
 }
