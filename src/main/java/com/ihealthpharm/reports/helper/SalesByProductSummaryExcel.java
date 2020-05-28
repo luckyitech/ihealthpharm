@@ -186,10 +186,10 @@ public class SalesByProductSummaryExcel extends ReportsExcelUtility {
 			cell.setCellValue("TOTAL AMT");
 			cell.setCellStyle(headerStyle);	
 			
+			Row displayRow = sheet.createRow(headRow++);
 			
 			for (Map<String, Object> rowData : productList) {
 				
-				Row displayRow = sheet.createRow(headRow);
 				Cell headCell = displayRow.createCell(0);
 				Object value = rowData.containsKey("ITEM_NM") ? rowData.get("ITEM_NM") : "";
 				headCell.setCellValue("Product Name  :   ");
