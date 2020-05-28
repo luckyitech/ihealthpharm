@@ -241,6 +241,25 @@ public class SalesController {
 		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
 	
+	@GetMapping("/getCustomersBySearchSRBB")
+	public ResponseEntity<BaseDto<List<String>>> getCustomersBySearchSRBB(@RequestParam String searchTerm){
+		List<String> results=salesService.findCustomersINSalesSRBB(searchTerm);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getAllCustomersSRBB")
+	public ResponseEntity<BaseDto<List<String>>> getAllCustomersSRBB(){
+		List<String> results=salesService.findAllCustomersINSalesSRBB();
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getBillCodesByCustomer")
+	public ResponseEntity<BaseDto<List<String>>> getBillCodesByCustomer(@RequestParam String customer){
+		List<String> results=salesService.findBillCodesByCustomer(customer);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	//Reports code end
+	
 	
 	@GetMapping("/get/allsalesbasedonsearch")
 	public ResponseEntity<BaseDto<List<SalesBillDTO>>> getAllSalesBySearchingId(@RequestParam("key") String billCode){

@@ -110,4 +110,10 @@ public interface SalesService
 
 	Integer searchInSalesHistoryCount(String status, String code, String codeValue, String startDate, String endDate);
 
+	List<String> findCustomersINSalesSRBB(String searchTerm);
+
+	List<String> findAllCustomersINSalesSRBB();
+
+	List<String> findBillCodesByCustomer(String customer);
+
 }

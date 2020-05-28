@@ -99,14 +99,14 @@ public class SalesServiceImpl implements SalesService {
 
 	@Override
 	public List<SalesModel> findByCriteria(String status,String code, String codeValue, String startDate, String endDate) {
-		
-			
-		 
+
+
+
 		return salesRepository.findAll(new Specification<SalesModel>() {
 			/**
 			 * 
 			 */
-			
+
 			private static final long serialVersionUID = -2059726564132190131L;
 
 			@Override
@@ -121,13 +121,13 @@ public class SalesServiceImpl implements SalesService {
 				if ((code != null && !code.equals("undefined")) && (codeValue != null && !codeValue.equals("undefined"))) {
 					if(code.equalsIgnoreCase("Bill Number"))
 					{
-					predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("billCode"), codeValue+"%")));
+						predicates.add(criteriaBuilder.and(criteriaBuilder.like(root.get("billCode"), codeValue+"%")));
 					}
 					else if(code.equalsIgnoreCase("customer Name"))
 					{
 						predicates.add(criteriaBuilder.and(criteriaBuilder.like(bJoin.get("customerName"), codeValue+"%")));
 					}
-					
+
 				}
 				if((startDate != null && !startDate.equals("undefined")) && (endDate != null && !endDate.equals("undefined")))
 				{
@@ -135,42 +135,42 @@ public class SalesServiceImpl implements SalesService {
 					LocalDate end = LocalDate.parse(endDate);
 					log.info("startDate=:"+start);
 					log.info("endDate=:"+end);
-				
+
 					predicates.add(criteriaBuilder.between(root.get("billDate"),start,end));
 				}
-				
+
 				return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
 			}
 		});
 	}
-	
-	
-	
+
+
+
 	@Override
 	public SalesModel getSaleByBillCode(String searchTerm) {
 
 		return salesRepository.findByBillCode(searchTerm);
 	}
-	
+
 
 	@Override
 	public List<SalesModel> findLimitedSalesData() {
-		
+
 		return salesRepository.findFirst100ByOrderByBillCodeDesc();
 	}
-	
+
 	@Override
 	public List totalSalesByMonthWiseData() {
 		List<SalesDTO> response=salesRepository.getAllSalesDataForCharts();
 		List finalObj = new ArrayList();
-	   	for(SalesDTO obj:response) {
+		for(SalesDTO obj:response) {
 			List temp = new ArrayList();
 			temp.add(obj.getBillDate().getMonth());
 			temp.add(obj.getTotalSales());
 			finalObj.add(temp);
 		}
-	   return finalObj; 	
-	   		   	
+		return finalObj; 	
+
 	}
 
 	@Override
@@ -268,13 +268,13 @@ public class SalesServiceImpl implements SalesService {
 
 	@Override
 	public List<String> getBillNumbersBySearch(String key) {
-		
+
 		return salesRepository.findByBillCodeSearch(key);
 	}
 	public List<String> findAllcityNameINSalesSRADL() {
 		return salesRepository.findAllcityNameINSalesSRADL();
 	}
-//SRBB
+	//SRBB
 	@Override
 	public List<String> findBillCodeINSalesSRBB(String searchTerm) {
 		return salesRepository.findBillCodeINSalesSRBB(searchTerm);
@@ -287,44 +287,65 @@ public class SalesServiceImpl implements SalesService {
 	}
 
 	@Override
+	public List<String> findCustomersINSalesSRBB(String searchTerm) {
+		
+		return salesRepository.findCustomersBySearch(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllCustomersINSalesSRBB() {
+		
+		return salesRepository.findAllCustomers();
+	}
+	
+	@Override
+	public List<String> findBillCodesByCustomer(String customer) {
+		
+		return salesRepository.findBillCodesByCustomer(customer);
+	}
+
+
+	//End of report code
+
+	@Override
 	public List<SalesBillDTO> findSalesByBillId(String billCode) {
 		return salesRepository.getAllSalesBySalesIdSearch(billCode);
 	}
-	
-	
+
+
 	public List<SalesModel> searchInSalesHistory(String status, String code, String codeValue, String startDate,
 			String endDate,Integer pageNumber, Integer pageSize) {
 		Pageable limit = new PageRequest(pageNumber,pageSize);
-		
+
 		if((status != null && !status.equals("undefined") && !status.equals("null")) && 
-		((code != null && !code.equals("undefined") && !code.equals("null")) && (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null"))) &&
-		((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null"))))
+				((code != null && !code.equals("undefined") && !code.equals("null")) && (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null"))) &&
+				((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null"))))
 		{
 			LocalDate start = LocalDate.parse(startDate);
 			LocalDate end = LocalDate.parse(endDate);
 			return salesRepository.findSalesSearchByStatusSearchCodeDate(status,codeValue,start,end,limit);
 		}
-		
+
 		else if((status != null && !status.equals("undefined") && !status.equals("null")) && 
-		((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null"))))
+				((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null"))))
 		{
-					LocalDate start = LocalDate.parse(startDate);
-					LocalDate end = LocalDate.parse(endDate);
-					return salesRepository.findSalesSearchByStatusDate(status,start,end,limit);
+			LocalDate start = LocalDate.parse(startDate);
+			LocalDate end = LocalDate.parse(endDate);
+			return salesRepository.findSalesSearchByStatusDate(status,start,end,limit);
 		}
 		else if(((code != null && !code.equals("undefined") && !code.equals("null")) && (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null"))) &&
 				((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null"))))
-				{
-							LocalDate start = LocalDate.parse(startDate);
-							LocalDate end = LocalDate.parse(endDate);
+		{
+			LocalDate start = LocalDate.parse(startDate);
+			LocalDate end = LocalDate.parse(endDate);
 			return salesRepository.findSalesSearchByCodeDate(codeValue,start,end,limit);
-				}
-		
+		}
+
 		else if (status != null && !status.equals("undefined") && !status.equals("null")) {
 			System.out.println("in status condition:" + (status != null &&!status.equals("undefined")));
 			return salesRepository.findSalesByPaymentStatus(status,limit);
 		}
-		
+
 		else if ((code != null && !code.equals("undefined") && !code.equals("null")) && (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null"))) {
 			if(code.equalsIgnoreCase("Bill Number"))
 			{
@@ -338,7 +359,7 @@ public class SalesServiceImpl implements SalesService {
 			{
 				return salesRepository.findSalesByCustomerPhoneNumber(codeValue,limit);
 			}
-			
+
 		}
 
 		else if((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null")))
@@ -349,7 +370,7 @@ public class SalesServiceImpl implements SalesService {
 			log.info("endDate=:"+end);
 			return salesRepository.findSalesByBillDate(start,end,limit);
 		}
-		
+
 		return null;
 	}
 
@@ -357,7 +378,7 @@ public class SalesServiceImpl implements SalesService {
 	public Integer searchInSalesHistoryCount(String status, String code, String codeValue, String startDate,
 			String endDate) {
 		Integer res=0;
-		
+
 		if((status != null && !status.equals("undefined") && !status.equals("null")) && 
 				((code != null && !code.equals("undefined") && !code.equals("null")) && (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null"))) &&
 				((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null"))))
@@ -366,7 +387,7 @@ public class SalesServiceImpl implements SalesService {
 			LocalDate end = LocalDate.parse(endDate);
 			return salesRepository.findSalesSearchByStatusSearchCodeDateCount(status,codeValue,start,end);
 		}
-		
+
 		else if((status != null && !status.equals("undefined") && !status.equals("null")) && 
 				((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null"))))
 		{
@@ -376,17 +397,17 @@ public class SalesServiceImpl implements SalesService {
 		}
 		else if(((code != null && !code.equals("undefined") && !code.equals("null")) && (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null"))) &&
 				((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null"))))
-				{
-							LocalDate start = LocalDate.parse(startDate);
-							LocalDate end = LocalDate.parse(endDate);
+		{
+			LocalDate start = LocalDate.parse(startDate);
+			LocalDate end = LocalDate.parse(endDate);
 			return salesRepository.findSalesSearchByCodeDateCount(codeValue,start,end);
-				}
-		
+		}
+
 		else if (status != null && !status.equals("undefined") && !status.equals("null"))  {
-			
+
 			return salesRepository.findSalesByPaymentStatusCount(status);
 		}
-		
+
 		else if ((code != null && !code.equals("undefined") && !code.equals("null")) && (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null"))) {
 			if(code.equalsIgnoreCase("Bill Number"))
 			{
@@ -403,10 +424,10 @@ public class SalesServiceImpl implements SalesService {
 				log.info("Code :"+code+ "\t Code Value:"+codeValue);
 				return salesRepository.findSalesByCustomerPhoneNumberCount(codeValue);
 			}
-			
+
 		}
-		
-		
+
+
 		else if((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null")))
 		{
 			LocalDate start = LocalDate.parse(startDate);
@@ -420,11 +441,11 @@ public class SalesServiceImpl implements SalesService {
 
 	@Override
 	public Integer findTodaySales() {
-		
+
 		return salesRepository.todaySalesRepo();
-		
+
 	}
-	
+
 	@Override
 	public Integer findCashCount() {
 		return salesRepository.cashRepo();
@@ -434,22 +455,22 @@ public class SalesServiceImpl implements SalesService {
 	public Integer findCreditCount() {
 		return salesRepository.creditRepo();
 	}
-	
+
 	@Override
 	public Integer findYesterdayDiff() {
 		return salesRepository.yesterdayDiff();
 	}
-	
+
 	@Override
 	public Integer findUpiCustomers() {
 		return salesRepository.upiCustomers();
 	}
-	
+
 	@Override
 	public Integer findCreditCardCustomers() {
 		return salesRepository.creditCardCustomers();
 	}
-	
+
 	@Override
 	public Integer findChequeCustomers() {
 		return salesRepository.chequeCustomers();
