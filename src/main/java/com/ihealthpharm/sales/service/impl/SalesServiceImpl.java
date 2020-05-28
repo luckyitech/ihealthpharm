@@ -2,6 +2,7 @@ package com.ihealthpharm.sales.service.impl;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -304,6 +305,27 @@ public class SalesServiceImpl implements SalesService {
 		return salesRepository.findBillCodesByCustomer(customer);
 	}
 
+	@Override
+	public List<String> findBillCodesByDates(String fromDate, String toDate) {
+		
+		LocalDate start = LocalDate.parse(fromDate);
+		LocalDate end = LocalDate.parse(toDate);
+		return salesRepository.getBillCodesByDates(start,end);
+	}
+
+	@Override
+	public List<String> findBillCodesByFromDate(String fromDate) {
+		LocalDate start = LocalDate.parse(fromDate);
+		return salesRepository.getBillCodesByFromDate(start);
+	}
+
+	@Override
+	public List<String> findBillCodesByToDate(String toDate) {
+		LocalDate end = LocalDate.parse(toDate);
+		return salesRepository.getBillCodesByToDate(end);
+	}
+
+	
 
 	//End of report code
 

@@ -1,5 +1,6 @@
 package com.ihealthpharm.sales.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.ihealthpharm.sales.dto.SalesBillDTO;
@@ -115,5 +116,11 @@ public interface SalesService
 	List<String> findAllCustomersINSalesSRBB();
 
 	List<String> findBillCodesByCustomer(String customer);
+
+	List<String> findBillCodesByDates(String fromDate, String toDate);
+
+	List<String> findBillCodesByFromDate(String fromDate);
+
+	List<String> findBillCodesByToDate(String toDate);
 
 }

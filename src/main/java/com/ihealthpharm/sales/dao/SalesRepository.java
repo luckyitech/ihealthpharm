@@ -1,6 +1,7 @@
 package com.ihealthpharm.sales.dao;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
@@ -136,7 +137,15 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 	
 	@Query("SELECT s.billCode from sales s where s.customerNm = :customer")
 	List<String> findBillCodesByCustomer(@Param("customer")String customer);
+	
+	@Query("SELECT s.billCode from sales s where (s.billDate BETWEEN :fromDate AND :toDate)")
+	List<String> getBillCodesByDates(@Param("fromDate")LocalDate fromDate, @Param("toDate")LocalDate toDate);
+	
+	@Query("SELECT s.billCode from sales s where (s.billDate >= :fromDate)")
+	List<String> getBillCodesByFromDate(@Param("fromDate")LocalDate start);
 
+	@Query("SELECT s.billCode from sales s where (s.billDate <= :toDate)")
+	List<String> getBillCodesByToDate(@Param("toDate")LocalDate end);
 	
 	//End of report Code
 
@@ -232,5 +241,5 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 	@Query("select sum(s.chequeAmount) from sales s where date(billDate) = CURDATE() and s.chequeAmount is not null and PAYMENT_STATUS not in ('CANCEL','DUMMY BILL') group by billDate")
 	Integer chequeAmount();
 
-
+	
 }

@@ -2,6 +2,10 @@ package com.ihealthpharm.sales.controller;
 
 import static org.springframework.http.HttpStatus.OK;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -258,6 +262,28 @@ public class SalesController {
 		List<String> results=salesService.findBillCodesByCustomer(customer);
 		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
+
+	@GetMapping("/getBillsByFromAndToDates")
+	public ResponseEntity<BaseDto<List<String>>> getBillCodesBetweenDates(@RequestParam String fromDate,@RequestParam String toDate) throws ParseException{
+		
+		List<String> results=salesService.findBillCodesByDates(fromDate,toDate);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getBillsByFromDate")
+	public ResponseEntity<BaseDto<List<String>>> getBillCodesByFromDate(@RequestParam String fromDate) throws ParseException{
+		
+		List<String> results=salesService.findBillCodesByFromDate(fromDate);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getBillsByToDate")
+	public ResponseEntity<BaseDto<List<String>>> getBillCodesByToDate(@RequestParam String toDate) throws ParseException{
+		
+		List<String> results=salesService.findBillCodesByToDate(toDate);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
 	//Reports code end
 	
 	
