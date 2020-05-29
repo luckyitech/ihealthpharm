@@ -235,9 +235,10 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 		//double charges = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("HANDLING_CHARGES")&& !ObjectUtils.isEmpty(mapper.get("HANDLING_CHARGES")))?String.valueOf(mapper.get("HANDLING_CHARGES")):"0")).sum(); 
 		double charges = Double.parseDouble(String.valueOf(responseList.get(0).get("HANDLING_CHARGES")));
 
+		double roundOff = Double.parseDouble(String.valueOf(responseList.get(0).get("ROUNDOFF")));
 		double vatTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("VAT_AMT")&& !ObjectUtils.isEmpty(mapper.get("VAT_AMT")))?String.valueOf(mapper.get("VAT_AMT")):"0")).sum(); 
 		
-		double netAmt=(subTotals+vatTotal+charges);
+		double netAmt=(subTotals+vatTotal+charges+roundOff);
 
 		String net=df.format(netAmt);
 		String sub=df.format(subTotals);
