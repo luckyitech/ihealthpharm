@@ -185,7 +185,7 @@ public class SalesModel {
 	@JoinColumn(name = "CUSTOMER_ID")
 	CustomerModel customerModel;
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "EMPLOYEE_ID")
 	EmployeeModel employeeModel;
 
