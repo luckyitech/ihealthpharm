@@ -254,11 +254,6 @@ public class SalesController {
 	public ResponseEntity<BaseDto<List<SalesEmployeeDTO>>> getSalesBySearch(@RequestParam String status, @RequestParam String code, @RequestParam String codeValue,
 			@RequestParam String startDate, @RequestParam String endDate,@RequestParam Integer pageNumber,@RequestParam Integer pageSize){
 		List<SalesEmployeeDTO> results=salesService.searchInSalesHistory(status,code,codeValue,startDate,endDate,pageNumber,pageSize);
-		//System.out.println("----------------------------------------------------------------------");
-		//for(int i=0;i<results.size()-30;i++) {
-		//	System.out.println("---------------------------------------------------------------------- " + i);
-			//System.out.println(results.get(i).getEmployeeModel());
-		//}
 		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
 	
