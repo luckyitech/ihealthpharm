@@ -127,5 +127,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public List<EmployeeNameAndAcessDTO> getAllEmployeesWithAccess() {
 		return employeeRepository.getAllEmployeesHavingAccess();
 	}
+
+	@Override
+	public String getEmpNameByName(Integer employeeId) {
+		return employeeRepository.getEmpNameByEmpId(employeeId);
+	}
 	
 }

@@ -26,4 +26,6 @@ public interface EmployeeService {
 	List<EmployeeModel> findEmployeeByFirstNameAndLastName(String name);
 
 	List<EmployeeNameAndAcessDTO> getAllEmployeesWithAccess();
+
+	String getEmpNameByName(Integer employeeId);
 }
