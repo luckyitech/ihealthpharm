@@ -108,7 +108,9 @@ public class PurchaseInvoiceDetailsExcel extends ReportsExcelUtility {
 		double discountTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("DISCOUNT")?String.valueOf(mapper.get("DISCOUNT")):"0")).sum(); 
 		double vatTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("VAT_AMT")?String.valueOf(mapper.get("VAT_AMT")):"0")).sum(); 
 		//double netTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("ACTUAL_VALUE")?String.valueOf(mapper.get("ACTUAL_VALUE")):"0")).sum(); 
-		double chargesTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("HANDLING_CHARGES")?String.valueOf(mapper.get("HANDLING_CHARGES")):"0")).sum(); 
+		//double chargesTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("HANDLING_CHARGES")?String.valueOf(mapper.get("HANDLING_CHARGES")):"0")).sum(); 
+		double chargesTotal = Double.parseDouble(String.valueOf(responseList.get(0).get("HANDLING_CHARGES")));
+
 		double netAmt=(grossTotal+vatTotal+chargesTotal);
 		
 		String net=df.format(netAmt);
