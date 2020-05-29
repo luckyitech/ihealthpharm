@@ -22,4 +22,7 @@ public interface EmployeeRepository extends JpaRepository<EmployeeModel, Integer
 	@Query("select new com.ihealthpharm.masters.dto.EmployeeNameAndAcessDTO(e.employeeId,concat(e.firstName ,' ', e.lastName),ec.approvalAccessPin) "
 			+ "from employee e inner join employee_credentials ec on e.employeeId=ec.employee.employeeId where e.activeS='Y'")
 	List<EmployeeNameAndAcessDTO> getAllEmployeesHavingAccess();
+
+	@Query("select concat(e.firstName,'  ',e.lastName) from employee e where e.employeeId=:employeeId")
+	String getEmpNameByEmpId(@Param("employeeId") Integer employeeId);
 }
