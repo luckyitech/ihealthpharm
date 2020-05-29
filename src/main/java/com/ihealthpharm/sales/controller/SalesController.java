@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.sales.dto.SalesBillDTO;
+import com.ihealthpharm.sales.dto.SalesEmployeeDTO;
 import com.ihealthpharm.sales.helper.SalesHelper;
 import com.ihealthpharm.sales.model.SalesModel;
 import com.ihealthpharm.sales.service.SalesService;
@@ -250,9 +251,10 @@ public class SalesController {
 	}
 	
 	@GetMapping("/getsaleshistorybysearch")
-	public ResponseEntity<BaseDto<List<SalesModel>>> getSalesBySearch(@RequestParam String status, @RequestParam String code, @RequestParam String codeValue,
+	public ResponseEntity<BaseDto<List<SalesEmployeeDTO>>> getSalesBySearch(@RequestParam String status, @RequestParam String code, @RequestParam String codeValue,
 			@RequestParam String startDate, @RequestParam String endDate,@RequestParam Integer pageNumber,@RequestParam Integer pageSize){
-		List<SalesModel> results=salesService.searchInSalesHistory(status,code,codeValue,startDate,endDate,pageNumber,pageSize);
+	 System.out.println(startDate +"------------------------------------- "+endDate);
+		List<SalesEmployeeDTO> results=salesService.searchInSalesHistory(status,code,codeValue,startDate,endDate,pageNumber,pageSize);
 		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
 	
