@@ -295,8 +295,6 @@ public class SalesServiceImpl implements SalesService {
 
 	public List<SalesEmployeeDTO> searchInSalesHistory(String status, String code, String codeValue, String startDate,
 			String endDate,Integer pageNumber, Integer pageSize) {
-		System.out.println("in service impl");
-		System.out.println(startDate + " 000000000000000000000000000000 " + endDate);
 		Pageable limit = new PageRequest(pageNumber,pageSize);
 
 		List<SalesModel> response=null;
@@ -305,7 +303,6 @@ public class SalesServiceImpl implements SalesService {
 				((code != null && !code.equals("undefined") && !code.equals("null")) && (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null"))) &&
 				((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null"))))
 		{
-			log.info("in first if");
 			LocalDate start = LocalDate.parse(startDate);
 			LocalDate end = LocalDate.parse(endDate);
 			response= salesRepository.findSalesSearchByStatusSearchCodeDate(status,codeValue,start,end,limit);
@@ -314,7 +311,6 @@ public class SalesServiceImpl implements SalesService {
 		else if((status != null && !status.equals("undefined") && !status.equals("null")) && 
 				((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null"))))
 		{
-			log.info("in 2 if");
 			LocalDate start = LocalDate.parse(startDate);
 			LocalDate end = LocalDate.parse(endDate);
 			response= 	 salesRepository.findSalesSearchByStatusDate(status,start,end,limit);
@@ -322,7 +318,6 @@ public class SalesServiceImpl implements SalesService {
 		else if(((code != null && !code.equals("undefined") && !code.equals("null")) && (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null"))) &&
 				((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null"))))
 		{
-			log.info("in 3 if");
 			LocalDate start = LocalDate.parse(startDate);
 			LocalDate end = LocalDate.parse(endDate);
 			response=  salesRepository.findSalesSearchByCodeDate(codeValue,start,end,limit);
@@ -330,7 +325,6 @@ public class SalesServiceImpl implements SalesService {
 		
 		else if((startDate != null && !startDate.equals("undefined")&& !startDate.equals("null")) && (endDate != null && !endDate.equals("undefined") && !endDate.equals("null")))
 		{
-			System.out.println("in start date if ---------------------------------------");
 			LocalDate start = LocalDate.parse(startDate);
 			LocalDate end = LocalDate.parse(endDate);
 			log.info("startDate=:"+start);
