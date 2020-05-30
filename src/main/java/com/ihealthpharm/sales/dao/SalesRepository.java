@@ -123,7 +123,7 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 			+ "order by s.billDate desc")
 	List<String> findAllBillCodeINSalesSRBB();
 	
-	// SRBB
+	
 	@Query("SELECT s.billCode from sales s where s.billCode like :searchTerm%")
 	List<String> findBillCodeINSalesSRBB(@Param("searchTerm") String searchTerm);
 
@@ -146,6 +146,9 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 
 	@Query("SELECT s.billCode from sales s where (s.billDate <= :toDate)")
 	List<String> getBillCodesByToDate(@Param("toDate")LocalDate end);
+	
+	@Query("SELECT s.customerNm from sales s where s.billCode = :billCode")
+	List<String> findCustomersByBillCode(@Param("billCode")String billCode);
 	
 	//End of report Code
 

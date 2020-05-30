@@ -326,7 +326,13 @@ public class SalesServiceImpl implements SalesService {
 		return salesRepository.getBillCodesByToDate(end);
 	}
 
-	
+	@Override
+	public List<String> findCustomerByBillCode(String billCode) {
+		return salesRepository.findCustomersByBillCode(billCode);
+		
+	}
+
+
 	//End of report code
 	@Override
 	public List<SalesBillDTO> findSalesByBillId(String billCode) {
@@ -602,5 +608,5 @@ public class SalesServiceImpl implements SalesService {
 		return salesRepository.chequeAmount();
 	}
 
-
+	
 }
