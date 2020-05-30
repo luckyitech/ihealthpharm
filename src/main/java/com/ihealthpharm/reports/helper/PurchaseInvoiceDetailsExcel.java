@@ -111,7 +111,7 @@ public class PurchaseInvoiceDetailsExcel extends ReportsExcelUtility {
 		//double chargesTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("HANDLING_CHARGES")?String.valueOf(mapper.get("HANDLING_CHARGES")):"0")).sum(); 
 		double chargesTotal = Double.parseDouble(String.valueOf(responseList.get(0).get("HANDLING_CHARGES")));
 		double roundOff = Double.parseDouble(String.valueOf(responseList.get(0).get("ROUNDOFF")));
-
+		double discountAmt = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("DISCOUNT_AMT"))?String.valueOf(mapper.get("DISCOUNT_AMT")):"0")).sum(); 
 		double netAmt=(grossTotal+vatTotal+chargesTotal+roundOff);
 		
 		String net=df.format(netAmt);
@@ -126,18 +126,20 @@ public class PurchaseInvoiceDetailsExcel extends ReportsExcelUtility {
 		Row dataRow2=sheet.createRow(currentRow+4);
 		Row dataRow3=sheet.createRow(currentRow+5);
 		Row dataRow4=sheet.createRow(currentRow+6);
-		
+		Row dataRow5=sheet.createRow(currentRow+8);
 		
 		Cell cell = dataRow.createCell(0);
 		Cell cell1=dataRow1.createCell(0);
 		Cell cell2=dataRow2.createCell(0);
 		Cell cell3=dataRow3.createCell(0);
 		Cell cell4=dataRow4.createCell(0);
+		Cell cell5=dataRow4.createCell(0);
 		cell.setCellValue("");
 		cell1.setCellValue("");
 		cell2.setCellValue("");
 		cell3.setCellValue("");
 		cell4.setCellValue("");
+		cell5.setCellValue("");
 		//cell.setCellStyle(borderStyle);
 		
 		cell = dataRow.createCell(9);
@@ -145,12 +147,14 @@ public class PurchaseInvoiceDetailsExcel extends ReportsExcelUtility {
 		cell2=dataRow2.createCell(9);
 		cell3=dataRow3.createCell(9);
 		cell4=dataRow4.createCell(9);
+		cell5=dataRow4.createCell(9);
 
 		cell.setCellValue("GROSS TOTAL : ");
 		cell1.setCellValue("MISC COST : ");
-		cell2.setCellValue("DISCOUNT : ");
+		cell2.setCellValue(" TOTAL DISCOUNT : ");
 		cell3.setCellValue("VAT : ");
-		cell4.setCellValue("NET TOTAL : ");
+		cell4.setCellValue("ROUND OFF : ");
+		cell5.setCellValue("NET TOTAL : ");
 		//cell.setCellStyle(borderStyle);
 					
 		
@@ -160,12 +164,14 @@ public class PurchaseInvoiceDetailsExcel extends ReportsExcelUtility {
 		cell2=dataRow2.createCell(10);
 		cell3=dataRow3.createCell(10);
 		cell4=dataRow4.createCell(10);
+		cell5=dataRow4.createCell(10);
 		
 		cell.setCellValue(subTotal);
 		cell1.setCellValue(chargesTotal);
-		cell2.setCellValue(discountTotal);
+		cell2.setCellValue(discountAmt);
 		cell3.setCellValue(totalVat);
-		cell4.setCellValue(netTotal);
+		cell4.setCellValue(roundOff);
+		cell5.setCellValue(netTotal);
 		//cell.setCellStyle(borderStyle);
 		
 		
@@ -205,20 +211,24 @@ public class PurchaseInvoiceDetailsExcel extends ReportsExcelUtility {
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(5);
-			cell.setCellValue("FREE");
+			cell.setCellValue("BONUS");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(6);
 			cell.setCellValue("UNIT PRICE");
 			cell.setCellStyle(headerStyle);	
 			
+//			cell = headerRow.createCell(7);
+//			cell.setCellValue("GROSS AMOUNT");
+//			cell.setCellStyle(headerStyle);	
+			
 			cell = headerRow.createCell(7);
-			cell.setCellValue("GROSS AMOUNT");
+			cell.setCellValue("DISCOUNT");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(8);
-			cell.setCellValue("DISCOUNT");
-			cell.setCellStyle(headerStyle);	
+			cell.setCellValue("DISCOUNT AMT");
+			cell.setCellStyle(headerStyle);
 			
 			cell = headerRow.createCell(9);
 			cell.setCellValue("VAT");
@@ -295,13 +305,19 @@ public class PurchaseInvoiceDetailsExcel extends ReportsExcelUtility {
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("TOTAL_VALUE") ? rowData.get("TOTAL_VALUE") : "";
-				//sheet.autoSizeColumn(7);
+//				value = rowData.containsKey("TOTAL_VALUE") ? rowData.get("TOTAL_VALUE") : "";
+//				//sheet.autoSizeColumn(7);
+//				cell = dataRow.createCell(7);
+//				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+//				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("DISCOUNT") ? rowData.get("DISCOUNT") : "";
+				//sheet.autoSizeColumn(8);
 				cell = dataRow.createCell(7);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("DISCOUNT") ? rowData.get("DISCOUNT") : "";
+				value = rowData.containsKey("DISCOUNT_AMT") ? rowData.get("DISCOUNT_AMT") : "";
 				//sheet.autoSizeColumn(8);
 				cell = dataRow.createCell(8);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));

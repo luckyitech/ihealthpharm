@@ -234,7 +234,7 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 		double discount = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("DISCOUNT")&& !ObjectUtils.isEmpty(mapper.get("DISCOUNT")))?String.valueOf(mapper.get("DISCOUNT")):"0")).sum(); 
 		//double charges = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("HANDLING_CHARGES")&& !ObjectUtils.isEmpty(mapper.get("HANDLING_CHARGES")))?String.valueOf(mapper.get("HANDLING_CHARGES")):"0")).sum(); 
 		double charges = Double.parseDouble(String.valueOf(responseList.get(0).get("HANDLING_CHARGES")));
-
+        double discountAmt = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("DISCOUNT_AMT")&& !ObjectUtils.isEmpty(mapper.get("DISCOUNT_AMT")))?String.valueOf(mapper.get("DISCOUNT_AMT")):"0")).sum(); 
 		double roundOff = Double.parseDouble(String.valueOf(responseList.get(0).get("ROUNDOFF")));
 		double vatTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("VAT_AMT")&& !ObjectUtils.isEmpty(mapper.get("VAT_AMT")))?String.valueOf(mapper.get("VAT_AMT")):"0")).sum(); 
 		
@@ -286,7 +286,7 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 		totalQtyTable.setTotalWidth(500);
 		totalQtyTable.getDefaultCell().setBorder(0);
 
-		PdfPCell nameCell4 = new PdfPCell(new Phrase("DISCOUNT : "+discount, bold)); 
+		PdfPCell nameCell4 = new PdfPCell(new Phrase("TOTAL DISCOUNT : "+discountAmt, bold)); 
 		nameCell4.setColspan(3);
 		nameCell4.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell4.setVerticalAlignment(Element.ALIGN_TOP);
@@ -295,14 +295,24 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 		totalQtyTable.setLockedWidth(true);
 		totalQtyTable.setTotalWidth(500);
 		totalQtyTable.getDefaultCell().setBorder(0);
-
-
-		PdfPCell nameCell5 = new PdfPCell(new Phrase("NET TOTAL : "+netTotal, bold)); 
+		
+		PdfPCell nameCell5 = new PdfPCell(new Phrase("ROUNDOFF: "+roundOff, bold)); 
 		nameCell5.setColspan(3);
 		nameCell5.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell5.setVerticalAlignment(Element.ALIGN_TOP);
 		nameCell5.setBorder(0);
 		totalQtyTable.addCell(nameCell5);
+		totalQtyTable.setLockedWidth(true);
+		totalQtyTable.setTotalWidth(500);
+		totalQtyTable.getDefaultCell().setBorder(0);
+
+
+		PdfPCell nameCell6 = new PdfPCell(new Phrase("NET TOTAL : "+netTotal, bold)); 
+		nameCell6.setColspan(3);
+		nameCell6.setHorizontalAlignment(Element.ALIGN_RIGHT);
+		nameCell6.setVerticalAlignment(Element.ALIGN_TOP);
+		nameCell6.setBorder(0);
+		totalQtyTable.addCell(nameCell6);
 		totalQtyTable.setLockedWidth(true);
 		totalQtyTable.setTotalWidth(500);
 		totalQtyTable.getDefaultCell().setBorder(0);
@@ -359,9 +369,9 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 
 
 
-		PdfPTable table = new PdfPTable(10);
+		PdfPTable table = new PdfPTable(11);
 		table.setTotalWidth(500);
-		table.setWidths(new int[] {30,90,50,60,30,40,50,50,30,60});
+		table.setWidths(new int[] {30,90,50,60,30,20,50,30,40,30,60});
 		table.setWidthPercentage(50);
 		table.setLockedWidth(true);
 		PdfPCell cell = null;
@@ -441,6 +451,16 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 		headerCell = new Paragraph();
 		headerCell.setFont(headerFont);
 		headerCell.add("DISC%");
+		cell = new PdfPCell(headerCell);
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		if (!model.isShowVerticalLines())
+			cell.setBorder(Rectangle.BOTTOM);
+
+		table.addCell(cell);
+		
+		headerCell = new Paragraph();
+		headerCell.setFont(headerFont);
+		headerCell.add("DISC AMT");
 		cell = new PdfPCell(headerCell);
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		if (!model.isShowVerticalLines())
@@ -548,6 +568,14 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 				table.addCell(cell);
 
 				value = rowData.containsKey("DISCOUNT") ? rowData.get("DISCOUNT") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), bold));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("DISCOUNT_AMT") ? rowData.get("DISCOUNT_AMT") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), bold));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
