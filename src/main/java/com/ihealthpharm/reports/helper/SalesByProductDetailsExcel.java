@@ -237,7 +237,7 @@ public class SalesByProductDetailsExcel extends ReportsExcelUtility {
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("DISCOUNT") ? rowData.get("DISCOUNT") : "";
+				value = rowData.containsKey("DISC") ? rowData.get("DISC") : "";
 				//sheet.autoSizeColumn(10);
 				cell = dataRow.createCell(10);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));

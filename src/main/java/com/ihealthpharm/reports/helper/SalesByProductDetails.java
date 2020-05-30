@@ -311,7 +311,7 @@ public class SalesByProductDetails extends ReportsPDFUtility{
 
 				table.addCell(cell);
 				
-				value = rowData.containsKey("DISCOUNT") ? rowData.get("DISCOUNT") : "";
+				value = rowData.containsKey("DISC") ? rowData.get("DISC") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
