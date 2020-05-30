@@ -124,4 +124,6 @@ public interface SalesService
 
 	List<String> findBillCodesByToDate(String toDate);
 
+	List<String> findCustomerByBillCode(String billCode);
+
 }
