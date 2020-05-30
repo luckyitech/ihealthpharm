@@ -147,7 +147,7 @@ public class PurchaseInvoiceDetailsExcel extends ReportsExcelUtility {
 		cell2=dataRow2.createCell(9);
 		cell3=dataRow3.createCell(9);
 		cell4=dataRow4.createCell(9);
-		cell5=dataRow4.createCell(9);
+		cell5=dataRow5.createCell(9);
 
 		cell.setCellValue("GROSS TOTAL : ");
 		cell1.setCellValue("MISC COST : ");
@@ -164,7 +164,7 @@ public class PurchaseInvoiceDetailsExcel extends ReportsExcelUtility {
 		cell2=dataRow2.createCell(10);
 		cell3=dataRow3.createCell(10);
 		cell4=dataRow4.createCell(10);
-		cell5=dataRow4.createCell(10);
+		cell5=dataRow5.createCell(10);
 		
 		cell.setCellValue(subTotal);
 		cell1.setCellValue(chargesTotal);
