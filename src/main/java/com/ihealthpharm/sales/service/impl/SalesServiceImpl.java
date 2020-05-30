@@ -288,6 +288,53 @@ public class SalesServiceImpl implements SalesService {
 	}
 
 	@Override
+	public List<String> findCustomersINSalesSRBB(String searchTerm) {
+		
+		return salesRepository.findCustomersBySearch(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllCustomersINSalesSRBB() {
+		
+		return salesRepository.findAllCustomers();
+	}
+
+	
+	@Override
+	public List<String> findBillCodesByCustomer(String customer) {
+		
+		return salesRepository.findBillCodesByCustomer(customer);
+	}
+
+	@Override
+	public List<String> findBillCodesByDates(String fromDate, String toDate) {
+		
+		LocalDate start = LocalDate.parse(fromDate);
+		LocalDate end = LocalDate.parse(toDate);
+		return salesRepository.getBillCodesByDates(start,end);
+	}
+
+	@Override
+	public List<String> findBillCodesByFromDate(String fromDate) {
+		LocalDate start = LocalDate.parse(fromDate);
+		return salesRepository.getBillCodesByFromDate(start);
+	}
+
+	@Override
+	public List<String> findBillCodesByToDate(String toDate) {
+		LocalDate end = LocalDate.parse(toDate);
+		return salesRepository.getBillCodesByToDate(end);
+	}
+
+	@Override
+	public List<String> findCustomerByBillCode(String billCode) {
+		return salesRepository.findCustomersByBillCode(billCode);
+		
+	}
+
+
+	//End of report code
+	@Override
 	public List<SalesBillDTO> findSalesByBillId(String billCode) {
 		return salesRepository.getAllSalesBySalesIdSearch(billCode);
 	}
@@ -561,5 +608,5 @@ public class SalesServiceImpl implements SalesService {
 		return salesRepository.chequeAmount();
 	}
 
-
+	
 }

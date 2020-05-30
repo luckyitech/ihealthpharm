@@ -2,6 +2,10 @@ package com.ihealthpharm.sales.controller;
 
 import static org.springframework.http.HttpStatus.OK;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -241,6 +245,53 @@ public class SalesController {
 		List<String> results=salesService.findAllBillCodeINSalesSRBB();
 		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
+	
+	@GetMapping("/getCustomersBySearchSRBB")
+	public ResponseEntity<BaseDto<List<String>>> getCustomersBySearchSRBB(@RequestParam String searchTerm){
+		List<String> results=salesService.findCustomersINSalesSRBB(searchTerm);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getAllCustomersSRBB")
+	public ResponseEntity<BaseDto<List<String>>> getAllCustomersSRBB(){
+		List<String> results=salesService.findAllCustomersINSalesSRBB();
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getBillCodesByCustomer")
+	public ResponseEntity<BaseDto<List<String>>> getBillCodesByCustomer(@RequestParam String customer){
+		List<String> results=salesService.findBillCodesByCustomer(customer);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+
+	@GetMapping("/getBillsByFromAndToDates")
+	public ResponseEntity<BaseDto<List<String>>> getBillCodesBetweenDates(@RequestParam String fromDate,@RequestParam String toDate) throws ParseException{
+		
+		List<String> results=salesService.findBillCodesByDates(fromDate,toDate);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getBillsByFromDate")
+	public ResponseEntity<BaseDto<List<String>>> getBillCodesByFromDate(@RequestParam String fromDate) throws ParseException{
+		
+		List<String> results=salesService.findBillCodesByFromDate(fromDate);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getBillsByToDate")
+	public ResponseEntity<BaseDto<List<String>>> getBillCodesByToDate(@RequestParam String toDate) throws ParseException{
+		
+		List<String> results=salesService.findBillCodesByToDate(toDate);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getCustomerByBillCode")
+	public ResponseEntity<BaseDto<List<String>>> getCustomerByBillCode(@RequestParam String billCode){
+		List<String> results=salesService.findCustomerByBillCode(billCode);
+		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	//Reports code end
 	
 	
 	@GetMapping("/get/allsalesbasedonsearch")
