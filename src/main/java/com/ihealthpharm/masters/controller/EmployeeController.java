@@ -240,5 +240,11 @@ public class EmployeeController {
 		List<EmployeeNameAndAcessDTO> response=employeeService.getAllEmployeesWithAccess();
 		return new BaseDto<>(response,employeeHelper.getRetrieveEmployeeMessage(),OK).respond();
 	}
+	
+	@GetMapping("/getEmployeeName/byEmpId")
+	public ResponseEntity<BaseDto<String>> getEmployeeName(@RequestParam Integer employeeId){
+		String response=employeeService.getEmpNameByName(employeeId);
+		return new BaseDto<>(response,employeeHelper.getRetrieveEmployeeMessage(),OK).respond();
+	}
 
 }

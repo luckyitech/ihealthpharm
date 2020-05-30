@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.ihealthpharm.sales.dto.SalesBillDTO;
+import com.ihealthpharm.sales.dto.SalesEmployeeDTO;
 import com.ihealthpharm.sales.model.SalesModel;
 
 public interface SalesService
@@ -27,7 +28,7 @@ public interface SalesService
 
 	List<SalesModel> findByCriteria(String status,String code, String codeValue, String startDate, String endDate);
 
-	List<SalesModel> searchInSalesHistory(String status,String code, String codeValue, 
+	List<SalesEmployeeDTO> searchInSalesHistory(String status,String code, String codeValue, 
 			String startDate, String endDate,Integer pageNumber, Integer pageSize);
 
 	SalesModel getSaleByBillCode(String searchTerm);
