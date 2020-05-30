@@ -123,6 +123,16 @@ public class SupplierWiseSales extends ReportsPDFUtility{
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
+			headerCell.add("SUPPLIER NAME");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
 			headerCell.add("PRODUCT CODE");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -210,6 +220,14 @@ public class SupplierWiseSales extends ReportsPDFUtility{
 				//for (HeaderDto hearder : headerList) {
 
 				Object value = String.valueOf(supplierWiseSalesList.indexOf(rowData) + 1);
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("SUPPLIER_NAME") ? rowData.get("SUPPLIER_NAME") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
