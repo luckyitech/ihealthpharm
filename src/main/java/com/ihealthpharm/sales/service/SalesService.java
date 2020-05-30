@@ -1,5 +1,6 @@
 package com.ihealthpharm.sales.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.ihealthpharm.sales.dto.SalesBillDTO;
@@ -110,5 +111,17 @@ public interface SalesService
 	List<SalesBillDTO> findSalesByBillId(String billCode);
 
 	Integer searchInSalesHistoryCount(String status, String code, String codeValue, String startDate, String endDate);
+
+	List<String> findCustomersINSalesSRBB(String searchTerm);
+
+	List<String> findAllCustomersINSalesSRBB();
+
+	List<String> findBillCodesByCustomer(String customer);
+
+	List<String> findBillCodesByDates(String fromDate, String toDate);
+
+	List<String> findBillCodesByFromDate(String fromDate);
+
+	List<String> findBillCodesByToDate(String toDate);
 
 }

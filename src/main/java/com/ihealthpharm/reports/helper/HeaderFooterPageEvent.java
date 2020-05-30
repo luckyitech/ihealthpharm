@@ -112,12 +112,10 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 			 */
 			
 			String headerContent = reportsMappingModel.getHeaderContent();
-			System.out.println("------------------------------------------------------------");
-			System.out.println(headerContent);
-			System.out.println("------------------------------------------------------------");
+			
 			if(!ObjectUtils.isEmpty(headerContent)) {
 				HeaderFooterContentDto contentDto = (HeaderFooterContentDto) JsonUtility.jsonToObject(headerContent,HeaderFooterContentDto.class);	
-				System.out.println(contentDto);
+				
 				for(HeaderFooterContentDetailsDto dto:contentDto.getLeftContent()) {		
 					/*
 					 * if(dto.getText().equalsIgnoreCase("DOCPHARMA LIMITED")) { String titleText =
@@ -125,7 +123,7 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 					 * dto.setText(titleText); }
 					 */
 					leftContent.addElement(new Phrase(dto.getText(), FontFactory.getFont(dto.getFontName(), dto.getSize())));
-					System.out.println(dto.getText());
+					
 					leftContent.setPaddingBottom(5);
 					
 				}
