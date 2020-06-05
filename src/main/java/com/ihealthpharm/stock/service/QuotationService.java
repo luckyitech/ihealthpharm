@@ -14,7 +14,7 @@ public interface QuotationService {
 
 	QuotationModel saveQuotation(QuotationModel quotationModel);
 	
-	QuotationModel saveQuotation(QuotationModel quotationModel, String quotationstatus, String quotationItemstatus);
+	QuotationModel saveQuotation(QuotationModel quotationModel, String quotationstatus);
 
 	QuotationModel updateQuotation(QuotationModel quotationModel);
 
@@ -55,6 +55,9 @@ public interface QuotationService {
 	List<ItemSupplierDTO> getItemsByItemCodeOrItemName(String itemCode, String itemName);
 	
 	List<ItemSupplierDTO> getItemsByItemCodeOrItemNameorItemDesc(String itemCode, String itemName, String itemDescription,Integer supplierId);
+	
+	List<ItemSupplierDTO> getItemsByItemCodeOrItemNameorItemDescForQuotation(String itemCode, String itemName, String itemDescription);
+	
 	
 	List<SupplierModel> getSupplierItemsByQuotationIdAndSupplierId(Integer quotationId, List<Integer> suppliersId);
 	
