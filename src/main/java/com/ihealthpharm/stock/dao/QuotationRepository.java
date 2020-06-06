@@ -88,11 +88,13 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 	//@Query("select q.modifiedBy.firstName from quotation q where q.quotationId = :quotationId ")
 	//String modifiedQuotationUser(@Param("quotationId") Integer quotationId);
 	
-	//@Query("select q.approvedBy.firstName from quotation q where q.quotationId = :quotationId ")
-	//String approvedQuotationUser(@Param("quotationId") Integer quotationId);
+	@Query("select CONCAT(e.firstName,'  ',e.lastName) from quotation q "
+			+ "inner join employee e on e.employeeId=q.approvedBy where q.quotationId = :quotationId  ")
+	String approvedQuotationUser(@Param("quotationId") Integer quotationId);
 	
-	//@Query("select q.rejectedBy.firstName from quotation q where q.quotationId = :quotationId ")
-	//String rejectedQuotationUser(@Param("quotationId") Integer quotationId);
+	@Query("select CONCAT(e.firstName,'  ',e.lastName) from quotation q "
+			+ "inner join employee e on e.employeeId=q.rejectedBy  where q.quotationId = :quotationId ")
+	String rejectedQuotationUser(@Param("quotationId") Integer quotationId);
 	
 	@Query("select q.requestedby.firstName from quotation q where q.quotationId = :quotationId ")
 	String requestedQuotationUser(@Param("quotationId") Integer quotationId);

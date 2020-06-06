@@ -55,11 +55,11 @@ public class QuotationModel extends AuditModel {
 	@JoinColumn(name = "QUOTATION_STATUS_ID")
 	QuotationStatusModel quotationStatusModel;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne
 	@JoinColumn(name = "CREATED_BY")
 	EmployeeModel createdBy;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SENT_BY")
 	EmployeeModel sentBy;
 

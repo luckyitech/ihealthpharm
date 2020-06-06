@@ -83,7 +83,7 @@ public class QuotationController {
 	 */
 	@PostMapping("/save/requestnewquotation")
 	public ResponseEntity<BaseDto<QuotationModel>> saveRequestNewQuotation(@Valid @RequestBody QuotationModel quotationModel) {
-		log.info("Request Object insert is: "+ quotationModel.toString());
+		//log.info("Request Object insert is: "+ quotationModel.toString());
 		quotationModel.setModifiedDt(new Date());
 		QuotationModel model = quotationService.saveQuotation(quotationModel, "REQUEST NEW");
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
@@ -95,7 +95,7 @@ public class QuotationController {
 	 */
 	@PostMapping("/save/requestpendingquotation")
 	public ResponseEntity<BaseDto<QuotationModel>> saveRequestPendingQuotation(@Valid @RequestBody QuotationModel quotationModel) {
-		log.info("Request Object insert is: "+ quotationModel.toString());
+		//log.info("Request Object insert is: "+ quotationModel.toString());
 		quotationModel.setModifiedDt(new Date());
 		QuotationModel model = quotationService.saveQuotation(quotationModel, "REQUEST PENDING");
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
@@ -107,7 +107,7 @@ public class QuotationController {
 	 */
 	@PostMapping("/save/requestapprovedquotation")
 	public ResponseEntity<BaseDto<QuotationModel>> saveRequestApprovedQuotation(@RequestBody QuotationModel quotationModel) {
-		log.info("Request Object insert is: "+ quotationModel.toString());
+		//log.info("Request Object insert is: "+ quotationModel.toString());
 		//quotationModel.setApprovedDt(new Date());
 		QuotationModel model = quotationService.saveQuotation(quotationModel, "REQUEST APPROVED");
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
@@ -119,19 +119,19 @@ public class QuotationController {
 	 */
 	@PostMapping("/save/requestrejectedquotation")
 	public ResponseEntity<BaseDto<QuotationModel>> saveRequestRejectedQuotation(@Valid @RequestBody QuotationModel quotationModel) {
-		log.info("Request Object insert is: "+ quotationModel.toString());
+		//log.info("Request Object insert is: "+ quotationModel.toString());
 		quotationModel.setRejectedDate(new Date());
 		QuotationModel model = quotationService.saveQuotation(quotationModel, "REQUEST REJECTED");
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
 	}
 	
-	/**
+	/*
 	 * @author Gunasekhar 
 	 * Service is to save the Received Pending Quotation
 	 */
 	@PostMapping("/save/receivedpendingquotation")
 	public ResponseEntity<BaseDto<QuotationModel>> saveReceivedPendingQuotation(@Valid @RequestBody QuotationModel quotationModel) {
-		log.info("Request Object insert is: "+ quotationModel.toString());
+		//log.info("Request Object insert is: "+ quotationModel.toString());
 		QuotationModel model = quotationService.saveQuotation(quotationModel, "RECEIVED PENDING");
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
 	}
@@ -142,7 +142,7 @@ public class QuotationController {
 	 */
 	@PostMapping("/save/receivedapprovedquotation")
 	public ResponseEntity<BaseDto<QuotationModel>> saveReceivedApprovedQuotation(@Valid @RequestBody QuotationModel quotationModel) {
-		log.info("Request Object insert is: "+ quotationModel.toString());
+		//log.info("Request Object insert is: "+ quotationModel.toString());
 		QuotationModel model = quotationService.saveQuotation(quotationModel, "RECEIVED APPROVED");
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
 	}
@@ -153,7 +153,7 @@ public class QuotationController {
 	 */
 	@PostMapping("/save/receivedrejectedquotation")
 	public ResponseEntity<BaseDto<QuotationModel>> saveReceivedRejectedQuotation(@Valid @RequestBody QuotationModel quotationModel) {
-		log.info("Request Object insert is: "+ quotationModel.toString());
+		//log.info("Request Object insert is: "+ quotationModel.toString());
 		QuotationModel model = quotationService.saveQuotation(quotationModel, "RECEIVED REJECTED");
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
 	}

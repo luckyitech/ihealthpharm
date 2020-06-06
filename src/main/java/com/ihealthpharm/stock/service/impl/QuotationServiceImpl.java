@@ -224,13 +224,15 @@ public class QuotationServiceImpl implements QuotationService {
 	@Override
 	public List<QuotationModel> getQuotationByPharmacyAndStatus(Integer pharmacyId, String status) {
 		List<QuotationModel> quotationModels = quotationRepository.getQuotationByPharmacyAndStatus(pharmacyId, status);
+	//List<String> rejectN
 		for(QuotationModel q : quotationModels) {
 			q.setCreatedName(quotationRepository.createdQuotationUser(q.getQuotationId()));
 			//q.setModifiedName(quotationRepository.modifiedQuotationUser(q.getQuotationId()));
-			//q.setRejectedName(quotationRepository.rejectedQuotationUser(q.getQuotationId()));
+			q.setRejectedName(quotationRepository.rejectedQuotationUser(q.getQuotationId()));
 			//q.setApprovedName(quotationRepository.approvedQuotationUser(q.getQuotationId()));
 			q.setSentName(quotationRepository.sentQuotationUser(q.getQuotationId()));
 			q.setRequestedName(quotationRepository.requestedQuotationUser(q.getQuotationId()));
+			q.setApprovedName(quotationRepository.approvedQuotationUser(q.getQuotationId()));
 		}
 		//System.out.println(quotationModels);
 		return quotationModels;
