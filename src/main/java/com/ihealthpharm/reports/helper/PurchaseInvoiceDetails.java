@@ -66,54 +66,21 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 			addHeader(writer, document,model,responseList);
 
 
-			Map<String, List<Map<String, Object>>> purchaseInvoiceDetails = responseList.stream()
-					.collect(Collectors.groupingBy(map -> (String) map.get("SP_NAME")));
-			Map<String, List<Map<String, Object>>> purchaseInvoiceDetailsAdd = responseList.stream()
-					.collect(Collectors.groupingBy(map -> (String) map.get("CITY_NM"))); 
-			//			Map<String, List<Map<String, Object>>> purchaseInvoiceDetailsInv = responseList.stream()
-			//					.collect(Collectors.groupingBy(map -> (String) map.get("GRN_NO")));
-			Map<String, List<Map<String, Object>>> purchaseInvoiceDetailsInv = responseList.stream()
-					.collect(Collectors.groupingBy(map -> (String) map.get("INVOICE_NO")));
-			Map<Date, List<Map<String, Object>>> purchaseInvoiceDetailsInvDate = responseList.stream()
-					.collect(Collectors.groupingBy(map -> (Date) map.get("INVOICE_DT")));
+			Map<String, List<Map<String, Object>>> invoiceMap = responseList.stream()
+					.collect(Collectors.groupingBy(map -> (String) map.get("INVOICE_NO")));			
 
+			if(!ObjectUtils.isEmpty(invoiceMap)) { 
 
-			if(!ObjectUtils.isEmpty(purchaseInvoiceDetails)) { 
-				String suppName = null;
-				String invNo=null;
-				String location=null;
-
-				for(String supplierName :purchaseInvoiceDetails.keySet()) {	
-					List<Map<String, Object>> purchaseInvoiceDetailsMap = purchaseInvoiceDetails.get(supplierName);
-					suppName=supplierName;
-					//createTable(document,model,purchaseInvoiceDetailsMap,supplierName);
-				}
-				for(String address :purchaseInvoiceDetailsAdd.keySet()) {	
-					location=address;
-					List<Map<String, Object>> purchaseInvoiceDetailsMap = purchaseInvoiceDetails.get(suppName);
-					//					List<Map<String, Object>> purchaseInvoiceDetailsMap = purchaseInvoiceDetails.get(address);
-
-					//createTable(document,model,purchaseInvoiceDetailsMap,suppName,invoiceNo);
-				}
-				for(String invoiceNo :purchaseInvoiceDetailsInv.keySet()) {	
-					invNo=invoiceNo;
-					List<Map<String, Object>> purchaseInvoiceDetailsMap = purchaseInvoiceDetails.get(suppName);
-					//					List<Map<String, Object>> purchaseInvoiceDetailsMap = purchaseInvoiceDetails.get(invoiceNo);
-
-					//createTable(document,model,purchaseInvoiceDetailsMap,suppName,invoiceNo);
+				for(String invoiceNo :invoiceMap.keySet()) {					
+					List<Map<String, Object>> invoiceDetailsList = invoiceMap.get(invoiceNo);
+					createTable(document,model,invoiceDetailsList,invoiceNo);
 				}
 
-				for(Date invoiceDate :purchaseInvoiceDetailsInvDate.keySet()) {	
-					List<Map<String, Object>> purchaseInvoiceDetailsMap = purchaseInvoiceDetails.get(suppName);
-					createTable(document,model,purchaseInvoiceDetailsMap,suppName,location,invNo,invoiceDate);
-
-				}
-				//				List<Map<String, Object>> purchaseInvoiceDetailsMap = null;
-				//				createTable(document,model,purchaseInvoiceDetailsMap,suppName,location,invNo,invDate);
 				generateTotalTable(document,model,responseList);
 
-
 			}
+
+
 
 		} catch (Exception e) {
 			//log.error(ExceptionUtils.getMessage(e));
@@ -138,18 +105,18 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 			header.setWidths(new int[] { 40,30 ,30});
 			header.setTotalWidth(550);
 			header.setLockedWidth(true);
-			
+
 			PdfPCell leftContent = new PdfPCell();
 			leftContent.setBorder(Rectangle.BOTTOM);
-			
+
 
 			PdfPCell centerContent = new PdfPCell();
 			centerContent.setBorder(Rectangle.BOTTOM);
-			
+
 
 			PdfPCell rightContent = new PdfPCell();
 			rightContent.setBorder(Rectangle.BOTTOM);
-			
+
 			String headerContent = model.getHeaderContent();
 			if(!ObjectUtils.isEmpty(headerContent)) {
 				HeaderFooterContentDto contentDto = (HeaderFooterContentDto) JsonUtility.jsonToObject(headerContent,HeaderFooterContentDto.class);	
@@ -216,9 +183,6 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 			finalFeader.writeSelectedRows(0, -1, document.left(),
 					document.top() + ((document.topMargin() + header.getTotalHeight()) / 2), writer.getDirectContent());
 
-
-
-
 		} catch (DocumentException de) {
 			throw new ExceptionConverter(de);
 		} catch (Exception e) {
@@ -234,10 +198,10 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 		double discount = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("DISCOUNT")&& !ObjectUtils.isEmpty(mapper.get("DISCOUNT")))?String.valueOf(mapper.get("DISCOUNT")):"0")).sum(); 
 		//double charges = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("HANDLING_CHARGES")&& !ObjectUtils.isEmpty(mapper.get("HANDLING_CHARGES")))?String.valueOf(mapper.get("HANDLING_CHARGES")):"0")).sum(); 
 		double charges = Double.parseDouble(String.valueOf(responseList.get(0).get("HANDLING_CHARGES")));
-        double discountAmt = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("DISCOUNT_AMT")&& !ObjectUtils.isEmpty(mapper.get("DISCOUNT_AMT")))?String.valueOf(mapper.get("DISCOUNT_AMT")):"0")).sum(); 
+		double discountAmt = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("DISCOUNT_AMT")&& !ObjectUtils.isEmpty(mapper.get("DISCOUNT_AMT")))?String.valueOf(mapper.get("DISCOUNT_AMT")):"0")).sum(); 
 		double roundOff = Double.parseDouble(String.valueOf(responseList.get(0).get("ROUNDOFF")));
 		double vatTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("VAT_AMT")&& !ObjectUtils.isEmpty(mapper.get("VAT_AMT")))?String.valueOf(mapper.get("VAT_AMT")):"0")).sum(); 
-		
+
 		double netAmt=(subTotals+vatTotal+charges+roundOff);
 
 		String net=df.format(netAmt);
@@ -255,7 +219,7 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 		totalQtyTable.getDefaultCell().setBorder(0); 
 
 		Font bold = new Font(FontFamily.HELVETICA,9);
-		
+
 		PdfPCell nameCell = new PdfPCell(new Phrase("SUB TOTAL : "+subTotal, bold)); 
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -295,7 +259,7 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 		totalQtyTable.setLockedWidth(true);
 		totalQtyTable.setTotalWidth(500);
 		totalQtyTable.getDefaultCell().setBorder(0);
-		
+
 		PdfPCell nameCell5 = new PdfPCell(new Phrase("ROUNDOFF: "+roundOff, bold)); 
 		nameCell5.setColspan(3);
 		nameCell5.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -321,12 +285,10 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 		document.add(totalQtyTable);
 
 
-
-
 	}
 
 	private void createTable(Document document, ReportsMappingModel model, List<Map<String, Object>> purchaseInvoiceDetailsList,
-			String supplierName,String address,String invoiceNo,Date invoiceDate) throws DocumentException {
+			String invoiceNo) throws DocumentException {
 
 		String reportHeader = model.getReportHeader();
 		List<HeaderDto> headerList = JsonUtility.jsonToList(reportHeader, HeaderDto.class);
@@ -337,16 +299,19 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 		finalTable.setWidthPercentage(50);
 		finalTable.setLockedWidth(true);
 		finalTable.getDefaultCell().setBorder(0); 
-
+		
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-		String invoiceDates=formatter.format(invoiceDate);
+		
+		String supplierName=String.valueOf(purchaseInvoiceDetailsList.get(0).get("SP_NAME"));
+		String address=String.valueOf(purchaseInvoiceDetailsList.get(0).get("CITY_NM"));
+		String invoiceDate=formatter.format(purchaseInvoiceDetailsList.get(0).get("INVOICE_DT"));
 
 		PdfPTable supllierNameTable = new PdfPTable(2);
 		//		PdfPCell nameCell = new PdfPCell(new Phrase("Supplier Name  : "+supplierName+  "      "
 		//				+ "GRN NO   :  "+grnNo+"          "+"Invoice Date   : "+invoiceDates, title08)); 
 
 		PdfPCell nameCell = new PdfPCell(new Phrase("Supplier Name  : "+supplierName+  "       "
-				+ "Invoice No  :  "+invoiceNo+"         "+"Invoice Date   : "+invoiceDates, bold)); 
+				+ "Invoice No  :  "+invoiceNo+"         "+"Invoice Date   : "+invoiceDate, bold)); 
 
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -357,7 +322,7 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 		supllierNameTable.setTotalWidth(500);
 		supllierNameTable.getDefaultCell().setBorder(0); 
 
-		PdfPCell nameCell1 = new PdfPCell(new Phrase("Address  : "+address, bold)); 
+		PdfPCell nameCell1 = new PdfPCell(new Phrase("Address  : "+ address, bold)); 
 		nameCell1.setColspan(3);
 		nameCell1.setHorizontalAlignment(Element.ALIGN_LEFT);
 		nameCell1.setVerticalAlignment(Element.ALIGN_TOP);
@@ -457,7 +422,7 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 			cell.setBorder(Rectangle.BOTTOM);
 
 		table.addCell(cell);
-		
+
 		headerCell = new Paragraph();
 		headerCell.setFont(headerFont);
 		headerCell.add("DISC AMT");
@@ -574,7 +539,7 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 					cell.setBorder(Rectangle.BOTTOM);
 
 				table.addCell(cell);
-				
+
 				value = rowData.containsKey("DISCOUNT_AMT") ? rowData.get("DISCOUNT_AMT") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), bold));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
