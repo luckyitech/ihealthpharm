@@ -25,9 +25,11 @@ public interface QuotationItemsService {
 
 	void deleteQuotationItemsByTds(Integer[] quotationItemsIds);
 
-	ItemsModel getQuotationItem(Integer quotationItemId);
+	//ItemsModel getQuotationItem(Integer quotationItemId);
 	
-	List<QuotationItemsModel> getQuotaionItemsByStatus(String status);
+	//List<QuotationItemsModel> getQuotaionItemsByStatus(String status);
 	
 	List<QuotationItemsModel> getQuotaionItemsByStatus(String status, String name);
+	
+	void getAllQuotationsItemsByQuotationId(Integer quotationId);
 }
