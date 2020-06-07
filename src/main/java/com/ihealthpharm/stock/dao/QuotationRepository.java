@@ -119,12 +119,36 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 	
 	@Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(id.itemSupplierId,id.activeS,d.name as supplierName,i.itemName,m.name as manufacturerName,m.licence as manufacturerLicense,i.itemDescription,i.itemId,d.supplierId,id.supplierPriority,f.form as formulation,i.itemCode,id.unitRate,id.discountPercentage,id.validity,i as itemsModel) from items_supplier id inner join supplier d on id.suppliersId=d.supplierId inner join items i on i.itemId=id.itemsId inner join items_forms f on i.itemForm=f.itemformId " + 
 			" inner join manufacturer m on m.manufacturerId=i.manufacturer where "
-			+ " i.itemCode like %:itemCode%  or i.itemName like %:itemName% or i.itemDescription like %:itemDescription%  and id.activeS='Y'")
+			+ " i.itemCode like %:itemCode%  or i.itemName like %:itemName% or i.itemDescription like :itemDescription%  and id.activeS='Y'")
 	List<ItemSupplierDTO> getItemsByItemCodeOrItemNameorItemDescForQuotation(@Param("itemCode") String itemCode, @Param("itemName") String itemName, 
 			@Param("itemDescription") String itemDescription);
+	
+	@Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(id.itemSupplierId,id.activeS,d.name as supplierName,i.itemName,m.name as manufacturerName,m.licence as manufacturerLicense,i.itemDescription,i.itemId,d.supplierId,id.supplierPriority,f.form as formulation,i.itemCode,id.unitRate,id.discountPercentage,id.validity,i as itemsModel) from items_supplier id inner join supplier d on id.suppliersId=d.supplierId inner join items i on i.itemId=id.itemsId inner join items_forms f on i.itemForm=f.itemformId " + 
+			" inner join manufacturer m on m.manufacturerId=i.manufacturer where "
+			+ "  i.itemDescription like %:itemDescription%  and id.activeS='Y'")
+	List<ItemSupplierDTO> getItemsByItemDescForQuotation(@Param("itemDescription") String itemDescription);
 	
 //	@Query("select new com.ihealthpharm.stock.model.QuotationModel(q.quotationId, q.quotationNo, "
 //			+ "q.requestedName, q.createdName, q.creationTimeStamp,q.quotationExpiryDt) "
 //			+ "from quotation q where q.quotationStatusModel.status = status ")
 //	List<QuotationModel> getPendingQuoationsByStatus(@Param("status") String status);
+	
+	
+	
+	//Quotation Searches
+	
+	//and q.quotationStatusModel.status = :status 
+	@Query("select q from quotation q where q.quotationNo like :quotationNo% and q.quotationStatusModel.status = :status")
+	List<QuotationModel> getAllQuotationSearchesForPendingRequestQtn(@Param("quotationNo")String quotationNo ,@Param("status") String status);
+	
+	@Query("select q from quotation q where q.quotationNo like :quotationNo% and q.quotationStatusModel.status = :status")
+	List<QuotationModel> getAllQuotationSearchesForPendingApprovalQtn(@Param("quotationNo")String quotationNo ,@Param("status") String status);
+
+	@Query("select q from quotation q where q.quotationNo like :quotationNo% and q.quotationStatusModel.status = :status")
+	List<QuotationModel> getAllQuotationSearchesForApprovedQtn(@Param("quotationNo")String quotationNo ,@Param("status") String status);
+	
+	@Query("select q from quotation q where q.quotationNo like :quotationNo% and q.quotationStatusModel.status = :status")
+	List<QuotationModel> getAllQuotationSearchesForRejectedQtn(@Param("quotationNo")String quotationNo ,@Param("status") String status);
+	
+	
 }

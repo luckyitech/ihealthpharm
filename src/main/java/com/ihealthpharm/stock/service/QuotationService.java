@@ -66,4 +66,19 @@ public interface QuotationService {
 	List<QuotationModel> getSentQuotationByPharmacy(Integer pharmacyId, String quotationNo, String description);
 
 	
+	
+	// Quotation Searches 
+	
+	
+	List<QuotationModel> getAllQuotationsBasedOnQtnNoForPendingSearch(String quotationNo, String status);
+
+	List<QuotationModel> getAllQuotationsBasedOnQtnNoForPendingApprovalSearch(String quotationNo, String status);
+
+	List<QuotationModel> getAllQuotationsForApprovedQtnSearchBasedOnQtnNo(String quotationNo, String status);
+
+	List<QuotationModel> getAllQuotationsForRejectedQtnSearchBasedOnQtnNo(String quotationNo, String status);
+
+	List<ItemSupplierDTO> getItemsByItemDescForQuotation(String itemDescription);
+
+	
 }

@@ -422,7 +422,6 @@ public class QuotationController {
 	@GetMapping("/getitemsbysupplieritemcditemname")
 	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsBySupplier(@RequestParam Integer supplierId, 
 			@RequestParam(required=false) String itemCode, @RequestParam(required=false) String itemName) {
-		System.out.println(itemCode+" "+itemName);
 		List<ItemSupplierDTO> result = quotationService.getItemsBySupplier(supplierId, itemCode, itemName);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
@@ -496,8 +495,6 @@ public class QuotationController {
 	@GetMapping("/getitemsbyitemcodeoritemnameoritemdesc")
 	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsByItemCodeOrItemNameOrItemDesc(@RequestParam(required=false) String itemCode, 
 			@RequestParam(required=false) String itemName, @RequestParam(required=false) String itemDescription,@RequestParam(required=true) Integer supplierId) {
-		System.out.println("---------------------------------------------------------------------------");
-		System.out.println(itemCode+" dsd  "+itemName);
 		List<ItemSupplierDTO> result = quotationService.getItemsByItemCodeOrItemNameorItemDesc(itemCode, itemName, itemDescription,supplierId);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
@@ -545,4 +542,48 @@ public class QuotationController {
                 .body(resource);
     }
 	
+	
+	//   ---------------------Quotation Changes --------------------------------------------------- //
+	
+	/**
+	 * @author Tarun 
+	 * Service is to get the quotations based on qtn number
+	 */
+	@GetMapping("/getPendingQuotations/basedOnQtnNo")
+	public ResponseEntity<BaseDto<List<QuotationModel>>> getAllQuotationsForPendingQtnSearch(@RequestParam String quotationNo){
+		List<QuotationModel> response=quotationService.getAllQuotationsBasedOnQtnNoForPendingSearch(quotationNo,"REQUEST NEW");
+		return new BaseDto<>(response,quotationHelper.getRetrieveQuotationMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getPendingApprovalQuotations/basedOnQtnNo")
+	public ResponseEntity<BaseDto<List<QuotationModel>>> getAllPendingQuotationsForPendingQtnSearch(@RequestParam String quotationNo){
+		List<QuotationModel> response=quotationService.getAllQuotationsBasedOnQtnNoForPendingApprovalSearch(quotationNo,"REQUEST PENDING");
+		return new BaseDto<>(response,quotationHelper.getRetrieveQuotationMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getApprovedQuotations/basedOnQtnNo")
+	public ResponseEntity<BaseDto<List<QuotationModel>>> getAllQuotationsForApprovedQtnSearch(@RequestParam String quotationNo){
+		List<QuotationModel> response=quotationService.getAllQuotationsForApprovedQtnSearchBasedOnQtnNo(quotationNo,"REQUEST APPROVED");
+		return new BaseDto<>(response,quotationHelper.getRetrieveQuotationMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getRejectededQuotations/basedOnQtnNo")
+	public ResponseEntity<BaseDto<List<QuotationModel>>> getAllQuotationsForRejectedQtnSearch(@RequestParam String quotationNo){
+		List<QuotationModel> response=quotationService.getAllQuotationsForRejectedQtnSearchBasedOnQtnNo(quotationNo,"REQUEST REJECTED");
+		return new BaseDto<>(response,quotationHelper.getRetrieveQuotationMessage(),OK).respond();
+	}
+	
+
+	/**
+	 * @author Tarun 
+	 * Service is to get the quotations based on qtn number
+	 */
+	
+	//qtn popup search
+	@GetMapping("/getItems/byItemDescForQuotation")
+	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsByItemDescForQuotation(
+			 @RequestParam String itemDescription) {
+		List<ItemSupplierDTO> result = quotationService.getItemsByItemDescForQuotation(itemDescription);
+		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
 }

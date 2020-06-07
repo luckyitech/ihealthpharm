@@ -4,13 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-
 import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.EmployeeRepository;
 import com.ihealthpharm.masters.dao.SupplierRepository;
@@ -18,19 +15,15 @@ import com.ihealthpharm.masters.dto.ItemSupplierDTO;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.model.SupplierModel;
-import com.ihealthpharm.masters.model.TaxModel;
 import com.ihealthpharm.stock.dao.QuotationItemStatusRepository;
 import com.ihealthpharm.stock.dao.QuotationItemsRepository;
 import com.ihealthpharm.stock.dao.QuotationRepository;
 import com.ihealthpharm.stock.dao.QuotationStatusRepository;
 import com.ihealthpharm.stock.helper.QuotationHelper;
-import com.ihealthpharm.stock.model.QuotationItemStatusModel;
 import com.ihealthpharm.stock.model.QuotationItemsModel;
 import com.ihealthpharm.stock.model.QuotationModel;
 import com.ihealthpharm.stock.model.QuotationStatusModel;
 import com.ihealthpharm.stock.service.QuotationService;
-import com.ihealthpharm.tax.model.TaxCategoryModel;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -224,7 +217,6 @@ public class QuotationServiceImpl implements QuotationService {
 	@Override
 	public List<QuotationModel> getQuotationByPharmacyAndStatus(Integer pharmacyId, String status) {
 		List<QuotationModel> quotationModels = quotationRepository.getQuotationByPharmacyAndStatus(pharmacyId, status);
-	//List<String> rejectN
 		for(QuotationModel q : quotationModels) {
 			q.setCreatedName(quotationRepository.createdQuotationUser(q.getQuotationId()));
 			//q.setModifiedName(quotationRepository.modifiedQuotationUser(q.getQuotationId()));
@@ -234,7 +226,6 @@ public class QuotationServiceImpl implements QuotationService {
 			q.setRequestedName(quotationRepository.requestedQuotationUser(q.getQuotationId()));
 			q.setApprovedName(quotationRepository.approvedQuotationUser(q.getQuotationId()));
 		}
-		//System.out.println(quotationModels);
 		return quotationModels;
 	}
 	
@@ -392,5 +383,67 @@ public class QuotationServiceImpl implements QuotationService {
 			q.setRequestedName(quotationRepository.requestedQuotationUser(q.getQuotationId()));
 		}
 		return quotationModels;
+	}
+
+	@Override
+	public List<QuotationModel> getAllQuotationsBasedOnQtnNoForPendingSearch(String quotationNo,String status) {
+		List<QuotationModel> quotationModels=quotationRepository.getAllQuotationSearchesForPendingRequestQtn(quotationNo,status);
+		for(QuotationModel q : quotationModels) {
+			q.setCreatedName(quotationRepository.createdQuotationUser(q.getQuotationId()));
+			q.setRejectedName(quotationRepository.rejectedQuotationUser(q.getQuotationId()));
+			q.setSentName(quotationRepository.sentQuotationUser(q.getQuotationId()));
+			q.setRequestedName(quotationRepository.requestedQuotationUser(q.getQuotationId()));
+			q.setApprovedName(quotationRepository.approvedQuotationUser(q.getQuotationId()));
+		}
+		return quotationModels;
+	}
+
+	@Override
+	public List<QuotationModel> getAllQuotationsBasedOnQtnNoForPendingApprovalSearch(String quotationNo,
+			String status) {
+		List<QuotationModel> quotationModels=quotationRepository.getAllQuotationSearchesForPendingApprovalQtn(quotationNo,status);
+		for(QuotationModel q : quotationModels) {
+			q.setCreatedName(quotationRepository.createdQuotationUser(q.getQuotationId()));
+			//q.setModifiedName(quotationRepository.modifiedQuotationUser(q.getQuotationId()));
+			q.setRejectedName(quotationRepository.rejectedQuotationUser(q.getQuotationId()));
+			//q.setApprovedName(quotationRepository.approvedQuotationUser(q.getQuotationId()));
+			q.setSentName(quotationRepository.sentQuotationUser(q.getQuotationId()));
+			q.setRequestedName(quotationRepository.requestedQuotationUser(q.getQuotationId()));
+			q.setApprovedName(quotationRepository.approvedQuotationUser(q.getQuotationId()));
+		}
+		return quotationModels;
+	}
+
+	@Override
+	public List<QuotationModel> getAllQuotationsForApprovedQtnSearchBasedOnQtnNo(String quotationNo, String status) {
+		List<QuotationModel> quotationModels=quotationRepository.getAllQuotationSearchesForApprovedQtn(quotationNo,status);
+		for(QuotationModel q : quotationModels) {
+			q.setCreatedName(quotationRepository.createdQuotationUser(q.getQuotationId()));
+			//q.setModifiedName(quotationRepository.modifiedQuotationUser(q.getQuotationId()));
+			q.setRejectedName(quotationRepository.rejectedQuotationUser(q.getQuotationId()));
+			//q.setApprovedName(quotationRepository.approvedQuotationUser(q.getQuotationId()));
+			q.setSentName(quotationRepository.sentQuotationUser(q.getQuotationId()));
+			q.setRequestedName(quotationRepository.requestedQuotationUser(q.getQuotationId()));
+			q.setApprovedName(quotationRepository.approvedQuotationUser(q.getQuotationId()));
+		}
+		return quotationModels;
+	}
+
+	@Override
+	public List<QuotationModel> getAllQuotationsForRejectedQtnSearchBasedOnQtnNo(String quotationNo, String status) {
+		List<QuotationModel> quotationModels=quotationRepository.getAllQuotationSearchesForRejectedQtn(quotationNo,status);
+		for(QuotationModel q : quotationModels) {
+			q.setCreatedName(quotationRepository.createdQuotationUser(q.getQuotationId()));
+			q.setRejectedName(quotationRepository.rejectedQuotationUser(q.getQuotationId()));
+			q.setSentName(quotationRepository.sentQuotationUser(q.getQuotationId()));
+			q.setRequestedName(quotationRepository.requestedQuotationUser(q.getQuotationId()));
+			q.setApprovedName(quotationRepository.approvedQuotationUser(q.getQuotationId()));
+		}
+		return quotationModels;
+	}
+
+	@Override
+	public List<ItemSupplierDTO> getItemsByItemDescForQuotation(String itemDescription) {
+		return quotationRepository.getItemsByItemDescForQuotation(itemDescription);
 	}
 }
