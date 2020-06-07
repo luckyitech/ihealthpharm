@@ -1,6 +1,7 @@
 package com.ihealthpharm.sales.service.impl;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -25,6 +26,8 @@ import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.masters.model.ProviderModel;
 import com.ihealthpharm.sales.dao.SalesRepository;
 import com.ihealthpharm.sales.dto.SalesBillDTO;
+import com.ihealthpharm.sales.dto.SalesByDatesDTO;
+import com.ihealthpharm.sales.dto.SalesByPersonsDTO;
 import com.ihealthpharm.sales.dto.SalesDTO;
 import com.ihealthpharm.sales.dto.SalesEmployeeDTO;
 import com.ihealthpharm.sales.helper.SalesHelper;
@@ -313,7 +316,7 @@ public class SalesServiceImpl implements SalesService {
 		LocalDate end = LocalDate.parse(toDate);
 		return salesRepository.getBillCodesByDates(start,end);
 	}
-
+	
 	@Override
 	public List<String> findBillCodesByFromDate(String fromDate) {
 		LocalDate start = LocalDate.parse(fromDate);
@@ -606,6 +609,37 @@ public class SalesServiceImpl implements SalesService {
 	@Override
 	public Integer findChequeAmount() {
 		return salesRepository.chequeAmount();
+	}
+
+	@Override
+	public List<SalesByDatesDTO> findSalesByDatesChart(String fromDate, String toDate, Integer empId) {
+		
+		LocalDate start = LocalDate.parse(fromDate);
+		LocalDate end = LocalDate.parse(toDate);
+				
+		List<SalesByDatesDTO> results = salesRepository.getSalesByDatesRepo(start,end, empId);
+		List finalObj = new ArrayList();
+	
+		for(SalesByDatesDTO obj:results) {
+			List temp = new ArrayList();
+			temp.add(obj.getBillDate());
+			temp.add(obj.getAmount());
+			finalObj.add(temp);
+		}
+		return finalObj;
+	}
+	
+	@Override
+	public List<SalesByPersonsDTO> findSalesByPersons(){
+		List<SalesByPersonsDTO> results = salesRepository.getSalesByPersonRepo();
+		List finalObj = new ArrayList();
+		for(SalesByPersonsDTO obj:results) {
+			List temp = new ArrayList();
+			temp.add(obj.getFirstName());
+			temp.add(obj.getAmount());
+			finalObj.add(temp);
+		}
+		return finalObj;
 	}
 
 	
