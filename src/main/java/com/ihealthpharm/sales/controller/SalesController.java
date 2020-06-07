@@ -18,11 +18,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.sales.dto.SalesBillDTO;
+import com.ihealthpharm.sales.dto.SalesByDatesDTO;
+import com.ihealthpharm.sales.dto.SalesByPersonsDTO;
 import com.ihealthpharm.sales.dto.SalesEmployeeDTO;
 import com.ihealthpharm.sales.helper.SalesHelper;
 import com.ihealthpharm.sales.model.SalesModel;
@@ -270,7 +273,7 @@ public class SalesController {
 		List<String> results=salesService.findBillCodesByDates(fromDate,toDate);
 		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
-	
+		
 	@GetMapping("/getBillsByFromDate")
 	public ResponseEntity<BaseDto<List<String>>> getBillCodesByFromDate(@RequestParam String fromDate) throws ParseException{
 		
@@ -386,5 +389,19 @@ public class SalesController {
 	public ResponseEntity<BaseDto<Integer>> getChequeAmount(){
 		Integer result = salesService.findChequeAmount();
 		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/chart/getSales/byDates")
+	public ResponseEntity<BaseDto<List<SalesByDatesDTO>>> getSalesByDatesData(@RequestParam String fromDate, @RequestParam String toDate, @RequestParam Integer empId) throws ParseException{
+		System.out.println("----------------------------------------------------------------------------------");
+		System.out.println(fromDate+ " ------ "+toDate+" ----- "+empId  );
+		List<SalesByDatesDTO> results = salesService.findSalesByDatesChart(fromDate, toDate, empId);
+		return new BaseDto<>(results, salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/charts/getSales/byPerson")
+	public ResponseEntity<BaseDto<List<SalesByPersonsDTO>>> getSalesByPersonsData(){
+		List<SalesByPersonsDTO> results = salesService.findSalesByPersons();
+		return new BaseDto<>(results, salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
 }
