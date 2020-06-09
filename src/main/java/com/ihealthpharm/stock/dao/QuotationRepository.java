@@ -32,8 +32,7 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 			+ "from quotation q where q.pharmacyModel.pharmacyId = :pharmacyId ")
 	List<QuotationModel> getQuotationByPharmacy(@Param("pharmacyId") Integer pharmacyId);
 	
-	@Query("select new com.ihealthpharm.stock.model.QuotationModel(q.quotationId, q.quotationNo, q.description, q.quotationDt, q.quotationExpiryDt, "
-			+ " q.rejectedReason, q.rejectedDate, q.modifiedDt, q.approvedDt, q.sentDt, q.creationTimeStamp) from quotation q "
+	@Query("select q from quotation q "
 			+ " where q.pharmacyModel.pharmacyId = :pharmacyId and q.quotationStatusModel.status = :status ")
 	List<QuotationModel> getQuotationByPharmacyAndStatus(@Param("pharmacyId") Integer pharmacyId, @Param("status") String status);
 	
@@ -86,13 +85,15 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 	@Query("select q.createdBy.firstName from quotation q where q.quotationId = :quotationId ")
 	String createdQuotationUser(@Param("quotationId") Integer quotationId);
 	
-	@Query("select q.modifiedBy.firstName from quotation q where q.quotationId = :quotationId ")
-	String modifiedQuotationUser(@Param("quotationId") Integer quotationId);
+	//@Query("select q.modifiedBy.firstName from quotation q where q.quotationId = :quotationId ")
+	//String modifiedQuotationUser(@Param("quotationId") Integer quotationId);
 	
-	@Query("select q.approvedBy.firstName from quotation q where q.quotationId = :quotationId ")
+	@Query("select CONCAT(e.firstName,'  ',e.lastName) from quotation q "
+			+ "inner join employee e on e.employeeId=q.approvedBy where q.quotationId = :quotationId  ")
 	String approvedQuotationUser(@Param("quotationId") Integer quotationId);
 	
-	@Query("select q.rejectedBy.firstName from quotation q where q.quotationId = :quotationId ")
+	@Query("select CONCAT(e.firstName,'  ',e.lastName) from quotation q "
+			+ "inner join employee e on e.employeeId=q.rejectedBy  where q.quotationId = :quotationId ")
 	String rejectedQuotationUser(@Param("quotationId") Integer quotationId);
 	
 	@Query("select q.requestedby.firstName from quotation q where q.quotationId = :quotationId ")
@@ -116,8 +117,38 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 	List<ItemSupplierDTO> getItemsByItemCodeOrItemNameorItemDesc(@Param("itemCode") String itemCode, @Param("itemName") String itemName, 
 			@Param("itemDescription") String itemDescription,@Param("supplierId") Integer supplierId);
 	
+	@Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(id.itemSupplierId,id.activeS,d.name as supplierName,i.itemName,m.name as manufacturerName,m.licence as manufacturerLicense,i.itemDescription,i.itemId,d.supplierId,id.supplierPriority,f.form as formulation,i.itemCode,id.unitRate,id.discountPercentage,id.validity,i as itemsModel) from items_supplier id inner join supplier d on id.suppliersId=d.supplierId inner join items i on i.itemId=id.itemsId inner join items_forms f on i.itemForm=f.itemformId " + 
+			" inner join manufacturer m on m.manufacturerId=i.manufacturer where "
+			+ " i.itemCode like %:itemCode%  or i.itemName like %:itemName% or i.itemDescription like :itemDescription%  and id.activeS='Y'")
+	List<ItemSupplierDTO> getItemsByItemCodeOrItemNameorItemDescForQuotation(@Param("itemCode") String itemCode, @Param("itemName") String itemName, 
+			@Param("itemDescription") String itemDescription);
+	
+	@Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(id.itemSupplierId,id.activeS,d.name as supplierName,i.itemName,m.name as manufacturerName,m.licence as manufacturerLicense,i.itemDescription,i.itemId,d.supplierId,id.supplierPriority,f.form as formulation,i.itemCode,id.unitRate,id.discountPercentage,id.validity,i as itemsModel) from items_supplier id inner join supplier d on id.suppliersId=d.supplierId inner join items i on i.itemId=id.itemsId inner join items_forms f on i.itemForm=f.itemformId " + 
+			" inner join manufacturer m on m.manufacturerId=i.manufacturer where "
+			+ "  i.itemDescription like %:itemDescription%  and id.activeS='Y'")
+	List<ItemSupplierDTO> getItemsByItemDescForQuotation(@Param("itemDescription") String itemDescription);
+	
 //	@Query("select new com.ihealthpharm.stock.model.QuotationModel(q.quotationId, q.quotationNo, "
 //			+ "q.requestedName, q.createdName, q.creationTimeStamp,q.quotationExpiryDt) "
 //			+ "from quotation q where q.quotationStatusModel.status = status ")
 //	List<QuotationModel> getPendingQuoationsByStatus(@Param("status") String status);
+	
+	
+	
+	//Quotation Searches
+	
+	//and q.quotationStatusModel.status = :status 
+	@Query("select q from quotation q where q.quotationNo like :quotationNo% and q.quotationStatusModel.status = :status")
+	List<QuotationModel> getAllQuotationSearchesForPendingRequestQtn(@Param("quotationNo")String quotationNo ,@Param("status") String status);
+	
+	@Query("select q from quotation q where q.quotationNo like :quotationNo% and q.quotationStatusModel.status = :status")
+	List<QuotationModel> getAllQuotationSearchesForPendingApprovalQtn(@Param("quotationNo")String quotationNo ,@Param("status") String status);
+
+	@Query("select q from quotation q where q.quotationNo like :quotationNo% and q.quotationStatusModel.status = :status")
+	List<QuotationModel> getAllQuotationSearchesForApprovedQtn(@Param("quotationNo")String quotationNo ,@Param("status") String status);
+	
+	@Query("select q from quotation q where q.quotationNo like :quotationNo% and q.quotationStatusModel.status = :status")
+	List<QuotationModel> getAllQuotationSearchesForRejectedQtn(@Param("quotationNo")String quotationNo ,@Param("status") String status);
+	
+	
 }

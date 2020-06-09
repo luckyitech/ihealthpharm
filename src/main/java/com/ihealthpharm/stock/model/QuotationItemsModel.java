@@ -10,12 +10,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.model.SupplierModel;
 import com.ihealthpharm.masters.model.TaxModel;
+import com.ihealthpharm.tax.model.TaxCategoryModel;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -38,31 +40,34 @@ public class QuotationItemsModel extends AuditModel {
 	@JoinColumn(name = "QUOTATION_ID")
 	QuotationModel quotation;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne
 	@JoinColumn(name = "ITEM_ID")
 	ItemsModel item;
 
 	// bi-directional many-to-one association to Supplier
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne
 	@JoinColumn(name = "SUPPLIER_ID")
 	SupplierModel supplier;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "STATUS")
-	QuotationItemStatusModel quotationItemStatus;
+	/*@OneToOne
+	@JoinColumn(name = "QUOTATION_ITEM_STATUS_ID")
+	QuotationItemStatusModel quotationItemStatus;*/
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "TAX_ID")
-	TaxModel tax;
+	@OneToOne
+	@JoinColumn(name = "TAXCATEGORY_ID")
+	TaxCategoryModel tax;
 	
+	
+	// no use of this columns 
+	// becoz no data is available in item and itemsupplier
 	@Column(name = "ADVANCE")
 	private Double advance;
 
 	@Column(name = "AUDIT_ID")
 	private Integer auditId;
 
-	@Column(name = "BONUS", length = 11)
-	private Integer bonus;
+	//@Column(name = "BONUS", length = 11)
+	//private Integer bonus;
 
 	@Column(name = "CONDITIONS")
 	private String conditions;
@@ -120,8 +125,8 @@ public class QuotationItemsModel extends AuditModel {
 	@Column(name = "QUOTATION_ITEM_ID", length = 11)
 	private Integer quotationItemId;
 
-	@Column(name = "REMARKS", length = 200)
-	private String remarks;
+	//@Column(name = "REMARKS", length = 200)
+	//private String remarks;
 
 	@Column(name = "TAX_INCLUDE_EXCLUDE", length = 20)
 	private String taxIncludeExclude;
@@ -129,7 +134,7 @@ public class QuotationItemsModel extends AuditModel {
 	@Column(name = "UNIT_PURCHASE_PRICE")
 	private Double unitPurchasePrice;
 
-	@Column(name = "UNIT_SALE_PRICE")
-	private Double unitSalePrice;
+	//@Column(name = "UNIT_SALE_PRICE")
+	//private Double unitSalePrice;
 
 }

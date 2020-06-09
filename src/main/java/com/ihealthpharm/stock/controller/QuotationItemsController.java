@@ -141,31 +141,31 @@ public class QuotationItemsController {
 	 * @author Gunasekhar 
 	 * Service is to get the pending QuotationItems
 	 */
-	@GetMapping("/getpendingquotationitems")
+/*	@GetMapping("/getpendingquotationitems")
 	public ResponseEntity<BaseDto<List<QuotationItemsModel>>> getPendingQuotationItems() {
 		List<QuotationItemsModel> result = quotationItemsService.getQuotaionItemsByStatus("PENDING");
 		return new BaseDto<>(result, quotationItemsHelper.getRetrieveQuotationItemMessage(), OK).respond();
-	}
+	}*/
 	
 	/**
 	 * @author Gunasekhar 
 	 * Service is to get the approved QuotationItems
 	 */
-	@GetMapping("/getapprovedquotationitems")
+	/*@GetMapping("/getapprovedquotationitems")
 	public ResponseEntity<BaseDto<List<QuotationItemsModel>>> getApprovedQuotationItems() {
 		List<QuotationItemsModel> result = quotationItemsService.getQuotaionItemsByStatus("APPROVED");
 		return new BaseDto<>(result, quotationItemsHelper.getRetrieveQuotationItemMessage(), OK).respond();
-	}
+	}*/
 	
 	/**
 	 * @author Gunasekhar 
 	 * Service is to get the rejected QuotationItems
 	 */
-	@GetMapping("/getrejectedquotationitems")
+/*	@GetMapping("/getrejectedquotationitems")
 	public ResponseEntity<BaseDto<List<QuotationItemsModel>>> getRejectedQuotationItems() {
 		List<QuotationItemsModel> result = quotationItemsService.getQuotaionItemsByStatus("REJECTED");
 		return new BaseDto<>(result, quotationItemsHelper.getRetrieveQuotationItemMessage(), OK).respond();
-	}
+	}*/
 	
 	/**
 	 * @author Gunasekhar 
@@ -204,6 +204,17 @@ public class QuotationItemsController {
 	@GetMapping("/rejectquotationitemsbyid")
 	public ResponseEntity<BaseDto<Object>> rejectQuotationItemsById(@RequestParam Integer quotationItemsId) {
 		quotationItemsService.rejectQuotationItemsById(quotationItemsId);
+		return new BaseDto<>(quotationItemsHelper.getDeleteQuotationItemMessage(), OK).respond();
+	}
+	
+
+	/**
+	 * @author Tarun 
+	 * Service is to delete the QuotationItems
+	 */
+	@GetMapping("/deleteAll/quotationitemsbyid")
+	public ResponseEntity<BaseDto<Object>> getQuotationItemsByQuotationId(@RequestParam Integer quotationId) {
+	  	quotationItemsService.getAllQuotationsItemsByQuotationId(quotationId);
 		return new BaseDto<>(quotationItemsHelper.getDeleteQuotationItemMessage(), OK).respond();
 	}
 	
