@@ -409,5 +409,11 @@ public class ItemServiceImpl implements ItemService {
 		
 		return itemRepository.getAllRecordsByStockId(stockId);
 	}
+	
+	@Override
+	public List<ItemsModel> findAllByItemCodeSWS(String searchTerm) {
+		List<ItemsModel> resp =itemRepository.findAllByItemCodeSWS(searchTerm);
+		return resp;
+	}
 
 }

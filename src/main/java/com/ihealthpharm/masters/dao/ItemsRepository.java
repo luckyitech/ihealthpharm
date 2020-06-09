@@ -154,4 +154,6 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 	@Query("select new  com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO(s.stockId,i.itemName,s.item.itemId,s.invoiceNo,s.remarks,s.rack,s.batchNo,s.expiryDt,s.quantity,s.quantity,s.shelf) from stock s inner join items i on s.item=i.itemId where s.stockId=:stockId")
 	public List<ItemsForStockAdjustDTO> getAllRecordsByStockId(@Param("stockId") Integer stockId);
 	
+	@Query("select i from items i where i.itemCode like :searchTerm% order by i.lastUpdateTimestamp desc")
+	List<ItemsModel> findAllByItemCodeSWS(@Param("searchTerm") String searchTerm);
 }
