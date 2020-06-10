@@ -57,7 +57,7 @@ public class QuotationItemsServiceImpl implements QuotationItemsService {
 	@Override
 	public QuotationItemsModel updateQuotationItems(QuotationItemsModel quotationItemsModel, String status) {
 		QuotationItemStatusModel quotationItemStatusModel  = quotationItemStatusRepository.findByStatus(status);
-		quotationItemsModel.setQuotationItemStatus(quotationItemStatusModel);
+		//quotationItemsModel.setQuotationItemStatus(quotationItemStatusModel);
 		QuotationItemsModel model = getQuotationItemsModel(quotationItemsModel.getQuotationItemId());
 		if (!Objects.nonNull(model)) {
 			throw new IHealthPharmException(quotationItemsHelper.getNotFoundQuotationItemMessage(), HttpStatus.NOT_FOUND);
@@ -133,7 +133,7 @@ public class QuotationItemsServiceImpl implements QuotationItemsService {
 		return quotationItemsRepository.findAllByOrderByCreationTimeStampDesc();
 	}
 
-	@Override
+/*	@Override
 	public ItemsModel getQuotationItem(Integer quotationItemId) {
 		ItemSupplierDTO model = quotationItemsRepository.getQuotationItem(quotationItemId);
 		ItemsModel itemsModel = new ItemsModel();
@@ -144,7 +144,7 @@ public class QuotationItemsServiceImpl implements QuotationItemsService {
 			itemsModel.setItemName(model.getItemName());
 		}
 		return itemsModel;
-	}
+	}*/
 
 	@Override
 	public void rejectQuotationItemsById(Integer quotationItemsId) {
@@ -153,12 +153,23 @@ public class QuotationItemsServiceImpl implements QuotationItemsService {
 			throw new IHealthPharmException(quotationItemsHelper.getNotFoundQuotationItemMessage(), HttpStatus.NOT_FOUND);
 		}	
 		QuotationItemStatusModel quotationItemStatusModel  = quotationItemStatusRepository.findByStatus("REJECTED");
-		quotationItemsModel.setQuotationItemStatus(quotationItemStatusModel);
+		//quotationItemsModel.setQuotationItemStatus(quotationItemStatusModel);
 		quotationItemsRepository.save(quotationItemsModel);
 		
 	}
 
 	@Override
+	public List<QuotationItemsModel> getQuotaionItemsByStatus(String status, String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void getAllQuotationsItemsByQuotationId(Integer quotationId) {
+	 quotationItemsRepository.getAllQuotationsById(quotationId);
+	}
+
+	/*@Override
 	public List<QuotationItemsModel> getQuotaionItemsByStatus(String status) {
 		List<QuotationItemsModel> quotationItemsModels = quotationItemsRepository.getQuotaionItemsByStatus(status);
 		for(QuotationItemsModel q : quotationItemsModels) {
@@ -167,9 +178,9 @@ public class QuotationItemsServiceImpl implements QuotationItemsService {
 			q.getQuotation();
 		}
 		return quotationItemsModels;
-	}
+	}*/
 
-	@Override
+/*	@Override
 	public List<QuotationItemsModel> getQuotaionItemsByStatus(String status, String name) {
 		List<QuotationItemsModel> quotationItemsModels = quotationItemsRepository.getQuotaionItemsByStatus(status, name);
 		for(QuotationItemsModel q : quotationItemsModels) {
@@ -179,5 +190,5 @@ public class QuotationItemsServiceImpl implements QuotationItemsService {
 		}
 		return quotationItemsModels;
 	}
-
+*/
 }

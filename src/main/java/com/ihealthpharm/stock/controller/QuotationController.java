@@ -40,7 +40,7 @@ import com.ihealthpharm.stock.utils.GenerateQuotationNo;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author Gunasekhar 
+ * @author Gunasekhar ,Tarun
  * Controller is used to perform the crud operations of Quotation
  */
 @RestController
@@ -83,9 +83,9 @@ public class QuotationController {
 	 */
 	@PostMapping("/save/requestnewquotation")
 	public ResponseEntity<BaseDto<QuotationModel>> saveRequestNewQuotation(@Valid @RequestBody QuotationModel quotationModel) {
-		log.info("Request Object insert is: "+ quotationModel.toString());
+		//log.info("Request Object insert is: "+ quotationModel.toString());
 		quotationModel.setModifiedDt(new Date());
-		QuotationModel model = quotationService.saveQuotation(quotationModel, "REQUEST NEW", "PENDING");
+		QuotationModel model = quotationService.saveQuotation(quotationModel, "REQUEST NEW");
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
 	}
 	
@@ -95,9 +95,9 @@ public class QuotationController {
 	 */
 	@PostMapping("/save/requestpendingquotation")
 	public ResponseEntity<BaseDto<QuotationModel>> saveRequestPendingQuotation(@Valid @RequestBody QuotationModel quotationModel) {
-		log.info("Request Object insert is: "+ quotationModel.toString());
+		//log.info("Request Object insert is: "+ quotationModel.toString());
 		quotationModel.setModifiedDt(new Date());
-		QuotationModel model = quotationService.saveQuotation(quotationModel, "REQUEST PENDING", "PENDING");
+		QuotationModel model = quotationService.saveQuotation(quotationModel, "REQUEST PENDING");
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
 	}
 	
@@ -106,10 +106,10 @@ public class QuotationController {
 	 * Service is to save the Request Approved Quotation
 	 */
 	@PostMapping("/save/requestapprovedquotation")
-	public ResponseEntity<BaseDto<QuotationModel>> saveRequestApprovedQuotation(@Valid @RequestBody QuotationModel quotationModel) {
-		log.info("Request Object insert is: "+ quotationModel.toString());
-		quotationModel.setApprovedDt(new Date());
-		QuotationModel model = quotationService.saveQuotation(quotationModel, "REQUEST APPROVED", "PENDING");
+	public ResponseEntity<BaseDto<QuotationModel>> saveRequestApprovedQuotation(@RequestBody QuotationModel quotationModel) {
+		//log.info("Request Object insert is: "+ quotationModel.toString());
+		//quotationModel.setApprovedDt(new Date());
+		QuotationModel model = quotationService.saveQuotation(quotationModel, "REQUEST APPROVED");
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
 	}
 	
@@ -119,20 +119,20 @@ public class QuotationController {
 	 */
 	@PostMapping("/save/requestrejectedquotation")
 	public ResponseEntity<BaseDto<QuotationModel>> saveRequestRejectedQuotation(@Valid @RequestBody QuotationModel quotationModel) {
-		log.info("Request Object insert is: "+ quotationModel.toString());
+		//log.info("Request Object insert is: "+ quotationModel.toString());
 		quotationModel.setRejectedDate(new Date());
-		QuotationModel model = quotationService.saveQuotation(quotationModel, "REQUEST REJECTED", "PENDING");
+		QuotationModel model = quotationService.saveQuotation(quotationModel, "REQUEST REJECTED");
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
 	}
 	
-	/**
+	/*
 	 * @author Gunasekhar 
 	 * Service is to save the Received Pending Quotation
 	 */
 	@PostMapping("/save/receivedpendingquotation")
 	public ResponseEntity<BaseDto<QuotationModel>> saveReceivedPendingQuotation(@Valid @RequestBody QuotationModel quotationModel) {
-		log.info("Request Object insert is: "+ quotationModel.toString());
-		QuotationModel model = quotationService.saveQuotation(quotationModel, "RECEIVED PENDING", "PENDING");
+		//log.info("Request Object insert is: "+ quotationModel.toString());
+		QuotationModel model = quotationService.saveQuotation(quotationModel, "RECEIVED PENDING");
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
 	}
 	
@@ -142,8 +142,8 @@ public class QuotationController {
 	 */
 	@PostMapping("/save/receivedapprovedquotation")
 	public ResponseEntity<BaseDto<QuotationModel>> saveReceivedApprovedQuotation(@Valid @RequestBody QuotationModel quotationModel) {
-		log.info("Request Object insert is: "+ quotationModel.toString());
-		QuotationModel model = quotationService.saveQuotation(quotationModel, "RECEIVED APPROVED", "PENDING");
+		//log.info("Request Object insert is: "+ quotationModel.toString());
+		QuotationModel model = quotationService.saveQuotation(quotationModel, "RECEIVED APPROVED");
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
 	}
 	
@@ -153,8 +153,8 @@ public class QuotationController {
 	 */
 	@PostMapping("/save/receivedrejectedquotation")
 	public ResponseEntity<BaseDto<QuotationModel>> saveReceivedRejectedQuotation(@Valid @RequestBody QuotationModel quotationModel) {
-		log.info("Request Object insert is: "+ quotationModel.toString());
-		QuotationModel model = quotationService.saveQuotation(quotationModel, "RECEIVED REJECTED", "PENDING");
+		//log.info("Request Object insert is: "+ quotationModel.toString());
+		QuotationModel model = quotationService.saveQuotation(quotationModel, "RECEIVED REJECTED");
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
 	}
 	
@@ -422,7 +422,6 @@ public class QuotationController {
 	@GetMapping("/getitemsbysupplieritemcditemname")
 	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsBySupplier(@RequestParam Integer supplierId, 
 			@RequestParam(required=false) String itemCode, @RequestParam(required=false) String itemName) {
-		System.out.println(itemCode+" "+itemName);
 		List<ItemSupplierDTO> result = quotationService.getItemsBySupplier(supplierId, itemCode, itemName);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
@@ -488,6 +487,7 @@ public class QuotationController {
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 	
+	
 	/**
 	 * @author Gunasekhar 
 	 * Service is to get the items based on the item code or item name or item description
@@ -496,6 +496,17 @@ public class QuotationController {
 	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsByItemCodeOrItemNameOrItemDesc(@RequestParam(required=false) String itemCode, 
 			@RequestParam(required=false) String itemName, @RequestParam(required=false) String itemDescription,@RequestParam(required=true) Integer supplierId) {
 		List<ItemSupplierDTO> result = quotationService.getItemsByItemCodeOrItemNameorItemDesc(itemCode, itemName, itemDescription,supplierId);
+		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author tarun 
+	 * Service is to get the items based on the item code or item name or item description
+	 */
+	@GetMapping("/getitemsbyitemcodeoritemnameoritemdescForQuotation")
+	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsByItemCodeOrItemNameOrItemDescForQuotation(@RequestParam(required=false) String itemCode, 
+			@RequestParam(required=false) String itemName, @RequestParam(required=false) String itemDescription) {
+		List<ItemSupplierDTO> result = quotationService.getItemsByItemCodeOrItemNameorItemDescForQuotation(itemCode, itemName, itemDescription);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 	
@@ -531,4 +542,48 @@ public class QuotationController {
                 .body(resource);
     }
 	
+	
+	//   ---------------------Quotation Changes --------------------------------------------------- //
+	
+	/**
+	 * @author Tarun 
+	 * Service is to get the quotations based on qtn number
+	 */
+	@GetMapping("/getPendingQuotations/basedOnQtnNo")
+	public ResponseEntity<BaseDto<List<QuotationModel>>> getAllQuotationsForPendingQtnSearch(@RequestParam String quotationNo){
+		List<QuotationModel> response=quotationService.getAllQuotationsBasedOnQtnNoForPendingSearch(quotationNo,"REQUEST NEW");
+		return new BaseDto<>(response,quotationHelper.getRetrieveQuotationMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getPendingApprovalQuotations/basedOnQtnNo")
+	public ResponseEntity<BaseDto<List<QuotationModel>>> getAllPendingQuotationsForPendingQtnSearch(@RequestParam String quotationNo){
+		List<QuotationModel> response=quotationService.getAllQuotationsBasedOnQtnNoForPendingApprovalSearch(quotationNo,"REQUEST PENDING");
+		return new BaseDto<>(response,quotationHelper.getRetrieveQuotationMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getApprovedQuotations/basedOnQtnNo")
+	public ResponseEntity<BaseDto<List<QuotationModel>>> getAllQuotationsForApprovedQtnSearch(@RequestParam String quotationNo){
+		List<QuotationModel> response=quotationService.getAllQuotationsForApprovedQtnSearchBasedOnQtnNo(quotationNo,"REQUEST APPROVED");
+		return new BaseDto<>(response,quotationHelper.getRetrieveQuotationMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getRejectededQuotations/basedOnQtnNo")
+	public ResponseEntity<BaseDto<List<QuotationModel>>> getAllQuotationsForRejectedQtnSearch(@RequestParam String quotationNo){
+		List<QuotationModel> response=quotationService.getAllQuotationsForRejectedQtnSearchBasedOnQtnNo(quotationNo,"REQUEST REJECTED");
+		return new BaseDto<>(response,quotationHelper.getRetrieveQuotationMessage(),OK).respond();
+	}
+	
+
+	/**
+	 * @author Tarun 
+	 * Service is to get the quotations based on qtn number
+	 */
+	
+	//qtn popup search
+	@GetMapping("/getItems/byItemDescForQuotation")
+	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsByItemDescForQuotation(
+			 @RequestParam String itemDescription) {
+		List<ItemSupplierDTO> result = quotationService.getItemsByItemDescForQuotation(itemDescription);
+		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
 }

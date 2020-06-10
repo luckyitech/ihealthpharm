@@ -89,4 +89,6 @@ public interface ItemService {
 	List<ItemsForStockAdjustDTO> getAllStockAdjustRecordBasedOnItemIdBatch(Integer itemId, String batchNo);
 	
 	List<ItemsForStockAdjustDTO> getAllStockAdjustRecordBasedOnStockId(Integer stockId);
+	
+	List<ItemsModel> findAllByItemCodeSWS(String searchTerm);
 }

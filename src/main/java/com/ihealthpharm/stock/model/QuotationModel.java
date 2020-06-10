@@ -41,6 +41,12 @@ public class QuotationModel extends AuditModel {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "QUOTATION_ID", length = 11)
+	private Integer quotationId;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "PHARMACY_ID")
 	PharmacyModel pharmacyModel;
@@ -49,29 +55,24 @@ public class QuotationModel extends AuditModel {
 	@JoinColumn(name = "QUOTATION_STATUS_ID")
 	QuotationStatusModel quotationStatusModel;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne
 	@JoinColumn(name = "CREATED_BY")
 	EmployeeModel createdBy;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SENT_BY")
 	EmployeeModel sentBy;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "REQUESTED_BY")
-	EmployeeModel requestedby;
+	 EmployeeModel requestedby;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MODIFIED_BY")
-	EmployeeModel modifiedBy;
+	@Column(name = "APPROVED_BY")
+	private Integer approvedBy;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "APPROVED_BY")
-	EmployeeModel approvedBy;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "REJECTED_BY")
-	EmployeeModel rejectedBy;
+	//@OneToOne
+	@Column(name = "REJECTED_BY")
+	private Integer rejectedBy;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "APPROVED_DT")
@@ -98,10 +99,7 @@ public class QuotationModel extends AuditModel {
 	@Column(name = "QUOTATION_EXPIRY_DT")
 	private Date quotationExpiryDt;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "QUOTATION_ID", length = 11)
-	private Integer quotationId;
+
 
 	@Column(name = "QUOTATION_NO", length = 20)
 	private String quotationNo;

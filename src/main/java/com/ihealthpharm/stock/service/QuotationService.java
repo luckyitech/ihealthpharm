@@ -14,7 +14,7 @@ public interface QuotationService {
 
 	QuotationModel saveQuotation(QuotationModel quotationModel);
 	
-	QuotationModel saveQuotation(QuotationModel quotationModel, String quotationstatus, String quotationItemstatus);
+	QuotationModel saveQuotation(QuotationModel quotationModel, String quotationstatus);
 
 	QuotationModel updateQuotation(QuotationModel quotationModel);
 
@@ -56,11 +56,29 @@ public interface QuotationService {
 	
 	List<ItemSupplierDTO> getItemsByItemCodeOrItemNameorItemDesc(String itemCode, String itemName, String itemDescription,Integer supplierId);
 	
+	List<ItemSupplierDTO> getItemsByItemCodeOrItemNameorItemDescForQuotation(String itemCode, String itemName, String itemDescription);
+	
+	
 	List<SupplierModel> getSupplierItemsByQuotationIdAndSupplierId(Integer quotationId, List<Integer> suppliersId);
 	
 	List<QuotationModel> getSentQuotationByPharmacy(Integer pharmacyId);
 	
 	List<QuotationModel> getSentQuotationByPharmacy(Integer pharmacyId, String quotationNo, String description);
+
+	
+	
+	// Quotation Searches 
+	
+	
+	List<QuotationModel> getAllQuotationsBasedOnQtnNoForPendingSearch(String quotationNo, String status);
+
+	List<QuotationModel> getAllQuotationsBasedOnQtnNoForPendingApprovalSearch(String quotationNo, String status);
+
+	List<QuotationModel> getAllQuotationsForApprovedQtnSearchBasedOnQtnNo(String quotationNo, String status);
+
+	List<QuotationModel> getAllQuotationsForRejectedQtnSearchBasedOnQtnNo(String quotationNo, String status);
+
+	List<ItemSupplierDTO> getItemsByItemDescForQuotation(String itemDescription);
 
 	
 }

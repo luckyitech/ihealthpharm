@@ -12,6 +12,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.ihealthpharm.sales.dto.SalesBillDTO;
+import com.ihealthpharm.sales.dto.SalesByDatesDTO;
+import com.ihealthpharm.sales.dto.SalesByPersonsDTO;
 import com.ihealthpharm.sales.dto.SalesDTO;
 import com.ihealthpharm.sales.model.SalesModel;
 
@@ -251,6 +253,16 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 
 	@Query("select sum(s.chequeAmount) from sales s where date(billDate) = CURDATE() and s.chequeAmount is not null and PAYMENT_STATUS not in ('CANCEL','DUMMY BILL') group by billDate")
 	Integer chequeAmount();
+
+	@Query("select new com.ihealthpharm.sales.dto.SalesByDatesDTO( concat(year(s.billDate),'-',month(s.billDate)) as date, (sum(s.totalAmount))/1000) from sales s inner join employee e on s.employeeModel.employeeId = e.employeeId\r\n" + 
+			"where s.billDate between :fromDate and :toDate and e.employeeId=:employeeId group by month(s.billDate) order by s.billDate")
+	List<SalesByDatesDTO> getSalesByDatesRepo(@Param("fromDate")LocalDate fromDate, @Param("toDate")LocalDate toDate, @Param("employeeId")Integer empId);
+	
+	@Query("select new com.ihealthpharm.sales.dto.SalesByPersonsDTO(concat(e.firstName,' ',e.lastName) as name, sum(s.totalAmount) as amount) from employee e, sales s "
+			+ "where s.employeeModel.employeeId = e.employeeId and TIMESTAMPDIFF(MONTH, s.billDate, now()) <= 10\r\n" + 
+			"group by e.employeeId order by amount desc")
+	List<SalesByPersonsDTO> getSalesByPersonRepo();
+
 
 	
 }
