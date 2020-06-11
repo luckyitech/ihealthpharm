@@ -113,6 +113,7 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 	private void generateTotalTable(SXSSFSheet sheet,File responseFile, CellStyle borderStyle, ReportsMappingModel model,
 			List<Map<String, Object>> responseList) {
 
+		DecimalFormat df=new DecimalFormat("0.00");
 		int currentRow = sheet.getLastRowNum();
 		double totalCashAmt=0.0;
 		double totalCardAmt=0.0;
@@ -131,8 +132,8 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 		totalCreditAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("CREDIT")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
 		totalInsuranceAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("INSURANCE")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
 		totalVatAmt=responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("VAT_AMT")?String.valueOf(mapper.get("VAT_AMT")):"0")).sum(); 
-		totalAmount=(totalCashAmt+totalMPesaAmt+totalCardAmt+totalChequeAmt+totalCreditAmt+totalInsuranceAmt)-(totalVatAmt);
-		grandTotal=(totalAmount+totalVatAmt);
+		totalAmount=Double.parseDouble(df.format((totalCashAmt+totalMPesaAmt+totalCardAmt+totalChequeAmt+totalCreditAmt+totalInsuranceAmt)-(totalVatAmt)));
+		grandTotal=Double.parseDouble(df.format(totalAmount+totalVatAmt));
 
 		Row dataRow = sheet.createRow(currentRow+2);
 		Row dataRow1=sheet.createRow(currentRow+3);
