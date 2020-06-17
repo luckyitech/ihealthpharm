@@ -224,6 +224,7 @@ public class QuotationServiceImpl implements QuotationService {
 			//q.setApprovedName(quotationRepository.approvedQuotationUser(q.getQuotationId()));
 			q.setSentName(quotationRepository.sentQuotationUser(q.getQuotationId()));
 			q.setRequestedName(quotationRepository.requestedQuotationUser(q.getQuotationId()));
+			
 			q.setApprovedName(quotationRepository.approvedQuotationUser(q.getQuotationId()));
 		}
 		return quotationModels;

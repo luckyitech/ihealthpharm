@@ -82,7 +82,8 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 	@Query("select e from employee e where e.employeeId = :employeeId ")
 	EmployeeModel findByEmployeeId(@Param("employeeId") Integer employeeId);
 	
-	@Query("select q.createdBy.firstName from quotation q where q.quotationId = :quotationId ")
+	//@Query("select q.createdBy.firstName from quotation q where q.quotationId = :quotationId ")
+	@Query("select CONCAT(e.firstName,'  ',e.lastName) from quotation q inner join employee e on q.createdBy=e.employeeId where q.quotationId = :quotationId ")
 	String createdQuotationUser(@Param("quotationId") Integer quotationId);
 	
 	//@Query("select q.modifiedBy.firstName from quotation q where q.quotationId = :quotationId ")
@@ -96,7 +97,8 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 			+ "inner join employee e on e.employeeId=q.rejectedBy  where q.quotationId = :quotationId ")
 	String rejectedQuotationUser(@Param("quotationId") Integer quotationId);
 	
-	@Query("select q.requestedby.firstName from quotation q where q.quotationId = :quotationId ")
+	//@Query("select q.requestedby.firstName from quotation q where q.quotationId = :quotationId ")
+	@Query("select CONCAT(e.firstName,'  ',e.lastName) from quotation q inner join employee e on q.requestedby=e.employeeId where q.quotationId = :quotationId ")
 	String requestedQuotationUser(@Param("quotationId") Integer quotationId);
 	
 	@Query("select q.sentBy.firstName from quotation q where q.quotationId = :quotationId ")
