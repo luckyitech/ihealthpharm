@@ -235,6 +235,14 @@ public class PurchaseInvoiceDetailsExcel extends ReportsExcelUtility {
 			cell = headerRow.createCell(10);
 			cell.setCellValue("NET AMOUNT");
 			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(11);
+			cell.setCellValue("CREATED BY");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(12);
+			cell.setCellValue("MODIFIED BY");
+			cell.setCellStyle(headerStyle);	
 
 			Row displayRow = sheet.createRow(headRow++);
 		
@@ -340,6 +348,17 @@ public class PurchaseInvoiceDetailsExcel extends ReportsExcelUtility {
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 
+				value = rowData.containsKey("EMP_NM") ? rowData.get("EMP_NM") : "";
+				//sheet.autoSizeColumn(10);
+				cell = dataRow.createCell(11);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("EMP_MODIFIED") ? rowData.get("EMP_MODIFIED") : "";
+				//sheet.autoSizeColumn(10);
+				cell = dataRow.createCell(12);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
 
 
 			}
