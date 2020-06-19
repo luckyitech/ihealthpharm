@@ -218,6 +218,14 @@ public class AccountReceivablesExcel extends ReportsExcelUtility{
 			cell.setCellValue("APPROVED DATE");
 			cell.setCellStyle(headerStyle);	
 			
+			cell = headerRow.createCell(12);
+			cell.setCellValue("CREATED BY");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(13);
+			cell.setCellValue("MODIFIED BY");
+			cell.setCellStyle(headerStyle);	
+			
 			
 			
 			for (Map<String, Object> rowData : accountReceivablesDetails) {
@@ -306,6 +314,18 @@ public class AccountReceivablesExcel extends ReportsExcelUtility{
 				value = rowData.containsKey("FROM_APPROVED_DATE") ? rowData.get("FROM_APPROVED_DATE") : "";
 				//sheet.autoSizeColumn(10);
 				cell = dataRow.createCell(11);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("CREATED_BY") ? rowData.get("CREATED_BY") : "";
+				//sheet.autoSizeColumn(10);
+				cell = dataRow.createCell(12);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("MODIFIED_BY") ? rowData.get("MODIFIED_BY") : "";
+				//sheet.autoSizeColumn(10);
+				cell = dataRow.createCell(13);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
