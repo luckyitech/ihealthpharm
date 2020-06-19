@@ -34,4 +34,6 @@ public interface DebitNoteService
 	List<String> findAllInvoiceNo();
 
 	List<String> findAllInvoiceNoBySearch(String invoiceNo);
+
+	List<String> findAllIReturnTypes();
 }

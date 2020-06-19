@@ -145,4 +145,10 @@ public class DebitNoteServiceImpl implements DebitNoteService{
 		
 		return debitNoteRepo.getInvoiceNoBySearch(invoiceNo);
 	}
+
+	@Override
+	public List<String> findAllIReturnTypes() {
+		
+		return debitNoteRepo.getAllReturnTypes();
+	}
 }
