@@ -555,7 +555,7 @@ public class PurchaseOrderDetailsPdf  extends ReportsPDFUtility{
 
 				table.addCell(cell);
 				
-				value = rowData.containsKey("EMP_NM") ? rowData.get("TOTAL_VALUE") : "";
+				value = rowData.containsKey("EMP_NM") ? rowData.get("EMP_NM") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())

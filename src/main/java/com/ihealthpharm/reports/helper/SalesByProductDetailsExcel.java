@@ -171,9 +171,10 @@ public class SalesByProductDetailsExcel extends ReportsExcelUtility {
 			cell.setCellStyle(headerStyle);
 			
 			
+			Row displayRow = sheet.createRow(headRow++);
 			for (Map<String, Object> rowData : salesByProductList) {
 				
-				Row displayRow = sheet.createRow(headRow);
+				
 				Cell headCell = displayRow.createCell(0);
 				Object value = rowData.containsKey("CUSTOMER_NM") ? rowData.get("CUSTOMER_NM") : "";
 				headCell.setCellValue("Customer Name  :   ");
