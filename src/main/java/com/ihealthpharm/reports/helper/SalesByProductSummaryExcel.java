@@ -140,57 +140,60 @@ public class SalesByProductSummaryExcel extends ReportsExcelUtility {
 			cell.setCellValue("S.No");
 			cell.setCellStyle(headerStyle);
 			
-			
 			cell = headerRow.createCell(1);
+			cell.setCellValue("PRODUCT NAME");
+			cell.setCellStyle(headerStyle);
+			
+			cell = headerRow.createCell(2);
 			cell.setCellValue("BILL NO");
 			cell.setCellStyle(headerStyle);
 			
 			
-			cell = headerRow.createCell(2);
+			cell = headerRow.createCell(3);
 			cell.setCellValue("DATE");
 			cell.setCellStyle(headerStyle);	
 			
 			
-			cell = headerRow.createCell(3);
+			cell = headerRow.createCell(4);
 			cell.setCellValue("CUSTOMER");
 			cell.setCellStyle(headerStyle);	
 			
 			
-			cell = headerRow.createCell(4);
+			cell = headerRow.createCell(5);
 			cell.setCellValue("BATCH NO");
 			cell.setCellStyle(headerStyle);	
 			
 			
-			cell = headerRow.createCell(5);
+			cell = headerRow.createCell(6);
 			cell.setCellValue("EXPIRY");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(6);
+			cell = headerRow.createCell(7);
 			cell.setCellValue("UNIT PRICE");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(7);
+			cell = headerRow.createCell(8);
 			cell.setCellValue("QTY");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(8);
+			cell = headerRow.createCell(9);
 			cell.setCellValue("QTY FREE");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(9);
+			cell = headerRow.createCell(10);
 			cell.setCellValue("S DISC%");
 			cell.setCellStyle(headerStyle);	
 			
 
-			cell = headerRow.createCell(10);
+			cell = headerRow.createCell(11);
 			cell.setCellValue("TOTAL AMT");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(11);
+			cell = headerRow.createCell(12);
 			cell.setCellValue("CREATED BY");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(12);
+			cell = headerRow.createCell(13);
 			cell.setCellValue("MODIFIED BY");
 			cell.setCellStyle(headerStyle);	
 			
@@ -211,65 +214,69 @@ public class SalesByProductSummaryExcel extends ReportsExcelUtility {
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
+				value = rowData.containsKey("ITEM_NM") ? rowData.get("ITEM_NM") : "";
+				cell = dataRow.createCell(1);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("BILL_CODE") ? rowData.get("BILL_CODE") : "";
-				cell = dataRow.createCell(1);
+				cell = dataRow.createCell(2);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 							
 				
 				value = rowData.containsKey("BILL_DATE") ? rowData.get("BILL_DATE") : "";
-				cell = dataRow.createCell(2);
+				cell = dataRow.createCell(3);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 
 				value = rowData.containsKey("CUSTOMER_NM") ? rowData.get("CUSTOMER_NM") : "";
-				cell = dataRow.createCell(3);
-				cell.setCellValue(String.valueOf(value));
-				cell.setCellStyle(borderStyle);
-				
-				value = rowData.containsKey("BATCH_NO") ? rowData.get("BATCH_NO") : "";
 				cell = dataRow.createCell(4);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("EXPIRY_DT") ? rowData.get("EXPIRY_DT") : "";
+				value = rowData.containsKey("BATCH_NO") ? rowData.get("BATCH_NO") : "";
 				cell = dataRow.createCell(5);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("UNIT_SALE_PRICE") ? rowData.get("UNIT_SALE_PRICE") : "";
+				value = rowData.containsKey("EXPIRY_DT") ? rowData.get("EXPIRY_DT") : "";
 				cell = dataRow.createCell(6);
-				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("SALE_QTY") ? rowData.get("SALE_QTY") : "";
+				value = rowData.containsKey("UNIT_SALE_PRICE") ? rowData.get("UNIT_SALE_PRICE") : "";
 				cell = dataRow.createCell(7);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("QTY_FREE") ? rowData.get("QTY_FREE") : "";
+				value = rowData.containsKey("SALE_QTY") ? rowData.get("SALE_QTY") : "";
 				cell = dataRow.createCell(8);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("DISC_PER") ? rowData.get("DISC_PER") : "";
+				value = rowData.containsKey("QTY_FREE") ? rowData.get("QTY_FREE") : "";
 				cell = dataRow.createCell(9);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("TOTAL_AMOUNT") ? rowData.get("TOTAL_AMOUNT") : "";
+				value = rowData.containsKey("DISC_PER") ? rowData.get("DISC_PER") : "";
 				cell = dataRow.createCell(10);
-				cell.setCellValue(String.valueOf(value));
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("CREATED_BY") ? rowData.get("CREATED_BY") : "";
+				value = rowData.containsKey("TOTAL_AMOUNT") ? rowData.get("TOTAL_AMOUNT") : "";
 				cell = dataRow.createCell(11);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("MODIFIED_BY") ? rowData.get("MODIFIED_BY") : "";
+				value = rowData.containsKey("CREATED_BY") ? rowData.get("CREATED_BY") : "";
 				cell = dataRow.createCell(12);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("MODIFIED_BY") ? rowData.get("MODIFIED_BY") : "";
+				cell = dataRow.createCell(13);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 			}

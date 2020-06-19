@@ -94,7 +94,7 @@ public class SalesByProductDetails extends ReportsPDFUtility{
 		supllierNameTable.getDefaultCell().setBorder(0); 
 		
 		
-		PdfPTable table = new PdfPTable(14);
+		PdfPTable table = new PdfPTable(15);
 		table.setTotalWidth(500);
 		table.setWidthPercentage(50);
 		table.setLockedWidth(true);
@@ -111,6 +111,16 @@ public class SalesByProductDetails extends ReportsPDFUtility{
 				cell.setBorder(Rectangle.BOTTOM);
 	
 			table.addCell(cell);	
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("CUSTOMER NAME");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+
+			table.addCell(cell);
 		
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
@@ -252,6 +262,14 @@ public class SalesByProductDetails extends ReportsPDFUtility{
 
 
 				Object value = String.valueOf(salesByProductList.indexOf(rowData) + 1);
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("CUSTOMER_NM") ? rowData.get("CUSTOMER_NM") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())

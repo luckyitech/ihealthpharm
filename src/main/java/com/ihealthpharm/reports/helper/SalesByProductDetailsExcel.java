@@ -112,61 +112,65 @@ public class SalesByProductDetailsExcel extends ReportsExcelUtility {
 			cell.setCellValue("S.No");
 			cell.setCellStyle(headerStyle);
 			
-			
 			cell = headerRow.createCell(1);
-			cell.setCellValue("BILL NO");
+			cell.setCellValue("CUSTOMER NAME");
 			cell.setCellStyle(headerStyle);
 			
 			
 			cell = headerRow.createCell(2);
+			cell.setCellValue("BILL NO");
+			cell.setCellStyle(headerStyle);
+			
+			
+			cell = headerRow.createCell(3);
 			cell.setCellValue("DATE");
 			cell.setCellStyle(headerStyle);	
 			
 			
-			cell = headerRow.createCell(3);
+			cell = headerRow.createCell(4);
 			cell.setCellValue("DOCTOR");
 			cell.setCellStyle(headerStyle);	
 			
 			
-			cell = headerRow.createCell(4);
+			cell = headerRow.createCell(5);
 			cell.setCellValue("PRODUCT NAME");
 			cell.setCellStyle(headerStyle);	
 			
 			
-			cell = headerRow.createCell(5);
+			cell = headerRow.createCell(6);
 			cell.setCellValue("MFR NAME");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(6);
+			cell = headerRow.createCell(7);
 			cell.setCellValue("BATCH");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(7);
+			cell = headerRow.createCell(8);
 			cell.setCellValue("EXPIRY");
 			cell.setCellStyle(headerStyle);	
 			
 
-			cell = headerRow.createCell(8);
+			cell = headerRow.createCell(9);
 			cell.setCellValue("QTY");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(9);
+			cell = headerRow.createCell(10);
 			cell.setCellValue("UNIT PRICE");
 			cell.setCellStyle(headerStyle);
 			
-			cell = headerRow.createCell(10);
+			cell = headerRow.createCell(11);
 			cell.setCellValue("DISCOUNT");
 			cell.setCellStyle(headerStyle);
 			
-			cell = headerRow.createCell(11);
+			cell = headerRow.createCell(12);
 			cell.setCellValue("TOTAL AMOUNT");
 			cell.setCellStyle(headerStyle);
 			
-			cell = headerRow.createCell(12);
+			cell = headerRow.createCell(13);
 			cell.setCellValue("CREATED BY");
 			cell.setCellStyle(headerStyle);
 			
-			cell = headerRow.createCell(13);
+			cell = headerRow.createCell(14);
 			cell.setCellValue("MODIFIED BY");
 			cell.setCellStyle(headerStyle);
 			
@@ -187,85 +191,91 @@ public class SalesByProductDetailsExcel extends ReportsExcelUtility {
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
-				
-				value = rowData.containsKey("BILL_CODE") ? rowData.get("BILL_CODE") : "";
+				value = rowData.containsKey("CUSTOMER_NM") ? rowData.get("CUSTOMER_NM") : "";
 				//sheet.autoSizeColumn(1);
 				cell = dataRow.createCell(1);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 							
 				
+				value = rowData.containsKey("BILL_CODE") ? rowData.get("BILL_CODE") : "";
+				//sheet.autoSizeColumn(1);
+				cell = dataRow.createCell(2);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+							
+				
 				value = rowData.containsKey("BILL_DATE") ? rowData.get("BILL_DATE") : "";
 				//sheet.autoSizeColumn(2);
-				cell = dataRow.createCell(2);
+				cell = dataRow.createCell(3);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 
 				value = rowData.containsKey("FIRST_NM") ? rowData.get("FIRST_NM") : "";
 				//sheet.autoSizeColumn(3);
-				cell = dataRow.createCell(3);
+				cell = dataRow.createCell(4);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("ITEM_NM") ? rowData.get("ITEM_NM") : "";
 				//sheet.autoSizeColumn(4);
-				cell = dataRow.createCell(4);
+				cell = dataRow.createCell(5);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("MFR_NAME") ? rowData.get("MFR_NAME") : "";
 				//sheet.autoSizeColumn(5);
-				cell = dataRow.createCell(5);
+				cell = dataRow.createCell(6);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				
 				value = rowData.containsKey("BATCH_NO") ? rowData.get("BATCH_NO") : "";
 				//sheet.autoSizeColumn(6);
-				cell = dataRow.createCell(6);
+				cell = dataRow.createCell(7);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("EXPIRY_DT") ? rowData.get("EXPIRY_DT") : "";
 				//sheet.autoSizeColumn(7);
-				cell = dataRow.createCell(7);
+				cell = dataRow.createCell(8);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 
 				value = rowData.containsKey("SALE_QTY") ? rowData.get("SALE_QTY") : "";
 				//sheet.autoSizeColumn(8);
-				cell = dataRow.createCell(8);
+				cell = dataRow.createCell(9);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("UNIT_SALE_PRICE") ? rowData.get("UNIT_SALE_PRICE") : "";
 				//sheet.autoSizeColumn(9);
-				cell = dataRow.createCell(9);
+				cell = dataRow.createCell(10);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("DISC") ? rowData.get("DISC") : "";
 				//sheet.autoSizeColumn(10);
-				cell = dataRow.createCell(10);
+				cell = dataRow.createCell(11);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("TOTAL_AMOUNT") ? rowData.get("TOTAL_AMOUNT") : "";
 				//sheet.autoSizeColumn(11);
-				cell = dataRow.createCell(11);
+				cell = dataRow.createCell(12);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("CREATED_BY") ? rowData.get("CREATED_BY") : "";
 				//sheet.autoSizeColumn(5);
-				cell = dataRow.createCell(12);
+				cell = dataRow.createCell(13);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("MODIFIED_BY") ? rowData.get("MODIFIED_BY") : "";
 				//sheet.autoSizeColumn(5);
-				cell = dataRow.createCell(13);
+				cell = dataRow.createCell(14);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 			}
