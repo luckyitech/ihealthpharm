@@ -316,6 +316,13 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 			cell.setCellValue("PAYMENT STATUS");
 			cell.setCellStyle(headerStyle);	
 
+			cell = headerRow.createCell(10);
+			cell.setCellValue("CREATED BY");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(11);
+			cell.setCellValue("MODIFIED BY");
+			cell.setCellStyle(headerStyle);	
 			for (Map<String, Object> rowData : salesRegisterDetails) {
 
 				Row dataRow = sheet.createRow(rowNum++);
@@ -396,6 +403,15 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 
+				value = rowData.containsKey("CREATED_BY") ? rowData.get("CREATED_BY") : "";
+				cell = dataRow.createCell(10);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("MODIFIED_BY") ? rowData.get("MODIFIED_BY") : "";
+				cell = dataRow.createCell(11);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
 
 			}
 		}

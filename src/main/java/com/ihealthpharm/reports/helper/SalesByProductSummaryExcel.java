@@ -186,6 +186,14 @@ public class SalesByProductSummaryExcel extends ReportsExcelUtility {
 			cell.setCellValue("TOTAL AMT");
 			cell.setCellStyle(headerStyle);	
 			
+			cell = headerRow.createCell(11);
+			cell.setCellValue("CREATED BY");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(12);
+			cell.setCellValue("MODIFIED BY");
+			cell.setCellStyle(headerStyle);	
+			
 			Row displayRow = sheet.createRow(headRow++);
 			
 			for (Map<String, Object> rowData : productList) {
@@ -252,6 +260,16 @@ public class SalesByProductSummaryExcel extends ReportsExcelUtility {
 				
 				value = rowData.containsKey("TOTAL_AMOUNT") ? rowData.get("TOTAL_AMOUNT") : "";
 				cell = dataRow.createCell(10);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("CREATED_BY") ? rowData.get("CREATED_BY") : "";
+				cell = dataRow.createCell(11);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("MODIFIED_BY") ? rowData.get("MODIFIED_BY") : "";
+				cell = dataRow.createCell(12);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 			}

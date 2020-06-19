@@ -212,9 +212,9 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 		finalTable.getDefaultCell().setBorder(0); 
 		
 		
-		PdfPTable table = new PdfPTable(10);
+		PdfPTable table = new PdfPTable(12);
 		table.setTotalWidth(500);
-		table.setWidths(new int[] {30,60,55,60,50,50,45,50,40,60});
+		table.setWidths(new int[] {30,40,55,40,50,50,45,50,40,40,30,30});
 		table.setWidthPercentage(50);
 		table.setLockedWidth(true);
 		PdfPCell cell = null;
@@ -321,6 +321,25 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 			
 			table.addCell(cell);
 			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("CREATED BY");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("MODIFIED BY");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
 			
 		//}
 		table.setHeaderRows(1);
@@ -405,6 +424,22 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 				table.addCell(cell);
 				
 				value = rowData.containsKey("PAYMENT_STATUS") ? rowData.get("PAYMENT_STATUS") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), bold));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("CREATED_BY") ? rowData.get("CREATED_BY") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), bold));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("MODIFIED_BY") ? rowData.get("MODIFIED_BY") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), bold));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
