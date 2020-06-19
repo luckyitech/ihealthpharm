@@ -36,5 +36,8 @@ extends JpaRepository<DebitNoteModel,Integer>
 
 	@Query("select distinct d.invoiceId from DEBIT_NOTE d where d.invoiceId like :invoiceNo% order by d.invoiceId")
 	List<String> getInvoiceNoBySearch(@Param("invoiceNo")String invoiceNo);
+
+	@Query("select distinct d.returnType from DEBIT_NOTE d order by d.returnType")
+	List<String> getAllReturnTypes();
 	
 }
