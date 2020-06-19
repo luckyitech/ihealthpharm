@@ -173,6 +173,14 @@ public class AccountPayablesExcel extends ReportsExcelUtility{
 			cell.setCellValue("APPROVED DATE");
 			cell.setCellStyle(headerStyle);	
 			
+			cell = headerRow.createCell(13);
+			cell.setCellValue("CREATED BY");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(14);
+			cell.setCellValue("MODIFIED BY");
+			cell.setCellStyle(headerStyle);	
+			
 			
 			for (Map<String, Object> rowData : purchaseMarginList) {
 				
@@ -264,7 +272,17 @@ public class AccountPayablesExcel extends ReportsExcelUtility{
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
+				value = rowData.containsKey("CREATED_BY") ? rowData.get("CREATED_BY") : "";
+				//sheet.autoSizeColumn(10);
+				cell = dataRow.createCell(13);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
 				
+				value = rowData.containsKey("MODIFIED_BY") ? rowData.get("MODIFIED_BY") : "";
+				//sheet.autoSizeColumn(10);
+				cell = dataRow.createCell(14);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
 				
 				
 			}
