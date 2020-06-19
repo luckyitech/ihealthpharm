@@ -30,4 +30,8 @@ public interface DebitNoteService
 	List<String> findAllSuppliers();
 
 	List<String> findAllSuppliersBySearch(String spName);
+
+	List<String> findAllInvoiceNo();
+
+	List<String> findAllInvoiceNoBySearch(String invoiceNo);
 }

@@ -84,7 +84,9 @@ public class DebitNoteReciept extends ReportsPDFUtility {
 		String amount = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get("amount"));
 		String remarks = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get("remarks"));
 		String approvedBy = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get("approved_by"));
-
+		String createdBy = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get("EMP_NM"));
+		String modifiedBy = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get("EMP_MODIFIED"));
+		
 
 		PdfPTable table = new PdfPTable(4);
 		table.setSpacingAfter(10); 
@@ -168,6 +170,32 @@ public class DebitNoteReciept extends ReportsPDFUtility {
 		table.addCell(cell);
 		table.completeRow();
 
+		cell = new PdfPCell(new Phrase("Created By		:",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setColspan(2);
+		cell.setBorder(Rectangle.NO_BORDER);
+		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase(createdBy,bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setColspan(2);
+		cell.setBorder(Rectangle.NO_BORDER);
+		table.addCell(cell);
+		table.completeRow();
+		
+		cell = new PdfPCell(new Phrase("Modified By		:",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setColspan(2);
+		cell.setBorder(Rectangle.NO_BORDER);
+		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase(modifiedBy,bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setColspan(2);
+		cell.setBorder(Rectangle.NO_BORDER);
+		table.addCell(cell);
+		table.completeRow();
+		
 		cell = new PdfPCell(new Phrase("Approved By		:",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setColspan(2);

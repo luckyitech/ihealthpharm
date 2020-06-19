@@ -104,5 +104,17 @@ public class DebitNoteController {
 		return new BaseDto<>(results,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
 	}
 	
+	//debit note report get invoice numbers
+	@GetMapping("/debitnote/getInvoiceNo")
+	public ResponseEntity<BaseDto<List<String>>> getInvoiceNo(){
+		List<String> results=debitNoteService.findAllInvoiceNo();
+		return new BaseDto<>(results,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
+	}
+	
+	@GetMapping("/debitnote/getInvoiceNoBySearch")
+	public ResponseEntity<BaseDto<List<String>>> getInvoiceNoBySearch(@RequestParam String invoiceNo){
+		List<String> results=debitNoteService.findAllInvoiceNoBySearch(invoiceNo);
+		return new BaseDto<>(results,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
+	}
 	
 }
