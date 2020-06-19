@@ -106,7 +106,7 @@ public class ManufacturerWiseSales extends ReportsPDFUtility {
 		supllierNameTable.getDefaultCell().setBorder(0); 
 		
 		
-		PdfPTable table = new PdfPTable(11);
+		PdfPTable table = new PdfPTable(16);
 		table.setTotalWidth(500);
 		table.setWidthPercentage(50);
 		table.setLockedWidth(true);
@@ -126,7 +126,27 @@ public class ManufacturerWiseSales extends ReportsPDFUtility {
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("PRODUCT CODE");
+			headerCell.add("MANUFACTURER NAME");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("INVOICE NUMBER");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("INVOICE DATE");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
@@ -146,7 +166,27 @@ public class ManufacturerWiseSales extends ReportsPDFUtility {
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("BATCH");
+			headerCell.add("UNIT PRICE");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("BATCH NO");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("EXPIRY");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
@@ -166,7 +206,7 @@ public class ManufacturerWiseSales extends ReportsPDFUtility {
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("UNIT PRICE");
+			headerCell.add("UNIT RATE");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
@@ -176,7 +216,7 @@ public class ManufacturerWiseSales extends ReportsPDFUtility {
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("SUB TOTAL");
+			headerCell.add("DISCOUNT PERCENTAGE");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
@@ -186,7 +226,7 @@ public class ManufacturerWiseSales extends ReportsPDFUtility {
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("DISCOUNT");
+			headerCell.add("DISCOUNT AMOUNT");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
@@ -196,7 +236,17 @@ public class ManufacturerWiseSales extends ReportsPDFUtility {
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("TOTAL AMT");
+			headerCell.add("VAT AMOUNT");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("TOTAL AMOUNT");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
@@ -240,7 +290,23 @@ public class ManufacturerWiseSales extends ReportsPDFUtility {
 
 				table.addCell(cell);
 
-				value = rowData.containsKey("ITEM_CD") ? rowData.get("ITEM_CD") : "";
+				value = rowData.containsKey("MFR_NAME") ? rowData.get("MFR_NAME") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("INVOICE_NO") ? rowData.get("INVOICE_NO") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("INVOICE_DT") ? rowData.get("INVOICE_DT") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
@@ -264,6 +330,14 @@ public class ManufacturerWiseSales extends ReportsPDFUtility {
 
 				table.addCell(cell);
 				
+				value = rowData.containsKey("EXPIRY_DT") ? rowData.get("EXPIRY_DT") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
 				value = rowData.containsKey("SALE_QTY") ? rowData.get("SALE_QTY") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -272,7 +346,7 @@ public class ManufacturerWiseSales extends ReportsPDFUtility {
 
 				table.addCell(cell);
 				
-				value = rowData.containsKey("UNIT_SALE_PRICE") ? rowData.get("UNIT_SALE_PRICE") : "";
+				value = rowData.containsKey("unit_sale") ? rowData.get("unit_sale") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
@@ -280,7 +354,7 @@ public class ManufacturerWiseSales extends ReportsPDFUtility {
 
 				table.addCell(cell);
 				
-				value = rowData.containsKey("SUB_TOTAL") ? rowData.get("SUB_TOTAL") : "";
+				value = rowData.containsKey("unit_sale") ? rowData.get("unit_sale") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
@@ -288,7 +362,7 @@ public class ManufacturerWiseSales extends ReportsPDFUtility {
 
 				table.addCell(cell);
 				
-				value = rowData.containsKey("DISCOUNT") ? rowData.get("DISCOUNT") : "";
+				value = rowData.containsKey("DISCOUNT_PERCENTAGE") ? rowData.get("DISCOUNT_PERCENTAGE") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
@@ -296,7 +370,23 @@ public class ManufacturerWiseSales extends ReportsPDFUtility {
 
 				table.addCell(cell);
 				
-				value = rowData.containsKey("TOTAL_AMOUNT") ? rowData.get("TOTAL_AMOUNT") : "";
+				value = rowData.containsKey("total_disc") ? rowData.get("total_disc") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("VAT") ? rowData.get("VAT") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("total_amount") ? rowData.get("total_amount") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
@@ -311,7 +401,7 @@ public class ManufacturerWiseSales extends ReportsPDFUtility {
 					cell.setBorder(Rectangle.BOTTOM);
 
 				table.addCell(cell);
-				
+
 				value = rowData.containsKey("MODIFIED_BY") ? rowData.get("MODIFIED_BY") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -319,7 +409,6 @@ public class ManufacturerWiseSales extends ReportsPDFUtility {
 					cell.setBorder(Rectangle.BOTTOM);
 
 				table.addCell(cell);
-
 
 				//}
 			}
