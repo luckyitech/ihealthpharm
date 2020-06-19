@@ -133,4 +133,16 @@ public class DebitNoteServiceImpl implements DebitNoteService{
 		
 		return debitNoteRepo.getSuppliersBySearch(spName);
 	}
+
+	@Override
+	public List<String> findAllInvoiceNo() {
+		
+		return debitNoteRepo.getAllInvoiceNo();
+	}
+
+	@Override
+	public List<String> findAllInvoiceNoBySearch(String invoiceNo) {
+		
+		return debitNoteRepo.getInvoiceNoBySearch(invoiceNo);
+	}
 }

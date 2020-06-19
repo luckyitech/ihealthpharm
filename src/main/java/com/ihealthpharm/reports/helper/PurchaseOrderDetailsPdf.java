@@ -372,7 +372,7 @@ public class PurchaseOrderDetailsPdf  extends ReportsPDFUtility{
 		
 		
 		
-		PdfPTable table = new PdfPTable(8);
+		PdfPTable table = new PdfPTable(10);
 		table.setTotalWidth(500);
 		table.setWidthPercentage(50);
 		table.setLockedWidth(true);
@@ -399,27 +399,7 @@ public class PurchaseOrderDetailsPdf  extends ReportsPDFUtility{
 				cell.setBorder(Rectangle.BOTTOM);
 
 			table.addCell(cell);
-			
-//			headerCell = new Paragraph();
-//			headerCell.setFont(headerFont);
-//			headerCell.add("BATCH");
-//			cell = new PdfPCell(headerCell);
-//			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-//			if (!model.isShowVerticalLines())
-//				cell.setBorder(Rectangle.BOTTOM);
-//			
-//			table.addCell(cell);
-//			
-//			headerCell = new Paragraph();
-//			headerCell.setFont(headerFont);
-//			headerCell.add("EXPIRY");
-//			cell = new PdfPCell(headerCell);
-//			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-//			if (!model.isShowVerticalLines())
-//				cell.setBorder(Rectangle.BOTTOM);
-//			
-//			table.addCell(cell);
-			
+						
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
 			headerCell.add("QTY");
@@ -480,17 +460,26 @@ public class PurchaseOrderDetailsPdf  extends ReportsPDFUtility{
 			
 			table.addCell(cell);
 			
-//			headerCell = new Paragraph();
-//			headerCell.setFont(headerFont);
-//			headerCell.add("CHARGES");
-//			cell = new PdfPCell(headerCell);
-//			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-//			if (!model.isShowVerticalLines())
-//				cell.setBorder(Rectangle.BOTTOM);
-//			
-//			table.addCell(cell);
+
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("CREATED BY");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
 			
-		//}
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("MODIFIED BY");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
 		table.setHeaderRows(1);
 
 		// populate Date
@@ -515,23 +504,6 @@ public class PurchaseOrderDetailsPdf  extends ReportsPDFUtility{
 
 				table.addCell(cell);
 				
-//				value = rowData.containsKey("BATCH_NO") ? rowData.get("BATCH_NO") : "";
-//				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-//				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-//				if (!model.isShowVerticalLines())
-//					cell.setBorder(Rectangle.BOTTOM);
-//
-//				table.addCell(cell);
-//				
-//				value = rowData.containsKey("EXPIRY_DT") ? rowData.get("EXPIRY_DT") : "";
-//				 SimpleDateFormat formatter1 = new SimpleDateFormat("dd-MM-yyyy");
-//				 String values=formatter1.format(value);
-//				cell = new PdfPCell(new Phrase(values, title06));
-//				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-//				if (!model.isShowVerticalLines())
-//					cell.setBorder(Rectangle.BOTTOM);
-//
-//				table.addCell(cell);
 				
 				value = rowData.containsKey("QUANTITY") ? rowData.get("QUANTITY") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
@@ -583,15 +555,23 @@ public class PurchaseOrderDetailsPdf  extends ReportsPDFUtility{
 
 				table.addCell(cell);
 				
-//				value = rowData.containsKey("HANDLING_CHARGES") ? rowData.get("HANDLING_CHARGES") : "";
-//				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-//				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-//				if (!model.isShowVerticalLines())
-//					cell.setBorder(Rectangle.BOTTOM);
-//
-//				table.addCell(cell);
+				value = rowData.containsKey("EMP_NM") ? rowData.get("TOTAL_VALUE") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
 				
-				//}
+				value = rowData.containsKey("EMP_MODIFIED") ? rowData.get("EMP_MODIFIED") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+
 			}
 		}
 		

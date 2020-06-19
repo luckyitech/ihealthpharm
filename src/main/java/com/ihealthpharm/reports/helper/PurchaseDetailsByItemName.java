@@ -33,7 +33,8 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 @Component
-public class PurchaseDetailsByItemName extends ReportsPDFUtility{
+public class PurchaseDetailsByItemName
+extends ReportsPDFUtility{
 
 	@Override
 	public Document generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model,
@@ -51,15 +52,15 @@ public class PurchaseDetailsByItemName extends ReportsPDFUtility{
 
 			Map<String, List<Map<String, Object>>> purchaseOrderDetails = responseList.stream()
 					.collect(Collectors.groupingBy(map -> (String) map.get("ITEM_NM")));
-			
+
 			if(!ObjectUtils.isEmpty(purchaseOrderDetails)) { 
-				
+
 				for(String itemName :purchaseOrderDetails.keySet()) {	
 					List<Map<String, Object>> purchaseOrderDetailsMap = purchaseOrderDetails.get(itemName);
 					createTable(document,model,purchaseOrderDetailsMap,itemName);
 
 				}
-			
+
 				generateTotalTable(document,model,responseList);
 
 
@@ -78,7 +79,7 @@ public class PurchaseDetailsByItemName extends ReportsPDFUtility{
 
 		return document;
 	}
-	
+
 	private void generateTotalTable(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException {
 		double subTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("TOTAL_VALUE") && !ObjectUtils.isEmpty(mapper.get("TOTAL_VALUE"))) ?String.valueOf(mapper.get("TOTAL_VALUE")):"0")).sum(); 
 		double discount = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("DISCOUNT")&& !ObjectUtils.isEmpty(mapper.get("DISCOUNT")))?String.valueOf(mapper.get("DISCOUNT")):"0")).sum(); 
@@ -169,9 +170,9 @@ public class PurchaseDetailsByItemName extends ReportsPDFUtility{
 		finalTable.setLockedWidth(true);
 		finalTable.getDefaultCell().setBorder(0); 
 
-		
+
 		PdfPTable supllierNameTable = new PdfPTable(2);
-		
+
 		PdfPCell nameCell = new PdfPCell(new Phrase("Item Name  : "+itemName,title08)); 
 
 		nameCell.setColspan(3);
@@ -183,8 +184,8 @@ public class PurchaseDetailsByItemName extends ReportsPDFUtility{
 		supllierNameTable.setTotalWidth(500);
 		supllierNameTable.getDefaultCell().setBorder(0); 
 
-	
-		PdfPTable table = new PdfPTable(8);
+
+		PdfPTable table = new PdfPTable(10);
 		table.setTotalWidth(500);
 		table.setWidthPercentage(50);
 		table.setLockedWidth(true);
@@ -212,7 +213,7 @@ public class PurchaseDetailsByItemName extends ReportsPDFUtility{
 
 		table.addCell(cell);
 
-		
+
 		headerCell = new Paragraph();
 		headerCell.setFont(headerFont);
 		headerCell.add("QTY");
@@ -273,7 +274,27 @@ public class PurchaseDetailsByItemName extends ReportsPDFUtility{
 
 		table.addCell(cell);
 
-		
+		headerCell = new Paragraph();
+		headerCell.setFont(headerFont);
+		headerCell.add("CREATED BY");
+		cell = new PdfPCell(headerCell);
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		if (!model.isShowVerticalLines())
+			cell.setBorder(Rectangle.BOTTOM);
+
+		table.addCell(cell);
+
+		headerCell = new Paragraph();
+		headerCell.setFont(headerFont);
+		headerCell.add("MODIFIED BY");
+		cell = new PdfPCell(headerCell);
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		if (!model.isShowVerticalLines())
+			cell.setBorder(Rectangle.BOTTOM);
+
+		table.addCell(cell);
+
+
 		table.setHeaderRows(1);
 
 		// populate Date
@@ -347,7 +368,21 @@ public class PurchaseDetailsByItemName extends ReportsPDFUtility{
 
 				table.addCell(cell);
 
-			
+				value = rowData.containsKey("EMP_NM") ? rowData.get("EMP_NM") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+
+				value = rowData.containsKey("EMP_MODIFIED") ? rowData.get("EMP_MODIFIED") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
 			}
 		}
 
