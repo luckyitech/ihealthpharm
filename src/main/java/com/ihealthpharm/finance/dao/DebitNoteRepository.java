@@ -30,5 +30,11 @@ extends JpaRepository<DebitNoteModel,Integer>
 	@Query("select distinct sp.name from DEBIT_NOTE d inner join supplier sp on d.supplierModel.supplierId=sp.supplierId "
 			+ "where sp.name like :spName% order by sp.name")
 	List<String> getSuppliersBySearch(@Param("spName")String spName);
+
+	@Query("select distinct d.invoiceId from DEBIT_NOTE d order by d.invoiceId")
+	List<String> getAllInvoiceNo();
+
+	@Query("select distinct d.invoiceId from DEBIT_NOTE d where d.invoiceId like :invoiceNo% order by d.invoiceId")
+	List<String> getInvoiceNoBySearch(@Param("invoiceNo")String invoiceNo);
 	
 }

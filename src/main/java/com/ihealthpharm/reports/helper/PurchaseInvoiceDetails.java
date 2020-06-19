@@ -334,9 +334,9 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 
 
 
-		PdfPTable table = new PdfPTable(11);
-		table.setTotalWidth(500);
-		table.setWidths(new int[] {30,90,50,60,30,20,50,30,40,30,60});
+		PdfPTable table = new PdfPTable(13);
+		table.setTotalWidth(550);
+		table.setWidths(new int[] {25,80,50,60,30,20,45,30,40,30,60,35,35});
 		table.setWidthPercentage(50);
 		table.setLockedWidth(true);
 		PdfPCell cell = null;
@@ -446,6 +446,26 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 		headerCell = new Paragraph();
 		headerCell.setFont(headerFont);
 		headerCell.add("TOTAL AMT");
+		cell = new PdfPCell(headerCell);
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		if (!model.isShowVerticalLines())
+			cell.setBorder(Rectangle.BOTTOM);
+
+		table.addCell(cell);
+		
+		headerCell = new Paragraph();
+		headerCell.setFont(headerFont);
+		headerCell.add("CREATED BY");
+		cell = new PdfPCell(headerCell);
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		if (!model.isShowVerticalLines())
+			cell.setBorder(Rectangle.BOTTOM);
+
+		table.addCell(cell);
+		
+		headerCell = new Paragraph();
+		headerCell.setFont(headerFont);
+		headerCell.add("MODIFIED BY");
 		cell = new PdfPCell(headerCell);
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		if (!model.isShowVerticalLines())
@@ -563,16 +583,23 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 					cell.setBorder(Rectangle.BOTTOM);
 
 				table.addCell(cell);
+				
+				value = rowData.containsKey("EMP_NM") ? rowData.get("EMP_NM") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), bold));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
 
-				//				value = rowData.containsKey("HANDLING_CHARGES") ? rowData.get("HANDLING_CHARGES") : "";
-				//				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-				//				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				//				if (!model.isShowVerticalLines())
-				//					cell.setBorder(Rectangle.BOTTOM);
-				//
-				//				table.addCell(cell);
+				table.addCell(cell);
+				
+				value = rowData.containsKey("EMP_MODIFIED") ? rowData.get("EMP_MODIFIED") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), bold));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
 
-				//}
+				table.addCell(cell);
+
 			}
 		}
 
