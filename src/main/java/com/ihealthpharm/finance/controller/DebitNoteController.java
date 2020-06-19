@@ -117,4 +117,9 @@ public class DebitNoteController {
 		return new BaseDto<>(results,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
 	}
 	
+	@GetMapping("/debitnote/getReturnTypes")
+	public ResponseEntity<BaseDto<List<String>>> getReturnTypes(){
+		List<String> results=debitNoteService.findAllIReturnTypes();
+		return new BaseDto<>(results,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
+	}
 }
