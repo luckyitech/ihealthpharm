@@ -428,7 +428,7 @@ public class AccountReceivablesPdf extends ReportsPDFUtility{
 
 	}
 		else {
-			PdfPTable table = new PdfPTable(12);
+			PdfPTable table = new PdfPTable(14);
 			table.setTotalWidth(500);
 			table.setWidthPercentage(50);
 			table.setLockedWidth(true);
@@ -556,6 +556,26 @@ public class AccountReceivablesPdf extends ReportsPDFUtility{
 				
 				table.addCell(cell);
 				
+				headerCell = new Paragraph();
+				headerCell.setFont(headerFont);
+				headerCell.add("CREATED BY");
+				cell = new PdfPCell(headerCell);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+				
+				table.addCell(cell);
+				
+				headerCell = new Paragraph();
+				headerCell.setFont(headerFont);
+				headerCell.add("MODIFIED BY");
+				cell = new PdfPCell(headerCell);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+				
+				table.addCell(cell);
+				
 			//}
 			table.setHeaderRows(1);
 
@@ -660,7 +680,21 @@ public class AccountReceivablesPdf extends ReportsPDFUtility{
 
 					table.addCell(cell);
 
+					value = rowData.containsKey("CREATED_BY") ? rowData.get("CREATED_BY") : "";
+					cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					if (!model.isShowVerticalLines())
+						cell.setBorder(Rectangle.BOTTOM);
 
+					table.addCell(cell);
+					
+					value = rowData.containsKey("MODIFIED_BY") ? rowData.get("MODIFIED_BY") : "";
+					cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					if (!model.isShowVerticalLines())
+						cell.setBorder(Rectangle.BOTTOM);
+
+					table.addCell(cell);
 					//}
 				}
 			}
