@@ -11,7 +11,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.ihealthpharm.masters.dto.AlternativeItemDTO;
+import com.ihealthpharm.masters.dto.ItemDTO;
 import com.ihealthpharm.sales.dto.SalesBillDTO;
+import com.ihealthpharm.sales.dto.SalesBillsLimitedDTO;
 import com.ihealthpharm.sales.dto.SalesByDatesDTO;
 import com.ihealthpharm.sales.dto.SalesByPersonsDTO;
 import com.ihealthpharm.sales.dto.SalesDTO;
@@ -263,6 +266,11 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 			"group by e.employeeId order by amount desc")
 	List<SalesByPersonsDTO> getSalesByPersonRepo();
 
-
+	@Query("select new com.ihealthpharm.sales.dto.SalesBillsLimitedDTO(b.billId,b.billCode) from sales b where b.activeS='Y' order by b.lastUpdateTs desc")
+	 List<SalesBillsLimitedDTO> findBillsByLimit(Pageable pageable);
+	
+	@Query("select new com.ihealthpharm.sales.dto.SalesBillsLimitedDTO(b.billId,b.billCode) from sales b  "
+			+ "where  b.billCode like :searchTerm%  order by b.lastUpdateTs desc")
+	List<SalesBillsLimitedDTO> getBillsByName(@Param("searchTerm") String searchTerm);
 	
 }

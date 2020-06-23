@@ -22,10 +22,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
+import com.ihealthpharm.masters.dto.ItemDTO;
 import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.masters.model.ProviderModel;
 import com.ihealthpharm.sales.dao.SalesRepository;
 import com.ihealthpharm.sales.dto.SalesBillDTO;
+import com.ihealthpharm.sales.dto.SalesBillsLimitedDTO;
 import com.ihealthpharm.sales.dto.SalesByDatesDTO;
 import com.ihealthpharm.sales.dto.SalesByPersonsDTO;
 import com.ihealthpharm.sales.dto.SalesDTO;
@@ -642,5 +644,15 @@ public class SalesServiceImpl implements SalesService {
 		return finalObj;
 	}
 
+	@Override
+	public List<SalesBillsLimitedDTO> findBillsByLimit(Integer pageNumber, Integer pageSize) {
+		Pageable limit = PageRequest.of(pageNumber,pageSize);
+		return salesRepository.findBillsByLimit(limit);
+	}
+
+	@Override
+	public List<SalesBillsLimitedDTO> findBillsByName(String billCode) {
+		return salesRepository.getBillsByName(billCode);
+	}
 	
 }

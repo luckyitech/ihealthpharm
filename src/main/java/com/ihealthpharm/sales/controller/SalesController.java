@@ -23,7 +23,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.masters.dto.AlternativeItemDTO;
+import com.ihealthpharm.masters.dto.ItemDTO;
 import com.ihealthpharm.sales.dto.SalesBillDTO;
+import com.ihealthpharm.sales.dto.SalesBillsLimitedDTO;
 import com.ihealthpharm.sales.dto.SalesByDatesDTO;
 import com.ihealthpharm.sales.dto.SalesByPersonsDTO;
 import com.ihealthpharm.sales.dto.SalesEmployeeDTO;
@@ -393,8 +396,6 @@ public class SalesController {
 	
 	@GetMapping("/chart/getSales/byDates")
 	public ResponseEntity<BaseDto<List<SalesByDatesDTO>>> getSalesByDatesData(@RequestParam String fromDate, @RequestParam String toDate, @RequestParam Integer empId) throws ParseException{
-		System.out.println("----------------------------------------------------------------------------------");
-		System.out.println(fromDate+ " ------ "+toDate+" ----- "+empId  );
 		List<SalesByDatesDTO> results = salesService.findSalesByDatesChart(fromDate, toDate, empId);
 		return new BaseDto<>(results, salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
@@ -403,5 +404,19 @@ public class SalesController {
 	public ResponseEntity<BaseDto<List<SalesByPersonsDTO>>> getSalesByPersonsData(){
 		List<SalesByPersonsDTO> results = salesService.findSalesByPersons();
 		return new BaseDto<>(results, salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	//getall bills data by id
+	@GetMapping("/getbills/databylimit")
+	public ResponseEntity<BaseDto<List<SalesBillsLimitedDTO>>> geBillsDataByIdLimit(@RequestParam Integer start,@RequestParam Integer end) {
+		List<SalesBillsLimitedDTO> result = salesService.findBillsByLimit(start,end);
+		log.info("Seiz: "+result.size());
+		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(), OK).respond();
+	}
+	
+	@GetMapping("/getbills/DataByName")
+	public ResponseEntity<BaseDto<List<SalesBillsLimitedDTO>>> getItemsDataByName(@RequestParam("key") String billCode) {
+		List<SalesBillsLimitedDTO> result = salesService.findBillsByName(billCode);
+		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(), OK).respond();
 	}
 }
