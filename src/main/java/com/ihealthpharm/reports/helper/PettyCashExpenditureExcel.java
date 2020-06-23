@@ -135,23 +135,30 @@ public class PettyCashExpenditureExcel extends ReportsExcelUtility {
 			cell.setCellValue("DATE");
 			cell.setCellStyle(headerStyle);
 
-
 			cell = headerRow.createCell(2);
+			cell.setCellValue("PARTY");
+			cell.setCellStyle(headerStyle);
+
+			cell = headerRow.createCell(3);
+			cell.setCellValue("COUNTER PARTY");
+			cell.setCellStyle(headerStyle);
+
+			cell = headerRow.createCell(4);
 			cell.setCellValue("DESCRIPTION");
 			cell.setCellStyle(headerStyle);	
 
 
-			cell = headerRow.createCell(3);
+			cell = headerRow.createCell(5);
 			cell.setCellValue("AMOUNT");
 			cell.setCellStyle(headerStyle);	
 
 
-			cell = headerRow.createCell(4);
+			cell = headerRow.createCell(6);
 			cell.setCellValue("BALANCE");
 			cell.setCellStyle(headerStyle);	
 
 			
-			cell = headerRow.createCell(5);
+			cell = headerRow.createCell(7);
 			cell.setCellValue("SUBMITTEd BY");
 			cell.setCellStyle(headerStyle);	
 
@@ -192,26 +199,35 @@ public class PettyCashExpenditureExcel extends ReportsExcelUtility {
 					cell.setCellValue(String.valueOf(value));
 					cell.setCellStyle(borderStyle);
 
+					value = rowData.containsKey("PARTY") ? rowData.get("PARTY") : "";
+					cell = dataRow.createCell(2);
+					cell.setCellValue(String.valueOf(value));
+					cell.setCellStyle(borderStyle);
+					
+					value = rowData.containsKey("COUNTER_PARTY") ? rowData.get("COUNTER_PARTY") : "";
+					cell = dataRow.createCell(3);
+					cell.setCellValue(String.valueOf(value));
+					cell.setCellStyle(borderStyle);
 
 					value = rowData.containsKey("EXPENSES_REF") ? rowData.get("EXPENSES_REF") : "";
-					cell = dataRow.createCell(2);
+					cell = dataRow.createCell(4);
 					cell.setCellValue(String.valueOf(value));
 					cell.setCellStyle(borderStyle);
 
 					value = rowData.containsKey("DEBIT") ? rowData.get("DEBIT") : "";
-					cell = dataRow.createCell(3);
+					cell = dataRow.createCell(5);
 					cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 					cell.setCellStyle(borderStyle);
 
 					double value1=Double.parseDouble(((rowData.containsKey("DEBIT") ? (String.valueOf(rowData.get("DEBIT"))) : "")));
 					value = cashOnHand-value1;
 					cashOnHand=(Double) value;
-					cell = dataRow.createCell(4);
+					cell = dataRow.createCell(6);
 					cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 					cell.setCellStyle(borderStyle);
 
 					value = rowData.containsKey("SUBMITTED_BY") ? rowData.get("SUBMITTED_BY") : "";
-					cell = dataRow.createCell(5);
+					cell = dataRow.createCell(7);
 					cell.setCellValue(String.valueOf(value));
 					cell.setCellStyle(borderStyle);
 
@@ -235,15 +251,15 @@ public class PettyCashExpenditureExcel extends ReportsExcelUtility {
 				cell1.setCellValue("");
 				cell2.setCellValue("");
 
-				cell1= dataRow1.createCell(4);
-				cell2= dataRow2.createCell(4);
+				cell1= dataRow1.createCell(6);
+				cell2= dataRow2.createCell(6);
 
 				cell1.setCellValue("Total Amount : ");
 				cell2.setCellValue("Balance : ");
 
 
-				cell1 = dataRow1.createCell(5);
-				cell2 = dataRow2.createCell(5);
+				cell1 = dataRow1.createCell(7);
+				cell2 = dataRow2.createCell(7);
 
 				cell1.setCellValue(totalAmount);
 				cell2.setCellValue(totalBalance);
