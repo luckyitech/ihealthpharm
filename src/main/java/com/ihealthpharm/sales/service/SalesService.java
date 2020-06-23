@@ -3,7 +3,9 @@ package com.ihealthpharm.sales.service;
 import java.util.Date;
 import java.util.List;
 
+import com.ihealthpharm.masters.dto.ItemDTO;
 import com.ihealthpharm.sales.dto.SalesBillDTO;
+import com.ihealthpharm.sales.dto.SalesBillsLimitedDTO;
 import com.ihealthpharm.sales.dto.SalesByDatesDTO;
 import com.ihealthpharm.sales.dto.SalesByPersonsDTO;
 import com.ihealthpharm.sales.dto.SalesEmployeeDTO;
@@ -131,5 +133,11 @@ public interface SalesService
 	List<SalesByDatesDTO> findSalesByDatesChart(String fromDate, String toDate, Integer empId);
 
 	List<SalesByPersonsDTO> findSalesByPersons();
+	
+	// get limited bills
+	
+	List<SalesBillsLimitedDTO> findBillsByLimit(Integer start,Integer end);
+
+	List<SalesBillsLimitedDTO> findBillsByName(String billCode);
 
 }
