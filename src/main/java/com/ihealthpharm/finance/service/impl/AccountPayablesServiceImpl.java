@@ -1,5 +1,7 @@
 package com.ihealthpharm.finance.service.impl;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -7,6 +9,8 @@ import java.util.Objects;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +19,8 @@ import com.ihealthpharm.finance.dao.AccountPayablesRepository;
 import com.ihealthpharm.finance.helper.AccountPayablesHelper;
 import com.ihealthpharm.finance.model.AccountPayablesModel;
 import com.ihealthpharm.finance.service.AccountPayablesService;
+import com.ihealthpharm.sales.dto.SalesEmployeeDTO;
+import com.ihealthpharm.sales.model.SalesModel;
 import com.ihealthpharm.stock.model.InvoiceModel;
 
 import lombok.extern.slf4j.Slf4j;
@@ -217,5 +223,124 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 	public List<AccountPayablesModel> getAllAccountPayablesBasedOnInvoice(String invoiceNo,String supplierName) {
 		return accountPayablesRepository.getAllAccPayablesByInvoice(invoiceNo,supplierName);
 	}
+	
+	
+	
+	
+	public List<AccountPayablesModel> searchInAccPayables(String selectedPaymentStatus, String paymentStartDate, String paymentEndDate,String invoiceNo
+			,Integer pageNumber, Integer pageSize,String supplierName) {
+		Pageable limit = new PageRequest(pageNumber,pageSize);
+
+		List<AccountPayablesModel> response=null;
+		System.out.println("-------------------------------------------");
+		System.out.println(paymentStartDate);
+		System.out.println(paymentEndDate);
+		System.out.println(selectedPaymentStatus);
+		System.out.println(pageNumber);
+		System.out.println(pageSize);
+
+		if((selectedPaymentStatus != null && !selectedPaymentStatus.equals("undefined") && !selectedPaymentStatus.equals("null")) && 
+				(invoiceNo != null && !invoiceNo.equals("undefined") && !invoiceNo.equals("null")) &&
+				((paymentStartDate != null && !paymentStartDate.equals("undefined")&& !paymentStartDate.equals("null")) && (paymentEndDate != null && !paymentEndDate.equals("undefined") && !paymentEndDate.equals("null"))))
+		{
+			LocalDate start = LocalDate.parse(paymentStartDate);
+			LocalDate end = LocalDate.parse(paymentEndDate);
+			response= accountPayablesRepository.findAccPayablesSearchByStatusSearchDate(selectedPaymentStatus,start,end,invoiceNo,supplierName,limit);
+		}
+		
+		else if((invoiceNo != null && !invoiceNo.equals("undefined") && !invoiceNo.equals("null")) &&
+				((paymentStartDate != null && !paymentStartDate.equals("undefined")&& !paymentStartDate.equals("null")) && (paymentEndDate != null && !paymentEndDate.equals("undefined") && !paymentEndDate.equals("null")))) {
+			LocalDate start = LocalDate.parse(paymentStartDate);
+			LocalDate end = LocalDate.parse(paymentEndDate);
+			response= accountPayablesRepository.findAccPayableSearchByStatusSearchDateAndInvoice(start,end,invoiceNo,supplierName,limit);
+		}
+		else if(((paymentStartDate != null && !paymentStartDate.equals("undefined")&& !paymentStartDate.equals("null")) && (paymentEndDate != null && !paymentEndDate.equals("undefined") && !paymentEndDate.equals("null")))) {
+			LocalDate start = LocalDate.parse(paymentStartDate);
+			LocalDate end = LocalDate.parse(paymentEndDate);
+			response= accountPayablesRepository.findAccPayablesSearchByStatusSearchDates(start,end,supplierName,limit);
+		}
+		
+		else if(((paymentStartDate != null && !paymentStartDate.equals("undefined")&& !paymentStartDate.equals("null")) && (paymentEndDate != null && !paymentEndDate.equals("undefined") && !paymentEndDate.equals("null")))
+				&& (selectedPaymentStatus != null && !selectedPaymentStatus.equals("undefined") && !selectedPaymentStatus.equals("null"))) {
+			LocalDate start = LocalDate.parse(paymentStartDate);
+			LocalDate end = LocalDate.parse(paymentEndDate);
+			response= accountPayablesRepository.findAccPayablesSearchByStatusSearchDatesAndStatus(selectedPaymentStatus,start,end,supplierName,limit);
+		}
+		else if((selectedPaymentStatus != null && !selectedPaymentStatus.equals("undefined") && !selectedPaymentStatus.equals("null"))&&
+				(invoiceNo != null && !invoiceNo.equals("undefined") && !invoiceNo.equals("null")) ) {
+			response= accountPayablesRepository.findAccPayablesSearchByStatusSearchBasedonStatusAndInvoice(selectedPaymentStatus,invoiceNo,supplierName,limit);
+		}
+		else if( ((paymentStartDate != null && !paymentStartDate.equals("undefined")&& !paymentStartDate.equals("null")) && (paymentEndDate != null && !paymentEndDate.equals("undefined") && !paymentEndDate.equals("null")))&&
+				(invoiceNo != null && !invoiceNo.equals("undefined") && !invoiceNo.equals("null")) ) {
+			response= accountPayablesRepository.findAccPayablesSearchByStatusSearchStatusAndInvoiceNumber(selectedPaymentStatus,invoiceNo,supplierName,limit);
+		}
+		
+		else if((invoiceNo != null && !invoiceNo.equals("undefined") && !invoiceNo.equals("null")) ) {
+			response= accountPayablesRepository.findAccPayablesSearchByInvoice(invoiceNo,supplierName,limit);
+		}
+		else if((selectedPaymentStatus != null && !selectedPaymentStatus.equals("undefined") && !selectedPaymentStatus.equals("null")) ) {
+			response= accountPayablesRepository.findAccPayablesSearchByStatus(selectedPaymentStatus,supplierName,limit);
+		}
+		
+				
+			return response;
+		
+		
+	}
+
+	@Override
+	public Integer searchInAccPayablesForCount(String selectedPaymentStatus, String paymentStartDate,
+			String paymentEndDate, String invoiceNo, Integer pageNumber, Integer pageSize, String supplierName) {
+
+		Integer response=0;
+		
+		if((selectedPaymentStatus != null && !selectedPaymentStatus.equals("undefined") && !selectedPaymentStatus.equals("null")) && 
+				(invoiceNo != null && !invoiceNo.equals("undefined") && !invoiceNo.equals("null")) &&
+				((paymentStartDate != null && !paymentStartDate.equals("undefined")&& !paymentStartDate.equals("null")) && (paymentEndDate != null && !paymentEndDate.equals("undefined") && !paymentEndDate.equals("null"))))
+		{
+			LocalDate start = LocalDate.parse(paymentStartDate);
+			LocalDate end = LocalDate.parse(paymentEndDate);
+			response= accountPayablesRepository.findAccPayablesSearchByStatusSearchDateCount(selectedPaymentStatus,start,end,invoiceNo,supplierName);
+		}
+		
+		else if((invoiceNo != null && !invoiceNo.equals("undefined") && !invoiceNo.equals("null")) &&
+				((paymentStartDate != null && !paymentStartDate.equals("undefined")&& !paymentStartDate.equals("null")) && (paymentEndDate != null && !paymentEndDate.equals("undefined") && !paymentEndDate.equals("null")))) {
+			LocalDate start = LocalDate.parse(paymentStartDate);
+			LocalDate end = LocalDate.parse(paymentEndDate);
+			response= accountPayablesRepository.findAccPayableSearchByStatusSearchDateAndInvoiceCount(start,end,invoiceNo,supplierName);
+		}
+		else if(((paymentStartDate != null && !paymentStartDate.equals("undefined")&& !paymentStartDate.equals("null")) && (paymentEndDate != null && !paymentEndDate.equals("undefined") && !paymentEndDate.equals("null")))) {
+			LocalDate start = LocalDate.parse(paymentStartDate);
+			LocalDate end = LocalDate.parse(paymentEndDate);
+			response= accountPayablesRepository.findAccPayablesSearchByStatusSearchDatesCount(start,end,supplierName);
+		}
+		
+		else if(((paymentStartDate != null && !paymentStartDate.equals("undefined")&& !paymentStartDate.equals("null")) && (paymentEndDate != null && !paymentEndDate.equals("undefined") && !paymentEndDate.equals("null")))
+				&& (selectedPaymentStatus != null && !selectedPaymentStatus.equals("undefined") && !selectedPaymentStatus.equals("null"))) {
+			LocalDate start = LocalDate.parse(paymentStartDate);
+			LocalDate end = LocalDate.parse(paymentEndDate);
+			response= accountPayablesRepository.findAccPayablesSearchByStatusSearchDatesAndStatusCount(selectedPaymentStatus,start,end,supplierName);
+		}
+		else if((selectedPaymentStatus != null && !selectedPaymentStatus.equals("undefined") && !selectedPaymentStatus.equals("null"))&&
+				(invoiceNo != null && !invoiceNo.equals("undefined") && !invoiceNo.equals("null")) ) {
+			response= accountPayablesRepository.findAccPayablesSearchByStatusSearchBasedonStatusAndInvoiceCount(selectedPaymentStatus,invoiceNo,supplierName);
+		}
+		else if( ((paymentStartDate != null && !paymentStartDate.equals("undefined")&& !paymentStartDate.equals("null")) && (paymentEndDate != null && !paymentEndDate.equals("undefined") && !paymentEndDate.equals("null")))&&
+				(invoiceNo != null && !invoiceNo.equals("undefined") && !invoiceNo.equals("null")) ) {
+			response= accountPayablesRepository.findAccPayablesSearchByStatusSearchStatusAndInvoiceNumberCount(selectedPaymentStatus,invoiceNo,supplierName);
+		}
+		
+		else if((invoiceNo != null && !invoiceNo.equals("undefined") && !invoiceNo.equals("null")) ) {
+			response= accountPayablesRepository.findAccPayablesSearchByInvoiceCount(invoiceNo,supplierName);
+		}
+		else if((selectedPaymentStatus != null && !selectedPaymentStatus.equals("undefined") && !selectedPaymentStatus.equals("null")) ) {
+			response= accountPayablesRepository.findAccPayablesSearchByStatusCount(selectedPaymentStatus,supplierName);
+		}
+		
+				
+			return response;
+	
+	}
+
 	
 }

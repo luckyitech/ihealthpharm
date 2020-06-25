@@ -2,6 +2,7 @@ package com.ihealthpharm.finance.model;
 
 
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -37,7 +38,7 @@ public class AccountPayablesModel extends AuditModel {
 	private Integer auditId;
 
 	@Column(name="PAYMENT_DATE")
-	private Date paymentDate;
+	private LocalDate paymentDate;
 
 	@Column(name="PAYMENT_NO",length=30)
 	private String paymentNumber;

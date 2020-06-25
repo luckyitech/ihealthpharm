@@ -1,5 +1,7 @@
 package com.ihealthpharm.stock.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -96,7 +98,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 
 			accountPayablesModel.setTotalAmountToBePaid(
 					invoiceModelres.getInvoiceAmount() != null ? invoiceModelres.getInvoiceAmount().doubleValue() : 0);
-			accountPayablesModel.setPaymentDate(new Date());
+			Date date = new Date();
+			LocalDate localDate = LocalDate.parse( new SimpleDateFormat("yyyy-MM-dd").format(date) );
+			accountPayablesModel.setPaymentDate(localDate);
 
 			accountPayablesModel.setPaymentNumber(uniqueCodeService.findByUniqueCodeName("AP"));
 			accountPayablesModel.setSelectedStatus("Not Approved");
@@ -211,7 +215,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 
 			accountPayablesModel.setTotalAmountToBePaid(
 					invoiceModelres.getInvoiceAmount() != null ? invoiceModelres.getInvoiceAmount().doubleValue() : 0);
-			accountPayablesModel.setPaymentDate(new Date());
+			Date date = new Date();
+			LocalDate localDate = LocalDate.parse( new SimpleDateFormat("yyyy-MM-dd").format(date) );
+			accountPayablesModel.setPaymentDate(localDate);
 
 			accountPayablesModel.setPaymentNumber(uniqueCodeService.findByUniqueCodeName("AP"));
 			accountPayablesModel.setSelectedStatus("Not Approved");
