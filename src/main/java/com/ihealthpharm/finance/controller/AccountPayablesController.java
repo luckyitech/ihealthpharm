@@ -21,6 +21,7 @@ import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.finance.helper.AccountPayablesHelper;
 import com.ihealthpharm.finance.model.AccountPayablesModel;
 import com.ihealthpharm.finance.service.AccountPayablesService;
+import com.ihealthpharm.sales.dto.SalesEmployeeDTO;
 import com.ihealthpharm.sales.helper.SalesHelper;
 import com.ihealthpharm.stock.helper.InvoiceHelper;
 import com.ihealthpharm.stock.model.InvoiceModel;
@@ -99,7 +100,7 @@ public class AccountPayablesController {
 		return new BaseDto<>(response,invoiceHelper.getRetrieveInvoiceMessage(),OK).respond();
 	}
 	
-	
+	// no need of this api - waiting tarun
 	@GetMapping("/getall/accpay/basedoninvoice")
 	public ResponseEntity<BaseDto<List<AccountPayablesModel>>> getAllAccountPayablesBasedonInvocie(@RequestParam String invoiceNo,@RequestParam String supplierName){
 		List<AccountPayablesModel> response=accountPayablesService.getAllAccountPayablesBasedOnInvoice(invoiceNo,supplierName);
@@ -185,5 +186,23 @@ public class AccountPayablesController {
 	public ResponseEntity<BaseDto<List<String>>> getPaymentStatusInAP(@RequestParam String searchTerm){
 		List<String> results=accountPayablesService.findPaymentStatusINAP(searchTerm);
 		return new BaseDto<>(results,invoiceHelper.getRetrieveInvoiceMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getAccPayables/forPopupSearch")
+	public ResponseEntity<BaseDto<List<AccountPayablesModel>>> getAllAccPayablesBasedOnSearches(
+		@RequestParam String selectedPaymentStatus, @RequestParam String paymentStartDate, @RequestParam String paymentEndDate,@RequestParam String invoiceNo,
+				@RequestParam Integer pageNumber,@RequestParam Integer pageSize,@RequestParam String supplierName){
+		 System.out.println(paymentStartDate +"-------------------------------------  "+paymentEndDate);
+			List<AccountPayablesModel> results=accountPayablesService.searchInAccPayables(selectedPaymentStatus,paymentStartDate,paymentEndDate,invoiceNo,pageNumber,pageSize,supplierName);
+			return new BaseDto<>(results,accountPayablesHelper.getRetrieveAccountPayablesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getAccPayables/forPopupSearchCount")
+	public ResponseEntity<BaseDto<Integer>> getAllAccPayablesBasedOnSearchesForCount(
+		@RequestParam String selectedPaymentStatus, @RequestParam String paymentStartDate, @RequestParam String paymentEndDate,@RequestParam String invoiceNo,
+				@RequestParam Integer pageNumber,@RequestParam Integer pageSize,@RequestParam String supplierName){
+		 System.out.println(paymentStartDate +"-------------------------------------  "+paymentEndDate);
+		 Integer results=accountPayablesService.searchInAccPayablesForCount(selectedPaymentStatus,paymentStartDate,paymentEndDate,invoiceNo,pageNumber,pageSize,supplierName);
+			return new BaseDto<>(results,accountPayablesHelper.getRetrieveAccountPayablesMessage(),OK).respond();
 	}
 }
