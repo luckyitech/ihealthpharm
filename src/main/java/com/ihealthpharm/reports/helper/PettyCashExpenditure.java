@@ -93,9 +93,9 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 		finalTable.setLockedWidth(true);
 		finalTable.getDefaultCell().setBorder(0); 
 
-		PdfPTable table = new PdfPTable(6);
+		PdfPTable table = new PdfPTable(8);
 		table.setTotalWidth(500);
-		table.setWidths(new int[] {30,50,250,50,50,70});
+		table.setWidths(new int[] {30,50,50,50,150,50,50,70});
 		table.setWidthPercentage(50);
 		table.setLockedWidth(true);
 		PdfPCell cell = null;
@@ -122,6 +122,25 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 
 		table.addCell(cell);
 
+		headerCell = new Paragraph();
+		headerCell.setFont(headerFont);
+		headerCell.add("PARTY");
+		cell = new PdfPCell(headerCell);
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		if (!model.isShowVerticalLines())
+			cell.setBorder(Rectangle.BOTTOM);
+
+		table.addCell(cell);
+		
+		headerCell = new Paragraph();
+		headerCell.setFont(headerFont);
+		headerCell.add("COUNTER PARTY");
+		cell = new PdfPCell(headerCell);
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		if (!model.isShowVerticalLines())
+			cell.setBorder(Rectangle.BOTTOM);
+
+		table.addCell(cell);
 		
 		headerCell = new Paragraph();
 		headerCell.setFont(headerFont);
@@ -211,6 +230,22 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 					table.addCell(cell);
 
 					value = rowData.containsKey("FROM_DATE") ? rowData.get("FROM_DATE") : "";
+					cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					if (!model.isShowVerticalLines())
+						cell.setBorder(Rectangle.BOTTOM);
+
+					table.addCell(cell);
+					
+					value = rowData.containsKey("PARTY") ? rowData.get("PARTY") : "";
+					cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					if (!model.isShowVerticalLines())
+						cell.setBorder(Rectangle.BOTTOM);
+
+					table.addCell(cell);
+					
+					value = rowData.containsKey("COUNTER_PARTY") ? rowData.get("COUNTER_PARTY") : "";
 					cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 					if (!model.isShowVerticalLines())
