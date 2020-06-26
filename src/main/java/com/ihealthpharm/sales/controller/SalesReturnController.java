@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.masters.dto.ItemDTO;
 import com.ihealthpharm.sales.helper.SalesHelper;
 import com.ihealthpharm.sales.helper.SalesReturnHelper;
 import com.ihealthpharm.sales.model.SalesReturnModel;
@@ -64,6 +65,16 @@ public class SalesReturnController {
 	public ResponseEntity<BaseDto<List<SalesReturnModel>>> getAllSalesReturnsData(){
 		List<SalesReturnModel> response=salesReturnService.findAllSalesReturns();
 		return new BaseDto<>(response,salesReturnHelper.getRetrieveSalesReturnMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getLastSRIByEmp")
+	public List<String> getLastSRIByEmp(@RequestParam String searchTerm,@RequestParam Integer start,@RequestParam Integer end){
+		return	salesReturnService.getLastSRIByEmp(searchTerm,start,end); 
+	}
+	
+	@GetMapping("/getLastSRIByCust")
+	public List<String> getLastSRIByCust(@RequestParam String searchTerm,@RequestParam Integer start,@RequestParam Integer end){
+		return	salesReturnService.getLastSRIByCust(searchTerm,start,end); 
 	}
 	
 }

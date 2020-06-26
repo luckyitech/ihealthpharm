@@ -59,4 +59,10 @@ public interface AccountPayablesService
 
 	List<AccountPayablesModel> getAllAccountPayablesBasedOnInvoice(String invoiceNo,String supplierName);
 
+	List<AccountPayablesModel> searchInAccPayables(String selectedPaymentStatus, String paymentStartDate,
+			String paymentEndDate,String invoiceNo, Integer pageNumber, Integer pageSize,String supplierName);
+
+	Integer searchInAccPayablesForCount(String selectedPaymentStatus, String paymentStartDate,
+			String paymentEndDate, String invoiceNo, Integer pageNumber, Integer pageSize, String supplierName);
+
 }
