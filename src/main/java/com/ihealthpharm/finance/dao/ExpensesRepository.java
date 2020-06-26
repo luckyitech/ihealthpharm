@@ -30,6 +30,13 @@ public interface ExpensesRepository extends JpaRepository<ExpensesModel, Integer
 	@Query("select distinct ((concat(ca.accountName,' : ',ca.accountNo))) from  expenses ex,CHART_OF_ACCOUNTS ca where ca.accountId=ex.account.accountId order by (concat(ca.accountName,' : ',ca.accountNo))")
 	List<String> findAllPartyDetails();
 	
+	@Query("select distinct ((concat(ca.accountName,' : ',ca.accountNo))) from  expenses ex,CHART_OF_ACCOUNTS ca where ca.accountId=ex.counterPartyNo.accountId order by (concat(ca.accountName,' : ',ca.accountNo))")
+	List<String> findAllCounterPartyDetails();
+	
+	@Query("select distinct ((concat(ca.accountName,' : ',ca.accountNo))) from  expenses ex,CHART_OF_ACCOUNTS ca where ca.accountId=ex.counterPartyNo.accountId and (concat(ca.accountName,' : ',ca.accountNo)) like :searchTerm%")
+	List<String> findExpenseCounterPartyBySearch(@Param("searchTerm") String searchTerm);
+
+	
 	@Query("select new  com.ihealthpharm.finance.dto.expensesDTO(ex.txnId) from expenses ex where ex.txnId =:transactionId")
 	List<expensesDTO> getAllTransactionId(@Param("transactionId") String transactionId);
 }

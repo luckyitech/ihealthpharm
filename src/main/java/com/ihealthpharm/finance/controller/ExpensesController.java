@@ -57,6 +57,18 @@ public class ExpensesController {
 		return new BaseDto<>(expensesRes,expensesHelper.getSaveExpensesMessage(),OK).respond();
 	}
 	
+	@GetMapping("expenses/getcounterpartiesbysearch")
+	public ResponseEntity<BaseDto<List<String>>> getCounterPartiesBySearch(@RequestParam String searchTerm){
+		List<String> expensesRes = expensesService.getAllCounterPartiesBySearch(searchTerm);
+		return new BaseDto<>(expensesRes,expensesHelper.getSaveExpensesMessage(),OK).respond();
+	}
+	
+	@GetMapping("expenses/getallcounterparties")
+	public ResponseEntity<BaseDto<List<String>>> getAllCounterParties(){
+		List<String> expensesRes = expensesService.getAllCounterParties();
+		return new BaseDto<>(expensesRes,expensesHelper.getSaveExpensesMessage(),OK).respond();
+	}
+	
 	@GetMapping("/getall/expenses/transactionsIds")
 	public ResponseEntity<BaseDto<List<expensesDTO>>> getAllBankTransactionsId(@RequestParam String transactionId){
 		List<expensesDTO> response=expensesService.findAllTransactionId(transactionId);
