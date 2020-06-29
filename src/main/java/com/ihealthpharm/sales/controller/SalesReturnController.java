@@ -68,13 +68,13 @@ public class SalesReturnController {
 	}
 	
 	@GetMapping("/getLastSRIByEmp")
-	public List<String> getLastSRIByEmp(@RequestParam String searchTerm,@RequestParam Integer start,@RequestParam Integer end){
-		return	salesReturnService.getLastSRIByEmp(searchTerm,start,end); 
+	public List<String> getLastSRIByEmp(@RequestParam String searchTerm){
+		return	salesReturnService.getLastSRIByEmp(searchTerm); 
 	}
 	
 	@GetMapping("/getLastSRIByCust")
-	public List<String> getLastSRIByCust(@RequestParam String searchTerm,@RequestParam Integer start,@RequestParam Integer end){
-		return	salesReturnService.getLastSRIByCust(searchTerm,start,end); 
+	public List<String> getLastSRIByCust(@RequestParam String searchTerm){
+		return	salesReturnService.getLastSRIByCust(searchTerm); 
 	}
 	
 }
