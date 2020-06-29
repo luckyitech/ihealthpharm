@@ -50,6 +50,18 @@ public class ExpensesServiceImpl implements ExpensesService{
 		// TODO Auto-generated method stub
 		return expensesRepo.getAllTransactionId(transactionId);
 	}
+
+	@Override
+	public List<String> getAllCounterParties() {
+		
+		return expensesRepo.findAllCounterPartyDetails();
+	}
+
+	@Override
+	public List<String> getAllCounterPartiesBySearch(String searchTerm) {
+		
+		return expensesRepo.findExpenseCounterPartyBySearch(searchTerm);
+	}
 	
 
 	

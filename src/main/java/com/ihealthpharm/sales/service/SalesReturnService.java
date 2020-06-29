@@ -13,5 +13,8 @@ public interface SalesReturnService {
 	SalesReturnModel updateSalesReturns(SalesReturnModel salesReturnModel);
 
 	void deleteSalesReturnById(Integer salesReturnId);
+	
+	List<String> getLastSRIByEmp(String searchTerm);
 
+	List<String> getLastSRIByCust(String searchTerm);
 }

@@ -5,6 +5,8 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -76,6 +78,19 @@ public class SalesReturnsServiceImpl implements SalesReturnService {
 			throw new IHealthPharmException(salesReturnHelper.getNotFoundMessage(),
 					HttpStatus.NOT_FOUND);
 		}
+	}
+
+
+	@Override
+	public List<String> getLastSRIByEmp(String searchTerm) {
+		
+		return salesReturnRepo.findLastSRIByEmp(searchTerm);
+	}
+		
+		@Override
+		public List<String> getLastSRIByCust(String searchTerm) {
+		
+			return salesReturnRepo.findLastSRIByCust(searchTerm);
 	}
 	
 	

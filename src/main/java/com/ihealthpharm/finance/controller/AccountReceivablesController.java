@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.finance.helper.AccountReceivablesHelper;
+import com.ihealthpharm.finance.model.AccountPayablesModel;
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.finance.service.AccountReceivablesService;
 import com.ihealthpharm.sales.helper.SalesHelper;
@@ -36,10 +37,10 @@ public class AccountReceivablesController {
 
 	@Autowired
 	AccountReceivablesHelper accountReceivablesHelper;
-	
+
 	@Autowired
 	SalesHelper salesHelper;
-	
+
 	@PostMapping("/save/accountReceivables")
 	public ResponseEntity<BaseDto<AccountReceivablesModel>> insertAccountReceivablesData(@Valid @RequestBody AccountReceivablesModel accountReceivablesModel) {
 		AccountReceivablesModel accountReceivablesModelRes = accountReceivablesService.saveAccountReceivablesData(accountReceivablesModel);
@@ -60,7 +61,7 @@ public class AccountReceivablesController {
 		List<AccountReceivablesModel> AccountReceivablesModelRes = accountReceivablesService.updateAccountsReceivablesData(accountReceivablesModel);
 		return new BaseDto<>(AccountReceivablesModelRes, accountReceivablesHelper.getUpdateAccountReceivablesMessage(), OK).respond();
 	}
-	
+
 	@DeleteMapping("/delete/accountReceivables")
 	public ResponseEntity<BaseDto<Object>> deleteAccountReceivablesData(@RequestParam Integer accountReceivablesId) {
 		log.info("Request Object for delete is: ", accountReceivablesId);
@@ -76,7 +77,7 @@ public class AccountReceivablesController {
 		return new BaseDto<>(accountReceivablesHelper.getDeleteAccountReceivablesMessage(), OK).respond();
 	}
 
-	
+
 	@GetMapping("/getaccountReceivablesdata")
 	public ResponseEntity<BaseDto<List<AccountReceivablesModel>>> getAccountReceivablesData() {
 		List<AccountReceivablesModel> result = accountReceivablesService.findAllAccountsReceivables();
@@ -91,49 +92,49 @@ public class AccountReceivablesController {
 
 	@GetMapping("/getbillsbycustomerid")
 	public ResponseEntity<BaseDto<List<SalesModel>>> getAllBillsBasedOnCustomerId(@RequestParam Integer customerId){
-		
+
 		List<SalesModel> result=accountReceivablesService.getAllBillsByCustomerId(customerId);
-		
+
 		return new BaseDto<>(result,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
-	
+
 	@GetMapping("/getcustomersbycustomerid")
 	public ResponseEntity<BaseDto<List<SalesModel>>> getAllCustomersBasedOnCustomerId(@RequestParam Integer customerId){
-		
+
 		List<SalesModel> result=accountReceivablesService.getAllCustomersByCustomerId(customerId);
-		
+
 		return new BaseDto<>(result,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
-	
+
 	//to update salesreturn totalAmount
 	@GetMapping("/getaccreceipts/basedonbillid")
-		public ResponseEntity<BaseDto<List<AccountReceivablesModel>>> getAccountRecivableData(@RequestParam Integer salesModel){
+	public ResponseEntity<BaseDto<List<AccountReceivablesModel>>> getAccountRecivableData(@RequestParam Integer salesModel){
 		System.out.println(salesModel);
 		List<AccountReceivablesModel> result = accountReceivablesService.findAccountReceivablesByBillId(salesModel);
 		return new BaseDto<>(result, accountReceivablesHelper.getRetrieveAccountReceivablesMessage(), OK).respond();
 	}
-	
+
 	@GetMapping("/getsalesbasedon/SalesNumber")
 	public ResponseEntity<BaseDto<List<SalesModel>>> getSalesBasedOnSalesNumber(@RequestParam String billCode){
 		List<SalesModel> response=accountReceivablesService.getAllSalesBySearch(billCode);
 		return new BaseDto<>(response,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
-	
+
 	@GetMapping("/getsalesbasedon/salesNumber")
 	public ResponseEntity<BaseDto<List<AccountReceivablesModel>>> getAllSalesBasedonSalesNumber(@RequestParam String billCode,@RequestParam String customerName){
 		List<AccountReceivablesModel> result=accountReceivablesService.getAllByBillCodeSearch(billCode,customerName);
 		return new BaseDto<>(result,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
-				
+
 	}
-	
-	
+
+
 	@GetMapping("/getAll/accountrecievables")
 	public ResponseEntity<BaseDto<List<AccountReceivablesModel>>> getAll(){
 		List<AccountReceivablesModel> response=accountReceivablesService.getAllAccountPayables();
 		return new BaseDto<>(response,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
 	}
-	
-	
+
+
 	@GetMapping("/getAll/accountrecievables/basedon/customername")
 	public ResponseEntity<BaseDto<List<AccountReceivablesModel>>> getAllBasedOnCustomerName(@RequestParam String customerName){
 		List<AccountReceivablesModel> result=accountReceivablesService.getAllCustomersBasedonCustomerName(customerName);
@@ -145,30 +146,52 @@ public class AccountReceivablesController {
 		List<String> results=accountReceivablesService.findCustNamesbysearchAR(searchTerm);
 		return new BaseDto<>(results,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
 	}
-	
+
 	@GetMapping("/getallcustnamesAR")
 	public ResponseEntity<BaseDto<List<String>>> findAllCustomersNamesAR(){
 		List<String> results=accountReceivablesService.findallCustNamesAR();
 		return new BaseDto<>(results,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
 	}
-	
+
 	//Credit Note
-		@GetMapping("/getreceiptnobysearchAR")
-		public ResponseEntity<BaseDto<List<String>>> findReceiptNoBySearchAR(@RequestParam String searchTerm){
-			List<String> results=accountReceivablesService.findReceiptNobysearchAR(searchTerm);
-			return new BaseDto<>(results,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
-		}
-		
-		@GetMapping("/getallreceiptnoAR")
-		public ResponseEntity<BaseDto<List<String>>> findAllReceiptNoAR(){
-			List<String> results=accountReceivablesService.findallReceiptNoAR();
-			return new BaseDto<>(results,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
-		}
-		
-		@GetMapping("/getAccountRecievables/customername/search")
-		public ResponseEntity<BaseDto<List<AccountReceivablesModel>>> getAllRecievablesCustNamesSearch(@RequestParam String customerName){
-			List<AccountReceivablesModel> response=accountReceivablesService.getAllRecievablesCustomerNameSearch(customerName);
-			return new BaseDto<>(response,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
-		}
+	@GetMapping("/getreceiptnobysearchAR")
+	public ResponseEntity<BaseDto<List<String>>> findReceiptNoBySearchAR(@RequestParam String searchTerm){
+		List<String> results=accountReceivablesService.findReceiptNobysearchAR(searchTerm);
+		return new BaseDto<>(results,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
+	}
+
+	@GetMapping("/getallreceiptnoAR")
+	public ResponseEntity<BaseDto<List<String>>> findAllReceiptNoAR(){
+		List<String> results=accountReceivablesService.findallReceiptNoAR();
+		return new BaseDto<>(results,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
+	}
+
+	@GetMapping("/getAccountRecievables/customername/search")
+	public ResponseEntity<BaseDto<List<AccountReceivablesModel>>> getAllRecievablesCustNamesSearch(@RequestParam String customerName){
+		List<AccountReceivablesModel> response=accountReceivablesService.getAllRecievablesCustomerNameSearch(customerName);
+		return new BaseDto<>(response,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
+	}
+
+	// account recievables popup search
 	
+	@GetMapping("/getAccRecievables/forPopupSearch")
+	public ResponseEntity<BaseDto<List<AccountReceivablesModel>>> getAllAccRecievablessBasedOnSearches(
+		@RequestParam String paymentStatus, @RequestParam String paymentStartDate, @RequestParam String paymentEndDate,@RequestParam String SourceRef,
+				@RequestParam Integer pageNumber,@RequestParam Integer pageSize,@RequestParam String customerName){
+		System.out.println(SourceRef);
+		 System.out.println(paymentStartDate +"-------------------------------------  "+paymentEndDate);
+			List<AccountReceivablesModel> results=accountReceivablesService.searchInAccRecievables(paymentStatus,paymentStartDate,paymentEndDate,SourceRef,pageNumber,pageSize,customerName);
+			return new BaseDto<>(results,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getAccRecievables/forPopupSearchCount")
+	public ResponseEntity<BaseDto<Integer>> getAllAccRecievablesBasedOnSearchesForCount(
+		@RequestParam String paymentStatus, @RequestParam String paymentStartDate, @RequestParam String paymentEndDate,@RequestParam String SourceRef,
+				@RequestParam Integer pageNumber,@RequestParam Integer pageSize,@RequestParam String customerName){
+		 System.out.println(paymentStartDate +"-------------------------------------  "+paymentEndDate);
+		 Integer results=accountReceivablesService.searchInAccRecievablesForCount(paymentStatus,paymentStartDate,paymentEndDate,SourceRef,pageNumber,pageSize,customerName);
+			return new BaseDto<>(results,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
+	}
+
+
 }

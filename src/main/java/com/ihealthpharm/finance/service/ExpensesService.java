@@ -18,4 +18,8 @@ public interface ExpensesService {
 	
 	List<expensesDTO> findAllTransactionId(String transactionId);
 
+	List<String> getAllCounterParties();
+
+	List<String> getAllCounterPartiesBySearch(String searchTerm);
+
 	}
