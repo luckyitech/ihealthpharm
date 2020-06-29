@@ -48,5 +48,11 @@ public interface AccountReceivablesService
 	List<String> findCustNamesbysearchAR(String searchTerm);
 
 	List<AccountReceivablesModel> getAllByBillCodeSearch(String billCode,String customerName);
+
+	List<AccountReceivablesModel> searchInAccRecievables(String paymentStatus, String paymentStartDate,
+			String paymentEndDate, String sourceRef, Integer pageNumber, Integer pageSize, String customerName);
+
+	Integer searchInAccRecievablesForCount(String paymentStatus, String paymentStartDate, String paymentEndDate,
+			String sourceRef, Integer pageNumber, Integer pageSize, String customerName);
 	
 }

@@ -232,12 +232,6 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 		Pageable limit = new PageRequest(pageNumber,pageSize);
 
 		List<AccountPayablesModel> response=null;
-		System.out.println("-------------------------------------------");
-		System.out.println(paymentStartDate);
-		System.out.println(paymentEndDate);
-		System.out.println(selectedPaymentStatus);
-		System.out.println(pageNumber);
-		System.out.println(pageSize);
 
 		if((selectedPaymentStatus != null && !selectedPaymentStatus.equals("undefined") && !selectedPaymentStatus.equals("null")) && 
 				(invoiceNo != null && !invoiceNo.equals("undefined") && !invoiceNo.equals("null")) &&
@@ -282,10 +276,7 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 			response= accountPayablesRepository.findAccPayablesSearchByStatus(selectedPaymentStatus,supplierName,limit);
 		}
 		
-				
 			return response;
-		
-		
 	}
 
 	@Override
@@ -336,10 +327,7 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 		else if((selectedPaymentStatus != null && !selectedPaymentStatus.equals("undefined") && !selectedPaymentStatus.equals("null")) ) {
 			response= accountPayablesRepository.findAccPayablesSearchByStatusCount(selectedPaymentStatus,supplierName);
 		}
-		
-				
 			return response;
-	
 	}
 
 	
