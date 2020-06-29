@@ -17,7 +17,7 @@ public interface SalesReturnRepository extends JpaRepository<SalesReturnModel, I
 	" inner join sales s on s.billId = sr.billNumber.billId " + 
 	" inner join employee e on e.employeeId=sr.createdUser where concat(e.firstName , ' ' , e.lastName)=:searchTerm " + 
 	" order by sr.creationTimeStamp desc")
-List<String> findLastSRIByEmp(@Param("searchTerm") String searchTerm , Pageable pageable);
+List<String> findLastSRIByEmp(@Param("searchTerm") String searchTerm);
 	
 	@Query(" select sr.billNumber.billCode from  sales_return sr " + 
 			" INNER JOIN sales_items si ON sr.billNumber.billId = si.billId.billId " + 
@@ -25,6 +25,6 @@ List<String> findLastSRIByEmp(@Param("searchTerm") String searchTerm , Pageable 
 			" INNER JOIN items i ON i.itemId = si.itemsModel.itemId  " + 
 			" inner join customer c on c.customerId=s.customerModel.customerId where concat(c.customerName ,' ', c.lastName)= :searchTerm " + 
 			" order by sr.creationTimeStamp desc ")
-List<String> findLastSRIByCust(@Param("searchTerm") String searchTerm , Pageable pageable);
+List<String> findLastSRIByCust(@Param("searchTerm") String searchTerm);
  
 }

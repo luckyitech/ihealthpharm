@@ -82,15 +82,15 @@ public class SalesReturnsServiceImpl implements SalesReturnService {
 
 
 	@Override
-	public List<String> getLastSRIByEmp(String searchTerm, Integer start, Integer end) {
-		Pageable limit=PageRequest.of(start, end);
-		return salesReturnRepo.findLastSRIByEmp(searchTerm,limit);
+	public List<String> getLastSRIByEmp(String searchTerm) {
+		
+		return salesReturnRepo.findLastSRIByEmp(searchTerm);
 	}
 		
 		@Override
-		public List<String> getLastSRIByCust(String searchTerm, Integer start, Integer end) {
-			Pageable limit=PageRequest.of(start, end);
-			return salesReturnRepo.findLastSRIByCust(searchTerm,limit);
+		public List<String> getLastSRIByCust(String searchTerm) {
+		
+			return salesReturnRepo.findLastSRIByCust(searchTerm);
 	}
 	
 	
