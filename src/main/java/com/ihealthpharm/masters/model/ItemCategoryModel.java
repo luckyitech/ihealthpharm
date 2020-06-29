@@ -47,4 +47,7 @@ public class ItemCategoryModel extends AuditModel {
 	
 	@Column(name = "MEDICAL_OR_NON_MEDICAL",length=1)
 	private String medicalOrNonMedical;
+	
+	@Column(name = "MARGIN_PERCENTAGE",length=11)
+	private Integer marginPercentage;
 }
