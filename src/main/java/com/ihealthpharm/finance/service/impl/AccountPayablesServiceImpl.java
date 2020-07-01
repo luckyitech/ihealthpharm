@@ -232,6 +232,10 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 		Pageable limit = new PageRequest(pageNumber,pageSize);
 
 		List<AccountPayablesModel> response=null;
+		System.out.println(selectedPaymentStatus);
+		System.out.println(paymentStartDate);
+		System.out.println(paymentEndDate);
+		System.out.println(supplierName);
 
 		if((selectedPaymentStatus != null && !selectedPaymentStatus.equals("undefined") && !selectedPaymentStatus.equals("null")) && 
 				(invoiceNo != null && !invoiceNo.equals("undefined") && !invoiceNo.equals("null")) &&
@@ -239,6 +243,7 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 		{
 			LocalDate start = LocalDate.parse(paymentStartDate);
 			LocalDate end = LocalDate.parse(paymentEndDate);
+			System.out.println("start and enddate and supplier name");
 			response= accountPayablesRepository.findAccPayablesSearchByStatusSearchDate(selectedPaymentStatus,start,end,invoiceNo,supplierName,limit);
 		}
 		
@@ -246,33 +251,48 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 				((paymentStartDate != null && !paymentStartDate.equals("undefined")&& !paymentStartDate.equals("null")) && (paymentEndDate != null && !paymentEndDate.equals("undefined") && !paymentEndDate.equals("null")))) {
 			LocalDate start = LocalDate.parse(paymentStartDate);
 			LocalDate end = LocalDate.parse(paymentEndDate);
+			System.out.println("start and enddate and supplier name and invoice");
 			response= accountPayablesRepository.findAccPayableSearchByStatusSearchDateAndInvoice(start,end,invoiceNo,supplierName,limit);
 		}
-		else if(((paymentStartDate != null && !paymentStartDate.equals("undefined")&& !paymentStartDate.equals("null")) && (paymentEndDate != null && !paymentEndDate.equals("undefined") && !paymentEndDate.equals("null")))) {
+		else if( ( (paymentStartDate != null && !paymentStartDate.equals("undefined")&& !paymentStartDate.equals("null")) && (paymentEndDate != null && !paymentEndDate.equals("undefined") && !paymentEndDate.equals("null")) )
+				&& (selectedPaymentStatus != null && !selectedPaymentStatus.equals("undefined") && !selectedPaymentStatus.equals("null")) ) {
 			LocalDate start = LocalDate.parse(paymentStartDate);
 			LocalDate end = LocalDate.parse(paymentEndDate);
+			System.out.println("=====================================================");
+			System.out.println(selectedPaymentStatus);
+			System.out.println(start);
+			System.out.println(end);
+			response= accountPayablesRepository.findAccPayablesSearchByStatusSearchDatesAndStatus(selectedPaymentStatus,start,end,supplierName,limit);
+		}
+		else if(((paymentStartDate != null && !paymentStartDate.equals("undefined")&& !paymentStartDate.equals("null")) && (paymentEndDate != null && !paymentEndDate.equals("undefined") && !paymentEndDate.equals("null")))) {
+		
+			System.out.println("start and enddate and supplier name..");
+			LocalDate start = LocalDate.parse(paymentStartDate);
+			LocalDate end = LocalDate.parse(paymentEndDate);
+			System.out.println(selectedPaymentStatus);
+			System.out.println(start);
+			System.out.println(end);
 			response= accountPayablesRepository.findAccPayablesSearchByStatusSearchDates(start,end,supplierName,limit);
 		}
 		
-		else if(((paymentStartDate != null && !paymentStartDate.equals("undefined")&& !paymentStartDate.equals("null")) && (paymentEndDate != null && !paymentEndDate.equals("undefined") && !paymentEndDate.equals("null")))
-				&& (selectedPaymentStatus != null && !selectedPaymentStatus.equals("undefined") && !selectedPaymentStatus.equals("null"))) {
-			LocalDate start = LocalDate.parse(paymentStartDate);
-			LocalDate end = LocalDate.parse(paymentEndDate);
-			response= accountPayablesRepository.findAccPayablesSearchByStatusSearchDatesAndStatus(selectedPaymentStatus,start,end,supplierName,limit);
-		}
+	
 		else if((selectedPaymentStatus != null && !selectedPaymentStatus.equals("undefined") && !selectedPaymentStatus.equals("null"))&&
 				(invoiceNo != null && !invoiceNo.equals("undefined") && !invoiceNo.equals("null")) ) {
+			System.out.println("start and enddate and supplier name.....123");
 			response= accountPayablesRepository.findAccPayablesSearchByStatusSearchBasedonStatusAndInvoice(selectedPaymentStatus,invoiceNo,supplierName,limit);
 		}
 		else if( ((paymentStartDate != null && !paymentStartDate.equals("undefined")&& !paymentStartDate.equals("null")) && (paymentEndDate != null && !paymentEndDate.equals("undefined") && !paymentEndDate.equals("null")))&&
 				(invoiceNo != null && !invoiceNo.equals("undefined") && !invoiceNo.equals("null")) ) {
+			System.out.println("start and enddate and supplier name....7878787");
 			response= accountPayablesRepository.findAccPayablesSearchByStatusSearchStatusAndInvoiceNumber(selectedPaymentStatus,invoiceNo,supplierName,limit);
 		}
 		
 		else if((invoiceNo != null && !invoiceNo.equals("undefined") && !invoiceNo.equals("null")) ) {
+			System.out.println("start and enddate and supplier name......//......");
 			response= accountPayablesRepository.findAccPayablesSearchByInvoice(invoiceNo,supplierName,limit);
 		}
 		else if((selectedPaymentStatus != null && !selectedPaymentStatus.equals("undefined") && !selectedPaymentStatus.equals("null")) ) {
+			System.out.println("start and enddate and supplier name....???.....");
 			response= accountPayablesRepository.findAccPayablesSearchByStatus(selectedPaymentStatus,supplierName,limit);
 		}
 		
