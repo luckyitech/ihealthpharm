@@ -1,5 +1,6 @@
 package com.ihealthpharm.finance.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -7,12 +8,15 @@ import java.util.Objects;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.finance.dao.AccountReceivablesRepository;
 import com.ihealthpharm.finance.helper.AccountReceivablesHelper;
+import com.ihealthpharm.finance.model.AccountPayablesModel;
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.finance.service.AccountReceivablesService;
 import com.ihealthpharm.masters.dao.CustomerInsuranceRepository;
@@ -191,6 +195,133 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 	@Override
 	public List<String> findCustNamesbysearchAR(String searchTerm) {
 		return accountReceivablesRepository.findCustomersNamesBySearch(searchTerm);
+	}
+	
+	// popup searches
+
+	@Override
+	public List<AccountReceivablesModel> searchInAccRecievables(String paymentStatus, String paymentStartDate,
+			String paymentEndDate, String sourceRef, Integer pageNumber, Integer pageSize, String customerName) {
+		
+		Pageable limit = new PageRequest(pageNumber,pageSize);
+
+		List<AccountReceivablesModel> response=null;
+		
+		if((paymentStatus != null && !paymentStatus.equals("undefined") && !paymentStatus.equals("null")) && 
+				(sourceRef != null && !sourceRef.equals("undefined") && !sourceRef.equals("null")) &&
+				((paymentStartDate != null && !paymentStartDate.equals("undefined")&& !paymentStartDate.equals("null")) && (paymentEndDate != null && !paymentEndDate.equals("undefined") && !paymentEndDate.equals("null"))))
+		{
+			LocalDate start = LocalDate.parse(paymentStartDate);
+			LocalDate end = LocalDate.parse(paymentEndDate);
+			System.out.println("in first");
+			response= accountReceivablesRepository.findAccReceivablesSearchByStatusSearchDate(start,end,sourceRef,customerName,paymentStatus,limit);
+		}
+		
+		else if((sourceRef != null && !sourceRef.equals("undefined") && !sourceRef.equals("null")) &&
+				((paymentStartDate != null && !paymentStartDate.equals("undefined")&& !paymentStartDate.equals("null")) && (paymentEndDate != null && !paymentEndDate.equals("undefined") && !paymentEndDate.equals("null")))) {
+			LocalDate start = LocalDate.parse(paymentStartDate);
+			LocalDate end = LocalDate.parse(paymentEndDate);
+			System.out.println("in first...1");
+			response= accountReceivablesRepository.findAccRecievableSearchByStatusSearchDateAndSourceRef(start,end,sourceRef,customerName,limit);
+		}
+		else if(((paymentStartDate != null && !paymentStartDate.equals("undefined")&& !paymentStartDate.equals("null")) && (paymentEndDate != null && !paymentEndDate.equals("undefined") && !paymentEndDate.equals("null")))
+				&& (paymentStatus != null && !paymentStatus.equals("undefined") && !paymentStatus.equals("null"))) {
+			LocalDate start = LocalDate.parse(paymentStartDate);
+			LocalDate end = LocalDate.parse(paymentEndDate);
+			System.out.println("in first...3");
+			response= accountReceivablesRepository.findAccRecievablesSearchByStatusSearchDatesAndStatus(paymentStatus,start,end,customerName,limit);
+		}
+		else if(((paymentStartDate != null && !paymentStartDate.equals("undefined")&& !paymentStartDate.equals("null")) && (paymentEndDate != null && !paymentEndDate.equals("undefined") && !paymentEndDate.equals("null")))) {
+			LocalDate start = LocalDate.parse(paymentStartDate);
+			LocalDate end = LocalDate.parse(paymentEndDate);
+			System.out.println("in first...2");
+			response= accountReceivablesRepository.findAccRecievableSearchByStatusSearchDates(start,end,customerName,limit);
+		}
+		
+		
+		else if((paymentStatus != null && !paymentStatus.equals("undefined") && !paymentStatus.equals("null"))&&
+				(sourceRef != null && !sourceRef.equals("undefined") && !sourceRef.equals("null")) ) {
+			System.out.println("in first...4");
+			response= accountReceivablesRepository.findAccRecievablesSearchByStatusSearchBasedonStatusAndSourceRef(paymentStatus,sourceRef,customerName,limit);
+		}
+		else if( ((paymentStartDate != null && !paymentStartDate.equals("undefined")&& !paymentStartDate.equals("null")) && (paymentEndDate != null && !paymentEndDate.equals("undefined") && !paymentEndDate.equals("null")))&&
+				(sourceRef != null && !sourceRef.equals("undefined") && !sourceRef.equals("null")) ) {
+			System.out.println("in first..5");
+			response= accountReceivablesRepository.findAccRecievablesSearchByStatusSearchStatusAndSourceNumber(paymentStatus,sourceRef,customerName,limit);
+		}
+		
+		else if((sourceRef != null && !sourceRef.equals("undefined") && !sourceRef.equals("null")) ) {
+			System.out.println("in first...53332");
+			response= accountReceivablesRepository.findAccRecievablesSearchBySourceRef(sourceRef,customerName,limit);
+		}
+		else if((paymentStatus != null && !paymentStatus.equals("undefined") && !paymentStatus.equals("null")) ) {
+			System.out.println("in first.....54.533434535334343");
+			response= accountReceivablesRepository.findAccRecievablesSearchByStatus(paymentStatus,customerName,limit);
+		}
+		
+			return response;
+	}
+
+	
+	
+	@Override
+	public Integer searchInAccRecievablesForCount(String paymentStatus, String paymentStartDate, String paymentEndDate,
+			String sourceRef, Integer pageNumber, Integer pageSize, String customerName) {
+		Integer response=0;
+
+		if((paymentStatus != null && !paymentStatus.equals("undefined") && !paymentStatus.equals("null")) && 
+				(sourceRef != null && !sourceRef.equals("undefined") && !sourceRef.equals("null")) &&
+				((paymentStartDate != null && !paymentStartDate.equals("undefined")&& !paymentStartDate.equals("null")) && (paymentEndDate != null && !paymentEndDate.equals("undefined") && !paymentEndDate.equals("null"))))
+		{
+			LocalDate start = LocalDate.parse(paymentStartDate);
+			LocalDate end = LocalDate.parse(paymentEndDate);
+			System.out.println("in first count1");
+			response= accountReceivablesRepository.findAccReceivablesSearchByStatusSearchDateCount(start,end,sourceRef,customerName,paymentStatus);
+		}
+		
+		else if((sourceRef != null && !sourceRef.equals("undefined") && !sourceRef.equals("null")) &&
+				((paymentStartDate != null && !paymentStartDate.equals("undefined")&& !paymentStartDate.equals("null")) && (paymentEndDate != null && !paymentEndDate.equals("undefined") && !paymentEndDate.equals("null")))) {
+			LocalDate start = LocalDate.parse(paymentStartDate);
+			LocalDate end = LocalDate.parse(paymentEndDate);
+			System.out.println("in first count2");
+			response= accountReceivablesRepository.findAccRecievableSearchByStatusSearchDateAndSourceRefCount(start,end,sourceRef,customerName);
+		}
+		else if(((paymentStartDate != null && !paymentStartDate.equals("undefined")&& !paymentStartDate.equals("null")) && (paymentEndDate != null && !paymentEndDate.equals("undefined") && !paymentEndDate.equals("null")))
+				&& (paymentStatus != null && !paymentStatus.equals("undefined") && !paymentStatus.equals("null"))) {
+			LocalDate start = LocalDate.parse(paymentStartDate);
+			LocalDate end = LocalDate.parse(paymentEndDate);
+			System.out.println("in first count4");
+			response= accountReceivablesRepository.findAccRecievablesSearchByStatusSearchDatesAndStatusCount(paymentStatus,start,end,customerName);
+		}
+		else if(((paymentStartDate != null && !paymentStartDate.equals("undefined")&& !paymentStartDate.equals("null")) && (paymentEndDate != null && !paymentEndDate.equals("undefined") && !paymentEndDate.equals("null")))) {
+			LocalDate start = LocalDate.parse(paymentStartDate);
+			LocalDate end = LocalDate.parse(paymentEndDate);
+			System.out.println("in first count3");
+			response= accountReceivablesRepository.findAccRecievableSearchByStatusSearchDatesCount(start,end,customerName);
+		}
+		
+		
+		else if((paymentStatus != null && !paymentStatus.equals("undefined") && !paymentStatus.equals("null"))&&
+				(sourceRef != null && !sourceRef.equals("undefined") && !sourceRef.equals("null")) ) {
+			System.out.println("in first count5");
+			response= accountReceivablesRepository.findAccRecievablesSearchByStatusSearchBasedonStatusAndSourceRefCount(paymentStatus,sourceRef,customerName);
+		}
+		else if( ((paymentStartDate != null && !paymentStartDate.equals("undefined")&& !paymentStartDate.equals("null")) && (paymentEndDate != null && !paymentEndDate.equals("undefined") && !paymentEndDate.equals("null")))&&
+				(sourceRef != null && !sourceRef.equals("undefined") && !sourceRef.equals("null")) ) {
+			System.out.println("in first count6");
+			response= accountReceivablesRepository.findAccRecievablesSearchByStatusSearchStatusAndSourceNumberCount(paymentStatus,sourceRef,customerName);
+		}
+		
+		else if((sourceRef != null && !sourceRef.equals("undefined") && !sourceRef.equals("null")) ) {
+			System.out.println("in first count7");
+			response= accountReceivablesRepository.findAccRecievablesSearchBySourceRefCount(sourceRef,customerName);
+		}
+		else if((paymentStatus != null && !paymentStatus.equals("undefined") && !paymentStatus.equals("null")) ) {
+			System.out.println("in first count8");
+			response= accountReceivablesRepository.findAccRecievablesSearchByStatusCount(paymentStatus,customerName);
+		}
+				
+			return response;
 	}
 
 }
