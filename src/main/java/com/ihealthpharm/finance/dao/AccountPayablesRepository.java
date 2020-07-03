@@ -111,8 +111,8 @@ public interface AccountPayablesRepository extends JpaRepository<AccountPayables
 			" order by s.lastUpdateTimestamp desc")
 	Integer findAccPayablesSearchByStatusCount(@Param("selectedPaymentStatus")String selectedPaymentStatus, @Param("supplierName")String supplierName);
 
-	@Query("select count(a) from ACCOUNT_PAYABLES a where a.selectedPaymentStatus=:selectedPaymentStatus and a.supplierName=:supplierName and " + 
-			"a.invoiceNo like :invoiceNo% or a.sourceRef like :invoiceNo%  and a.paymentDate BETWEEN :start and :end order by a.lastUpdateTimestamp desc")
+	@Query("select count(a) from ACCOUNT_PAYABLES a where a.paymentDate BETWEEN :start and :end  and " + 
+			"a.invoiceNo like :invoiceNo% or a.sourceRef like :invoiceNo%  and a.supplierName=:supplierName order by a.lastUpdateTimestamp desc")
 	Integer findAccPayableSearchByStatusSearchDateAndInvoiceCount(@Param("start") LocalDate start, @Param("end") LocalDate end,
 			@Param("invoiceNo") String invoiceNo,@Param("supplierName")String supplierName);
 
@@ -166,8 +166,8 @@ public interface AccountPayablesRepository extends JpaRepository<AccountPayables
 			" order by s.lastUpdateTimestamp desc")
 	List<AccountPayablesModel> findAccPayablesSearchByStatus(@Param("selectedPaymentStatus")String selectedPaymentStatus, @Param("supplierName")String supplierName, Pageable limit);
 
-	@Query("select a from ACCOUNT_PAYABLES a where a.selectedPaymentStatus=:selectedPaymentStatus and a.supplierName=:supplierName and " + 
-			"a.invoiceNo like :invoiceNo% or a.sourceRef like :invoiceNo%  and a.paymentDate BETWEEN :start and :end order by a.lastUpdateTimestamp desc")
+	@Query("select a from ACCOUNT_PAYABLES a where a.paymentDate BETWEEN :start and :end and  " + 
+			"a.invoiceNo like :invoiceNo% or a.sourceRef like :invoiceNo% and a.supplierName=:supplierName order by a.lastUpdateTimestamp desc")
 	List<AccountPayablesModel> findAccPayableSearchByStatusSearchDateAndInvoice(@Param("start") LocalDate start, @Param("end") LocalDate end,
 			@Param("invoiceNo") String invoiceNo,@Param("supplierName")String supplierName, Pageable limit);
 
