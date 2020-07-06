@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-
+import com.ihealthpharm.finance.dto.AccRecievablesCustomerDTO;
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.sales.model.SalesModel;
 
@@ -137,5 +137,8 @@ public interface AccountReceivablesRepository extends JpaRepository<AccountRecei
 		@Query("select count(ac) from account_receivables ac where ac.paymentStatus=:paymentStatus and "
 				+ "ac.customerName=:customerName order by ac.lastUpdateTimestamp desc")
 		Integer findAccRecievablesSearchByStatusCount(@Param("paymentStatus") String paymentStatus,@Param("customerName") String customerName);
+	
+		@Query("select new com.ihealthpharm.finance.dto.AccRecievablesCustomerDTO(ac.accountReceivablesId,ac.customerName)  from account_receivables ac where ac.activeS='Y' group by ac.customerName")
+		List<AccRecievablesCustomerDTO> getAllAccountPayablesData();
 
 }
