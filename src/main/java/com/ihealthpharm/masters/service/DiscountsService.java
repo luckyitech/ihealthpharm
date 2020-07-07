@@ -2,19 +2,19 @@ package com.ihealthpharm.masters.service;
 
 import java.util.List;
 
-import com.ihealthpharm.masters.model.Discounts;
+import com.ihealthpharm.masters.model.DiscountsModel;
 
 public interface DiscountsService {
 	
-	public Discounts saveDiscount(Discounts discount);
+	public DiscountsModel saveDiscount(DiscountsModel discount);
 	
-	public void deleteDiscount(Discounts discountId);
+	public void deleteDiscount(DiscountsModel discountId);
 	
-	public List<Discounts> getAllDiscounts();
+	public List<DiscountsModel> getAllDiscounts();
 	
-	public Discounts getDiscountByDiscountId(Integer discount);
+	public DiscountsModel getDiscountByDiscountId(Integer discount);
 	
-	public Discounts updateDiscount(Discounts discount);
+	public DiscountsModel updateDiscount(DiscountsModel discount);
 	
 	public Integer getMaxDiscount();
 }

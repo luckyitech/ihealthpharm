@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.DiscountsRepository;
-import com.ihealthpharm.masters.model.Discounts;
+import com.ihealthpharm.masters.model.DiscountsModel;
 import com.ihealthpharm.masters.service.DiscountsService;
 
 @Service
@@ -20,33 +20,33 @@ public class DiscountsServiceImpl implements DiscountsService {
 	private DiscountsRepository discountRepository;
 
 	@Override
-	public Discounts saveDiscount(Discounts discount) {
+	public DiscountsModel saveDiscount(DiscountsModel discount) {
 		// TODO Auto-generated method stub
 		
 		return discountRepository.save(discount);
 	}
 
 	@Override
-	public void deleteDiscount(Discounts discount) {
+	public void deleteDiscount(DiscountsModel discount) {
 		// TODO Auto-generated method stub
 		discountRepository.delete(discount);
 	}
 
 	@Override
-	public List<Discounts> getAllDiscounts() {
+	public List<DiscountsModel> getAllDiscounts() {
 		// TODO Auto-generated method stub
 		return discountRepository.findAllByActiveS('Y');
 	}
 
 	@Override
-	public Discounts getDiscountByDiscountId(Integer discountId) {
+	public DiscountsModel getDiscountByDiscountId(Integer discountId) {
 		// TODO Auto-generated method stub
 		return discountRepository.findById(discountId).get();
 	}
 
 	@Override
-	public Discounts updateDiscount(Discounts discount) {
-		Discounts discountRes = discountRepository.findById(discount.getDiscountId()).get();
+	public DiscountsModel updateDiscount(DiscountsModel discount) {
+		DiscountsModel discountRes = discountRepository.findById(discount.getDiscountId()).get();
 		if (!Objects.nonNull(discountRes)) {
 			throw new IHealthPharmException("Not Found", HttpStatus.NOT_FOUND);
 		} else {

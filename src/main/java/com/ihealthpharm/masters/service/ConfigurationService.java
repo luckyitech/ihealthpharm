@@ -2,6 +2,7 @@ package com.ihealthpharm.masters.service;
 
 import java.util.List;
 
+import com.ihealthpharm.masters.dto.UpdateStockConfigurationDTO;
 import com.ihealthpharm.masters.model.ConfigurationModel;
 
 public interface ConfigurationService {
@@ -19,4 +20,6 @@ public interface ConfigurationService {
 	public Integer getMaxDiscount();
 	
 	public Integer getMargin();
+	
+	public Integer updateStockPrices();
 }

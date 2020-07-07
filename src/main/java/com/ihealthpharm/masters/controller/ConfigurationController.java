@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.masters.dto.UpdateStockConfigurationDTO;
 import com.ihealthpharm.masters.model.ConfigurationModel;
 import com.ihealthpharm.masters.service.ConfigurationService;
 
@@ -76,5 +77,12 @@ public class ConfigurationController {
 		
 		Integer maxdiscount = configurationService.getMargin();
 		return new BaseDto<>(maxdiscount, "Max Discount Retrived", OK).respond();
+	}
+	
+	@GetMapping("/update/stockconfiguration")
+	public ResponseEntity<BaseDto<Integer>> UpdateStock() {
+		
+		Integer configRes = configurationService.updateStockPrices();
+		return new BaseDto<>(configRes, "Stock Updated", OK).respond();
 	}
 }

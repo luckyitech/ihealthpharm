@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.model.SupplierModel;
 import com.ihealthpharm.stock.model.StockModel;
@@ -36,6 +39,7 @@ public class SalesItemsModel {
     @Column(name="BATCH_NO",length=20)
     private String batchNo;
 
+    @CreationTimestamp
     @Column(name="CREATION_TS",length=25)
     private LocalDateTime creationTs;
 
@@ -51,6 +55,7 @@ public class SalesItemsModel {
     @Column(name="FREE_QTY_APPROVER",length=50)
     private String freeQtyApprover;
 
+    @UpdateTimestamp
     @Column(name="LAST_UPDATE_TS",length=25)
     private LocalDateTime lastUpdateTs;
 
