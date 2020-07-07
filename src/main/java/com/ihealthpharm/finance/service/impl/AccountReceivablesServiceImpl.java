@@ -4,19 +4,16 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-
 import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.finance.dao.AccountReceivablesRepository;
+import com.ihealthpharm.finance.dto.AccRecievablesCustomerDTO;
 import com.ihealthpharm.finance.helper.AccountReceivablesHelper;
-import com.ihealthpharm.finance.model.AccountPayablesModel;
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.finance.service.AccountReceivablesService;
 import com.ihealthpharm.masters.dao.CustomerInsuranceRepository;
@@ -322,6 +319,12 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 		}
 				
 			return response;
+	}
+
+	@Override
+	public List<AccRecievablesCustomerDTO> getAllAccountPayablesData() {
+		return accountReceivablesRepository.getAllAccountPayablesData();
+		
 	}
 
 }

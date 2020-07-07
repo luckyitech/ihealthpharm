@@ -2,6 +2,7 @@ package com.ihealthpharm.finance.service;
 
 import java.util.List;
 
+import com.ihealthpharm.finance.dto.AccRecievablesCustomerDTO;
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.sales.model.SalesModel;
 
@@ -54,5 +55,7 @@ public interface AccountReceivablesService
 
 	Integer searchInAccRecievablesForCount(String paymentStatus, String paymentStartDate, String paymentEndDate,
 			String sourceRef, Integer pageNumber, Integer pageSize, String customerName);
+
+	List<AccRecievablesCustomerDTO> getAllAccountPayablesData();
 	
 }

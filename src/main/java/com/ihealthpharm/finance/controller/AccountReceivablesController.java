@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.finance.dto.AccRecievablesCustomerDTO;
 import com.ihealthpharm.finance.helper.AccountReceivablesHelper;
 import com.ihealthpharm.finance.model.AccountPayablesModel;
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
@@ -127,10 +128,15 @@ public class AccountReceivablesController {
 
 	}
 
-
 	@GetMapping("/getAll/accountrecievables")
 	public ResponseEntity<BaseDto<List<AccountReceivablesModel>>> getAll(){
 		List<AccountReceivablesModel> response=accountReceivablesService.getAllAccountPayables();
+		return new BaseDto<>(response,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getAll/accountrecievables/byDTO")
+	public ResponseEntity<BaseDto<List<AccRecievablesCustomerDTO>>> getAllAccRecievables(){
+		List<AccRecievablesCustomerDTO> response=accountReceivablesService.getAllAccountPayablesData();
 		return new BaseDto<>(response,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
 	}
 
