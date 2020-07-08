@@ -67,5 +67,10 @@ public class DiscountsController {
 		return new BaseDto<>(discountRes, "Discount Retrived", OK).respond();
 	}
 	
-	
+	@GetMapping("/get/discountslist")
+	public ResponseEntity<BaseDto<List<DiscountsModel>>> getDiscountsList() {
+		
+		List<DiscountsModel> discountRes = discountsService.getAllDiscounts();
+		return new BaseDto<>(discountRes, "Discount Retirved", OK).respond();
+	}
 }

@@ -10,6 +10,8 @@ public interface DiscountsService {
 	
 	public void deleteDiscount(DiscountsModel discountId);
 	
+	public List<DiscountsModel> getAllDiscountsWithActiveYes();
+	
 	public List<DiscountsModel> getAllDiscounts();
 	
 	public DiscountsModel getDiscountByDiscountId(Integer discount);

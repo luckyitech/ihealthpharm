@@ -33,7 +33,7 @@ public class DiscountsServiceImpl implements DiscountsService {
 	}
 
 	@Override
-	public List<DiscountsModel> getAllDiscounts() {
+	public List<DiscountsModel> getAllDiscountsWithActiveYes() {
 		// TODO Auto-generated method stub
 		return discountRepository.findAllByActiveS('Y');
 	}
@@ -60,6 +60,12 @@ public class DiscountsServiceImpl implements DiscountsService {
 	public Integer getMaxDiscount() {
 		// TODO Auto-generated method stub
 		return discountRepository.findMaxDiscountValue();
+	}
+
+	@Override
+	public List<DiscountsModel> getAllDiscounts() {
+		// TODO Auto-generated method stub
+		 return discountRepository.findAll();
 	}
 	
 	
