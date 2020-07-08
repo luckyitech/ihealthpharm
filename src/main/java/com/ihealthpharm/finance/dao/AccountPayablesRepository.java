@@ -72,11 +72,13 @@ public interface AccountPayablesRepository extends JpaRepository<AccountPayables
 
 	
 	//account payables popup search for count
+	
+	
 
-	@Query("select count(s) from ACCOUNT_PAYABLES s where s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo% and s.supplierName=:supplierName " + 
-			"and s.paymentDate BETWEEN :start and :end and  s.selectedPaymentStatus=:selectedPaymentStatus order by s.lastUpdateTimestamp desc")
-	Integer findAccPayablesSearchByStatusSearchDateCount(@Param("start") LocalDate start,
-			@Param("end") LocalDate end,@Param("invoiceNo") String invoiceNo,@Param("supplierName")String supplierName,@Param("selectedPaymentStatus")String selectedPaymentStatus);
+	@Query("select count(s) from ACCOUNT_PAYABLES s where s.paymentDate BETWEEN :start and :end and s.selectedPaymentStatus=:selectedPaymentStatus and"
+			+ " s.supplierName=:supplierName and  s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo% order by s.lastUpdateTimestamp desc")
+	Integer findAccPayablesSearchByStatusSearchDateCount(@Param("invoiceNo") String invoiceNo,@Param("start") LocalDate start,
+			@Param("end") LocalDate end,@Param("supplierName")String supplierName,@Param("selectedPaymentStatus")String selectedPaymentStatus);
 
 	@Query("select count(s) from ACCOUNT_PAYABLES s where s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo% and s.supplierName=:supplierName " + 
 			"and s.paymentDate BETWEEN :start and :end order by s.lastUpdateTimestamp desc")
@@ -103,16 +105,16 @@ public interface AccountPayablesRepository extends JpaRepository<AccountPayables
 	Integer findAccPayablesSearchByStatusSearchStatusAndInvoiceCount(@Param("selectedPaymentStatus")String selectedPaymentStatus,
 			@Param("invoiceNo") String invoiceNo,@Param("supplierName")String supplierName);
 
-	@Query("select count(s) from ACCOUNT_PAYABLES s where  s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo% and s.supplierName=:supplierName " + 
+	@Query("select count(s) from ACCOUNT_PAYABLES s where s.supplierName=:supplierName and  s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo% " + 
 			" order by s.lastUpdateTimestamp desc")
-	Integer findAccPayablesSearchByInvoiceCount(@Param("invoiceNo") String invoiceNo, @Param("supplierName")String supplierName);
+	Integer findAccPayablesSearchByInvoiceCount(@Param("supplierName")String supplierName,@Param("invoiceNo") String invoiceNo);
 
 	@Query("select count(s) from ACCOUNT_PAYABLES s where s.selectedPaymentStatus=:selectedPaymentStatus and s.supplierName=:supplierName " + 
 			" order by s.lastUpdateTimestamp desc")
 	Integer findAccPayablesSearchByStatusCount(@Param("selectedPaymentStatus")String selectedPaymentStatus, @Param("supplierName")String supplierName);
 
-	@Query("select count(a) from ACCOUNT_PAYABLES a where a.selectedPaymentStatus=:selectedPaymentStatus and a.supplierName=:supplierName and " + 
-			"a.invoiceNo like :invoiceNo% or a.sourceRef like :invoiceNo%  and a.paymentDate BETWEEN :start and :end order by a.lastUpdateTimestamp desc")
+	@Query("select count(a) from ACCOUNT_PAYABLES a where a.paymentDate BETWEEN :start and :end  and " + 
+			"a.invoiceNo like :invoiceNo% or a.sourceRef like :invoiceNo%  and a.supplierName=:supplierName order by a.lastUpdateTimestamp desc")
 	Integer findAccPayableSearchByStatusSearchDateAndInvoiceCount(@Param("start") LocalDate start, @Param("end") LocalDate end,
 			@Param("invoiceNo") String invoiceNo,@Param("supplierName")String supplierName);
 
@@ -122,16 +124,12 @@ public interface AccountPayablesRepository extends JpaRepository<AccountPayables
 			@Param("invoiceNo") String invoiceNo, @Param("supplierName")String supplierName);
 	
 	
-	
-	
-	
 	//account payables popup search
 
-	@Query("select s from ACCOUNT_PAYABLES s where s.paymentDate BETWEEN :start and :end "
-			+ " and s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo% and s.supplierName=:supplierName and s.selectedPaymentStatus=:selectedPaymentStatus " + 
-			" order by s.lastUpdateTimestamp desc")
-	List<AccountPayablesModel> findAccPayablesSearchByStatusSearchDate(@Param("start") LocalDate start,
-			@Param("end") LocalDate end,@Param("invoiceNo") String invoiceNo,@Param("supplierName")String supplierName,@Param("selectedPaymentStatus")String selectedPaymentStatus, Pageable limit);
+	@Query("select s from ACCOUNT_PAYABLES s where s.paymentDate BETWEEN :start and :end and s.selectedPaymentStatus=:selectedPaymentStatus and s.supplierName=:supplierName and "
+			+ " s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo%  order by s.lastUpdateTimestamp desc")
+	List<AccountPayablesModel> findAccPayablesSearchByStatusSearchDate(@Param("invoiceNo") String invoiceNo,@Param("start") LocalDate start,
+			@Param("end") LocalDate end,@Param("supplierName")String supplierName,@Param("selectedPaymentStatus")String selectedPaymentStatus, Pageable limit);
 
 	@Query("select s from ACCOUNT_PAYABLES s where s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo% and s.supplierName=:supplierName " + 
 			"and s.paymentDate BETWEEN :start and :end order by s.lastUpdateTimestamp desc")
@@ -158,16 +156,16 @@ public interface AccountPayablesRepository extends JpaRepository<AccountPayables
 	List<AccountPayablesModel> findAccPayablesSearchByStatusSearchStatusAndInvoice(@Param("selectedPaymentStatus")String selectedPaymentStatus,
 			@Param("invoiceNo") String invoiceNo,@Param("supplierName")String supplierName, Pageable limit);
 
-	@Query("select s from ACCOUNT_PAYABLES s where  s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo% and s.supplierName=:supplierName " + 
-			" order by s.lastUpdateTimestamp desc")
-	List<AccountPayablesModel> findAccPayablesSearchByInvoice(@Param("invoiceNo") String invoiceNo, @Param("supplierName")String supplierName, Pageable limit);
+	@Query("select s from ACCOUNT_PAYABLES s where  s.supplierName=:supplierName and s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo% " + 
+			"order by s.lastUpdateTimestamp desc")
+	List<AccountPayablesModel> findAccPayablesSearchByInvoice( @Param("supplierName")String supplierName,@Param("invoiceNo") String invoiceNo, Pageable limit);
 
 	@Query("select s from ACCOUNT_PAYABLES s where s.selectedPaymentStatus=:selectedPaymentStatus and s.supplierName=:supplierName " + 
 			" order by s.lastUpdateTimestamp desc")
 	List<AccountPayablesModel> findAccPayablesSearchByStatus(@Param("selectedPaymentStatus")String selectedPaymentStatus, @Param("supplierName")String supplierName, Pageable limit);
 
-	@Query("select a from ACCOUNT_PAYABLES a where a.selectedPaymentStatus=:selectedPaymentStatus and a.supplierName=:supplierName and " + 
-			"a.invoiceNo like :invoiceNo% or a.sourceRef like :invoiceNo%  and a.paymentDate BETWEEN :start and :end order by a.lastUpdateTimestamp desc")
+	@Query("select a from ACCOUNT_PAYABLES a where a.paymentDate BETWEEN :start and :end and  " + 
+			"a.invoiceNo like :invoiceNo% or a.sourceRef like :invoiceNo% and a.supplierName=:supplierName order by a.lastUpdateTimestamp desc")
 	List<AccountPayablesModel> findAccPayableSearchByStatusSearchDateAndInvoice(@Param("start") LocalDate start, @Param("end") LocalDate end,
 			@Param("invoiceNo") String invoiceNo,@Param("supplierName")String supplierName, Pageable limit);
 
