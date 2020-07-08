@@ -45,7 +45,7 @@ public class ItemCategoryController {
 	
 	@PutMapping("/update/itemcategory")
 	public ResponseEntity<BaseDto<ItemCategoryModel>> updateItemCategoryData(@Valid @RequestBody ItemCategoryModel itemCategoryModel) {
-		log.info("Request Object for update is: ",itemCategoryModel);
+		
 		ItemCategoryModel itemCategoryModelRes = itemCategoryService.updateItemCategoryData(itemCategoryModel);
 		return new BaseDto<>(itemCategoryModelRes,itemCategoryHelper.getUpdateItemCategoryMessage(),OK).respond();
 	}
