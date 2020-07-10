@@ -124,5 +124,16 @@ public class CustomerController {
 		return new BaseDto<>(response,customerHelper.getRetrieveCustomerMessage(),OK).respond();
 	}
 	
+	//Customer details Report
+	@GetMapping("/getcustomerfirstnamebysearch")
+	public ResponseEntity<BaseDto<List<String>>> getCustomerFirstNamesBySearch(@RequestParam String searchTerm){
+		List<String> response=customerService.findAllCustomersFirstNameBySearch(searchTerm);
+		return new BaseDto<>(response,customerHelper.getRetrieveCustomerMessage(),OK).respond();
+	}
 	
+	@GetMapping("/getcustomerlastnamebysearch")
+	public ResponseEntity<BaseDto<List<String>>> getCustomerLastNamesBySearch(@RequestParam String searchTerm){
+		List<String> response=customerService.findAllCustomersLastNameBySearch(searchTerm);
+		return new BaseDto<>(response,customerHelper.getRetrieveCustomerMessage(),OK).respond();
+	}
 }

@@ -106,4 +106,17 @@ public class CustomerMembershipController {
 		List<String> result = customerMembershipService.findMembershipCardNames();
 		return new BaseDto<>(result, customerMembershipHelper.getRetrieveCustomerMembershipMessage(), OK).respond();
 	}
+	
+	//Customer Details Report
+	@GetMapping("getmembershipcardnumberbysearch")
+	public ResponseEntity<BaseDto<List<String>>> findMembershipCardNumberBySearch(@RequestParam String searchTerm) {
+		List<String> result = customerMembershipService.findMembershipCardNoBySearch(searchTerm);
+		return new BaseDto<>(result, customerMembershipHelper.getRetrieveCustomerMembershipMessage(), OK).respond();
+	}
+	
+	@GetMapping("getallmembershipcardnumbers")
+	public ResponseEntity<BaseDto<List<String>>> findAllMembershipCardNumbers() {
+		List<String> result = customerMembershipService.findMembershipCardNos();
+		return new BaseDto<>(result, customerMembershipHelper.getRetrieveCustomerMembershipMessage(), OK).respond();
+	}
 }

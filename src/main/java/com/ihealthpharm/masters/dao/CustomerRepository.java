@@ -46,4 +46,10 @@ public interface CustomerRepository extends JpaRepository<CustomerModel,Integer>
 			+ "FROM customer c where (c.phoneNumber like %:phno%) and activeS='Y'")
 	List<CustomerModel> findByPhoneNumber(@Param("phno") String phno);
 
+	@Query("select distinct c.customerName from customer c where c.customerName like :key%")
+	List<String> findCustomerFirstNamesBySearch(@Param("key")String key);
+	
+	@Query("select distinct c.lastName from customer c where c.lastName like :key%")
+	List<String> findCustomerLastNamesBySearch(@Param("key")String key);
+
 }
