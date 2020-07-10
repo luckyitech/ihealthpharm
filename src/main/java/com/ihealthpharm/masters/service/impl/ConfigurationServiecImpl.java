@@ -99,7 +99,10 @@ public class ConfigurationServiecImpl implements ConfigurationService {
 				markup = config.getConfigValue();
 			}
 		}
-		return configurationRepository.updateStockPrice(margin,markup);
+		Integer count=0;
+		count = configurationRepository.updateStockWithCategory(markup);
+		count += configurationRepository.updateStockPrice(margin,markup);
+		return count;
 	}
 
 }
