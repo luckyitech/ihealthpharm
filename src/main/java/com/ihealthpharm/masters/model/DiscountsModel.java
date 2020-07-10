@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 @Entity(name="discounts")
 @Data
 @EqualsAndHashCode(of="discountId",callSuper=false)
-public class Discounts extends AuditModel{
+public class DiscountsModel extends AuditModel{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

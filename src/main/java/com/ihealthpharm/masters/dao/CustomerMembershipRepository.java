@@ -19,4 +19,11 @@ public interface CustomerMembershipRepository extends JpaRepository<CustomerMemb
 			+ "cm.membershipCardName like :key% or c.customerName like :key%")
 	List<CustomerMembershipModel> findMembershipBySearch(@Param("key") String key);
 
+	@Query("select distinct cm.membershipCardName from customer_membership cm inner join customer c on cm.customerModel.customerId=c.customerId where "
+			+ "cm.membershipCardName like :key%")
+	List<String> findCustomerMembershipBySearch(@Param("key")String key);
+
+	@Query("select distinct cm.membershipCardName from customer_membership cm inner join customer c on cm.customerModel.customerId=c.customerId")
+	List<String> findCustomerMembershipCardNames();
+
 }

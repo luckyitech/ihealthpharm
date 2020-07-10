@@ -128,4 +128,15 @@ public class CustomerMembershipServiceImpl implements CustomerMembershipService 
 		
 		return customerMembershipRepository.findMembershipBySearch(key);
 	}
+
+	@Override
+	public List<String> findMembershipBySearch(String searchKey) {
+		return customerMembershipRepository.findCustomerMembershipBySearch(searchKey);
+	}
+
+	@Override
+	public List<String> findMembershipCardNames() {
+	
+		return customerMembershipRepository.findCustomerMembershipCardNames();
+	}
 }

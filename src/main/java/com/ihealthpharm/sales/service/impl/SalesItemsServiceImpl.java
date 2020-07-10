@@ -4,17 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
 import com.ihealthpharm.exception.IHealthPharmException;
+import com.ihealthpharm.sales.controller.SalesItemsController;
 import com.ihealthpharm.sales.dao.SalesItemsRepository;
 import com.ihealthpharm.sales.helper.SalesItemsHelper;
 import com.ihealthpharm.sales.model.SalesItemsModel;
 import com.ihealthpharm.sales.model.SalesModel;
 import com.ihealthpharm.sales.service.SalesItemsService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class SalesItemsServiceImpl implements SalesItemsService {
 
     @Autowired
@@ -42,9 +48,22 @@ public class SalesItemsServiceImpl implements SalesItemsService {
 	@Override
 	public List<SalesItemsModel> saveSalesItemsData(List<SalesItemsModel> salesItemsModels) {
 		System.out.println(salesItemsModels.toString());
+		
 		List<SalesItemsModel> salesItemsRes = new ArrayList<>();
 		for(SalesItemsModel saleItemModel:salesItemsModels)
 		{	//saleItemModel.setSalesItemsId(null);
+			if(saleItemModel.getSalesItemsId() != null)
+			{
+				log.info("-----------------------------------------");
+				log.info("sales item is updating ");
+				log.info("-----------------------------------------");
+			}
+			else
+			{
+				log.info("-----------------------------------------");
+				log.info("sales item is saving ");
+				log.info("-----------------------------------------");
+			}
 			salesItemsRes.add(salesItemsRepository.save(saleItemModel));
 		}
 		return salesItemsRes;

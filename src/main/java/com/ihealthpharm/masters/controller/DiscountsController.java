@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
-import com.ihealthpharm.masters.model.Discounts;
+import com.ihealthpharm.masters.model.DiscountsModel;
 import com.ihealthpharm.masters.service.DiscountsService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,24 +29,24 @@ public class DiscountsController {
 	private DiscountsService discountsService;
 	
 	@PostMapping("/save/discount")
-	public ResponseEntity<BaseDto<Discounts>> saveDiscount(@RequestBody Discounts discount) {
+	public ResponseEntity<BaseDto<DiscountsModel>> saveDiscount(@RequestBody DiscountsModel discount) {
 		
 		
-		Discounts discountRes = discountsService.saveDiscount(discount);
+		DiscountsModel discountRes = discountsService.saveDiscount(discount);
 		return new BaseDto<>(discountRes, "Discount Saved", OK).respond();
 		
 	}
 	
 	@PutMapping("/update/discount")
-	public ResponseEntity<BaseDto<Discounts>> UpdateDiscount(@RequestBody Discounts discount) {
+	public ResponseEntity<BaseDto<DiscountsModel>> UpdateDiscount(@RequestBody DiscountsModel discount) {
 		
-		Discounts discountRes = discountsService.updateDiscount(discount);
+		DiscountsModel discountRes = discountsService.updateDiscount(discount);
 		return new BaseDto<>(discountRes, "Discount Updated", OK).respond();
 		
 	}
 	
 	@DeleteMapping("/delete/discount")
-	public ResponseEntity<BaseDto<Object>> deleteDiscount(@RequestBody Discounts discount) {
+	public ResponseEntity<BaseDto<Object>> deleteDiscount(@RequestBody DiscountsModel discount) {
 		
 		discountsService.deleteDiscount(discount);
 		return new BaseDto<>("Discount Deleted", OK).respond();
@@ -54,18 +54,23 @@ public class DiscountsController {
 	}
 	
 	@GetMapping("/getall/discounts")
-	public ResponseEntity<BaseDto<List<Discounts>>> getAllDiscounts() {
+	public ResponseEntity<BaseDto<List<DiscountsModel>>> getAllDiscounts() {
 		
-		List<Discounts> discountRes = discountsService.getAllDiscounts();
+		List<DiscountsModel> discountRes = discountsService.getAllDiscounts();
 		return new BaseDto<>(discountRes, "Discount Retirved", OK).respond();
 	}
 	
 	@GetMapping("/get/discountbyid")
-	public ResponseEntity<BaseDto<Discounts>> getDiscountById(@RequestParam Integer discountId) {
+	public ResponseEntity<BaseDto<DiscountsModel>> getDiscountById(@RequestParam Integer discountId) {
 		
-		Discounts discountRes = discountsService.getDiscountByDiscountId(discountId);
+		DiscountsModel discountRes = discountsService.getDiscountByDiscountId(discountId);
 		return new BaseDto<>(discountRes, "Discount Retrived", OK).respond();
 	}
 	
-	
+	@GetMapping("/get/discountslist")
+	public ResponseEntity<BaseDto<List<DiscountsModel>>> getDiscountsList() {
+		
+		List<DiscountsModel> discountRes = discountsService.getAllDiscounts();
+		return new BaseDto<>(discountRes, "Discount Retirved", OK).respond();
+	}
 }

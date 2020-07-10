@@ -6,9 +6,12 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.ihealthpharm.masters.dto.AlternativeItemDTO;
 import com.ihealthpharm.masters.dto.ItemDTO;
 import com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO;
@@ -156,4 +159,14 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 	
 	@Query("select i from items i where i.itemCode like :searchTerm% order by i.lastUpdateTimestamp desc")
 	List<ItemsModel> findAllByItemCodeSWS(@Param("searchTerm") String searchTerm);
+	
+	@Query("select configValue from configuration where configDesc='maxdiscount' and activeS='Y'")
+	public Integer getMarkup();
+	
+	@Transactional
+	@Modifying
+	@Query("update stock s"
+			+ " set s.unitSaleRate=((s.unitPurchaseRate*(1+(:margin/100)))*(1+(:markup/100))), s.entryType='sales price update'"
+			+ "where s.unitPurchaseRate is not null and s.item.itemId=:itemId")
+	public void updateStockWithMargin(@Param("itemId") Integer itemId,@Param("margin") Integer margin, @Param("markup") Integer markup);
 }
