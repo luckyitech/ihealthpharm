@@ -94,4 +94,29 @@ public class CustomerMembershipController {
 		return new BaseDto<>(result, customerMembershipHelper.getRetrieveCustomerMembershipMessage(), OK).respond();
 	}
 	
+	//customer membership report
+	@GetMapping("getmembershipcardnamesbysearch")
+	public ResponseEntity<BaseDto<List<String>>> findMembershipBySearch(@RequestParam String searchTerm) {
+		List<String> result = customerMembershipService.findMembershipBySearch(searchTerm);
+		return new BaseDto<>(result, customerMembershipHelper.getRetrieveCustomerMembershipMessage(), OK).respond();
+	}
+	
+	@GetMapping("getallmembershipcardnames")
+	public ResponseEntity<BaseDto<List<String>>> findAllMembershipCardNames() {
+		List<String> result = customerMembershipService.findMembershipCardNames();
+		return new BaseDto<>(result, customerMembershipHelper.getRetrieveCustomerMembershipMessage(), OK).respond();
+	}
+	
+	//Customer Details Report
+	@GetMapping("getmembershipcardnumberbysearch")
+	public ResponseEntity<BaseDto<List<String>>> findMembershipCardNumberBySearch(@RequestParam String searchTerm) {
+		List<String> result = customerMembershipService.findMembershipCardNoBySearch(searchTerm);
+		return new BaseDto<>(result, customerMembershipHelper.getRetrieveCustomerMembershipMessage(), OK).respond();
+	}
+	
+	@GetMapping("getallmembershipcardnumbers")
+	public ResponseEntity<BaseDto<List<String>>> findAllMembershipCardNumbers() {
+		List<String> result = customerMembershipService.findMembershipCardNos();
+		return new BaseDto<>(result, customerMembershipHelper.getRetrieveCustomerMembershipMessage(), OK).respond();
+	}
 }

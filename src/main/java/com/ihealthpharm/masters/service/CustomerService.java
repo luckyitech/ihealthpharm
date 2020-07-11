@@ -39,4 +39,8 @@ public interface CustomerService
 
 	List<CustomerModel> findLimitedCustomersData();
 
+	List<String> findAllCustomersFirstNameBySearch(String searchTerm);
+
+	List<String> findAllCustomersLastNameBySearch(String searchTerm);
+
 }

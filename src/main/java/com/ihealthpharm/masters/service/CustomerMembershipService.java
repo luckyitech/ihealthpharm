@@ -23,5 +23,13 @@ public interface CustomerMembershipService {
 	 CustomerMembershipModel findByMembershipCardNumber(String membershipCardNumber);
 	 
 	 List<CustomerMembershipModel> findCustomersMembershipBySearch(String key);
+
+	List<String> findMembershipBySearch(String searchKey);
+
+	List<String> findMembershipCardNames();
+
+	List<String> findMembershipCardNoBySearch(String searchTerm);
+
+	List<String> findMembershipCardNos();
 	
 }
