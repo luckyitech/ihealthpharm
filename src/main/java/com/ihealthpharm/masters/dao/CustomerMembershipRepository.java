@@ -12,7 +12,7 @@ public interface CustomerMembershipRepository extends JpaRepository<CustomerMemb
 {
 	CustomerMembershipModel findByMembershipCardNumber(String membershipCardNumber);
 
-	@Query("select cm from customer_membership cm order by cm.lastUpdateTimestamp desc ")
+	@Query("select cm from customer_membership cm where cm.activeS='Y' order by cm.lastUpdateTimestamp desc ")
 	List<CustomerMembershipModel> findAllLastestRecords();
 
 	@Query("select cm from customer_membership cm inner join customer c on cm.customerModel.customerId=c.customerId where cm.membershipCardNumber like :key% or "

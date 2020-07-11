@@ -11,6 +11,7 @@ import com.ihealthpharm.masters.model.CustomerModel;
 
 public interface CustomerInsuranceRepository extends JpaRepository<CustomerInsuranceModel,Integer>
 {
+	@Query("select ci from customer_insurance ci where ci.activeS='Y' order by ci.lastUpdateTimestamp desc ")
 	List<CustomerInsuranceModel> findAllByOrderByLastUpdateTimestampDesc();
 
 	CustomerInsuranceModel findByPolicyCode(String policyCode);
