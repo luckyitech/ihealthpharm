@@ -85,6 +85,9 @@ public class CreditNoteModel extends AuditModel{
 	
 	@Column(name="NET_AMOUNT")
 	private Float netAmount;
+	
+	@Column(name="bill_type_id")
+	private String billType;
     
 	@OneToOne
 	@JoinColumn(name="SUPPLIER_ID")
