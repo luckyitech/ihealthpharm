@@ -27,7 +27,7 @@ public interface ItemCategoriesRepository extends JpaRepository<ItemCategoryMode
 
 	@Transactional
 	@Modifying
-	@Query("update stock s set s.unitSaleRate=((s.unitPurchaseRate*(1+(:margin/100)))*(1+(:markup/100))), s.entryType='sales price update'"
+	@Query("update stock s set s.unitSaleRate=ROUND(((s.unitPurchaseRate*(1+(:margin/100)))*(1+(:markup/100))),2), s.entryType='sales price update',s.mrp=s.unitSaleRate "
 			+ " where s.unitPurchaseRate is not null and s.item.itemId in "
 			+ "(select i.itemId from items i where i.itemCategory.itemCategoryId = :itemCategoryId)")
 	public void updateStockWithMargin(@Param("itemCategoryId") Integer itemCategoryId,@Param("margin") Integer margin, @Param("markup") Integer markup);

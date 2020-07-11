@@ -22,7 +22,7 @@ public interface ConfigurationRepository extends JpaRepository<ConfigurationMode
 	
 	@Transactional
 	@Modifying
-	@Query("update stock s set s.unitSaleRate=((s.unitPurchaseRate*(1+(:margin/100)))*(1+(:markup/100))), s.entryType='sales price update'"
+	@Query("update stock s set s.unitSaleRate= CASE WHEN s.unitPurchaseRate is not null THEN ROUND(((s.unitPurchaseRate*(1+(:margin/100)))*(1+(:markup/100))),2) ELSE 0 END, s.entryType='sales price update',s.mrp=s.unitSaleRate "
 			+ " where s.unitPurchaseRate is not null and "
 			+ "s.item.itemId in (select i.itemId from items i left join items_categories ic on i.itemCategory.itemCategoryId=ic.itemCategoryId where ic.marginPercentage is null and i.itemId=s.item.itemId)")
 	public Integer updateStockPrice(@Param("margin") Integer margin, @Param("markup") Integer markup);
@@ -30,9 +30,11 @@ public interface ConfigurationRepository extends JpaRepository<ConfigurationMode
 	@Transactional
 	@Modifying
 	@Query(value="update stock s, items i, items_categories ic set " + 
-			"s.UNIT_PURCHASE_RATE = ((s.UNIT_PURCHASE_RATE*(1+(ic.MARGIN_PERCENTAGE/100)))*(1+(:markup/100))), s.ENTRY_TYPE='sales price update'" + 
-			"where i.ITEM_ID=s.ITEM_ID and i.ITEM_CATEGORIE_ID=ic.ITEM_CATEGORIE_ID and s.UNIT_PURCHASE_RATE is not null",nativeQuery = true)
-	public Integer updateStockWithCategory(@Param("markup") Integer markup);
+			"s.UNIT_SALE_RATE = CASE WHEN ic.MARGIN_PERCENTAGE is not null THEN ROUND(((s.UNIT_PURCHASE_RATE*(1+(ic.MARGIN_PERCENTAGE/100)))*(1+(:markup/100))),2) ELSE "
+			+ " ROUND(((s.UNIT_PURCHASE_RATE*(1+(:margin/100)))*(1+(:markup/100))),2) END, "
+			+ "s.ENTRY_TYPE='sales price update',s.MRP=s.UNIT_PURCHASE_RATE " + 
+			"where i.ITEM_ID=s.ITEM_ID and i.ITEM_CATEGORIE_ID=ic.ITEM_CATEGORIE_ID and s.UNIT_PURCHASE_RATE is not null and ic.MARGIN_PERCENTAGE is not null",nativeQuery = true)
+	public Integer updateStockWithCategory(@Param("margin") Integer margin, @Param("markup") Integer markup);
 
 }
 

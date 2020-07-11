@@ -100,7 +100,7 @@ public class ConfigurationServiecImpl implements ConfigurationService {
 			}
 		}
 		Integer count=0;
-		count = configurationRepository.updateStockWithCategory(markup);
+		count = configurationRepository.updateStockWithCategory(margin,markup);
 		count += configurationRepository.updateStockPrice(margin,markup);
 		return count;
 	}
