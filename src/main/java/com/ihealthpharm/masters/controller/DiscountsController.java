@@ -56,7 +56,7 @@ public class DiscountsController {
 	@GetMapping("/getall/discounts")
 	public ResponseEntity<BaseDto<List<DiscountsModel>>> getAllDiscounts() {
 		
-		List<DiscountsModel> discountRes = discountsService.getAllDiscounts();
+		List<DiscountsModel> discountRes = discountsService. getAllDiscountsWithActiveYes();
 		return new BaseDto<>(discountRes, "Discount Retirved", OK).respond();
 	}
 	

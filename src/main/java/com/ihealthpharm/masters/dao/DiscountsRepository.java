@@ -13,7 +13,8 @@ public interface DiscountsRepository extends JpaRepository<DiscountsModel,Intege
 	@Query(value="select distinct max(d.discountValue) from discounts d where d.activeS=Y")
 	public Integer findMaxDiscountValue();
 
-	@Query(value="select d from discounts d where d.activeS=:status and d.discountValue<(select c.configValue from configuration c where c.configDesc='maxdiscount' and c.activeS='Y')")
+	@Query(value="select d from discounts d where d.activeS=:status and d.discountValue<"
+			+ "(select c.configValue from configuration c where c.configDesc='maxdiscount' and c.activeS='Y') order by d.discountValue")
 	public List<DiscountsModel> findAllByActiveS(@Param("status") Character status);
 
 }
