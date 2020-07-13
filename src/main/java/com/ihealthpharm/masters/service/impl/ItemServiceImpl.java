@@ -64,7 +64,8 @@ public class ItemServiceImpl implements ItemService {
 		Integer margin = itemRepository.getMargin();
 		
 		if (itemsModelRes.getItemCategory() != null) {
-			if (itemsModelRes.getItemCategory().getMarginPercentage() != null) {
+			if (itemsModelRes.getItemCategory().getMarginPercentage() != null &&
+					itemsModelRes.getItemCategory().getMarginPercentage() >0) {
 				itemRepository.updateStockWithMargin(itemsModelRes.getItemId(),itemsModelRes.getItemCategory().getMarginPercentage(), markup);
 			}
 			else
