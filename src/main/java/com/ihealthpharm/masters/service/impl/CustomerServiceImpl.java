@@ -178,6 +178,18 @@ public class CustomerServiceImpl implements CustomerService {
 		
 		return customerRepository.findByPhoneNumber(phno);
 	}
+
+	@Override
+	public List<String> findAllCustomersFirstNameBySearch(String searchTerm) {
+		
+		return customerRepository.findCustomerFirstNamesBySearch(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllCustomersLastNameBySearch(String searchTerm) {
+		
+		return customerRepository.findCustomerLastNamesBySearch(searchTerm);
+	}
 	
 	
 

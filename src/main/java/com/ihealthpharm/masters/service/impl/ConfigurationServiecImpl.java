@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.masters.dao.ConfigurationRepository;
+import com.ihealthpharm.masters.dto.UpdateStockConfigurationDTO;
 import com.ihealthpharm.masters.model.ConfigurationModel;
 import com.ihealthpharm.masters.service.ConfigurationService;
 
@@ -79,6 +80,29 @@ public class ConfigurationServiecImpl implements ConfigurationService {
 	public Integer getMargin() {
 		// TODO Auto-generated method stub
 		return configurationRepository.findMargin();
+	}
+
+	@Override
+	public Integer updateStockPrices() {
+		// TODO Auto-generated method stub
+		List<ConfigurationModel> configList = configurationRepository.findAll();
+		Integer margin=0;
+		Integer markup=0;
+		
+		for(ConfigurationModel config:configList)
+		{
+			if(config.getConfigDesc().equals("margin") && config.getActiveS() == 'Y') {
+				margin = config.getConfigValue();
+			}
+			
+			if(config.getConfigDesc().equals("maxdiscount") && config.getActiveS() == 'Y') {
+				markup = config.getConfigValue();
+			}
+		}
+		Integer count=0;
+		count = configurationRepository.updateStockWithCategory(margin,markup);
+		count += configurationRepository.updateStockPrice(margin,markup);
+		return count;
 	}
 
 }
