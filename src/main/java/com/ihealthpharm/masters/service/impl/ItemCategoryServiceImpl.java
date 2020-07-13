@@ -72,6 +72,13 @@ public class ItemCategoryServiceImpl implements ItemCategoryService {
 			Integer markup = itemCategoriesRepository.getMarkup();
 			itemCategoriesRepository.updateStockWithMargin(itemCategoryModel.getItemCategoryId(),itemCategoryModel.getMarginPercentage(),markup);	
 		}
+		else
+		{
+			Integer markup = itemCategoriesRepository.getMarkup();
+			Integer margin = itemCategoriesRepository.getMargin();
+			itemCategoriesRepository.updateStockWithMarginIfItemMarginNull(itemCategoryModel.getItemCategoryId(),margin,markup);	
+		}
+		
 		
 		log.info("ItemCategory data with ID : "+ itemCategoryModelRes.getItemCategoryId()+" updated succesfully");
 		return itemCategoryModelRes;
