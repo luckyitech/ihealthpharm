@@ -21,7 +21,6 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.ihealthpharm.masters.model.AuditModel;
-import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 
 import lombok.Getter;
@@ -58,9 +57,9 @@ public class QuotationModel extends AuditModel {
 	@Column(name = "CREATED_BY")
 	private Integer createdBy;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SENT_BY")
-	EmployeeModel sentBy;
+	//@OneToOne(fetch = FetchType.LAZY)
+	@Column(name = "SENT_BY")
+	private Integer sentBy;
 
 	//@ManyToOne(fetch = FetchType.LAZY)
 	//@JoinColumn(name = "REQUESTED_BY")
@@ -80,8 +79,9 @@ public class QuotationModel extends AuditModel {
 
 	@Column(name = "AUDIT_ID", length = 11)
 	private Integer auditId;
-
-	@Column(name = "SENT_DT", length = 25)
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "SENT_DT")
 	private Date sentDt;
 
 	@Column(name = "CANCELLED_REASON", length = 200)
@@ -119,6 +119,23 @@ public class QuotationModel extends AuditModel {
 
 	@OneToMany(mappedBy = "quotation", fetch = FetchType.LAZY)
 	private List<QuotationItemsModel> quotationItems;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "SUPPLIER_QTN_APPROVED_DT")
+	private Date supplierQtnApprovedDt;
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "SUPPLIER_QTN_REJECTED_DT")
+	private Date supplierQtnRejectedDt;
+	
+	@Column(name="SUPPLIER_QTN_REJECTED_BY")
+	private Integer supplierQtnRejectedBy;
+	
+	@Column(name="SUPPLIER_QTN_APPROVED_BY")
+	private Integer supplierQtnApprovedBy;
+	
+	@Column(name="SUPPLIER_QTN_REJECTED_REASON")
+	private String supplierQtnRejectedReason;
 	
 	@Transient
 	private Integer createdId;
@@ -158,6 +175,12 @@ public class QuotationModel extends AuditModel {
 	
 	@Transient
 	private String rejectedName;
+	
+	@Transient
+	private String supplierMailApproverName;
+	
+	@Transient
+	private String supplierMailRejecterName;
 	
 	public QuotationModel() {
 		

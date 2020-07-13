@@ -5,6 +5,8 @@ package com.ihealthpharm.stock.service;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.ihealthpharm.masters.dto.ItemSupplierDTO;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.SupplierModel;
@@ -80,5 +82,15 @@ public interface QuotationService {
 
 	List<ItemSupplierDTO> getItemsByItemDescForQuotation(String itemDescription);
 
-	
+	QuotationModel saveSendByMailQuotation(QuotationModel quotationModel,String status);
+
+	List<QuotationModel> getSendByMailQuotation();
+
+	QuotationModel saveSupplierApprovedQuotation(QuotationModel quotationModel, String quotationstatus);
+
+	QuotationModel saveSupplierRejectedQuotation(QuotationModel quotationModel, String quotationstatus);
+
+	List<QuotationModel> getSupplierApprovedQuotation();
+
+	List<QuotationModel> getSupplierRejectedQuotation();
 }

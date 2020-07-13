@@ -33,7 +33,7 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 	List<QuotationModel> getQuotationByPharmacy(@Param("pharmacyId") Integer pharmacyId);
 	
 	@Query("select q from quotation q "
-			+ " where q.pharmacyModel.pharmacyId = :pharmacyId and q.quotationStatusModel.status = :status ")
+			+ " where q.pharmacyModel.pharmacyId = :pharmacyId and q.quotationStatusModel.status = :status")
 	List<QuotationModel> getQuotationByPharmacyAndStatus(@Param("pharmacyId") Integer pharmacyId, @Param("status") String status);
 	
 	@Query("select new com.ihealthpharm.stock.model.QuotationModel(q.quotationId, q.quotationNo, q.description, q.quotationDt, q.quotationExpiryDt, "
@@ -101,7 +101,7 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 	@Query("select CONCAT(e.firstName,'  ',e.lastName) from quotation q inner join employee e on q.requestedby=e.employeeId where q.quotationId = :quotationId ")
 	String requestedQuotationUser(@Param("quotationId") Integer quotationId);
 	
-	@Query("select q.sentBy.firstName from quotation q where q.quotationId = :quotationId ")
+	@Query("select CONCAT(e.firstName,'  ',e.lastName) from quotation q inner join employee e on q.sentBy=e.employeeId where q.quotationId = :quotationId ")
 	String sentQuotationUser(@Param("quotationId") Integer quotationId);
 	
 	@Query("select d "
@@ -151,6 +151,21 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 	
 	@Query("select q from quotation q where q.quotationNo like :quotationNo% and q.quotationStatusModel.status = :status")
 	List<QuotationModel> getAllQuotationSearchesForRejectedQtn(@Param("quotationNo")String quotationNo ,@Param("status") String status);
+
+	@Query("select q from quotation q where q.quotationSendMode='Mail Sent' and q.supplierQtnApprovedBy is null and q.supplierQtnRejectedBy is null")
+	List<QuotationModel> getAllSendMailQuotations();
+
+	@Query("select q from  quotation q where q.supplierQtnApprovedBy is not null and q.supplierQtnApprovedDt is not null order by q.lastUpdateTimestamp desc")
+	List<QuotationModel> getAllSupplierMailApprovedQuotations();
 	
+	@Query("select q from  quotation q where q.supplierQtnRejectedBy is not null and q.supplierQtnRejectedDt is not null order by q.lastUpdateTimestamp desc")
+	List<QuotationModel> getAllSupplierRejectedMailQuotations();
 	
+	@Query("select CONCAT(e.firstName,'  ',e.lastName) from quotation q "
+			+ "inner join employee e on e.employeeId=q.supplierQtnApprovedBy where q.quotationId = :quotationId  ")
+	String approvedMailQuotationUser(@Param("quotationId") Integer quotationId);
+	
+	@Query("select CONCAT(e.firstName,'  ',e.lastName) from quotation q "
+			+ "inner join employee e on e.employeeId=q.supplierQtnRejectedBy where q.quotationId = :quotationId  ")
+	String rejectededMailQuotationUser(@Param("quotationId") Integer quotationId);
 }
