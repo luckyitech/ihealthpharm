@@ -108,4 +108,16 @@ public class CreditNoteController {
 		List<String> results=creditNoteService.findAllCustomersBySearch(customer);
 		return new BaseDto<>(results,creditNoteHelper.getRetriveCreditNoteMessage(),OK).respond();
 	}
+	
+//	@GetMapping("/getCreditNoteByBillTypes")
+//	public List<String> getAllCNByBillTypes(@RequestParam String searchTerm){
+//	return creditNoteService.getCreditNoteByBillType(searchTerm);
+//	}
+	
+	@GetMapping("/getCreditNoteByBillTypes")
+	public ResponseEntity<BaseDto<List<String>>> getAllCNByBillTypes(@RequestParam String searchTerm){
+		List<String> results=creditNoteService.getCreditNoteByBillType(searchTerm);
+		return new BaseDto<>(results,creditNoteHelper.getRetriveCreditNoteMessage(),OK).respond();
+	}
+ 
 }
