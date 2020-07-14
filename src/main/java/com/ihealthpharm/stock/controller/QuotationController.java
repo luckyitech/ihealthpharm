@@ -586,4 +586,68 @@ public class QuotationController {
 		List<ItemSupplierDTO> result = quotationService.getItemsByItemDescForQuotation(itemDescription);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
+	
+	/**
+	 * @author Tarun 
+	 * Service is to save the send by mail Quotation
+	 */
+	@PostMapping("/save/sendingByMailQuotation")
+	public ResponseEntity<BaseDto<QuotationModel>> saveSendByMailQuotation(@Valid @RequestBody QuotationModel quotationModel) {
+		QuotationModel model = quotationService.saveSendByMailQuotation(quotationModel,"SENT EMAIL");
+		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Tarun 
+	 * Service is to save the send by mail Quotation
+	 */
+	@GetMapping("/getAll/sendByMailQuotation")
+	public ResponseEntity<BaseDto<List<QuotationModel>>> getSendByMailQuotation() {
+		List<QuotationModel> model = quotationService.getSendByMailQuotation();
+		return new BaseDto<>(model, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author tarun 
+	 * Service is to save the Received Rejected Quotation
+	 */
+	@PostMapping("/save/approvedSupplierQuotation")
+	public ResponseEntity<BaseDto<QuotationModel>> saveApprovedQuotation(@Valid @RequestBody QuotationModel quotationModel) {
+		QuotationModel model = quotationService.saveSupplierApprovedQuotation(quotationModel, "SENT EMAIL APPROVED");
+		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
+	}
+	
+	
+	/**
+	 * @author tarun 
+	 * Service is to save the Received Rejected Quotation
+	 */
+	@PostMapping("/save/rejectedSupplierQuotation")
+	public ResponseEntity<BaseDto<QuotationModel>> saveRejectedQuotation(@Valid @RequestBody QuotationModel quotationModel) {
+		QuotationModel model = quotationService.saveSupplierRejectedQuotation(quotationModel, "SENT EMAIL REJECTED");
+		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
+	}
+	
+	
+	
+	
+	/**
+	 * @author tarun 
+	 * Service is to get the Received mail approved Quotation
+	 */
+	@GetMapping("/get/approvedSupplierQuotation")
+	public ResponseEntity<BaseDto<List<QuotationModel>>> getApprovedMailQuotation() {
+		List<QuotationModel> model = quotationService.getSupplierApprovedQuotation();
+		return new BaseDto<>(model, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author tarun 
+	 * Service is to get the Received mail approved Quotation
+	 */
+	@GetMapping("/get/rejectedSupplierQuotation")
+	public ResponseEntity<BaseDto<List<QuotationModel>>> getRejectedMailQuotation() {
+		List<QuotationModel> model = quotationService.getSupplierRejectedQuotation();
+		return new BaseDto<>(model, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
+	}
 }
