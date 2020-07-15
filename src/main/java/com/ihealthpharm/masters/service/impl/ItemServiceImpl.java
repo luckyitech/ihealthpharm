@@ -10,12 +10,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import com.ihealthpharm.exception.IHealthPharmException;
+import com.ihealthpharm.masters.dao.ConfigurationStatusRepository;
 import com.ihealthpharm.masters.dao.ItemGroupRepository;
 import com.ihealthpharm.masters.dao.ItemsRepository;
 import com.ihealthpharm.masters.dto.AlternativeItemDTO;
 import com.ihealthpharm.masters.dto.ItemDTO;
 import com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO;
 import com.ihealthpharm.masters.helper.ItemPropertyHelper;
+import com.ihealthpharm.masters.model.ConfigurationStatusModel;
 import com.ihealthpharm.masters.model.ItemGroupModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.service.ItemService;
@@ -45,6 +47,9 @@ public class ItemServiceImpl implements ItemService {
 	@Autowired
 	private StockRepository stockRepo;
 
+	@Autowired
+	private ConfigurationStatusRepository configurationStatusRepository;
+
 	@Override
 	public ItemsModel updateItemData(ItemsModel itemsModel) {
 		ItemsModel itemsModelRes = getValidItems(itemsModel.getItemId());
@@ -62,20 +67,21 @@ public class ItemServiceImpl implements ItemService {
 		itemsModelRes = itemRepository.save(itemsModel);
 		Integer markup = itemRepository.getMarkup();
 		Integer margin = itemRepository.getMargin();
-		
-		if (itemsModelRes.getItemCategory() != null) {
-			if (itemsModelRes.getItemCategory().getMarginPercentage() != null &&
-					itemsModelRes.getItemCategory().getMarginPercentage() >0) {
-				itemRepository.updateStockWithMargin(itemsModelRes.getItemId(),itemsModelRes.getItemCategory().getMarginPercentage(), markup);
+
+		ConfigurationStatusModel configurationStatusModel = configurationStatusRepository.findFirstRecord();
+
+		if (configurationStatusModel.getConfigStatusValue().equals("active")) {
+			if (itemsModelRes.getItemCategory() != null) {
+				if (itemsModelRes.getItemCategory().getMarginPercentage() != null
+						&& itemsModelRes.getItemCategory().getMarginPercentage() > 0) {
+					itemRepository.updateStockWithMargin(itemsModelRes.getItemId(),
+							itemsModelRes.getItemCategory().getMarginPercentage(), markup);
+				} else {
+					itemRepository.updateStockWithMargin(itemsModelRes.getItemId(), margin, markup);
+				}
+			} else {
+				itemRepository.updateStockWithMargin(itemsModelRes.getItemId(), margin, markup);
 			}
-			else
-			{
-				itemRepository.updateStockWithMargin(itemsModelRes.getItemId(),margin, markup);
-			}
-		}
-		else
-		{
-			itemRepository.updateStockWithMargin(itemsModelRes.getItemId(),margin, markup);
 		}
 
 		log.info("Items data with ID : " + itemsModelRes.getItemId() + " updated succesfully");
