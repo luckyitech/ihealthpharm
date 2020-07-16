@@ -32,4 +32,8 @@ public interface CreditNoteRepository extends JpaRepository<CreditNoteModel,Inte
 			+ "on c.customerModel.customerId=cu.customerId where cu.customerName like :customer% order by cu.customerName")
 	List<String> getCustomersBySearch(@Param("customer")String customer);
 	
+	
+	@Query("select c.creditNoteNo from CREDIT_NOTE c where billType=:searchTerm")
+	List<String> getCreditNoteByBillTypes( @Param ("searchTerm")String searchTerm);
+	
 }

@@ -1,13 +1,16 @@
 package com.ihealthpharm.masters.service.impl;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.masters.dao.ConfigurationRepository;
+import com.ihealthpharm.masters.dao.ConfigurationStatusRepository;
 import com.ihealthpharm.masters.dto.UpdateStockConfigurationDTO;
 import com.ihealthpharm.masters.model.ConfigurationModel;
+import com.ihealthpharm.masters.model.ConfigurationStatusModel;
 import com.ihealthpharm.masters.service.ConfigurationService;
 
 @Service
@@ -15,20 +18,22 @@ public class ConfigurationServiecImpl implements ConfigurationService {
 
 	@Autowired
 	ConfigurationRepository configurationRepository;
-	
+
+	@Autowired
+	private ConfigurationStatusRepository configurationStatusRepository;
+
 	@Override
 	public ConfigurationModel saveconfig(ConfigurationModel config) {
 		// TODO Auto-generated method stub
-		
-		if(config.getActiveS() == 'Y')
-		{
+
+		if (config.getActiveS() == 'Y') {
 			List<ConfigurationModel> configList = null;
-			
+
 			configList = configurationRepository.findByConfigDesc(config.getConfigDesc());
-			for(int i=0;i<configList.size();i++) {
+			for (int i = 0; i < configList.size(); i++) {
 				configList.get(i).setActiveS('N');
 			}
-			
+
 			configurationRepository.saveAll(configList);
 		}
 		return configurationRepository.save(config);
@@ -56,15 +61,14 @@ public class ConfigurationServiecImpl implements ConfigurationService {
 	@Override
 	public ConfigurationModel updateconfig(ConfigurationModel config) {
 		// TODO Auto-generated method stub
-		if(config.getActiveS() == 'Y')
-		{
+		if (config.getActiveS() == 'Y') {
 			List<ConfigurationModel> configList = null;
-			
+
 			configList = configurationRepository.findByConfigDesc(config.getConfigDesc());
-			for(int i=0;i<configList.size();i++) {
+			for (int i = 0; i < configList.size(); i++) {
 				configList.get(i).setActiveS('N');
 			}
-			
+
 			configurationRepository.saveAll(configList);
 		}
 		return configurationRepository.save(config);
@@ -86,23 +90,32 @@ public class ConfigurationServiecImpl implements ConfigurationService {
 	public Integer updateStockPrices() {
 		// TODO Auto-generated method stub
 		List<ConfigurationModel> configList = configurationRepository.findAll();
-		Integer margin=0;
-		Integer markup=0;
-		
-		for(ConfigurationModel config:configList)
-		{
-			if(config.getConfigDesc().equals("margin") && config.getActiveS() == 'Y') {
-				margin = config.getConfigValue();
+		Integer margin = 0;
+		Integer markup = 0;
+
+		ConfigurationStatusModel configurationStatusModel = configurationStatusRepository.findFirstRecord();
+		if (Objects.nonNull(configurationStatusModel)) {
+			if (configurationStatusModel.getConfigStatusValue().equals("activate")) {
+				for (ConfigurationModel config : configList) {
+					if (config.getConfigDesc().equals("margin") && config.getActiveS() == 'Y') {
+						margin = config.getConfigValue();
+					}
+
+					if (config.getConfigDesc().equals("maxdiscount") && config.getActiveS() == 'Y') {
+						markup = config.getConfigValue();
+					}
+				}
+				Integer count = 0;
+				count = configurationRepository.updateStockWithCategory(margin, markup);
+				count += configurationRepository.updateStockPrice(margin, markup);
+				return count;
+			} else {
+				return 0;
 			}
-			
-			if(config.getConfigDesc().equals("maxdiscount") && config.getActiveS() == 'Y') {
-				markup = config.getConfigValue();
-			}
+		} else {
+			return 0;
 		}
-		Integer count=0;
-		count = configurationRepository.updateStockWithCategory(margin,markup);
-		count += configurationRepository.updateStockPrice(margin,markup);
-		return count;
+
 	}
 
 }
