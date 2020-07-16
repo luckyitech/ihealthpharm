@@ -1,14 +1,19 @@
 package com.ihealthpharm.reports.helper;
 
 import java.io.File;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
@@ -21,13 +26,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
 import com.ihealthpharm.reports.model.ReportsMappingModel;
+
 @Component
-public class SalesProfitAttributionExcel extends ReportsExcelUtility{
+public class SalesHourlyDetailsExcel extends ReportsExcelUtility{
+	DecimalFormat df2 = new DecimalFormat("#.00");
 	public void generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile,String inputJson) {
 
 		SXSSFWorkbook workbook = new SXSSFWorkbook(100);
 		SXSSFSheet sheet = workbook.createSheet("Report Data");
-		
+
 		if (ObjectUtils.isEmpty(responseList)) {
 			Row headerRow = sheet.createRow(0);
 			Cell cell = headerRow.createCell(0);
@@ -36,8 +43,11 @@ public class SalesProfitAttributionExcel extends ReportsExcelUtility{
 			return;
 		}
 
+		CellStyle style=workbook.createCellStyle();
+		style.setDataFormat(workbook.createDataFormat().getFormat("#,##0.00"));  
+
 		CellStyle borderStyle = workbook.createCellStyle();
-		 // Styling border of cell.  
+		// Styling border of cell.  
 		borderStyle.setBorderBottom(BorderStyle.THIN);  
 		borderStyle.setBottomBorderColor(IndexedColors.BLACK.getIndex());  
 		borderStyle.setBorderRight(BorderStyle.THIN);  
@@ -46,14 +56,15 @@ public class SalesProfitAttributionExcel extends ReportsExcelUtility{
 		borderStyle.setTopBorderColor(IndexedColors.BLACK.getIndex());  
 		borderStyle.setBorderLeft(BorderStyle.THIN);  
 		borderStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());  
-		
-	
+
+
+
 		Font font = workbook.createFont();
 		font.setFontHeightInPoints((short)11);
 		font.setFontName(HSSFFont.FONT_ARIAL);
 		font.setBold(true);
 		font.setColor(IndexedColors.DARK_BLUE.getIndex()); 
-		
+
 		CellStyle headerStyle = workbook.createCellStyle();
 		headerStyle.setFont(font);
 		headerStyle.setFillForegroundColor(IndexedColors.GOLD.getIndex());
@@ -69,253 +80,237 @@ public class SalesProfitAttributionExcel extends ReportsExcelUtility{
 		headerStyle.setBorderLeft(BorderStyle.THIN);  
 		headerStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());  
 
-		Map<String, List<Map<String, Object>>> salesByPersonMap = responseList.stream()
-				.collect(Collectors.groupingBy(map -> (String) map.get("CREATED_BY")));			
-		
-		
+		Map<String, List<Map<String, Object>>> salesRegisterMap = responseList.stream()
+				.collect(Collectors.groupingBy(map -> (String) map.get("TIME_TO_GROUP")));
+
+
 		setHeader(workbook,sheet,model);
-		
-		
-		if(!ObjectUtils.isEmpty(salesByPersonMap)) { 
-			
-			for(String salePerson :salesByPersonMap.keySet()) {	
+
+		List<String> datesList = new ArrayList<>();
+
+
+		if(!ObjectUtils.isEmpty(salesRegisterMap)) { 
+
+			datesList.addAll(salesRegisterMap.keySet());
+			Collections.sort(datesList);
+
+			for(int i = 0; i < datesList.size(); i++) {	
 				int currentRow = sheet.getLastRowNum();
-				List<Map<String, Object>> salesByPersonList =salesByPersonMap.get(salePerson);
-				createSalesByPersonTable(sheet, responseFile, borderStyle, headerStyle,salesByPersonList, salePerson, currentRow); 
+				List<Map<String, Object>> salesRegisterDetailsMap = salesRegisterMap.get(datesList.get(i));
+				createSalesRegisterTable(sheet, responseFile, borderStyle, style,headerStyle,salesRegisterDetailsMap,datesList.get(i),currentRow); 
 			}
 			generateTotalTable(sheet, responseFile,borderStyle,model,responseList);
 		}
-		
-		writeToFile(workbook, responseFile);	 
-		 
+
+
+		//		if(!ObjectUtils.isEmpty(salesRegisterMap)) { 
+		//
+		//			for(String billDate :salesRegisterMap.keySet()) {	
+		//				int currentRow = sheet.getLastRowNum();
+		//				List<Map<String, Object>> salesRegisterDetails = salesRegisterMap.get(billDate);
+		//				createSalesRegisterTable(sheet, responseFile, borderStyle, style,headerStyle,salesRegisterDetails, billDate,currentRow); 
+		//			}
+		//			generateTotalTable(sheet, responseFile,borderStyle,model,responseList);
+		//		}
+
+		writeToFile(workbook, responseFile);
+
 	}
+
 	private void generateTotalTable(SXSSFSheet sheet,File responseFile, CellStyle borderStyle, ReportsMappingModel model,
 			List<Map<String, Object>> responseList) {
+
 		int currentRow = sheet.getLastRowNum();
-		
-		double totalProfit = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("PROFIT")?String.valueOf(mapper.get("PROFIT")):"0")).sum(); 
-		double totalSaleValue = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("SALE_AMOUNT")?String.valueOf(mapper.get("SALE_AMOUNT")):"0")).sum(); 
-		double totalPurValue = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("PURCHASE_AMOUNT")?String.valueOf(mapper.get("PURCHASE_AMOUNT")):"0")).sum(); 
-		
+		long noOfSales  = responseList.size();
+
 		Row dataRow = sheet.createRow(currentRow+2);
-		Row dataRow1=sheet.createRow(currentRow+3);
-		Row dataRow2=sheet.createRow(currentRow+4);
-		
+
 		Cell cell = dataRow.createCell(0);
-		Cell cell1=dataRow1.createCell(0);
-		Cell cell2=dataRow2.createCell(0);
 		
 		cell.setCellValue("");
-		cell1.setCellValue("");
-		cell2.setCellValue("");
 		
 		cell = dataRow.createCell(14);
-		cell1 = dataRow1.createCell(14);
-		cell2 = dataRow2.createCell(14);
 		
-		cell.setCellValue("Total Purchase Amount : ");
-		cell1.setCellValue("Total Sale Amount : ");
-		cell2.setCellValue("Total Profit : ");
-	
+		cell.setCellValue("Total No. Of Sales : ");
+		
 		cell = dataRow.createCell(15);
-		cell1 = dataRow1.createCell(15);
-		cell2 = dataRow2.createCell(15);
-	
-		cell.setCellValue(totalPurValue);
-		cell1.setCellValue(totalSaleValue);
-		cell2.setCellValue(totalProfit);
-	
+		
+		cell.setCellValue(noOfSales);
+		
 	}
-	private void createSalesByPersonTable(SXSSFSheet sheet,File responseFile, CellStyle borderStyle ,
-			CellStyle headerStyle, List<Map<String, Object>> salesProfitList,String salePerson,int rowNum) {
+
+	private void createSalesRegisterTable(SXSSFSheet sheet,File responseFile, CellStyle borderStyle ,CellStyle style,
+			CellStyle headerStyle, List<Map<String, Object>> salesRegisterDetails,String billDate,int rowNum) {
 
 		rowNum = rowNum + 3;
 		int headRow=rowNum-2;
-				
+
 		// populate Date
-		if (!ObjectUtils.isEmpty(salesProfitList)) {
-			
+		if (!ObjectUtils.isEmpty(salesRegisterDetails)) {
+
+
 			Row headerRow = sheet.createRow(rowNum++);
 			Cell cell = headerRow.createCell(0);
 			cell.setCellValue("S.NO");
 			cell.setCellStyle(headerStyle);
-			
-			
+
+
 			cell = headerRow.createCell(1);
-			cell.setCellValue("BILL CODE");
+			cell.setCellValue("BILL NO");
 			cell.setCellStyle(headerStyle);
-			
-			
+
+
 			cell = headerRow.createCell(2);
-			cell.setCellValue("BILL DATE");
+			cell.setCellValue("DATE");
 			cell.setCellStyle(headerStyle);	
-			
+
 			cell = headerRow.createCell(3);
-			cell.setCellValue("ITEM NAME");
+			cell.setCellValue("CUSTOMER NAME");
 			cell.setCellStyle(headerStyle);	
-			
+
 			cell = headerRow.createCell(4);
-			cell.setCellValue("BATCH NO");
+			cell.setCellValue("BILL TYPE");
 			cell.setCellStyle(headerStyle);	
-			
+
 			cell = headerRow.createCell(5);
-			cell.setCellValue("SALE QTY");
+			cell.setCellValue("AMOUNT");
 			cell.setCellStyle(headerStyle);	
-			
+
 			cell = headerRow.createCell(6);
-			cell.setCellValue("QTY FREE");
+			cell.setCellValue("PAID AMOUNT");
 			cell.setCellStyle(headerStyle);	
-			
+
 			cell = headerRow.createCell(7);
-			cell.setCellValue("P PRICE");
+			cell.setCellValue("BALANCE AMOUNT");
 			cell.setCellStyle(headerStyle);	
-			
+
 			cell = headerRow.createCell(8);
-			cell.setCellValue("P DISC%");
-			cell.setCellStyle(headerStyle);	
-			
+			cell.setCellValue("VAT AMT");
+			cell.setCellStyle(headerStyle);
+
 			cell = headerRow.createCell(9);
-			cell.setCellValue("S PRICE");
+			cell.setCellValue("PAYMENT STATUS");
 			cell.setCellStyle(headerStyle);	
-			
+
 			cell = headerRow.createCell(10);
-			cell.setCellValue("S DISC%");
+			cell.setCellValue("CREATED BY");
 			cell.setCellStyle(headerStyle);	
-			
+
 			cell = headerRow.createCell(11);
-			cell.setCellValue("VAT");
+			cell.setCellValue("MODIFIED BY");
 			cell.setCellStyle(headerStyle);	
-			
+
+
 			cell = headerRow.createCell(12);
-			cell.setCellValue("P AMT");
-			cell.setCellStyle(headerStyle);	
-			
-			cell = headerRow.createCell(13);
-			cell.setCellValue("S AMT");
-			cell.setCellStyle(headerStyle);	
-			
-			cell = headerRow.createCell(14);
-			cell.setCellValue("PROFIT");
-			cell.setCellStyle(headerStyle);	
-			
-			cell = headerRow.createCell(15);
-			cell.setCellValue("PROFIT%");
-			cell.setCellStyle(headerStyle);	
-			
-			cell = headerRow.createCell(16);
-			cell.setCellValue("SERVED BY");
-			cell.setCellStyle(headerStyle);	
-			
-			cell = headerRow.createCell(17);
 			cell.setCellValue("CREATION TS");
 			cell.setCellStyle(headerStyle);	
-			
-			Row displayRow = sheet.createRow(headRow++);
-			for (Map<String, Object> rowData : salesProfitList) {
 
+			Row displayRow = sheet.createRow(headRow++);
+			for (Map<String, Object> rowData : salesRegisterDetails) {
+
+				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
 				Cell headCell = displayRow.createCell(0);
-				Object value = rowData.containsKey("CREATED_BY") ? rowData.get("CREATED_BY") : "";
-				headCell.setCellValue("Served By  :   ");
+				String value1 = rowData.containsKey("CREATION_TS") ? df.format(rowData.get("CREATION_TS")) : "";
+				headCell.setCellValue("Sales From  :   ");
 				headCell=displayRow.createCell(1);
-				headCell.setCellValue(String.valueOf(value));
-				
-				
+				headCell.setCellValue(value1);
+
 				Row dataRow = sheet.createRow(rowNum++);
-				value =  String.valueOf(salesProfitList.indexOf(rowData) + 1);
+				Object value =  String.valueOf(salesRegisterDetails.indexOf(rowData) + 1);
 				cell = dataRow.createCell(0);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
-				
-				
+
+
 				value = rowData.containsKey("BILL_CODE") ? rowData.get("BILL_CODE") : "";
 				cell = dataRow.createCell(1);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
-				
+
 				value = rowData.containsKey("FROM_BILL_DATE") ? rowData.get("FROM_BILL_DATE") : "";
 				cell = dataRow.createCell(2);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
-				
-				value = rowData.containsKey("ITEM_NM") ? rowData.get("ITEM_NM") : "";
+
+				value = rowData.containsKey("CUSTOMER_NM") ? rowData.get("CUSTOMER_NM") : "";
 				cell = dataRow.createCell(3);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
-				
-				value = rowData.containsKey("BATCH_NO") ? rowData.get("BATCH_NO") : "";
+
+				value = rowData.containsKey("TYPE") ? rowData.get("TYPE") : "";
 				cell = dataRow.createCell(4);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
-				
-				value = rowData.containsKey("SALE_QTY") ? rowData.get("SALE_QTY") : "";
+
+				value = rowData.containsKey("AMOUNT") ? rowData.get("AMOUNT") : "0.00";
 				cell = dataRow.createCell(5);
-				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
-				cell.setCellStyle(borderStyle);
-				
-				value = rowData.containsKey("QTY_FREE") ? rowData.get("QTY_FREE") : "";
-				cell = dataRow.createCell(6);
-				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				if(NumberUtils.isNumber(String.valueOf(value))) {
+					cell.setCellType(CellType.NUMERIC);		
+					cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				}else {	
+					cell.setCellValue(String.valueOf(value));
+				}
 				cell.setCellStyle(borderStyle);
 
-				
-				value = rowData.containsKey("UNIT_PURCHASE_PRICE") ? rowData.get("UNIT_PURCHASE_PRICE") : "";
+
+				value = rowData.containsKey("PAID_AMOUNT") ? rowData.get("PAID_AMOUNT") : "";
+				cell = dataRow.createCell(6);
+
+				if(NumberUtils.isNumber(String.valueOf(value))) {
+					cell.setCellType(CellType.NUMERIC);		
+					cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				}else {	
+					cell.setCellValue(String.valueOf(value));
+				}
+				cell.setCellStyle(borderStyle);
+
+
+				value = rowData.containsKey("BALANCE_AMOUNT") ? rowData.get("BALANCE_AMOUNT") : "";
 				cell = dataRow.createCell(7);
-				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+
+				if(NumberUtils.isNumber(String.valueOf(value))) {
+					cell.setCellType(CellType.NUMERIC);		
+					cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				}else {	
+					cell.setCellValue(String.valueOf(value));
+				}
+
 				cell.setCellStyle(borderStyle);
-				
-				value = rowData.containsKey("PURCHASE_DISCOUNT_PERCENTAGE") ? rowData.get("PURCHASE_DISCOUNT_PERCENTAGE") : "";
+
+				value = rowData.containsKey("VAT_AMT") ? rowData.get("VAT_AMT") : "";
 				cell = dataRow.createCell(8);
-				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+
+				if(NumberUtils.isNumber(String.valueOf(value))) {
+					cell.setCellType(CellType.NUMERIC);		
+					cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				}else {	
+					cell.setCellValue(String.valueOf(value));
+				}
 				cell.setCellStyle(borderStyle);
-				
-				value = rowData.containsKey("UNIT_SALE_PRICE") ? rowData.get("UNIT_SALE_PRICE") : "";
+
+				value = rowData.containsKey("PAYMENT_STATUS") ? rowData.get("PAYMENT_STATUS") : "";
 				cell = dataRow.createCell(9);
-				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
-				
-				value = rowData.containsKey("DISCOUNT_PERCENTAGE") ? rowData.get("DISCOUNT_PERCENTAGE") : "";
-				cell = dataRow.createCell(10);
-				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
-				cell.setCellStyle(borderStyle);
-				
-				value = rowData.containsKey("VAT") ? rowData.get("VAT") : "";
-				cell = dataRow.createCell(11);
-				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
-				cell.setCellStyle(borderStyle);
-				
-				value = rowData.containsKey("PURCHASE_AMOUNT") ? rowData.get("PURCHASE_AMOUNT") : "";
-				cell = dataRow.createCell(12);
-				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
-				cell.setCellStyle(borderStyle);
-				
-				value = rowData.containsKey("SALE_AMOUNT") ? rowData.get("SALE_AMOUNT") : "";
-				cell = dataRow.createCell(13);
-				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
-				cell.setCellStyle(borderStyle);
-				
-				value = rowData.containsKey("PROFIT") ? rowData.get("PROFIT") : "";
-				cell = dataRow.createCell(14);
-				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
-				cell.setCellStyle(borderStyle);
-				
-				value = rowData.containsKey("PROFIT_PER") ? rowData.get("PROFIT_PER") : "";
-				cell = dataRow.createCell(15);
-				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
-				cell.setCellStyle(borderStyle);
-				
+
 				value = rowData.containsKey("CREATED_BY") ? rowData.get("CREATED_BY") : "";
-				cell = dataRow.createCell(16);
+				cell = dataRow.createCell(10);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
-				
-				
+
+				value = rowData.containsKey("MODIFIED_BY") ? rowData.get("MODIFIED_BY") : "";
+				cell = dataRow.createCell(11);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+
 				value = rowData.containsKey("CREATION_TS") ? rowData.get("CREATION_TS") : "";
-				cell = dataRow.createCell(17);
+				cell = dataRow.createCell(12);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
-				
+
 			}
 		}
 
 	}
+
 }
