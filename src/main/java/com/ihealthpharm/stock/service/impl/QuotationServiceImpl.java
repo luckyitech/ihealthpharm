@@ -570,5 +570,46 @@ public class QuotationServiceImpl implements QuotationService {
 		return quotationModels;
 	}
 
+	@Override
+	public List<QuotationModel> getSendByMailQuotationForOutstanding(String quotationNo) {
+		List<QuotationModel> quotationModels=quotationRepository.getAllSendMailQuotationsForOustanding(quotationNo);
+		for(QuotationModel q : quotationModels) {
+			q.setCreatedName(quotationRepository.createdQuotationUser(q.getQuotationId()));
+			q.setRejectedName(quotationRepository.rejectedQuotationUser(q.getQuotationId()));
+			q.setSentName(quotationRepository.sentQuotationUser(q.getQuotationId()));
+			q.setRequestedName(quotationRepository.requestedQuotationUser(q.getQuotationId()));
+			q.setApprovedName(quotationRepository.approvedQuotationUser(q.getQuotationId()));
+		}
+		return quotationModels;
+	}
+
+	@Override
+	public List<QuotationModel> getSupplierApprovedQuotationSearch(String quotationNo) {
+		List<QuotationModel> quotationModels=quotationRepository.getAllSupplierMailApprovedQuotationsFoSearch(quotationNo);
+		for(QuotationModel q : quotationModels) {
+			q.setCreatedName(quotationRepository.createdQuotationUser(q.getQuotationId()));
+			q.setRejectedName(quotationRepository.rejectedQuotationUser(q.getQuotationId()));
+			q.setSentName(quotationRepository.sentQuotationUser(q.getQuotationId()));
+			q.setRequestedName(quotationRepository.requestedQuotationUser(q.getQuotationId()));
+			q.setApprovedName(quotationRepository.approvedQuotationUser(q.getQuotationId()));
+			q.setSupplierMailApproverName(quotationRepository.approvedMailQuotationUser(q.getQuotationId()));
+		}
+		return quotationModels;
+	}
+
+	@Override
+	public List<QuotationModel> getSupplierRejectedQuotationForSearch(String quotationNo) {
+		List<QuotationModel> quotationModels=quotationRepository.getAllSupplierRejectedMailQuotationsFoSearch(quotationNo);
+		for(QuotationModel q : quotationModels) {
+			q.setCreatedName(quotationRepository.createdQuotationUser(q.getQuotationId()));
+			q.setRejectedName(quotationRepository.rejectedQuotationUser(q.getQuotationId()));
+			q.setSentName(quotationRepository.sentQuotationUser(q.getQuotationId()));
+			q.setRequestedName(quotationRepository.requestedQuotationUser(q.getQuotationId()));
+			q.setApprovedName(quotationRepository.approvedQuotationUser(q.getQuotationId()));
+			q.setSupplierMailRejecterName(quotationRepository.rejectededMailQuotationUser(q.getQuotationId()));
+		}
+		return quotationModels;
+	}
+
 
 }

@@ -168,4 +168,13 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 	@Query("select CONCAT(e.firstName,'  ',e.lastName) from quotation q "
 			+ "inner join employee e on e.employeeId=q.supplierQtnRejectedBy where q.quotationId = :quotationId  ")
 	String rejectededMailQuotationUser(@Param("quotationId") Integer quotationId);
+	
+	@Query("select q from quotation q where q.quotationSendMode='Mail Sent' and q.supplierQtnApprovedBy is null and q.supplierQtnRejectedBy is null and q.quotationNo like :quotationNo% ")
+	List<QuotationModel> getAllSendMailQuotationsForOustanding(@Param("quotationNo") String quotationNo);
+
+	@Query("select q from  quotation q where q.supplierQtnApprovedBy is not null and q.supplierQtnApprovedDt is not null and q.quotationNo like :quotationNo% order by q.lastUpdateTimestamp desc")
+	List<QuotationModel> getAllSupplierMailApprovedQuotationsFoSearch(@Param("quotationNo") String quotationNo);
+
+	@Query("select q from  quotation q where q.supplierQtnRejectedBy is not null and q.supplierQtnRejectedDt is not null and  q.quotationNo like :quotationNo% order by q.lastUpdateTimestamp desc")
+	List<QuotationModel> getAllSupplierRejectedMailQuotationsFoSearch(@Param("quotationNo") String quotationNo);
 }

@@ -630,7 +630,6 @@ public class QuotationController {
 	
 	
 	
-	
 	/**
 	 * @author tarun 
 	 * Service is to get the Received mail approved Quotation
@@ -650,4 +649,36 @@ public class QuotationController {
 		List<QuotationModel> model = quotationService.getSupplierRejectedQuotation();
 		return new BaseDto<>(model, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
+	
+	// searches in supplier qtns
+	/**
+	 * @author tarun 
+	 * Service is to get the outstanding quotations by qtuotation number
+	 */
+	@GetMapping("/getOutstandingQtns/basedOnQtnNo")
+	public ResponseEntity<BaseDto<List<QuotationModel>>> getAllQuotationsForOustandingQtnSearch(@RequestParam String quotationNo){
+		List<QuotationModel> model = quotationService.getSendByMailQuotationForOutstanding(quotationNo);
+		return new BaseDto<>(model, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author tarun 
+	 * Service is to get the Supplier Quoations Approved quotations by qtuotation number
+	 */
+	@GetMapping("/getApprovedSupplierQtns/basedOnQtnNo")
+	public ResponseEntity<BaseDto<List<QuotationModel>>> getSupplierQtnsApprovedSearches(@RequestParam String quotationNo) {
+		List<QuotationModel> model = quotationService.getSupplierApprovedQuotationSearch(quotationNo);
+		return new BaseDto<>(model, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author tarun 
+	 * Service is to get the Supplier Quoations Rejected quotations by qtuotation number
+	 */
+	@GetMapping("/getRejectedSupplierQuotation/basedOnQtnNo")
+	public ResponseEntity<BaseDto<List<QuotationModel>>> getRejectedMailQuotationForSearch(@RequestParam String quotationNo) {
+		List<QuotationModel> model = quotationService.getSupplierRejectedQuotationForSearch(quotationNo);
+		return new BaseDto<>(model, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
+	}
+	
 }
