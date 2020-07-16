@@ -93,4 +93,10 @@ public interface QuotationService {
 	List<QuotationModel> getSupplierApprovedQuotation();
 
 	List<QuotationModel> getSupplierRejectedQuotation();
+
+	List<QuotationModel> getSendByMailQuotationForOutstanding(String quotationNo);
+
+	List<QuotationModel> getSupplierApprovedQuotationSearch(String quotationNo);
+
+	List<QuotationModel> getSupplierRejectedQuotationForSearch(String quotationNo);
 }
