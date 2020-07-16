@@ -68,13 +68,25 @@ public class SalesProfitAttributionExcel extends ReportsExcelUtility{
 		headerStyle.setTopBorderColor(IndexedColors.BLACK.getIndex());  
 		headerStyle.setBorderLeft(BorderStyle.THIN);  
 		headerStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());  
-				
+
+		Map<String, List<Map<String, Object>>> salesByPersonMap = responseList.stream()
+				.collect(Collectors.groupingBy(map -> (String) map.get("CREATED_BY")));			
+		
+		
 		setHeader(workbook,sheet,model);
-				
-		int currentRow = sheet.getLastRowNum();
-		createSupplierTable(sheet, responseFile, borderStyle, headerStyle,responseList,currentRow); 
-		generateTotalTable(sheet, responseFile,borderStyle,model,responseList);
-		writeToFile(workbook, responseFile);
+		
+		
+		if(!ObjectUtils.isEmpty(salesByPersonMap)) { 
+			
+			for(String salePerson :salesByPersonMap.keySet()) {	
+				int currentRow = sheet.getLastRowNum();
+				List<Map<String, Object>> salesByPersonList =salesByPersonMap.get(salePerson);
+				createSalesByPersonTable(sheet, responseFile, borderStyle, headerStyle,salesByPersonList, salePerson, currentRow); 
+			}
+			generateTotalTable(sheet, responseFile,borderStyle,model,responseList);
+		}
+		
+		writeToFile(workbook, responseFile);	 
 		 
 	}
 	private void generateTotalTable(SXSSFSheet sheet,File responseFile, CellStyle borderStyle, ReportsMappingModel model,
@@ -114,14 +126,14 @@ public class SalesProfitAttributionExcel extends ReportsExcelUtility{
 		cell2.setCellValue(totalProfit);
 	
 	}
-	private void createSupplierTable(SXSSFSheet sheet,File responseFile, CellStyle borderStyle ,
-			CellStyle headerStyle, List<Map<String, Object>> purchaseMarginList,int rowNum) {
+	private void createSalesByPersonTable(SXSSFSheet sheet,File responseFile, CellStyle borderStyle ,
+			CellStyle headerStyle, List<Map<String, Object>> salesProfitList,String salePerson,int rowNum) {
 
 		rowNum = rowNum + 3;
 		int headRow=rowNum-2;
 				
 		// populate Date
-		if (!ObjectUtils.isEmpty(purchaseMarginList)) {
+		if (!ObjectUtils.isEmpty(salesProfitList)) {
 			
 			Row headerRow = sheet.createRow(rowNum++);
 			Cell cell = headerRow.createCell(0);
@@ -190,11 +202,26 @@ public class SalesProfitAttributionExcel extends ReportsExcelUtility{
 			cell.setCellValue("PROFIT%");
 			cell.setCellStyle(headerStyle);	
 			
+			cell = headerRow.createCell(16);
+			cell.setCellValue("SERVED BY");
+			cell.setCellStyle(headerStyle);	
 			
-			for (Map<String, Object> rowData : purchaseMarginList) {
+			cell = headerRow.createCell(17);
+			cell.setCellValue("CREATION TS");
+			cell.setCellStyle(headerStyle);	
+			
+			Row displayRow = sheet.createRow(headRow++);
+			for (Map<String, Object> rowData : salesProfitList) {
 
+				Cell headCell = displayRow.createCell(0);
+				Object value = rowData.containsKey("CREATED_BY") ? rowData.get("CREATED_BY") : "";
+				headCell.setCellValue("Served By  :   ");
+				headCell=displayRow.createCell(1);
+				headCell.setCellValue(String.valueOf(value));
+				
+				
 				Row dataRow = sheet.createRow(rowNum++);
-				Object value =  String.valueOf(purchaseMarginList.indexOf(rowData) + 1);
+				value =  String.valueOf(salesProfitList.indexOf(rowData) + 1);
 				cell = dataRow.createCell(0);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
@@ -275,6 +302,18 @@ public class SalesProfitAttributionExcel extends ReportsExcelUtility{
 				cell = dataRow.createCell(15);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("CREATED_BY") ? rowData.get("CREATED_BY") : "";
+				cell = dataRow.createCell(16);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
+				
+				value = rowData.containsKey("CREATION_TS") ? rowData.get("CREATION_TS") : "";
+				cell = dataRow.createCell(17);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
 			}
 		}
 
