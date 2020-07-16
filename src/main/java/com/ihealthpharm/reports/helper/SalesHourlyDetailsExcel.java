@@ -2,6 +2,9 @@ package com.ihealthpharm.reports.helper;
 
 import java.io.File;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -79,19 +82,36 @@ public class SalesHourlyDetailsExcel extends ReportsExcelUtility{
 
 		Map<String, List<Map<String, Object>>> salesRegisterMap = responseList.stream()
 				.collect(Collectors.groupingBy(map -> (String) map.get("TIME_TO_GROUP")));
-			
+
 
 		setHeader(workbook,sheet,model);
 
+		List<String> datesList = new ArrayList<>();
+
+
 		if(!ObjectUtils.isEmpty(salesRegisterMap)) { 
 
-			for(String billDate :salesRegisterMap.keySet()) {	
+			datesList.addAll(salesRegisterMap.keySet());
+			Collections.sort(datesList);
+
+			for(int i = 0; i < datesList.size(); i++) {	
 				int currentRow = sheet.getLastRowNum();
-				List<Map<String, Object>> salesRegisterDetails = salesRegisterMap.get(billDate);
-				createSalesRegisterTable(sheet, responseFile, borderStyle, style,headerStyle,salesRegisterDetails, billDate,currentRow); 
+				List<Map<String, Object>> salesRegisterDetailsMap = salesRegisterMap.get(datesList.get(i));
+				createSalesRegisterTable(sheet, responseFile, borderStyle, style,headerStyle,salesRegisterDetailsMap,datesList.get(i),currentRow); 
 			}
 			generateTotalTable(sheet, responseFile,borderStyle,model,responseList);
 		}
+
+
+		//		if(!ObjectUtils.isEmpty(salesRegisterMap)) { 
+		//
+		//			for(String billDate :salesRegisterMap.keySet()) {	
+		//				int currentRow = sheet.getLastRowNum();
+		//				List<Map<String, Object>> salesRegisterDetails = salesRegisterMap.get(billDate);
+		//				createSalesRegisterTable(sheet, responseFile, borderStyle, style,headerStyle,salesRegisterDetails, billDate,currentRow); 
+		//			}
+		//			generateTotalTable(sheet, responseFile,borderStyle,model,responseList);
+		//		}
 
 		writeToFile(workbook, responseFile);
 
@@ -100,154 +120,23 @@ public class SalesHourlyDetailsExcel extends ReportsExcelUtility{
 	private void generateTotalTable(SXSSFSheet sheet,File responseFile, CellStyle borderStyle, ReportsMappingModel model,
 			List<Map<String, Object>> responseList) {
 
-		DecimalFormat df=new DecimalFormat("0.00");
 		int currentRow = sheet.getLastRowNum();
-		double totalCashAmt=0.0;
-		double totalCardAmt=0.0;
-		double totalMPesaAmt=0.0;
-		double totalCreditAmt=0.0;
-		double totalChequeAmt=0.0;
-		double totalInsuranceAmt=0.0;
-		double totalVatAmt=0.0;
-		double totalAmount=0.0;
-		double grandTotal=0.0;
-
-		totalCashAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsValue("CASH")&&mapper.containsKey("AMOUNT")?String.valueOf(mapper.get("AMOUNT")):"0")).sum();  
-		totalMPesaAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("M-PESA")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
-		totalCardAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("CARD")?String.valueOf(mapper.get("AMOUNT")):"0")).sum();
-		totalChequeAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("CHEQUE")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
-		totalCreditAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("CREDIT")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
-		totalInsuranceAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("INSURANCE")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
-		totalVatAmt=responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("VAT_AMT")?String.valueOf(mapper.get("VAT_AMT")):"0")).sum(); 
-		totalAmount=Double.parseDouble(df.format((totalCashAmt+totalMPesaAmt+totalCardAmt+totalChequeAmt+totalCreditAmt+totalInsuranceAmt)-(totalVatAmt)));
-		grandTotal=Double.parseDouble(df.format(totalAmount+totalVatAmt));
+		long noOfSales  = responseList.size();
 
 		Row dataRow = sheet.createRow(currentRow+2);
-		Row dataRow1=sheet.createRow(currentRow+3);
-		Row dataRow2=sheet.createRow(currentRow+4);
-		Row dataRow3=sheet.createRow(currentRow+5);
-		Row dataRow4=sheet.createRow(currentRow+6);
-		Row dataRow5=sheet.createRow(currentRow+7);
-		Row dataRow6=sheet.createRow(currentRow+8);
-		Row dataRow7=sheet.createRow(currentRow+9);
-		Row dataRow8=sheet.createRow(currentRow+10);
 
-
-		Cell cell_cash_amount = dataRow.createCell(0);
-		Cell cell_card_amount=dataRow1.createCell(0);
-		Cell cell_credit_amount=dataRow2.createCell(0);
-		Cell cell_mpesa_amount=dataRow3.createCell(0);
-		Cell cell_cheque_amount=dataRow4.createCell(0);
-		Cell cell_insurance_amount=dataRow5.createCell(0);
-		Cell cell_total_amount=dataRow6.createCell(0);
-		Cell cell_vat_amount=dataRow7.createCell(0);
-		Cell cell_grand_amount=dataRow8.createCell(0);
-
-
-		cell_cash_amount.setCellValue("");
-		cell_card_amount.setCellValue("");
-		cell_credit_amount.setCellValue("");
-		cell_mpesa_amount.setCellValue("");
-		cell_cheque_amount.setCellValue("");
-		cell_insurance_amount.setCellValue("");
-		cell_total_amount.setCellValue("");
-		cell_vat_amount.setCellValue("");
-		cell_grand_amount.setCellValue("");
-
-
-		cell_cash_amount = dataRow.createCell(7);
-		cell_card_amount=dataRow1.createCell(7);
-		cell_credit_amount=dataRow2.createCell(7);
-		cell_mpesa_amount=dataRow3.createCell(7);
-		cell_cheque_amount=dataRow4.createCell(7);
-		cell_insurance_amount=dataRow5.createCell(7);
-		cell_total_amount=dataRow6.createCell(7);
-		cell_vat_amount=dataRow7.createCell(7);
-		cell_grand_amount=dataRow8.createCell(7);
-
-		cell_cash_amount.setCellValue("CASH AMOUNT");
-		cell_card_amount.setCellValue("CARD AMOUNT");
-		cell_credit_amount.setCellValue("CREDIT AMOUNT");
-		cell_mpesa_amount.setCellValue("M-PESA AMOUNT");
-		cell_cheque_amount.setCellValue("CHEQUE AMOUNT");
-		cell_insurance_amount.setCellValue("INSURANCE AMOUNT");
-		cell_total_amount.setCellValue("TOTAL AMOUNT");
-		cell_vat_amount.setCellValue("TOTAL VAT AMONT");
-		cell_grand_amount.setCellValue("GRAND TOTAL");
-
-		cell_cash_amount = dataRow.createCell(8);
-		cell_card_amount=dataRow1.createCell(8);
-		cell_credit_amount=dataRow2.createCell(8);
-		cell_mpesa_amount=dataRow3.createCell(8);
-		cell_cheque_amount=dataRow4.createCell(8);
-		cell_insurance_amount=dataRow5.createCell(8);
-		cell_total_amount=dataRow6.createCell(8);
-		cell_vat_amount=dataRow7.createCell(8);
-		cell_grand_amount=dataRow8.createCell(8);
-
-		if(NumberUtils.isNumber(String.valueOf(totalCashAmt))) {
-			cell_cash_amount.setCellType(CellType.NUMERIC);		
-			cell_cash_amount.setCellValue(Double.parseDouble(String.valueOf(totalCashAmt)));
-		}else {	
-			cell_cash_amount.setCellValue(String.valueOf(totalCashAmt));
-		}
-
-		if(NumberUtils.isNumber(String.valueOf(totalCardAmt))) {
-			cell_card_amount.setCellType(CellType.NUMERIC);		
-			cell_card_amount.setCellValue(Double.parseDouble(String.valueOf(totalCardAmt)));
-		}else {	
-			cell_card_amount.setCellValue(String.valueOf(totalCardAmt));
-		}
-
-		if(NumberUtils.isNumber(String.valueOf(totalCreditAmt))) {
-			cell_credit_amount.setCellType(CellType.NUMERIC);		
-			cell_credit_amount.setCellValue(Double.parseDouble(String.valueOf(totalCreditAmt)));
-		}else {	
-			cell_credit_amount.setCellValue(String.valueOf(totalCreditAmt));
-		}
-
-		if(NumberUtils.isNumber(String.valueOf(totalMPesaAmt))) {
-			cell_mpesa_amount.setCellType(CellType.NUMERIC);		
-			cell_mpesa_amount.setCellValue(Double.parseDouble(String.valueOf(totalMPesaAmt)));
-		}else {
-			cell_mpesa_amount.setCellValue(String.valueOf(totalMPesaAmt));
-		}
-
-		if(NumberUtils.isNumber(String.valueOf(totalChequeAmt))) {
-			cell_cheque_amount.setCellType(CellType.NUMERIC);		
-			cell_cheque_amount.setCellValue(Double.parseDouble(String.valueOf(totalChequeAmt)));
-		}else {	
-			cell_cheque_amount.setCellValue(String.valueOf(totalChequeAmt));
-		}
-
-		if(NumberUtils.isNumber(String.valueOf(totalInsuranceAmt))) {
-			cell_insurance_amount.setCellType(CellType.NUMERIC);		
-			cell_insurance_amount.setCellValue(Double.parseDouble(String.valueOf(totalInsuranceAmt)));
-		}else {	
-			cell_insurance_amount.setCellValue(String.valueOf(totalInsuranceAmt));
-		}
-
-		if(NumberUtils.isNumber(String.valueOf(totalAmount))) {
-			cell_total_amount.setCellType(CellType.NUMERIC);		
-			cell_total_amount.setCellValue(Double.parseDouble(String.valueOf(totalAmount)));
-		}else {	
-			cell_total_amount.setCellValue(String.valueOf(totalAmount));
-		}
-
-
-		if(NumberUtils.isNumber(String.valueOf(totalVatAmt))) {
-			cell_vat_amount.setCellType(CellType.NUMERIC);		
-			cell_vat_amount.setCellValue(Double.parseDouble(String.valueOf(totalVatAmt)));
-		}else {	
-			cell_vat_amount.setCellValue(String.valueOf(totalVatAmt));
-		}
-
-		if(NumberUtils.isNumber(String.valueOf(grandTotal))) {
-			cell_grand_amount.setCellType(CellType.NUMERIC);		
-			cell_grand_amount.setCellValue(Double.parseDouble(String.valueOf(grandTotal)));
-		}else {	
-			cell_grand_amount.setCellValue(String.valueOf(grandTotal));
-		}
+		Cell cell = dataRow.createCell(0);
+		
+		cell.setCellValue("");
+		
+		cell = dataRow.createCell(14);
+		
+		cell.setCellValue("Total No. Of Sales : ");
+		
+		cell = dataRow.createCell(15);
+		
+		cell.setCellValue(noOfSales);
+		
 	}
 
 	private void createSalesRegisterTable(SXSSFSheet sheet,File responseFile, CellStyle borderStyle ,CellStyle style,
@@ -306,27 +195,28 @@ public class SalesHourlyDetailsExcel extends ReportsExcelUtility{
 			cell = headerRow.createCell(10);
 			cell.setCellValue("CREATED BY");
 			cell.setCellStyle(headerStyle);	
-			
+
 			cell = headerRow.createCell(11);
 			cell.setCellValue("MODIFIED BY");
 			cell.setCellStyle(headerStyle);	
-			
-			
+
+
 			cell = headerRow.createCell(12);
 			cell.setCellValue("CREATION TS");
 			cell.setCellStyle(headerStyle);	
-			
+
 			Row displayRow = sheet.createRow(headRow++);
 			for (Map<String, Object> rowData : salesRegisterDetails) {
 
+				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
 				Cell headCell = displayRow.createCell(0);
-				Object value = rowData.containsKey("CREATION_TS") ? rowData.get("CREATION_TS") : "";
+				String value1 = rowData.containsKey("CREATION_TS") ? df.format(rowData.get("CREATION_TS")) : "";
 				headCell.setCellValue("Sales From  :   ");
 				headCell=displayRow.createCell(1);
-				headCell.setCellValue(String.valueOf(value));
-				
+				headCell.setCellValue(value1);
+
 				Row dataRow = sheet.createRow(rowNum++);
-				value =  String.valueOf(salesRegisterDetails.indexOf(rowData) + 1);
+				Object value =  String.valueOf(salesRegisterDetails.indexOf(rowData) + 1);
 				cell = dataRow.createCell(0);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
@@ -407,12 +297,12 @@ public class SalesHourlyDetailsExcel extends ReportsExcelUtility{
 				cell = dataRow.createCell(10);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
-				
+
 				value = rowData.containsKey("MODIFIED_BY") ? rowData.get("MODIFIED_BY") : "";
 				cell = dataRow.createCell(11);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
-				
+
 				value = rowData.containsKey("CREATION_TS") ? rowData.get("CREATION_TS") : "";
 				cell = dataRow.createCell(12);
 				cell.setCellValue(String.valueOf(value));

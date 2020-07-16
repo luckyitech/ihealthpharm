@@ -4,8 +4,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -50,17 +53,32 @@ public class SalesHourlyDetails extends ReportsPDFUtility{
 			Map<String, List<Map<String, Object>>> salesRegisterMap = responseList.stream()
 					.collect(Collectors.groupingBy(map -> (String) map.get("TIME_TO_GROUP")));
 			
-			
+			List<String> datesList = new ArrayList<>();
+
+
 			if(!ObjectUtils.isEmpty(salesRegisterMap)) { 
-				
-				for(String billDate :salesRegisterMap.keySet()) {	
-				List<Map<String, Object>> salesRegisterDetailsMap = salesRegisterMap.get(billDate);
-					
-					createTable(document,model,salesRegisterDetailsMap,billDate);
+
+				datesList.addAll(salesRegisterMap.keySet());
+				Collections.sort(datesList);
+
+				for(int i = 0; i < datesList.size(); i++) {	
+					List<Map<String, Object>> salesRegisterDetailsMap = salesRegisterMap.get(datesList.get(i));
+					createTable(document,model,salesRegisterDetailsMap,datesList.get(i));
+
 				}
-				
 				generateTotalTable(document,model,responseList);
 			}
+
+//			if(!ObjectUtils.isEmpty(salesRegisterMap)) { 
+//				
+//				for(String billDate :salesRegisterMap.keySet()) {	
+//				List<Map<String, Object>> salesRegisterDetailsMap = salesRegisterMap.get(billDate);
+//					
+//					createTable(document,model,salesRegisterDetailsMap,billDate);
+//				}
+//				
+//				generateTotalTable(document,model,responseList);
+//			}
 
 		} catch (Exception e) {
 			//log.error(ExceptionUtils.getMessage(e));
@@ -78,26 +96,8 @@ public class SalesHourlyDetails extends ReportsPDFUtility{
 
 	private void generateTotalTable(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException {
 		
-		DecimalFormat df=new DecimalFormat("0.00");
-		double totalCashAmt=0.0;
-		double totalCardAmt=0.0;
-		double totalMPesaAmt=0.0;
-		double totalCreditAmt=0.0;
-		double totalChequeAmt=0.0;
-		double totalInsuranceAmt=0.0;
-		double totalVatAmt=0.0;
-		double totalAmount=0.0;
-		double grandTotal=0.0;
 		
-		totalCashAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsValue("CASH")&&mapper.containsKey("AMOUNT")?String.valueOf(mapper.get("AMOUNT")):"0")).sum();  
-		totalMPesaAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("M-PESA")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
-		totalCardAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("CARD")?String.valueOf(mapper.get("AMOUNT")):"0")).sum();
-		totalChequeAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("CHEQUE")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
-		totalCreditAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("CREDIT")?String.valueOf(mapper.get("AMOUNT")):"0")).sum();
-		totalInsuranceAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("INSURANCE")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
-		totalVatAmt=responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("VAT_AMT")?String.valueOf(mapper.get("VAT_AMT")):"0")).sum(); 
-		totalAmount=Double.parseDouble(df.format((totalCashAmt+totalMPesaAmt+totalCardAmt+totalChequeAmt+totalCreditAmt+totalInsuranceAmt)-(totalVatAmt)));
-		grandTotal=Double.parseDouble(df.format(totalAmount+totalVatAmt));
+		long noOfSales  = responseList.size();
 		
 		PdfPTable totalQtyTable = new PdfPTable(3);
 		totalQtyTable.setTotalWidth(500);
@@ -106,9 +106,7 @@ public class SalesHourlyDetails extends ReportsPDFUtility{
 		totalQtyTable.setLockedWidth(true);
 		totalQtyTable.getDefaultCell().setBorder(0); 
 		
-		Font bold = new Font(FontFamily.HELVETICA,9);
-		
-		PdfPCell nameCell = new PdfPCell(new Phrase("CASH AMOUNT"+"		"+":"+"		"+totalCashAmt, bold)); 
+		PdfPCell nameCell = new PdfPCell(new Phrase("Total No. Of Sales  : "+noOfSales+"   ", title08)); 
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell.setVerticalAlignment(Element.ALIGN_TOP);
@@ -116,87 +114,7 @@ public class SalesHourlyDetails extends ReportsPDFUtility{
 		totalQtyTable.addCell(nameCell);
 		totalQtyTable.setLockedWidth(true);
 		totalQtyTable.setTotalWidth(500);
-		totalQtyTable.getDefaultCell().setBorder(0); 
-		
-		PdfPCell nameCell2 = new PdfPCell(new Phrase("CARD AMOUNT"+"		"+":"+"		"+totalCardAmt, bold)); 
-		nameCell2.setColspan(3);
-		nameCell2.setHorizontalAlignment(Element.ALIGN_RIGHT);
-		nameCell2.setVerticalAlignment(Element.ALIGN_TOP);
-		nameCell2.setBorder(0);
-		totalQtyTable.addCell(nameCell2);
-		totalQtyTable.setLockedWidth(true);
-		totalQtyTable.setTotalWidth(500);
-		totalQtyTable.getDefaultCell().setBorder(0); 
-		
-		PdfPCell nameCell3 = new PdfPCell(new Phrase("CREDIT AMOUNT"+"		"+":"+"		"+totalCreditAmt, bold)); 
-		nameCell3.setColspan(3);
-		nameCell3.setHorizontalAlignment(Element.ALIGN_RIGHT);
-		nameCell3.setVerticalAlignment(Element.ALIGN_TOP);
-		nameCell3.setBorder(0);
-		totalQtyTable.addCell(nameCell3);
-		totalQtyTable.setLockedWidth(true);
-		totalQtyTable.setTotalWidth(500);
-		totalQtyTable.getDefaultCell().setBorder(0);
-		
-		PdfPCell nameCell4 = new PdfPCell(new Phrase("M-PESA AMOUNT"+"		"+":"+"		"+totalMPesaAmt, bold)); 
-		nameCell4.setColspan(3);
-		nameCell4.setHorizontalAlignment(Element.ALIGN_RIGHT);
-		nameCell4.setVerticalAlignment(Element.ALIGN_TOP);
-		nameCell4.setBorder(0);
-		totalQtyTable.addCell(nameCell4);
-		totalQtyTable.setLockedWidth(true);
-		totalQtyTable.setTotalWidth(500);
-		totalQtyTable.getDefaultCell().setBorder(0);
-		
-		PdfPCell nameCell5 = new PdfPCell(new Phrase("CHEQUE AMOUNT"+"		"+":"+"		"+totalChequeAmt, bold)); 
-		nameCell5.setColspan(3);
-		nameCell5.setHorizontalAlignment(Element.ALIGN_RIGHT);
-		nameCell5.setVerticalAlignment(Element.ALIGN_TOP);
-		nameCell5.setBorder(0);
-		totalQtyTable.addCell(nameCell5);
-		totalQtyTable.setLockedWidth(true);
-		totalQtyTable.setTotalWidth(500);
-		totalQtyTable.getDefaultCell().setBorder(0);
-		
-		PdfPCell nameCell6 = new PdfPCell(new Phrase("INSURANCE AMOUNT"+"		"+":"+"		"+totalInsuranceAmt, bold)); 
-		nameCell6.setColspan(3);
-		nameCell6.setHorizontalAlignment(Element.ALIGN_RIGHT);
-		nameCell6.setVerticalAlignment(Element.ALIGN_TOP);
-		nameCell6.setBorder(0);
-		totalQtyTable.addCell(nameCell6);
-		totalQtyTable.setLockedWidth(true);
-		totalQtyTable.setTotalWidth(500);
-		totalQtyTable.getDefaultCell().setBorder(0);
-		
-		PdfPCell nameCell7 = new PdfPCell(new Phrase("TOTAL AMOUNT"+"		"+":"+"		"+totalAmount, bold)); 
-		nameCell7.setColspan(3);
-		nameCell7.setHorizontalAlignment(Element.ALIGN_RIGHT);
-		nameCell7.setVerticalAlignment(Element.ALIGN_TOP);
-		nameCell7.setBorder(0);
-		totalQtyTable.addCell(nameCell7);
-		totalQtyTable.setLockedWidth(true);
-		totalQtyTable.setTotalWidth(500);
-		totalQtyTable.getDefaultCell().setBorder(0);
-		
-		PdfPCell nameCell8 = new PdfPCell(new Phrase("TOTAL VAT AMOUNT"+"		"+":"+"		"+totalVatAmt, bold)); 
-		nameCell8.setColspan(3);
-		nameCell8.setHorizontalAlignment(Element.ALIGN_RIGHT);
-		nameCell8.setVerticalAlignment(Element.ALIGN_TOP);
-		nameCell8.setBorder(0);
-		totalQtyTable.addCell(nameCell8);
-		totalQtyTable.setLockedWidth(true);
-		totalQtyTable.setTotalWidth(500);
-		totalQtyTable.getDefaultCell().setBorder(0);
-		
-		PdfPCell nameCell9 = new PdfPCell(new Phrase("GRAND TOTAL"+"		"+":"+"		"+grandTotal, bold)); 
-		nameCell9.setColspan(3);
-		nameCell9.setHorizontalAlignment(Element.ALIGN_RIGHT);
-		nameCell9.setVerticalAlignment(Element.ALIGN_TOP);
-		nameCell9.setBorder(0);
-		totalQtyTable.addCell(nameCell9);
-		totalQtyTable.setLockedWidth(true);
-		totalQtyTable.setTotalWidth(500);
-		totalQtyTable.getDefaultCell().setBorder(0);
+		totalQtyTable.getDefaultCell().setBorder(0);  
 		
 		document.add(totalQtyTable);
 			
@@ -205,13 +123,14 @@ public class SalesHourlyDetails extends ReportsPDFUtility{
 
 	public void createTable(Document document, ReportsMappingModel model, 
 			List<Map<String, Object>> salesRegisterDetailsList,String billDate) throws DocumentException, ParseException {
-
+		
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
 		
 		String reportHeader = model.getReportHeader();
 		List<HeaderDto> headerList = JsonUtility.jsonToList(reportHeader, HeaderDto.class);
 
 		PdfPTable supllierNameTable = new PdfPTable(3);
-		PdfPCell nameCell = new PdfPCell(new Phrase("Sales From : "+salesRegisterDetailsList.get(salesRegisterDetailsList.size()-1 ).get("CREATION_TS"), title08)); 
+		PdfPCell nameCell = new PdfPCell(new Phrase("Sales From : "+df.format(salesRegisterDetailsList.get(salesRegisterDetailsList.size()-1 ).get("CREATION_TS")), title08)); 
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		nameCell.setVerticalAlignment(Element.ALIGN_TOP);
