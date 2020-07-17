@@ -26,22 +26,40 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPRow;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+
+import io.jsonwebtoken.Header;
 @Component
 public class SalesProfitAttributionPdf extends ReportsPDFUtility{
 	@Override
 	public Document generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model,
 			File responseFile,String inputJson) {
-		
+
 		HeaderFooterPageEvent event =new HeaderFooterPageEvent(model);
-		 Document document = new Document(PageSize.A4, 36, 36, 150, 36);
-		 
+		Document document = new Document(PageSize.A4, 36, 36, 150, 36);
+
 		try {
 			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(responseFile));
 			writer.setPageEvent(event); 
 			document.open();
-			Map<String,Object> dataMap= (Map<String, Object>) JsonUtility.jsonToMap(inputJson);
-			createTable(document,model,responseList,dataMap);
-			generateTotalTable(document,model,responseList);
+			
+			Map<String, List<Map<String, Object>>> salesByPersonMap = responseList.stream()
+					.collect(Collectors.groupingBy(map -> (String) map.get("CREATED_BY")));			
+			
+			
+			if(!ObjectUtils.isEmpty(salesByPersonMap)) { 
+				
+				for(String salesPerson :salesByPersonMap.keySet()) {					
+					List<Map<String, Object>> salesByPersonList = salesByPersonMap.get(salesPerson);
+					createTable(document,model,salesByPersonList,salesPerson);
+				}
+				
+				generateTotalTable(document,model,responseList);
+				
+			}
+			
+//			Map<String,Object> dataMap= (Map<String, Object>) JsonUtility.jsonToMap(inputJson);
+//			createTable(document,model,responseList,dataMap);
+//			generateTotalTable(document,model,responseList);
 
 		} catch (Exception e) {
 			//log.error(ExceptionUtils.getMessage(e));
@@ -53,7 +71,7 @@ public class SalesProfitAttributionPdf extends ReportsPDFUtility{
 		} finally {
 			document.close();
 		}
-		
+
 		return document;
 	}
 
@@ -65,23 +83,23 @@ public class SalesProfitAttributionPdf extends ReportsPDFUtility{
 		totalProfit  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("PROFIT") && !ObjectUtils.isEmpty(mapper.get("PROFIT"))) ?String.valueOf(mapper.get("PROFIT")):"0")).sum();  
 		totalSaleValue  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("SALE_AMOUNT") && !ObjectUtils.isEmpty(mapper.get("SALE_AMOUNT"))) ?String.valueOf(mapper.get("SALE_AMOUNT")):"0")).sum();  
 		totalPurValue  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("PURCHASE_AMOUNT") && !ObjectUtils.isEmpty(mapper.get("PURCHASE_AMOUNT"))) ?String.valueOf(mapper.get("PURCHASE_AMOUNT")):"0")).sum();  
-		
+
 		PdfPTable totalProfitTable = new PdfPTable(2);
 		totalProfitTable.setTotalWidth(500);
 		//totalProfitTable.setSpacingBefore(30); 
 		totalProfitTable.setWidthPercentage(50);
 		totalProfitTable.setLockedWidth(true);
 		totalProfitTable.getDefaultCell().setBorder(0); 
-		
+
 		String totProfit=df.format(totalProfit);
 		Double profitRound=Double.parseDouble(totProfit);
-		
+
 		String totPur=df.format(totalPurValue);
 		Double purchaseValueTot=Double.parseDouble(totPur);
-		
+
 		String totSale=df.format(totalSaleValue);
 		Double saleValueTot=Double.parseDouble(totSale);
-		
+
 		PdfPCell nameCell = new PdfPCell(new Phrase("Total Purchase Amount"+" "+" : "+"	"+purchaseValueTot, title08)); 
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -91,7 +109,7 @@ public class SalesProfitAttributionPdf extends ReportsPDFUtility{
 		totalProfitTable.setLockedWidth(true);
 		totalProfitTable.setTotalWidth(500);
 		totalProfitTable.getDefaultCell().setBorder(0); 
-		
+
 		PdfPCell nameCell2 = new PdfPCell(new Phrase("Total Sale Amount"+" "+" : "+"	"+saleValueTot, title08)); 
 		nameCell2.setColspan(3);
 		nameCell2.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -101,7 +119,7 @@ public class SalesProfitAttributionPdf extends ReportsPDFUtility{
 		totalProfitTable.setLockedWidth(true);
 		totalProfitTable.setTotalWidth(500);
 		totalProfitTable.getDefaultCell().setBorder(0); 
-		
+
 		PdfPCell nameCell3 = new PdfPCell(new Phrase("Total Profit"+" "+" : "+"	"+profitRound, title08)); 
 		nameCell3.setColspan(3);
 		nameCell3.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -111,336 +129,94 @@ public class SalesProfitAttributionPdf extends ReportsPDFUtility{
 		totalProfitTable.setLockedWidth(true);
 		totalProfitTable.setTotalWidth(500);
 		totalProfitTable.getDefaultCell().setBorder(0); 
-		
+
 		document.add(totalProfitTable);
-	
+
 	}
-	private void createTable(Document document, ReportsMappingModel model, List<Map<String, Object>> salesProfitList,Map<String,Object> dataMap) throws DocumentException {
+	private void createTable(Document document, ReportsMappingModel model, List<Map<String, Object>> salesProfitList,String salesPerson) throws DocumentException {
 
 
 		String reportHeader = model.getReportHeader();
 		List<HeaderDto> headerList = JsonUtility.jsonToList(reportHeader, HeaderDto.class);
 
-		
+
 		PdfPTable finalTable = new PdfPTable(1);
 		finalTable.setTotalWidth(500);
 		finalTable.setWidthPercentage(50);
 		finalTable.setLockedWidth(true);
 		finalTable.getDefaultCell().setBorder(0); 
+
+		PdfPTable salePersonNameTable = new PdfPTable(3);
+		PdfPCell nameCell = new PdfPCell(new Phrase("Served By : "+salesPerson, title08)); 
+		nameCell.setColspan(3);
+		nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		nameCell.setVerticalAlignment(Element.ALIGN_TOP);
+		nameCell.setBorder(0);
+		salePersonNameTable.addCell(nameCell);
+		salePersonNameTable.setLockedWidth(true);
+		salePersonNameTable.setTotalWidth(500);
+		salePersonNameTable.getDefaultCell().setBorder(0); 
 		
 		PdfPTable table = new PdfPTable(16);
 		table.setTotalWidth(530);
-		table.setWidths(new int[] {20,35,42,65,33,25,23,35,35,35,35,20,30,30,30,37});
-		//table.setWidthPercentage(50);
-		table.setSpacingBefore(30);
-		table.setSpacingAfter(50); 
+		table.setWidths(new int[] {35,40,55,33,25,20,35,35,35,35,20,30,30,30,40,33});
+		table.setWidthPercentage(50);
 		table.setLockedWidth(true);
 		PdfPCell cell = null;
 
-		//for (HeaderDto hearder : headerList) {
 
-		
-		  Paragraph headerCell = new Paragraph(); headerCell.setFont(headerFont);
-		  headerCell.add("S.No"); cell = new PdfPCell(headerCell);
-		  cell.setHorizontalAlignment(Element.ALIGN_LEFT); 
-		  if(!model.isShowVerticalLines()) cell.setBorder(Rectangle.BOTTOM);
-		  
-		  table.addCell(cell);
-		 
-			
-		  	headerCell = new Paragraph();
+		for (HeaderDto hearder : headerList) {
+			Paragraph headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("BILL CODE");
+			headerCell.add(hearder.getDisplayName());
+
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-			if (!model.isShowVerticalLines())
+			if(!model.isShowVerticalLines())
 				cell.setBorder(Rectangle.BOTTOM);
-			
+
+
 			table.addCell(cell);
-			
-			headerCell = new Paragraph();
-			headerCell.setFont(headerFont);
-			headerCell.add("BILL DATE");
-			cell = new PdfPCell(headerCell);
-			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-			if (!model.isShowVerticalLines())
-				cell.setBorder(Rectangle.BOTTOM);
-			
-			table.addCell(cell);
-			
-			headerCell = new Paragraph();
-			headerCell.setFont(headerFont);
-			headerCell.add("ITEM NAME");
-			cell = new PdfPCell(headerCell);
-			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-			if (!model.isShowVerticalLines())
-				cell.setBorder(Rectangle.BOTTOM);
-			
-			table.addCell(cell);
-			
-			headerCell = new Paragraph();
-			headerCell.setFont(headerFont);
-			headerCell.add("BATCH NO");
-			cell = new PdfPCell(headerCell);
-			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-			if (!model.isShowVerticalLines())
-				cell.setBorder(Rectangle.BOTTOM);
-			
-			table.addCell(cell);
-			
-			headerCell = new Paragraph();
-			headerCell.setFont(headerFont);
-			headerCell.add("SALE QTY");
-			cell = new PdfPCell(headerCell);
-			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-			if (!model.isShowVerticalLines())
-				cell.setBorder(Rectangle.BOTTOM);
-			
-			table.addCell(cell);
-			
-			headerCell = new Paragraph();
-			headerCell.setFont(headerFont);
-			headerCell.add("QTY FREE");
-			cell = new PdfPCell(headerCell);
-			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-			if (!model.isShowVerticalLines())
-				cell.setBorder(Rectangle.BOTTOM);
-			
-			table.addCell(cell);
-			
-			headerCell = new Paragraph();
-			headerCell.setFont(headerFont);
-			headerCell.add("P PRICE");
-			cell = new PdfPCell(headerCell);
-			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-			if (!model.isShowVerticalLines())
-				cell.setBorder(Rectangle.BOTTOM);
-			
-			table.addCell(cell);
-			
-			headerCell = new Paragraph();
-			headerCell.setFont(headerFont);
-			headerCell.add("P DISC%");
-			cell = new PdfPCell(headerCell);
-			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-			if (!model.isShowVerticalLines())
-				cell.setBorder(Rectangle.BOTTOM);
-			
-			table.addCell(cell);
-			
-			headerCell = new Paragraph();
-			headerCell.setFont(headerFont);
-			headerCell.add("S PRICE");
-			cell = new PdfPCell(headerCell);
-			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-			if (!model.isShowVerticalLines())
-				cell.setBorder(Rectangle.BOTTOM);
-			
-			table.addCell(cell);
-			
-			headerCell = new Paragraph();
-			headerCell.setFont(headerFont);
-			headerCell.add("S DISC%");
-			cell = new PdfPCell(headerCell);
-			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-			if (!model.isShowVerticalLines())
-				cell.setBorder(Rectangle.BOTTOM);
-			
-			table.addCell(cell);
-			
-			headerCell = new Paragraph();
-			headerCell.setFont(headerFont);
-			headerCell.add("VAT");
-			cell = new PdfPCell(headerCell);
-			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-			if (!model.isShowVerticalLines())
-				cell.setBorder(Rectangle.BOTTOM);
-			
-			table.addCell(cell);
-			
-			headerCell = new Paragraph();
-			headerCell.setFont(headerFont);
-			headerCell.add("P AMT");
-			cell = new PdfPCell(headerCell);
-			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-			if (!model.isShowVerticalLines())
-				cell.setBorder(Rectangle.BOTTOM);
-			
-			table.addCell(cell);
-			
-			headerCell = new Paragraph();
-			headerCell.setFont(headerFont);
-			headerCell.add("S AMT");
-			cell = new PdfPCell(headerCell);
-			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-			if (!model.isShowVerticalLines())
-				cell.setBorder(Rectangle.BOTTOM);
-			
-			table.addCell(cell);
-			
-			
-			headerCell = new Paragraph();
-			headerCell.setFont(headerFont);
-			headerCell.add("PROFIT");
-			cell = new PdfPCell(headerCell);
-			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-			if (!model.isShowVerticalLines())
-				cell.setBorder(Rectangle.BOTTOM);
-			
-			table.addCell(cell);
-			
-			headerCell = new Paragraph();
-			headerCell.setFont(headerFont);
-			headerCell.add("PROFIT%");
-			cell = new PdfPCell(headerCell);
-			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-			if (!model.isShowVerticalLines())
-				cell.setBorder(Rectangle.BOTTOM);
-			
-			table.addCell(cell);
-			
-		//}
+		}
 		table.setHeaderRows(1);
 
+
 		// populate Date
+
 		if (!ObjectUtils.isEmpty(salesProfitList)) {
 			for (Map<String, Object> rowData : salesProfitList) {
-				//for (HeaderDto hearder : headerList) {
+				for (HeaderDto hearder : headerList) {
+					Object value = rowData.containsKey(hearder.getColumnName()) ? rowData.get(hearder.getColumnName())
+							: "";
 
-				
-				 Object value = String.valueOf(salesProfitList.indexOf(rowData) + 1); cell =
-				  new PdfPCell(new Phrase(String.valueOf(value), title06));
-				  cell.setHorizontalAlignment(Element.ALIGN_LEFT); if
-				  (!model.isShowVerticalLines()) cell.setBorder(Rectangle.BOTTOM);
-				  
-				  table.addCell(cell);
-				 
+					value = formatData(hearder,value); 
 
-				  value = rowData.containsKey("BILL_CODE") ? rowData.get("BILL_CODE") : "";
-				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				if (!model.isShowVerticalLines())
-					cell.setBorder(Rectangle.BOTTOM);
+					cell = new PdfPCell(new Phrase(String.valueOf(value),title06));
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					if(!model.isShowVerticalLines())
+						cell.setBorder(Rectangle.BOTTOM);
 
-				table.addCell(cell);
-				
-				value = rowData.containsKey("FROM_BILL_DATE") ? rowData.get("FROM_BILL_DATE") : "";
-				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				if (!model.isShowVerticalLines())
-					cell.setBorder(Rectangle.BOTTOM);
+					table.addCell(cell);
 
-				table.addCell(cell);
-				
-				value = rowData.containsKey("ITEM_NM") ? rowData.get("ITEM_NM") : "";
-				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				if (!model.isShowVerticalLines())
-					cell.setBorder(Rectangle.BOTTOM);
-
-				table.addCell(cell);
-				
-				value = rowData.containsKey("BATCH_NO") ? rowData.get("BATCH_NO") : "";
-				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				if (!model.isShowVerticalLines())
-					cell.setBorder(Rectangle.BOTTOM);
-
-				table.addCell(cell);
-				
-				value = rowData.containsKey("SALE_QTY") ? rowData.get("SALE_QTY") : "";
-				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				if (!model.isShowVerticalLines())
-					cell.setBorder(Rectangle.BOTTOM);
-
-				table.addCell(cell);
-				
-				value = rowData.containsKey("QTY_FREE") ? rowData.get("QTY_FREE") : "";
-				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				if (!model.isShowVerticalLines())
-					cell.setBorder(Rectangle.BOTTOM);
-
-				table.addCell(cell);
-				
-				value = rowData.containsKey("UNIT_PURCHASE_PRICE") ? rowData.get("UNIT_PURCHASE_PRICE") : "";
-				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				if (!model.isShowVerticalLines())
-					cell.setBorder(Rectangle.BOTTOM);
-
-				table.addCell(cell);
-				
-				value = rowData.containsKey("PURCHASE_DISCOUNT_PERCENTAGE") ? rowData.get("PURCHASE_DISCOUNT_PERCENTAGE") : "";
-				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				if (!model.isShowVerticalLines())
-					cell.setBorder(Rectangle.BOTTOM);
-
-				table.addCell(cell);
-				
-				value = rowData.containsKey("UNIT_SALE_PRICE") ? rowData.get("UNIT_SALE_PRICE") : "";
-				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				if (!model.isShowVerticalLines())
-					cell.setBorder(Rectangle.BOTTOM);
-
-				table.addCell(cell);
-				
-				value = rowData.containsKey("DISCOUNT_PERCENTAGE") ? rowData.get("DISCOUNT_PERCENTAGE") : "";
-				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				if (!model.isShowVerticalLines())
-					cell.setBorder(Rectangle.BOTTOM);
-
-				table.addCell(cell);
-				
-				value = rowData.containsKey("VAT") ? rowData.get("VAT") : "";
-				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				if (!model.isShowVerticalLines())
-					cell.setBorder(Rectangle.BOTTOM);
-
-				table.addCell(cell);
-				
-				value = rowData.containsKey("PURCHASE_AMOUNT") ? rowData.get("PURCHASE_AMOUNT") : "";
-				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				if (!model.isShowVerticalLines())
-					cell.setBorder(Rectangle.BOTTOM);
-
-				table.addCell(cell);
-				
-				value = rowData.containsKey("SALE_AMOUNT") ? rowData.get("SALE_AMOUNT") : "";
-				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				if (!model.isShowVerticalLines())
-					cell.setBorder(Rectangle.BOTTOM);
-
-				table.addCell(cell);
-				
-				value = rowData.containsKey("PROFIT") ? rowData.get("PROFIT") : "";
-				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				if (!model.isShowVerticalLines())
-					cell.setBorder(Rectangle.BOTTOM);
-
-				table.addCell(cell);
-				
-				value = rowData.containsKey("PROFIT_PER") ? rowData.get("PROFIT_PER") : "";
-				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				if (!model.isShowVerticalLines())
-					cell.setBorder(Rectangle.BOTTOM);
-
-				table.addCell(cell);
+				}
 			}
 		}
-		
+
+		finalTable.addCell(salePersonNameTable);
 		finalTable.addCell(table); 
 		document.add(finalTable);
-		
+
+	}
+	private Object formatData(HeaderDto hearder, Object value) {
+
+		if(ObjectUtils.isEmpty(hearder.getFormat()))
+			return value;
+
+		//getDateStringwithouKnowingInputFormat
+
+		return value;
+
+
 	}
 
 }
