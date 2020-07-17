@@ -72,23 +72,24 @@ public class CustomerStatementExcel extends ReportsExcelUtility{
 		headerStyle.setBorderLeft(BorderStyle.THIN);  
 		headerStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());  
 		
-		Map<String,Object> dataMap= (Map<String, Object>) JsonUtility.jsonToMap(inputJson);
 		
-		Map<String, List<Map<String, Object>>> salesProductMap = responseList.stream()
-				.collect(Collectors.groupingBy(map -> (String) map.get("CUSTOMER_NAME")));	
+//		
+//		Map<String, List<Map<String, Object>>> salesProductMap = responseList.stream()
+//				.collect(Collectors.groupingBy(map -> (String) map.get("CUSTOMER_NAME")));	
 		
 		setHeader(workbook,sheet,model);
-
-
-		if(!ObjectUtils.isEmpty(salesProductMap)) { 
-			
-			for(String productSummary :salesProductMap.keySet()) {	
-				int currentRow = sheet.getLastRowNum();
-				List<Map<String, Object>> supplierList =salesProductMap.get(productSummary);
-				createSupplierTable(sheet, responseFile, borderStyle, headerStyle,supplierList, productSummary, currentRow,dataMap); 
-			}
+		int currentRow = sheet.getLastRowNum();
+		Map<String,Object> dataMap= (Map<String, Object>) JsonUtility.jsonToMap(inputJson);
+//		if(!ObjectUtils.isEmpty(salesProductMap)) { 
+//			
+//			for(String productSummary :salesProductMap.keySet()) {	
+//				int currentRow = sheet.getLastRowNum();
+//				List<Map<String, Object>> supplierList =salesProductMap.get(productSummary);
+//				createSupplierTable(sheet, responseFile, borderStyle, headerStyle,supplierList, productSummary, currentRow,dataMap);
+				createSupplierTable(sheet, responseFile, borderStyle, headerStyle,responseList,currentRow,dataMap);
+		//	}
 			generateTotalTable(sheet, responseFile,borderStyle,model,responseList);
-		}
+	//	}
 		
 		writeToFile(workbook, responseFile);
 		 
@@ -98,38 +99,57 @@ public class CustomerStatementExcel extends ReportsExcelUtility{
 		DecimalFormat df=new DecimalFormat("0.00");
 		int currentRow = sheet.getLastRowNum();
 	
-		double TotalAmtReceived = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("outstanding")?String.valueOf(mapper.get("outstanding")):"0")).sum(); 
+		double TotalAmtReceived = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT_RECEIVED")?String.valueOf(mapper.get("AMOUNT_RECEIVED")):"0")).sum(); 
+		double TotalAmtPaid = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT_RECEIVED")?String.valueOf(mapper.get("AMOUNT_RECEIVED")):"0")).sum(); 
+		double TotalOustandingAmt = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("outstanding_amt")?String.valueOf(mapper.get("outstanding_amt")):"0")).sum(); 
 	//	double TotalAmtToBeReceived = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT_TO_BE_RECEIVED")?String.valueOf(mapper.get("AMOUNT_TO_BE_RECEIVED")):"0")).sum(); 
 		
 
+		
 		Row dataRow = sheet.createRow(currentRow+2);
 //		Row dataRow1=sheet.createRow(currentRow+3);
+		Row dataRow1=sheet.createRow(currentRow+3);
+		Row dataRow2=sheet.createRow(currentRow+4);
 		
 		Cell cell = dataRow.createCell(0);
-	
+		Cell cell_card_amount=dataRow1.createCell(0);
+		Cell cell_credit_amount=dataRow2.createCell(0);
 	
 		cell.setCellValue("");
-		
-		
-		cell = dataRow.createCell(4);
-	
-		
-		cell.setCellValue("Total Balance : ");
-		
+		cell_card_amount.setCellValue("");
+		cell_credit_amount.setCellValue("");
 		
 		cell = dataRow.createCell(5);
+		cell_card_amount=dataRow1.createCell(5);
+		cell_credit_amount=dataRow2.createCell(5);
+		
+		cell.setCellValue("Total Amount Received : ");
+		cell_card_amount.setCellValue("Total Amount Paid");
+		cell_credit_amount.setCellValue("Total Outstanding Amount");
+		
+		cell = dataRow.createCell(6);
 //		cell1=dataRow1.createCell(10);
+		cell_card_amount=dataRow1.createCell(6);
+		cell_credit_amount=dataRow2.createCell(6);
 		
-		String totAmountReceived=df.format(TotalAmtReceived);
-		Double totalPaid=Double.parseDouble(totAmountReceived);
+//		String totAmountReceived=df.format(TotalAmtReceived);
+//		Double totalAmtRec=Double.parseDouble(totAmountReceived);
+//		
+//		String totAmountPaid=df.format(TotalAmtPaid);
+//		Double totalPaid=Double.parseDouble(totAmountPaid);
+//		
+//		String totOutAmount=df.format(TotalOustandingAmt);
+//		Double totalOutstanding=Double.parseDouble(totOutAmount);
 		
 		
-		cell.setCellValue(totalPaid);
+		cell.setCellValue(TotalAmtReceived);
+		cell_card_amount.setCellValue(TotalAmtPaid);
+		cell_credit_amount.setCellValue(TotalOustandingAmt);
 		//cell1.setCellValue(totalToBeReceived);
 	
 	}
 	private void createSupplierTable(SXSSFSheet sheet,File responseFile, CellStyle borderStyle ,
-			CellStyle headerStyle, List<Map<String, Object>>  productList, String productSummary, int rowNum,Map<String,Object> inputJson) {
+			CellStyle headerStyle, List<Map<String, Object>> accountReceivablesDetails,int rowNum,Map<String,Object> inputJson) {
 		
 		
 		rowNum = rowNum + 3;
@@ -139,7 +159,7 @@ public class CustomerStatementExcel extends ReportsExcelUtility{
 
 		
 		// populate Date
-		if (!ObjectUtils.isEmpty(productList)) {
+		if (!ObjectUtils.isEmpty(accountReceivablesDetails)) {
 				
 			 
 			
@@ -150,17 +170,17 @@ public class CustomerStatementExcel extends ReportsExcelUtility{
 			
 			Row headerRow = sheet.createRow(rowNum++);
 			Cell cell = headerRow.createCell(0);
-			cell.setCellValue("DATE");
+			cell.setCellValue("CUSTOMER NAME");
 			cell.setCellStyle(headerStyle);
 			
 		
 			
 			cell = headerRow.createCell(1);
-			cell.setCellValue("REF#");
+			cell.setCellValue("TRANSACTION DATE");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(2);
-			cell.setCellValue("TYPE");
+			cell.setCellValue("BILL TYPE");
 			cell.setCellStyle(headerStyle);	
 			
 //			cell = headerRow.createCell(3);
@@ -169,31 +189,34 @@ public class CustomerStatementExcel extends ReportsExcelUtility{
 				
 			
 			cell = headerRow.createCell(3);
-			cell.setCellValue("DEBIT");
+			cell.setCellValue("BILL NUMBER");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(4);
-			cell.setCellValue("CREDIT");
+			cell.setCellValue("AMOINT PAID");
 			cell.setCellStyle(headerStyle);	
-		
 		
 			
 			cell = headerRow.createCell(5);
-			cell.setCellValue("OUTSTANDING");
+			cell.setCellValue("AMOUNT RECEIVED");
 			cell.setCellStyle(headerStyle);	
 			
-			System.out.println("Head Ro is"+headRow);
-			Row displayRow = sheet.createRow(headRow++);
-			Cell headCell = displayRow.createCell(0);
-			Object value = productList.get(0).containsKey("CUSTOMER_NAME") ? productList.get(0).get("CUSTOMER_NAME") : "";
-			headCell.setCellValue("Customer Name : ");
-			headCell=displayRow.createCell(1);
-			headCell.setCellValue(String.valueOf(value));
+			cell = headerRow.createCell(6);
+			cell.setCellValue("OUTSTANDING AMOUNT");
+			cell.setCellStyle(headerStyle);	
 			
+//			System.out.println("Head Ro is"+headRow);
+//			Row displayRow = sheet.createRow(headRow++);
+//			Cell headCell = displayRow.createCell(0);
+//			Object value = accountReceivablesDetails.get(0).containsKey("CUSTOMER_NAME") ? accountReceivablesDetails.get(0).get("CUSTOMER_NAME") : "";
+//			headCell.setCellValue("Customer Name : ");
+//			headCell=displayRow.createCell(1);
+//			headCell.setCellValue(String.valueOf(value));
+//			
 
 			
 			
-			for (Map<String, Object> rowData : productList) {	
+			for (Map<String, Object> rowData : accountReceivablesDetails) {	
 					
 				
 				Row dataRow = sheet.createRow(rowNum++);
@@ -204,7 +227,7 @@ public class CustomerStatementExcel extends ReportsExcelUtility{
 //				cell.setCellStyle(borderStyle);
 			
 				
-				 value = rowData.containsKey("FROM_APPROVED_DATE") ? rowData.get("FROM_APPROVED_DATE") : "";
+				Object value = rowData.containsKey("CUSTOMER_NAME") ? rowData.get("CUSTOMER_NAME") : "";
 				//sheet.autoSizeColumn(2);
 				cell = dataRow.createCell(0);
 				cell.setCellValue(String.valueOf(value));
@@ -212,13 +235,13 @@ public class CustomerStatementExcel extends ReportsExcelUtility{
 				
 				
 				
-				value = rowData.containsKey("SOURCE_TYPE") ? rowData.get("SOURCE_TYPE") : "";
+				value = rowData.containsKey("RECEIPT_DATE") ? rowData.get("RECEIPT_DATE") : "";
 				//sheet.autoSizeColumn(9);
 				cell = dataRow.createCell(1);
 				cell.setCellValue(String.valueOf(value)); 
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("SOURCE_REF") ? rowData.get("SOURCE_REF") : "";
+				value = rowData.containsKey("bill_type_id") ? rowData.get("bill_type_id") : "";
 				//sheet.autoSizeColumn(3);
 				cell = dataRow.createCell(2);
 				cell.setCellValue(String.valueOf(value));
@@ -231,41 +254,45 @@ public class CustomerStatementExcel extends ReportsExcelUtility{
 //				cell.setCellStyle(borderStyle);
 
 				
-				value = rowData.containsKey("debit") ? rowData.get("debit") : "";
+				value = rowData.containsKey("SOURCE_REF") ? rowData.get("SOURCE_REF") : "";
 				//sheet.autoSizeColumn(6);
 				cell = dataRow.createCell(3);
-				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				cell.setCellValue((String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("credit") ? rowData.get("credit") : "";
+				value = rowData.containsKey("AMOUNT_RECEIVED") ? rowData.get("AMOUNT_RECEIVED") : "";
 				//sheet.autoSizeColumn(7);
 				cell = dataRow.createCell(4);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("outstanding") ? rowData.get("outstanding") : "";
+				value = rowData.containsKey("AMOUNT_RECEIVED") ? rowData.get("AMOUNT_RECEIVED") : "";
 				//sheet.autoSizeColumn(8);
 				cell = dataRow.createCell(5);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
-				
+				value = rowData.containsKey("outstanding_amt") ? rowData.get("outstanding_amt") : "";
+				//sheet.autoSizeColumn(8);
+				cell = dataRow.createCell(6);
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				cell.setCellStyle(borderStyle);
 			}
 			
 			
-			if(inputJson.get("FROM_APPROVED_DATE")!=null && inputJson.get("TO_APPROVED_DATE")!=null && inputJson.get("CUSTOMER_NAME")==null) {
-			
-				int currentRow = sheet.getLastRowNum();
-
-			double totalAmount = productList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("outstanding")?String.valueOf(mapper.get("outstanding")):"0")).sum(); 
-			Row dataRow1 = sheet.createRow(currentRow+2);
-			Cell cell1 = dataRow1.createCell(0);
-			cell1.setCellValue("");
-			cell1= dataRow1.createCell(4);
-		    cell1.setCellValue("Total Balance : ");
-		    cell1 = dataRow1.createCell(5);
-		    cell1.setCellValue(totalAmount);
-			}
+//			if(inputJson.get("FROM_APPROVED_DATE")!=null && inputJson.get("TO_APPROVED_DATE")!=null && inputJson.get("CUSTOMER_NAME")==null) {
+//			
+//				int currentRow = sheet.getLastRowNum();
+//
+//			double totalAmount = accountReceivablesDetails.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("outstanding")?String.valueOf(mapper.get("outstanding")):"0")).sum(); 
+//			Row dataRow1 = sheet.createRow(currentRow+2);
+//			Cell cell1 = dataRow1.createCell(0);
+//			cell1.setCellValue("");
+//			cell1= dataRow1.createCell(4);
+//		    cell1.setCellValue("Total Balance : ");
+//		    cell1 = dataRow1.createCell(5);
+//		    cell1.setCellValue(totalAmount);
+//			}
 		
 		
 		
