@@ -11,4 +11,13 @@ public interface PettyCashService {
 	
 	PettyCashModel findPettyCashById(Integer pettyCashId);
 
+	List<String> getAllCounterPartyDetails();
+
+	List<String> getBySearchCounterPartyDetails(String searchTerm);
+
+	List<String> getAllPartyDetails();
+
+	List<String> getBySearchPartyDetails(String searchTerm);
+
+
 }

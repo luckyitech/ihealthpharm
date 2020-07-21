@@ -58,4 +58,28 @@ public class PettyCashServiceImpl implements PettyCashService{
 			throw new IHealthPharmException(pettyCashHelper.getNotFoundpettyCashMessage(), HttpStatus.NOT_FOUND);
 		}
 	}
+
+	@Override
+	public List<String> getAllCounterPartyDetails() {
+		
+		return pettyCashRepo.findAllCounterPartyAccountDetails();
+	}
+
+	@Override
+	public List<String> getBySearchCounterPartyDetails(String searchTerm) {
+		
+		return pettyCashRepo.findCounterPartyAccountDetailsBySearch(searchTerm);
+	}
+
+	@Override
+	public List<String> getAllPartyDetails() {
+		
+		return pettyCashRepo.findAllPartyAccountDetails();
+	}
+
+	@Override
+	public List<String> getBySearchPartyDetails(String searchTerm) {
+		
+		return pettyCashRepo.findPartyAccountDetailsBySearch(searchTerm);
+	}
 }

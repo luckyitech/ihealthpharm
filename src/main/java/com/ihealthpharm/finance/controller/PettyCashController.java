@@ -43,4 +43,29 @@ public class PettyCashController {
 		PettyCashModel pettyCashRes= pettyCashService.findPettyCashById(pettyCashID);
 		return new BaseDto<>(pettyCashRes,pettyCashHelper.getRetrivepettyCashMessage(),OK).respond();
 	}
+	
+	//Petty Cash Expenditure Report
+	@GetMapping("pettycash/getpartyaccountdetailsbysearch")
+	public ResponseEntity<BaseDto<List<String>>> getPettyPartyAccountsBySearch(@RequestParam String searchTerm) {
+		List<String> results = pettyCashService.getBySearchPartyDetails(searchTerm);
+		return new BaseDto<>(results, pettyCashHelper.getRetrivepettyCashMessage(), OK).respond();
+	}
+
+	
+	@GetMapping("pettycash/getallpartyaccountdetails")
+	public ResponseEntity<BaseDto<List<String>>> getAllPettyPartyAccounts() {
+		List<String> results = pettyCashService.getAllPartyDetails();
+		return new BaseDto<>(results, pettyCashHelper.getRetrivepettyCashMessage(), OK).respond();
+	}
+	@GetMapping("pettycash/getcounterpartyaccountdetailsbysearch")
+	public ResponseEntity<BaseDto<List<String>>> getPettyCounterPartyAccountsBySearch(@RequestParam String searchTerm) {
+		List<String> results = pettyCashService.getBySearchCounterPartyDetails(searchTerm);
+		return new BaseDto<>(results, pettyCashHelper.getRetrivepettyCashMessage(), OK).respond();
+	}
+
+	@GetMapping("pettycash/getallcounterpartyaccountdetails")
+	public ResponseEntity<BaseDto<List<String>>> getAllPettyCounterPartyAccounts() {
+		List<String> results = pettyCashService.getAllCounterPartyDetails();
+		return new BaseDto<>(results, pettyCashHelper.getRetrivepettyCashMessage(), OK).respond();
+	}
 }
