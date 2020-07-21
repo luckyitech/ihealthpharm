@@ -168,6 +168,18 @@ public class PurchasePriceValueForCurrentStockExcel extends ReportsExcelUtility 
 			headCell=displayRow.createCell(3);
 			headCell.setCellValue(String.valueOf(value));
 			
+			headCell = displayRow.createCell(4);
+			double totalPurchaseValue = purchaseMarginList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("PURCHASE_VALUE")?String.valueOf(mapper.get("PURCHASE_VALUE")):"0")).sum(); 
+			headCell.setCellValue("Total Pur. Value  :   ");
+			headCell=displayRow.createCell(5);
+			headCell.setCellValue(totalPurchaseValue);
+			
+			headCell = displayRow.createCell(6);
+			value = dataMap.containsKey("THRESHHOLD_VALUE") ? dataMap.get("THRESHHOLD_VALUE") : "";
+			headCell.setCellValue("Threshhold Value  :   ");
+			headCell=displayRow.createCell(7);
+			headCell.setCellValue(String.valueOf(value));
+			
 			for (Map<String, Object> rowData : purchaseMarginList) {
 										
 				Row dataRow = sheet.createRow(rowNum++);
