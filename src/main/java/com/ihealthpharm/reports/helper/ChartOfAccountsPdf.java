@@ -2,6 +2,7 @@ package com.ihealthpharm.reports.helper;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -212,6 +213,8 @@ public class ChartOfAccountsPdf extends ReportsPDFUtility{
 			for (Map<String, Object> rowData : chartOfAccountList) {
 				//for (HeaderDto hearder : headerList) {
 
+				DecimalFormat df=new DecimalFormat("0.00");
+				
 				Object value = String.valueOf(chartOfAccountList.indexOf(rowData) + 1);
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -260,7 +263,7 @@ public class ChartOfAccountsPdf extends ReportsPDFUtility{
 
 				table.addCell(cell);
 
-				value = rowData.containsKey("TRANSACTION_LIMIT") ? rowData.get("TRANSACTION_LIMIT") : "";
+				value = rowData.containsKey("TRANSACTION_LIMIT") ? df.format(rowData.get("TRANSACTION_LIMIT")) : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
@@ -269,7 +272,7 @@ public class ChartOfAccountsPdf extends ReportsPDFUtility{
 				table.addCell(cell);
 
 				
-				value = rowData.containsKey("TOTAL_LIMIT") ? rowData.get("TOTAL_LIMIT") : "";
+				value = rowData.containsKey("TOTAL_LIMIT") ? df.format(rowData.get("TOTAL_LIMIT")) : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
@@ -277,7 +280,7 @@ public class ChartOfAccountsPdf extends ReportsPDFUtility{
 
 				table.addCell(cell);
 
-				value = rowData.containsKey("CURRENT_BALANCE") ? rowData.get("CURRENT_BALANCE") : "";
+				value = rowData.containsKey("CURRENT_BALANCE") ? df.format(rowData.get("CURRENT_BALANCE")) : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())

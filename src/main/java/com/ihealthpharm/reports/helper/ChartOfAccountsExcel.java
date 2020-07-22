@@ -1,6 +1,7 @@
 package com.ihealthpharm.reports.helper;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -148,6 +149,8 @@ public class ChartOfAccountsExcel extends ReportsExcelUtility{
 			
 			for (Map<String, Object> rowData : chartOfAccountList) {
 				
+				DecimalFormat df=new DecimalFormat("0.00");
+				
 				Cell headCell = displayRow.createCell(0);
 				Object value = rowData.containsKey("ACCOUNT_TYPE") ? rowData.get("ACCOUNT_TYPE") : "";
 				headCell.setCellValue("Account Type  :   ");
@@ -189,17 +192,17 @@ public class ChartOfAccountsExcel extends ReportsExcelUtility{
 				
 				value = rowData.containsKey("TRANSACTION_LIMIT") ? rowData.get("TRANSACTION_LIMIT") : "";
 				cell = dataRow.createCell(6);
-				cell.setCellValue(String.valueOf(value));
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("TOTAL_LIMIT") ? rowData.get("TOTAL_LIMIT") : "";
+				value = rowData.containsKey("TOTAL_LIMIT") ? df.format(rowData.get("TOTAL_LIMIT")) : "";
 				cell = dataRow.createCell(7);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("CURRENT_BALANCE") ? rowData.get("CURRENT_BALANCE") : "";
 				cell = dataRow.createCell(8);
-				cell.setCellValue(String.valueOf(value));
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("AS_OF_DATE") ? rowData.get("AS_OF_DATE") : "";
