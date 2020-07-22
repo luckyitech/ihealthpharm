@@ -107,17 +107,41 @@ public class ChartOfAccountsExcel extends ReportsExcelUtility{
 			cell.setCellStyle(headerStyle);
 			
 			cell = headerRow.createCell(1);
-			cell.setCellValue("ACCOUNT NAME");
+			cell.setCellValue("ACCOUNT NO");
 			cell.setCellStyle(headerStyle);
 			
 			cell = headerRow.createCell(2);
+			cell.setCellValue("ACCOUNT NAME");
+			cell.setCellStyle(headerStyle);
+			
+			cell = headerRow.createCell(3);
+			cell.setCellValue("ACCOUNT TYPE");
+			cell.setCellStyle(headerStyle);
+			
+			cell = headerRow.createCell(4);
 			cell.setCellValue("INITIAL");
 			cell.setCellStyle(headerStyle);
 			
 			
-			cell = headerRow.createCell(3);
+			cell = headerRow.createCell(5);
 			cell.setCellValue("MAXIMUM");
 			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(6);
+			cell.setCellValue("TRANSACTION LIMIT");
+			cell.setCellStyle(headerStyle);
+			
+			cell = headerRow.createCell(7);
+			cell.setCellValue("TOTAL LIMIT");
+			cell.setCellStyle(headerStyle);
+			
+			cell = headerRow.createCell(8);
+			cell.setCellValue("CURRENT BALANCE");
+			cell.setCellStyle(headerStyle);
+			
+			cell = headerRow.createCell(9);
+			cell.setCellValue("AS OF DATE");
+			cell.setCellStyle(headerStyle);
 			
 			
 			Row displayRow = sheet.createRow(headRow++);
@@ -137,19 +161,49 @@ public class ChartOfAccountsExcel extends ReportsExcelUtility{
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("ACCOUNT_NAME") ? rowData.get("ACCOUNT_NAME") : "";
+				value = rowData.containsKey("ACCOUNT_NO") ? rowData.get("ACCOUNT_NO") : "";
 				cell = dataRow.createCell(1);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("INITIAL") ? rowData.get("INITIAL") : "";
+				value = rowData.containsKey("ACCOUNT_NAME") ? rowData.get("ACCOUNT_NAME") : "";
 				cell = dataRow.createCell(2);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("ACCOUNT_TYPE") ? rowData.get("ACCOUNT_TYPE") : "";
+				cell = dataRow.createCell(3);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("INITIAL") ? rowData.get("INITIAL") : "";
+				cell = dataRow.createCell(4);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 							
 				
 				value = rowData.containsKey("MAXIMUM") ? rowData.get("MAXIMUM") : "";
-				cell = dataRow.createCell(3);
+				cell = dataRow.createCell(5);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("TRANSACTION_LIMIT") ? rowData.get("TRANSACTION_LIMIT") : "";
+				cell = dataRow.createCell(6);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("TOTAL_LIMIT") ? rowData.get("TOTAL_LIMIT") : "";
+				cell = dataRow.createCell(7);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("CURRENT_BALANCE") ? rowData.get("CURRENT_BALANCE") : "";
+				cell = dataRow.createCell(8);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("AS_OF_DATE") ? rowData.get("AS_OF_DATE") : "";
+				cell = dataRow.createCell(9);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 
