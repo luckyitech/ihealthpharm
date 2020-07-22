@@ -1,6 +1,7 @@
 package com.ihealthpharm.reports.helper;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -155,6 +156,8 @@ public class PurchasePriceValueForCurrentStockExcel extends ReportsExcelUtility 
 			cell.setCellValue("UPDATED DATE");
 			cell.setCellStyle(headerStyle);	
 			
+			DecimalFormat df=new DecimalFormat("0.00");
+			
 			Row displayRow = sheet.createRow(headRow);
 			Cell headCell = displayRow.createCell(0);
 			Object value = dataMap.containsKey("FROM_UPDATED_DATE") ? dataMap.get("FROM_UPDATED_DATE") : "";
@@ -175,10 +178,10 @@ public class PurchasePriceValueForCurrentStockExcel extends ReportsExcelUtility 
 			headCell.setCellValue(totalPurchaseValue);
 			
 			headCell = displayRow.createCell(6);
-			value = dataMap.containsKey("THRESHHOLD_VALUE") ? dataMap.get("THRESHHOLD_VALUE") : "";
+			String threshholdValue=df.format(dataMap.get("THRESHHOLD_VALUE"));
 			headCell.setCellValue("Threshhold Value  :   ");
 			headCell=displayRow.createCell(7);
-			headCell.setCellValue(String.valueOf(value));
+			headCell.setCellValue(String.valueOf(threshholdValue));
 			
 			for (Map<String, Object> rowData : purchaseMarginList) {
 										

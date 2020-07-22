@@ -96,6 +96,7 @@ public class PurchasePriceValueForCurrentStock extends ReportsPDFUtility{
 		purchaseValue  = accountPayablesList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("PURCHASE_VALUE") && !ObjectUtils.isEmpty(mapper.get("PURCHASE_VALUE"))) ?String.valueOf(mapper.get("PURCHASE_VALUE")):"0")).sum();  
    
 		String totPurValue=df.format(purchaseValue);
+		String threshholdValue=df.format(dataMap.get("THRESHHOLD_VALUE"));
 		
 		PdfPTable finalTable = new PdfPTable(1);
 		finalTable.setTotalWidth(500);
@@ -105,7 +106,7 @@ public class PurchasePriceValueForCurrentStock extends ReportsPDFUtility{
 		
 		PdfPTable supllierNameTable = new PdfPTable(2);
 		PdfPCell nameCell = new PdfPCell(new Phrase("From Date  : "+String.valueOf(dataMap.get("FROM_UPDATED_DATE"))+  "       "
-				+ "To Date  :  "+String.valueOf(dataMap.get("TO_UPDATED_DATE"))+"         "+"Total Pur. Value   : "+totPurValue+"         "+"Threshhold Value   : "+dataMap.get("THRESHHOLD_VALUE"), title08)); 
+				+ "To Date  :  "+String.valueOf(dataMap.get("TO_UPDATED_DATE"))+"         "+"Total Pur. Value   : "+totPurValue+"         "+"Threshhold Value   : "+threshholdValue, title08)); 
 		
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);

@@ -94,9 +94,9 @@ public class ChartOfAccountsPdf extends ReportsPDFUtility{
 		supllierNameTable.getDefaultCell().setBorder(0); 
 
 
-		PdfPTable table = new PdfPTable(4);
+		PdfPTable table = new PdfPTable(10);
 		table.setTotalWidth(500);
-		table.setWidths(new int[] {25,175,150,150});
+		table.setWidths(new int[] {25,50,50,75,50,50,50,50,50,50});
 		table.setWidthPercentage(50);
 		table.setLockedWidth(true);
 		PdfPCell cell = null;
@@ -115,7 +115,27 @@ public class ChartOfAccountsPdf extends ReportsPDFUtility{
 
 		headerCell = new Paragraph();
 		headerCell.setFont(headerFont);
+		headerCell.add("ACCOUNT NO");
+		cell = new PdfPCell(headerCell);
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		if (!model.isShowVerticalLines())
+			cell.setBorder(Rectangle.BOTTOM);
+
+		table.addCell(cell);
+		
+		headerCell = new Paragraph();
+		headerCell.setFont(headerFont);
 		headerCell.add("ACCOUNT NAME");
+		cell = new PdfPCell(headerCell);
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		if (!model.isShowVerticalLines())
+			cell.setBorder(Rectangle.BOTTOM);
+
+		table.addCell(cell);
+		
+		headerCell = new Paragraph();
+		headerCell.setFont(headerFont);
+		headerCell.add("ACCOUNT TYPE");
 		cell = new PdfPCell(headerCell);
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		if (!model.isShowVerticalLines())
@@ -143,7 +163,47 @@ public class ChartOfAccountsPdf extends ReportsPDFUtility{
 
 		table.addCell(cell);
 
+		headerCell = new Paragraph();
+		headerCell.setFont(headerFont);
+		headerCell.add("TRANSACTION LIMIT");
+		cell = new PdfPCell(headerCell);
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		if (!model.isShowVerticalLines())
+			cell.setBorder(Rectangle.BOTTOM);
 
+		table.addCell(cell);
+
+		headerCell = new Paragraph();
+		headerCell.setFont(headerFont);
+		headerCell.add("TOTAL LIMIT");
+		cell = new PdfPCell(headerCell);
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		if (!model.isShowVerticalLines())
+			cell.setBorder(Rectangle.BOTTOM);
+
+		table.addCell(cell);
+
+		headerCell = new Paragraph();
+		headerCell.setFont(headerFont);
+		headerCell.add("CURRENT BALANCE");
+		cell = new PdfPCell(headerCell);
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		if (!model.isShowVerticalLines())
+			cell.setBorder(Rectangle.BOTTOM);
+
+		table.addCell(cell);
+
+		headerCell = new Paragraph();
+		headerCell.setFont(headerFont);
+		headerCell.add("AS OF DATE");
+		cell = new PdfPCell(headerCell);
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		if (!model.isShowVerticalLines())
+			cell.setBorder(Rectangle.BOTTOM);
+
+		table.addCell(cell);
+
+		
 		//}
 		table.setHeaderRows(1);
 
@@ -160,6 +220,14 @@ public class ChartOfAccountsPdf extends ReportsPDFUtility{
 
 				table.addCell(cell);
 
+				value = rowData.containsKey("ACCOUNT_NO") ? rowData.get("ACCOUNT_NO") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
 				value = rowData.containsKey("ACCOUNT_NAME") ? rowData.get("ACCOUNT_NAME") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -168,6 +236,14 @@ public class ChartOfAccountsPdf extends ReportsPDFUtility{
 
 				table.addCell(cell);
 
+				value = rowData.containsKey("ACCOUNT_TYPE") ? rowData.get("ACCOUNT_TYPE") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
 				value = rowData.containsKey("INITIAL") ? rowData.get("INITIAL") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -177,6 +253,39 @@ public class ChartOfAccountsPdf extends ReportsPDFUtility{
 				table.addCell(cell);
 
 				value = rowData.containsKey("MAXIMUM") ? rowData.get("MAXIMUM") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+
+				value = rowData.containsKey("TRANSACTION_LIMIT") ? rowData.get("TRANSACTION_LIMIT") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+
+				
+				value = rowData.containsKey("TOTAL_LIMIT") ? rowData.get("TOTAL_LIMIT") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+
+				value = rowData.containsKey("CURRENT_BALANCE") ? rowData.get("CURRENT_BALANCE") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+
+				value = rowData.containsKey("AS_OF_DATE") ? rowData.get("AS_OF_DATE") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
