@@ -1,6 +1,7 @@
 package com.ihealthpharm.reports.helper;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -155,6 +156,10 @@ public class PurchasePriceValueForCurrentStockExcel extends ReportsExcelUtility 
 			cell.setCellValue("UPDATED DATE");
 			cell.setCellStyle(headerStyle);	
 			
+			DecimalFormat df=new DecimalFormat("0.00");
+			
+		
+			
 			Row displayRow = sheet.createRow(headRow);
 			Cell headCell = displayRow.createCell(0);
 			Object value = dataMap.containsKey("FROM_UPDATED_DATE") ? dataMap.get("FROM_UPDATED_DATE") : "";
@@ -168,8 +173,39 @@ public class PurchasePriceValueForCurrentStockExcel extends ReportsExcelUtility 
 			headCell=displayRow.createCell(3);
 			headCell.setCellValue(String.valueOf(value));
 			
+			headCell = displayRow.createCell(4);
+			double totalPurchaseValue = purchaseMarginList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("PURCHASE_VALUE")?String.valueOf(mapper.get("PURCHASE_VALUE")):"0")).sum(); 
+			headCell.setCellValue("Total Pur. Value  :   ");
+			headCell=displayRow.createCell(5);
+			headCell.setCellValue(totalPurchaseValue);
+			
+			double threshHoldBreakNew=0.00;
+			if(dataMap.containsKey("THRESHHOLD_VALUE")) {
+				
+				double threshHoldBreak=Double.parseDouble(String.valueOf(dataMap.get("THRESHHOLD_VALUE")));
+				if(totalPurchaseValue>threshHoldBreak) {
+					threshHoldBreakNew=totalPurchaseValue-threshHoldBreak;
+				}else {
+					threshHoldBreakNew=threshHoldBreak-totalPurchaseValue;
+				}
+			}
+			
+			
+			headCell = displayRow.createCell(6);
+			String threshholdValue=dataMap.containsKey("THRESHHOLD_VALUE")?df.format(dataMap.get("THRESHHOLD_VALUE")):"";
+			headCell.setCellValue("Threshhold Value  :   ");
+			headCell=displayRow.createCell(7);
+			headCell.setCellValue(String.valueOf(threshholdValue));
+			
+			headCell = displayRow.createCell(8);
+			String thBreak=df.format(threshHoldBreakNew);
+			headCell.setCellValue("TH Break  :   ");
+			headCell=displayRow.createCell(9);
+			headCell.setCellValue(String.valueOf(thBreak));
+			
 			for (Map<String, Object> rowData : purchaseMarginList) {
 										
+				
 				Row dataRow = sheet.createRow(rowNum++);
 				value =  String.valueOf(purchaseMarginList.indexOf(rowData) + 1);
 				cell = dataRow.createCell(0);
