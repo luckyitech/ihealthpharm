@@ -31,6 +31,7 @@ import com.ihealthpharm.masters.dto.ItemSupplierDTO;
 import com.ihealthpharm.masters.helper.ItemPropertyHelper;
 import com.ihealthpharm.masters.helper.SupplierHelper;
 import com.ihealthpharm.masters.model.SupplierModel;
+import com.ihealthpharm.stock.dto.QuotationDTO;
 import com.ihealthpharm.stock.helper.MediaTypeUtils;
 import com.ihealthpharm.stock.helper.QuotationHelper;
 import com.ihealthpharm.stock.model.QuotationModel;
@@ -681,4 +682,34 @@ public class QuotationController {
 		return new BaseDto<>(model, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
 	
+	
+	/**
+	 * @author tarun 
+	 * Service is to get the  Quoations for po
+	 */
+	@GetMapping("/getLimitedQuotations/ForPO")
+	public ResponseEntity<BaseDto<List<QuotationDTO>>> getQuotationsForPO( @RequestParam Integer start, @RequestParam Integer end) {
+		List<QuotationDTO> model = quotationService.getLimitedQuotationsForPO(start,end);
+		return new BaseDto<>(model, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author tarun 
+	 * Service is to get the  Quoations for po
+	 */
+	@GetMapping("/getQuotation/ForPO")
+	public ResponseEntity<BaseDto<QuotationModel>> getQuotationDataForPO( @RequestParam Integer quotationId) {
+		QuotationModel model = quotationService.getQuotationDataForPO(quotationId);
+		return new BaseDto<>(model, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author tarun 
+	 * Service is to get the  Quoations for po on Qtn search
+	 */
+	@GetMapping("/getQuotations/ForPO/byQtnNoSearch")
+	public ResponseEntity<BaseDto<List<QuotationDTO>>> getQuotationsForPOBySearch( @RequestParam String quotationNo) {
+		List<QuotationDTO> model = quotationService.getQuotationsForPOBySearch(quotationNo);
+		return new BaseDto<>(model, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
+	}
 }
