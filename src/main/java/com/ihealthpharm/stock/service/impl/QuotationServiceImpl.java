@@ -8,6 +8,8 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import com.ihealthpharm.exception.IHealthPharmException;
@@ -21,6 +23,7 @@ import com.ihealthpharm.stock.dao.QuotationItemStatusRepository;
 import com.ihealthpharm.stock.dao.QuotationItemsRepository;
 import com.ihealthpharm.stock.dao.QuotationRepository;
 import com.ihealthpharm.stock.dao.QuotationStatusRepository;
+import com.ihealthpharm.stock.dto.QuotationDTO;
 import com.ihealthpharm.stock.helper.QuotationHelper;
 import com.ihealthpharm.stock.model.QuotationItemsModel;
 import com.ihealthpharm.stock.model.QuotationModel;
@@ -458,24 +461,6 @@ public class QuotationServiceImpl implements QuotationService {
 		QuotationStatusModel quotationStatusModel  = quotationStatusRepository.findByStatus(quotationstatus);
 		quotationModel.setQuotationStatusModel(quotationStatusModel);
 
-		/*EmployeeModel createdBy = quotationRepository.findByEmployeeId(quotationModel.getCreatedId());
-			quotationModel.setCreatedBy(createdBy);
-
-			EmployeeModel modifiedBy = quotationRepository.findByEmployeeId(quotationModel.getModifiedId());
-			quotationModel.setModifiedBy(modifiedBy);
-
-			EmployeeModel approvedBy = quotationRepository.findByEmployeeId(quotationModel.getApprovedId());
-			quotationModel.setApprovedBy(approvedBy);
-
-			EmployeeModel requestedBy = quotationRepository.findByEmployeeId(quotationModel.getRequestedId());
-			quotationModel.setRequestedby(requestedBy);
-
-			EmployeeModel rejectedBy = quotationRepository.findByEmployeeId(quotationModel.getRejectedId());
-			quotationModel.setRejectedBy(rejectedBy);
-
-			EmployeeModel sentBy = quotationRepository.findByEmployeeId(quotationModel.getSentId());
-			quotationModel.setSentBy(sentBy);*/
-
 		QuotationModel quotationres = quotationRepository.save(quotationModel);
 
 		for(QuotationItemsModel q : quotationItemsModels) {
@@ -522,12 +507,9 @@ public class QuotationServiceImpl implements QuotationService {
 
 	@Override
 	public QuotationModel saveSupplierRejectedQuotation(@Valid QuotationModel quotationModel, String quotationstatus) {
-		System.out.println("0000000000000000000000000000000000000000000000000000");
-		System.out.println(quotationstatus);
 		List<QuotationItemsModel> quotationItemsModels = quotationModel.getQuotationItems();
 
 		QuotationStatusModel quotationStatusModel  = quotationStatusRepository.findByStatus(quotationstatus);
-		System.out.println(quotationStatusModel);
 		quotationModel.setQuotationStatusModel(quotationStatusModel);
 
 		QuotationModel quotationres = quotationRepository.save(quotationModel);
@@ -609,6 +591,23 @@ public class QuotationServiceImpl implements QuotationService {
 			q.setSupplierMailRejecterName(quotationRepository.rejectededMailQuotationUser(q.getQuotationId()));
 		}
 		return quotationModels;
+	}
+
+	@Override
+	public List<QuotationDTO> getLimitedQuotationsForPO(Integer start,Integer end) {
+		Pageable limit=PageRequest.of(start, end);
+		List<QuotationDTO> response=quotationRepository.getLimitedQtnsForPO(limit);
+		return response;
+	}
+
+	@Override
+	public QuotationModel getQuotationDataForPO(Integer quotationId) {
+		return quotationRepository.getQuotationData(quotationId);
+	}
+
+	@Override
+	public List<QuotationDTO> getQuotationsForPOBySearch(String quotationNo) {
+		return quotationRepository.getQtnsForPOBySearch(quotationNo);
 	}
 
 
