@@ -99,8 +99,6 @@ public class QuotationModel extends AuditModel {
 	@Column(name = "QUOTATION_EXPIRY_DT")
 	private Date quotationExpiryDt;
 
-
-
 	@Column(name = "QUOTATION_NO", length = 20)
 	private String quotationNo;
 

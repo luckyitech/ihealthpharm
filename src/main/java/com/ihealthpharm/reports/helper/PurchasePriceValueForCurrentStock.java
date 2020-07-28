@@ -70,6 +70,7 @@ public class PurchasePriceValueForCurrentStock extends ReportsPDFUtility{
 		totalQtyTable.getDefaultCell().setBorder(0); 
 		
 		String totPurValue=df.format(purchaseValue);
+		
 		//Double totalPurchaseValue=Double.parseDouble(totPurValue);
 		
 		PdfPCell nameCell = new PdfPCell(new Phrase("Total Purchase Value"+" "+" : "+"	"+totPurValue, title08)); 
@@ -85,11 +86,31 @@ public class PurchasePriceValueForCurrentStock extends ReportsPDFUtility{
 		document.add(totalQtyTable);
 	
 	}
-	private void createTable(Document document, ReportsMappingModel model, List<Map<String, Object>> accountPayablesList,Map<String,Object> dataMap) throws DocumentException {
+	private void createTable(Document document,ReportsMappingModel model, List<Map<String, Object>> accountPayablesList,Map<String,Object> dataMap) throws DocumentException {
 
 		String reportHeader = model.getReportHeader();
 		List<HeaderDto> headerList = JsonUtility.jsonToList(reportHeader, HeaderDto.class);
 
+		DecimalFormat df=new DecimalFormat("0.00");
+		double purchaseValue;
+		double threshHoldBreakNew=0.00;
+		
+		purchaseValue  = accountPayablesList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("PURCHASE_VALUE") && !ObjectUtils.isEmpty(mapper.get("PURCHASE_VALUE"))) ?String.valueOf(mapper.get("PURCHASE_VALUE")):"0")).sum();  
+   
+		String totPurValue=df.format(purchaseValue);
+		String threshholdValue=dataMap.containsKey("THRESHHOLD_VALUE")?df.format(dataMap.get("THRESHHOLD_VALUE")):" ";
+		
+		if(dataMap.containsKey("THRESHHOLD_VALUE")) {
+			
+			double threshHoldBreak=Double.parseDouble(String.valueOf(dataMap.get("THRESHHOLD_VALUE")));
+			if(purchaseValue>threshHoldBreak) {
+				threshHoldBreakNew=purchaseValue-threshHoldBreak;
+			}else {
+				threshHoldBreakNew=threshHoldBreak-purchaseValue;
+			}
+		}
+		
+		String thBreak=df.format(threshHoldBreakNew);
 		
 		PdfPTable finalTable = new PdfPTable(1);
 		finalTable.setTotalWidth(500);
@@ -98,7 +119,9 @@ public class PurchasePriceValueForCurrentStock extends ReportsPDFUtility{
 		finalTable.getDefaultCell().setBorder(0); 
 		
 		PdfPTable supllierNameTable = new PdfPTable(2);
-		PdfPCell nameCell = new PdfPCell(new Phrase("From Date : "+String.valueOf(dataMap.get("FROM_UPDATED_DATE"))+"        "+"To Date   : "+String.valueOf(dataMap.get("TO_UPDATED_DATE")), title08)); 
+		PdfPCell nameCell = new PdfPCell(new Phrase("From Date  : "+String.valueOf(dataMap.get("FROM_UPDATED_DATE"))+  "       "
+				+ "To Date  :  "+String.valueOf(dataMap.get("TO_UPDATED_DATE"))+"         "+"Total Pur. Value   : "+totPurValue+"         "+"Threshhold Value   : "+threshholdValue+"                "+"TH Break   : "+thBreak, title08)); 
+		
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		nameCell.setVerticalAlignment(Element.ALIGN_TOP);
@@ -327,6 +350,7 @@ public class PurchasePriceValueForCurrentStock extends ReportsPDFUtility{
 				//}
 			}
 		}
+		
 		
 		finalTable.addCell(supllierNameTable);
 		finalTable.addCell(table); 
