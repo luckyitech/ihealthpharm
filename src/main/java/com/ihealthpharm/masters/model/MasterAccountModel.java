@@ -1,7 +1,8 @@
 package com.ihealthpharm.masters.model;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,16 +32,27 @@ public class MasterAccountModel extends AuditModel {
 	@Column(name="CREDIT_NUMBER",nullable = false)
 	private String creditNumber;
 	
+	@Column(name="CREDIT_LIMIT",nullable = false)
+	private Integer creditLimit;
+	
+	@Column(name="CREDIT_DAYS",nullable = false)
+	private Integer creditDays;
+	
+	@Column(name="CREDIT_LIMIT_LEFT")
+	private Integer creditLimitLeft;
+	
+	@Column(name="CREDIT_DAYS_LEFT")
+	private Integer creditDaysLeft;
+	
 	@OneToOne
 	@JoinColumn(name="CUSTOMER_ID")
 	private CustomerModel customerId;
 	
-	@OneToOne
-	@JoinColumn(name="PHARMACY_ID")
-	private PharmacyModel pharmacyModel;
+	@Column(name="PHARMACY_ID")
+	private Integer pharmacyId;
 	
+	@JsonManagedReference
 	 @OneToMany(cascade = CascadeType.ALL,
-	            fetch = FetchType.LAZY,
-	            mappedBy = "masterAccountId")
-	private Set<FamilyAccountModel> familyAccounts = new HashSet<>();
+	            mappedBy = "masterAccountId",orphanRemoval = true)
+	private List<FamilyAccountModel> familyAccounts = new ArrayList<>();
 }

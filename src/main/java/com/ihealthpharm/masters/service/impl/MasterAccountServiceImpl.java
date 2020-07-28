@@ -7,14 +7,18 @@ import java.util.Objects;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
+import com.ihealthpharm.masters.dao.FamilyAccountRepository;
 import com.ihealthpharm.masters.dao.MasterAccountRepository;
 import com.ihealthpharm.masters.helper.MasterAccountHelper;
+import com.ihealthpharm.masters.model.CustomerModel;
+import com.ihealthpharm.masters.model.FamilyAccountModel;
 import com.ihealthpharm.masters.model.MasterAccountModel;
-import com.ihealthpharm.masters.model.MembershipModel;
 import com.ihealthpharm.masters.service.MasterAccountService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +30,9 @@ public class MasterAccountServiceImpl implements MasterAccountService {
 
 	@Autowired
 	MasterAccountRepository masterAccountRepository;
+	
+	@Autowired
+	FamilyAccountRepository familyAccountRepository;
 	
 	@Autowired
 	MasterAccountHelper masterAccountHelper;
@@ -44,6 +51,9 @@ public class MasterAccountServiceImpl implements MasterAccountService {
 		if (!Objects.nonNull(masterAccountRes)) {
 			throw new IHealthPharmException(masterAccountHelper.getNotFoundMasterAccountMessage(), HttpStatus.NOT_FOUND);
 		}
+		for(FamilyAccountModel familyAccountModel:masterAccountRes.getFamilyAccounts()) {
+			familyAccountRepository.delete(familyAccountModel);
+		}
 		masterAccountRes = masterAccountRepository.save(masterAccount);
 		log.info("Membership data with ID : " + masterAccountHelper.getRetrieveMasterAccountMessage() + " updated succesfully");
 		
@@ -51,21 +61,28 @@ public class MasterAccountServiceImpl implements MasterAccountService {
 	}
 
 	@Override
-	public void delete(MasterAccountModel masterAccount) {
-		// TODO Auto-generated method stub
+	public void delete(Integer masterAccountId) {
+		MasterAccountModel masterAccount = new MasterAccountModel();
+		masterAccount.setMasterAccountId(masterAccountId);
+		masterAccountRepository.delete(masterAccount);
 
 	}
 
 	@Override
 	public MasterAccountModel findById(Integer masterAccountId) {
-		// TODO Auto-generated method stub
-		return null;
+		MasterAccountModel masterAccountRes = getValidMembership(masterAccountId);
+
+		if (!Objects.nonNull(masterAccountRes)) {
+			throw new IHealthPharmException(masterAccountHelper.getNotFoundMasterAccountMessage(), HttpStatus.NOT_FOUND);
+		}
+		
+		return masterAccountRes;
 	}
 
 	@Override
 	public List<MasterAccountModel> findByAll() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return masterAccountRepository.findAll();
 	}
 
 	private MasterAccountModel getValidMembership(Integer masterAccountId) {
@@ -76,5 +93,36 @@ public class MasterAccountServiceImpl implements MasterAccountService {
 		} catch (NoSuchElementException noSuchElementException) {
 			throw new IHealthPharmException(masterAccountHelper.getNotFoundMasterAccountMessage(), HttpStatus.NOT_FOUND);
 		}
+	}
+
+	@Override
+	public List<CustomerModel> getCustomersList() {
+		 Pageable limit=new PageRequest(0, 100);
+		return masterAccountRepository.findCustomersNotInMastersAndFamily(limit);
+	}
+
+	@Override
+	public List<CustomerModel> getCustomersListbyName(String name) {
+		Pageable limit=new PageRequest(0, 100);
+		return masterAccountRepository.findCustomersByNameNotInMastersAndFamily(name,limit);
+	}
+
+	@Override
+	public MasterAccountModel getMasterByCustomer(Integer customerId) {
+		CustomerModel customerModel = new CustomerModel();
+		customerModel.setCustomerId(customerId);
+		MasterAccountModel masterAccountRes = masterAccountRepository.findMasterAccountByCustomer(customerModel);
+		
+		if (!Objects.nonNull(masterAccountRes)) {
+			masterAccountRes = masterAccountRepository.findMasterInFamilyAccountByCustomer(customerModel);
+		}
+		
+		return masterAccountRes;
+	}
+
+	@Override
+	public Integer updateMasterAccountByAccountId(Integer masterAccountId, Integer creditLimitLeft) {
+		
+		return masterAccountRepository.updateMasterAccountByAccountId(masterAccountId,creditLimitLeft);
 	}
 }

@@ -40,10 +40,10 @@ public class SalesItemsModel {
     private String batchNo;
 
     @CreationTimestamp
-    @Column(name="CREATION_TS",length=25)
+    @Column(name="CREATION_TS",length=25, updatable = false)
     private LocalDateTime creationTs;
 
-    @Column(name="CREATION_USER_ID",length=50)
+    @Column(name="CREATION_USER_ID",length=50, updatable = false)
     private String creationUserId;
 
     @Column(name="DISCOUNT",length=25)

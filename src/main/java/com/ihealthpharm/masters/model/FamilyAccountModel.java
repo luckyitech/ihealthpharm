@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -26,15 +28,21 @@ public class FamilyAccountModel extends AuditModel{
 	@Column(name="CREDIT_NUMBER",nullable = false)
 	private String creditNumber;
 	
+	@Column(name="CREDIT_LIMIT",nullable = false)
+	private Integer creditLimit;
+	
+	@Column(name="CREDIT_DAYS",nullable = false)
+	private Integer creditDays;
+	
 	@OneToOne
 	@JoinColumn(name="CUSTOMER_ID")
 	private CustomerModel customerId;
 	
-	@OneToOne
-	@JoinColumn(name="PHARMACY_ID")
-	private PharmacyModel pharmacyModel;
+	@Column(name="PHARMACY_ID")
+	private Integer pharmacyId;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonBackReference
+	@ManyToOne
     @JoinColumn(name = "MASTER_ACCOUNT_ID", nullable = false)
 	private MasterAccountModel masterAccountId;
 }
