@@ -2,6 +2,7 @@ package com.ihealthpharm.stock.dao;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.ihealthpharm.masters.dto.ItemSupplierDTO;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.SupplierModel;
+import com.ihealthpharm.stock.dto.QuotationDTO;
 import com.ihealthpharm.stock.model.QuotationModel;
 
 
@@ -177,4 +179,15 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 
 	@Query("select q from  quotation q where q.supplierQtnRejectedBy is not null and q.supplierQtnRejectedDt is not null and  q.quotationNo like :quotationNo% order by q.lastUpdateTimestamp desc")
 	List<QuotationModel> getAllSupplierRejectedMailQuotationsFoSearch(@Param("quotationNo") String quotationNo);
+
+	@Query("select new com.ihealthpharm.stock.dto.QuotationDTO(q.quotationId,concat(q.quotationNo,'  ',SUBSTRING(q.description, 1, 20))) from  quotation q where q.supplierQtnApprovedBy is not null and q.supplierQtnApprovedDt is not null order by q.lastUpdateTimestamp desc")
+	List<QuotationDTO> getLimitedQtnsForPO(Pageable limit);
+
+	@Query("select q from  quotation q where q.supplierQtnApprovedBy is not null and q.supplierQtnApprovedDt is not null and q.quotationId=:quotationId")
+	QuotationModel getQuotationData(@Param("quotationId") Integer quotationId);
+
+	@Query("select new com.ihealthpharm.stock.dto.QuotationDTO(q.quotationId,concat(q.quotationNo,'  ',SUBSTRING(q.description, 1, 20))) from  quotation q where q.supplierQtnApprovedBy is not null and q.supplierQtnApprovedDt is not null and q.quotationNo like :quotationNo% order by q.lastUpdateTimestamp desc")
+	List<QuotationDTO> getQtnsForPOBySearch(@Param("quotationNo") String quotationNo);
+	
+	
 }

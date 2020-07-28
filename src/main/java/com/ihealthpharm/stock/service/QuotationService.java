@@ -4,12 +4,10 @@
 package com.ihealthpharm.stock.service;
 
 import java.util.List;
-
-import javax.validation.Valid;
-
 import com.ihealthpharm.masters.dto.ItemSupplierDTO;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.SupplierModel;
+import com.ihealthpharm.stock.dto.QuotationDTO;
 import com.ihealthpharm.stock.model.QuotationModel;
 
 public interface QuotationService {
@@ -60,7 +58,6 @@ public interface QuotationService {
 	
 	List<ItemSupplierDTO> getItemsByItemCodeOrItemNameorItemDescForQuotation(String itemCode, String itemName, String itemDescription);
 	
-	
 	List<SupplierModel> getSupplierItemsByQuotationIdAndSupplierId(Integer quotationId, List<Integer> suppliersId);
 	
 	List<QuotationModel> getSentQuotationByPharmacy(Integer pharmacyId);
@@ -99,4 +96,10 @@ public interface QuotationService {
 	List<QuotationModel> getSupplierApprovedQuotationSearch(String quotationNo);
 
 	List<QuotationModel> getSupplierRejectedQuotationForSearch(String quotationNo);
+
+	List<QuotationDTO> getLimitedQuotationsForPO(Integer start,Integer end);
+
+	QuotationModel getQuotationDataForPO(Integer quotationId);
+	
+	List<QuotationDTO> getQuotationsForPOBySearch(String quotationNo);
 }
