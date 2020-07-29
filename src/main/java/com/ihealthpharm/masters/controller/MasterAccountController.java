@@ -18,16 +18,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.masters.dto.MasterAccDTO;
 import com.ihealthpharm.masters.helper.MasterAccountHelper;
 import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.masters.model.MasterAccountModel;
 import com.ihealthpharm.masters.service.MasterAccountService;
 
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @CrossOrigin
-@Slf4j
 public class MasterAccountController {
 
 	@Autowired
@@ -95,5 +94,19 @@ public class MasterAccountController {
 		Integer response=masterAccountService.updateMasterAccountByAccountId(masterAccountId,creditLimitLeft);
 		return new BaseDto<>(response,masterAccountHelper.getRetrieveMasterAccountMessage(),OK).respond();
 	}
+	
+	@GetMapping("/get/masterAccountData/forAccRecievables")
+	public ResponseEntity<BaseDto<List<MasterAccDTO>>> getMasterForAccRec(@RequestParam Integer start,@RequestParam Integer end){
+		List<MasterAccDTO> response=masterAccountService.getMastersForRecievables(start, end);
+		return new BaseDto<>(response,masterAccountHelper.getRetrieveMasterAccountMessage(),OK).respond();
+	}
+	
+	
+	@GetMapping("/get/masterAccountData/forAccRecievables/bySearch")
+	public ResponseEntity<BaseDto<List<MasterAccDTO>>> getMasterForAccRecBySearch(@RequestParam String creditNumber){
+		List<MasterAccDTO> response=masterAccountService.getMastersForRecievablesBySearch(creditNumber);
+		return new BaseDto<>(response,masterAccountHelper.getRetrieveMasterAccountMessage(),OK).respond();
+	}
+	
 	
 }

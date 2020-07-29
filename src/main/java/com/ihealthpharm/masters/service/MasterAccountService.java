@@ -2,6 +2,8 @@ package com.ihealthpharm.masters.service;
 
 import java.util.List;
 
+
+import com.ihealthpharm.masters.dto.MasterAccDTO;
 import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.masters.model.MasterAccountModel;
 
@@ -24,4 +26,8 @@ public interface MasterAccountService {
 	public MasterAccountModel getMasterByCustomer(Integer customerId);
 	
 	public Integer updateMasterAccountByAccountId(Integer masterAccountId,Integer creditLimitLeft);
+
+	public List<MasterAccDTO> getMastersForRecievables( Integer start, Integer end);
+
+	public List<MasterAccDTO> getMastersForRecievablesBySearch(String creditNumber);
 }

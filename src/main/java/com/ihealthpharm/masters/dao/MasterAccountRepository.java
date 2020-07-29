@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ihealthpharm.masters.dto.MasterAccDTO;
 import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.masters.model.MasterAccountModel;
 
@@ -33,5 +34,11 @@ public interface MasterAccountRepository extends JpaRepository<MasterAccountMode
 	@Transactional
 	@Query("update master_account set CREDIT_LIMIT_LEFT=:creditLimitLeft where MASTER_ACCOUNT_ID=:masterAccountId")
 	public Integer updateMasterAccountByAccountId(@Param("masterAccountId")Integer masterAccountId, @Param("creditLimitLeft") Integer creditLimitLeft);
+
+	@Query("select new com.ihealthpharm.masters.dto.MasterAccDTO(m.masterAccountId,m.creditNumber) from master_account m order by m.lastUpdateTimestamp desc")
+	public List<MasterAccDTO> getAccounts(Pageable limit);
+	
+	@Query("select new com.ihealthpharm.masters.dto.MasterAccDTO(m.masterAccountId,m.creditNumber) from master_account m where creditNumber like :creditNumber% order by m.lastUpdateTimestamp desc")
+	public List<MasterAccDTO> getAllMastersBySearch(@Param("creditNumber") String creditNumber);
 
 }

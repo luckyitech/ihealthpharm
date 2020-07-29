@@ -3,18 +3,16 @@ package com.ihealthpharm.masters.service.impl;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-
 import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.FamilyAccountRepository;
 import com.ihealthpharm.masters.dao.MasterAccountRepository;
+import com.ihealthpharm.masters.dto.MasterAccDTO;
 import com.ihealthpharm.masters.helper.MasterAccountHelper;
 import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.masters.model.FamilyAccountModel;
@@ -97,13 +95,13 @@ public class MasterAccountServiceImpl implements MasterAccountService {
 
 	@Override
 	public List<CustomerModel> getCustomersList() {
-		 Pageable limit=new PageRequest(0, 100);
+		 Pageable limit=PageRequest.of(0, 100);
 		return masterAccountRepository.findCustomersNotInMastersAndFamily(limit);
 	}
 
 	@Override
 	public List<CustomerModel> getCustomersListbyName(String name) {
-		Pageable limit=new PageRequest(0, 100);
+		Pageable limit= PageRequest.of(0, 100);
 		return masterAccountRepository.findCustomersByNameNotInMastersAndFamily(name,limit);
 	}
 
@@ -124,5 +122,16 @@ public class MasterAccountServiceImpl implements MasterAccountService {
 	public Integer updateMasterAccountByAccountId(Integer masterAccountId, Integer creditLimitLeft) {
 		
 		return masterAccountRepository.updateMasterAccountByAccountId(masterAccountId,creditLimitLeft);
+	}
+
+	@Override
+	public List<MasterAccDTO> getMastersForRecievables( Integer start, Integer end) {
+		Pageable limit = PageRequest.of(start, end);
+		return masterAccountRepository.getAccounts(limit);
+	}
+
+	@Override
+	public List<MasterAccDTO> getMastersForRecievablesBySearch(String creditNumber) {
+		return masterAccountRepository.getAllMastersBySearch(creditNumber);
 	}
 }
