@@ -134,4 +134,28 @@ public class MasterAccountServiceImpl implements MasterAccountService {
 	public List<MasterAccDTO> getMastersForRecievablesBySearch(String creditNumber) {
 		return masterAccountRepository.getAllMastersBySearch(creditNumber);
 	}
+
+	@Override
+	public List<String> getMastersAccountNoBySearch(String creditNo) {
+		
+		return masterAccountRepository.getMasterAccountNoBySearch(creditNo);
+	}
+
+	@Override
+	public List<String> getAllMastersAccountNo() {
+		
+		return masterAccountRepository.getAllMasterAccountNo();
+	}
+
+	@Override
+	public List<String> getMastersAccountCustomerBySearch(String name) {
+		
+		return masterAccountRepository.getMastersAccountCustomers(name);
+	}
+
+	@Override
+	public List<String> getFamilyAccountCustomerBySearch(String name) {
+		// TODO Auto-generated method stub
+		return masterAccountRepository.getFamilyAccountCustomers(name);
+	}
 }
