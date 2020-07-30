@@ -24,7 +24,7 @@ import org.springframework.util.ObjectUtils;
 import com.ihealthpharm.reports.model.ReportsMappingModel;
 
 @Component
-public class CustomerMembershipExcel extends ReportsExcelUtility{
+public class OutstandingReceivablesByAccountExcel extends ReportsExcelUtility{
 
 
 	public void generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile,String inputJson) {
@@ -75,7 +75,7 @@ public class CustomerMembershipExcel extends ReportsExcelUtility{
 		
 		
 		Map<String, List<Map<String, Object>>> salesProductMap = responseList.stream()
-				.collect(Collectors.groupingBy(map -> (String) map.get("CREDIT_NUMBER")));			
+				.collect(Collectors.groupingBy(map -> (String) map.get("MASTER_ACC_NO")));			
 		
 		
 		setHeader(workbook,sheet,model);
@@ -108,7 +108,7 @@ public class CustomerMembershipExcel extends ReportsExcelUtility{
 		
 		cell = dataRow.createCell(12);
 		
-		cell.setCellValue("Outstanding Amt : ");
+		cell.setCellValue("Total Outstanding Amt : ");
 		
 		cell = dataRow.createCell(13);
 		
@@ -144,45 +144,50 @@ public class CustomerMembershipExcel extends ReportsExcelUtility{
 			
 			
 			cell = headerRow.createCell(4);
-			cell.setCellValue("MASTER");
+			cell.setCellValue("BILL CODE");
 			cell.setCellStyle(headerStyle);	
 			
 			
 			cell = headerRow.createCell(5);
-			cell.setCellValue("FAMILY");
+			cell.setCellValue("PAYMENT STATUS");
 			cell.setCellStyle(headerStyle);	
 			
 			
 			cell = headerRow.createCell(6);
-			cell.setCellValue("AMT REC");
-			cell.setCellStyle(headerStyle);	
-			
-			cell = headerRow.createCell(7);
-			cell.setCellValue("AMT TO BE REC");
-			cell.setCellStyle(headerStyle);	
-			
-			cell = headerRow.createCell(8);
-			cell.setCellValue("PAYMENT STATUS");
-			cell.setCellStyle(headerStyle);	
-			
-			cell = headerRow.createCell(9);
 			cell.setCellValue("SOURCE TYPE");
 			cell.setCellStyle(headerStyle);	
 			
+			cell = headerRow.createCell(7);
+			cell.setCellValue("CUSTOMER");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(8);
+			cell.setCellValue("NET AMT");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(9);
+			cell.setCellValue("AMT REC");
+			cell.setCellStyle(headerStyle);	
+			
 			cell = headerRow.createCell(10);
-			cell.setCellValue("CREDIT DAYS%");
+			cell.setCellValue("OUTSTANDING BAL");
+			cell.setCellStyle(headerStyle);	
+			
+			
+			cell = headerRow.createCell(11);
+			cell.setCellValue("CREDIT DAYS");
 			cell.setCellStyle(headerStyle);	
 			
 
-			cell = headerRow.createCell(11);
+			cell = headerRow.createCell(12);
 			cell.setCellValue("CREDIT LIMIT");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(12);
+			cell = headerRow.createCell(13);
 			cell.setCellValue("CREDIT DAYS LEFT");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(13);
+			cell = headerRow.createCell(14);
 			cell.setCellValue("CREDIT LIMIT LEFT");
 			cell.setCellStyle(headerStyle);	
 			
@@ -191,7 +196,7 @@ public class CustomerMembershipExcel extends ReportsExcelUtility{
 			for (Map<String, Object> rowData : productList) {
 				
 				Cell headCell = displayRow.createCell(0);
-				Object value = rowData.containsKey("CREDIT_NUMBER") ? rowData.get("CREDIT_NUMBER") : "";
+				Object value = rowData.containsKey("MASTER_ACC_NO") ? rowData.get("MASTER_ACC_NO") : "";
 				headCell.setCellValue("Account No  :   ");
 				headCell=displayRow.createCell(1);
 				headCell.setCellValue(String.valueOf(value));
@@ -203,7 +208,7 @@ public class CustomerMembershipExcel extends ReportsExcelUtility{
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("CREDIT_NUMBER") ? rowData.get("CREDIT_NUMBER") : "";
+				value = rowData.containsKey("MASTER_ACC_NO") ? rowData.get("MASTER_ACC_NO") : "";
 				cell = dataRow.createCell(1);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
@@ -220,53 +225,59 @@ public class CustomerMembershipExcel extends ReportsExcelUtility{
 				cell.setCellStyle(borderStyle);
 							
 				
-				value = rowData.containsKey("MASTER") ? rowData.get("MASTER") : "";
+				value = rowData.containsKey("SOURCE_REF") ? rowData.get("SOURCE_REF") : "";
 				cell = dataRow.createCell(4);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 
-				value = rowData.containsKey("FAMILY") ? rowData.get("FAMILY") : "";
+				value = rowData.containsKey("PAYMENT_STATUS") ? rowData.get("PAYMENT_STATUS") : "";
 				cell = dataRow.createCell(5);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("AMOUNT_RECEIVED") ? rowData.get("AMOUNT_RECEIVED") : "";
+				value = rowData.containsKey("SOURCE_TYPE") ? rowData.get("SOURCE_TYPE") : "";
 				cell = dataRow.createCell(6);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("CUSTOMER_NAME") ? rowData.get("CUSTOMER_NAME") : "";
+				cell = dataRow.createCell(7);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("NET_AMOUNT") ? rowData.get("NET_AMOUNT") : "";
+				cell = dataRow.createCell(8);
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("AMOUNT_RECEIVED") ? rowData.get("AMOUNT_RECEIVED") : "";
+				cell = dataRow.createCell(9);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("AMOUNT_TO_BE_RECEIVED") ? rowData.get("AMOUNT_TO_BE_RECEIVED") : "";
-				cell = dataRow.createCell(7);
+				cell = dataRow.createCell(10);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("PAYMENT_STATUS") ? rowData.get("PAYMENT_STATUS") : "";
-				cell = dataRow.createCell(8);
-				cell.setCellValue(String.valueOf(value));
-				cell.setCellStyle(borderStyle);
-				
-				value = rowData.containsKey("SOURCE_TYPE") ? rowData.get("SOURCE_TYPE") : "";
-				cell = dataRow.createCell(9);
-				cell.setCellValue(String.valueOf(value));
-				cell.setCellStyle(borderStyle);
-				
+			
 				value = rowData.containsKey("CREDIT_DAYS") ? rowData.get("CREDIT_DAYS") : "";
-				cell = dataRow.createCell(10);
-				cell.setCellValue(String.valueOf(value));
-				cell.setCellStyle(borderStyle);
-				
-				value = rowData.containsKey("CREDIT_LIMIT") ? rowData.get("CREDIT_LIMIT") : "";
 				cell = dataRow.createCell(11);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("CREDIT_DAYS_LEFT") ? rowData.get("CREDIT_DAYS_LEFT") : "";
+				value = rowData.containsKey("CREDIT_LIMIT") ? rowData.get("CREDIT_LIMIT") : "";
 				cell = dataRow.createCell(12);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("CREDIT_LIMIT_LEFT") ? rowData.get("CREDIT_LIMIT_LEFT") : "";
+				value = rowData.containsKey("CREDIT_DAYS_LEFT") ? rowData.get("CREDIT_DAYS_LEFT") : "";
 				cell = dataRow.createCell(13);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("CREDIT_LIMIT_LEFT") ? rowData.get("CREDIT_LIMIT_LEFT") : "";
+				cell = dataRow.createCell(14);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 			}
@@ -281,11 +292,11 @@ public class CustomerMembershipExcel extends ReportsExcelUtility{
 				
 				cell1.setCellValue("");
 				
-				cell1= dataRow1.createCell(12);
+				cell1= dataRow1.createCell(14);
 				
-				cell1.setCellValue("Outstanding Amount : ");
+				cell1.setCellValue("Total Outstanding Amount : ");
 				
-				cell1 = dataRow1.createCell(13);
+				cell1 = dataRow1.createCell(15);
 				
 				cell1.setCellValue(totalAmount);
 				

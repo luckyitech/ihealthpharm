@@ -26,7 +26,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 @Component
-public class CustomerMembershipPdf extends ReportsPDFUtility{
+public class OutstandingReceivablesByAccountPdf extends ReportsPDFUtility{
 	
 	@Override
 	public Document generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model,
@@ -41,7 +41,7 @@ public class CustomerMembershipPdf extends ReportsPDFUtility{
 			document.open();
 			
 			Map<String, List<Map<String, Object>>> salesProductMap = responseList.stream()
-					.collect(Collectors.groupingBy(map -> (String) map.get("CREDIT_NUMBER")));			
+					.collect(Collectors.groupingBy(map -> (String) map.get("MASTER_ACC_NO")));			
 			
 			
 			if(!ObjectUtils.isEmpty(salesProductMap)) { 
@@ -122,9 +122,9 @@ public class CustomerMembershipPdf extends ReportsPDFUtility{
 		supllierNameTable.getDefaultCell().setBorder(0); 
 		
 		
-		PdfPTable table = new PdfPTable(14);
-		table.setTotalWidth(500);
-		table.setWidths(new int[] {20,40,40,40,40,40,40,40,40,40,30,30,30,30});
+		PdfPTable table = new PdfPTable(15);
+		table.setTotalWidth(530);
+		table.setWidths(new int[] {20,40,40,40,40,40,40,40,35,35,40,30,30,30,30});
 		table.setWidthPercentage(50);
 		table.setLockedWidth(true);
 		PdfPCell cell = null;
@@ -173,37 +173,7 @@ public class CustomerMembershipPdf extends ReportsPDFUtility{
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("MASTER");
-			cell = new PdfPCell(headerCell);
-			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-			if (!model.isShowVerticalLines())
-				cell.setBorder(Rectangle.BOTTOM);
-			
-			table.addCell(cell);
-			
-			headerCell = new Paragraph();
-			headerCell.setFont(headerFont);
-			headerCell.add("FAMILY");
-			cell = new PdfPCell(headerCell);
-			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-			if (!model.isShowVerticalLines())
-				cell.setBorder(Rectangle.BOTTOM);
-			
-			table.addCell(cell);
-			
-			headerCell = new Paragraph();
-			headerCell.setFont(headerFont);
-			headerCell.add("AMT REC");
-			cell = new PdfPCell(headerCell);
-			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-			if (!model.isShowVerticalLines())
-				cell.setBorder(Rectangle.BOTTOM);
-			
-			table.addCell(cell);
-			
-			headerCell = new Paragraph();
-			headerCell.setFont(headerFont);
-			headerCell.add("AMT TO BE REC");
+			headerCell.add("BILL CODE");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
@@ -231,6 +201,45 @@ public class CustomerMembershipPdf extends ReportsPDFUtility{
 			
 			table.addCell(cell);
 			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("CUSTOMER");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("NET AMT");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("AMT REC");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("OUTSTANDING BAL");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
@@ -287,7 +296,7 @@ public class CustomerMembershipPdf extends ReportsPDFUtility{
 
 				table.addCell(cell);
 				
-				value = rowData.containsKey("CREDIT_NUMBER") ? rowData.get("CREDIT_NUMBER") : "";
+				value = rowData.containsKey("MASTER_ACC_NO") ? rowData.get("MASTER_ACC_NO") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
@@ -311,31 +320,7 @@ public class CustomerMembershipPdf extends ReportsPDFUtility{
 
 				table.addCell(cell);
 					
-				value = rowData.containsKey("MASTER") ? rowData.get("MASTER") : "";
-				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				if (!model.isShowVerticalLines())
-					cell.setBorder(Rectangle.BOTTOM);
-
-				table.addCell(cell);
-				
-				value = rowData.containsKey("FAMILY") ? rowData.get("FAMILY") : "";
-				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				if (!model.isShowVerticalLines())
-					cell.setBorder(Rectangle.BOTTOM);
-
-				table.addCell(cell);
-				
-				value = rowData.containsKey("AMOUNT_RECEIVED") ? rowData.get("AMOUNT_RECEIVED") : "";
-				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				if (!model.isShowVerticalLines())
-					cell.setBorder(Rectangle.BOTTOM);
-
-				table.addCell(cell);
-				
-				value = rowData.containsKey("AMOUNT_TO_BE_RECEIVED") ? rowData.get("AMOUNT_TO_BE_RECEIVED") : "";
+				value = rowData.containsKey("SOURCE_REF") ? rowData.get("SOURCE_REF") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
@@ -352,6 +337,38 @@ public class CustomerMembershipPdf extends ReportsPDFUtility{
 				table.addCell(cell);
 				
 				value = rowData.containsKey("SOURCE_TYPE") ? rowData.get("SOURCE_TYPE") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("CUSTOMER_NAME") ? rowData.get("CUSTOMER_NAME") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("NET_AMOUNT") ? rowData.get("NET_AMOUNT") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("AMOUNT_RECEIVED") ? rowData.get("AMOUNT_RECEIVED") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("AMOUNT_TO_BE_RECEIVED") ? rowData.get("AMOUNT_TO_BE_RECEIVED") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
