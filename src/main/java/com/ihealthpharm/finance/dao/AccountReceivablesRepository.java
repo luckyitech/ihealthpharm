@@ -62,41 +62,41 @@ public interface AccountReceivablesRepository extends JpaRepository<AccountRecei
 		// popup searches
 		
 		@Query("select ac from account_receivables ac where ac.receiptDate BETWEEN :start and :end and  ac.SourceRef like :sourceRef%  and "
-				+ " ac.customerName=:customerName and ac.paymentStatus=:paymentStatus  order by ac.lastUpdateTimestamp desc")
+				+ " ac.customerName like %:customerName% and ac.paymentStatus=:paymentStatus  order by ac.lastUpdateTimestamp desc")
 		List<AccountReceivablesModel> findAccReceivablesSearchByStatusSearchDate(@Param("start") LocalDate start,
 				@Param("end") LocalDate end, @Param("sourceRef") String sourceRef, @Param("customerName") String customerName,@Param("paymentStatus") String paymentStatus, Pageable limit);
 		
 		@Query("select ac from account_receivables ac where ac.SourceRef like :sourceRef%  and "
-				+ " ac.customerName=:customerName and ac.receiptDate BETWEEN :start and :end order by ac.lastUpdateTimestamp desc")
+				+ " ac.customerName like %:customerName% and ac.receiptDate BETWEEN :start and :end order by ac.lastUpdateTimestamp desc")
 		List<AccountReceivablesModel> findAccRecievableSearchByStatusSearchDateAndSourceRef(@Param("start") LocalDate start,
 				@Param("end") LocalDate end, @Param("sourceRef") String sourceRef, @Param("customerName") String customerName, Pageable limit);
 		
 		@Query("select ac from account_receivables ac where "
-				+ " ac.customerName=:customerName and ac.receiptDate BETWEEN :start and :end order by ac.lastUpdateTimestamp desc")
+				+ " ac.customerName like %:customerName% and ac.receiptDate BETWEEN :start and :end order by ac.lastUpdateTimestamp desc")
 		List<AccountReceivablesModel> findAccRecievableSearchByStatusSearchDates(@Param("start") LocalDate start,@Param("end") LocalDate end,
 				@Param("customerName") String customerName, Pageable limit);
 		
 		@Query("select ac from account_receivables ac where ac.paymentStatus=:paymentStatus and"
-				+ " ac.customerName=:customerName and ac.receiptDate BETWEEN :start and :end order by ac.lastUpdateTimestamp desc")
+				+ " ac.customerName like %:customerName% and ac.receiptDate BETWEEN :start and :end order by ac.lastUpdateTimestamp desc")
 		List<AccountReceivablesModel> findAccRecievablesSearchByStatusSearchDatesAndStatus(@Param("paymentStatus") String paymentStatus,@Param("start") LocalDate start,
 				@Param("end") LocalDate end, @Param("customerName") String customerName, Pageable limit);
 		
 		@Query("select ac from account_receivables ac where ac.paymentStatus=:paymentStatus and ac.SourceRef like :sourceRef% and  "
-				+ " ac.customerName=:customerName order by ac.lastUpdateTimestamp desc")
+				+ " ac.customerName like %:customerName% order by ac.lastUpdateTimestamp desc")
 		List<AccountReceivablesModel> findAccRecievablesSearchByStatusSearchBasedonStatusAndSourceRef(
 				@Param("paymentStatus") String paymentStatus, @Param("sourceRef") String sourceRef,  @Param("customerName") String customerName, Pageable limit);
 		
 		@Query("select ac from account_receivables ac where ac.paymentStatus=:paymentStatus and ac.SourceRef like :sourceRef%  and  "
-				+ " ac.customerName=:customerName order by ac.lastUpdateTimestamp desc")
+				+ "ac.customerName like %:customerName% order by ac.lastUpdateTimestamp desc")
 		List<AccountReceivablesModel> findAccRecievablesSearchByStatusSearchStatusAndSourceNumber(@Param("paymentStatus") String paymentStatus,
 				@Param("sourceRef") String sourceRef,  @Param("customerName") String customerName, Pageable limit);
 		
 		@Query("select ac from account_receivables ac where  ac.SourceRef like :sourceRef%  and "
-				+ " ac.customerName=:customerName order by ac.lastUpdateTimestamp desc")
+				+ " ac.customerName like %:customerName% order by ac.lastUpdateTimestamp desc")
 		List<AccountReceivablesModel> findAccRecievablesSearchBySourceRef(@Param("sourceRef") String sourceRef,  @Param("customerName") String customerName, Pageable limit);
 	
 		@Query("select ac from account_receivables ac where ac.paymentStatus=:paymentStatus and  "
-				+ " ac.customerName=:customerName order by ac.lastUpdateTimestamp desc")
+				+ " ac.customerName like %:customerName% order by ac.lastUpdateTimestamp desc")
 		List<AccountReceivablesModel> findAccRecievablesSearchByStatus(	@Param("paymentStatus") String paymentStatus,  @Param("customerName") String customerName, Pageable limit);
 		
 		
@@ -105,40 +105,40 @@ public interface AccountReceivablesRepository extends JpaRepository<AccountRecei
 		
 		
 		@Query("select count(ac) from account_receivables ac where ac.receiptDate BETWEEN :start and :end and  ac.SourceRef like :sourceRef%  and "
-				+ " ac.customerName=:customerName and ac.paymentStatus=:paymentStatus  order by ac.lastUpdateTimestamp desc")
+				+ " ac.customerName like %:customerName% and ac.paymentStatus=:paymentStatus  order by ac.lastUpdateTimestamp desc")
 		Integer findAccReceivablesSearchByStatusSearchDateCount(@Param("start") LocalDate start,
 				@Param("end") LocalDate end, @Param("sourceRef") String sourceRef, @Param("customerName") String customerName,@Param("paymentStatus") String paymentStatus);
 		
 		@Query("select count(ac) from account_receivables ac where ac.SourceRef like :sourceRef%  and "
-				+ " ac.customerName=:customerName and ac.receiptDate BETWEEN :start and :end order by ac.lastUpdateTimestamp desc")
+				+ " ac.customerName like %:customerName% and ac.receiptDate BETWEEN :start and :end order by ac.lastUpdateTimestamp desc")
 		Integer findAccRecievableSearchByStatusSearchDateAndSourceRefCount(@Param("start") LocalDate start,
 				@Param("end") LocalDate end, @Param("sourceRef") String sourceRef, @Param("customerName") String customerName);
 		
 		@Query("select count(ac) from account_receivables ac where "
-				+ " ac.customerName=:customerName and ac.receiptDate BETWEEN :start and :end order by ac.lastUpdateTimestamp desc")
+				+ " ac.customerName like %:customerName% and ac.receiptDate BETWEEN :start and :end order by ac.lastUpdateTimestamp desc")
 		Integer findAccRecievableSearchByStatusSearchDatesCount(@Param("start") LocalDate start,@Param("end") LocalDate end,
 				@Param("customerName") String customerName);
 		
 		@Query("select count(ac) from account_receivables ac where ac.paymentStatus=:paymentStatus and"
-				+ " ac.customerName=:customerName and ac.receiptDate BETWEEN :start and :end order by ac.lastUpdateTimestamp desc")
+				+ " ac.customerName like %:customerName% and ac.receiptDate BETWEEN :start and :end order by ac.lastUpdateTimestamp desc")
 		Integer findAccRecievablesSearchByStatusSearchDatesAndStatusCount(@Param("paymentStatus") String paymentStatus,@Param("start") LocalDate start,
 				@Param("end") LocalDate end, @Param("customerName") String customerName);
 		
 		@Query("select count(ac) from account_receivables ac where ac.paymentStatus=:paymentStatus and ac.SourceRef like :sourceRef%  and  "
-				+ " ac.customerName=:customerName order by ac.lastUpdateTimestamp desc")
+				+ " ac.customerName like %:customerName% order by ac.lastUpdateTimestamp desc")
 		Integer findAccRecievablesSearchByStatusSearchBasedonStatusAndSourceRefCount(@Param("paymentStatus") String paymentStatus, @Param("sourceRef") String sourceRef,  @Param("customerName") String customerName );
 		
 		@Query("select count(ac) from account_receivables ac where ac.paymentStatus=:paymentStatus and ac.SourceRef like :sourceRef%  and  "
-				+ " ac.customerName=:customerName order by ac.lastUpdateTimestamp desc")
+				+ " ac.customerName like %:customerName% order by ac.lastUpdateTimestamp desc")
 		Integer findAccRecievablesSearchByStatusSearchStatusAndSourceNumberCount(@Param("paymentStatus") String paymentStatus,
 				@Param("sourceRef") String sourceRef,  @Param("customerName") String customerName );
 		
 		@Query("select count(ac) from account_receivables ac where  ac.SourceRef like :sourceRef%  and "
-				+ " ac.customerName=:customerName order by ac.lastUpdateTimestamp desc")
+				+ " ac.customerName like %:customerName% order by ac.lastUpdateTimestamp desc")
 		Integer findAccRecievablesSearchBySourceRefCount(@Param("sourceRef") String sourceRef,  @Param("customerName") String customerName );
 	
 		@Query("select count(ac) from account_receivables ac where ac.paymentStatus=:paymentStatus and "
-				+ "ac.customerName=:customerName order by ac.lastUpdateTimestamp desc")
+				+ "ac.customerName like %:customerName% order by ac.lastUpdateTimestamp desc")
 		Integer findAccRecievablesSearchByStatusCount(@Param("paymentStatus") String paymentStatus,@Param("customerName") String customerName);
 	
 		@Query("select new com.ihealthpharm.finance.dto.AccRecievablesCustomerDTO(ac.accountReceivablesId,ac.customerName)  from account_receivables ac where ac.activeS='Y' group by ac.customerName")

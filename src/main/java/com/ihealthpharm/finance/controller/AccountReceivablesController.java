@@ -182,6 +182,10 @@ public class AccountReceivablesController {
 				@RequestParam Integer pageNumber,@RequestParam Integer pageSize,@RequestParam String customerName){
 		System.out.println(SourceRef);
 		 System.out.println(paymentStartDate +"-------------------------------------  "+paymentEndDate);
+		 
+		 System.out.println("===================================================================");
+		 System.out.println(paymentStartDate +"-------------------------------------  "+paymentEndDate);
+		 System.out.println(paymentStatus+" 000 0 "+SourceRef);
 			List<AccountReceivablesModel> results=accountReceivablesService.searchInAccRecievables(paymentStatus,paymentStartDate,paymentEndDate,SourceRef,pageNumber,pageSize,customerName);
 			return new BaseDto<>(results,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
 	}
@@ -190,7 +194,9 @@ public class AccountReceivablesController {
 	public ResponseEntity<BaseDto<Integer>> getAllAccRecievablesBasedOnSearchesForCount(
 		@RequestParam String paymentStatus, @RequestParam String paymentStartDate, @RequestParam String paymentEndDate,@RequestParam String SourceRef,
 				@RequestParam Integer pageNumber,@RequestParam Integer pageSize,@RequestParam String customerName){
+		System.out.println("===================================================================");
 		 System.out.println(paymentStartDate +"-------------------------------------  "+paymentEndDate);
+		 System.out.println(paymentStatus+" 000 0 "+SourceRef);
 		 Integer results=accountReceivablesService.searchInAccRecievablesForCount(paymentStatus,paymentStartDate,paymentEndDate,SourceRef,pageNumber,pageSize,customerName);
 			return new BaseDto<>(results,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
 	}
