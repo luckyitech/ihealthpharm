@@ -196,8 +196,8 @@ public class AccountPayablesController {
 	@GetMapping("/getAccPayables/forPopupSearchCount")
 	public ResponseEntity<BaseDto<Integer>> getAllAccPayablesBasedOnSearchesForCount(
 			@RequestParam String selectedPaymentStatus, @RequestParam String paymentStartDate, @RequestParam String paymentEndDate,@RequestParam String invoiceNo,
-			@RequestParam Integer pageNumber,@RequestParam Integer pageSize,@RequestParam String supplierName){
-		Integer results=accountPayablesService.searchInAccPayablesForCount(selectedPaymentStatus,paymentStartDate,paymentEndDate,invoiceNo,pageNumber,pageSize,supplierName);
+			@RequestParam String supplierName){
+		Integer results=accountPayablesService.searchInAccPayablesForCount(selectedPaymentStatus,paymentStartDate,paymentEndDate,invoiceNo,supplierName);
 		return new BaseDto<>(results,accountPayablesHelper.getRetrieveAccountPayablesMessage(),OK).respond();
 	}
 }

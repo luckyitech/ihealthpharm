@@ -284,7 +284,7 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 
 	@Override
 	public Integer searchInAccPayablesForCount(String selectedPaymentStatus, String paymentStartDate,
-			String paymentEndDate, String invoiceNo, Integer pageNumber, Integer pageSize, String supplierName) {
+			String paymentEndDate, String invoiceNo , String supplierName) {
 
 		Integer response=0;
 		
