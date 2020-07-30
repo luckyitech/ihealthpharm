@@ -191,6 +191,8 @@ public class OutstandingReceivablesByAccountExcel extends ReportsExcelUtility{
 			cell.setCellValue("CREDIT LIMIT LEFT");
 			cell.setCellStyle(headerStyle);	
 			
+			Object accOwner=String.valueOf(productList.get(0).get("MASTER"));
+			
 			Row displayRow = sheet.createRow(headRow++);
 			
 			for (Map<String, Object> rowData : productList) {
@@ -201,6 +203,11 @@ public class OutstandingReceivablesByAccountExcel extends ReportsExcelUtility{
 				headCell=displayRow.createCell(1);
 				headCell.setCellValue(String.valueOf(value));
 				
+				Cell headCell1 = displayRow.createCell(2);
+				
+				headCell1.setCellValue("Account Owner  :   ");
+				headCell1=displayRow.createCell(3);
+				headCell1.setCellValue(String.valueOf(accOwner));
 				
 				Row dataRow = sheet.createRow(rowNum++);
 				value =  String.valueOf(productList.indexOf(rowData) + 1);
