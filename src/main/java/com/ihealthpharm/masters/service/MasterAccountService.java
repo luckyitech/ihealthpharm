@@ -30,4 +30,12 @@ public interface MasterAccountService {
 	public List<MasterAccDTO> getMastersForRecievables( Integer start, Integer end);
 
 	public List<MasterAccDTO> getMastersForRecievablesBySearch(String creditNumber);
+
+	public List<String> getMastersAccountNoBySearch(String creditNo);
+
+	public List<String> getAllMastersAccountNo();
+
+	public List<String> getMastersAccountCustomerBySearch(String name);
+
+	public List<String> getFamilyAccountCustomerBySearch(String name);
 }

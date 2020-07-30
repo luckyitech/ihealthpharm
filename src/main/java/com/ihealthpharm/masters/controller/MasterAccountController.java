@@ -108,5 +108,28 @@ public class MasterAccountController {
 		return new BaseDto<>(response,masterAccountHelper.getRetrieveMasterAccountMessage(),OK).respond();
 	}
 	
+	//Member ship report
+	@GetMapping("/getAll/masterAccountNoBySearch")
+	public ResponseEntity<BaseDto<List<String>>> getMasterAccountNoBySearch(@RequestParam String creditNo){
+		List<String> response=masterAccountService.getMastersAccountNoBySearch(creditNo);
+		return new BaseDto<>(response,masterAccountHelper.getRetrieveMasterAccountMessage(),OK).respond();
+	}
 	
+	@GetMapping("/getAll/masterAccountNo")
+	public ResponseEntity<BaseDto<List<String>>> getAllMasterAccountNo(){
+		List<String> response=masterAccountService.getAllMastersAccountNo();
+		return new BaseDto<>(response,masterAccountHelper.getRetrieveMasterAccountMessage(),OK).respond();
+	}
+	
+	@GetMapping("/get/masterAccountCustomerBySearch")
+	public ResponseEntity<BaseDto<List<String>>> getMasterAccountCustomerBySearch(@RequestParam String name){
+		List<String> response=masterAccountService.getMastersAccountCustomerBySearch(name);
+		return new BaseDto<>(response,masterAccountHelper.getRetrieveMasterAccountMessage(),OK).respond();
+	}
+	
+	@GetMapping("/get/familyAccountCustomerBySearch")
+	public ResponseEntity<BaseDto<List<String>>> getMasterAccountFamilyBySearch(@RequestParam String name){
+		List<String> response=masterAccountService.getFamilyAccountCustomerBySearch(name);
+		return new BaseDto<>(response,masterAccountHelper.getRetrieveMasterAccountMessage(),OK).respond();
+	}
 }

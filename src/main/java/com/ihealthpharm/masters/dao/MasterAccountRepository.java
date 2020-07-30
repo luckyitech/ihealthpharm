@@ -41,4 +41,16 @@ public interface MasterAccountRepository extends JpaRepository<MasterAccountMode
 	@Query("select new com.ihealthpharm.masters.dto.MasterAccDTO(m.masterAccountId,m.creditNumber) from master_account m where creditNumber like :creditNumber% order by m.lastUpdateTimestamp desc")
 	public List<MasterAccDTO> getAllMastersBySearch(@Param("creditNumber") String creditNumber);
 
+	@Query("select m.creditNumber from master_account m where m.creditNumber=:creditNo order by m.lastUpdateTimestamp desc")
+	public List<String> getMasterAccountNoBySearch(@Param("creditNo")String creditNo);
+
+	@Query("select m.creditNumber from master_account m order by m.lastUpdateTimestamp desc")
+	public List<String> getAllMasterAccountNo();
+
+	@Query("select concat(c.customerName,' ',c.lastName) from customer c inner join master_account m on c.customerId= m.customerId.customerId and c.customerName like :name% group by c.customerId order by c.customerName")
+	public List<String> getMastersAccountCustomers(@Param("name")String name);
+
+	@Query("select concat(c.customerName,' ',c.lastName) from customer c inner join family_account f on c.customerId= f.customerId.customerId and c.customerName like :name% group by c.customerId order by c.customerName")
+	public List<String> getFamilyAccountCustomers(@Param("name")String name);
+
 }
