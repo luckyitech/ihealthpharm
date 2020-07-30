@@ -103,6 +103,7 @@ public class OutstandingReceivablesByAccountPdf extends ReportsPDFUtility{
 		String reportHeader = model.getReportHeader();
 		List<HeaderDto> headerList = JsonUtility.jsonToList(reportHeader, HeaderDto.class);
 
+		String accOwner=String.valueOf(productList.get(0).get("MASTER"));
 		
 		PdfPTable finalTable = new PdfPTable(1);
 		finalTable.setTotalWidth(500);
@@ -111,7 +112,7 @@ public class OutstandingReceivablesByAccountPdf extends ReportsPDFUtility{
 		finalTable.getDefaultCell().setBorder(0); 
 		
 		PdfPTable supllierNameTable = new PdfPTable(3);
-		PdfPCell nameCell = new PdfPCell(new Phrase("Account No : "+productSummary, title08)); 
+		PdfPCell nameCell = new PdfPCell(new Phrase("Account No : "+productSummary+"    "+"Account Owner :  "+accOwner, title08)); 
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		nameCell.setVerticalAlignment(Element.ALIGN_TOP);
