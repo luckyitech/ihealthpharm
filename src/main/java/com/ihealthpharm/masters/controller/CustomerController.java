@@ -119,7 +119,7 @@ public class CustomerController {
 	
 
 	@GetMapping("/getcustomerdatabynamesearch")
-	public ResponseEntity<BaseDto<List<CustomerModel>>> getCustomersDataBySearchingName(@RequestParam("key")String customerName){
+	public ResponseEntity<BaseDto<List<CustomerModel>>> getCustomersDataBySearchingName(@RequestParam("key") String customerName){
 		List<CustomerModel> response=customerService.findAllCustomersByNameSearch(customerName);
 		return new BaseDto<>(response,customerHelper.getRetrieveCustomerMessage(),OK).respond();
 	}

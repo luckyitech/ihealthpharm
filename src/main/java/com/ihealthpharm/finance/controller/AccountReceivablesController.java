@@ -1,11 +1,8 @@
 package com.ihealthpharm.finance.controller;
 
 import static org.springframework.http.HttpStatus.OK;
-
 import java.util.List;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,11 +13,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.finance.dto.AccRecievablesAccountsDTO;
 import com.ihealthpharm.finance.dto.AccRecievablesCustomerDTO;
 import com.ihealthpharm.finance.helper.AccountReceivablesHelper;
-import com.ihealthpharm.finance.model.AccountPayablesModel;
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.finance.service.AccountReceivablesService;
 import com.ihealthpharm.sales.helper.SalesHelper;
@@ -198,6 +194,27 @@ public class AccountReceivablesController {
 		 Integer results=accountReceivablesService.searchInAccRecievablesForCount(paymentStatus,paymentStartDate,paymentEndDate,SourceRef,pageNumber,pageSize,customerName);
 			return new BaseDto<>(results,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
 	}
-
-
+	
+	//@GetMapping
+	// account recievables popup search for accounts
+	
+	@GetMapping("/getAccRecievables/forPopupSearch/forAccounts")
+	public ResponseEntity<BaseDto<List<AccountReceivablesModel>>> getAllAccRecievablessBasedOnSearchesForAccounts(
+		@RequestParam String paymentStatus, @RequestParam String paymentStartDate, @RequestParam String paymentEndDate,@RequestParam String SourceRef,
+				@RequestParam Integer pageNumber,@RequestParam Integer pageSize,@RequestParam String creditNumber){
+		System.out.println(SourceRef);
+		 System.out.println(paymentStartDate +"-------------------------------------  "+paymentEndDate);
+		 System.out.println(creditNumber);
+			List<AccountReceivablesModel> results=accountReceivablesService.searchInAccRecievablesForAccounts(paymentStatus,paymentStartDate,paymentEndDate,SourceRef,pageNumber,pageSize,creditNumber);
+			return new BaseDto<>(results,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getAccRecievables/forPopupSearchCount/forAccounts")
+	public ResponseEntity<BaseDto<Integer>> getAllAccRecievablesBasedOnSearchesForCountForAccounts(
+		@RequestParam String paymentStatus, @RequestParam String paymentStartDate, @RequestParam String paymentEndDate,@RequestParam String SourceRef,
+				@RequestParam Integer pageNumber,@RequestParam Integer pageSize,@RequestParam String creditNumber){
+		 Integer results=accountReceivablesService.searchInAccRecievablesForCountForAccounts(paymentStatus,paymentStartDate,paymentEndDate,SourceRef,pageNumber,pageSize,creditNumber);
+			return new BaseDto<>(results,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
+	}
+	
 }
