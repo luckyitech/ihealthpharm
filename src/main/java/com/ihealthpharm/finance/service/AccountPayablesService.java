@@ -63,6 +63,6 @@ public interface AccountPayablesService
 			String paymentEndDate,String invoiceNo, Integer pageNumber, Integer pageSize,String supplierName);
 
 	Integer searchInAccPayablesForCount(String selectedPaymentStatus, String paymentStartDate,
-			String paymentEndDate, String invoiceNo, Integer pageNumber, Integer pageSize, String supplierName);
+			String paymentEndDate, String invoiceNo, String supplierName);
 
 }
