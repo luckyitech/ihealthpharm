@@ -1,6 +1,7 @@
 package com.ihealthpharm.sales.dao;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import com.ihealthpharm.masters.dto.ItemDTO;
 import com.ihealthpharm.sales.dto.SalesBillDTO;
 import com.ihealthpharm.sales.dto.SalesBillsLimitedDTO;
 import com.ihealthpharm.sales.dto.SalesByDatesDTO;
+import com.ihealthpharm.sales.dto.SalesByHour;
 import com.ihealthpharm.sales.dto.SalesByPersonsDTO;
 import com.ihealthpharm.sales.dto.SalesDTO;
 import com.ihealthpharm.sales.model.SalesModel;
@@ -272,5 +274,9 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 	@Query("select new com.ihealthpharm.sales.dto.SalesBillsLimitedDTO(b.billId,b.billCode) from sales b  "
 			+ "where  b.billCode like :searchTerm%  order by b.lastUpdateTs desc")
 	List<SalesBillsLimitedDTO> getBillsByName(@Param("searchTerm") String searchTerm);
+
+	
+	@Query("select new com.ihealthpharm.sales.dto.SalesByHour((sum(s.totalAmount))/1000, HOUR(TIME(s.creationTs))) from sales s where s.billDate = :start  and s.employeeModel.employeeId = :selectedChartEmployee and HOUR(TIME(s.creationTs)) between :fromTime and :toTime group by  HOUR(TIME(s.creationTs)) ")
+	List<SalesByHour> findSalesByHours(@Param("selectedChartEmployee")int selectedChartEmployee, @Param("start") LocalDate start, @Param("fromTime")int fromTime,@Param("toTime") int toTime);
 	
 }
