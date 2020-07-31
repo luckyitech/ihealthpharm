@@ -108,4 +108,7 @@ public class AccountReceivablesModel extends AuditModel{
 	
 	@Column(name="ACTIVE_S",length=1)
     private Character activeS;
+	
+	@Column(name="MASTER_ACC_NO")
+	private String creditNumber;
 }

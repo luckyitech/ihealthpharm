@@ -57,52 +57,21 @@ public class PurchaseOrderDetailsPdf  extends ReportsPDFUtility{
 			
 			//addHeader(writer, document,model,responseList);
 	
-			
-			Map<String, List<Map<String, Object>>> purchaseOrderDetails = responseList.stream()
-					.collect(Collectors.groupingBy(map -> (String) map.get("SP_NAME")));
-			Map<String, List<Map<String, Object>>> purchaseOrderDetailsAdd = responseList.stream()
-					.collect(Collectors.groupingBy(map -> (String) map.get("CITY_NM"))); 
-//			Map<String, List<Map<String, Object>>> purchaseInvoiceDetailsInv = responseList.stream()
-//					.collect(Collectors.groupingBy(map -> (String) map.get("GRN_NO")));
+		
 			Map<String, List<Map<String, Object>>> purchaseOrderDetailsPONO = responseList.stream()
 					.collect(Collectors.groupingBy(map -> (String) map.get("PURCHASE_ORDER_NO")));
-			Map<Date, List<Map<String, Object>>> purchaseOrderDetailsDate = responseList.stream()
-					.collect(Collectors.groupingBy(map -> (Date) map.get("PURCHASE_ORDER_DT")));
 			
-			
-			if(!ObjectUtils.isEmpty(purchaseOrderDetails)) { 
-				String suppName = null;
-				String PONo=null;
-				String location=null;
-		
-				for(String supplierName :purchaseOrderDetails.keySet()) {	
-					List<Map<String, Object>> purchaseOrderDetailsMap = purchaseOrderDetails.get(supplierName);
-					suppName=supplierName;
-					//createTable(document,model,purchaseInvoiceDetailsMap,supplierName);
-				}
-				for(String address :purchaseOrderDetailsAdd.keySet()) {	
-					location=address;
-					List<Map<String, Object>> purchaseOrderDetailsMap = purchaseOrderDetails.get(suppName);
-//					List<Map<String, Object>> purchaseInvoiceDetailsMap = purchaseInvoiceDetails.get(address);
+			if(!ObjectUtils.isEmpty(purchaseOrderDetailsPONO)) { 
 				
-					//createTable(document,model,purchaseInvoiceDetailsMap,suppName,invoiceNo);
-				}
 				for(String purchaseOrderNo :purchaseOrderDetailsPONO.keySet()) {	
-					PONo=purchaseOrderNo;
-					List<Map<String, Object>> purchaseOrderDetailsMap = purchaseOrderDetails.get(suppName);
-//					List<Map<String, Object>> purchaseInvoiceDetailsMap = purchaseInvoiceDetails.get(invoiceNo);
-				
-					//createTable(document,model,purchaseInvoiceDetailsMap,suppName,invoiceNo);
-				}
-				
-				for(Date purchaseOrderDate :purchaseOrderDetailsDate.keySet()) {	
-					List<Map<String, Object>> purchaseOrderDetailsMap = purchaseOrderDetails.get(suppName);
-					createTable(document,model,purchaseOrderDetailsMap,suppName,location,PONo,purchaseOrderDate);
 					
+					List<Map<String, Object>> purchaseOrderDetailsMap = purchaseOrderDetailsPONO.get(purchaseOrderNo);
+				
+					createTable(document,model,purchaseOrderDetailsMap,purchaseOrderNo);
 				}
-//				List<Map<String, Object>> purchaseInvoiceDetailsMap = null;
-//				createTable(document,model,purchaseInvoiceDetailsMap,suppName,location,invNo,invDate);
-				generateTotalTable(document,model,responseList);
+				
+				
+			generateTotalTable(document,model,responseList);
 			
 				
 			}
@@ -329,7 +298,7 @@ public class PurchaseOrderDetailsPdf  extends ReportsPDFUtility{
 	}
 
 	private void createTable(Document document, ReportsMappingModel model, List<Map<String, Object>> purchaseOrderDetailsList,
-			String supplierName,String address,String invoiceNo,Date invoiceDate) throws DocumentException {
+			String poNo) throws DocumentException {
 
 		String reportHeader = model.getReportHeader();
 		List<HeaderDto> headerList = JsonUtility.jsonToList(reportHeader, HeaderDto.class);
@@ -342,14 +311,17 @@ public class PurchaseOrderDetailsPdf  extends ReportsPDFUtility{
 		finalTable.getDefaultCell().setBorder(0); 
 		
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-		 String invoiceDates=formatter.format(invoiceDate);
 		
+		String supplierName=String.valueOf(purchaseOrderDetailsList.get(0).get("SP_NAME"));
+		String address=String.valueOf(purchaseOrderDetailsList.get(0).get("CITY_NM"));
+		String poDate=formatter.format(purchaseOrderDetailsList.get(0).get("PURCHASE_ORDER_DT"));
+
 		PdfPTable supllierNameTable = new PdfPTable(2);
 //		PdfPCell nameCell = new PdfPCell(new Phrase("Supplier Name  : "+supplierName+  "      "
 //				+ "GRN NO   :  "+grnNo+"          "+"Invoice Date   : "+invoiceDates, title08)); 
 		
 		PdfPCell nameCell = new PdfPCell(new Phrase("Supplier Name  : "+supplierName+  "       "
-				+ "PO No  :  "+invoiceNo+"         "+"PO Date   : "+invoiceDates, title08)); 
+				+ "PO No  :  "+poNo+"         "+"PO Date   : "+poDate, title08)); 
 		
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -372,7 +344,7 @@ public class PurchaseOrderDetailsPdf  extends ReportsPDFUtility{
 		
 		
 		
-		PdfPTable table = new PdfPTable(10);
+		PdfPTable table = new PdfPTable(11);
 		table.setTotalWidth(500);
 		table.setWidthPercentage(50);
 		table.setLockedWidth(true);
@@ -389,6 +361,16 @@ public class PurchaseOrderDetailsPdf  extends ReportsPDFUtility{
 				cell.setBorder(Rectangle.BOTTOM);
 	
 			table.addCell(cell);	
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("QTN NO");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+
+			table.addCell(cell);
 		
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
@@ -489,6 +471,14 @@ public class PurchaseOrderDetailsPdf  extends ReportsPDFUtility{
 
 
 				Object value = String.valueOf(purchaseOrderDetailsList.indexOf(rowData) + 1);
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("QUOTATION_NO") ? rowData.get("QUOTATION_NO") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())

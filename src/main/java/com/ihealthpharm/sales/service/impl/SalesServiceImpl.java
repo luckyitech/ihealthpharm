@@ -623,6 +623,7 @@ public class SalesServiceImpl implements SalesService {
 	public List<SalesByPersonsDTO> findSalesByPersons() {
 		List<SalesByPersonsDTO> results = salesRepository.getSalesByPersonRepo();
 		List finalObj = new ArrayList();
+		
 		for (SalesByPersonsDTO obj : results) {
 			List temp = new ArrayList();
 			temp.add(obj.getFirstName());

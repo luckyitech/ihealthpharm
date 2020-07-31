@@ -113,6 +113,8 @@ public class SalesEmployeeDTO {
 	
 	private Integer chequeNumber;
 	
+	private String creditAccountNo;
+	
 	private Double chequeAmount;
 	
 	private String chequeDate;
@@ -147,7 +149,7 @@ public class SalesEmployeeDTO {
 			Float upiAmount, String upiPhoneNo, String upiTransactionId, Float vatAmt, Integer chequeNumber,
 			Double chequeAmount, String chequeDate, Double creditAmount, CustomerInsuranceModel customerInsuranceModel,
 			CustomerMembershipModel customerMembershipModel, CustomerModel customerModel, String employeeModel,
-			PharmacyModel pharmacyModel, ProviderModel providerModel, HospitalModel hospitalModel, Character activeS) {
+			PharmacyModel pharmacyModel, ProviderModel providerModel, HospitalModel hospitalModel, Character activeS,String creditAccountNo) {
 		super();
 		this.billId = billId;
 		this.adjustedQty = adjustedQty;
@@ -203,6 +205,7 @@ public class SalesEmployeeDTO {
 		this.providerModel = providerModel;
 		this.hospitalModel = hospitalModel;
 		this.activeS = activeS;
+		this.creditAccountNo = creditAccountNo;
 	}
 
 	public SalesEmployeeDTO() {

@@ -309,6 +309,7 @@ public class ItemController {
 	// based on itemName search
 	@GetMapping("/getallby/ItemCodeSearchSWS")
 	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllByItemCodeSWS(@RequestParam String searchTerm) {
+		
 		List<ItemsModel> results = itemService.findAllByItemCodeSWS(searchTerm);
 		return new BaseDto<>(results, propertyHelper.getRetrieveMessage(), OK).respond();
 	}

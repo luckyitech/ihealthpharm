@@ -55,10 +55,10 @@ public class SalesModel {
 	private Float cashAmount;
 
 	@CreationTimestamp
-	@Column(name = "CREATION_TS", length = 25)
+	@Column(name = "CREATION_TS", length = 25, updatable = false)
 	private LocalDateTime creationTs;
 
-	@Column(name = "CREATION_USER_ID", length = 50)
+	@Column(name = "CREATION_USER_ID", length = 50, updatable = false)
 	private String creationUserId;
 
 	@Column(name = "CREDIT_DAYS", length = 25)
@@ -204,5 +204,8 @@ public class SalesModel {
 	
 	@Column(name="ACTIVE_S")
 	private Character activeS;
+	
+	@Column(name="CREDIT_ACCOUNT_NO")
+	private String creditAccountNo;
 	
 }
