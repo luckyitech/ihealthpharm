@@ -414,7 +414,7 @@ public class SalesController {
 	}
 	
 	
-	@GetMapping("/getSalesByHours/fayaz")
+	@GetMapping("/getSalesByHours")
 	public  ResponseEntity<BaseDto<List<SalesByHour>>> getData(@RequestParam String date,@RequestParam String empName, @RequestParam int selectedChartEmployee, @RequestParam int fromTime, @RequestParam int toTime,@RequestParam int[] timeArray ){
 		List<SalesByHour> result =salesService.findSalesByHour(date,selectedChartEmployee,empName,fromTime,toTime,timeArray);
 		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(), OK).respond();
