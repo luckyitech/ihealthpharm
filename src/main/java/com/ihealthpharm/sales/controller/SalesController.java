@@ -3,6 +3,7 @@ package com.ihealthpharm.sales.controller;
 import static org.springframework.http.HttpStatus.OK;
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.sales.dto.SalesBillDTO;
 import com.ihealthpharm.sales.dto.SalesBillsLimitedDTO;
 import com.ihealthpharm.sales.dto.SalesByDatesDTO;
+import com.ihealthpharm.sales.dto.SalesByHour;
 import com.ihealthpharm.sales.dto.SalesByPersonsDTO;
 import com.ihealthpharm.sales.dto.SalesEmployeeDTO;
 import com.ihealthpharm.sales.helper.SalesHelper;
@@ -410,4 +412,12 @@ public class SalesController {
 		List<SalesBillsLimitedDTO> result = salesService.findBillsByName(billCode);
 		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(), OK).respond();
 	}
+	
+	
+	@GetMapping("/getSalesByHours")
+	public  ResponseEntity<BaseDto<List<SalesByHour>>> getData(@RequestParam String date,@RequestParam String empName, @RequestParam int selectedChartEmployee, @RequestParam int fromTime, @RequestParam int toTime,@RequestParam int[] timeArray ){
+		List<SalesByHour> result =salesService.findSalesByHour(date,selectedChartEmployee,empName,fromTime,toTime,timeArray);
+		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(), OK).respond();
+	}
+	
 }
