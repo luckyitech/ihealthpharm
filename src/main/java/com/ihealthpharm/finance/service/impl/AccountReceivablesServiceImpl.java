@@ -205,6 +205,11 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 
 		List<AccountReceivablesModel> response=null;
 		
+		System.out.println("===================================================================");
+		 System.out.println(paymentStartDate +"-------------------------------------  "+paymentEndDate);
+		 System.out.println(paymentStatus+" 000 0 "+sourceRef);
+		 System.out.println(customerName);
+		
 		if((paymentStatus != null && !paymentStatus.equals("undefined") && !paymentStatus.equals("null")) && 
 				(sourceRef != null && !sourceRef.equals("undefined") && !sourceRef.equals("null")) &&
 				((paymentStartDate != null && !paymentStartDate.equals("undefined")&& !paymentStartDate.equals("null")) && (paymentEndDate != null && !paymentEndDate.equals("undefined") && !paymentEndDate.equals("null"))))
