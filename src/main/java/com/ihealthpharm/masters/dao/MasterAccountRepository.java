@@ -54,4 +54,6 @@ public interface MasterAccountRepository extends JpaRepository<MasterAccountMode
 	@Query("select c.customerName from customer c inner join family_account f on c.customerId= f.customerId.customerId and c.customerName like :name% group by c.customerId order by c.customerName")
 	public List<String> getFamilyAccountCustomers(@Param("name")String name);
 
+	@Query("select ma.creditNumber from master_account ma")
+	public List<String> getAccByCreditNo();
 }
