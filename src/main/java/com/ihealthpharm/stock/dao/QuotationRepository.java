@@ -188,6 +188,11 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 
 	@Query("select new com.ihealthpharm.stock.dto.QuotationDTO(q.quotationId,concat(q.quotationNo,'  ',SUBSTRING(q.description, 1, 20))) from  quotation q where q.supplierQtnApprovedBy is not null and q.supplierQtnApprovedDt is not null and q.quotationNo like :quotationNo% order by q.lastUpdateTimestamp desc")
 	List<QuotationDTO> getQtnsForPOBySearch(@Param("quotationNo") String quotationNo);
+
+	@Query("select q.quotationNo from quotation q where q.quotationNo like :searchTerm% order by q.lastUpdateTimestamp desc")
+	List<String> getAllQtnNoBySearch(@Param("searchTerm")String searchTerm);
+	
+	
 	
 	
 }
