@@ -48,10 +48,10 @@ public interface MasterAccountRepository extends JpaRepository<MasterAccountMode
 	@Query("select m.creditNumber from master_account m order by m.lastUpdateTimestamp desc")
 	public List<String> getAllMasterAccountNo();
 
-	@Query("select concat(c.customerName,' ',c.lastName) from customer c inner join master_account m on c.customerId= m.customerId.customerId and c.customerName like :name% group by c.customerId order by c.customerName")
+	@Query("select c.customerName from customer c inner join master_account m on c.customerId= m.customerId.customerId and c.customerName like :name% group by c.customerId order by c.customerName")
 	public List<String> getMastersAccountCustomers(@Param("name")String name);
 
-	@Query("select concat(c.customerName,' ',c.lastName) from customer c inner join family_account f on c.customerId= f.customerId.customerId and c.customerName like :name% group by c.customerId order by c.customerName")
+	@Query("select c.customerName from customer c inner join family_account f on c.customerId= f.customerId.customerId and c.customerName like :name% group by c.customerId order by c.customerName")
 	public List<String> getFamilyAccountCustomers(@Param("name")String name);
 
 }

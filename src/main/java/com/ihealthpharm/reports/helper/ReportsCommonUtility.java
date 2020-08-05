@@ -59,9 +59,10 @@ public class ReportsCommonUtility {
 								stringBuffer.append(criteria.getAlias());
 								stringBuffer.append(criteria.getColumnName());
 								stringBuffer.append(" LIKE ");
-								stringBuffer.append(" %");
+								stringBuffer.append('"');
 								stringBuffer.append(value);
-								stringBuffer.append("% ");
+								stringBuffer.append('%');
+								stringBuffer.append('"');
 								stringBuffer.append(" ");
 							}
 
@@ -92,9 +93,9 @@ public class ReportsCommonUtility {
 								stringBuffer.append(criteria.getAlias());
 								stringBuffer.append(criteria.getColumnName());
 								stringBuffer.append(" LIKE ");
-								stringBuffer.append(" %");
+//								stringBuffer.append("%");
 								stringBuffer.append(value);
-								stringBuffer.append("% ");
+								stringBuffer.append("%");
 								stringBuffer.append(" ");
 							
 							}
