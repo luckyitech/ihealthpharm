@@ -102,4 +102,6 @@ public interface QuotationService {
 	QuotationModel getQuotationDataForPO(Integer quotationId);
 	
 	List<QuotationDTO> getQuotationsForPOBySearch(String quotationNo);
+
+	List<String> findQuotationNoBySearch(String searchTerm);
 }
