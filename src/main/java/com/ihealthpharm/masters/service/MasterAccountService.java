@@ -38,4 +38,6 @@ public interface MasterAccountService {
 	public List<String> getMastersAccountCustomerBySearch(String name);
 
 	public List<String> getFamilyAccountCustomerBySearch(String name);
+	
+	public List<String> getAccByCreditNumber();
 }

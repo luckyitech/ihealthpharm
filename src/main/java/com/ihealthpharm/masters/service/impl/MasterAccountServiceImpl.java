@@ -158,4 +158,10 @@ public class MasterAccountServiceImpl implements MasterAccountService {
 		// TODO Auto-generated method stub
 		return masterAccountRepository.getFamilyAccountCustomers(name);
 	}
+
+	@Override
+	public List<String> getAccByCreditNumber() {
+		// TODO Auto-generated method stub
+		return masterAccountRepository.getAccByCreditNo();
+	}
 }

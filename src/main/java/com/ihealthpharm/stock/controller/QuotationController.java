@@ -712,4 +712,11 @@ public class QuotationController {
 		List<QuotationDTO> model = quotationService.getQuotationsForPOBySearch(quotationNo);
 		return new BaseDto<>(model, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
+	
+	
+	@GetMapping("/getQuotationNoBySearch")
+	public ResponseEntity<BaseDto<List<String>>> getQtnNoBySearch(@RequestParam String searchTerm){
+		List<String> results=quotationService.findQuotationNoBySearch(searchTerm);
+		return new BaseDto<>(results,quotationHelper.getRetrieveQuotationMessage(),OK).respond();
+	}
 }
