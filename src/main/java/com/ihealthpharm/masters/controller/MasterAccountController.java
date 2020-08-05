@@ -132,4 +132,10 @@ public class MasterAccountController {
 		List<String> response=masterAccountService.getFamilyAccountCustomerBySearch(name);
 		return new BaseDto<>(response,masterAccountHelper.getRetrieveMasterAccountMessage(),OK).respond();
 	}
+	
+	@GetMapping("/get/getAccByCreditNumb")
+	public ResponseEntity<BaseDto<List<String>>> getAccByCreditNumb(){
+		List<String> response=masterAccountService.getAccByCreditNumber();
+		return new BaseDto<>(response,masterAccountHelper.getRetrieveMasterAccountMessage(),OK).respond();
+	}
 }
