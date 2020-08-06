@@ -719,4 +719,10 @@ public class QuotationController {
 		List<String> results=quotationService.findQuotationNoBySearch(searchTerm);
 		return new BaseDto<>(results,quotationHelper.getRetrieveQuotationMessage(),OK).respond();
 	}
+	
+	@GetMapping("/getSuppliersInQtnBySearch")
+	public ResponseEntity<BaseDto<List<String>>> getSuppliersInQtnBySearch(@RequestParam String searchTerm){
+		List<String> results=quotationService.findSuppliersInQtnBySearch(searchTerm);
+		return new BaseDto<>(results,quotationHelper.getRetrieveQuotationMessage(),OK).respond();
+	}
 }
