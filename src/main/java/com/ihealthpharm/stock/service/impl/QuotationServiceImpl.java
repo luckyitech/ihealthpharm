@@ -616,5 +616,11 @@ public class QuotationServiceImpl implements QuotationService {
 		return quotationRepository.getAllQtnNoBySearch(searchTerm);
 	}
 
+	@Override
+	public List<String> findSuppliersInQtnBySearch(String searchTerm) {
+		
+		return quotationRepository.getAllSuppliersInQtnBySearch(searchTerm);
+	}
+
 
 }
