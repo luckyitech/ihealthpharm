@@ -52,11 +52,11 @@ public class ChequeServiceImpl implements ChequeService {
 
 	@Override
 	public ChequeModel updateCheque(ChequeModel chequeModel) {
-		
 		List<ChequeItemsModel> chequeItemModels = chequeModel.getChequeItems();
 		chequeModel.setStatus("Approved");
 		chequeModel.setChequeApprovalStatus("Paid");
 		ChequeModel chequeRes = chequeRepo.save(chequeModel);
+		System.out.println(chequeRes.getChequeDate());
 		
 		for(int i=0;i<chequeItemModels.size();i++) {
 			AccountPayablesModel p=chequeItemModels.get(i).getAccountPayablesId();

@@ -38,10 +38,10 @@ public class ChequeModel extends AuditModel{
 	@Column(name="NUMBER")
 	private String chequeNumber;
 	
-	@Column(name="CHEQUE_DATE")
+	@Column(name="CHEQUE_DATE",updatable=false)
 	private LocalDate chequeDate;
 	
-	@Column(name="CHEQUE_RAISED_DATE")
+	@Column(name="CHEQUE_RAISED_DATE",updatable=false)
 	private LocalDate chequeRaisedDt;
 	
 	@Column(name="AMOUNT")
