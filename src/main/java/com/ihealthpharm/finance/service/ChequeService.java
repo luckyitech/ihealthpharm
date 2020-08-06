@@ -14,4 +14,8 @@ public interface ChequeService {
 
 	List<ChequeModel> getApprovedCheques();
 
+	List<ChequeModel> getAllPendingCheques(String chequeNumber);
+
+	List<ChequeModel> getAllApprovedCheques(String chequeNumber);
+
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.finance.helper.ChequeHelper;
@@ -68,5 +69,24 @@ public class ChequeController {
     		List<ChequeModel> result=service.getApprovedCheques();
     		return new BaseDto<>(result, chequeHelper.getRetrieveChequeMessage(), OK).respond();
     	}
+    	
+    	/**
+    	 * @author Tarun ,Service is to get the cheque data based on search
+    	 *         details for pending
+    	 */
+    	@GetMapping("/getAllPending/cheques/basedOnSearch")
+    	public ResponseEntity<BaseDto<List<ChequeModel>>> getAllPendingCheques(@RequestParam String chequeNumber) {
+    		List<ChequeModel> result=service.getAllPendingCheques(chequeNumber);
+    		return new BaseDto<>(result, chequeHelper.getRetrieveChequeMessage(), OK).respond();
+    	}
 	
+    	/**
+    	 * @author Tarun ,Service is to get the cheque data based on search
+    	 *         details and for approved
+    	 */
+    	@GetMapping("/getAllApproved/cheques/basedOnSearch")
+    	public ResponseEntity<BaseDto<List<ChequeModel>>> getAllApprovedCheques(@RequestParam String chequeNumber) {
+    		List<ChequeModel> result=service.getAllApprovedCheques(chequeNumber);
+    		return new BaseDto<>(result, chequeHelper.getRetrieveChequeMessage(), OK).respond();
+    	}
 }

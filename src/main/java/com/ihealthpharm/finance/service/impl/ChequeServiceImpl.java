@@ -84,6 +84,24 @@ public class ChequeServiceImpl implements ChequeService {
 		}
 		return response;
 	}
+
+	@Override
+	public List<ChequeModel> getAllPendingCheques(String chequeNumber) {
+		List<ChequeModel> response=chequeRepo.getAllPendingCheques(chequeNumber);
+		for(ChequeModel q : response) {
+			q.setRequestedName(chequeRepo.getChequeRequestedName(q.getChequeId()));
+		}
+		return response;
+	}
+
+	@Override
+	public List<ChequeModel> getAllApprovedCheques(String chequeNumber) {
+		List<ChequeModel> response=chequeRepo.getApprovedChequesBySearch(chequeNumber);
+		for(ChequeModel q : response) {
+			q.setApproverName(chequeRepo.getApproverPersonName(q.getChequeId()));
+		}
+		return response;
+	}
 	
 	
 
