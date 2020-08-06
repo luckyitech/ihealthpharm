@@ -53,7 +53,7 @@ public class GeneralLedgerModel extends AuditModel {
 	private Date entryDate;
 	
 	@Column(name="Debit")
-	private Float debit;
+	private Double debit;
 	
 	@Column(name="Credit")
 	private Float credit;

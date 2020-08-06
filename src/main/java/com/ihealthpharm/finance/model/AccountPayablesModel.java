@@ -4,7 +4,6 @@ package com.ihealthpharm.finance.model;
 
 import java.time.LocalDate;
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,7 +14,6 @@ import javax.persistence.OneToOne;
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.SupplierModel;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -65,7 +63,7 @@ public class AccountPayablesModel extends AuditModel {
 	private Double totalAmountToBePaid;
 	
 	@Column(name="TOTAL_AMOUNT_PAID")
-	private Float totalAmountPaid;
+	private Double totalAmountPaid;
 
 	@Column(name = "CASH_AMOUNT", length = 25)
 	private Float cashAmount;
@@ -86,7 +84,7 @@ public class AccountPayablesModel extends AuditModel {
 	private String chequeNumber;
 
 	@Column(name="CHEQUE_AMT")
-	private Double chequeAmount;
+	private Float chequeAmount;
 
 	@Column(name = "PAYMENT_STATUS", length = 20)
 	private String selectedPaymentStatus;
@@ -98,7 +96,7 @@ public class AccountPayablesModel extends AuditModel {
 	private String authCode;
 	
 	@Column(name="CHEQUE_DATE")
-	private Date chequeDate;
+	private LocalDate chequeDate;
 
 	@Column(name="SOURCE_REF",length=20)
 	private String sourceRef;
@@ -128,4 +126,7 @@ public class AccountPayablesModel extends AuditModel {
 	
 	@Column(name="INVOICE_NO")
 	private String invoiceNo;
+	
+	@Column(name="PAY_TYPE")
+	private String paymentType;
 }

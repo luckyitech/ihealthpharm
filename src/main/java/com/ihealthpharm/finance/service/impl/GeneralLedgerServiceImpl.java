@@ -64,8 +64,8 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 			generalLedgerModel.setParty(pharmacyService.findPharmacyById(accountPayablesModel.getPharmacyModel().getPharmacyId()).getPharmacyName());
 
 			if(accountPayablesModel.getSourceType().equalsIgnoreCase("Debit Note")) {
-				generalLedgerModel.setDebit(new Float(0.0));
-				generalLedgerModel.setCredit(-1 * accountPayablesModel.getTotalAmountPaid());
+				generalLedgerModel.setDebit(0.0);
+				generalLedgerModel.setCredit(new Float(-1 * accountPayablesModel.getTotalAmountPaid()));
 
 			}else if(accountPayablesModel.getSourceType().equalsIgnoreCase("Credit Note")) {
 				generalLedgerModel.setCredit(new Float(0.0));
@@ -113,16 +113,16 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 
 			if(accountRecievablesModel.getSourceType().equalsIgnoreCase("Debit Note")) {
 
-				generalLedgerModel.setDebit(new Float(0.0));
+				generalLedgerModel.setDebit(0.0);
 				generalLedgerModel.setCredit(accountRecievablesModel.getAmountReceived());
 
 			}else if(accountRecievablesModel.getSourceType().equalsIgnoreCase("Credit Note")) {
 
-				generalLedgerModel.setDebit(-1 * accountRecievablesModel.getAmountReceived());
+				generalLedgerModel.setDebit(new Double(-1 * accountRecievablesModel.getAmountReceived()));
 				generalLedgerModel.setCredit(new Float(0.0));
 
 			}else if(accountRecievablesModel.getSourceType().equalsIgnoreCase("Sales Returns - Credit Note")) {
-				generalLedgerModel.setDebit(-1 * accountRecievablesModel.getAmountReceived());
+				generalLedgerModel.setDebit(new Double(-1 * accountRecievablesModel.getAmountReceived()));
 				generalLedgerModel.setCredit(new Float(0.0));
 			}
 
@@ -154,9 +154,9 @@ public class GeneralLedgerServiceImpl implements GeneralLedgerService {
 		ledgerModelObj.setLastUpdateUser(generalLedgerModel.getLastUpdateUser());
 		if(generalLedgerModel.getAmountReceived() > 0) {
 			ledgerModelObj.setCredit(generalLedgerModel.getAmountReceived());
-			ledgerModelObj.setDebit(new Float(0.0));
+			ledgerModelObj.setDebit(0.0);
 		} else {
-			ledgerModelObj.setDebit(generalLedgerModel.getAmountReceived());
+			ledgerModelObj.setDebit(new Double(generalLedgerModel.getAmountReceived()));
 			ledgerModelObj.setCredit(new Float(0.0));
 		}
 		ledgerModelObj.setBalance(0.0);
