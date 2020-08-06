@@ -104,4 +104,6 @@ public interface QuotationService {
 	List<QuotationDTO> getQuotationsForPOBySearch(String quotationNo);
 
 	List<String> findQuotationNoBySearch(String searchTerm);
+
+	List<String> findSuppliersInQtnBySearch(String searchTerm);
 }

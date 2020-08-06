@@ -193,6 +193,8 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 	List<String> getAllQtnNoBySearch(@Param("searchTerm")String searchTerm);
 	
 	
+	@Query("select sp.name from quotation_items qi,supplier sp where qi.supplier.supplierId=sp.supplierId and sp.name like :searchTerm% order by qi.lastUpdateTimestamp desc")
+	List<String> getAllSuppliersInQtnBySearch(@Param("searchTerm")String searchTerm);
 	
 	
 }
