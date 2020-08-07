@@ -6,9 +6,11 @@ import java.util.List;
 import org.hibernate.validator.constraints.ParameterScriptAssert;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ihealthpharm.finance.dto.AccRecievablesAccountsDTO;
 import com.ihealthpharm.finance.dto.AccRecievablesCustomerDTO;
@@ -228,5 +230,10 @@ public interface AccountReceivablesRepository extends JpaRepository<AccountRecei
 				+ " ac.paymentStatus=:paymentStatus and  s.creditAccountNo=:creditNumber  order by ac.lastUpdateTimestamp desc")
 		List<AccountReceivablesModel> findAccRecievablesSearchByStatusForAcc(@Param("paymentStatus")String paymentStatus,@Param("creditNumber") String creditNumber,
 				Pageable limit);
+		
+				
+		@Query("select s from sales s where s.billCode=:billCode")
+		SalesModel getSalesByBillCode(@Param("billCode") String billCode);
+		
 		
 }
