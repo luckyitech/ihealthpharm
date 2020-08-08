@@ -89,9 +89,10 @@ public class MasterAccountController {
 	}
 	
 	@GetMapping("/update/masteraccountbyaccountid")
-	public ResponseEntity<BaseDto<Integer>> updateMasterByAccountId(@RequestParam Integer masterAccountId, @RequestParam Integer creditLimitLeft){
+	public ResponseEntity<BaseDto<Integer>> updateMasterByAccountId(@RequestParam Integer masterAccountId, @RequestParam Integer creditLimitLeft,
+			@RequestParam Integer lastUpdatedUser,@RequestParam String entryType ){
 		
-		Integer response=masterAccountService.updateMasterAccountByAccountId(masterAccountId,creditLimitLeft);
+		Integer response=masterAccountService.updateMasterAccountByAccountId(masterAccountId,creditLimitLeft,lastUpdatedUser,entryType);
 		return new BaseDto<>(response,masterAccountHelper.getRetrieveMasterAccountMessage(),OK).respond();
 	}
 	
