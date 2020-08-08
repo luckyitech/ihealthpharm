@@ -412,7 +412,7 @@ public class SalesServiceImpl implements SalesService {
 
 		for (SalesModel it : response) {
 			SalesEmployeeDTO salesModel = new SalesEmployeeDTO();
-
+			salesModel.setCreditAccountNo(it.getCreditAccountNo());
 			salesModel.setActiveS(it.getActiveS());
 			salesModel.setHospitalModel(it.getHospitalModel());
 			salesModel.setProviderModel(it.getProviderModel());
