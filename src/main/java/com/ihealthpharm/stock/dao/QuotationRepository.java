@@ -192,6 +192,8 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 	@Query("select q.quotationNo from quotation q where q.quotationNo like :searchTerm% order by q.lastUpdateTimestamp desc")
 	List<String> getAllQtnNoBySearch(@Param("searchTerm")String searchTerm);
 	
+	@Query("select q.quotationNo from quotation q order by q.lastUpdateTimestamp desc")
+	List<String> getAllQtnNo();
 	
 	@Query("select distinct sp.name from quotation_items qi,supplier sp where qi.supplier.supplierId=sp.supplierId and sp.name like :searchTerm% order by qi.lastUpdateTimestamp desc")
 	List<String> getAllSuppliersInQtnBySearch(@Param("searchTerm")String searchTerm);

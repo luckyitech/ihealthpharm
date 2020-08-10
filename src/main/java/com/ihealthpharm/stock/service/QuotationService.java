@@ -106,4 +106,6 @@ public interface QuotationService {
 	List<String> findQuotationNoBySearch(String searchTerm);
 
 	List<String> findSuppliersInQtnBySearch(String searchTerm);
+
+	List<String> findAllQuotationNo();
 }

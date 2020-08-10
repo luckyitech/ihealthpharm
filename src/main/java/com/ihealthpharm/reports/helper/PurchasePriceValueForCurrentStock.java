@@ -119,8 +119,7 @@ public class PurchasePriceValueForCurrentStock extends ReportsPDFUtility{
 		finalTable.getDefaultCell().setBorder(0); 
 		
 		PdfPTable supllierNameTable = new PdfPTable(2);
-		PdfPCell nameCell = new PdfPCell(new Phrase("From Date  : "+String.valueOf(dataMap.get("FROM_UPDATED_DATE"))+  "       "
-				+ "To Date  :  "+String.valueOf(dataMap.get("TO_UPDATED_DATE"))+"         "+"Total Pur. Value   : "+totPurValue+"         "+"Threshhold Value   : "+threshholdValue+"                "+"TH Break   : "+thBreak, title08)); 
+		PdfPCell nameCell = new PdfPCell(new Phrase("As Of Date  :  "+String.valueOf(dataMap.get("TO_UPDATED_DATE"))+"         "+"Total Pur. Value   : "+totPurValue+"         "+"Threshhold Value   : "+threshholdValue+"                "+"TH Break   : "+thBreak, title08)); 
 		
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);

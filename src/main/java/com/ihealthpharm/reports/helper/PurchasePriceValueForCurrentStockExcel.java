@@ -161,22 +161,22 @@ public class PurchasePriceValueForCurrentStockExcel extends ReportsExcelUtility 
 		
 			
 			Row displayRow = sheet.createRow(headRow);
+//			Cell headCell = displayRow.createCell(0);
+//			Object value = dataMap.containsKey("FROM_UPDATED_DATE") ? dataMap.get("FROM_UPDATED_DATE") : "";
+//			headCell.setCellValue("From Date  :   ");
+//			headCell=displayRow.createCell(1);
+//			headCell.setCellValue(String.valueOf(value));
+			
 			Cell headCell = displayRow.createCell(0);
-			Object value = dataMap.containsKey("FROM_UPDATED_DATE") ? dataMap.get("FROM_UPDATED_DATE") : "";
-			headCell.setCellValue("From Date  :   ");
+			Object value = dataMap.containsKey("TO_UPDATED_DATE") ? dataMap.get("TO_UPDATED_DATE") : "";
+			headCell.setCellValue("As Of Date  :   ");
 			headCell=displayRow.createCell(1);
 			headCell.setCellValue(String.valueOf(value));
 			
 			headCell = displayRow.createCell(2);
-			value = dataMap.containsKey("TO_UPDATED_DATE") ? dataMap.get("TO_UPDATED_DATE") : "";
-			headCell.setCellValue("To Date  :   ");
-			headCell=displayRow.createCell(3);
-			headCell.setCellValue(String.valueOf(value));
-			
-			headCell = displayRow.createCell(4);
 			double totalPurchaseValue = purchaseMarginList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("PURCHASE_VALUE")?String.valueOf(mapper.get("PURCHASE_VALUE")):"0")).sum(); 
 			headCell.setCellValue("Total Pur. Value  :   ");
-			headCell=displayRow.createCell(5);
+			headCell=displayRow.createCell(3);
 			headCell.setCellValue(totalPurchaseValue);
 			
 			double threshHoldBreakNew=0.00;
