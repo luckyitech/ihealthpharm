@@ -156,16 +156,16 @@ public class SalePriceValueForCurrentStockExcel extends ReportsExcelUtility {
 			cell.setCellStyle(headerStyle);	
 			
 			Row displayRow = sheet.createRow(headRow);
-			Cell headCell = displayRow.createCell(0);
-			Object value = dataMap.containsKey("FROM_UPDATED_DATE") ? dataMap.get("FROM_UPDATED_DATE") : "";
-			headCell.setCellValue("From Date  :   ");
-			headCell=displayRow.createCell(1);
-			headCell.setCellValue(String.valueOf(value));
+//			Cell headCell = displayRow.createCell(0);
+//			Object value = dataMap.containsKey("FROM_UPDATED_DATE") ? dataMap.get("FROM_UPDATED_DATE") : "";
+//			headCell.setCellValue("From Date  :   ");
+//			headCell=displayRow.createCell(1);
+//			headCell.setCellValue(String.valueOf(value));
 			
-			headCell = displayRow.createCell(2);
-			value = dataMap.containsKey("TO_UPDATED_DATE") ? dataMap.get("TO_UPDATED_DATE") : "";
-			headCell.setCellValue("To Date  :   ");
-			headCell=displayRow.createCell(3);
+			Cell headCell = displayRow.createCell(0);
+			Object value = dataMap.containsKey("TO_UPDATED_DATE") ? dataMap.get("TO_UPDATED_DATE") : "";
+			headCell.setCellValue("As Of Date  :   ");
+			headCell=displayRow.createCell(1);
 			headCell.setCellValue(String.valueOf(value));
 			
 			for (Map<String, Object> rowData : purchaseMarginList) {
