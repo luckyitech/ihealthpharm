@@ -25,7 +25,7 @@ public interface MasterAccountService {
 	
 	public MasterAccountModel getMasterByCustomer(Integer customerId);
 	
-	public Integer updateMasterAccountByAccountId(Integer masterAccountId,Integer creditLimitLeft);
+	public Integer updateMasterAccountByAccountId(Integer masterAccountId,Integer creditLimitLeft,Integer lastUpdatedUser,String entryType);
 
 	public List<MasterAccDTO> getMastersForRecievables( Integer start, Integer end);
 

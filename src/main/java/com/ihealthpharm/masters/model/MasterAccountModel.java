@@ -54,6 +54,9 @@ public class MasterAccountModel extends AuditModel {
 	@Column(name="PHARMACY_ID")
 	private Integer pharmacyId;
 	
+	@Column(name="ENTRY_TYPE")
+	private String entryType ;
+	
 	@JsonManagedReference
 	 @OneToMany(cascade = CascadeType.ALL,
 	            mappedBy = "masterAccountId",orphanRemoval = true)

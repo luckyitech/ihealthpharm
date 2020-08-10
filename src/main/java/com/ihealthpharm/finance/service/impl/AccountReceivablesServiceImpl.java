@@ -18,6 +18,7 @@ import com.ihealthpharm.finance.helper.AccountReceivablesHelper;
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.finance.service.AccountReceivablesService;
 import com.ihealthpharm.masters.dao.CustomerInsuranceRepository;
+import com.ihealthpharm.sales.dao.SalesRepository;
 import com.ihealthpharm.sales.model.SalesModel;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,9 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 
 	@Autowired
 	AccountReceivablesRepository accountReceivablesRepository;
+	
+	@Autowired
+	SalesRepository salesRepository;
 	
 	@Autowired
 	CustomerInsuranceRepository customerInsuranceRepository;
@@ -63,6 +67,31 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 				throw new IHealthPharmException(accountReceivablesHelper.getNotFoundAccountReceivablesMessage(), HttpStatus.NOT_FOUND);
 			}
 			accountReceivablesRes = accountReceivablesRepository.save(accountReceivables);
+			if(accountReceivablesRes.getSourceType().equalsIgnoreCase("Sales Billing") && 
+			Objects.nonNull(accountReceivablesRes.getSourceRef()) && 
+			accountReceivablesRes.getPaymentStatus().equalsIgnoreCase("Paid") &&
+			Objects.nonNull(accountReceivablesRes.getCreditNumber())) {
+				SalesModel salesRecord = accountReceivablesRepository.getSalesByBillCode(accountReceivablesRes.getSourceRef());
+				Double creditAmount = Objects.nonNull(salesRecord.getCreditAmount())?salesRecord.getCreditAmount():0;
+				if(creditAmount>0) {
+				salesRecord.setPaymentStatus("Paid");
+				Float cashAmount = Objects.nonNull(salesRecord.getCashAmount())?salesRecord.getCashAmount():0;
+				
+				Float paidAmount =  (float) (cashAmount+creditAmount);
+				
+				salesRecord.setCashAmount(paidAmount);
+				salesRecord.setPaidAmount(paidAmount);
+				salesRecord.setBalanceAmount((float) 0);
+				String lastUpdatedUserId = Integer.toString(accountReceivablesRes.getLastUpdateUser());
+				salesRecord.setLastUpdateUserId(lastUpdatedUserId);
+				
+				salesRecord.setCreditAmount((double) 0);
+				
+				salesRepository.save(salesRecord);
+				}
+			}
+				
+				
 			log.info("AccountReceivables data with ID : " + accountReceivablesRes.getAccountReceivablesId() + " updated succesfully");
 		}
 		return accountsReceivables;

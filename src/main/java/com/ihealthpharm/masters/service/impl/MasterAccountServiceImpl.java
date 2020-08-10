@@ -52,6 +52,7 @@ public class MasterAccountServiceImpl implements MasterAccountService {
 		for(FamilyAccountModel familyAccountModel:masterAccountRes.getFamilyAccounts()) {
 			familyAccountRepository.delete(familyAccountModel);
 		}
+		masterAccount.setEntryType("Master Update");
 		masterAccountRes = masterAccountRepository.save(masterAccount);
 		log.info("Membership data with ID : " + masterAccountHelper.getRetrieveMasterAccountMessage() + " updated succesfully");
 		
@@ -119,9 +120,9 @@ public class MasterAccountServiceImpl implements MasterAccountService {
 	}
 
 	@Override
-	public Integer updateMasterAccountByAccountId(Integer masterAccountId, Integer creditLimitLeft) {
+	public Integer updateMasterAccountByAccountId(Integer masterAccountId, Integer creditLimitLeft,Integer lastUpdatedUser,String entryType) {
 		
-		return masterAccountRepository.updateMasterAccountByAccountId(masterAccountId,creditLimitLeft);
+		return masterAccountRepository.updateMasterAccountByAccountId(masterAccountId,creditLimitLeft,lastUpdatedUser,entryType);
 	}
 
 	@Override
