@@ -120,9 +120,9 @@ public class MasterAccountServiceImpl implements MasterAccountService {
 	}
 
 	@Override
-	public Integer updateMasterAccountByAccountId(Integer masterAccountId, Integer creditLimitLeft,Integer lastUpdatedUser,String entryType) {
+	public Integer updateMasterAccountByAccountId(Integer masterAccountId, Integer creditLimitLeft,Integer lastUpdatedUser,String entryType,String salesBillNo) {
 		
-		return masterAccountRepository.updateMasterAccountByAccountId(masterAccountId,creditLimitLeft,lastUpdatedUser,entryType);
+		return masterAccountRepository.updateMasterAccountByAccountId(masterAccountId,creditLimitLeft,lastUpdatedUser,entryType,salesBillNo);
 	}
 
 	@Override
