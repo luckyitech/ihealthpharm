@@ -105,8 +105,8 @@ public interface AccountPayablesRepository extends JpaRepository<AccountPayables
 	Integer findAccPayablesSearchByStatusSearchStatusAndInvoiceCount(@Param("selectedPaymentStatus")String selectedPaymentStatus,
 			@Param("invoiceNo") String invoiceNo,@Param("supplierName")String supplierName);
 
-	@Query("select count(s) from ACCOUNT_PAYABLES s where s.supplierName=:supplierName and  s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo% " + 
-			" and s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c) order by s.lastUpdateTimestamp desc")
+	@Query("select count(s) from ACCOUNT_PAYABLES s where (s.supplierName=:supplierName and  s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo%) " + 
+			" and (s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c)) order by s.lastUpdateTimestamp desc")
 	Integer findAccPayablesSearchByInvoiceCount(@Param("supplierName")String supplierName,@Param("invoiceNo") String invoiceNo);
 
 	@Query("select count(s) from ACCOUNT_PAYABLES s where s.selectedPaymentStatus=:selectedPaymentStatus and s.supplierName=:supplierName " + 
@@ -156,8 +156,8 @@ public interface AccountPayablesRepository extends JpaRepository<AccountPayables
 	List<AccountPayablesModel> findAccPayablesSearchByStatusSearchStatusAndInvoice(@Param("selectedPaymentStatus")String selectedPaymentStatus,
 			@Param("invoiceNo") String invoiceNo,@Param("supplierName")String supplierName, Pageable limit);
 
-	@Query("select s from ACCOUNT_PAYABLES s where  s.supplierName=:supplierName and s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo% " + 
-			" and s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c) order by s.lastUpdateTimestamp desc")
+	@Query("select s from ACCOUNT_PAYABLES s where  (s.supplierName=:supplierName and s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo%) " + 
+			" and (s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c)) order by s.lastUpdateTimestamp desc")
 	List<AccountPayablesModel> findAccPayablesSearchByInvoice( @Param("supplierName")String supplierName,@Param("invoiceNo") String invoiceNo, Pageable limit);
 
 	@Query("select s from ACCOUNT_PAYABLES s where s.selectedPaymentStatus=:selectedPaymentStatus and s.supplierName=:supplierName " + 
