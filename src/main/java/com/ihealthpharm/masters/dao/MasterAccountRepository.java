@@ -33,9 +33,9 @@ public interface MasterAccountRepository extends JpaRepository<MasterAccountMode
 
 	@Modifying
 	@Transactional
-	@Query("update master_account set CREDIT_LIMIT_LEFT=:creditLimitLeft, LAST_UPDATE_USER_ID=:lastUpdatedUser,ENTRY_TYPE=:entryType where MASTER_ACCOUNT_ID=:masterAccountId")
+	@Query("update master_account set CREDIT_LIMIT_LEFT=:creditLimitLeft, LAST_UPDATE_USER_ID=:lastUpdatedUser,ENTRY_TYPE=:entryType,SALES_BILL_NO=:salesBillNo where MASTER_ACCOUNT_ID=:masterAccountId")
 	public Integer updateMasterAccountByAccountId(@Param("masterAccountId")Integer masterAccountId, @Param("creditLimitLeft") Integer creditLimitLeft,
-			@Param("lastUpdatedUser") Integer lastUpdatedUser,@Param("entryType") String entryType);
+			@Param("lastUpdatedUser") Integer lastUpdatedUser,@Param("entryType") String entryType,@Param("salesBillNo")String salesBillNo);
 
 	@Query("select new com.ihealthpharm.masters.dto.MasterAccDTO(m.masterAccountId,m.creditNumber) from master_account m order by m.lastUpdateTimestamp desc")
 	public List<MasterAccDTO> getAccounts(Pageable limit);
