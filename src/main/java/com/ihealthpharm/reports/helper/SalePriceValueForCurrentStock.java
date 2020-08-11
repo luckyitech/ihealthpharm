@@ -97,7 +97,7 @@ public class SalePriceValueForCurrentStock extends ReportsPDFUtility{
 		finalTable.getDefaultCell().setBorder(0); 
 		
 		PdfPTable supllierNameTable = new PdfPTable(2);
-		PdfPCell nameCell = new PdfPCell(new Phrase("From Date : "+String.valueOf(dataMap.get("FROM_UPDATED_DATE"))+"        "+"To Date   : "+String.valueOf(dataMap.get("TO_UPDATED_DATE")), title08)); 
+		PdfPCell nameCell = new PdfPCell(new Phrase("As Of Date   : "+String.valueOf(dataMap.get("TO_UPDATED_DATE")), title08)); 
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		nameCell.setVerticalAlignment(Element.ALIGN_TOP);

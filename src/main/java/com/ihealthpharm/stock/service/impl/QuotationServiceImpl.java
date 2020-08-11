@@ -622,5 +622,11 @@ public class QuotationServiceImpl implements QuotationService {
 		return quotationRepository.getAllSuppliersInQtnBySearch(searchTerm);
 	}
 
+	@Override
+	public List<String> findAllQuotationNo() {
+		
+		return quotationRepository.getAllQtnNo();
+	}
+
 
 }

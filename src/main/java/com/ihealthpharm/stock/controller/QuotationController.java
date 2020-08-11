@@ -720,6 +720,12 @@ public class QuotationController {
 		return new BaseDto<>(results,quotationHelper.getRetrieveQuotationMessage(),OK).respond();
 	}
 	
+	@GetMapping("/getAllQuotationNo")
+	public ResponseEntity<BaseDto<List<String>>> getAllQtnNo(){
+		List<String> results=quotationService.findAllQuotationNo();
+		return new BaseDto<>(results,quotationHelper.getRetrieveQuotationMessage(),OK).respond();
+	}
+	
 	@GetMapping("/getSuppliersInQtnBySearch")
 	public ResponseEntity<BaseDto<List<String>>> getSuppliersInQtnBySearch(@RequestParam String searchTerm){
 		List<String> results=quotationService.findSuppliersInQtnBySearch(searchTerm);
