@@ -1,8 +1,5 @@
 package com.ihealthpharm.finance.service.impl;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -93,9 +90,6 @@ public class ChequeServiceImpl implements ChequeService {
 	@Override
 	public List<ChequeModel> getAllPendingCheques(String chequeNumber,Integer employeeId) {
 		
-		
-		
-		//List<ChequeModel> response=chequeRepo.getAllPendingCheques(chequeNumber);
 		List<EmployeeAccessPharmaDTO> response=chequeRepo.getEmployeesHavingChequeAccess(employeeId);
 		
 		List<ChequeModel> res=null;
@@ -104,6 +98,7 @@ public class ChequeServiceImpl implements ChequeService {
 			res=chequeRepo.getAllLevelsSearchedCheques(chequeNumber);
 			for(ChequeModel q : res) {
 				q.setRequestedName(chequeRepo.getChequeRequestedName(q.getChequeId()));
+				q.setFirstLevelApproverName(chequeRepo.firstLevelApproverName(q.getChequeId()));
 			}
 		}
 		else if(response.get(i).getActiveS().equals('Y')) {
@@ -111,6 +106,7 @@ public class ChequeServiceImpl implements ChequeService {
 			res=chequeRepo.getAllFirstLevelSearchedCheques(chequeNumber);
 			for(ChequeModel q : res) {
 				q.setRequestedName(chequeRepo.getChequeRequestedName(q.getChequeId()));
+				q.setFirstLevelApproverName(chequeRepo.firstLevelApproverName(q.getChequeId()));
 			}
 			}
 		else if(response.get(i+1).getActiveS().equals('Y')) {
@@ -118,14 +114,10 @@ public class ChequeServiceImpl implements ChequeService {
 			res=chequeRepo.getAllSecondLevelSearchedCheques(chequeNumber);
 			for(ChequeModel q : res) {
 				q.setRequestedName(chequeRepo.getChequeRequestedName(q.getChequeId()));
+				q.setFirstLevelApproverName(chequeRepo.firstLevelApproverName(q.getChequeId()));
 			}
 		}
 		return res;
-	/*	
-		for(ChequeModel q : response) {
-			q.setRequestedName(chequeRepo.getChequeRequestedName(q.getChequeId()));
-		}
-		return response;*/
 	}
 
 	@Override
@@ -150,6 +142,7 @@ public class ChequeServiceImpl implements ChequeService {
 			res=chequeRepo.getAllLevelCheques();
 			for(ChequeModel q : res) {
 				q.setRequestedName(chequeRepo.getChequeRequestedName(q.getChequeId()));
+				q.setFirstLevelApproverName(chequeRepo.firstLevelApproverName(q.getChequeId()));
 			}
 		}
 		else if(response.get(i).getActiveS().equals('Y')) {
@@ -157,6 +150,7 @@ public class ChequeServiceImpl implements ChequeService {
 			res=chequeRepo.getAllFirstLevelCheques();
 			for(ChequeModel q : res) {
 				q.setRequestedName(chequeRepo.getChequeRequestedName(q.getChequeId()));
+				q.setFirstLevelApproverName(chequeRepo.firstLevelApproverName(q.getChequeId()));
 			}
 			}
 		else if(response.get(i+1).getActiveS().equals('Y')) {
@@ -164,6 +158,7 @@ public class ChequeServiceImpl implements ChequeService {
 			res=chequeRepo.getAllSecondLevelCheques();
 			for(ChequeModel q : res) {
 				q.setRequestedName(chequeRepo.getChequeRequestedName(q.getChequeId()));
+				q.setFirstLevelApproverName(chequeRepo.firstLevelApproverName(q.getChequeId()));
 			}
 		}
 		return res;

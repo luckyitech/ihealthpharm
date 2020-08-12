@@ -17,7 +17,6 @@ import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.finance.helper.ChequeHelper;
 import com.ihealthpharm.finance.model.ChequeModel;
 import com.ihealthpharm.finance.service.ChequeService;
-import com.ihealthpharm.masters.dto.EmployeeAccessPharmaDTO;
 
 @RestController
 @CrossOrigin

@@ -3,7 +3,6 @@ package com.ihealthpharm.finance.service;
 
 import java.util.List;
 import com.ihealthpharm.finance.model.ChequeModel;
-import com.ihealthpharm.masters.dto.EmployeeAccessPharmaDTO;
 
 public interface ChequeService {
 
