@@ -28,7 +28,7 @@ public interface ChequeRepository extends JpaRepository<ChequeModel, Integer>{
 	@Query("select p from cheque p where p.status='Not Approved' and p.chequeNumber like :chequeNumber% order by p.lastUpdateTimestamp desc")
 	List<ChequeModel> getAllPendingCheques(@Param("chequeNumber") String chequeNumber);
 
-	@Query("select p from cheque p where p.status='Approved' and p.chequeNumber like :chequeNumber%   order by p.lastUpdateTimestamp desc")
+	@Query("select p from cheque p where p.status='Approved' and (p.firstLevelApproval is not null and p.secondLevelApproval is not null) and   p.chequeNumber like :chequeNumber%   order by p.lastUpdateTimestamp desc")
 	List<ChequeModel> getApprovedChequesBySearch(@Param("chequeNumber") String chequeNumber);
 	
 	@Query("select p from cheque p where p.firstLevelApproval is not null and p.secondLevelApproval is not null  order by p.lastUpdateTimestamp desc")
@@ -48,5 +48,16 @@ public interface ChequeRepository extends JpaRepository<ChequeModel, Integer>{
 	
 	@Query("select p from cheque p where p.firstLevelApproval is not null and p.secondLevelApproval is null")
 	List<ChequeModel> getAllSecondLevelCheques();
-
+	
+	
+	// searches
+	
+	@Query("select p from cheque p where (p.firstLevelApproval is null or p.secondLevelApproval is null) and p.chequeNumber=:chequeNumber  order by p.lastUpdateTimestamp desc")
+	List<ChequeModel> getAllLevelsSearchedCheques(@Param("chequeNumber")String chequeNumber);
+	
+	@Query("select p from cheque p where (p.firstLevelApproval is null and p.secondLevelApproval is null) and p.chequeNumber=:chequeNumber order by p.lastUpdateTimestamp desc")
+	List<ChequeModel> getAllFirstLevelSearchedCheques(@Param("chequeNumber")String chequeNumber);
+	
+	@Query("select p from cheque p where (p.firstLevelApproval is not null and p.secondLevelApproval is null) and p.chequeNumber=:chequeNumber order by p.lastUpdateTimestamp desc")
+	List<ChequeModel> getAllSecondLevelSearchedCheques(@Param("chequeNumber")String chequeNumber);
 }

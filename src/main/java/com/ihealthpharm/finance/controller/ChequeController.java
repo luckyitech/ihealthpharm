@@ -76,8 +76,8 @@ public class ChequeController {
     	 *         details for pending
     	 */
     	@GetMapping("/getAllPending/cheques/basedOnSearch")
-    	public ResponseEntity<BaseDto<List<ChequeModel>>> getAllPendingCheques(@RequestParam String chequeNumber) {
-    		List<ChequeModel> result=service.getAllPendingCheques(chequeNumber);
+    	public ResponseEntity<BaseDto<List<ChequeModel>>> getAllPendingCheques(@RequestParam String chequeNumber,@RequestParam Integer employeeId) {
+    		List<ChequeModel> result=service.getAllPendingCheques(chequeNumber,employeeId);
     		return new BaseDto<>(result, chequeHelper.getRetrieveChequeMessage(), OK).respond();
     	}
 	

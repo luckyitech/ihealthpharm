@@ -91,19 +91,51 @@ public class ChequeServiceImpl implements ChequeService {
 	}
 
 	@Override
-	public List<ChequeModel> getAllPendingCheques(String chequeNumber) {
-		List<ChequeModel> response=chequeRepo.getAllPendingCheques(chequeNumber);
+	public List<ChequeModel> getAllPendingCheques(String chequeNumber,Integer employeeId) {
+		
+		
+		
+		//List<ChequeModel> response=chequeRepo.getAllPendingCheques(chequeNumber);
+		List<EmployeeAccessPharmaDTO> response=chequeRepo.getEmployeesHavingChequeAccess(employeeId);
+		
+		List<ChequeModel> res=null;
+		int i=0;
+		if(response.get(i).getActiveS().equals('Y') && response.get(i+1).getActiveS().equals('Y') ) {
+			res=chequeRepo.getAllLevelsSearchedCheques(chequeNumber);
+			for(ChequeModel q : res) {
+				q.setRequestedName(chequeRepo.getChequeRequestedName(q.getChequeId()));
+			}
+		}
+		else if(response.get(i).getActiveS().equals('Y')) {
+			System.out.println("in second if");
+			res=chequeRepo.getAllFirstLevelSearchedCheques(chequeNumber);
+			for(ChequeModel q : res) {
+				q.setRequestedName(chequeRepo.getChequeRequestedName(q.getChequeId()));
+			}
+			}
+		else if(response.get(i+1).getActiveS().equals('Y')) {
+			System.out.println("in third if");
+			res=chequeRepo.getAllSecondLevelSearchedCheques(chequeNumber);
+			for(ChequeModel q : res) {
+				q.setRequestedName(chequeRepo.getChequeRequestedName(q.getChequeId()));
+			}
+		}
+		return res;
+	/*	
 		for(ChequeModel q : response) {
 			q.setRequestedName(chequeRepo.getChequeRequestedName(q.getChequeId()));
 		}
-		return response;
+		return response;*/
 	}
 
 	@Override
 	public List<ChequeModel> getAllApprovedCheques(String chequeNumber) {
+		
 		List<ChequeModel> response=chequeRepo.getApprovedChequesBySearch(chequeNumber);
 		for(ChequeModel q : response) {
 			q.setApproverName(chequeRepo.getApproverPersonName(q.getChequeId()));
+			q.setFirstLevelApproverName(chequeRepo.getFirstLevelApprover(q.getChequeId()));
+			q.setSecondLevelApproverName(chequeRepo.getSecondLevelApprover(q.getChequeId()));
 		}
 		return response;
 	}
@@ -137,6 +169,8 @@ public class ChequeServiceImpl implements ChequeService {
 		return res;
 
 	}
+	
+	
 
 
 
