@@ -75,33 +75,33 @@ public interface AccountPayablesRepository extends JpaRepository<AccountPayables
 	
 	
 
-	@Query("select count(s) from ACCOUNT_PAYABLES s where s.paymentDate BETWEEN :start and :end and s.selectedPaymentStatus=:selectedPaymentStatus and"
-			+ " s.supplierName=:supplierName and  s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo% and s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c)  order by s.lastUpdateTimestamp desc")
+	@Query("select count(s) from ACCOUNT_PAYABLES s where (s.paymentDate BETWEEN :start and :end and s.selectedPaymentStatus=:selectedPaymentStatus and"
+			+ " s.supplierName=:supplierName and  s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo%) and (s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c))  order by s.lastUpdateTimestamp desc")
 	Integer findAccPayablesSearchByStatusSearchDateCount(@Param("invoiceNo") String invoiceNo,@Param("start") LocalDate start,
 			@Param("end") LocalDate end,@Param("supplierName")String supplierName,@Param("selectedPaymentStatus")String selectedPaymentStatus);
 
-	@Query("select count(s) from ACCOUNT_PAYABLES s where s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo% and s.supplierName=:supplierName " + 
-			"and s.paymentDate BETWEEN :start and :end and s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c) order by s.lastUpdateTimestamp desc")
+	@Query("select count(s) from ACCOUNT_PAYABLES s where (s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo% and s.supplierName=:supplierName " + 
+			"and s.paymentDate BETWEEN :start and :end) and (s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c)) order by s.lastUpdateTimestamp desc")
 	Integer findAccPayablesSearchByStatusSearchDateAndInvoiceCount(@Param("invoiceNo") String invoiceNo,@Param("start") LocalDate start, @Param("end") LocalDate end,
 			@Param("supplierName")String supplierName);
 
-	@Query("select count(s) from ACCOUNT_PAYABLES s where  s.supplierName=:supplierName " + 
-			"and s.paymentDate BETWEEN :start and :end and s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c) order by s.lastUpdateTimestamp desc")
+	@Query("select count(s) from ACCOUNT_PAYABLES s where (s.supplierName=:supplierName " + 
+			"and s.paymentDate BETWEEN :start and :end) and (s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c)) order by s.lastUpdateTimestamp desc")
 	Integer findAccPayablesSearchByStatusSearchDatesCount(@Param("start") LocalDate start, @Param("end") LocalDate end,
 			@Param("supplierName")String supplierName);
 
-	@Query("select count(s) from ACCOUNT_PAYABLES s where s.selectedPaymentStatus=:selectedPaymentStatus  and s.supplierName=:supplierName " + 
-			"and s.paymentDate BETWEEN :start and :end and s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c) order by s.lastUpdateTimestamp desc")
+	@Query("select count(s) from ACCOUNT_PAYABLES s where (s.selectedPaymentStatus=:selectedPaymentStatus  and s.supplierName=:supplierName " + 
+			"and s.paymentDate BETWEEN :start and :end) and (s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c)) order by s.lastUpdateTimestamp desc")
 	Integer findAccPayablesSearchByStatusSearchDatesAndStatusCount(@Param("selectedPaymentStatus")String selectedPaymentStatus,
 			@Param("start") LocalDate start, @Param("end") LocalDate end, @Param("supplierName")String supplierName);
 
-	@Query("select count(s) from ACCOUNT_PAYABLES s where s.selectedPaymentStatus=:selectedPaymentStatus and s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo% and s.supplierName=:supplierName " + 
-			" and s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c) order by s.lastUpdateTimestamp desc")
+	@Query("select count(s) from ACCOUNT_PAYABLES s where (s.selectedPaymentStatus=:selectedPaymentStatus and s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo% and s.supplierName=:supplierName) " + 
+			" and (s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c)) order by s.lastUpdateTimestamp desc")
 	Integer findAccPayablesSearchByStatusSearchBasedonStatusAndInvoiceCount(@Param("selectedPaymentStatus")String selectedPaymentStatus,
 			@Param("invoiceNo") String invoiceNo, @Param("supplierName")String supplierName);
 
-	@Query("select count(s) from ACCOUNT_PAYABLES s where s.selectedPaymentStatus=:selectedPaymentStatus and s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo% and s.supplierName=:supplierName " + 
-			" and s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c) order by s.lastUpdateTimestamp desc")
+	@Query("select count(s) from ACCOUNT_PAYABLES s where (s.selectedPaymentStatus=:selectedPaymentStatus and s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo% and s.supplierName=:supplierName) " + 
+			" and (s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c)) order by s.lastUpdateTimestamp desc")
 	Integer findAccPayablesSearchByStatusSearchStatusAndInvoiceCount(@Param("selectedPaymentStatus")String selectedPaymentStatus,
 			@Param("invoiceNo") String invoiceNo,@Param("supplierName")String supplierName);
 
@@ -109,50 +109,50 @@ public interface AccountPayablesRepository extends JpaRepository<AccountPayables
 			" and (s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c)) order by s.lastUpdateTimestamp desc")
 	Integer findAccPayablesSearchByInvoiceCount(@Param("supplierName")String supplierName,@Param("invoiceNo") String invoiceNo);
 
-	@Query("select count(s) from ACCOUNT_PAYABLES s where s.selectedPaymentStatus=:selectedPaymentStatus and s.supplierName=:supplierName " + 
-			" and s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c)  order by s.lastUpdateTimestamp desc")
+	@Query("select count(s) from ACCOUNT_PAYABLES s where (s.selectedPaymentStatus=:selectedPaymentStatus and s.supplierName=:supplierName) " + 
+			" and (s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c))  order by s.lastUpdateTimestamp desc")
 	Integer findAccPayablesSearchByStatusCount(@Param("selectedPaymentStatus")String selectedPaymentStatus, @Param("supplierName")String supplierName);
 
-	@Query("select count(a) from ACCOUNT_PAYABLES a where a.paymentDate BETWEEN :start and :end  and " + 
-			"a.invoiceNo like :invoiceNo% or a.sourceRef like :invoiceNo%  and a.supplierName=:supplierName and a.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c) order by a.lastUpdateTimestamp desc")
+	@Query("select count(a) from ACCOUNT_PAYABLES a where (a.paymentDate BETWEEN :start and :end  and " + 
+			"a.invoiceNo like :invoiceNo% or a.sourceRef like :invoiceNo%  and a.supplierName=:supplierName) and (a.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c)) order by a.lastUpdateTimestamp desc")
 	Integer findAccPayableSearchByStatusSearchDateAndInvoiceCount(@Param("start") LocalDate start, @Param("end") LocalDate end,
 			@Param("invoiceNo") String invoiceNo,@Param("supplierName")String supplierName);
 
-	@Query("select count(s) from ACCOUNT_PAYABLES s where s.selectedPaymentStatus=:selectedPaymentStatus and s.supplierName=:supplierName and s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo%  " + 
-			" and s.paymentDate BETWEEN :start and :end and s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c) order by s.lastUpdateTimestamp desc")
+	@Query("select count(s) from ACCOUNT_PAYABLES s where (s.selectedPaymentStatus=:selectedPaymentStatus and s.supplierName=:supplierName and s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo%  " + 
+			" and s.paymentDate BETWEEN :start and :end) and (s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c)) order by s.lastUpdateTimestamp desc")
 	Integer findAccPayablesSearchByStatusSearchStatusAndInvoiceNumberCount(@Param("selectedPaymentStatus")String selectedPaymentStatus,
 			@Param("invoiceNo") String invoiceNo, @Param("supplierName")String supplierName);
 	
 	
 	//account payables popup search
 
-	@Query("select s from ACCOUNT_PAYABLES s where s.paymentDate BETWEEN :start and :end and s.selectedPaymentStatus=:selectedPaymentStatus and s.supplierName=:supplierName and "
-			+ " s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo% and s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c)  order by s.lastUpdateTimestamp desc")
+	@Query("select s from ACCOUNT_PAYABLES s where (s.paymentDate BETWEEN :start and :end and s.selectedPaymentStatus=:selectedPaymentStatus and s.supplierName=:supplierName and "
+			+ " s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo%) and (s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c))  order by s.lastUpdateTimestamp desc")
 	List<AccountPayablesModel> findAccPayablesSearchByStatusSearchDate(@Param("invoiceNo") String invoiceNo,@Param("start") LocalDate start,
 			@Param("end") LocalDate end,@Param("supplierName")String supplierName,@Param("selectedPaymentStatus")String selectedPaymentStatus, Pageable limit);
 
-	@Query("select s from ACCOUNT_PAYABLES s where s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo% and s.supplierName=:supplierName " + 
-			"and s.paymentDate BETWEEN :start and :end and s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c) order by s.lastUpdateTimestamp desc")
+	@Query("select s from ACCOUNT_PAYABLES s where (s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo% and s.supplierName=:supplierName " + 
+			"and s.paymentDate BETWEEN :start and :end) and (s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c)) order by s.lastUpdateTimestamp desc")
 	List<AccountPayablesModel> findAccPayablesSearchByStatusSearchDateAndInvoice(@Param("invoiceNo") String invoiceNo,@Param("start") LocalDate start, @Param("end") LocalDate end,
 			@Param("supplierName")String supplierName, Pageable limit);
 
-	@Query("select s from ACCOUNT_PAYABLES s where  s.supplierName=:supplierName " + 
-			"and s.paymentDate BETWEEN :start and :end and s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c) order by s.lastUpdateTimestamp desc")
+	@Query("select s from ACCOUNT_PAYABLES s where  (s.supplierName=:supplierName " + 
+			"and s.paymentDate BETWEEN :start and :end) and (s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c)) order by s.lastUpdateTimestamp desc")
 	List<AccountPayablesModel> findAccPayablesSearchByStatusSearchDates(@Param("start") LocalDate start, @Param("end") LocalDate end,
 			@Param("supplierName")String supplierName, Pageable limit);
 
-	@Query("select s from ACCOUNT_PAYABLES s where s.selectedPaymentStatus=:selectedPaymentStatus  and s.supplierName=:supplierName " + 
-			"and s.paymentDate BETWEEN :start and :end and s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c) order by s.lastUpdateTimestamp desc")
+	@Query("select s from ACCOUNT_PAYABLES s where (s.selectedPaymentStatus=:selectedPaymentStatus  and s.supplierName=:supplierName " + 
+			"and s.paymentDate BETWEEN :start and :end) and (s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c)) order by s.lastUpdateTimestamp desc")
 	List<AccountPayablesModel> findAccPayablesSearchByStatusSearchDatesAndStatus(@Param("selectedPaymentStatus")String selectedPaymentStatus,
 			@Param("start") LocalDate start, @Param("end") LocalDate end, @Param("supplierName")String supplierName, Pageable limit);
 
-	@Query("select s from ACCOUNT_PAYABLES s where s.selectedPaymentStatus=:selectedPaymentStatus and s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo% and s.supplierName=:supplierName " + 
-			" and s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c) order by s.lastUpdateTimestamp desc")
+	@Query("select s from ACCOUNT_PAYABLES s where (s.selectedPaymentStatus=:selectedPaymentStatus and s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo% and s.supplierName=:supplierName) " + 
+			" and (s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c)) order by s.lastUpdateTimestamp desc")
 	List<AccountPayablesModel> findAccPayablesSearchByStatusSearchBasedonStatusAndInvoice(@Param("selectedPaymentStatus")String selectedPaymentStatus,
 			@Param("invoiceNo") String invoiceNo, @Param("supplierName")String supplierName, Pageable limit);
 
-	@Query("select s from ACCOUNT_PAYABLES s where s.selectedPaymentStatus=:selectedPaymentStatus and s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo% and s.supplierName=:supplierName " + 
-			" and s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c) order by s.lastUpdateTimestamp desc")
+	@Query("select s from ACCOUNT_PAYABLES s where (s.selectedPaymentStatus=:selectedPaymentStatus and s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo% and s.supplierName=:supplierName) " + 
+			" and (s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c)) order by s.lastUpdateTimestamp desc")
 	List<AccountPayablesModel> findAccPayablesSearchByStatusSearchStatusAndInvoice(@Param("selectedPaymentStatus")String selectedPaymentStatus,
 			@Param("invoiceNo") String invoiceNo,@Param("supplierName")String supplierName, Pageable limit);
 
@@ -160,17 +160,17 @@ public interface AccountPayablesRepository extends JpaRepository<AccountPayables
 			" and (s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c)) order by s.lastUpdateTimestamp desc")
 	List<AccountPayablesModel> findAccPayablesSearchByInvoice( @Param("supplierName")String supplierName,@Param("invoiceNo") String invoiceNo, Pageable limit);
 
-	@Query("select s from ACCOUNT_PAYABLES s where s.selectedPaymentStatus=:selectedPaymentStatus and s.supplierName=:supplierName " + 
-			" and s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c) order by s.lastUpdateTimestamp desc")
+	@Query("select s from ACCOUNT_PAYABLES s where (s.selectedPaymentStatus=:selectedPaymentStatus and s.supplierName=:supplierName) " + 
+			" and (s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c)) order by s.lastUpdateTimestamp desc")
 	List<AccountPayablesModel> findAccPayablesSearchByStatus(@Param("selectedPaymentStatus")String selectedPaymentStatus, @Param("supplierName")String supplierName, Pageable limit);
 
-	@Query("select a from ACCOUNT_PAYABLES a where a.paymentDate BETWEEN :start and :end and  " + 
-			"a.invoiceNo like :invoiceNo% or a.sourceRef like :invoiceNo% and a.supplierName=:supplierName and a.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c)  order by a.lastUpdateTimestamp desc")
+	@Query("select a from ACCOUNT_PAYABLES a where (a.paymentDate BETWEEN :start and :end and  " + 
+			"a.invoiceNo like :invoiceNo% or a.sourceRef like :invoiceNo% and a.supplierName=:supplierName) and (a.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c))  order by a.lastUpdateTimestamp desc")
 	List<AccountPayablesModel> findAccPayableSearchByStatusSearchDateAndInvoice(@Param("start") LocalDate start, @Param("end") LocalDate end,
 			@Param("invoiceNo") String invoiceNo,@Param("supplierName")String supplierName, Pageable limit);
 
-	@Query("select s from ACCOUNT_PAYABLES s where s.selectedPaymentStatus=:selectedPaymentStatus and s.supplierName=:supplierName and s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo%  " + 
-			" and s.paymentDate BETWEEN :start and :end and s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c) order by s.lastUpdateTimestamp desc")
+	@Query("select s from ACCOUNT_PAYABLES s where (s.selectedPaymentStatus=:selectedPaymentStatus and s.supplierName=:supplierName and s.invoiceNo like :invoiceNo% or s.sourceRef like :invoiceNo%  " + 
+			" and s.paymentDate BETWEEN :start and :end) and (s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c)) order by s.lastUpdateTimestamp desc")
 	List<AccountPayablesModel> findAccPayablesSearchByStatusSearchStatusAndInvoiceNumber(@Param("selectedPaymentStatus")String selectedPaymentStatus,
 			@Param("invoiceNo") String invoiceNo, @Param("supplierName")String supplierName, Pageable limit);
 

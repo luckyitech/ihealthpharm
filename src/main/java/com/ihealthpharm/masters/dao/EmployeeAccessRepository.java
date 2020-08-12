@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import com.ihealthpharm.masters.model.EmployeeAccessModel;
 import com.ihealthpharm.masters.model.EmployeeModel;
 
@@ -23,4 +22,7 @@ extends JpaRepository<EmployeeAccessModel,Integer>
 	@Modifying
 	@Query("delete from employee_access e where e.employeeModel.employeeId=:employeeId")
 	public void deleteByEmployeeModel(@Param("employeeId")Integer employeeId);
+
+	
+
 }

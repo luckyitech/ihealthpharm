@@ -17,6 +17,7 @@ import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.finance.helper.ChequeHelper;
 import com.ihealthpharm.finance.model.ChequeModel;
 import com.ihealthpharm.finance.service.ChequeService;
+import com.ihealthpharm.masters.dto.EmployeeAccessPharmaDTO;
 
 @RestController
 @CrossOrigin
@@ -88,5 +89,11 @@ public class ChequeController {
     	public ResponseEntity<BaseDto<List<ChequeModel>>> getAllApprovedCheques(@RequestParam String chequeNumber) {
     		List<ChequeModel> result=service.getAllApprovedCheques(chequeNumber);
     		return new BaseDto<>(result, chequeHelper.getRetrieveChequeMessage(), OK).respond();
+    	}
+    	
+    	@GetMapping("/getChequeApprovalStatus/byEmpId")
+    	public ResponseEntity<BaseDto<List<ChequeModel>>> getEmployeeAccessForCheques(@RequestParam Integer employeeId){
+    		List<ChequeModel> response=service.getAllEmployeeForCheques(employeeId);
+    		return new BaseDto<>(response,"retrieved",OK).respond();
     	}
 }

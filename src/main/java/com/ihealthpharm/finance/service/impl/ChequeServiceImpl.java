@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,7 @@ import com.ihealthpharm.finance.model.AccountPayablesModel;
 import com.ihealthpharm.finance.model.ChequeItemsModel;
 import com.ihealthpharm.finance.model.ChequeModel;
 import com.ihealthpharm.finance.service.ChequeService;
+import com.ihealthpharm.masters.dto.EmployeeAccessPharmaDTO;
 
 @Service
 @Transactional
@@ -24,7 +27,7 @@ public class ChequeServiceImpl implements ChequeService {
 
 	@Autowired
 	private ChequeRepository chequeRepo;
-	
+
 	@Autowired
 	private AccountPayablesRepository accRepo;
 
@@ -43,7 +46,7 @@ public class ChequeServiceImpl implements ChequeService {
 
 	@Override
 	public List<ChequeModel> getAllCheques() {
-		List<ChequeModel> response=chequeRepo.getAll();
+		List<ChequeModel> response=chequeRepo.getAllFirstLevelCheques();
 		for(ChequeModel q : response) {
 			q.setRequestedName(chequeRepo.getChequeRequestedName(q.getChequeId()));
 		}
@@ -53,34 +56,36 @@ public class ChequeServiceImpl implements ChequeService {
 	@Override
 	public ChequeModel updateCheque(ChequeModel chequeModel) {
 		List<ChequeItemsModel> chequeItemModels = chequeModel.getChequeItems();
-		chequeModel.setStatus("Approved");
-		chequeModel.setChequeApprovalStatus("Paid");
+
 		ChequeModel chequeRes = chequeRepo.save(chequeModel);
-		System.out.println(chequeRes.getChequeDate());
 		
-		for(int i=0;i<chequeItemModels.size();i++) {
-			AccountPayablesModel p=chequeItemModels.get(i).getAccountPayablesId();
-			p.setSelectedStatus("Approved");
-			p.setSelectedPaymentStatus("Paid");
-			p.setTotalAmountPaid(p.getTotalAmountToBePaid());
-			p.setTotalAmountToBePaid(0.00);
-			p.setChequeAmount(chequeRes.getChequeAmt());
-			p.setChequeDate(chequeRes.getChequeDate());
-			p.setChequeNumber(chequeRes.getChequeNumber());
-			p.setLastUpdateUser(chequeRes.getLastUpdateUser());
-			System.out.println(p);
-			accRepo.save(p);
+		if(Objects.nonNull(chequeRes.getFirstLevelApproval()) && Objects.nonNull(chequeRes.getSecondLevelApproval())  ) {
+			for(int i=0;i<chequeItemModels.size();i++) {
+				AccountPayablesModel p=chequeItemModels.get(i).getAccountPayablesId();
+				p.setSelectedStatus("Approved");
+				p.setSelectedPaymentStatus("Paid");
+				p.setTotalAmountPaid(p.getTotalAmountToBePaid());
+				p.setTotalAmountToBePaid(0.00);
+				p.setChequeAmount(chequeRes.getChequeAmt());
+				p.setChequeDate(chequeRes.getChequeDate());
+				p.setChequeNumber(chequeRes.getChequeNumber());
+				p.setLastUpdateUser(chequeRes.getLastUpdateUser());
+				System.out.println(p);
+				accRepo.save(p);
+			}
 		}
-		
+
 		return chequeRes;
 	}
 
 	@Override
 	public List<ChequeModel> getApprovedCheques() {
-		
+
 		List<ChequeModel> response=chequeRepo.getApprovedCheques();
 		for(ChequeModel q : response) {
 			q.setApproverName(chequeRepo.getApproverPersonName(q.getChequeId()));
+			q.setFirstLevelApproverName(chequeRepo.getFirstLevelApprover(q.getChequeId()));
+			q.setSecondLevelApproverName(chequeRepo.getSecondLevelApprover(q.getChequeId()));
 		}
 		return response;
 	}
@@ -102,7 +107,37 @@ public class ChequeServiceImpl implements ChequeService {
 		}
 		return response;
 	}
-	
-	
+
+	@Override
+	public List<ChequeModel> getAllEmployeeForCheques(Integer employeeId) {
+		List<EmployeeAccessPharmaDTO> response=chequeRepo.getEmployeesHavingChequeAccess(employeeId);
+
+		List<ChequeModel> res=null;
+		int i=0;
+		if(response.get(i).getActiveS().equals('Y') && response.get(i+1).getActiveS().equals('Y') ) {
+			res=chequeRepo.getAllLevelCheques();
+			for(ChequeModel q : res) {
+				q.setRequestedName(chequeRepo.getChequeRequestedName(q.getChequeId()));
+			}
+		}
+		else if(response.get(i).getActiveS().equals('Y')) {
+			System.out.println("in second if");
+			res=chequeRepo.getAllFirstLevelCheques();
+			for(ChequeModel q : res) {
+				q.setRequestedName(chequeRepo.getChequeRequestedName(q.getChequeId()));
+			}
+			}
+		else if(response.get(i+1).getActiveS().equals('Y')) {
+			System.out.println("in third if");
+			res=chequeRepo.getAllSecondLevelCheques();
+			for(ChequeModel q : res) {
+				q.setRequestedName(chequeRepo.getChequeRequestedName(q.getChequeId()));
+			}
+		}
+		return res;
+
+	}
+
+
 
 }
