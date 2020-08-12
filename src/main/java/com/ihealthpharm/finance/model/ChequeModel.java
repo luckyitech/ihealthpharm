@@ -24,54 +24,68 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(of = "chequeId", callSuper = false)
 public class ChequeModel extends AuditModel{
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -2780605689575601660L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="CHEQUE_ID")
 	private Integer chequeId;
-	
+
 	@Column(name="NUMBER")
 	private String chequeNumber;
-	
+
 	@Column(name="CHEQUE_DATE",updatable=false)
 	private LocalDate chequeDate;
-	
+
 	@Column(name="CHEQUE_RAISED_DATE",updatable=false)
 	private LocalDate chequeRaisedDt;
-	
+
 	@Column(name="AMOUNT")
 	private Float chequeAmt;
-	
+
 	@Column(name="ACTIVE_S")
 	private Character activeS;
-	
+
 	@Column(name="APPROVAL_STATUS")
 	private String chequeApprovalStatus;
-	
+
 	@OneToOne
 	@JoinColumn(name="PHARMACY_ID")
 	private PharmacyModel pharmacyModel;
 
 	@Column(name="TYPE")
 	private String payType;
-	
+
 	//bi-directional many-to-one association to chequeItem
 	@JsonManagedReference
 	@OneToMany(mappedBy="cheque", fetch=FetchType.LAZY)
 	private List<ChequeItemsModel> chequeItems;
-	
+
 	@Column(name="STATUS")
 	private String status;
-	
+
+
+
+	@Column(name="FIRST_LEVEL_APPROVAL_ID")
+	private Integer firstLevelApproval;
+
+	@Column(name="SECOND_LEVEL_APPROVAL_ID")
+	private Integer secondLevelApproval;
+
 	@Transient
 	private String requestedName;
-	
+
 	@Transient
 	private String approverName;
-	
+
+	@Transient
+	private String firstLevelApproverName;
+
+	@Transient
+	private String secondLevelApproverName;
+
 }

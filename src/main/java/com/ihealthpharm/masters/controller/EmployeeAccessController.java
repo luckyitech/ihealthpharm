@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.w3c.dom.stylesheets.LinkStyle;
 
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.masters.dto.EmployeeAccessDTO;
+import com.ihealthpharm.masters.dto.EmployeeAccessPharmaDTO;
 import com.ihealthpharm.masters.model.EmployeeAccessModel;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.service.EmployeeAccessService;
@@ -72,4 +74,5 @@ public class EmployeeAccessController {
 		List<EmployeeAccessModel> result = employeeAccessService.findByEmployee(employeeModel);
 		return new BaseDto<>(result,  "retrived", OK).respond();
 	}
+	
 }
