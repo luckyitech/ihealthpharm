@@ -213,7 +213,7 @@ public class DeliveryNotePdf extends ReportsPDFUtility{
 
 		PdfPTable table = new PdfPTable(3);
 		table.setTotalWidth(Utilities.millimetersToPoints(80));
-		table.setSpacingAfter(0); 
+		table.setSpacingAfter(10); 
 		table.getDefaultCell().setBorder(0);
 		table.setLockedWidth(true);
 
