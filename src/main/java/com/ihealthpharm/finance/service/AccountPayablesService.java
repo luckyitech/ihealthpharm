@@ -64,5 +64,7 @@ public interface AccountPayablesService
 
 	Integer searchInAccPayablesForCount(String selectedPaymentStatus, String paymentStartDate,
 			String paymentEndDate, String invoiceNo, String supplierName);
+	
+	List<String> getAllInvoiceNumbers(String invoiceNo);
 
 }

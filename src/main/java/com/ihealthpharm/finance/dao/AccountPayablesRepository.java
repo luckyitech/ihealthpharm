@@ -173,5 +173,8 @@ public interface AccountPayablesRepository extends JpaRepository<AccountPayables
 			" and s.paymentDate BETWEEN :start and :end) and (s.accountPayablesId not in (select c.accountPayablesId.accountPayablesId from cheque_items c)) order by s.lastUpdateTimestamp desc")
 	List<AccountPayablesModel> findAccPayablesSearchByStatusSearchStatusAndInvoiceNumber(@Param("selectedPaymentStatus")String selectedPaymentStatus,
 			@Param("invoiceNo") String invoiceNo, @Param("supplierName")String supplierName, Pageable limit);
+	
+	@Query("select ap.invoiceNo from ACCOUNT_PAYABLES ap where ap.invoiceNo like :invoiceNo%")
+	List<String> getAllInvoiceNos(@Param("invoiceNo") String invoiceNo);
 
 }

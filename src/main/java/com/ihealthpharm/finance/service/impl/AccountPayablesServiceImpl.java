@@ -334,5 +334,10 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 			return response;
 	}
 
+	@Override
+	public List<String> getAllInvoiceNumbers(String invoiceNo) {
+		return accountPayablesRepository.getAllInvoiceNos(invoiceNo);
+	}
+
 	
 }
