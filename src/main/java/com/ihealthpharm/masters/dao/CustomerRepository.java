@@ -18,7 +18,7 @@ public interface CustomerRepository extends JpaRepository<CustomerModel,Integer>
 
 	List<CustomerModel> findAllByOrderByLastUpdateTimestampDesc();
 
-	@Query("SELECT c  FROM customer c order by c.lastUpdateTimestamp desc ")
+	@Query("SELECT new com.ihealthpharm.masters.model.CustomerModel(c.customerId, concat(c.customerName,' ', c.lastName) as customerName,phoneNumber)  FROM customer c order by c.lastUpdateTimestamp desc ")
 	List<CustomerModel> findFirst100ByOrderByCustomerNameAsc(Pageable limit);
 	
 	@Query("SELECT c  FROM customer c  where c.activeS='Y' order by c.lastUpdateTimestamp desc ")

@@ -25,9 +25,6 @@ public interface ChequeRepository extends JpaRepository<ChequeModel, Integer>{
 	@Query("select CONCAT(e.firstName,'  ',e.lastName) from cheque  q inner join employee e on q.secondLevelApproval=e.employeeId where q.chequeId = :chequeId ")
 	String getSecondLevelApprover(@Param("chequeId")Integer chequeId);
 
-	@Query("select p from cheque p where p.status='Not Approved' and p.chequeNumber like :chequeNumber% order by p.lastUpdateTimestamp desc")
-	List<ChequeModel> getAllPendingCheques(@Param("chequeNumber") String chequeNumber);
-
 	@Query("select p from cheque p where p.status='Approved' and (p.firstLevelApproval is not null and p.secondLevelApproval is not null) and   p.chequeNumber like :chequeNumber%   order by p.lastUpdateTimestamp desc")
 	List<ChequeModel> getApprovedChequesBySearch(@Param("chequeNumber") String chequeNumber);
 	
@@ -60,4 +57,7 @@ public interface ChequeRepository extends JpaRepository<ChequeModel, Integer>{
 	
 	@Query("select p from cheque p where (p.firstLevelApproval is not null and p.secondLevelApproval is null) and p.chequeNumber=:chequeNumber order by p.lastUpdateTimestamp desc")
 	List<ChequeModel> getAllSecondLevelSearchedCheques(@Param("chequeNumber")String chequeNumber);
+	
+	@Query("select CONCAT(e.firstName,'  ',e.lastName) from cheque  q inner join employee e on q.firstLevelApproval=e.employeeId where q.chequeId = :chequeId")
+	String firstLevelApproverName(@Param("chequeId")Integer chequeId);
 }
