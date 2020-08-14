@@ -174,7 +174,7 @@ public interface AccountPayablesRepository extends JpaRepository<AccountPayables
 	List<AccountPayablesModel> findAccPayablesSearchByStatusSearchStatusAndInvoiceNumber(@Param("selectedPaymentStatus")String selectedPaymentStatus,
 			@Param("invoiceNo") String invoiceNo, @Param("supplierName")String supplierName, Pageable limit);
 	
-	@Query("select ap.invoiceNo from ACCOUNT_PAYABLES ap where ap.invoiceNo like :invoiceNo%")
+	@Query("select ap.invoiceNo from ACCOUNT_PAYABLES ap where ap.invoiceNo like :invoiceNo% and ap.selectedPaymentStatus != 'Paid'")
 	List<String> getAllInvoiceNos(@Param("invoiceNo") String invoiceNo);
 
 }
