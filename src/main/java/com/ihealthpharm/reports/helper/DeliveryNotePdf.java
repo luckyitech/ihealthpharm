@@ -234,6 +234,7 @@ public class DeliveryNotePdf extends ReportsPDFUtility{
 		String printedBy = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("SERVED_BY"));
 		String paymentStatus = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("PAYMENT_STATUS"));
 		String remarks = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("REMARKS"));
+		String address = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("CUST_ADDRESS"));
 
 		double totalAValue=responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TAX")&&mapper.get("TAX").equals("A")?String.valueOf(mapper.get("SALE_AMOUNT")):"0")).sum();
 		double totalBValue=responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TAX")&&mapper.get("TAX").equals("B")?String.valueOf(mapper.get("SALE_AMOUNT")):"0")).sum();
@@ -277,6 +278,23 @@ public class DeliveryNotePdf extends ReportsPDFUtility{
 		cell.setBorder(Rectangle.TOP);
 		table.addCell(cell);
 
+		cell = new PdfPCell(new Phrase("Cust. Address",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+		cell.setBorder(Rectangle.NO_BORDER);
+		table.addCell(cell);
+
+		
+		cell = new PdfPCell(new Phrase(":",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+		cell.setBorder(Rectangle.NO_BORDER);
+		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase(address,bold));
+		cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+		cell.setBorder(Rectangle.NO_BORDER);
+		table.addCell(cell);
+		
+		
 		cell = new PdfPCell(new Phrase("Docpharma Sign",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 		cell.setBorder(Rectangle.NO_BORDER);
