@@ -102,7 +102,7 @@ public class DeliveryNoteExcel extends ReportsExcelUtility{
 		double paidAmt =Double.parseDouble(String.valueOf(responseList.get(0).get("PAID_AMOUNT")));
 		String servBy = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("FIRST_NM"));
 		String printedBy = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("SERVED_BY"));
-		
+		String address = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("CUST_ADDRESS"));
 		
 		Row dataRow = sheet.createRow(currentRow+2);
 		Row dataRow1=sheet.createRow(currentRow+3);
@@ -120,42 +120,46 @@ public class DeliveryNoteExcel extends ReportsExcelUtility{
 		Cell cell_totQty=dataRow1.createCell(0);
 		Cell cell_vatAmt=dataRow2.createCell(0);
 		Cell cell_balAmt=dataRow3.createCell(0);
-		Cell cell_servBy=dataRow4.createCell(0);
+		
 		Cell cell_printBy=dataRow5.createCell(0);
 		Cell cell_totAmt=dataRow.createCell(3);
 		Cell cell_totDisc=dataRow1.createCell(3);
 		Cell cell_netAmt=dataRow2.createCell(3);
 		Cell cell_paidAmt=dataRow3.createCell(3);
+		Cell cell_servBy=dataRow4.createCell(3);
 		
 
 		cell_totItems.setCellValue("");
 		cell_totQty.setCellValue("");
 		cell_vatAmt.setCellValue("");
 		cell_balAmt.setCellValue("");
+		cell_servBy.setCellValue("");
 		
 		cell_totAmt.setCellValue("Total Amt");
 		cell_totDisc.setCellValue("Docpharma Sign");
 		cell_netAmt.setCellValue("Courier Sign");
 		cell_paidAmt.setCellValue("Customer Sign");
-		
+		cell_servBy.setCellValue("Cust. Address");
 
 		cell_totItems = dataRow.createCell(1);
 		cell_totQty=dataRow1.createCell(1);
 		cell_vatAmt = dataRow2.createCell(1);
 		cell_balAmt=dataRow3.createCell(1);
-		cell_servBy=dataRow4.createCell(1);
+		
 		cell_printBy=dataRow5.createCell(1);
 		cell_totAmt=dataRow.createCell(4);
 		cell_totDisc=dataRow1.createCell(4);
 		cell_netAmt=dataRow2.createCell(4);
 		cell_paidAmt=dataRow3.createCell(4);
-		
+		cell_servBy=dataRow4.createCell(4);
 
 		
 		cell_totAmt.setCellValue(String.valueOf(totalAmount));
+		cell_servBy.setCellValue(address);
 		cell_totDisc.setCellValue(String.valueOf(""));
 		cell_netAmt.setCellValue(String.valueOf(""));
 		cell_paidAmt.setCellValue(String.valueOf(""));
+		
 		
 		
 	}

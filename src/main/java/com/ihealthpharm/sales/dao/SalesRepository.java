@@ -134,12 +134,12 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 	@Query("SELECT s.billCode from sales s where s.billCode like :searchTerm%")
 	List<String> findBillCodeINSalesSRBB(@Param("searchTerm") String searchTerm);
 
-	@Query("SELECT s.customerNm from sales s  WHERE YEAR(billDate) = YEAR(now()) "
+	@Query("SELECT distinct s.customerNm from sales s  WHERE YEAR(billDate) = YEAR(now()) "
 			+ "and MONTH(billDate) > ( MONTH(now()) -2 ) "
 			+ "order by s.billDate desc")
 	List<String> findAllCustomers();
 
-	@Query("SELECT s.customerNm from sales s where s.customerNm like :searchTerm%")
+	@Query("SELECT distinct s.customerNm from sales s where s.customerNm like :searchTerm%")
 	List<String> findCustomersBySearch(@Param("searchTerm")String searchTerm);
 	
 	@Query("SELECT s.billCode from sales s where s.customerNm = :customer")
