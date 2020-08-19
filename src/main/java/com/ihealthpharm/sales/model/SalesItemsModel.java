@@ -92,6 +92,9 @@ public class SalesItemsModel {
     @Column(name="VAT",length=11)
     private Integer vat;
     
+    @Column(name="PNL")
+	private Double pnl;
+    
     @OneToOne
     @JoinColumn(name="ITEM_ID")
     ItemsModel itemsModel;
