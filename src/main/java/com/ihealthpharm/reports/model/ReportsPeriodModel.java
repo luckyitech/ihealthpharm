@@ -18,5 +18,8 @@ public class ReportsPeriodModel {
 	
 	@Column(name="PERIOD_NM")
 	private String periodName;
+	
+	@Column(name="PERIOD_VALUE")
+	private Integer periodValue;
 
 }
