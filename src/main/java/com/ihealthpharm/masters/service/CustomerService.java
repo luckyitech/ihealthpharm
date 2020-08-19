@@ -38,6 +38,12 @@ public interface CustomerService
 	List<CustomerModel> findAllLimitedCustomersData();
 
 	List<CustomerModel> findLimitedCustomersData();
+	
+	List<CustomerModel> findLimitedCorporateCustomersData();
+	
+	List<CustomerModel> findCorporateCustomersByPhNo(String phno);
+
+	List<CustomerModel> findAllCorporateCustomersByNameSearch(String customerName);
 
 	List<String> findAllCustomersFirstNameBySearch(String searchTerm);
 
