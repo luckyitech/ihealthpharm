@@ -190,6 +190,25 @@ public class CustomerServiceImpl implements CustomerService {
 		
 		return customerRepository.findCustomerLastNamesBySearch(searchTerm);
 	}
+
+	@Override
+	public List<CustomerModel> findLimitedCorporateCustomersData() {
+		
+		Pageable limit=new PageRequest(0, 100);
+		return customerRepository.findFirst100ActiveByOrderByCorporateCustomerNameAsc(limit);
+	}
+
+	@Override
+	public List<CustomerModel> findCorporateCustomersByPhNo(String phno) {
+		
+		return customerRepository.findByCorporatePhoneNumber(phno);
+	}
+
+	@Override
+	public List<CustomerModel> findAllCorporateCustomersByNameSearch(String customerName) {
+		
+		return customerRepository.findCorporateCustomerByNameSearch(customerName);
+	}
 	
 	
 

@@ -89,12 +89,16 @@ public class CustomerModel extends AuditModel{
 	@OneToOne
 	@JoinColumn(name="PHARMACY_ID")
 	private PharmacyModel pharmacyModel;
+	
+	@Column(name="CORPORATE")
+	private Character corporate;
 
-	public CustomerModel(Integer customerId, String customerName,String phoneNumber) {
+	public CustomerModel(Integer customerId, String customerName,String phoneNumber,Character corporate) {
 		super();
 		this.customerId = customerId;
 		this.customerName = customerName;
 		this.phoneNumber = phoneNumber;
+		this.corporate = corporate;
 	}
 
 	public CustomerModel() {
@@ -105,7 +109,7 @@ public class CustomerModel extends AuditModel{
 			Character genderCode, Character activeS, String dateOfBirth, String emailId, String addressLine1,
 			String addressLine2, String city, StateModel state, CountryModel country, String pinCode,
 			Integer auditId, Float creditLimit, Float creditDays, Float discountPercentage, Float discountAmount,
-			String organisation, PharmacyModel pharmacyModel) {
+			String organisation, PharmacyModel pharmacyModel,Character corporate) {
 		super();
 		this.customerId = customerId;
 		this.phoneNumber = phoneNumber;
@@ -128,6 +132,7 @@ public class CustomerModel extends AuditModel{
 		this.discountAmount = discountAmount;
 		this.organisation = organisation;
 		this.pharmacyModel = pharmacyModel;
+		this.corporate = corporate;
 	}
 
 }
