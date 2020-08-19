@@ -123,7 +123,7 @@ public class CustomerStatementExcel extends ReportsExcelUtility{
 		cell_card_amount=dataRow1.createCell(5);
 		cell_credit_amount=dataRow2.createCell(5);
 		
-		cell.setCellValue("Total Amount Received : ");
+		cell.setCellValue("Total Amount Spent : ");
 		cell_card_amount.setCellValue("Total Amount Paid");
 		cell_credit_amount.setCellValue("Total Outstanding Amount");
 		
@@ -142,7 +142,7 @@ public class CustomerStatementExcel extends ReportsExcelUtility{
 //		Double totalOutstanding=Double.parseDouble(totOutAmount);
 		
 		
-		cell.setCellValue(TotalAmtReceived);
+		cell.setCellValue((TotalAmtPaid+TotalOustandingAmt));
 		cell_card_amount.setCellValue(TotalAmtPaid);
 		cell_credit_amount.setCellValue(TotalOustandingAmt);
 		//cell1.setCellValue(totalToBeReceived);

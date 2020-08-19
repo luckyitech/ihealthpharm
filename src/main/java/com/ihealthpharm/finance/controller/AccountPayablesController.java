@@ -200,4 +200,10 @@ public class AccountPayablesController {
 		Integer results=accountPayablesService.searchInAccPayablesForCount(selectedPaymentStatus,paymentStartDate,paymentEndDate,invoiceNo,supplierName);
 		return new BaseDto<>(results,accountPayablesHelper.getRetrieveAccountPayablesMessage(),OK).respond();
 	}
+	
+	@GetMapping("/getallinvoice")
+	public ResponseEntity<BaseDto<List<String>>> getAllInvoiceNos(@RequestParam String invoiceNo){
+		List<String> response=accountPayablesService.getAllInvoiceNumbers(invoiceNo);
+		return new BaseDto<>(response,accountPayablesHelper.getRetrieveAccountPayablesMessage(),OK).respond();
+	}
 }

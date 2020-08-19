@@ -81,9 +81,10 @@ public class CustomerStatementPdf extends ReportsPDFUtility{
 		double totalAmtPaid;
 		double totalTotalOutstanding;
 		//double totalAmtToBePaid;
-		totalAmtReceived  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("INVOICE_AMOUNT") && !ObjectUtils.isEmpty(mapper.get("INVOICE_AMOUNT"))) ?String.valueOf(mapper.get("INVOICE_AMOUNT")):"0")).sum();  
+		//totalAmtReceived  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("INVOICE_AMOUNT") && !ObjectUtils.isEmpty(mapper.get("INVOICE_AMOUNT"))) ?String.valueOf(mapper.get("INVOICE_AMOUNT")):"0")).sum();  
 		totalAmtPaid  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("AMOUNT_RECEIVED") && !ObjectUtils.isEmpty(mapper.get("AMOUNT_RECEIVED"))) ?String.valueOf(mapper.get("AMOUNT_RECEIVED")):"0")).sum();  
 		totalTotalOutstanding  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("outstanding_amt") && !ObjectUtils.isEmpty(mapper.get("outstanding_amt"))) ?String.valueOf(mapper.get("outstanding_amt")):"0")).sum();  
+		totalAmtReceived=totalAmtPaid +totalTotalOutstanding;
 		
 		System.out.println(totalAmtReceived);
 		//totalAmtToBePaid  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("TOTAL_AMOUNT_TO_BE_PAID") && !ObjectUtils.isEmpty(mapper.get("TOTAL_AMOUNT_TO_BE_PAID"))) ?String.valueOf(mapper.get("TOTAL_AMOUNT_TO_BE_PAID")):"0")).sum();   
@@ -99,8 +100,9 @@ public class CustomerStatementPdf extends ReportsPDFUtility{
 		
 //		String totAmountToBePaid=df.format(totalAmtToBePaid);
 //		Double totalAmtsToBePaid=Double.parseDouble(totAmountToBePaid);
+		Font bold = new Font(FontFamily.HELVETICA,9);
 		
-		PdfPCell nameCell = new PdfPCell(new Phrase("Total Invoice Amount"+" "+" : "+"	"+totalReceived, title08)); 
+		PdfPCell nameCell = new PdfPCell(new Phrase("Total Amount Spent"+" "+" : "+"	"+totalReceived, bold)); 
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell.setVerticalAlignment(Element.ALIGN_TOP);
@@ -110,7 +112,7 @@ public class CustomerStatementPdf extends ReportsPDFUtility{
 		totalQtyTable.setTotalWidth(500);
 		totalQtyTable.getDefaultCell().setBorder(0); 
 		
-		Font bold = new Font(FontFamily.HELVETICA,9);
+	
 		
 		PdfPCell nameCell2 = new PdfPCell(new Phrase("Total Amount Received"+" "+":"+" "+totalAmtPaid, bold)); 
 		nameCell2.setColspan(3);

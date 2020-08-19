@@ -111,4 +111,7 @@ public class AccountReceivablesModel extends AuditModel{
 	
 	@Column(name="MASTER_ACC_NO")
 	private String creditNumber;
+	
+	@Column(name="UNIQUE_RECEIPT_NO")
+	private String unique;
 }

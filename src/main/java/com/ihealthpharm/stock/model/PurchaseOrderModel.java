@@ -213,6 +213,9 @@ public class PurchaseOrderModel extends AuditModel {
 	@Column(name = "REMARKS", length = 200)
 	private String remarks;
 	
+	@Column(name="CREDIT_DAYS")
+	private Integer creditDays;
+	
 	public PurchaseOrderModel() {
 		
 	}
