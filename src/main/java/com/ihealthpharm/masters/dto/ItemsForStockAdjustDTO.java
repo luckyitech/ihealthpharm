@@ -28,6 +28,7 @@ public class ItemsForStockAdjustDTO {
 	private Integer previousQty;
 
 	private String shelf;
+	
 
 	public ItemsForStockAdjustDTO(Integer stockId, String itemName, Integer itemId, String invoiceNo, String remarks,
 			String rack, String batchNo, Date expiryDt, Integer quantity,Integer previousQty,String shelf) {
