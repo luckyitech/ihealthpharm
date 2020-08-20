@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +36,9 @@ public interface ConfigurationRepository extends JpaRepository<ConfigurationMode
 			+ "s.ENTRY_TYPE='sales price update',s.MRP=s.UNIT_PURCHASE_RATE " + 
 			"where i.ITEM_ID=s.ITEM_ID and i.ITEM_CATEGORIE_ID=ic.ITEM_CATEGORIE_ID and s.UNIT_PURCHASE_RATE is not null and ic.MARGIN_PERCENTAGE is not null",nativeQuery = true)
 	public Integer updateStockWithCategory(@Param("margin") Integer margin, @Param("markup") Integer markup);
+	
+	@Query(value="call stockupdate()",nativeQuery = true)
+	public Integer stockupdate();
 
 }
 
