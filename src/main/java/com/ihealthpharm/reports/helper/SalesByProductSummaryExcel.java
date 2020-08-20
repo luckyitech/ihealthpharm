@@ -112,14 +112,14 @@ public class SalesByProductSummaryExcel extends ReportsExcelUtility {
 		cell.setCellValue("");
 		cell1.setCellValue("");
 		
-		cell = dataRow.createCell(9);
-		cell1=dataRow1.createCell(9);
+		cell = dataRow.createCell(14);
+		cell1=dataRow1.createCell(14);
 		
 		cell.setCellValue("Overall Quantity : ");
 		cell1.setCellValue("Overall Amount : ");
 		
-		cell = dataRow.createCell(10);
-		cell1=dataRow1.createCell(10);
+		cell = dataRow.createCell(15);
+		cell1=dataRow1.createCell(15);
 		
 		cell.setCellValue(quantity);
 		cell1.setCellValue(totalAmount);
@@ -184,16 +184,24 @@ public class SalesByProductSummaryExcel extends ReportsExcelUtility {
 			cell.setCellValue("S DISC%");
 			cell.setCellStyle(headerStyle);	
 			
-
 			cell = headerRow.createCell(11);
-			cell.setCellValue("TOTAL AMT");
+			cell.setCellValue("MARGIN%");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(12);
+			cell.setCellValue("PNL AMT");
+			cell.setCellStyle(headerStyle);	
+			
+
+			cell = headerRow.createCell(13);
+			cell.setCellValue("TOTAL AMT");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(14);
 			cell.setCellValue("CREATED BY");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(13);
+			cell = headerRow.createCell(15);
 			cell.setCellValue("MODIFIED BY");
 			cell.setCellStyle(headerStyle);	
 			
@@ -265,18 +273,28 @@ public class SalesByProductSummaryExcel extends ReportsExcelUtility {
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("TOTAL_AMOUNT") ? rowData.get("TOTAL_AMOUNT") : "";
+				value = rowData.containsKey("MARGIN") ? rowData.get("MARGIN") : "";
 				cell = dataRow.createCell(11);
-				cell.setCellValue(String.valueOf(value));
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("PNL_AMT") ? rowData.get("PNL_AMT") : "";
+				cell = dataRow.createCell(12);
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("TOTAL_AMOUNT") ? rowData.get("TOTAL_AMOUNT") : "";
+				cell = dataRow.createCell(13);
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("CREATED_BY") ? rowData.get("CREATED_BY") : "";
-				cell = dataRow.createCell(12);
+				cell = dataRow.createCell(14);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("MODIFIED_BY") ? rowData.get("MODIFIED_BY") : "";
-				cell = dataRow.createCell(13);
+				cell = dataRow.createCell(15);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 			}
@@ -295,14 +313,14 @@ public class SalesByProductSummaryExcel extends ReportsExcelUtility {
 				cell1.setCellValue("");
 				cell2.setCellValue("");
 				
-				cell1= dataRow1.createCell(9);
-				cell2=dataRow2.createCell(9);
+				cell1= dataRow1.createCell(14);
+				cell2=dataRow2.createCell(14);
 				
 				cell1.setCellValue("Total Quantity : ");
 				cell2.setCellValue("Total Amount : ");
 				
-				cell1 = dataRow1.createCell(10);
-				cell2=dataRow2.createCell(10);
+				cell1 = dataRow1.createCell(15);
+				cell2=dataRow2.createCell(15);
 				
 				cell1.setCellValue(quantity);
 				cell2.setCellValue(totalAmount);

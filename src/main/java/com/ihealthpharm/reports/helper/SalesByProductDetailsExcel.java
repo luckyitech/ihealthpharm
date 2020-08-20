@@ -159,18 +159,26 @@ public class SalesByProductDetailsExcel extends ReportsExcelUtility {
 			cell.setCellStyle(headerStyle);
 			
 			cell = headerRow.createCell(11);
-			cell.setCellValue("DISCOUNT");
+			cell.setCellValue("DISC%");
 			cell.setCellStyle(headerStyle);
 			
 			cell = headerRow.createCell(12);
-			cell.setCellValue("TOTAL AMOUNT");
+			cell.setCellValue("MARGIN%");
 			cell.setCellStyle(headerStyle);
 			
 			cell = headerRow.createCell(13);
-			cell.setCellValue("CREATED BY");
+			cell.setCellValue("PNL AMT");
 			cell.setCellStyle(headerStyle);
 			
 			cell = headerRow.createCell(14);
+			cell.setCellValue("TOTAL AMT");
+			cell.setCellStyle(headerStyle);
+			
+			cell = headerRow.createCell(15);
+			cell.setCellValue("CREATED BY");
+			cell.setCellStyle(headerStyle);
+			
+			cell = headerRow.createCell(16);
 			cell.setCellValue("MODIFIED BY");
 			cell.setCellStyle(headerStyle);
 			
@@ -262,21 +270,34 @@ public class SalesByProductDetailsExcel extends ReportsExcelUtility {
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
+				value = rowData.containsKey("MARGIN") ? rowData.get("MARGIN") : "";
+				//sheet.autoSizeColumn(10);
+				cell = dataRow.createCell(12);
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("PNL_AMT") ? rowData.get("PNL_AMT") : "";
+				//sheet.autoSizeColumn(10);
+				cell = dataRow.createCell(13);
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				cell.setCellStyle(borderStyle);
+				
+				
 				value = rowData.containsKey("TOTAL_AMOUNT") ? rowData.get("TOTAL_AMOUNT") : "";
 				//sheet.autoSizeColumn(11);
-				cell = dataRow.createCell(12);
+				cell = dataRow.createCell(14);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("CREATED_BY") ? rowData.get("CREATED_BY") : "";
 				//sheet.autoSizeColumn(5);
-				cell = dataRow.createCell(13);
+				cell = dataRow.createCell(15);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("MODIFIED_BY") ? rowData.get("MODIFIED_BY") : "";
 				//sheet.autoSizeColumn(5);
-				cell = dataRow.createCell(14);
+				cell = dataRow.createCell(16);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 			}
