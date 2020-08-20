@@ -195,18 +195,26 @@ public class SalesProfitAttributionExcel extends ReportsExcelUtility{
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(14);
-			cell.setCellValue("PROFIT");
+			cell.setCellValue("MARGIN%");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(15);
-			cell.setCellValue("PROFIT%");
+			cell.setCellValue("PNL AMT");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(16);
-			cell.setCellValue("SERVED BY");
+			cell.setCellValue("PROFIT");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(17);
+			cell.setCellValue("PROFIT%");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(18);
+			cell.setCellValue("SERVED BY");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(19);
 			cell.setCellValue("CREATION TS");
 			cell.setCellStyle(headerStyle);	
 			
@@ -293,24 +301,34 @@ public class SalesProfitAttributionExcel extends ReportsExcelUtility{
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("PROFIT") ? rowData.get("PROFIT") : "";
+				value = rowData.containsKey("MARGIN") ? rowData.get("MARGIN") : "";
 				cell = dataRow.createCell(14);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("PROFIT_PER") ? rowData.get("PROFIT_PER") : "";
+				value = rowData.containsKey("PNL_AMT") ? rowData.get("PNL_AMT") : "";
 				cell = dataRow.createCell(15);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("CREATED_BY") ? rowData.get("CREATED_BY") : "";
+				value = rowData.containsKey("PROFIT") ? rowData.get("PROFIT") : "";
 				cell = dataRow.createCell(16);
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("PROFIT_PER") ? rowData.get("PROFIT_PER") : "";
+				cell = dataRow.createCell(17);
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("CREATED_BY") ? rowData.get("CREATED_BY") : "";
+				cell = dataRow.createCell(18);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				
 				value = rowData.containsKey("CREATION_TS") ? rowData.get("CREATION_TS") : "";
-				cell = dataRow.createCell(17);
+				cell = dataRow.createCell(19);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
