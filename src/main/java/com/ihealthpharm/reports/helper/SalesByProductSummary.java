@@ -134,9 +134,9 @@ public class SalesByProductSummary extends ReportsPDFUtility {
 		supllierNameTable.getDefaultCell().setBorder(0); 
 		
 		
-		PdfPTable table = new PdfPTable(14);
-		table.setTotalWidth(500);
-		table.setWidths(new int[] {25,40,40,30,40,40,40,40,20,40,40,30,40,45});
+		PdfPTable table = new PdfPTable(16);
+		table.setTotalWidth(535);
+		table.setWidths(new int[] {25,40,40,30,40,40,40,40,20,20,40,40,25,30,40,40});
 		table.setWidthPercentage(50);
 		table.setLockedWidth(true);
 		PdfPCell cell = null;
@@ -246,6 +246,26 @@ public class SalesByProductSummary extends ReportsPDFUtility {
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
 			headerCell.add("S DISC%");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("MARGIN%");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("PNL AMT");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
@@ -371,6 +391,22 @@ public class SalesByProductSummary extends ReportsPDFUtility {
 				table.addCell(cell);
 				
 				value = rowData.containsKey("DISC_PER") ? rowData.get("DISC_PER") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("MARGIN") ? rowData.get("MARGIN") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("PNL_AMT") ? rowData.get("PNL_AMT") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
