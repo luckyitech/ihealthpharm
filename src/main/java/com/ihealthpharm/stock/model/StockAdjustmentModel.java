@@ -51,4 +51,7 @@ public class StockAdjustmentModel {
 	
 	@Column(name="ENTRY_TYPE",length=20)
 	private String entryType;
+	
+	@Column(name="REMARKS")
+	private String remarks;
 }
