@@ -37,7 +37,9 @@ public class MasterAccountServiceImpl implements MasterAccountService {
 	
 	@Override
 	public MasterAccountModel save(MasterAccountModel masterAccount) {
-		
+		if (!customerIdCheck(masterAccount.getCustomerId().getCustomerId())) {
+			throw new IHealthPharmException("Customer Don't Have ID", HttpStatus.BAD_REQUEST);
+		}
 		return masterAccountRepository.save(masterAccount);
 	}
 
@@ -48,6 +50,10 @@ public class MasterAccountServiceImpl implements MasterAccountService {
 
 		if (!Objects.nonNull(masterAccountRes)) {
 			throw new IHealthPharmException(masterAccountHelper.getNotFoundMasterAccountMessage(), HttpStatus.NOT_FOUND);
+		}
+		
+		if (!customerIdCheck(masterAccountRes.getCustomerId().getCustomerId())) {
+			throw new IHealthPharmException("Customer Don't Have ID", HttpStatus.BAD_REQUEST);
 		}
 		for(FamilyAccountModel familyAccountModel:masterAccountRes.getFamilyAccounts()) {
 			familyAccountRepository.delete(familyAccountModel);
@@ -164,5 +170,17 @@ public class MasterAccountServiceImpl implements MasterAccountService {
 	public List<String> getAccByCreditNumber() {
 		// TODO Auto-generated method stub
 		return masterAccountRepository.getAccByCreditNo();
+	}
+	
+	public Boolean customerIdCheck(Integer customerId)
+	{
+		Integer res = masterAccountRepository.checkCustomerHaveId(customerId);
+		if(Objects.nonNull(res))
+		{
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }

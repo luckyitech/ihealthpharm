@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import com.ihealthpharm.exception.IHealthPharmException;
+import com.ihealthpharm.masters.dao.ConfigurationRepository;
 import com.ihealthpharm.masters.dao.ConfigurationStatusRepository;
 import com.ihealthpharm.masters.dao.ItemGroupRepository;
 import com.ihealthpharm.masters.dao.ItemsRepository;
@@ -46,6 +47,9 @@ public class ItemServiceImpl implements ItemService {
 
 	@Autowired
 	private StockRepository stockRepo;
+	
+	@Autowired
+	private ConfigurationRepository configurationRepository;
 
 	@Autowired
 	private ConfigurationStatusRepository configurationStatusRepository;
@@ -74,13 +78,17 @@ public class ItemServiceImpl implements ItemService {
 			if (itemsModelRes.getItemCategory() != null) {
 				if (itemsModelRes.getItemCategory().getMarginPercentage() != null
 						&& itemsModelRes.getItemCategory().getMarginPercentage() > 0) {
-					itemRepository.updateStockWithMargin(itemsModelRes.getItemId(),
-							itemsModelRes.getItemCategory().getMarginPercentage(), markup);
+					/*
+					 * itemRepository.updateStockWithMargin(itemsModelRes.getItemId(),
+					 * itemsModelRes.getItemCategory().getMarginPercentage(), markup);
+					 */
+					
+					itemRepository.StockUpdateByItemId(itemsModelRes.getItemId());
 				} else {
-					itemRepository.updateStockWithMargin(itemsModelRes.getItemId(), margin, markup);
+					//itemRepository.updateStockWithMargin(itemsModelRes.getItemId(), margin, markup);
 				}
 			} else {
-				itemRepository.updateStockWithMargin(itemsModelRes.getItemId(), margin, markup);
+				//itemRepository.updateStockWithMargin(itemsModelRes.getItemId(), margin, markup);
 			}
 		}
 

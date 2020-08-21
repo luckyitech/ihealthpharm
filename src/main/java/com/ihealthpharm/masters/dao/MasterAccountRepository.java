@@ -57,4 +57,7 @@ public interface MasterAccountRepository extends JpaRepository<MasterAccountMode
 
 	@Query("select ma.creditNumber from master_account ma")
 	public List<String> getAccByCreditNo();
+
+	@Query("select ci.customerId from customer_id_images ci where ci.customerId=:customerId")
+	public Integer checkCustomerHaveId(@Param("customerId")Integer customerId);
 }

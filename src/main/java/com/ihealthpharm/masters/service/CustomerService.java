@@ -18,6 +18,8 @@ public interface CustomerService
 	 List<CustomerModel> findAllCustomers();
 	 
 	 List<CustomerModel> findLimitedCustomers();
+	 
+	 
 	
 	 CustomerModel findCustomerById(Integer customerId);
 	
