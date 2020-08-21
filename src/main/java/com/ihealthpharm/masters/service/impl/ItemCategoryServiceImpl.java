@@ -66,20 +66,26 @@ public class ItemCategoryServiceImpl implements ItemCategoryService {
 		itemCategoryModelRes = itemCategoriesRepository.save(itemCategoryModel);
 		ConfigurationStatusModel configurationStatusModel = configurationStatusRepository.findFirstRecord();
 		log.info("---------------------------------------------");
-		log.info("configuration Model:"+configurationStatusModel);
+		log.info("Item Category Id:"+itemCategoryModelRes.getItemCategoryId());
 		log.info("---------------------------------------------");
 		if (Objects.nonNull(configurationStatusModel)) {
 			if (configurationStatusModel.getConfigStatusValue().equals("activate")) {
 				if (itemCategoryModelRes.getMarginPercentage() != null
 						&& itemCategoryModelRes.getMarginPercentage() > 0) {
 					Integer markup = itemCategoriesRepository.getMarkup();
-					itemCategoriesRepository.updateStockWithMargin(itemCategoryModel.getItemCategoryId(),
-							itemCategoryModel.getMarginPercentage(), markup);
+					/*
+					 * itemCategoriesRepository.updateStockWithMargin(itemCategoryModel.
+					 * getItemCategoryId(), itemCategoryModel.getMarginPercentage(), markup);
+					 */
+					itemCategoriesRepository.stockupdateWithItemCategory(itemCategoryModelRes.getItemCategoryId());
 				} else {
 					Integer markup = itemCategoriesRepository.getMarkup();
 					Integer margin = itemCategoriesRepository.getMargin();
-					itemCategoriesRepository.updateStockWithMarginIfItemMarginNull(
-							itemCategoryModel.getItemCategoryId(), margin, markup);
+					/*
+					 * itemCategoriesRepository.updateStockWithMarginIfItemMarginNull(
+					 * itemCategoryModel.getItemCategoryId(), margin, markup);
+					 */
+					itemCategoriesRepository.stockupdateWithItemCategory(itemCategoryModelRes.getItemCategoryId());
 				}
 			}
 		}

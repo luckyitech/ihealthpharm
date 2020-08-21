@@ -44,4 +44,7 @@ public interface ItemCategoriesRepository extends JpaRepository<ItemCategoryMode
 			+ " where s.unitPurchaseRate is not null and s.item.itemId in "
 			+ "(select i.itemId from items i where i.itemCategory.itemCategoryId = :itemCategoryId)")
 	public void updateStockWithMarginIfItemMarginNull(@Param("itemCategoryId") Integer itemCategoryId,@Param("margin") Integer margin, @Param("markup") Integer markup);
+	
+	@Query(value="call stockupdatewithitemcategory(:itemCategoryId)",nativeQuery = true)
+	public void stockupdateWithItemCategory(@Param("itemCategoryId") Integer itemCategoryId);
 }

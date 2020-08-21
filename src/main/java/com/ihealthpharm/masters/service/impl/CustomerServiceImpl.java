@@ -130,6 +130,8 @@ public class CustomerServiceImpl implements CustomerService {
 		Pageable limit = new PageRequest(0,100);
 		return customerRepository.findFirst100ByOrderByCustomerNameAsc(limit);
 	}
+	
+	
 
 	@Override
 	public List<CustomerModel> findLimitedCustomersData() {

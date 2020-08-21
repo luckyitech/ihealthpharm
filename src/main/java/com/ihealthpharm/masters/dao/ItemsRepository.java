@@ -172,4 +172,7 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 			+ " set s.unitSaleRate=ROUND(((s.unitPurchaseRate*(1+(:margin/100)))*(1+(:markup/100))),2), s.entryType='sales price update',s.mrp=s.unitSaleRate "
 			+ "where s.unitPurchaseRate is not null and s.item.itemId=:itemId")
 	public void updateStockWithMargin(@Param("itemId") Integer itemId,@Param("margin") Integer margin, @Param("markup") Integer markup);
+	
+	@Query(value="call StockUpdateByItemId(:itemId)",nativeQuery = true)
+	public Integer StockUpdateByItemId(@Param("itemId") Integer itemId);
 }
