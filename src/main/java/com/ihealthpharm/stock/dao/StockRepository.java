@@ -193,7 +193,7 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 
 	@Transactional
 	@Modifying
-	@Query("update stock s set s.quantity=(s.quantity-:quantity),s.lastUpdateUser=:lastUpdateUser,s.lastUpdateTimestamp=:lastUpdateTimestamp where s.quantity=:previousQty and  s.stockId=:stockId")
+	@Query("update stock s set s.quantity=:quantity,s.lastUpdateUser=:lastUpdateUser,s.lastUpdateTimestamp=:lastUpdateTimestamp where s.quantity=:previousQty and  s.stockId=:stockId")
 	Integer updateStockData(@Param("stockId") Integer stockId,@Param("previousQty")Integer previousQty, @Param("quantity") Integer quantity,@Param("lastUpdateUser")Integer lastUpdateUser,@Param("lastUpdateTimestamp")Date lastUpdateTimestamp);
 
 	@Query("select new  com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO(s.stockId,i.itemName,s.item.itemId,s.invoiceNo,s.remarks,s.rack,s.batchNo,s.expiryDt,s.quantity,s.quantity,s.shelf) from stock s inner join items i on s.item=i.itemId where s.stockId=:stockId order by i.itemName,s.batchNo asc")
