@@ -98,8 +98,8 @@ public class StockAuditExcel extends ReportsExcelUtility{
 //		
 //		System.out.println(inputJson.get("FROM_DATE"));
 //		if(inputJson.get("FROM_SYSTEM_DATE")!=null && inputJson.get("TO_SYSTEM_DATE")!=null) {
-		String fromDate = ObjectUtils.isEmpty(inputJson)?"":String.valueOf(inputJson.get("FROM_DATE"));
-		String toDate = ObjectUtils.isEmpty(inputJson)?"":String.valueOf(inputJson.get("TO_DATE"));
+		String fromDate = ObjectUtils.isEmpty(inputJson)?"":String.valueOf(inputJson.get("FROM_UPDATED_DATE"));
+		String toDate = ObjectUtils.isEmpty(inputJson)?"":String.valueOf(inputJson.get("TO_UPDATED_DATE"));
 		
 		
 		rowNum = rowNum + 3;
@@ -166,10 +166,14 @@ public class StockAuditExcel extends ReportsExcelUtility{
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(10);
-			cell.setCellValue("LAST UPDATED USER");
+			cell.setCellValue("REMARKS");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(11);
+			cell.setCellValue("LAST UPDATED USER");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(12);
 			cell.setCellValue("LAST UPDATED DT");
 			cell.setCellStyle(headerStyle);	
 			
@@ -243,9 +247,15 @@ public class StockAuditExcel extends ReportsExcelUtility{
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
+				value = rowData.containsKey("ENTRY_TYPE") ? rowData.get("ENTRY_TYPE") : "";
+				//sheet.autoSizeColumn(8);
+				cell = dataRow.createCell(10);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
 				value = rowData.containsKey("LAST_UPDATE_USER") ? rowData.get("LAST_UPDATE_USER") : "";
 				//sheet.autoSizeColumn(9);
-				cell = dataRow.createCell(10);
+				cell = dataRow.createCell(11);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
@@ -258,7 +268,7 @@ public class StockAuditExcel extends ReportsExcelUtility{
 				
 				value =   rowData.containsKey("LAST_UPDATE_TS") ? rowData.get("LAST_UPDATE_TS") : "";
 				//sheet.autoSizeColumn(10);
-				cell = dataRow.createCell(10);
+				cell = dataRow.createCell(12);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				

@@ -76,7 +76,7 @@ public class StockAuditPdf extends ReportsPDFUtility{
 
 			
 			PdfPTable supllierNameTable = new PdfPTable(3);
-			PdfPCell nameCell = new PdfPCell(new Phrase("From Date : "+String.valueOf((dataMap.get("FROM_DATE")))+"          "+"To Date   : "+String.valueOf(dataMap.get("TO_DATE")), title08)); 
+			PdfPCell nameCell = new PdfPCell(new Phrase("From Date : "+String.valueOf((dataMap.get("FROM_UPDATED_DATE")))+"          "+"To Date   : "+String.valueOf(dataMap.get("TO_UPDATED_DATE")), title08)); 
 			//PdfPCell nameCell = new PdfPCell(new Phrase("From Date : "+fromDates+"        "+"To Date   : "+toDates, title08)); 
 			nameCell.setColspan(3);
 			nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -88,7 +88,7 @@ public class StockAuditPdf extends ReportsPDFUtility{
 			supllierNameTable.getDefaultCell().setBorder(0);
 		
 		
-		PdfPTable table = new PdfPTable(12);
+		PdfPTable table = new PdfPTable(13);
 		table.setTotalWidth(500);
 		table.setWidthPercentage(50);
 		table.setLockedWidth(true);
@@ -193,6 +193,16 @@ public class StockAuditPdf extends ReportsPDFUtility{
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
 			headerCell.add("EXPIRY DATE");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("REMARKS");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
@@ -313,6 +323,14 @@ public class StockAuditPdf extends ReportsPDFUtility{
 				table.addCell(cell);
 				
 				value = rowData.containsKey("EXPIRY_DT") ? rowData.get("EXPIRY_DT") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("ENTRY_TYPE") ? rowData.get("ENTRY_TYPE") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
