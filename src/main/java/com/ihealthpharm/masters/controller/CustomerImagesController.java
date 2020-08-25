@@ -47,10 +47,12 @@ public class CustomerImagesController {
 	public ResponseEntity<BaseDto<CustomerImagesModel>> updateCustomerImage(
 			@RequestParam MultipartFile customerImage,
 			@RequestParam Integer customerId,
-			@RequestParam Integer customerImageId){
+			@RequestParam(required = false) Integer customerImageId){
 		CustomerImagesModel customerImageObj = new CustomerImagesModel();
 		try {
-			customerImageObj.setCustomerImagesId(customerImageId);
+			if(customerImageId != null)
+				customerImageObj.setCustomerImagesId(customerImageId);
+			
 			customerImageObj.setCustomerId(customerId);
 			customerImageObj.setCustomerImage(customerImage.getBytes());
 		}
