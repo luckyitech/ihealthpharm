@@ -142,7 +142,8 @@ public class InvoiceItemModel extends AuditModel {
 	
 	@Transient
 	private Double saleDiscountAmount;
-
 	
-
+	@Column(name="MARGIN_PER")
+	private Double marginPer;
+	
 }

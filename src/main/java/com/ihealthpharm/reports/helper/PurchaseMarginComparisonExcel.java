@@ -79,7 +79,7 @@ public class PurchaseMarginComparisonExcel extends ReportsExcelUtility{
 		
 		
 		Map<String, List<Map<String, Object>>> purchaseMarginMap = responseList.stream()
-				.collect(Collectors.groupingBy(map -> (String) map.get("ITEM_NM")));			
+				.collect(Collectors.groupingBy(map -> (String) map.get("INVOICE_NO")));			
 		
 		
 		setHeader(workbook,sheet,model);
@@ -101,7 +101,7 @@ public class PurchaseMarginComparisonExcel extends ReportsExcelUtility{
 	}
 
 	private void createSupplierTable(SXSSFSheet sheet,File responseFile, CellStyle borderStyle ,
-			CellStyle headerStyle, List<Map<String, Object>> purchaseMarginList, String itemName, int rowNum) {
+			CellStyle headerStyle, List<Map<String, Object>> purchaseMarginList, String invoiceNo, int rowNum) {
 
 		rowNum = rowNum + 3;
 		int headRow=rowNum-2;
@@ -115,61 +115,65 @@ public class PurchaseMarginComparisonExcel extends ReportsExcelUtility{
 			cell.setCellValue("S.NO");
 			cell.setCellStyle(headerStyle);
 			
-			
 			cell = headerRow.createCell(1);
-			cell.setCellValue("SUPPLIER NAME");
+			cell.setCellValue("ITEM NAME");
 			cell.setCellStyle(headerStyle);
 			
 			
 			cell = headerRow.createCell(2);
+			cell.setCellValue("SUPPLIER NAME");
+			cell.setCellStyle(headerStyle);
+			
+			
+			cell = headerRow.createCell(3);
 			cell.setCellValue("BATCH");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(3);
+			cell = headerRow.createCell(4);
 			cell.setCellValue("QTY");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(4);
+			cell = headerRow.createCell(5);
 			cell.setCellValue("BONUS");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(5);
+			cell = headerRow.createCell(6);
 			cell.setCellValue("PURC PRICE");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(6);
+			cell = headerRow.createCell(7);
 			cell.setCellValue("SALE PRICE");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(7);
+			cell = headerRow.createCell(8);
 			cell.setCellValue("MRP");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(8);
+			cell = headerRow.createCell(9);
 			cell.setCellValue("S DISC%");
 			cell.setCellStyle(headerStyle);
 			
-			cell = headerRow.createCell(9);
+			cell = headerRow.createCell(10);
 			cell.setCellValue("P DISC%");
 			cell.setCellStyle(headerStyle);
 			
-			cell = headerRow.createCell(10);
+			cell = headerRow.createCell(11);
 			cell.setCellValue("NET AMT");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(11);
+			cell = headerRow.createCell(12);
 			cell.setCellValue("MARGIN AMT");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(12);
-			cell.setCellValue("MARGIN AMT/ITEM");
-			cell.setCellStyle(headerStyle);	
-			
 			cell = headerRow.createCell(13);
-			cell.setCellValue("CREATED BY");
+			cell.setCellValue("MARGIN%");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(14);
+			cell.setCellValue("CREATED BY");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(15);
 			cell.setCellValue("MODIFIED BY");
 			cell.setCellStyle(headerStyle);	
 			
@@ -177,8 +181,8 @@ public class PurchaseMarginComparisonExcel extends ReportsExcelUtility{
 				
 				Row displayRow = sheet.createRow(headRow);
 				Cell headCell = displayRow.createCell(0);
-				Object value = rowData.containsKey("ITEM_NM") ? rowData.get("ITEM_NM") : "";
-				headCell.setCellValue("Product Name  :   ");
+				Object value = rowData.containsKey("INVOICE_NO") ? rowData.get("INVOICE_NO") : "";
+				headCell.setCellValue("Invoice No  :   ");
 				headCell=displayRow.createCell(1);
 				headCell.setCellValue(String.valueOf(value));
 				
@@ -189,47 +193,52 @@ public class PurchaseMarginComparisonExcel extends ReportsExcelUtility{
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
-				
-				value = rowData.containsKey("SP_NAME") ? rowData.get("SP_NAME") : "";
+				value = rowData.containsKey("ITEM_NM") ? rowData.get("ITEM_NM") : "";
 				//sheet.autoSizeColumn(1);
 				cell = dataRow.createCell(1);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
+				value = rowData.containsKey("SP_NAME") ? rowData.get("SP_NAME") : "";
+				//sheet.autoSizeColumn(1);
+				cell = dataRow.createCell(2);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
 				value = rowData.containsKey("BATCH_NO") ? rowData.get("BATCH_NO") : "";
 				//sheet.autoSizeColumn(2);
-				cell = dataRow.createCell(2);
+				cell = dataRow.createCell(3);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("QUANTITY_APPROVED") ? rowData.get("QUANTITY_APPROVED") : "";
 				//sheet.autoSizeColumn(3);
-				cell = dataRow.createCell(3);
+				cell = dataRow.createCell(4);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("BONUS") ? rowData.get("BONUS") : "";
 				//sheet.autoSizeColumn(4);
-				cell = dataRow.createCell(4);
+				cell = dataRow.createCell(5);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("UNIT_RATE") ? rowData.get("UNIT_RATE") : "";
 				//sheet.autoSizeColumn(5);
-				cell = dataRow.createCell(5);
+				cell = dataRow.createCell(6);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("UNIT_SALE_RATE") ? rowData.get("UNIT_SALE_RATE") : "";
 				//sheet.autoSizeColumn(5);
-				cell = dataRow.createCell(6);
+				cell = dataRow.createCell(7);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 
 				
 				value = rowData.containsKey("MRP") ? rowData.get("MRP") : "";
 				//sheet.autoSizeColumn(6);
-				cell = dataRow.createCell(7);
+				cell = dataRow.createCell(8);
 				if(NumberUtils.isNumber(String.valueOf(value))) {
 					cell.setCellType(CellType.NUMERIC);		
 					cell.setCellValue(Double.parseDouble(String.valueOf(value)));
@@ -241,19 +250,19 @@ public class PurchaseMarginComparisonExcel extends ReportsExcelUtility{
 				
 				value = rowData.containsKey("DISCOUNT_PERCENTAGE") ? rowData.get("DISCOUNT_PERCENTAGE") : "";
 				//sheet.autoSizeColumn(7);
-				cell = dataRow.createCell(8);
+				cell = dataRow.createCell(9);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("SALE_DISCOUNT_PERCENTAGE") ? rowData.get("SALE_DISCOUNT_PERCENTAGE") : "";
 				//sheet.autoSizeColumn(7);
-				cell = dataRow.createCell(9);
+				cell = dataRow.createCell(10);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("NET_AMOUNT") ? rowData.get("NET_AMOUNT") : "";
 				//sheet.autoSizeColumn(8);
-				cell = dataRow.createCell(10);
+				cell = dataRow.createCell(11);
 				try {
 					if(NumberUtils.isNumber(String.valueOf(value))) {
 						cell.setCellType(CellType.NUMERIC);		
@@ -269,7 +278,7 @@ public class PurchaseMarginComparisonExcel extends ReportsExcelUtility{
 				
 				value = rowData.containsKey("MARGIN_AMT") ? rowData.get("MARGIN_AMT") : "";
 				//sheet.autoSizeColumn(9);
-				cell = dataRow.createCell(11);
+				cell = dataRow.createCell(12);
 				if(NumberUtils.isNumber(String.valueOf(value))) {
 					cell.setCellType(CellType.NUMERIC);		
 					cell.setCellValue(Double.parseDouble(String.valueOf(value)));
@@ -279,9 +288,9 @@ public class PurchaseMarginComparisonExcel extends ReportsExcelUtility{
 //				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("MARGIN_AMT_ITEM") ? rowData.get("MARGIN_AMT_ITEM") : "";
+				value = rowData.containsKey("MARGIN") ? rowData.get("MARGIN") : "";
 				//sheet.autoSizeColumn(10);
-				cell = dataRow.createCell(12);
+				cell = dataRow.createCell(13);
 				if(NumberUtils.isNumber(String.valueOf(value))) {
 					cell.setCellType(CellType.NUMERIC);		
 					cell.setCellValue(Double.parseDouble(String.valueOf(value)));
@@ -292,13 +301,13 @@ public class PurchaseMarginComparisonExcel extends ReportsExcelUtility{
 				
 				value = rowData.containsKey("EMP_NM") ? rowData.get("EMP_NM") : "";
 				//sheet.autoSizeColumn(10);
-				cell = dataRow.createCell(13);
+				cell = dataRow.createCell(14);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("EMP_MODIFIED") ? rowData.get("EMP_MODIFIED") : "";
 				//sheet.autoSizeColumn(10);
-				cell = dataRow.createCell(14);
+				cell = dataRow.createCell(15);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
