@@ -136,6 +136,8 @@ public class SalesEmployeeDTO {
 	HospitalModel hospitalModel;
 	
 	private Character activeS;
+	
+	private Boolean corporateCustomer;
 
 	public SalesEmployeeDTO(Integer billId, Integer adjustedQty, Float balanceAmount, String billCode,
 			String previousBillCode, LocalDate billDate, Float cashAmount, LocalDateTime creationTs,
@@ -149,7 +151,8 @@ public class SalesEmployeeDTO {
 			Float upiAmount, String upiPhoneNo, String upiTransactionId, Float vatAmt, Integer chequeNumber,
 			Double chequeAmount, String chequeDate, Double creditAmount, CustomerInsuranceModel customerInsuranceModel,
 			CustomerMembershipModel customerMembershipModel, CustomerModel customerModel, String employeeModel,
-			PharmacyModel pharmacyModel, ProviderModel providerModel, HospitalModel hospitalModel, Character activeS,String creditAccountNo) {
+			PharmacyModel pharmacyModel, ProviderModel providerModel, HospitalModel hospitalModel, Character activeS,
+			String creditAccountNo,Boolean corporateCustomer) {
 		super();
 		this.billId = billId;
 		this.adjustedQty = adjustedQty;
@@ -206,6 +209,7 @@ public class SalesEmployeeDTO {
 		this.hospitalModel = hospitalModel;
 		this.activeS = activeS;
 		this.creditAccountNo = creditAccountNo;
+		this.corporateCustomer=corporateCustomer;
 	}
 
 	public SalesEmployeeDTO() {

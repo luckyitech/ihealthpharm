@@ -210,4 +210,7 @@ public class SalesModel {
 	@Column(name="CREDIT_ACCOUNT_NO")
 	private String creditAccountNo;
 	
+	@Column(name="CORPORATE_CUSTOMER")
+	private Boolean corporateCustomer;
+	
 }
