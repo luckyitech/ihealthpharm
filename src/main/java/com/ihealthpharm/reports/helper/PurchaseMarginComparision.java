@@ -40,7 +40,7 @@ public class PurchaseMarginComparision extends ReportsPDFUtility{
 			document.open();
 			
 			Map<String, List<Map<String, Object>>> purchaseMarginComparision = responseList.stream()
-					.collect(Collectors.groupingBy(map -> (String) map.get("ITEM_NM")));			
+					.collect(Collectors.groupingBy(map -> (String) map.get("INVOICE_NO")));			
 			
 			
 			if(!ObjectUtils.isEmpty(purchaseMarginComparision)) { 
@@ -70,7 +70,7 @@ public class PurchaseMarginComparision extends ReportsPDFUtility{
 
 
 	private void createTable(Document document, ReportsMappingModel model, List<Map<String, Object>> purchaseMarginCompList,
-			String itemName) throws DocumentException {
+			String invoiceNo) throws DocumentException {
 
 		String reportHeader = model.getReportHeader();
 		List<HeaderDto> headerList = JsonUtility.jsonToList(reportHeader, HeaderDto.class);
@@ -83,7 +83,7 @@ public class PurchaseMarginComparision extends ReportsPDFUtility{
 		finalTable.getDefaultCell().setBorder(0); 
 		
 		PdfPTable supllierNameTable = new PdfPTable(2);
-		PdfPCell nameCell = new PdfPCell(new Phrase("Product Name : "+itemName, title08)); 
+		PdfPCell nameCell = new PdfPCell(new Phrase("Invoice NO : "+invoiceNo, title08)); 
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		nameCell.setVerticalAlignment(Element.ALIGN_TOP);
@@ -94,7 +94,7 @@ public class PurchaseMarginComparision extends ReportsPDFUtility{
 		supllierNameTable.getDefaultCell().setBorder(0); 
 		
 		
-		PdfPTable table = new PdfPTable(15);
+		PdfPTable table = new PdfPTable(16);
 		table.setTotalWidth(500);
 		table.setWidthPercentage(50);
 		table.setLockedWidth(true);
@@ -105,6 +105,16 @@ public class PurchaseMarginComparision extends ReportsPDFUtility{
 			Paragraph headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
 			headerCell.add("S.No");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("ITEM NAME");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
@@ -224,7 +234,7 @@ public class PurchaseMarginComparision extends ReportsPDFUtility{
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("MARGIN AMT/ITEM");
+			headerCell.add("MARGIN%");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
@@ -261,6 +271,14 @@ public class PurchaseMarginComparision extends ReportsPDFUtility{
 				//for (HeaderDto hearder : headerList) {
 
 				Object value = String.valueOf(purchaseMarginCompList.indexOf(rowData) + 1);
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("INVOICE_NO") ? rowData.get("INVOICE_NO") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
@@ -356,7 +374,7 @@ public class PurchaseMarginComparision extends ReportsPDFUtility{
 
 				table.addCell(cell);
 				
-				value = rowData.containsKey("MARGIN_AMT_ITEM") ? rowData.get("MARGIN_AMT_ITEM") : "";
+				value = rowData.containsKey("MARGIN") ? rowData.get("MARGIN") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
