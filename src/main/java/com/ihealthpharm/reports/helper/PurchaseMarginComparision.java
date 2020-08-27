@@ -279,7 +279,7 @@ public class PurchaseMarginComparision extends ReportsPDFUtility{
 
 				table.addCell(cell);
 				
-				value = rowData.containsKey("INVOICE_NO") ? rowData.get("INVOICE_NO") : "";
+				value = rowData.containsKey("ITEM_NM") ? rowData.get("ITEM_NM") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
