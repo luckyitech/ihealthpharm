@@ -150,11 +150,11 @@ public class PurchaseMarginComparisonExcel extends ReportsExcelUtility{
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(9);
-			cell.setCellValue("S DISC%");
+			cell.setCellValue("P DISC%");
 			cell.setCellStyle(headerStyle);
 			
 			cell = headerRow.createCell(10);
-			cell.setCellValue("P DISC%");
+			cell.setCellValue("S DISC%");
 			cell.setCellStyle(headerStyle);
 			
 			cell = headerRow.createCell(11);
