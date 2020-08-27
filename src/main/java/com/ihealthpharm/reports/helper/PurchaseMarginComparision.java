@@ -194,7 +194,7 @@ public class PurchaseMarginComparision extends ReportsPDFUtility{
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("S DISC%");
+			headerCell.add("P DISC%");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
@@ -204,13 +204,14 @@ public class PurchaseMarginComparision extends ReportsPDFUtility{
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("P DISC%");
+			headerCell.add("S DISC%");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
 				cell.setBorder(Rectangle.BOTTOM);
 			
 			table.addCell(cell);
+			
 			
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
