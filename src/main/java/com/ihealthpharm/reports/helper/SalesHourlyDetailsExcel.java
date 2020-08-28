@@ -173,42 +173,38 @@ public class SalesHourlyDetailsExcel extends ReportsExcelUtility{
 			cell.setCellStyle(headerStyle);	
 
 			cell = headerRow.createCell(5);
-			cell.setCellValue("AMOUNT");
-			cell.setCellStyle(headerStyle);	
-
-			cell = headerRow.createCell(6);
 			cell.setCellValue("PAID AMOUNT");
 			cell.setCellStyle(headerStyle);	
 
-			cell = headerRow.createCell(7);
+			cell = headerRow.createCell(6);
 			cell.setCellValue("BALANCE AMOUNT");
 			cell.setCellStyle(headerStyle);	
 
-			cell = headerRow.createCell(8);
+			cell = headerRow.createCell(7);
 			cell.setCellValue("VAT AMT");
 			cell.setCellStyle(headerStyle);
 
-			cell = headerRow.createCell(9);
+			cell = headerRow.createCell(8);
 			cell.setCellValue("PAYMENT STATUS");
 			cell.setCellStyle(headerStyle);	
 
-			cell = headerRow.createCell(10);
+			cell = headerRow.createCell(9);
 			cell.setCellValue("CREATED BY");
 			cell.setCellStyle(headerStyle);	
 
-			cell = headerRow.createCell(11);
+			cell = headerRow.createCell(10);
 			cell.setCellValue("MODIFIED BY");
 			cell.setCellStyle(headerStyle);	
 
 
-			cell = headerRow.createCell(12);
+			cell = headerRow.createCell(11);
 			cell.setCellValue("CREATION TS");
 			cell.setCellStyle(headerStyle);	
 
 			Row displayRow = sheet.createRow(headRow++);
 			for (Map<String, Object> rowData : salesRegisterDetails) {
 
-				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
+				SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
 				Cell headCell = displayRow.createCell(0);
 				String value1 = rowData.containsKey("CREATION_TS") ? df.format(rowData.get("CREATION_TS")) : "";
 				headCell.setCellValue("Sales From  :   ");
@@ -242,19 +238,8 @@ public class SalesHourlyDetailsExcel extends ReportsExcelUtility{
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 
-				value = rowData.containsKey("AMOUNT") ? rowData.get("AMOUNT") : "0.00";
-				cell = dataRow.createCell(5);
-				if(NumberUtils.isNumber(String.valueOf(value))) {
-					cell.setCellType(CellType.NUMERIC);		
-					cell.setCellValue(Double.parseDouble(String.valueOf(value)));
-				}else {	
-					cell.setCellValue(String.valueOf(value));
-				}
-				cell.setCellStyle(borderStyle);
-
-
 				value = rowData.containsKey("PAID_AMOUNT") ? rowData.get("PAID_AMOUNT") : "";
-				cell = dataRow.createCell(6);
+				cell = dataRow.createCell(5);
 
 				if(NumberUtils.isNumber(String.valueOf(value))) {
 					cell.setCellType(CellType.NUMERIC);		
@@ -266,7 +251,7 @@ public class SalesHourlyDetailsExcel extends ReportsExcelUtility{
 
 
 				value = rowData.containsKey("BALANCE_AMOUNT") ? rowData.get("BALANCE_AMOUNT") : "";
-				cell = dataRow.createCell(7);
+				cell = dataRow.createCell(6);
 
 				if(NumberUtils.isNumber(String.valueOf(value))) {
 					cell.setCellType(CellType.NUMERIC);		
@@ -278,7 +263,7 @@ public class SalesHourlyDetailsExcel extends ReportsExcelUtility{
 				cell.setCellStyle(borderStyle);
 
 				value = rowData.containsKey("VAT_AMT") ? rowData.get("VAT_AMT") : "";
-				cell = dataRow.createCell(8);
+				cell = dataRow.createCell(7);
 
 				if(NumberUtils.isNumber(String.valueOf(value))) {
 					cell.setCellType(CellType.NUMERIC);		
@@ -289,22 +274,22 @@ public class SalesHourlyDetailsExcel extends ReportsExcelUtility{
 				cell.setCellStyle(borderStyle);
 
 				value = rowData.containsKey("PAYMENT_STATUS") ? rowData.get("PAYMENT_STATUS") : "";
-				cell = dataRow.createCell(9);
+				cell = dataRow.createCell(8);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 
 				value = rowData.containsKey("CREATED_BY") ? rowData.get("CREATED_BY") : "";
-				cell = dataRow.createCell(10);
+				cell = dataRow.createCell(9);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 
 				value = rowData.containsKey("MODIFIED_BY") ? rowData.get("MODIFIED_BY") : "";
-				cell = dataRow.createCell(11);
+				cell = dataRow.createCell(10);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 
-				value = rowData.containsKey("CREATION_TS") ? rowData.get("CREATION_TS") : "";
-				cell = dataRow.createCell(12);
+				value = rowData.containsKey("CREATION_FORMAT_TS") ? rowData.get("CREATION_FORMAT_TS") : "";
+				cell = dataRow.createCell(11);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 
