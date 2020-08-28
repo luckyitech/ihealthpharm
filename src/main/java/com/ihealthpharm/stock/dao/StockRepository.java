@@ -193,24 +193,24 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 
 	@Transactional
 	@Modifying
-	@Query("update stock s set s.quantity=:quantity,s.lastUpdateUser=:lastUpdateUser,s.lastUpdateTimestamp=:lastUpdateTimestamp where s.quantity=:previousQty and  s.stockId=:stockId")
-	Integer updateStockData(@Param("stockId") Integer stockId,@Param("previousQty")Integer previousQty, @Param("quantity") Integer quantity,@Param("lastUpdateUser")Integer lastUpdateUser,@Param("lastUpdateTimestamp")Date lastUpdateTimestamp);
+	@Query("update stock s set s.quantity=:quantity,s.lastUpdateUser=:lastUpdateUser,ENTRY_TYPE=:entryType,s.lastUpdateTimestamp=:lastUpdateTimestamp where s.quantity=:previousQty and  s.stockId=:stockId")
+	Integer updateStockData(@Param("stockId") Integer stockId,@Param("previousQty")Integer previousQty, @Param("quantity") Integer quantity,@Param("lastUpdateUser")Integer lastUpdateUser,@Param("entryType")String entryType,@Param("lastUpdateTimestamp")Date lastUpdateTimestamp);
 
 	@Query("select new  com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO(s.stockId,i.itemName,s.item.itemId,s.invoiceNo,s.remarks,s.rack,s.batchNo,s.expiryDt,s.quantity,s.quantity,s.shelf) from stock s inner join items i on s.item=i.itemId where s.stockId=:stockId order by i.itemName,s.batchNo asc")
 	List<ItemsForStockAdjustDTO> getStockRecordById(@Param("stockId") Integer stockId);
-	
-	
+
+
 	//Stock Take report
-	
+
 	@Query("select distinct st.invoiceNo from stock st,stock_adjustment sa where sa.stock=st.stockId and st.invoiceNo like :searchTerm%")
 	List<String> findInvoiceNoInST(@Param("searchTerm") String searchTerm);
-	
+
 	@Query("select distinct st.invoiceNo from stock st,stock_adjustment sa where sa.stock=st.stockId order by st.invoiceNo")
 	List<String> findAllInvoiceNoInST();
-	
+
 	@Query("select distinct i.itemName from stock st,stock_adjustment sa,items i where sa.stock=st.stockId and st.item.itemId=i.itemId and i.itemName like :searchTerm%")
 	List<String> findItemNmaesInST(@Param("searchTerm") String searchTerm);
-	
+
 	@Query("select distinct i.itemName from stock st,stock_adjustment sa,items i where sa.stock=st.stockId and st.item.itemId=i.itemId order by i.itemName")
 	List<String> findAllItemNmaesInST();
 }

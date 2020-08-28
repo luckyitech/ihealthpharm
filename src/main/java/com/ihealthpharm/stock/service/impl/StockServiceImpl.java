@@ -367,7 +367,8 @@ public class StockServiceImpl implements StockService {
 		public Integer updateStock(Integer stockId,Integer previousQty, Integer quantity,Integer lastUpdateUser) {
 			
 			 Date lastUpdateTimestamp = new Date();
-			return stockRepository.updateStockData(stockId,previousQty,quantity,lastUpdateUser,lastUpdateTimestamp);
+			 String entryType="Stock Take";
+			return stockRepository.updateStockData(stockId,previousQty,quantity,lastUpdateUser,entryType,lastUpdateTimestamp);
 		}
 
 		@Override
