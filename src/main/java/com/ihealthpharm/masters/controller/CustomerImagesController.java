@@ -43,9 +43,9 @@ public class CustomerImagesController {
 		return new BaseDto<>(customerImageRes,"Customer Image saved", OK).respond();
 	}
 	
-	@PutMapping("/updatecustomerimage")
+	@PostMapping("/updatecustomerimage")
 	public ResponseEntity<BaseDto<CustomerImagesModel>> updateCustomerImage(
-			@RequestParam MultipartFile customerImage,
+			@RequestParam(value="customerImage") MultipartFile customerImage,
 			@RequestParam Integer customerId,
 			@RequestParam(required = false) Integer customerImageId){
 		CustomerImagesModel customerImageObj = new CustomerImagesModel();

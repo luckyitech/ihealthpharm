@@ -11,20 +11,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ihealthpharm.masters.dto.MasterAccDTO;
 import com.ihealthpharm.masters.model.CustomerModel;
+import com.ihealthpharm.masters.model.FamilyAccountModel;
 import com.ihealthpharm.masters.model.MasterAccountModel;
 
 public interface MasterAccountRepository extends JpaRepository<MasterAccountModel, Integer> {
 
 	@Query("select new com.ihealthpharm.masters.model.CustomerModel(c.customerId, concat(c.customerName,' ', c.lastName) as customerName,phoneNumber,corporate)"
-			+ " from customer c where c.customerId not in "
-			+"(select m.customerId.customerId from master_account m inner join family_account f on m.masterAccountId = f.masterAccountId.masterAccountId group by m.masterAccountId) "
-			+ " and c.activeS='Y' order by c.customerName")
+			+ " from customer c where c.activeS='Y' order by c.customerName")
 	public List<CustomerModel> findCustomersNotInMastersAndFamily(Pageable limit);
 
 	@Query("select new com.ihealthpharm.masters.model.CustomerModel(c.customerId, concat(c.customerName,' ', c.lastName) as customerName,phoneNumber,corporate)"
-			+ " from customer c  where c.customerId not in " + 
-			"(select m.customerId.customerId from master_account m inner join family_account f on m.masterAccountId = f.masterAccountId.masterAccountId group by m.masterAccountId) and "
-			+ " (c.customerName like %:name% or c.lastName like %:name%) and c.activeS='Y' order by c.customerName" )
+			+ " from customer c  where  c.activeS='Y' and  (c.customerName like %:name% or c.lastName like %:name%)  order by c.customerName" )
 	public List<CustomerModel> findCustomersByNameNotInMastersAndFamily(@Param("name") String name, Pageable limit);
 	
 	@Query("select m from master_account m where m.customerId=:customer")
@@ -62,4 +59,10 @@ public interface MasterAccountRepository extends JpaRepository<MasterAccountMode
 
 	@Query("select ci.customerId from customer_id_images ci where ci.customerId=:customerId")
 	public Integer checkCustomerHaveId(@Param("customerId")Integer customerId);
+	
+	@Query("select c from master_account c where c.customerId.customerId=:customerId")
+	public MasterAccountModel getCustomerDataById(@Param("customerId")Integer customerId);
+	
+	@Query("select c from family_account c where c.customerId.customerId=:customerId")
+	public FamilyAccountModel getFamilyCustomerDataById(@Param("customerId")Integer customerId);
 }
