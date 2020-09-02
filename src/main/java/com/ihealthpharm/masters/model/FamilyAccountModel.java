@@ -2,7 +2,6 @@ package com.ihealthpharm.masters.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,8 +16,13 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @Entity(name="family_account")
-@EqualsAndHashCode(of="FAMILY_ACCOUNT_ID",callSuper=false)
+@EqualsAndHashCode(of="familyAccountId",callSuper=false)
 public class FamilyAccountModel extends AuditModel{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2420948989126747435L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

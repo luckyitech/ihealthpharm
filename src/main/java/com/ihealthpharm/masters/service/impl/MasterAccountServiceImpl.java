@@ -28,15 +28,29 @@ public class MasterAccountServiceImpl implements MasterAccountService {
 
 	@Autowired
 	MasterAccountRepository masterAccountRepository;
-	
+
 	@Autowired
 	FamilyAccountRepository familyAccountRepository;
-	
+
 	@Autowired
 	MasterAccountHelper masterAccountHelper;
-	
+
 	@Override
 	public MasterAccountModel save(MasterAccountModel masterAccount) {
+		MasterAccountModel masterAccountCheck=masterAccountRepository.getCustomerDataById(masterAccount.getCustomerId().getCustomerId());
+
+		if (Objects.nonNull(masterAccountCheck)) {
+			throw new IHealthPharmException("Master Account Already Existed With This Customer", HttpStatus.BAD_REQUEST);
+		}
+		FamilyAccountModel familyAccountCheck = null;
+
+		for(FamilyAccountModel obj:masterAccount.getFamilyAccounts())
+		{
+			familyAccountCheck=masterAccountRepository.getFamilyCustomerDataById(obj.getCustomerId().getCustomerId());
+			if (Objects.nonNull(familyAccountCheck)) {
+				throw new IHealthPharmException("Family Account Already Existed With This Customer", HttpStatus.BAD_REQUEST);
+			}
+		}
 		if (!customerIdCheck(masterAccount.getCustomerId().getCustomerId())) {
 			throw new IHealthPharmException("Customer Don't Have ID", HttpStatus.BAD_REQUEST);
 		}
@@ -45,13 +59,13 @@ public class MasterAccountServiceImpl implements MasterAccountService {
 
 	@Override
 	public MasterAccountModel update(MasterAccountModel masterAccount) {
-		
+
 		MasterAccountModel masterAccountRes = getValidMembership(masterAccount.getMasterAccountId());
 
 		if (!Objects.nonNull(masterAccountRes)) {
 			throw new IHealthPharmException(masterAccountHelper.getNotFoundMasterAccountMessage(), HttpStatus.NOT_FOUND);
 		}
-		
+
 		if (!customerIdCheck(masterAccountRes.getCustomerId().getCustomerId())) {
 			throw new IHealthPharmException("Customer Don't Have ID", HttpStatus.BAD_REQUEST);
 		}
@@ -61,7 +75,7 @@ public class MasterAccountServiceImpl implements MasterAccountService {
 		masterAccount.setEntryType("Master Update");
 		masterAccountRes = masterAccountRepository.save(masterAccount);
 		log.info("Membership data with ID : " + masterAccountHelper.getRetrieveMasterAccountMessage() + " updated succesfully");
-		
+
 		return masterAccountRes;
 	}
 
@@ -80,13 +94,13 @@ public class MasterAccountServiceImpl implements MasterAccountService {
 		if (!Objects.nonNull(masterAccountRes)) {
 			throw new IHealthPharmException(masterAccountHelper.getNotFoundMasterAccountMessage(), HttpStatus.NOT_FOUND);
 		}
-		
+
 		return masterAccountRes;
 	}
 
 	@Override
 	public List<MasterAccountModel> findByAll() {
-		
+
 		return masterAccountRepository.findAll();
 	}
 
@@ -102,7 +116,7 @@ public class MasterAccountServiceImpl implements MasterAccountService {
 
 	@Override
 	public List<CustomerModel> getCustomersList() {
-		 Pageable limit=PageRequest.of(0, 100);
+		Pageable limit=PageRequest.of(0, 100);
 		return masterAccountRepository.findCustomersNotInMastersAndFamily(limit);
 	}
 
@@ -117,17 +131,17 @@ public class MasterAccountServiceImpl implements MasterAccountService {
 		CustomerModel customerModel = new CustomerModel();
 		customerModel.setCustomerId(customerId);
 		MasterAccountModel masterAccountRes = masterAccountRepository.findMasterAccountByCustomer(customerModel);
-		
+
 		if (!Objects.nonNull(masterAccountRes)) {
 			masterAccountRes = masterAccountRepository.findMasterInFamilyAccountByCustomer(customerModel);
 		}
-		
+
 		return masterAccountRes;
 	}
 
 	@Override
 	public Integer updateMasterAccountByAccountId(Integer masterAccountId, Integer creditLimitLeft,Integer lastUpdatedUser,String entryType,String salesBillNo) {
-		
+
 		return masterAccountRepository.updateMasterAccountByAccountId(masterAccountId,creditLimitLeft,lastUpdatedUser,entryType,salesBillNo);
 	}
 
@@ -144,19 +158,19 @@ public class MasterAccountServiceImpl implements MasterAccountService {
 
 	@Override
 	public List<String> getMastersAccountNoBySearch(String creditNo) {
-		
+
 		return masterAccountRepository.getMasterAccountNoBySearch(creditNo);
 	}
 
 	@Override
 	public List<String> getAllMastersAccountNo() {
-		
+
 		return masterAccountRepository.getAllMasterAccountNo();
 	}
 
 	@Override
 	public List<String> getMastersAccountCustomerBySearch(String name) {
-		
+
 		return masterAccountRepository.getMastersAccountCustomers(name);
 	}
 
@@ -171,7 +185,7 @@ public class MasterAccountServiceImpl implements MasterAccountService {
 		// TODO Auto-generated method stub
 		return masterAccountRepository.getAccByCreditNo();
 	}
-	
+
 	public Boolean customerIdCheck(Integer customerId)
 	{
 		Integer res = masterAccountRepository.checkCustomerHaveId(customerId);
