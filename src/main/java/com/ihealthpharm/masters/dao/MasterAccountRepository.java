@@ -15,12 +15,14 @@ import com.ihealthpharm.masters.model.MasterAccountModel;
 
 public interface MasterAccountRepository extends JpaRepository<MasterAccountModel, Integer> {
 
-	@Query("select c from customer c where c.customerId not in "
+	@Query("select new com.ihealthpharm.masters.model.CustomerModel(c.customerId, concat(c.customerName,' ', c.lastName) as customerName,phoneNumber,corporate)"
+			+ " from customer c where c.customerId not in "
 			+"(select m.customerId.customerId from master_account m inner join family_account f on m.masterAccountId = f.masterAccountId.masterAccountId group by m.masterAccountId) "
 			+ " and c.activeS='Y' order by c.customerName")
 	public List<CustomerModel> findCustomersNotInMastersAndFamily(Pageable limit);
 
-	@Query("select c from customer c  where c.customerId not in " + 
+	@Query("select new com.ihealthpharm.masters.model.CustomerModel(c.customerId, concat(c.customerName,' ', c.lastName) as customerName,phoneNumber,corporate)"
+			+ " from customer c  where c.customerId not in " + 
 			"(select m.customerId.customerId from master_account m inner join family_account f on m.masterAccountId = f.masterAccountId.masterAccountId group by m.masterAccountId) and "
 			+ " (c.customerName like %:name% or c.lastName like %:name%) and c.activeS='Y' order by c.customerName" )
 	public List<CustomerModel> findCustomersByNameNotInMastersAndFamily(@Param("name") String name, Pageable limit);
