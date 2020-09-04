@@ -90,7 +90,7 @@ import com.ihealthpharm.reports.model.ReportsMappingModel;
 				List<Map<String, Object>> purchaseInvoiceDetails = purchaseInvoiceDetailsMap.get(batchNo);
 				createSupplierTable(sheet, responseFile, borderStyle, headerStyle,purchaseInvoiceDetails, batchNo, currentRow); 
 			}
-			generateTotalTable(sheet, responseFile,borderStyle,model,responseList);
+			//generateTotalTable(sheet, responseFile,borderStyle,model,responseList);
 		}
 		
 		
@@ -188,37 +188,53 @@ import com.ihealthpharm.reports.model.ReportsMappingModel;
 			cell.setCellValue("PO NO");
 			cell.setCellStyle(headerStyle);
 			
-
 			cell = headerRow.createCell(2);
+			cell.setCellValue("PO DATE");
+			cell.setCellStyle(headerStyle);
+			
+			cell = headerRow.createCell(3);
+			cell.setCellValue("INV NO");
+			cell.setCellStyle(headerStyle);
+			
+			cell = headerRow.createCell(4);
+			cell.setCellValue("ITEM NAME");
+			cell.setCellStyle(headerStyle);
+			
+
+			cell = headerRow.createCell(5);
 			cell.setCellValue("QTY");
 			cell.setCellStyle(headerStyle);	
 				
-			cell = headerRow.createCell(3);
+			cell = headerRow.createCell(6);
 			cell.setCellValue("BONUS");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(4);
+			cell = headerRow.createCell(7);
 			cell.setCellValue("UNIT PRICE");
 			cell.setCellStyle(headerStyle);	
 			
 
-			cell = headerRow.createCell(5);
+			cell = headerRow.createCell(8);
 			cell.setCellValue("DISCOUNT");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(6);
+			cell = headerRow.createCell(9);
+			cell.setCellValue("DISC AMT");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(10);
 			cell.setCellValue("VAT");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(7);
-			cell.setCellValue("NET AMOUNT");
+			cell = headerRow.createCell(11);
+			cell.setCellValue("NET AMT");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(8);
+			cell = headerRow.createCell(12);
 			cell.setCellValue("CREATED BY");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(9);
+			cell = headerRow.createCell(13);
 			cell.setCellValue("MODIFIED BY");
 			cell.setCellStyle(headerStyle);	
 			
@@ -249,11 +265,29 @@ import com.ihealthpharm.reports.model.ReportsMappingModel;
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
+				value = rowData.containsKey("PURCHASE_ORDER_DT") ? rowData.get("PURCHASE_ORDER_DT") : "";
+				//sheet.autoSizeColumn(1);
+				cell = dataRow.createCell(2);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("INVOICE_NO") ? rowData.get("INVOICE_NO") : "";
+				//sheet.autoSizeColumn(1);
+				cell = dataRow.createCell(3);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("ITEM_NM") ? rowData.get("ITEM_NM") : "";
+				//sheet.autoSizeColumn(1);
+				cell = dataRow.createCell(4);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
 
 				
 				value = rowData.containsKey("QUANTITY") ? rowData.get("QUANTITY") : "";
 				//sheet.autoSizeColumn(3);
-				cell = dataRow.createCell(2);
+				cell = dataRow.createCell(5);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
@@ -261,45 +295,51 @@ import com.ihealthpharm.reports.model.ReportsMappingModel;
 				
 				value = rowData.containsKey("BONUS") ? rowData.get("BONUS") : "";
 				//sheet.autoSizeColumn(5);
-				cell = dataRow.createCell(3);
+				cell = dataRow.createCell(6);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 
 				
 				value = rowData.containsKey("UNIT_RATE") ? rowData.get("UNIT_RATE") : "";
 				//sheet.autoSizeColumn(6);
-				cell = dataRow.createCell(4);
+				cell = dataRow.createCell(7);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				
 				value = rowData.containsKey("DISCOUNT") ? rowData.get("DISCOUNT") : "";
 				//sheet.autoSizeColumn(8);
-				cell = dataRow.createCell(5);
+				cell = dataRow.createCell(8);
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("DISC_AMT") ? rowData.get("DISC_AMT") : "";
+				//sheet.autoSizeColumn(8);
+				cell = dataRow.createCell(9);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("VAT_AMT") ? rowData.get("VAT_AMT") : "";
 				//sheet.autoSizeColumn(9);
-				cell = dataRow.createCell(6);
+				cell = dataRow.createCell(10);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("TOTAL_VALUE") ? rowData.get("TOTAL_VALUE") : "";
+				value = rowData.containsKey("NET_AMT") ? rowData.get("NET_AMT") : "";
 				//sheet.autoSizeColumn(10);
-				cell = dataRow.createCell(7);
+				cell = dataRow.createCell(11);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("EMP_NM") ? rowData.get("EMP_NM") : "";
 				//sheet.autoSizeColumn(10);
-				cell = dataRow.createCell(8);
+				cell = dataRow.createCell(12);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("EMP_MODIFIED") ? rowData.get("EMP_MODIFIED") : "";
 				//sheet.autoSizeColumn(10);
-				cell = dataRow.createCell(9);
+				cell = dataRow.createCell(13);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
