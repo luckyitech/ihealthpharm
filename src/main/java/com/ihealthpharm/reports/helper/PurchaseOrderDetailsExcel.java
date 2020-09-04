@@ -105,11 +105,11 @@ public class PurchaseOrderDetailsExcel extends ReportsExcelUtility {
 		DecimalFormat df=new DecimalFormat("0.00");
 		
 		double grossTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TOTAL_VALUE")?String.valueOf(mapper.get("TOTAL_VALUE")):"0")).sum(); 
-		double discountTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("DISCOUNT")?String.valueOf(mapper.get("DISCOUNT")):"0")).sum(); 
+		double discountTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("DISC_AMT")?String.valueOf(mapper.get("DISC_AMT")):"0")).sum(); 
 		double vatTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("VAT_AMT")?String.valueOf(mapper.get("VAT_AMT")):"0")).sum(); 
 		//double netTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("ACTUAL_VALUE")?String.valueOf(mapper.get("ACTUAL_VALUE")):"0")).sum(); 
 		double chargesTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("OTHER_CHARGES")?String.valueOf(mapper.get("OTHER_CHARGES")):"0")).sum(); 
-		double netAmt=(grossTotal+vatTotal+chargesTotal);
+		double netAmt=(grossTotal+vatTotal+chargesTotal-discountTotal);
 		
 		String net=df.format(netAmt);
 		String sub=df.format(grossTotal);
@@ -143,7 +143,7 @@ public class PurchaseOrderDetailsExcel extends ReportsExcelUtility {
 		cell3=dataRow3.createCell(6);
 		cell4=dataRow4.createCell(6);
 
-		cell.setCellValue("GROSS TOTAL : ");
+		cell.setCellValue("SUB TOTAL : ");
 		cell1.setCellValue("MISC COST : ");
 		cell2.setCellValue("DISCOUNT : ");
 		cell3.setCellValue("VAT : ");
@@ -189,7 +189,7 @@ public class PurchaseOrderDetailsExcel extends ReportsExcelUtility {
 			
 		
 			cell = headerRow.createCell(2);
-			cell.setCellValue("PRODUCT NAME");
+			cell.setCellValue("ITEM NAME");
 			cell.setCellStyle(headerStyle);
 			
 		
@@ -218,18 +218,26 @@ public class PurchaseOrderDetailsExcel extends ReportsExcelUtility {
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(7);
-			cell.setCellValue("VAT");
+			cell.setCellValue("DISC AMT");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(8);
-			cell.setCellValue("NET AMOUNT");
+			cell.setCellValue("VAT");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(9);
-			cell.setCellValue("CREATED BY");
+			cell.setCellValue("NET AMOUNT");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(10);
+			cell.setCellValue("APPROVED BY");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(11);
+			cell.setCellValue("CREATED BY");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(12);
 			cell.setCellValue("MODIFIED BY");
 			cell.setCellStyle(headerStyle);	
 			
@@ -304,27 +312,39 @@ public class PurchaseOrderDetailsExcel extends ReportsExcelUtility {
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
+				value = rowData.containsKey("DISC_AMT") ? rowData.get("DIST_AMT") : "";
+				//sheet.autoSizeColumn(8);
+				cell = dataRow.createCell(7);
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				cell.setCellStyle(borderStyle);
+				
 				value = rowData.containsKey("VAT_AMT") ? rowData.get("VAT_AMT") : "";
 				//sheet.autoSizeColumn(9);
-				cell = dataRow.createCell(7);
+				cell = dataRow.createCell(8);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("TOTAL_VALUE") ? rowData.get("TOTAL_VALUE") : "";
 				//sheet.autoSizeColumn(10);
-				cell = dataRow.createCell(8);
+				cell = dataRow.createCell(9);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("APP_BY") ? rowData.get("APP_BY") : "";
+				//sheet.autoSizeColumn(10);
+				cell = dataRow.createCell(10);
+				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("EMP_NM") ? rowData.get("EMP_NM") : "";
 				//sheet.autoSizeColumn(10);
-				cell = dataRow.createCell(9);
+				cell = dataRow.createCell(11);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("EMP_MODIFIED") ? rowData.get("EMP_MODIFIED") : "";
 				//sheet.autoSizeColumn(10);
-				cell = dataRow.createCell(10);
+				cell = dataRow.createCell(12);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
