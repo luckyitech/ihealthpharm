@@ -61,7 +61,7 @@ extends ReportsPDFUtility{
 
 				}
 
-				generateTotalTable(document,model,responseList);
+				//generateTotalTable(document,model,responseList);
 
 
 			}
@@ -253,6 +253,16 @@ extends ReportsPDFUtility{
 			cell.setBorder(Rectangle.BOTTOM);
 
 		table.addCell(cell);
+		
+		headerCell = new Paragraph();
+		headerCell.setFont(headerFont);
+		headerCell.add("DISC AMT");
+		cell = new PdfPCell(headerCell);
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		if (!model.isShowVerticalLines())
+			cell.setBorder(Rectangle.BOTTOM);
+
+		table.addCell(cell);
 
 		headerCell = new Paragraph();
 		headerCell.setFont(headerFont);
@@ -266,7 +276,7 @@ extends ReportsPDFUtility{
 
 		headerCell = new Paragraph();
 		headerCell.setFont(headerFont);
-		headerCell.add("TOTAL AMT");
+		headerCell.add("NET AMT");
 		cell = new PdfPCell(headerCell);
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		if (!model.isShowVerticalLines())
@@ -351,6 +361,14 @@ extends ReportsPDFUtility{
 					cell.setBorder(Rectangle.BOTTOM);
 
 				table.addCell(cell);
+				
+				value = rowData.containsKey("DISC_AMT") ? rowData.get("DISC_AMT") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
 
 				value = rowData.containsKey("VAT_AMT") ? rowData.get("VAT_AMT") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
@@ -360,7 +378,7 @@ extends ReportsPDFUtility{
 
 				table.addCell(cell);
 
-				value = rowData.containsKey("TOTAL_VALUE") ? rowData.get("TOTAL_VALUE") : "";
+				value = rowData.containsKey("NET_AMT") ? rowData.get("NET_AMT") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
