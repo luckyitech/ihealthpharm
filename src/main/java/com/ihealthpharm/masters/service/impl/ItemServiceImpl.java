@@ -388,6 +388,12 @@ public class ItemServiceImpl implements ItemService {
 	public List<ItemsForStockAdjustDTO> getAllStockAdjustRecordBasedOnRackAndShelf(String rack, String shelf) {
 		return itemRepository.getAllRecordsByRackAndShelf(rack, shelf);
 	}
+	
+	@Override
+	public List<ItemsForStockAdjustDTO> getAllStockAdjustRecordBasedOnRackAndShelfForIntegers(String rack,
+			String shelf) {
+		return itemRepository.getAllRecordsByRackAndShelfForIntegers(rack, shelf);
+	}
 
 	@Override
 	public List<ItemsForStockAdjustDTO> getAllStockAdjustRecordBasedOnItemIdBatch(Integer itemId, String batchNo) {
@@ -406,5 +412,7 @@ public class ItemServiceImpl implements ItemService {
 		List<ItemsModel> resp = itemRepository.findAllByItemCodeSWS(searchTerm);
 		return resp;
 	}
+
+
 
 }
