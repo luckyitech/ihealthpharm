@@ -51,4 +51,10 @@ public interface CustomerService
 
 	List<String> findAllCustomersLastNameBySearch(String searchTerm);
 
+	List<CustomerModel> findLimitedStaffCustomersData();
+
+	List<CustomerModel> findAllStaffCustomersByNameSearch(String customerName);
+
+	List<CustomerModel> findStaffCustomersByPhNo(String phno);
+
 }

@@ -103,8 +103,15 @@ public class CustomerController {
 		return new BaseDto<>(result, customerHelper.getRetrieveCustomerMessage(), OK).respond();
 	}
 	
+	// author:tarun
+	@GetMapping("/getLimited/StaffCustomersData/forSalesbilling")
+	public ResponseEntity<BaseDto<List<CustomerModel>>> getLimitedStaffCustomersData(){
+		List<CustomerModel> result = customerService.findLimitedStaffCustomersData();
+		return new BaseDto<>(result, customerHelper.getRetrieveCustomerMessage(), OK).respond();
+	}
 	
 
+	
 	@GetMapping("/getlimitedcustomerdata/tomap/membership")
 	public ResponseEntity<BaseDto<List<CustomerModel>>> getAllLimitedCustomersToMapMembership(){
 		List<CustomerModel> repsonse=customerService.findAllLimitedCustomersData();
@@ -124,6 +131,13 @@ public class CustomerController {
 		return new BaseDto<>(result, customerHelper.getRetrieveCustomerMessage(), OK).respond();
 	}
 	
+	//author:tarun
+	@GetMapping("/getStaff/byCustomerByName")
+	public ResponseEntity<BaseDto<List<CustomerModel>>> getStaffCustomerDataByName(@RequestParam("key") String customerName) {
+		List<CustomerModel> result = customerService.findAllStaffCustomersByNameSearch(customerName);
+		return new BaseDto<>(result, customerHelper.getRetrieveCustomerMessage(), OK).respond();
+	}
+	
 
 	@GetMapping("/getcustomerdatabyphno")
 	public ResponseEntity<BaseDto<List<CustomerModel>>> getCustomerDataByPhNo(@RequestParam("key") String phno) {
@@ -134,6 +148,13 @@ public class CustomerController {
 	@GetMapping("/getcorporatecustomerdatabyphno")
 	public ResponseEntity<BaseDto<List<CustomerModel>>> getCorporateCustomerDataByPhNo(@RequestParam("key") String phno) {
 		List<CustomerModel> result = customerService.findCorporateCustomersByPhNo(phno);
+		return new BaseDto<>(result, customerHelper.getRetrieveCustomerMessage(), OK).respond();
+	}
+	
+	//author:tarun
+	@GetMapping("/getStaff/CustomerDataByPhNo")
+	public ResponseEntity<BaseDto<List<CustomerModel>>> getStaffCustomerDataByPhNo(@RequestParam("key") String phno) {
+		List<CustomerModel> result = customerService.findStaffCustomersByPhNo(phno);
 		return new BaseDto<>(result, customerHelper.getRetrieveCustomerMessage(), OK).respond();
 	}
 	
