@@ -231,6 +231,9 @@ public class PurchaseOrderDetailsPdf  extends ReportsPDFUtility{
 		
 		String doubleSubTotal=df.format(subTotal);
 		double subTotals=Double.parseDouble(doubleSubTotal); 
+		
+		String vatTot=df.format(totalVat);
+		double vatFinal=Double.parseDouble(vatTot); 
 
 		PdfPTable totalQtyTable = new PdfPTable(3);
 		totalQtyTable.setTotalWidth(500);
@@ -259,7 +262,7 @@ public class PurchaseOrderDetailsPdf  extends ReportsPDFUtility{
 		totalQtyTable.setTotalWidth(500);
 		totalQtyTable.getDefaultCell().setBorder(0); 
 		
-		PdfPCell nameCell3 = new PdfPCell(new Phrase("VAT : "+totalVat, title08)); 
+		PdfPCell nameCell3 = new PdfPCell(new Phrase("VAT : "+vatFinal, title08)); 
 		nameCell3.setColspan(3);
 		nameCell3.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell3.setVerticalAlignment(Element.ALIGN_TOP);
