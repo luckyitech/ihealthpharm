@@ -151,6 +151,10 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 	@Query("select new  com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO(s.stockId,i.itemName,s.item.itemId,s.invoiceNo,s.remarks,s.rack,s.batchNo,s.expiryDt,s.quantity,s.quantity,s.shelf) from stock s inner join items i on s.item=i.itemId where s.rack like :rack% and s.shelf like :shelf% order by i.itemName,s.batchNo asc")
 	public List<ItemsForStockAdjustDTO> getAllRecordsByRackAndShelf(@Param("rack") String rack,@Param("shelf") String shelf);
 	
+	@Query("select new  com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO(s.stockId,i.itemName,s.item.itemId,s.invoiceNo,s.remarks,s.rack,s.batchNo,s.expiryDt,s.quantity,s.quantity,s.shelf) from stock s inner join items i on s.item=i.itemId where s.rack=:rack and s.shelf=:shelf order by i.itemName,s.batchNo asc")
+	public List<ItemsForStockAdjustDTO> getAllRecordsByRackAndShelfForIntegers(@Param("rack") String rack,@Param("shelf") String shelf);
+	
+	
 	@Query("select new  com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO(s.stockId,i.itemName,s.item.itemId,s.invoiceNo,s.remarks,s.rack,s.batchNo,s.expiryDt,s.quantity,s.quantity,s.shelf) from stock s inner join items i on s.item=i.itemId where s.item.itemId=:itemId and s.batchNo=:batchNo order by i.itemName,s.batchNo asc")
 	public List<ItemsForStockAdjustDTO> getAllRecordsByItemIdAndBatch(@Param("itemId") Integer itemId,@Param("batchNo") String batchNo);
 	
