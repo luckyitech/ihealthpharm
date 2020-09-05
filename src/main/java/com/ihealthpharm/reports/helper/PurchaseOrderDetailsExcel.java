@@ -109,7 +109,7 @@ public class PurchaseOrderDetailsExcel extends ReportsExcelUtility {
 		double vatTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("VAT_AMT")?String.valueOf(mapper.get("VAT_AMT")):"0")).sum(); 
 		//double netTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("ACTUAL_VALUE")?String.valueOf(mapper.get("ACTUAL_VALUE")):"0")).sum(); 
 		double chargesTotal = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("OTHER_CHARGES")?String.valueOf(mapper.get("OTHER_CHARGES")):"0")).sum(); 
-		double netAmt=(grossTotal+vatTotal+chargesTotal-discountTotal);
+		double netAmt=(grossTotal+vatTotal+chargesTotal);
 		
 		String net=df.format(netAmt);
 		String sub=df.format(grossTotal);

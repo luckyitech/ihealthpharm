@@ -222,7 +222,7 @@ public class PurchaseOrderDetailsPdf  extends ReportsPDFUtility{
 		double discount = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("DISC_AMT")&& !ObjectUtils.isEmpty(mapper.get("DISC_AMT")))?String.valueOf(mapper.get("DISC_AMT")):"0")).sum(); 
 		double charges = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("OTHER_CHARGES")&& !ObjectUtils.isEmpty(mapper.get("OTHER_CHARGES")))?String.valueOf(mapper.get("OTHER_CHARGES")):"0")).sum(); 
 		double totalVat = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("VAT_AMT")&& !ObjectUtils.isEmpty(mapper.get("VAT_AMT")))?String.valueOf(mapper.get("VAT_AMT")):"0")).sum(); 
-		double net=(subTotal+totalVat-discount+charges);
+		double net=(subTotal+totalVat+charges);
 		
 		
 		DecimalFormat df=new DecimalFormat("0.00");
