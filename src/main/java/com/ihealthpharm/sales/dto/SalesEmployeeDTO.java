@@ -26,15 +26,15 @@ import lombok.Data;
 
 @Data
 public class SalesEmployeeDTO {
-	
+
 	private Integer billId;
 
 	private Integer adjustedQty;
-	
+
 	private Float balanceAmount;
 
 	private String billCode;
-	
+
 	private String previousBillCode;
 
 	private LocalDate billDate;
@@ -50,7 +50,7 @@ public class SalesEmployeeDTO {
 	private Float creditCardAmount;
 
 	private String creditCardNo;
-	
+
 	private String creditCardAuthNo;
 
 	private String customerNm;
@@ -96,7 +96,7 @@ public class SalesEmployeeDTO {
 	private Float saleDiscAmt;
 
 	private Float totalAmount;
-	
+
 	private Float netAmount;
 
 	private Integer totalProducts;
@@ -106,27 +106,27 @@ public class SalesEmployeeDTO {
 	private Float upiAmount;
 
 	private String upiPhoneNo;
-	
+
 	private String upiTransactionId;
 
 	private Float vatAmt;
-	
+
 	private Integer chequeNumber;
-	
+
 	private String creditAccountNo;
-	
+
 	private Double chequeAmount;
-	
+
 	private String chequeDate;
-	
+
 	private Double creditAmount;
-	
+
 	CustomerInsuranceModel customerInsuranceModel;
 
 	CustomerMembershipModel customerMembershipModel;
 
 	CustomerModel customerModel;
-	
+
 	String employeeModel;
 
 	PharmacyModel pharmacyModel;
@@ -134,10 +134,12 @@ public class SalesEmployeeDTO {
 	ProviderModel providerModel;
 
 	HospitalModel hospitalModel;
-	
+
 	private Character activeS;
-	
+
 	private Boolean corporateCustomer;
+
+	private Boolean staff;
 
 	public SalesEmployeeDTO(Integer billId, Integer adjustedQty, Float balanceAmount, String billCode,
 			String previousBillCode, LocalDate billDate, Float cashAmount, LocalDateTime creationTs,
@@ -152,7 +154,7 @@ public class SalesEmployeeDTO {
 			Double chequeAmount, String chequeDate, Double creditAmount, CustomerInsuranceModel customerInsuranceModel,
 			CustomerMembershipModel customerMembershipModel, CustomerModel customerModel, String employeeModel,
 			PharmacyModel pharmacyModel, ProviderModel providerModel, HospitalModel hospitalModel, Character activeS,
-			String creditAccountNo,Boolean corporateCustomer) {
+			String creditAccountNo,Boolean corporateCustomer,Boolean staff) {
 		super();
 		this.billId = billId;
 		this.adjustedQty = adjustedQty;
@@ -210,11 +212,12 @@ public class SalesEmployeeDTO {
 		this.activeS = activeS;
 		this.creditAccountNo = creditAccountNo;
 		this.corporateCustomer=corporateCustomer;
+		this.staff=staff;
 	}
 
 	public SalesEmployeeDTO() {
 		super();
 	}
-	
+
 
 }
