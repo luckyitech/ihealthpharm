@@ -53,7 +53,7 @@ public class PurchaseDetailsByBatchNo extends ReportsPDFUtility {
 
 				}
 			
-				generateTotalTable(document,model,responseList);
+				//generateTotalTable(document,model,responseList);
 
 
 			}
@@ -177,7 +177,7 @@ public class PurchaseDetailsByBatchNo extends ReportsPDFUtility {
 		supllierNameTable.getDefaultCell().setBorder(0); 
 
 	
-		PdfPTable table = new PdfPTable(10);
+		PdfPTable table = new PdfPTable(14);
 		table.setTotalWidth(500);
 		table.setWidthPercentage(50);
 		table.setLockedWidth(true);
@@ -198,6 +198,36 @@ public class PurchaseDetailsByBatchNo extends ReportsPDFUtility {
 		headerCell = new Paragraph();
 		headerCell.setFont(headerFont);
 		headerCell.add("PO NO");
+		cell = new PdfPCell(headerCell);
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		if (!model.isShowVerticalLines())
+			cell.setBorder(Rectangle.BOTTOM);
+
+		table.addCell(cell);
+		
+		headerCell = new Paragraph();
+		headerCell.setFont(headerFont);
+		headerCell.add("PO DATE");
+		cell = new PdfPCell(headerCell);
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		if (!model.isShowVerticalLines())
+			cell.setBorder(Rectangle.BOTTOM);
+
+		table.addCell(cell);
+		
+		headerCell = new Paragraph();
+		headerCell.setFont(headerFont);
+		headerCell.add("ITEM NAME");
+		cell = new PdfPCell(headerCell);
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		if (!model.isShowVerticalLines())
+			cell.setBorder(Rectangle.BOTTOM);
+
+		table.addCell(cell);
+		
+		headerCell = new Paragraph();
+		headerCell.setFont(headerFont);
+		headerCell.add("INV NO");
 		cell = new PdfPCell(headerCell);
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		if (!model.isShowVerticalLines())
@@ -245,6 +275,16 @@ public class PurchaseDetailsByBatchNo extends ReportsPDFUtility {
 			cell.setBorder(Rectangle.BOTTOM);
 
 		table.addCell(cell);
+		
+		headerCell = new Paragraph();
+		headerCell.setFont(headerFont);
+		headerCell.add("DISC AMT");
+		cell = new PdfPCell(headerCell);
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		if (!model.isShowVerticalLines())
+			cell.setBorder(Rectangle.BOTTOM);
+
+		table.addCell(cell);
 
 		headerCell = new Paragraph();
 		headerCell.setFont(headerFont);
@@ -258,7 +298,7 @@ public class PurchaseDetailsByBatchNo extends ReportsPDFUtility {
 
 		headerCell = new Paragraph();
 		headerCell.setFont(headerFont);
-		headerCell.add("TOTAL AMT");
+		headerCell.add("NET AMT");
 		cell = new PdfPCell(headerCell);
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		if (!model.isShowVerticalLines())
@@ -308,6 +348,30 @@ public class PurchaseDetailsByBatchNo extends ReportsPDFUtility {
 					cell.setBorder(Rectangle.BOTTOM);
 
 				table.addCell(cell);
+				
+				value = rowData.containsKey("PURCHASE_ORDER_DT") ? rowData.get("PURCHASE_ORDER_DT") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("ITEM_NM") ? rowData.get("ITEM_NM") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("INVOICE_NO") ? rowData.get("INVOICE_NO") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
 
 
 				value = rowData.containsKey("QUANTITY") ? rowData.get("QUANTITY") : "";
@@ -341,6 +405,14 @@ public class PurchaseDetailsByBatchNo extends ReportsPDFUtility {
 					cell.setBorder(Rectangle.BOTTOM);
 
 				table.addCell(cell);
+				
+				value = rowData.containsKey("DISC_AMT") ? rowData.get("DISC_AMT") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
 
 				value = rowData.containsKey("VAT_AMT") ? rowData.get("VAT_AMT") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
@@ -350,7 +422,7 @@ public class PurchaseDetailsByBatchNo extends ReportsPDFUtility {
 
 				table.addCell(cell);
 
-				value = rowData.containsKey("TOTAL_VALUE") ? rowData.get("TOTAL_VALUE") : "";
+				value = rowData.containsKey("NET_AMT") ? rowData.get("NET_AMT") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
