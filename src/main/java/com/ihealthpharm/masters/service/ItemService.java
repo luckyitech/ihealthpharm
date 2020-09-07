@@ -91,4 +91,6 @@ public interface ItemService {
 	List<ItemsForStockAdjustDTO> getAllStockAdjustRecordBasedOnStockId(Integer stockId);
 	
 	List<ItemsModel> findAllByItemCodeSWS(String searchTerm);
+
+	List<ItemsForStockAdjustDTO> getAllStockAdjustRecordBasedOnRackAndShelfForIntegers(String rack, String shelf);
 }

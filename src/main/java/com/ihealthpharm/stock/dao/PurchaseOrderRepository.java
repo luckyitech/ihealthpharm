@@ -200,6 +200,8 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrderMode
 		List<PurchaseOrderModel> getPurchaseOrderByPharmacyWithLimit(@Param("pharmacyId") Integer pharmacyId,Pageable pageable);
 
 		
-
+		@Query("select CONCAT(e.firstName,'  ',e.lastName) from purchase_order p "
+				+ "inner join employee e on e.employeeId=p.approvedBy where p.purchaseOrderId = :purchaseOrderId  ")
+		String approverNameofPurchaseOrder(@Param("purchaseOrderId") Integer purchaseOrderId);
 
 }

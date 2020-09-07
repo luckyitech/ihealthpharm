@@ -18,6 +18,7 @@ import com.ihealthpharm.masters.helper.CustomerHelper;
 import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.masters.service.CustomerService;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import lombok.extern.slf4j.Slf4j;
 @Service
 @Transactional
@@ -212,6 +213,24 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerRepository.findCorporateCustomerByNameSearch(customerName);
 	}
 	
+	@Override
+	public List<CustomerModel> findAllStaffCustomersByNameSearch(String customerName) {
+		return customerRepository.findStaffCustomerByNameSearch(customerName);
+	}
+	
+
+	@Override
+	public List<CustomerModel> findLimitedStaffCustomersData() {
+		Pageable limit=new PageRequest(0, 100);
+		return customerRepository.findFirst100ActiveByOrderByStaffCustomerNameAsc(limit);
+	}
+
+	@Override
+	public List<CustomerModel> findStaffCustomersByPhNo(String phno) {
+		return customerRepository.findByStaffPhoneNumber(phno);
+	}
+
+
 	
 
 }
