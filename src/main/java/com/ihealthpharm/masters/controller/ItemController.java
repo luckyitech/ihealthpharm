@@ -296,6 +296,12 @@ public class ItemController {
 		List<ItemsForStockAdjustDTO> response = itemService.getAllStockAdjustRecordBasedOnRackAndShelf(rack,shelf);
 		return new BaseDto<>(response, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
+	
+	@GetMapping("/getitemsdatabyrackandshelf/stockadjustGrid/forIntegers")
+	public ResponseEntity<BaseDto<List<ItemsForStockAdjustDTO>>> getAllStockAdjustBasedOnIntegers(@RequestParam String rack,@RequestParam String shelf){
+		List<ItemsForStockAdjustDTO> response = itemService.getAllStockAdjustRecordBasedOnRackAndShelfForIntegers(rack,shelf);
+		return new BaseDto<>(response, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
 
 	@GetMapping("/getitemsdatabyitemidandbatch/stockadjustGrid")
 	public ResponseEntity<BaseDto<List<ItemsForStockAdjustDTO>>> getAllStockAdjustByItemAndBatch(@RequestParam Integer itemId,@RequestParam String batchNo){
