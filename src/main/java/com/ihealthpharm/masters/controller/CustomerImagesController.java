@@ -28,11 +28,13 @@ public class CustomerImagesController {
 	
 	@PostMapping("/savecustomerimage")
 	public ResponseEntity<BaseDto<CustomerImagesModel>> saveCustomerImage(@RequestParam MultipartFile customerImage,
-			@RequestParam Integer customerId){
+			@RequestParam Integer customerId,@RequestParam String fileType,@RequestParam String fileName){
 		CustomerImagesModel customerImageObj = new CustomerImagesModel();
 		try {
 			customerImageObj.setCustomerId(customerId);
 			customerImageObj.setCustomerImage(customerImage.getBytes());
+			customerImageObj.setFileName(fileName);
+			customerImageObj.setFileType(fileType);
 		}
 		catch(Exception e)
 		{
@@ -46,7 +48,7 @@ public class CustomerImagesController {
 	@PostMapping("/updatecustomerimage")
 	public ResponseEntity<BaseDto<CustomerImagesModel>> updateCustomerImage(
 			@RequestParam(value="customerImage") MultipartFile customerImage,
-			@RequestParam Integer customerId,
+			@RequestParam Integer customerId,@RequestParam String fileType,@RequestParam String fileName,
 			@RequestParam(required = false) Integer customerImageId){
 		CustomerImagesModel customerImageObj = new CustomerImagesModel();
 		try {
@@ -55,6 +57,8 @@ public class CustomerImagesController {
 			
 			customerImageObj.setCustomerId(customerId);
 			customerImageObj.setCustomerImage(customerImage.getBytes());
+			customerImageObj.setFileName(fileName);
+			customerImageObj.setFileType(fileType);
 		}
 		catch(Exception e)
 		{

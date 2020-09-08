@@ -2,8 +2,6 @@ package com.ihealthpharm.sales.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,10 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
 import com.ihealthpharm.masters.model.CustomerInsuranceModel;
 import com.ihealthpharm.masters.model.CustomerMembershipModel;
 import com.ihealthpharm.masters.model.CustomerModel;
@@ -22,7 +18,6 @@ import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.HospitalModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.ProviderModel;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -173,8 +168,6 @@ public class SalesModel {
 	@Column(name="CREDIT_AMOUNT")
 	private Double creditAmount;
 	
-	
-	
 	@OneToOne
 	@JoinColumn(name = "CUSTOMER_INSURANCE_ID")
 	CustomerInsuranceModel customerInsuranceModel;
@@ -212,5 +205,8 @@ public class SalesModel {
 	
 	@Column(name="CORPORATE_CUSTOMER")
 	private Boolean corporateCustomer;
+	
+	@Column(name="STAFF")
+	private Boolean staff;
 	
 }

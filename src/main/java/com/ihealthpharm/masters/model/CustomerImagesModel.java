@@ -22,4 +22,10 @@ public class CustomerImagesModel {
 	
 	@Column(name="CUSTOMER_IMAGE")
 	private byte[] customerImage;
+	
+	@Column(name="CUSTOMER_TYPE")
+	private String fileType;
+	
+	@Column(name="CUSTOMER_FILE_NM")
+	private String fileName;
 }
