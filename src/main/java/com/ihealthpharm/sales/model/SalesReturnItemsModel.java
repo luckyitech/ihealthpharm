@@ -62,4 +62,7 @@ public class SalesReturnItemsModel extends AuditModel {
 	@Column(name = "AUDIT_ID",length=11)
 	private Integer auditId;
 	
+	@Column(name = "SALES_ITEM_ID",length=11)
+	private Integer salesItemId;
+	
 }
