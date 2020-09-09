@@ -303,7 +303,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		log.info("Pharmacy Id: "+ pharmacyId+" Status "+status);
 		Pageable limit=PageRequest.of(start, end);
 		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderRepository.getPurchaseOrderByPharmacyAndStatusWithLimit(pharmacyId, status,limit);
-		
+		for(PurchaseOrderModel q : purchaseOrderModels) {
+			q.setApprovedName(purchaseorderRepository.approverNameofPurchaseOrder(q.getPurchaseOrderId()));
+		}
 		return purchaseOrderModels;
 	}
 	

@@ -416,6 +416,7 @@ public class SalesServiceImpl implements SalesService {
 			salesModel.setCreditCardAmount(it.getCreditCardAmount());
 			salesModel.setCreditCardAuthNo(it.getCreditCardAuthNo());
 			salesModel.setCreditAccountNo(it.getCreditAccountNo());
+			salesModel.setStaff(it.getStaff());
 			salesModel.setActiveS(it.getActiveS());
 			salesModel.setHospitalModel(it.getHospitalModel());
 			salesModel.setProviderModel(it.getProviderModel());

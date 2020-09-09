@@ -92,6 +92,15 @@ public class CustomerModel extends AuditModel{
 	
 	@Column(name="CORPORATE")
 	private Character corporate;
+	
+	@Column(name="TAX_NO")
+	private String taxNumber;
+	
+	@Column(name="CONTACT_FIRST_NM")
+	private String contactFirstName;
+	
+	@Column(name="CONTACT_LAST_NM")
+	private String contactLastName;
 
 	public CustomerModel(Integer customerId, String customerName,String phoneNumber,Character corporate) {
 		super();

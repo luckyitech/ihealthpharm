@@ -90,7 +90,7 @@ public class PurchaseDetailsByItemNameExcel extends ReportsExcelUtility {
 				List<Map<String, Object>> purchaseInvoiceDetails = purchaseInvoiceDetailsMap.get(itemName);
 				createSupplierTable(sheet, responseFile, borderStyle, headerStyle,purchaseInvoiceDetails, itemName, currentRow); 
 			}
-			generateTotalTable(sheet, responseFile,borderStyle,model,responseList);
+			//generateTotalTable(sheet, responseFile,borderStyle,model,responseList);
 		}
 		
 		
@@ -143,7 +143,7 @@ public class PurchaseDetailsByItemNameExcel extends ReportsExcelUtility {
 		cell3=dataRow3.createCell(6);
 		cell4=dataRow4.createCell(6);
 
-		cell.setCellValue("GROSS TOTAL : ");
+		cell.setCellValue("SUB TOTAL : ");
 		cell1.setCellValue("MISC COST : ");
 		cell2.setCellValue("DISCOUNT : ");
 		cell3.setCellValue("VAT : ");
@@ -207,18 +207,22 @@ public class PurchaseDetailsByItemNameExcel extends ReportsExcelUtility {
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(6);
-			cell.setCellValue("VAT");
+			cell.setCellValue("DISC AMT");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(7);
-			cell.setCellValue("NET AMOUNT");
+			cell.setCellValue("VAT");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(8);
-			cell.setCellValue("CREATED BY");
+			cell.setCellValue("NET AMT");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(9);
+			cell.setCellValue("CREATED BY");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(10);
 			cell.setCellValue("MODIFIED BY");
 			cell.setCellStyle(headerStyle);	
 			
@@ -279,27 +283,33 @@ public class PurchaseDetailsByItemNameExcel extends ReportsExcelUtility {
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("VAT_AMT") ? rowData.get("VAT_AMT") : "";
-				//sheet.autoSizeColumn(9);
+				value = rowData.containsKey("DISC_AMT") ? rowData.get("DISC_AMT") : "";
+				//sheet.autoSizeColumn(8);
 				cell = dataRow.createCell(6);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("TOTAL_VALUE") ? rowData.get("TOTAL_VALUE") : "";
-				//sheet.autoSizeColumn(10);
+				value = rowData.containsKey("VAT_AMT") ? rowData.get("VAT_AMT") : "";
+				//sheet.autoSizeColumn(9);
 				cell = dataRow.createCell(7);
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("NET_AMT") ? rowData.get("NET_AMT") : "";
+				//sheet.autoSizeColumn(10);
+				cell = dataRow.createCell(8);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("EMP_NM") ? rowData.get("EMP_NM") : "";
 				//sheet.autoSizeColumn(10);
-				cell = dataRow.createCell(8);
+				cell = dataRow.createCell(9);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("EMP_MODIFIED") ? rowData.get("EMP_MODIFIED") : "";
 				//sheet.autoSizeColumn(10);
-				cell = dataRow.createCell(9);
+				cell = dataRow.createCell(10);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
