@@ -120,32 +120,32 @@ public class SupplierServiceImpl implements SupplierService {
 	public List<SupplierModel> findAllSuppliers() {
 		return supplierRepository.findAllLastestRecords();
 	}
-	
+
 	@Override
 	public List<SupplierModel> findAllActiveSuppliers() {
 		return supplierRepository.getAllSuppliersHavingActiveStatus();
 	}
-	
+
 	@Override
 	public List<SupplierModel> findAllSuppliersByName(String searchTerm) {
 		return supplierRepository.getAllSupplierNamesBySearch(searchTerm);
 	}
-	
+
 	@Override
 	public List<SupplierModel> findAllSuppliersByNameForSearch(String searchTerm) {
 		return supplierRepository.getAllSupplierNamesBySearchAll(searchTerm);
 	}	
-	
+
 
 	@Override
 	public List<SupplierModel> findLimitedSuppliers() {
 		return supplierRepository.findFirst100ByOrderByName();
 	}
-	
-	
+
+
 	@Override
 	public List<SupplierModel> findSuppliersByName(String name) {
-		
+
 		return supplierRepository.findAll(new Specification<SupplierModel>() {
 			/**
 			 * 
@@ -163,16 +163,16 @@ public class SupplierServiceImpl implements SupplierService {
 			}
 		});
 	}
-	
-	
+
+
 
 	@Override
 	public List<SupplierModel> findSuppliersByNameForSupplierItem(String name) {
 
 		return supplierRepository.getAllSupplierBasedOnName(name);
 	}
-	
-	
+
+
 	@Override
 	public List<SupplierModel> findSuppliersBySearch(String name, Integer pageNumber, Integer pageSize) {
 		Pageable limit = PageRequest.of(pageNumber,pageSize);
@@ -183,6 +183,18 @@ public class SupplierServiceImpl implements SupplierService {
 	public List<SupplierModel> findLimitedSuppliersData(Integer pageNumber, Integer pageSize) {
 		Pageable limit = PageRequest.of(pageNumber,pageSize);
 		return supplierRepository.findSuppliersByLimit(limit);
+	}
+
+	@Override
+	public List<String> findSupplierCstNoBySearch(String cstNo) {
+
+		return supplierRepository.findCstNoBysearch(cstNo);
+	}
+
+	@Override
+	public List<String> findAllSuppliersCstNo() {
+
+		return supplierRepository.findAllCstNo();
 	}
 
 }

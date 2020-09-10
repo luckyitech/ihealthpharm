@@ -94,6 +94,9 @@ extends ReportsPDFUtility{
 		String doubleSubTotal=df.format(subTotal);
 		double subTotals=Double.parseDouble(doubleSubTotal); 
 
+		String vatTot=df.format(totalVat);
+		double vatFinal=Double.parseDouble(vatTot); 
+		
 		PdfPTable totalQtyTable = new PdfPTable(3);
 		totalQtyTable.setTotalWidth(500);
 		totalQtyTable.setSpacingBefore(30); 
@@ -121,7 +124,7 @@ extends ReportsPDFUtility{
 		totalQtyTable.setTotalWidth(500);
 		totalQtyTable.getDefaultCell().setBorder(0); 
 
-		PdfPCell nameCell3 = new PdfPCell(new Phrase("VAT : "+totalVat, title08)); 
+		PdfPCell nameCell3 = new PdfPCell(new Phrase("VAT : "+vatFinal, title08)); 
 		nameCell3.setColspan(3);
 		nameCell3.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell3.setVerticalAlignment(Element.ALIGN_TOP);
@@ -185,7 +188,7 @@ extends ReportsPDFUtility{
 		supllierNameTable.getDefaultCell().setBorder(0); 
 
 
-		PdfPTable table = new PdfPTable(10);
+		PdfPTable table = new PdfPTable(13);
 		table.setTotalWidth(500);
 		table.setWidthPercentage(50);
 		table.setLockedWidth(true);
@@ -193,118 +196,135 @@ extends ReportsPDFUtility{
 
 		//for (HeaderDto hearder : headerList) {
 
-		Paragraph headerCell = new Paragraph();
-		headerCell.setFont(headerFont);
-		headerCell.add("S.NO");
-		cell = new PdfPCell(headerCell);
-		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-		if (!model.isShowVerticalLines())
-			cell.setBorder(Rectangle.BOTTOM);
+			Paragraph headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("S.NO");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+	
+			table.addCell(cell);	
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("QTN NO");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
 
-		table.addCell(cell);	
-
-		headerCell = new Paragraph();
-		headerCell.setFont(headerFont);
-		headerCell.add("PO NO");
-		cell = new PdfPCell(headerCell);
-		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-		if (!model.isShowVerticalLines())
-			cell.setBorder(Rectangle.BOTTOM);
-
-		table.addCell(cell);
-
-
-		headerCell = new Paragraph();
-		headerCell.setFont(headerFont);
-		headerCell.add("QTY");
-		cell = new PdfPCell(headerCell);
-		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-		if (!model.isShowVerticalLines())
-			cell.setBorder(Rectangle.BOTTOM);
-
-		table.addCell(cell);
-
-		headerCell = new Paragraph();
-		headerCell.setFont(headerFont);
-		headerCell.add("BONUS");
-		cell = new PdfPCell(headerCell);
-		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-		if (!model.isShowVerticalLines())
-			cell.setBorder(Rectangle.BOTTOM);
-
-		table.addCell(cell);
-
-		headerCell = new Paragraph();
-		headerCell.setFont(headerFont);
-		headerCell.add("UNIT PRICE");
-		cell = new PdfPCell(headerCell);
-		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-		if (!model.isShowVerticalLines())
-			cell.setBorder(Rectangle.BOTTOM);
-
-		table.addCell(cell);
-
-		headerCell = new Paragraph();
-		headerCell.setFont(headerFont);
-		headerCell.add("DISC%");
-		cell = new PdfPCell(headerCell);
-		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-		if (!model.isShowVerticalLines())
-			cell.setBorder(Rectangle.BOTTOM);
-
-		table.addCell(cell);
+			table.addCell(cell);
 		
-		headerCell = new Paragraph();
-		headerCell.setFont(headerFont);
-		headerCell.add("DISC AMT");
-		cell = new PdfPCell(headerCell);
-		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-		if (!model.isShowVerticalLines())
-			cell.setBorder(Rectangle.BOTTOM);
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("ITEM NAME");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
 
-		table.addCell(cell);
-
-		headerCell = new Paragraph();
-		headerCell.setFont(headerFont);
-		headerCell.add("VAT");
-		cell = new PdfPCell(headerCell);
-		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-		if (!model.isShowVerticalLines())
-			cell.setBorder(Rectangle.BOTTOM);
-
-		table.addCell(cell);
-
-		headerCell = new Paragraph();
-		headerCell.setFont(headerFont);
-		headerCell.add("NET AMT");
-		cell = new PdfPCell(headerCell);
-		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-		if (!model.isShowVerticalLines())
-			cell.setBorder(Rectangle.BOTTOM);
-
-		table.addCell(cell);
-
-		headerCell = new Paragraph();
-		headerCell.setFont(headerFont);
-		headerCell.add("CREATED BY");
-		cell = new PdfPCell(headerCell);
-		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-		if (!model.isShowVerticalLines())
-			cell.setBorder(Rectangle.BOTTOM);
-
-		table.addCell(cell);
-
-		headerCell = new Paragraph();
-		headerCell.setFont(headerFont);
-		headerCell.add("MODIFIED BY");
-		cell = new PdfPCell(headerCell);
-		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-		if (!model.isShowVerticalLines())
-			cell.setBorder(Rectangle.BOTTOM);
-
-		table.addCell(cell);
-
-
+			table.addCell(cell);
+						
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("QTY");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("BONUS");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("UNIT PRICE");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("DISC%");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("DISC AMT");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("VAT");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("TOTAL AMT");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("APPROVED BY");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("CREATED BY");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("MODIFIED BY");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
 		table.setHeaderRows(1);
 
 		// populate Date
@@ -320,16 +340,24 @@ extends ReportsPDFUtility{
 					cell.setBorder(Rectangle.BOTTOM);
 
 				table.addCell(cell);
-
-				value = rowData.containsKey("PURCHASE_ORDER_NO") ? rowData.get("PURCHASE_ORDER_NO") : "";
+				
+				value = rowData.containsKey("QUOTATION_NO") ? rowData.get("QUOTATION_NO") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
 					cell.setBorder(Rectangle.BOTTOM);
 
 				table.addCell(cell);
+				
+				value = rowData.containsKey("ITEM_NM") ? rowData.get("ITEM_NM") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
 
-
+				table.addCell(cell);
+				
+				
 				value = rowData.containsKey("QUANTITY") ? rowData.get("QUANTITY") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -337,7 +365,9 @@ extends ReportsPDFUtility{
 					cell.setBorder(Rectangle.BOTTOM);
 
 				table.addCell(cell);
-
+				
+				
+				
 				value = rowData.containsKey("BONUS") ? rowData.get("BONUS") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -345,7 +375,7 @@ extends ReportsPDFUtility{
 					cell.setBorder(Rectangle.BOTTOM);
 
 				table.addCell(cell);
-
+				
 				value = rowData.containsKey("UNIT_RATE") ? rowData.get("UNIT_RATE") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -353,7 +383,7 @@ extends ReportsPDFUtility{
 					cell.setBorder(Rectangle.BOTTOM);
 
 				table.addCell(cell);
-
+				
 				value = rowData.containsKey("DISCOUNT") ? rowData.get("DISCOUNT") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -369,7 +399,8 @@ extends ReportsPDFUtility{
 					cell.setBorder(Rectangle.BOTTOM);
 
 				table.addCell(cell);
-
+				
+				
 				value = rowData.containsKey("VAT_AMT") ? rowData.get("VAT_AMT") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -377,15 +408,23 @@ extends ReportsPDFUtility{
 					cell.setBorder(Rectangle.BOTTOM);
 
 				table.addCell(cell);
-
-				value = rowData.containsKey("NET_AMT") ? rowData.get("NET_AMT") : "";
+				
+				value = rowData.containsKey("TOTAL_VALUE") ? rowData.get("TOTAL_VALUE") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
 					cell.setBorder(Rectangle.BOTTOM);
 
 				table.addCell(cell);
+				
+				value = rowData.containsKey("APP_BY") ? rowData.get("APP_BY") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
 
+				table.addCell(cell);
+				
 				value = rowData.containsKey("EMP_NM") ? rowData.get("EMP_NM") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -393,7 +432,7 @@ extends ReportsPDFUtility{
 					cell.setBorder(Rectangle.BOTTOM);
 
 				table.addCell(cell);
-
+				
 				value = rowData.containsKey("EMP_MODIFIED") ? rowData.get("EMP_MODIFIED") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -401,6 +440,8 @@ extends ReportsPDFUtility{
 					cell.setBorder(Rectangle.BOTTOM);
 
 				table.addCell(cell);
+				
+
 			}
 		}
 

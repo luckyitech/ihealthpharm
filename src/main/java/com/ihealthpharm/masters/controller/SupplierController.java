@@ -156,4 +156,17 @@ public class SupplierController {
 		log.info(result.toString());
 		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
 	}
+	
+	//Supplier Vat Report. getting cst numbers
+	@GetMapping("/getsupplierscstnobysearch")
+	public ResponseEntity<BaseDto<List<String>>> getAllCstNumbersBySearch(@RequestParam String cstNo) {
+		List<String> result = supplierService.findSupplierCstNoBySearch(cstNo);
+		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
+	}
+	
+	@GetMapping("/getsupplierscstno")
+	public ResponseEntity<BaseDto<List<String>>> getAllCstNumbers() {
+		List<String> result = supplierService.findAllSuppliersCstNo();
+		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
+	}
 }

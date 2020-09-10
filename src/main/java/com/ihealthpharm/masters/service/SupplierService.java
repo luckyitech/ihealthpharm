@@ -38,4 +38,8 @@ public interface SupplierService {
 
 	List<SupplierModel> findLimitedSuppliersData(Integer start, Integer end);
 
+	List<String> findSupplierCstNoBySearch(String cstNo);
+
+	List<String> findAllSuppliersCstNo();
+
 }
