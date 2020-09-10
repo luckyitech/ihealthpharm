@@ -272,6 +272,8 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 		}
 		
 		else if((invoiceNo != null && !invoiceNo.equals("undefined") && !invoiceNo.equals("null")) ) {
+			log.info("-----------invoice querry executes-----------------");
+			log.info(invoiceNo+ " "+ supplierName + " " +limit);
 			List<AccountPayablesModel> response= accountPayablesRepository.findAccPayablesSearchByInvoice(supplierName,invoiceNo,limit);
 			return response;
 		}

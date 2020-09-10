@@ -412,6 +412,9 @@ public class SalesServiceImpl implements SalesService {
 
 		for (SalesModel it : response) {
 			SalesEmployeeDTO salesModel = new SalesEmployeeDTO();
+			salesModel.setCreditCardNo(it.getCreditCardNo());
+			salesModel.setCreditCardAmount(it.getCreditCardAmount());
+			salesModel.setCreditCardAuthNo(it.getCreditCardAuthNo());
 			salesModel.setCreditAccountNo(it.getCreditAccountNo());
 			salesModel.setStaff(it.getStaff());
 			salesModel.setActiveS(it.getActiveS());
