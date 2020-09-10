@@ -39,11 +39,11 @@ public class LabelInstructionReceipt extends ReportsPDFUtility {
 	
 	@Override
 		public Document generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile,String inputJson) {
-	    Document document = new Document(new RectangleReadOnly(Utilities.millimetersToPoints(40),70));
+	    Document document = new Document(new RectangleReadOnly(Utilities.millimetersToPoints(50),70));
 		try {
 			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(responseFile));
-			document.setMargins(10,10,0,0);
-			document.setMarginMirroringTopBottom(true);
+			document.setMargins(0,0,0,0);
+			//document.setMarginMirroringTopBottom(true);
 			document.open();
 			addHeader(writer, document,model);
 			addLabelDetails(document, model, responseList);
@@ -77,7 +77,8 @@ public class LabelInstructionReceipt extends ReportsPDFUtility {
 				HeaderFooterContentDto contentDto = (HeaderFooterContentDto) JsonUtility.jsonToObject(headerContent,HeaderFooterContentDto.class);				
 				for(HeaderFooterContentDetailsDto dto:contentDto.getLeftContent()) {		
 					Paragraph phrase=new Paragraph(dto.getText(), FontFactory.getFont(dto.getFontName(), dto.getSize(),Font.BOLD)); 
-					phrase.setAlignment(0); 
+					//phrase.setAlignment(0);
+					
 					centerContent.addElement(phrase);					
 				}
 				
@@ -86,19 +87,16 @@ public class LabelInstructionReceipt extends ReportsPDFUtility {
 			header.addCell(centerContent);
 			//header.setSpacingAfter(10);
 			PdfPTable title = new PdfPTable(1);
-			title.setTotalWidth(Utilities.millimetersToPoints(40));
-			Font bold = new Font(FontFamily.HELVETICA,6, Font.BOLD);
 			
-		
 			PdfPTable finalFeader = new PdfPTable(1);
 			finalFeader.getDefaultCell().setBorder(0);
 			header.getDefaultCell().setBorder(0);
-			header.setHorizontalAlignment(Element.ALIGN_LEFT);
-			title.getDefaultCell().setBorder(0);
-
+			
+			//header.setHorizontalAlignment(Element.ALIGN_LEFT);
+			
 			finalFeader.setTotalWidth(Utilities.millimetersToPoints(40));
 			finalFeader.addCell(header);
-			finalFeader.addCell(title);
+			
 			
 			document.add(finalFeader);
 			
@@ -139,7 +137,7 @@ public class LabelInstructionReceipt extends ReportsPDFUtility {
 		table_itemName.getDefaultCell().setBorder(0);
 		table_itemName.setLockedWidth(true);
 		
-		Font bold = new Font(FontFamily.HELVETICA,8, Font.BOLD);
+		Font bold = new Font(FontFamily.HELVETICA,6, Font.BOLD);
 		
 		PdfPCell cell1 = new PdfPCell(new Phrase(itemName,bold));
 		cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
