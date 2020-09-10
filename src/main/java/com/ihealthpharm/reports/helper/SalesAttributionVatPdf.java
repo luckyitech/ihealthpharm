@@ -144,7 +144,7 @@ public class SalesAttributionVatPdf extends ReportsPDFUtility{
 		salePersonNameTable.setTotalWidth(500);
 		salePersonNameTable.getDefaultCell().setBorder(0); 
 		
-		PdfPTable table = new PdfPTable(12);
+		PdfPTable table = new PdfPTable(13);
 		table.setTotalWidth(500);
 		//table.setWidths(new int[] {35,40,55,33,25,20,35,35,35,35,20,30,30,30,40,33});
 		table.setWidthPercentage(50);

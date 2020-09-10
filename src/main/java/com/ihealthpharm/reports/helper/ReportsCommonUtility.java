@@ -65,6 +65,15 @@ public class ReportsCommonUtility {
 								stringBuffer.append('"');
 								stringBuffer.append(" ");
 							}
+							else if (StringUtils.equalsIgnoreCase("NEQ", criteria.getOperator())) {
+								stringBuffer.append(criteria.getAlias());
+								stringBuffer.append(criteria.getColumnName());
+								stringBuffer.append(" != ");
+								stringBuffer.append('"');
+								stringBuffer.append(value);
+								stringBuffer.append('"');
+								stringBuffer.append(" ");
+							}
 
 						}
 						else if (StringUtils.equalsIgnoreCase("Number", criteria.getType())) {

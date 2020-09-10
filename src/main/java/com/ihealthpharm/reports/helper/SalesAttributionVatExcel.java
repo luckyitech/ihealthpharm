@@ -178,15 +178,19 @@ public class SalesAttributionVatExcel extends ReportsExcelUtility{
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(10);
-			cell.setCellValue("S AMT");
+			cell.setCellValue("TOTAL AMT");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(11);
+			cell.setCellValue("SALE AMT");
 			cell.setCellStyle(headerStyle);	
 			
 			
-			cell = headerRow.createCell(11);
+			cell = headerRow.createCell(12);
 			cell.setCellValue("SERVED BY");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(12);
+			cell = headerRow.createCell(13);
 			cell.setCellValue("CREATION TS");
 			cell.setCellStyle(headerStyle);	
 			
@@ -253,21 +257,27 @@ public class SalesAttributionVatExcel extends ReportsExcelUtility{
 				cell.setCellStyle(borderStyle);
 				
 				
-				value = rowData.containsKey("SALE_AMOUNT") ? rowData.get("SALE_AMOUNT") : "";
+				value = rowData.containsKey("TOTAL_AMT") ? rowData.get("TOTAL_AMT") : "";
 				cell = dataRow.createCell(10);
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				cell.setCellStyle(borderStyle);
+				
+				
+				value = rowData.containsKey("SALE_AMOUNT") ? rowData.get("SALE_AMOUNT") : "";
+				cell = dataRow.createCell(11);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				
 				
 				value = rowData.containsKey("CREATED_BY") ? rowData.get("CREATED_BY") : "";
-				cell = dataRow.createCell(11);
+				cell = dataRow.createCell(12);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				
 				value = rowData.containsKey("CREATION_TS") ? rowData.get("CREATION_TS") : "";
-				cell = dataRow.createCell(12);
+				cell = dataRow.createCell(13);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
