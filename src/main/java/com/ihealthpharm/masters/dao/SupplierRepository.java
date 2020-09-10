@@ -39,4 +39,10 @@ public interface SupplierRepository extends JpaRepository<SupplierModel, Integer
 	
 	@Query("select s from supplier s where s.activeS='Y' order by s.lastUpdateTimestamp desc")
 	List<SupplierModel> findSuppliersByLimit(Pageable limit);
+
+	@Query("select distinct s.cstNo from supplier s where s.cstNo=:cstNo and s.cstNo is not null order by s.lastUpdateTimestamp desc")
+	List<String> findCstNoBysearch(@Param("cstNo")String cstNo);
+	
+	@Query("select distinct s.cstNo from supplier s where s.cstNo is not null order by s.lastUpdateTimestamp desc")
+	List<String> findAllCstNo();
 }
