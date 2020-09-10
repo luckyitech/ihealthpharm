@@ -79,7 +79,7 @@ public class SalesAttributionVatPdf extends ReportsPDFUtility{
 		double totalVat;
 		double totalSaleValue;
 		
-		totalSaleValue  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("SALE_AMOUNT") && !ObjectUtils.isEmpty(mapper.get("SALE_AMOUNT"))) ?String.valueOf(mapper.get("SALE_AMOUNT")):"0")).sum();  
+		totalSaleValue  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("TOTAL_AMT") && !ObjectUtils.isEmpty(mapper.get("TOTAL_AMT"))) ?String.valueOf(mapper.get("TOTAL_AMT")):"0")).sum();  
 		totalVat  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("VAT_AMT") && !ObjectUtils.isEmpty(mapper.get("VAT_AMT"))) ?String.valueOf(mapper.get("VAT_AMT")):"0")).sum();  
 
 		PdfPTable totalProfitTable = new PdfPTable(2);
@@ -106,7 +106,7 @@ public class SalesAttributionVatPdf extends ReportsPDFUtility{
 		totalProfitTable.setTotalWidth(500);
 		totalProfitTable.getDefaultCell().setBorder(0); 
 
-		PdfPCell nameCell2 = new PdfPCell(new Phrase("Total Sale Amount"+" "+" : "+"	"+saleValueTot, title08)); 
+		PdfPCell nameCell2 = new PdfPCell(new Phrase("Total Amount"+" "+" : "+"	"+saleValueTot, title08)); 
 		nameCell2.setColspan(3);
 		nameCell2.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell2.setVerticalAlignment(Element.ALIGN_TOP);

@@ -96,7 +96,7 @@ public class SalesAttributionVatExcel extends ReportsExcelUtility{
 		int currentRow = sheet.getLastRowNum();
 		
 		
-		double totalSaleValue = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("SALE_AMOUNT")?String.valueOf(mapper.get("SALE_AMOUNT")):"0")).sum(); 
+		double totalSaleValue = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TOTAL_AMT")?String.valueOf(mapper.get("TOTAL_AMT")):"0")).sum(); 
 		double totalVatValue = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("VAT_AMT")?String.valueOf(mapper.get("VAT_AMT")):"0")).sum(); 
 		
 		Row dataRow = sheet.createRow(currentRow+2);
@@ -113,7 +113,7 @@ public class SalesAttributionVatExcel extends ReportsExcelUtility{
 		cell1 = dataRow1.createCell(12);
 		
 		cell.setCellValue("Total Vat Amount : ");
-		cell1.setCellValue("Total Sale Amount : ");
+		cell1.setCellValue("Total Amount : ");
 		
 		cell = dataRow.createCell(13);
 		cell1 = dataRow1.createCell(13);
