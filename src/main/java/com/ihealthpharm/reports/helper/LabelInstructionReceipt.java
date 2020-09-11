@@ -201,8 +201,8 @@ public class LabelInstructionReceipt extends ReportsPDFUtility {
 		table_instruction.setLockedWidth(true);
 
 
-		//PdfPCell cell2 = new PdfPCell(new Phrase(instruction,bold1));
-		PdfPCell cell2 = new PdfPCell(new Phrase("Take two daily Swallow whole, do not chew.Take with or after food.",bold1));
+		PdfPCell cell2 = new PdfPCell(new Phrase(instruction,bold1));
+		//PdfPCell cell2 = new PdfPCell(new Phrase("Take two daily Swallow whole, do not chew.Take with or after food.",bold1));
 		cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
 		cell2.setBorder(Rectangle.NO_BORDER);
 		table_instruction.addCell(cell2);
@@ -220,7 +220,7 @@ public class LabelInstructionReceipt extends ReportsPDFUtility {
 		
 		try {
 			footer.setTotalWidth(Utilities.millimetersToPoints(40));
-			footer.setWidths(new int[] { 20 ,20});
+			footer.setWidths(new int[] { 17 ,33});
 			footer.setSpacingBefore(0);
 			
 			PdfPCell centerContent = new PdfPCell();
@@ -253,10 +253,9 @@ public class LabelInstructionReceipt extends ReportsPDFUtility {
 				}else {
 					System.out.println("Entered else");
 					String customerName = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("CUSTOMER_NM"));
-
 					HeaderFooterContentDetailsDto customer = new HeaderFooterContentDetailsDto();
 					customer.setFontName("Helvetica");
-					customer.setSize(4);
+					customer.setSize(3);
 					customer.setText(customerName);
 					contentDto.getLeftContent().set(0, customer);
 				}
