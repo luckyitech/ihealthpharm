@@ -286,6 +286,16 @@ private void createTable(Document document, ReportsMappingModel model, List<Map<
 		cell.setBorder(Rectangle.BOTTOM);
 
 	table.addCell(cell);
+	
+	headerCell = new Paragraph();
+	headerCell.setFont(headerFont);
+	headerCell.add("NET AMT");
+	cell = new PdfPCell(headerCell);
+	cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+	if (!model.isShowVerticalLines())
+		cell.setBorder(Rectangle.BOTTOM);
+
+	table.addCell(cell);
 
 	headerCell = new Paragraph();
 	headerCell.setFont(headerFont);
@@ -409,6 +419,14 @@ private void createTable(Document document, ReportsMappingModel model, List<Map<
 			table.addCell(cell);
 
 			value = rowData.containsKey("TOTAL_VALUE") ? rowData.get("TOTAL_VALUE") : "";
+			cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+
+			table.addCell(cell);
+			
+			value = rowData.containsKey("NET_AMT") ? rowData.get("NET_AMT") : "";
 			cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())

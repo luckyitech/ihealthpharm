@@ -204,18 +204,22 @@ public class SupplierVatExcel extends ReportsExcelUtility{
 			cell.setCellStyle(headerStyle);	
 
 			cell = headerRow.createCell(10);
+			cell.setCellValue("TOTAL AMOUNT");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(11);
 			cell.setCellValue("NET AMOUNT");
 			cell.setCellStyle(headerStyle);	
 
-			cell = headerRow.createCell(11);
+			cell = headerRow.createCell(12);
 			cell.setCellValue("APPROVED BY");
 			cell.setCellStyle(headerStyle);	
 
-			cell = headerRow.createCell(12);
+			cell = headerRow.createCell(13);
 			cell.setCellValue("CREATED BY");
 			cell.setCellStyle(headerStyle);	
 
-			cell = headerRow.createCell(13);
+			cell = headerRow.createCell(14);
 			cell.setCellValue("MODIFIED BY");
 			cell.setCellStyle(headerStyle);	
 
@@ -315,22 +319,28 @@ public class SupplierVatExcel extends ReportsExcelUtility{
 				cell = dataRow.createCell(10);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
-
-				value = rowData.containsKey("APP_BY") ? rowData.get("APP_BY") : "";
+				
+				value = rowData.containsKey("NET_AMT") ? rowData.get("NET_AMT") : "";
 				//sheet.autoSizeColumn(10);
 				cell = dataRow.createCell(11);
-				cell.setCellValue(String.valueOf(value));
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 
-				value = rowData.containsKey("EMP_NM") ? rowData.get("EMP_NM") : "";
+				value = rowData.containsKey("APP_BY") ? rowData.get("APP_BY") : "";
 				//sheet.autoSizeColumn(10);
 				cell = dataRow.createCell(12);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 
-				value = rowData.containsKey("EMP_MODIFIED") ? rowData.get("EMP_MODIFIED") : "";
+				value = rowData.containsKey("EMP_NM") ? rowData.get("EMP_NM") : "";
 				//sheet.autoSizeColumn(10);
 				cell = dataRow.createCell(13);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+
+				value = rowData.containsKey("EMP_MODIFIED") ? rowData.get("EMP_MODIFIED") : "";
+				//sheet.autoSizeColumn(10);
+				cell = dataRow.createCell(14);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 

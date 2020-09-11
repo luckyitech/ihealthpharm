@@ -96,7 +96,7 @@ public class SalesAttributionVatExcel extends ReportsExcelUtility{
 		int currentRow = sheet.getLastRowNum();
 		
 		
-		double totalSaleValue = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("SALE_AMOUNT")?String.valueOf(mapper.get("SALE_AMOUNT")):"0")).sum(); 
+		double totalSaleValue = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("TOTAL_AMT")?String.valueOf(mapper.get("TOTAL_AMT")):"0")).sum(); 
 		double totalVatValue = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("VAT_AMT")?String.valueOf(mapper.get("VAT_AMT")):"0")).sum(); 
 		
 		Row dataRow = sheet.createRow(currentRow+2);
@@ -113,7 +113,7 @@ public class SalesAttributionVatExcel extends ReportsExcelUtility{
 		cell1 = dataRow1.createCell(12);
 		
 		cell.setCellValue("Total Vat Amount : ");
-		cell1.setCellValue("Total Sale Amount : ");
+		cell1.setCellValue("Total Amount : ");
 		
 		cell = dataRow.createCell(13);
 		cell1 = dataRow1.createCell(13);
@@ -178,15 +178,19 @@ public class SalesAttributionVatExcel extends ReportsExcelUtility{
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(10);
-			cell.setCellValue("S AMT");
+			cell.setCellValue("TOTAL AMT");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(11);
+			cell.setCellValue("SALE AMT");
 			cell.setCellStyle(headerStyle);	
 			
 			
-			cell = headerRow.createCell(11);
+			cell = headerRow.createCell(12);
 			cell.setCellValue("SERVED BY");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(12);
+			cell = headerRow.createCell(13);
 			cell.setCellValue("CREATION TS");
 			cell.setCellStyle(headerStyle);	
 			
@@ -253,21 +257,27 @@ public class SalesAttributionVatExcel extends ReportsExcelUtility{
 				cell.setCellStyle(borderStyle);
 				
 				
-				value = rowData.containsKey("SALE_AMOUNT") ? rowData.get("SALE_AMOUNT") : "";
+				value = rowData.containsKey("TOTAL_AMT") ? rowData.get("TOTAL_AMT") : "";
 				cell = dataRow.createCell(10);
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				cell.setCellStyle(borderStyle);
+				
+				
+				value = rowData.containsKey("SALE_AMOUNT") ? rowData.get("SALE_AMOUNT") : "";
+				cell = dataRow.createCell(11);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				
 				
 				value = rowData.containsKey("CREATED_BY") ? rowData.get("CREATED_BY") : "";
-				cell = dataRow.createCell(11);
+				cell = dataRow.createCell(12);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				
 				value = rowData.containsKey("CREATION_TS") ? rowData.get("CREATION_TS") : "";
-				cell = dataRow.createCell(12);
+				cell = dataRow.createCell(13);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
