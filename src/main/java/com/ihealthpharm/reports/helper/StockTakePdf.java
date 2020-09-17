@@ -121,7 +121,7 @@ public class StockTakePdf extends ReportsPDFUtility{
 		totalProfitTable.setTotalWidth(500);
 		totalProfitTable.getDefaultCell().setBorder(0); 
 
-		PdfPCell nameCell3 = new PdfPCell(new Phrase("Difference"+" "+" : "+"	"+diffAmtRound, title08)); 
+		PdfPCell nameCell3 = new PdfPCell(new Phrase("Variation"+" "+" : "+"	"+diffAmtRound, title08)); 
 		nameCell3.setColspan(3);
 		nameCell3.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell3.setVerticalAlignment(Element.ALIGN_TOP);
@@ -130,7 +130,8 @@ public class StockTakePdf extends ReportsPDFUtility{
 		totalProfitTable.setLockedWidth(true);
 		totalProfitTable.setTotalWidth(500);
 		totalProfitTable.getDefaultCell().setBorder(0); 
-
+		
+		
 		document.add(totalProfitTable);
 
 	}
@@ -265,9 +266,11 @@ public class StockTakePdf extends ReportsPDFUtility{
 			totalAmountTable.setTotalWidth(500);
 			totalAmountTable.getDefaultCell().setBorder(0); 
 
+			totalAmountTable.setSpacingAfter(15);
 
 			finalTable.addCell(table); 
 			document.add(finalTable);
+
 			document.add(totalAmountTable);
 
 		}
