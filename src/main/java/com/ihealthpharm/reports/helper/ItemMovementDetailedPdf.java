@@ -95,8 +95,8 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 		Font bold = new Font(FontFamily.HELVETICA,9);
 		PdfPTable salePersonNameTable = new PdfPTable(3);
 		PdfPCell nameCell = new PdfPCell(new Phrase("Item Name  : "+itemName+  "       "
-				+ "Expiry Dt  :  "+expiryDate+"         "+"Opening Stock   : "+openingStock+	"	"
-				+ "Closing Stock  :  "+closingStock, bold)); 
+				+ "Expiry Dt  :  "+expiryDate+"         "+"Opening Stock  : "+openingStock+  "       "
+				+ "Closing Stock  :  "+closingStock+"         ", bold)); 
 
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -105,7 +105,9 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 		salePersonNameTable.addCell(nameCell);
 		salePersonNameTable.setLockedWidth(true);
 		salePersonNameTable.setTotalWidth(500);
-		salePersonNameTable.getDefaultCell().setBorder(0); 
+		salePersonNameTable.getDefaultCell().setBorder(0);
+		
+		
 
 		String reportHeader1 = model.getReportHeader();
 		List<HeaderDto> headerList1 = JsonUtility.jsonToList(reportHeader1, HeaderDto.class);
