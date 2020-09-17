@@ -166,7 +166,7 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 			long totalInv = salesProfitList.stream() .filter(x -> (x.containsValue("Purchase"))||(x.containsValue("Purchase Update"))||(x.containsValue("Invoice Addition"))) .count();
 			long totalSalesRetrun = salesProfitList.stream() .filter(x -> x.containsValue("Sales Canceling")).count();
 			long totalStockTake = salesProfitList.stream() .filter(x -> (x.containsValue("Stock Take"))||(x.containsValue("Stock Adjustment"))) .count();
-			long totalStockAdd = salesProfitList.stream() .filter(x -> (x.containsValue("Stock"))||(x.containsValue("Stock Update"))||(x.containsValue("Stock Addition"))) .count();
+			long totalStockAdd = salesProfitList.stream() .filter(x -> (x.containsValue("Stock"))||(x.containsValue("Stock Update"))||(x.containsValue("New Stock Addition"))) .count();
 			long totalPurReturn = salesProfitList.stream() .filter(x -> (x.containsValue("Purchase Return"))||x.containsValue("Purchase Delete")) .count();
 
 
@@ -228,7 +228,7 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 				totalAmountTable.getDefaultCell().setBorder(0);
 				}
 			
-			if(salesProfitList.stream() .filter(x -> (x.containsValue("Stock"))||(x.containsValue("Stock Update"))||(x.containsValue("Stock Addition"))) .count()>0) {
+			if(salesProfitList.stream() .filter(x -> (x.containsValue("Stock"))||(x.containsValue("Stock Update"))||(x.containsValue("New Stock Addition"))) .count()>0) {
 				PdfPCell nameCell5 = new PdfPCell(new Phrase("Total Stock Addition :"+" "+" : "+"	"+totalStockAdd, title08)); 
 				nameCell5.setColspan(3);
 				nameCell5.setHorizontalAlignment(Element.ALIGN_RIGHT);

@@ -332,7 +332,7 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 				
 			cell4.setCellValue("Total Stock Take");
 			}
-			if(salesProfitList.stream() .filter(x -> (x.containsValue("Stock"))||(x.containsValue("Stock Update"))||(x.containsValue("Stock Addition"))) .count()>0) {
+			if(salesProfitList.stream() .filter(x -> (x.containsValue("Stock"))||(x.containsValue("Stock Update"))||(x.containsValue("New Stock Addition"))) .count()>0) {
 				
 			cell5.setCellValue("Total Stock Addition");
 			}
@@ -364,7 +364,7 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 				
 			cell4.setCellValue(totalStockTake);
 			}
-			if(salesProfitList.stream() .filter(x -> (x.containsValue("Stock"))||(x.containsValue("Stock Update"))||(x.containsValue("Stock Addition"))) .count()>0) {
+			if(salesProfitList.stream() .filter(x -> (x.containsValue("Stock"))||(x.containsValue("Stock Update"))||(x.containsValue("New Stock Addition"))) .count()>0) {
 				
 			cell5.setCellValue(totalStockAdd);
 			}
