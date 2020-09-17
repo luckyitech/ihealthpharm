@@ -24,10 +24,10 @@ public interface CustomerRepository extends JpaRepository<CustomerModel,Integer>
 	@Query("SELECT new com.ihealthpharm.masters.model.CustomerModel(c.customerId, concat(c.customerName,' ', c.lastName) as customerName,phoneNumber,corporate)  FROM customer c  where c.activeS='Y' order by c.lastUpdateTimestamp desc ")
 	List<CustomerModel> findFirst100ActiveByOrderByCustomerNameAsc(Pageable limit);
 	
-	@Query("SELECT c  FROM customer c  where c.activeS='Y' and c.corporate='Y' order by c.lastUpdateTimestamp desc")
+	@Query("SELECT new com.ihealthpharm.masters.model.CustomerModel(c.customerId, concat(c.customerName,' ', c.lastName) as customerName,phoneNumber,corporate)  FROM customer c  where c.activeS='Y' and c.corporate='Y' order by c.lastUpdateTimestamp desc")
 	List<CustomerModel> findFirst100ActiveByOrderByCorporateCustomerNameAsc(Pageable limit);
 	
-	@Query("SELECT c  FROM customer c  where c.activeS='Y' and c.corporate='S' order by c.lastUpdateTimestamp desc")
+	@Query("SELECT new com.ihealthpharm.masters.model.CustomerModel(c.customerId, concat(c.customerName,' ', c.lastName) as customerName,phoneNumber,corporate)  FROM customer c  where c.activeS='Y' and c.corporate='S' order by c.lastUpdateTimestamp desc")
 	List<CustomerModel> findFirst100ActiveByOrderByStaffCustomerNameAsc(Pageable limit);
 	
 	@Query("SELECT c  FROM customer c where c.activeS='Y' order by c.lastUpdateTimestamp desc ")
