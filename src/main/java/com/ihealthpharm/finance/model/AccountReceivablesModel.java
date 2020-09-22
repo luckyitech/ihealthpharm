@@ -78,7 +78,7 @@ public class AccountReceivablesModel extends AuditModel{
 	private String upiPhoneNo;
 
 	@Column(name="CHEQUE_NUMBER")
-	private Integer chequeNumber;
+	private String chequeNumber;
 
 	@Column(name="CHEQUE_AMT")
 	private Double chequeAmount;
@@ -114,4 +114,18 @@ public class AccountReceivablesModel extends AuditModel{
 	
 	@Column(name="UNIQUE_RECEIPT_NO")
 	private String unique;
+	
+	@Column(name="PAYMENT_TYPE")
+	private String paymentType;
+	
+	@Column(name="CARD_AUTH_CODE")
+	private String cardAuthCode;
+	
+	@Column(name="UPI_AUTH_CODE")
+	private String upiAuthCode;
+	
+	@Column(name="CHEQUE_DT")
+	private LocalDate chequeDate;
+	
+	
 }
