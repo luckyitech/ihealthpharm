@@ -193,15 +193,19 @@ public class CustomerStatementExcel extends ReportsExcelUtility{
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(4);
+			cell.setCellValue("PAYMENT TYPE");
+			cell.setCellStyle(headerStyle);
+			
+			cell = headerRow.createCell(5);
 			cell.setCellValue("AMOINT PAID");
 			cell.setCellStyle(headerStyle);	
 		
 			
-			cell = headerRow.createCell(5);
+			cell = headerRow.createCell(6);
 			cell.setCellValue("AMOUNT RECEIVED");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(6);
+			cell = headerRow.createCell(7);
 			cell.setCellValue("OUTSTANDING AMOUNT");
 			cell.setCellStyle(headerStyle);	
 			
@@ -260,21 +264,27 @@ public class CustomerStatementExcel extends ReportsExcelUtility{
 				cell.setCellValue((String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
+				value = rowData.containsKey("TYPE") ? rowData.get("TYPE") : "";
+				//sheet.autoSizeColumn(6);
+				cell = dataRow.createCell(4);
+				cell.setCellValue((String.valueOf(value)));
+				cell.setCellStyle(borderStyle);
+				
 				value = rowData.containsKey("AMOUNT_RECEIVED") ? rowData.get("AMOUNT_RECEIVED") : "";
 				//sheet.autoSizeColumn(7);
-				cell = dataRow.createCell(4);
+				cell = dataRow.createCell(5);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("AMOUNT_RECEIVED") ? rowData.get("AMOUNT_RECEIVED") : "";
 				//sheet.autoSizeColumn(8);
-				cell = dataRow.createCell(5);
+				cell = dataRow.createCell(6);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("outstanding_amt") ? rowData.get("outstanding_amt") : "";
 				//sheet.autoSizeColumn(8);
-				cell = dataRow.createCell(6);
+				cell = dataRow.createCell(7);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 			}
