@@ -99,9 +99,9 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 
 		Font bold = new Font(FontFamily.HELVETICA,9);
 		PdfPTable salePersonNameTable = new PdfPTable(3);
-		PdfPCell nameCell = new PdfPCell(new Phrase("Item Name  : "+itemName+  "       "
-				+ "Expiry Dt  :  "+expiryDate+"         "+"Opening Stock  : "+openingStock+  "       "
-				+ "Closing Stock  :  "+closingStock+"         ", bold)); 
+		PdfPCell nameCell = new PdfPCell(new Phrase("Item  : "+itemName+  "       "
+				+ "Exp. Dt  :  "+expiryDate+"         "+"O.Stock  : "+openingStock+  "       "
+				+ "C.Stock  :  "+closingStock+"         ", bold)); 
 
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);

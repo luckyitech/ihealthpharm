@@ -183,25 +183,25 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 				SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 				Cell headCell = displayRow.createCell(0);
 				Object value = rowData.containsKey("ITEM_NM") ? rowData.get("ITEM_NM") : "";
-				headCell.setCellValue("Item Name  :   ");
+				headCell.setCellValue("Item :   ");
 				headCell=displayRow.createCell(1);
 				headCell.setCellValue(String.valueOf(value));
 
 				Cell headCell1 = displayRow.createCell(2);
 				value = rowData.containsKey("EXPIRY_DT") ? rowData.get("EXPIRY_DT") : "";
-				headCell1.setCellValue("Expiry Dt  :   ");
+				headCell1.setCellValue("Exp.Dt  :   ");
 				headCell1=displayRow.createCell(3);
 				headCell1.setCellValue(String.valueOf(value));
 
 				Cell headCell2 = displayRow.createCell(4);
 				value = rowData.containsKey("OPENING_STOCK") ? rowData.get("OPENING_STOCK") : "";
-				headCell2.setCellValue("Opening Stock  :   ");
+				headCell2.setCellValue("O.Stock  :   ");
 				headCell2=displayRow.createCell(5);
 				headCell2.setCellValue(String.valueOf(value));
 
 				Cell headCell3 = displayRow.createCell(6);
 				value = rowData.containsKey("CLOSING_STOCK") ? rowData.get("CLOSING_STOCK") : "";
-				headCell3.setCellValue("Closing Stock  :   ");
+				headCell3.setCellValue("C.Stock  :   ");
 				headCell1=displayRow.createCell(7);
 				headCell1.setCellValue(String.valueOf(value));
 
