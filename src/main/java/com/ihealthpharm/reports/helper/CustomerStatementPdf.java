@@ -188,7 +188,7 @@ public class CustomerStatementPdf extends ReportsPDFUtility{
 		
 		
 		
-		PdfPTable table = new PdfPTable(8);
+		PdfPTable table = new PdfPTable(9);
 		table.setTotalWidth(500);
 		table.setWidthPercentage(50);
 		table.setLockedWidth(true);
@@ -245,6 +245,16 @@ public class CustomerStatementPdf extends ReportsPDFUtility{
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
 			headerCell.add("BILL NUMBER");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("PAYMENT TYPE");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
@@ -329,6 +339,14 @@ public class CustomerStatementPdf extends ReportsPDFUtility{
 				
 				
 				value = rowData.containsKey("SOURCE_REF") ? rowData.get("SOURCE_REF") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("TYPE") ? rowData.get("TYPE") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
