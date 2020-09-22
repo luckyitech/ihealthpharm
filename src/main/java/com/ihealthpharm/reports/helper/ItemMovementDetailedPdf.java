@@ -44,16 +44,21 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 			writer.setPageEvent(event); 
 			document.open();
 
-			Map<String, List<Map<String, Object>>> itemExpiryMap = responseList.stream()
-					.collect(Collectors.groupingBy(map -> (String) map.get("EXPIRY_DT")));			
+			Map<String, List<Map<String, Object>>> itemMovementMap = responseList.stream()
+					.collect(Collectors.groupingBy(map -> (String) map.get("ITEM_NM")));			
 
 
-			if(!ObjectUtils.isEmpty(itemExpiryMap)) { 
+			if(!ObjectUtils.isEmpty(itemMovementMap)) { 
 
 
-				for(String expiryDate :itemExpiryMap.keySet()) {					
-					List<Map<String, Object>> salesByPersonList = itemExpiryMap.get(expiryDate);
-					createTable(document,model,salesByPersonList,expiryDate);
+				for(String itemName :itemMovementMap.keySet()) {					
+					List<Map<String, Object>> itemsMovementList = itemMovementMap.get(itemName);
+					Map<String, List<Map<String, Object>>> salesByExpiryMap = itemsMovementList.stream()
+							.collect(Collectors.groupingBy(map -> (String) map.get("EXPIRY_DT")));			
+					for(String expiryDt :salesByExpiryMap.keySet()) {
+						List<Map<String, Object>> salesByExpiryList = salesByExpiryMap.get(expiryDt);
+						createTable(document,model,salesByExpiryList,expiryDt);
+					}
 				}
 
 			}
@@ -106,8 +111,8 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 		salePersonNameTable.setLockedWidth(true);
 		salePersonNameTable.setTotalWidth(500);
 		salePersonNameTable.getDefaultCell().setBorder(0);
-		
-		
+
+
 
 		String reportHeader1 = model.getReportHeader();
 		List<HeaderDto> headerList1 = JsonUtility.jsonToList(reportHeader1, HeaderDto.class);
@@ -193,17 +198,17 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 			}
 
 			if(salesProfitList.stream() .filter(x -> (x.containsValue("Purchase"))||(x.containsValue("Purchase Update"))||(x.containsValue("Invoice Addition"))) .count()>0) {
-			PdfPCell nameCell2 = new PdfPCell(new Phrase("Total Invoice :"+" "+" : "+"	"+totalInv, title08)); 
-			nameCell2.setColspan(3);
-			nameCell2.setHorizontalAlignment(Element.ALIGN_RIGHT);
-			nameCell2.setVerticalAlignment(Element.ALIGN_TOP);
-			nameCell2.setBorder(0);
-			totalAmountTable.addCell(nameCell2);
-			totalAmountTable.setLockedWidth(true);
-			totalAmountTable.setTotalWidth(500);
-			totalAmountTable.getDefaultCell().setBorder(0);
+				PdfPCell nameCell2 = new PdfPCell(new Phrase("Total Invoice :"+" "+" : "+"	"+totalInv, title08)); 
+				nameCell2.setColspan(3);
+				nameCell2.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				nameCell2.setVerticalAlignment(Element.ALIGN_TOP);
+				nameCell2.setBorder(0);
+				totalAmountTable.addCell(nameCell2);
+				totalAmountTable.setLockedWidth(true);
+				totalAmountTable.setTotalWidth(500);
+				totalAmountTable.getDefaultCell().setBorder(0);
 			}
-			
+
 			if(salesProfitList.stream() .filter(x -> x.containsValue("Sales Canceling")).count()>0) {
 				PdfPCell nameCell3 = new PdfPCell(new Phrase("Total Sales Return :"+" "+" : "+"	"+totalSalesRetrun, title08)); 
 				nameCell3.setColspan(3);
@@ -214,7 +219,7 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 				totalAmountTable.setLockedWidth(true);
 				totalAmountTable.setTotalWidth(500);
 				totalAmountTable.getDefaultCell().setBorder(0);
-				}
+			}
 
 			if(salesProfitList.stream() .filter(x -> (x.containsValue("Stock Take"))||(x.containsValue("Stock Adjustment"))) .count()>0) {
 				PdfPCell nameCell4 = new PdfPCell(new Phrase("Total Stock Take :"+" "+" : "+"	"+totalStockTake, title08)); 
@@ -226,8 +231,8 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 				totalAmountTable.setLockedWidth(true);
 				totalAmountTable.setTotalWidth(500);
 				totalAmountTable.getDefaultCell().setBorder(0);
-				}
-			
+			}
+
 			if(salesProfitList.stream() .filter(x -> (x.containsValue("Stock"))||(x.containsValue("Stock Update"))||(x.containsValue("New Stock Addition"))) .count()>0) {
 				PdfPCell nameCell5 = new PdfPCell(new Phrase("Total Stock Addition :"+" "+" : "+"	"+totalStockAdd, title08)); 
 				nameCell5.setColspan(3);
@@ -238,8 +243,8 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 				totalAmountTable.setLockedWidth(true);
 				totalAmountTable.setTotalWidth(500);
 				totalAmountTable.getDefaultCell().setBorder(0);
-				}
-			
+			}
+
 			if(salesProfitList.stream() .filter(x -> (x.containsValue("Purchase Return"))||x.containsValue("Purchase Delete")) .count()>0) {
 				PdfPCell nameCell6 = new PdfPCell(new Phrase("Total Purchase Return :"+" "+" : "+"	"+totalPurReturn, title08)); 
 				nameCell6.setColspan(3);
@@ -250,7 +255,7 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 				totalAmountTable.setLockedWidth(true);
 				totalAmountTable.setTotalWidth(500);
 				totalAmountTable.getDefaultCell().setBorder(0);
-				}
+			}
 
 			totalAmountTable.setSpacingAfter(15);
 
