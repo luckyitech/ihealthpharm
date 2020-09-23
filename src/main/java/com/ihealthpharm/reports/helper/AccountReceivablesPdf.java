@@ -147,7 +147,7 @@ public class AccountReceivablesPdf extends ReportsPDFUtility{
 			supllierNameTable.getDefaultCell().setBorder(0);
 		
 		
-		PdfPTable table = new PdfPTable(14);
+		PdfPTable table = new PdfPTable(15);
 		table.setTotalWidth(500);
 		table.setWidthPercentage(50);
 		table.setLockedWidth(true);
@@ -248,6 +248,16 @@ public class AccountReceivablesPdf extends ReportsPDFUtility{
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
 			headerCell.add("SOURCE TYPE");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+			
+			table.addCell(cell);
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("PAYMENT TYPE");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
@@ -383,6 +393,14 @@ public class AccountReceivablesPdf extends ReportsPDFUtility{
 
 				table.addCell(cell);
 				
+				value = rowData.containsKey("TYPE") ? rowData.get("TYPE") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
 				value = rowData.containsKey("FIRST_NM") ? rowData.get("FIRST_NM") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -428,7 +446,7 @@ public class AccountReceivablesPdf extends ReportsPDFUtility{
 
 	}
 		else {
-			PdfPTable table = new PdfPTable(14);
+			PdfPTable table = new PdfPTable(15);
 			table.setTotalWidth(500);
 			table.setWidthPercentage(50);
 			table.setLockedWidth(true);
@@ -529,6 +547,16 @@ public class AccountReceivablesPdf extends ReportsPDFUtility{
 				headerCell = new Paragraph();
 				headerCell.setFont(headerFont);
 				headerCell.add("SOURCE TYPE");
+				cell = new PdfPCell(headerCell);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+				
+				table.addCell(cell);
+				
+				headerCell = new Paragraph();
+				headerCell.setFont(headerFont);
+				headerCell.add("PAYMENT TYPE");
 				cell = new PdfPCell(headerCell);
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
@@ -657,6 +685,14 @@ public class AccountReceivablesPdf extends ReportsPDFUtility{
 					table.addCell(cell);
 					
 					value = rowData.containsKey("SOURCE_TYPE") ? rowData.get("SOURCE_TYPE") : "";
+					cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+					if (!model.isShowVerticalLines())
+						cell.setBorder(Rectangle.BOTTOM);
+
+					table.addCell(cell);
+					
+					value = rowData.containsKey("TYPE") ? rowData.get("TYPE") : "";
 					cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 					if (!model.isShowVerticalLines())

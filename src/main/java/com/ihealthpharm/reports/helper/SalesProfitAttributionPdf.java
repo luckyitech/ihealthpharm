@@ -76,10 +76,10 @@ public class SalesProfitAttributionPdf extends ReportsPDFUtility{
 	}
 
 	private void generateTotalTable(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException {
-		DecimalFormat df=new DecimalFormat("0.00");
-		double totalProfit;
-		double totalPurValue;
-		double totalSaleValue;
+		DecimalFormat df = new DecimalFormat("####0.00");
+		double totalProfit=0.00;
+		double totalPurValue=0.00;
+		double totalSaleValue=0.00;
 		totalProfit  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("PROFIT") && !ObjectUtils.isEmpty(mapper.get("PROFIT"))) ?String.valueOf(mapper.get("PROFIT")):"0")).sum();  
 		totalSaleValue  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("SALE_AMOUNT") && !ObjectUtils.isEmpty(mapper.get("SALE_AMOUNT"))) ?String.valueOf(mapper.get("SALE_AMOUNT")):"0")).sum();  
 		totalPurValue  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("PURCHASE_AMOUNT") && !ObjectUtils.isEmpty(mapper.get("PURCHASE_AMOUNT"))) ?String.valueOf(mapper.get("PURCHASE_AMOUNT")):"0")).sum();  
@@ -91,14 +91,21 @@ public class SalesProfitAttributionPdf extends ReportsPDFUtility{
 		totalProfitTable.setLockedWidth(true);
 		totalProfitTable.getDefaultCell().setBorder(0); 
 
-		String totProfit=df.format(totalProfit);
-		Double profitRound=Double.parseDouble(totProfit);
+//		String totProfit=df.format(totalProfit);
+//		Double profitRound=Double.parseDouble(totProfit);
+		
+		String profitRound = String.format("%.2f", totalProfit);
 
-		String totPur=df.format(totalPurValue);
-		Double purchaseValueTot=Double.parseDouble(totPur);
 
-		String totSale=df.format(totalSaleValue);
-		Double saleValueTot=Double.parseDouble(totSale);
+//		String totPur=df.format(totalPurValue);
+//		Double purchaseValueTot=Double.parseDouble(totPur);
+		
+		String purchaseValueTot = String.format("%.2f", totalPurValue);
+
+//		String totSale=df.format(totalSaleValue);
+//		Double saleValueTot=Double.parseDouble(totSale);
+		
+		String saleValueTot = String.format("%.2f", totalSaleValue);
 
 		PdfPCell nameCell = new PdfPCell(new Phrase("Total Purchase Amount"+" "+" : "+"	"+purchaseValueTot, title08)); 
 		nameCell.setColspan(3);

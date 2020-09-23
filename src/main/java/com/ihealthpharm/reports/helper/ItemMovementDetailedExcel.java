@@ -77,7 +77,7 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 		headerStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());  
 
 		Map<String, List<Map<String, Object>>> salesByPersonMap = responseList.stream()
-				.collect(Collectors.groupingBy(map -> (String) map.get("EXPIRY_DT")));			
+				.collect(Collectors.groupingBy(map -> (String) map.get("ITEM_NM")));			
 
 
 		setHeader(workbook,sheet,model);
@@ -85,10 +85,19 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 
 		if(!ObjectUtils.isEmpty(salesByPersonMap)) { 
 
-			for(String expiryDate :salesByPersonMap.keySet()) {	
-				int currentRow = sheet.getLastRowNum();
-				List<Map<String, Object>> salesByPersonList =salesByPersonMap.get(expiryDate);
-				createSalesByPersonTable(sheet, responseFile, borderStyle, headerStyle,salesByPersonList, expiryDate, currentRow); 
+			for(String itemName :salesByPersonMap.keySet()) {	
+				
+				List<Map<String, Object>> salesByPersonList =salesByPersonMap.get(itemName);
+
+				Map<String, List<Map<String, Object>>> salesByExpiryMap = salesByPersonList.stream()
+						.collect(Collectors.groupingBy(map -> (String) map.get("EXPIRY_DT")));			
+
+				for(String expiryDate :salesByExpiryMap.keySet()) {
+					int currentRow = sheet.getLastRowNum();
+					List<Map<String, Object>> salesByExpiryList =salesByExpiryMap.get(expiryDate);
+
+					createSalesByPersonTable(sheet, responseFile, borderStyle, headerStyle,salesByExpiryList, expiryDate, currentRow); 
+				}
 			}
 
 		}
@@ -174,25 +183,25 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 				SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 				Cell headCell = displayRow.createCell(0);
 				Object value = rowData.containsKey("ITEM_NM") ? rowData.get("ITEM_NM") : "";
-				headCell.setCellValue("Item Name  :   ");
+				headCell.setCellValue("Item :   ");
 				headCell=displayRow.createCell(1);
 				headCell.setCellValue(String.valueOf(value));
 
 				Cell headCell1 = displayRow.createCell(2);
 				value = rowData.containsKey("EXPIRY_DT") ? rowData.get("EXPIRY_DT") : "";
-				headCell1.setCellValue("Expiry Dt  :   ");
+				headCell1.setCellValue("Exp.Dt  :   ");
 				headCell1=displayRow.createCell(3);
 				headCell1.setCellValue(String.valueOf(value));
 
 				Cell headCell2 = displayRow.createCell(4);
 				value = rowData.containsKey("OPENING_STOCK") ? rowData.get("OPENING_STOCK") : "";
-				headCell2.setCellValue("Opening Stock  :   ");
+				headCell2.setCellValue("O.Stock  :   ");
 				headCell2=displayRow.createCell(5);
 				headCell2.setCellValue(String.valueOf(value));
 
 				Cell headCell3 = displayRow.createCell(6);
 				value = rowData.containsKey("CLOSING_STOCK") ? rowData.get("CLOSING_STOCK") : "";
-				headCell3.setCellValue("Closing Stock  :   ");
+				headCell3.setCellValue("C.Stock  :   ");
 				headCell1=displayRow.createCell(7);
 				headCell1.setCellValue(String.valueOf(value));
 
@@ -296,14 +305,14 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 			Cell cell3=dataRow3.createCell(0);
 			Cell cell4=dataRow4.createCell(0);
 			Cell cell5=dataRow5.createCell(0);
-			
+
 			cell.setCellValue("");
 			cell1.setCellValue("");
 			cell2.setCellValue("");
 			cell3.setCellValue("");
 			cell4.setCellValue("");
 			cell5.setCellValue("");
-			
+
 
 			cell = dataRow.createCell(14);
 			cell1 = dataRow1.createCell(14);
@@ -311,64 +320,64 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 			cell3 = dataRow3.createCell(14);
 			cell4 = dataRow4.createCell(14);
 			cell5 = dataRow5.createCell(14);
-			
+
 			if(salesProfitList.stream() .filter(x -> (x.containsValue("Sales Billing"))||(x.containsValue("Sales Update"))||(x.containsValue("Sales Maintenance (+)"))) .count()>0) {
-				
-			cell.setCellValue("Total Sales");
+
+				cell.setCellValue("Total Sales");
 			}
 			if(salesProfitList.stream() .filter(x -> x.containsValue("Sales Canceling")).count()>0) {
-				
-			cell1.setCellValue("Total Sales Return");
+
+				cell1.setCellValue("Total Sales Return");
 			}
 			if(salesProfitList.stream() .filter(x -> (x.containsValue("Purchase"))||(x.containsValue("Purchase Update"))||(x.containsValue("Invoice Addition"))) .count()>0) {
-				
-			cell2.setCellValue("Total Invoice");
+
+				cell2.setCellValue("Total Invoice");
 			}
 			if(salesProfitList.stream() .filter(x -> (x.containsValue("Purchase Return"))||x.containsValue("Purchase Delete")) .count()>0) {
-				
-			cell3.setCellValue("Total Purchase Return");
+
+				cell3.setCellValue("Total Purchase Return");
 			}
 			if(salesProfitList.stream() .filter(x -> (x.containsValue("Stock Take"))||(x.containsValue("Stock Adjustment"))) .count()>0) {
-				
-			cell4.setCellValue("Total Stock Take");
+
+				cell4.setCellValue("Total Stock Take");
 			}
 			if(salesProfitList.stream() .filter(x -> (x.containsValue("Stock"))||(x.containsValue("Stock Update"))||(x.containsValue("New Stock Addition"))) .count()>0) {
-				
-			cell5.setCellValue("Total Stock Addition");
+
+				cell5.setCellValue("Total Stock Addition");
 			}
-			
+
 			cell = dataRow.createCell(15);
 			cell1 = dataRow1.createCell(15);
 			cell2 = dataRow2.createCell(15);
 			cell3 = dataRow3.createCell(15);
 			cell4 = dataRow4.createCell(15);
 			cell5 = dataRow5.createCell(15);
-			
+
 			if(salesProfitList.stream() .filter(x -> (x.containsValue("Sales Billing"))||(x.containsValue("Sales Update"))||(x.containsValue("Sales Maintenance (+)"))) .count()>0) {
-				
-			cell.setCellValue(totalSales);
+
+				cell.setCellValue(totalSales);
 			}
 			if(salesProfitList.stream() .filter(x -> x.containsValue("Sales Canceling")).count()>0) {
-				
-			cell1.setCellValue(totalSalesRetrun);
+
+				cell1.setCellValue(totalSalesRetrun);
 			}
 			if(salesProfitList.stream() .filter(x -> (x.containsValue("Purchase"))||(x.containsValue("Purchase Update"))||(x.containsValue("Invoice Addition"))) .count()>0) {
-				
-			cell2.setCellValue(totalInv);
+
+				cell2.setCellValue(totalInv);
 			}
 			if(salesProfitList.stream() .filter(x -> (x.containsValue("Purchase Return"))||x.containsValue("Purchase Delete")) .count()>0) {
-				
-			cell3.setCellValue(totalPurReturn);
+
+				cell3.setCellValue(totalPurReturn);
 			}
 			if(salesProfitList.stream() .filter(x -> (x.containsValue("Stock Take"))||(x.containsValue("Stock Adjustment"))) .count()>0) {
-				
-			cell4.setCellValue(totalStockTake);
+
+				cell4.setCellValue(totalStockTake);
 			}
 			if(salesProfitList.stream() .filter(x -> (x.containsValue("Stock"))||(x.containsValue("Stock Update"))||(x.containsValue("New Stock Addition"))) .count()>0) {
-				
-			cell5.setCellValue(totalStockAdd);
+
+				cell5.setCellValue(totalStockAdd);
 			}
-			
+
 		}
 
 	}
