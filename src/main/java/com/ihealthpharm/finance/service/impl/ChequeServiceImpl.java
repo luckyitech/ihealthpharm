@@ -1,5 +1,6 @@
 package com.ihealthpharm.finance.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -53,9 +54,23 @@ public class ChequeServiceImpl implements ChequeService {
 	@Override
 	public ChequeModel updateCheque(ChequeModel chequeModel) {
 		List<ChequeItemsModel> chequeItemModels = chequeModel.getChequeItems();
-
-		ChequeModel chequeRes = chequeRepo.save(chequeModel);
+       
+        
+        ChequeModel cheq=chequeRepo.getOne(chequeModel.getChequeId());
+        
+        cheq.setLastUpdateUser(chequeModel.getLastUpdateUser());
+        cheq.setFirstLevelApproval(chequeModel.getFirstLevelApproval());
+        cheq.setStatus(chequeModel.getStatus());
+        cheq.setChequeApprovalStatus(chequeModel.getChequeApprovalStatus());
+        cheq.setSecondLevelApproval(chequeModel.getSecondLevelApproval());
+        
+        
+		ChequeModel chequeRes = chequeRepo.save(cheq);
 		
+		
+		
+		
+		  System.out.println(chequeRes.getChequeDate());
 		if(Objects.nonNull(chequeRes.getFirstLevelApproval()) && Objects.nonNull(chequeRes.getSecondLevelApproval())  ) {
 			for(int i=0;i<chequeItemModels.size();i++) {
 				AccountPayablesModel p=chequeItemModels.get(i).getAccountPayablesId();
@@ -64,10 +79,11 @@ public class ChequeServiceImpl implements ChequeService {
 				p.setTotalAmountPaid(p.getTotalAmountToBePaid());
 				p.setTotalAmountToBePaid(0.00);
 				p.setChequeAmount(chequeRes.getChequeAmt());
+			//	LocalDate date=LocalDate.parse(chequeDateRes.getChequeDate())
 				p.setChequeDate(chequeRes.getChequeDate());
 				p.setChequeNumber(chequeRes.getChequeNumber());
 				p.setLastUpdateUser(chequeRes.getLastUpdateUser());
-				System.out.println(p);
+				p.setPaymentType("Cheque");
 				accRepo.save(p);
 			}
 		}
