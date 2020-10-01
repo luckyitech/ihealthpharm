@@ -395,6 +395,11 @@ public class StockServiceImpl implements StockService {
 		public List<String> findAllItemNamesByST() {
 			return stockRepository.findAllItemNmaesInST();
 		}
+
+		@Override
+		public StockModel getLatestStock(String batchNo, Integer itemId, String invoiceNo) {
+			return stockRepository.getLatestStock(batchNo,itemId,invoiceNo);
+		}
 		
 		
 

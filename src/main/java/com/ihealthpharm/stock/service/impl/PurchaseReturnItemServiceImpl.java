@@ -132,6 +132,11 @@ public class PurchaseReturnItemServiceImpl implements PurchaseReturnItemService 
 		for (PurchaseReturnItemModel purchaseRtnItems : purchaseReturnItems) {
 			PurchaseReturnItemModel purchaseReturnItemsRes = purchaseReturnItemRepository.save(purchaseRtnItems);
 			purchaseRtnItmList.add(purchaseReturnItemsRes);
+			if(purchaseReturnItemsRes.getBonusQty() !=null) {
+				Integer leftQty=purchaseReturnItemsRes.getBonusQuantity() - purchaseReturnItemsRes.getBonusQty();
+				purchaseReturnItemRepository.updateBonusQty(leftQty,purchaseReturnItemsRes.getPurchaseReturnItemId());
+			}
+			
 			log.info("PurchaseReturnItems data with ID : " + purchaseReturnItemsRes.getPurchaseReturnItemId() + " saved succesfully");
 		}
 		return purchaseRtnItmList;
