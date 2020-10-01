@@ -378,4 +378,18 @@ public class StockController {
 		List<String> results = stockService.findItemNamesBySearchST(searchTerm);
 		return new BaseDto<>(results, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}
+	
+	//tarun 
+	//getting latest stock qty
+	@GetMapping("/getLatestStockQty/forPurchaseRertun")
+	public ResponseEntity<BaseDto<StockModel>> getLatestStockQty(@RequestParam String batchNo,@RequestParam Integer itemId,@RequestParam String invoiceNo){
+		StockModel res=stockService.getLatestStock(batchNo,itemId,invoiceNo);
+		return new BaseDto<>(res, stockHelper.getRetrieveStockMessage(), OK).respond();
+	}
+	
+	
+	
+	
+	
+	
 }

@@ -2,7 +2,10 @@ package com.ihealthpharm.stock.dao;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -41,4 +44,9 @@ public interface PurchaseReturnItemRepository extends JpaRepository<PurchaseRetu
 		@Query("select sum(pri.returnQuantity) from purchase_return_item pri inner join purchase_return p on "
 				+ "p.purchaseReturnId = pri.purchaseReturnItemId where pri.itemsModel.itemId=:itemId  and  p.invoiceModel.invoiceId=:invoiceId")
 		Integer getReturnQtyByItem(@Param("itemId")Integer itemId,@Param("invoiceId") Integer invoiceId);
+		
+		@Transactional
+		@Modifying
+		@Query("update purchase_return_item pr set pr.leftBnsQty=:leftBnsQty where pr.purchaseReturnItemId=:purchaseReturnItemId")
+		public Integer updateBonusQty(@Param("leftBnsQty")Integer leftBnsQty,@Param("purchaseReturnItemId") Integer purchaseReturnItemId);
 }

@@ -70,6 +70,7 @@ public class CreditNoteServiceImpl implements CreditNoteService {
 			throw new IHealthPharmException(creditNoteHelper.getNotFoundCreditNoteMessage(),HttpStatus.NOT_FOUND);
 		}
 		log.info("CreditNote with ID:" +creditNoteRes.getCreditNoteId()+ "retrived successfully");
+		
 		return creditNoteRes;
 	}
 

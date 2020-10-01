@@ -67,4 +67,13 @@ public class PurchaseReturnItemModel extends AuditModel {
 	@Column(name="AMOUNT",length=20)
     private String amount;
 	
+	@Column(name="BONUS_RETURN_QTY")
+	private Integer bonusQty;
+	
+	@Column(name="LEFT_BONUS_QTY")
+	private Integer leftBnsQty;
+	
+	@Column(name="STOCK_ID")
+	private Integer stockId;
+	
 }

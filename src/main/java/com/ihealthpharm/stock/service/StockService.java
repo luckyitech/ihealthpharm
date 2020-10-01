@@ -100,4 +100,6 @@ public interface StockService {
 	List<String> findItemNamesBySearchST(String searchTerm);
 	
 	List<String> findAllItemNamesByST();
+
+	StockModel getLatestStock(String batchNo, Integer itemId, String invoiceNo);
 }

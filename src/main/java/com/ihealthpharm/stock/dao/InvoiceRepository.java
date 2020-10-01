@@ -2,8 +2,11 @@ package com.ihealthpharm.stock.dao;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -15,52 +18,61 @@ import com.ihealthpharm.stock.model.InvoiceModel;
 
 public interface InvoiceRepository extends JpaRepository<InvoiceModel, Integer> {
 	List<InvoiceModel> findAllByOrderByCreationTimeStampDesc();
-	
+
 	@Query("select d.name from supplier d where d.supplierId = :suppliersId ")
 	String getSupplierNameById(@Param("suppliersId") Integer suppliersId);
-	
+
 	@Query("select i from invoice i where i.pharmacy.pharmacyId = :pharmacyId ")
 	List<InvoiceModel> findAllInvoicesByPharmacyId(@Param("pharmacyId") Integer pharmacyId);
-	
+
 	@Query("select i from invoice i where i.pharmacy.pharmacyId = :pharmacyId and i.invoiceStatus.invoiceStatusId = :invoiceStatusId and invoiceNo like :invoiceNo% order by i.lastUpdateTimestamp desc")
 	List<InvoiceModel> findAllInvoicesByPharmacyIdAndInvoiceSatusId(@Param("pharmacyId") Integer pharmacyId,@Param("invoiceStatusId") Integer invoiceStatusId,
 			Pageable limit,@Param("invoiceNo") String invoiceNo);
-	
+
 	@Query("select count(i) from invoice i where i.pharmacy.pharmacyId = :pharmacyId and i.invoiceStatus.invoiceStatusId = :invoiceStatusId and invoiceNo like :invoiceNo% order by i.lastUpdateTimestamp desc")
 	Integer findAllInvoicesByPharmacyIdAndInvoiceSatusIdCount(@Param("pharmacyId") Integer pharmacyId,@Param("invoiceStatusId") Integer invoiceStatusId,@Param("invoiceNo") String invoiceNo);
-	
+
 	@Query("select count(*) from invoice i where i.pharmacy.pharmacyId = :pharmacyId ")
 	Long getInvoiceCount(@Param("pharmacyId") Integer pharmacyId);
-	
+
 	@Query("select count(*) from purchase_return p ")
 	Long getPurchaseReturnCount();
-	
+
 	@Query("select ii.itemsModel from invoice i join i.invoiceItems ii where i.invoiceId = :invoiceId ")
 	List<ItemsModel> getInvoiceItems(@Param("invoiceId") Integer invoiceId);
-	
+
 	List<InvoiceModel> findByInvoiceNo(String invoiceNo);
-	
+
 	@Query("select i from invoice i where i.invoiceNo like :searchTerm% order by i.creationTimeStamp desc")
 	List<InvoiceModel> findAllByInvoiceNoSearch(@Param("searchTerm") String searchTerm);
-	
-	//Purchase Invoice Report
-		@Query("select distinct sp.name from invoice inv,invoice_items init,supplier sp where init.invoice=inv.invoiceId and "
-				+ "inv.supplierModel.supplierId=sp.supplierId and sp.name like :searchTerm%")
-		List<String> findSuppliersInInvoicePIR(@Param("searchTerm") String searchTerm);
-		
-		@Query("select distinct sp.name from invoice inv,invoice_items init,supplier sp where init.invoice=inv.invoiceId and "
-				+ "inv.supplierModel.supplierId=sp.supplierId order by sp.name")
-		List<String> findAllSuppliersInInvoicePIR();
-	
-		@Query("select distinct inv.invoiceDt from invoice inv,invoice_items init,supplier sp where init.invoice=inv.invoiceId and "
-				+ "inv.supplierModel.supplierId=sp.supplierId")
-		List<String> findInvoiceDtInInvoicePIR(@Param("searchTerm") String searchTerm);
-		
-		@Query("select distinct inv.invoiceDt from invoice inv,invoice_items init,supplier sp where init.invoice=inv.invoiceId and "
-				+ "inv.supplierModel.supplierId=sp.supplierId order by inv.invoiceDt")
-		List<String> findAllInvoiceDtInInvoicePIR();
 
-		 @Query("select invoiceNo from invoice inv where inv.invoiceNo =:invoiceNo")
-		 List<String> findByInvoiceNumber(@Param("invoiceNo") String invoiceNo);
-		
+	//Purchase Invoice Report
+	@Query("select distinct sp.name from invoice inv,invoice_items init,supplier sp where init.invoice=inv.invoiceId and "
+			+ "inv.supplierModel.supplierId=sp.supplierId and sp.name like :searchTerm%")
+	List<String> findSuppliersInInvoicePIR(@Param("searchTerm") String searchTerm);
+
+	@Query("select distinct sp.name from invoice inv,invoice_items init,supplier sp where init.invoice=inv.invoiceId and "
+			+ "inv.supplierModel.supplierId=sp.supplierId order by sp.name")
+	List<String> findAllSuppliersInInvoicePIR();
+
+	@Query("select distinct inv.invoiceDt from invoice inv,invoice_items init,supplier sp where init.invoice=inv.invoiceId and "
+			+ "inv.supplierModel.supplierId=sp.supplierId")
+	List<String> findInvoiceDtInInvoicePIR(@Param("searchTerm") String searchTerm);
+
+	@Query("select distinct inv.invoiceDt from invoice inv,invoice_items init,supplier sp where init.invoice=inv.invoiceId and "
+			+ "inv.supplierModel.supplierId=sp.supplierId order by inv.invoiceDt")
+	List<String> findAllInvoiceDtInInvoicePIR();
+
+	@Query("select invoiceNo from invoice inv where inv.invoiceNo =:invoiceNo")
+	List<String> findByInvoiceNumber(@Param("invoiceNo") String invoiceNo);
+	
+	
+	/*@Transactional
+	@Modifying
+	@Query("update stock s inner join invoice i on s.invoiceNo=i.grnNo inner join purchase_return pr on "
+			+ " pr.invoiceId=i.invoiceId set s.quantity=(s.quantity-(:bonusQty*s.pack)) where"
+			+ " pr.purchaseReturnItemId=:purchaseReturnItemId and s.item.itemId=:itemId")
+	public Integer updateStockByPurchaseReturnForBonus(@Param("bonusQty") Integer bonusQty,@Param("purchaseReturnItemId") Integer purchaseReturnItemId,
+			@Param("itemId")Integer itemId);*/
+
 }
