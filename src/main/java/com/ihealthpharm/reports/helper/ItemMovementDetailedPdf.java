@@ -81,12 +81,37 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 
 	private void createTable(Document document, ReportsMappingModel model, List<Map<String, Object>> salesProfitList,String expiryDate) throws DocumentException {
 
+		String openingStock=null;
+		int closingStock=0;
 
+		
 		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 		String itemName=String.valueOf(salesProfitList.get(0).get("ITEM_NM"));
-		String openingStock=String.valueOf(salesProfitList.get(0).get("OPENING_STOCK"));
-		String closingStock=String.valueOf(salesProfitList.get(0).get("CLOSING_STOCK"));
+		if((String.valueOf(salesProfitList.get(0).get("ENTRY_TYPE")).equals("Sales Billing"))) {
+		 openingStock=String.valueOf(salesProfitList.get(0).get("OPENING_STOCK"));
+		 closingStock=Integer.parseInt(openingStock);
+		}else {
+		 openingStock=String.valueOf(salesProfitList.get(0).get("QUANTITY"));
+		}
+		
+		
+			for(int i=0;i<salesProfitList.size();i++) {
 
+				//System.out.println(String.valueOf(salesProfitList.get(i).get("ENTRY_TYPE")));
+
+				if((String.valueOf(salesProfitList.get(i).get("ENTRY_TYPE")).equals("Sales Billing")))	{
+					//System.out.println("Sales Billing enter");
+					closingStock=closingStock-Integer.parseInt(String.valueOf((salesProfitList.get(i).get("QUANTITY"))));
+
+				}
+				else{
+					closingStock=closingStock+Integer.parseInt(String.valueOf((salesProfitList.get(i).get("QUANTITY"))));
+
+				}
+
+			}
+		
+		//String closingStock=String.valueOf(salesProfitList.get(salesProfitList.size()-1).get("QUANTITY"));
 		String reportHeader = model.getReportHeader();
 		List<HeaderDto> headerList = JsonUtility.jsonToList(reportHeader, HeaderDto.class);
 
