@@ -86,7 +86,7 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 		if(!ObjectUtils.isEmpty(salesByPersonMap)) { 
 
 			for(String itemName :salesByPersonMap.keySet()) {	
-				
+
 				List<Map<String, Object>> salesByPersonList =salesByPersonMap.get(itemName);
 
 				Map<String, List<Map<String, Object>>> salesByExpiryMap = salesByPersonList.stream()
@@ -178,7 +178,34 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 
 
 			Row displayRow = sheet.createRow(headRow++);
+			int closingStock=0;
+			String openingStock=null;
+
+
+			if((String.valueOf(salesProfitList.get(0).get("ENTRY_TYPE")).equals("Sales Billing"))) {
+				openingStock=String.valueOf(salesProfitList.get(0).get("OPENING_STOCK"));
+				closingStock=Integer.parseInt(openingStock);
+			}else {
+				openingStock=String.valueOf(salesProfitList.get(0).get("QUANTITY"));
+			}
+			for(int i=0;i<salesProfitList.size();i++) {
+
+				//System.out.println(String.valueOf(salesProfitList.get(i).get("ENTRY_TYPE")));
+
+				if((String.valueOf(salesProfitList.get(i).get("ENTRY_TYPE")).equals("Sales Billing")))	{
+					//System.out.println("Sales Billing enter");
+					closingStock=closingStock-Integer.parseInt(String.valueOf((salesProfitList.get(i).get("QUANTITY"))));
+
+				}
+				else{
+					closingStock=closingStock+Integer.parseInt(String.valueOf((salesProfitList.get(i).get("QUANTITY"))));
+
+				}
+
+			}
+
 			for (Map<String, Object> rowData : salesProfitList) {
+
 
 				SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 				Cell headCell = displayRow.createCell(0);
@@ -194,16 +221,16 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 				headCell1.setCellValue(String.valueOf(value));
 
 				Cell headCell2 = displayRow.createCell(4);
-				value = rowData.containsKey("OPENING_STOCK") ? rowData.get("OPENING_STOCK") : "";
+				//value = rowData.containsKey("OPENING_STOCK") ? rowData.get("QUANTITY") : "";
 				headCell2.setCellValue("O.Stock  :   ");
 				headCell2=displayRow.createCell(5);
-				headCell2.setCellValue(String.valueOf(value));
+				headCell2.setCellValue(String.valueOf(openingStock));
 
 				Cell headCell3 = displayRow.createCell(6);
-				value = rowData.containsKey("CLOSING_STOCK") ? rowData.get("CLOSING_STOCK") : "";
+				//value = rowData.containsKey("CLOSING_STOCK") ? rowData.get("CLOSING_STOCK") : "";
 				headCell3.setCellValue("C.Stock  :   ");
 				headCell1=displayRow.createCell(7);
-				headCell1.setCellValue(String.valueOf(value));
+				headCell1.setCellValue(String.valueOf(closingStock));
 
 				Row dataRow = sheet.createRow(rowNum++);
 				value =  String.valueOf(salesProfitList.indexOf(rowData) + 1);
