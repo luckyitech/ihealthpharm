@@ -84,33 +84,41 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 		String openingStock=null;
 		int closingStock=0;
 
-		
+
 		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 		String itemName=String.valueOf(salesProfitList.get(0).get("ITEM_NM"));
+
+
+
 		if((String.valueOf(salesProfitList.get(0).get("ENTRY_TYPE")).equals("Sales Billing"))) {
-		 openingStock=String.valueOf(salesProfitList.get(0).get("OPENING_STOCK"));
-		 closingStock=Integer.parseInt(openingStock);
+			openingStock=String.valueOf(salesProfitList.get(0).get("OPENING_STOCK"));
+			closingStock=Integer.parseInt(openingStock);
 		}else {
-		 openingStock=String.valueOf(salesProfitList.get(0).get("QUANTITY"));
+			openingStock=String.valueOf(salesProfitList.get(0).get("QUANTITY"));
 		}
-		
-		
-			for(int i=0;i<salesProfitList.size();i++) {
 
-				//System.out.println(String.valueOf(salesProfitList.get(i).get("ENTRY_TYPE")));
 
-				if((String.valueOf(salesProfitList.get(i).get("ENTRY_TYPE")).equals("Sales Billing")))	{
-					//System.out.println("Sales Billing enter");
-					closingStock=closingStock-Integer.parseInt(String.valueOf((salesProfitList.get(i).get("QUANTITY"))));
+		for(int i=0;i<salesProfitList.size();i++) {
 
-				}
-				else{
-					closingStock=closingStock+Integer.parseInt(String.valueOf((salesProfitList.get(i).get("QUANTITY"))));
+			//System.out.println(String.valueOf(salesProfitList.get(i).get("ENTRY_TYPE")));
 
-				}
+			if((String.valueOf(salesProfitList.get(i).get("ENTRY_TYPE")).equals("Sales Billing")))	{
+				//System.out.println("Sales Billing enter");
+				closingStock=closingStock-Integer.parseInt(String.valueOf((salesProfitList.get(i).get("QUANTITY"))));
 
 			}
-		
+			else{
+
+				if((String.valueOf(salesProfitList.get(salesProfitList.size()-1).get("ENTRY_TYPE")).equals("Stock Take"))) {
+
+					closingStock=Integer.parseInt(String.valueOf((salesProfitList.get(salesProfitList.size()-1).get("QUANTITY"))));
+				}else {
+					closingStock=closingStock+Integer.parseInt(String.valueOf((salesProfitList.get(i).get("QUANTITY"))));
+				}
+			}
+
+		}
+
 		//String closingStock=String.valueOf(salesProfitList.get(salesProfitList.size()-1).get("QUANTITY"));
 		String reportHeader = model.getReportHeader();
 		List<HeaderDto> headerList = JsonUtility.jsonToList(reportHeader, HeaderDto.class);
