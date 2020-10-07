@@ -198,8 +198,12 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 
 				}
 				else{
-					closingStock=closingStock+Integer.parseInt(String.valueOf((salesProfitList.get(i).get("QUANTITY"))));
+					if((String.valueOf(salesProfitList.get(salesProfitList.size()-1).get("ENTRY_TYPE")).equals("Stock Take"))) {
 
+						closingStock=Integer.parseInt(String.valueOf((salesProfitList.get(salesProfitList.size()-1).get("QUANTITY"))));
+					}else {
+						closingStock=closingStock+Integer.parseInt(String.valueOf((salesProfitList.get(i).get("QUANTITY"))));
+					}
 				}
 
 			}
