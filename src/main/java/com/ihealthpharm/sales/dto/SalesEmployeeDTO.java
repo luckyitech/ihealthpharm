@@ -111,7 +111,7 @@ public class SalesEmployeeDTO {
 
 	private Float vatAmt;
 
-	private Integer chequeNumber;
+	private String chequeNumber;
 
 	private String creditAccountNo;
 
@@ -150,7 +150,7 @@ public class SalesEmployeeDTO {
 			Float membershipContribAmt, Float membershipContribPercent, Float overallDiscount, Float paidAmount,
 			String paymentStatus, LocalDate presciptionDate, byte[] prescripion, String remarks, Float roundedOff,
 			Float saleDiscAmt, Float totalAmount, Float netAmount, Integer totalProducts, Integer totalQty,
-			Float upiAmount, String upiPhoneNo, String upiTransactionId, Float vatAmt, Integer chequeNumber,
+			Float upiAmount, String upiPhoneNo, String upiTransactionId, Float vatAmt, String chequeNumber,
 			Double chequeAmount, String chequeDate, Double creditAmount, CustomerInsuranceModel customerInsuranceModel,
 			CustomerMembershipModel customerMembershipModel, CustomerModel customerModel, String employeeModel,
 			PharmacyModel pharmacyModel, ProviderModel providerModel, HospitalModel hospitalModel, Character activeS,

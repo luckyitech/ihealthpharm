@@ -87,18 +87,63 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 				SalesModel salesRecord = accountReceivablesRepository.getSalesByBillCode(accountReceivablesRes.getSourceRef());
 				Double creditAmount = Objects.nonNull(salesRecord.getCreditAmount())?salesRecord.getCreditAmount():0;
 				if(creditAmount>0) {
-					salesRecord.setPaymentStatus("Paid");
-					Float cashAmount = Objects.nonNull(salesRecord.getCashAmount())?salesRecord.getCashAmount():0;
+					
+					if(Objects.nonNull(accountReceivablesRes.getCashAmount()))
+					{
+						salesRecord.setPaymentStatus("Paid");
+						Float cashAmount = Objects.nonNull(salesRecord.getCashAmount())?salesRecord.getCashAmount():0;
+						Float paidAmount =  (float) (cashAmount+creditAmount);
+						salesRecord.setCashAmount(paidAmount);
+						salesRecord.setPaidAmount(paidAmount);
+						salesRecord.setBalanceAmount((float) 0);
+						String lastUpdatedUserId = Integer.toString(accountReceivablesRes.getLastUpdateUser());
+						salesRecord.setLastUpdateUserId(lastUpdatedUserId);
+						salesRecord.setCreditAmount((double) 0);
+					}
+					else if(Objects.nonNull(accountReceivablesRes.getChequeAmount())) {
+						salesRecord.setPaymentStatus("Paid");
+						Double chequeAmount = Objects.nonNull(salesRecord.getChequeAmount())?salesRecord.getChequeAmount():0;
 
-					Float paidAmount =  (float) (cashAmount+creditAmount);
+						Float paidAmount =  (float) (chequeAmount+creditAmount);
+						salesRecord.setChequeAmount((double)paidAmount);
+						LocalDate chequeDt=accountReceivablesRes.getChequeDate();
+						salesRecord.setChequeDate(chequeDt.toString());
+						salesRecord.setChequeNumber(accountReceivablesRes.getChequeNumber());
+						salesRecord.setPaidAmount(paidAmount);
+						salesRecord.setBalanceAmount((float) 0);
+						String lastUpdatedUserId = Integer.toString(accountReceivablesRes.getLastUpdateUser());
+						salesRecord.setLastUpdateUserId(lastUpdatedUserId);
+						salesRecord.setCreditAmount((double) 0);
+					}
+					else if(Objects.nonNull(accountReceivablesRes.getCreditCardAmount())) {
+						salesRecord.setPaymentStatus("Paid");
+						Float creditCardAmount = Objects.nonNull(salesRecord.getCreditCardAmount())?salesRecord.getCreditCardAmount():0;
 
-					salesRecord.setCashAmount(paidAmount);
-					salesRecord.setPaidAmount(paidAmount);
-					salesRecord.setBalanceAmount((float) 0);
-					String lastUpdatedUserId = Integer.toString(accountReceivablesRes.getLastUpdateUser());
-					salesRecord.setLastUpdateUserId(lastUpdatedUserId);
+						Float paidAmount =  (float) (creditCardAmount+creditAmount);
 
-					salesRecord.setCreditAmount((double) 0);
+						salesRecord.setCreditCardAmount(paidAmount);
+						salesRecord.setCreditCardNo(accountReceivablesRes.getCreditCardNo());
+						salesRecord.setCreditCardAuthNo(accountReceivablesRes.getCardAuthCode());
+						salesRecord.setPaidAmount(paidAmount);
+						salesRecord.setBalanceAmount((float) 0);
+						String lastUpdatedUserId = Integer.toString(accountReceivablesRes.getLastUpdateUser());
+						salesRecord.setLastUpdateUserId(lastUpdatedUserId);
+					}
+					else if(Objects.nonNull(accountReceivablesRes.getUpiAmount())) {
+						salesRecord.setPaymentStatus("Paid");
+						Float upiAmount = Objects.nonNull(salesRecord.getUpiAmount())?salesRecord.getUpiAmount():0;
+
+						Float paidAmount =  (float) (upiAmount+creditAmount);
+
+						salesRecord.setUpiAmount(paidAmount);
+						salesRecord.setUpiPhoneNo(accountReceivablesRes.getUpiPhoneNo());
+						salesRecord.setUpiTransactionId(accountReceivablesRes.getUpiAuthCode());
+						salesRecord.setPaidAmount(paidAmount);
+						salesRecord.setBalanceAmount((float) 0);
+						String lastUpdatedUserId = Integer.toString(accountReceivablesRes.getLastUpdateUser());
+						salesRecord.setLastUpdateUserId(lastUpdatedUserId);
+					}
+
 
 					salesRepository.save(salesRecord);
 

@@ -157,7 +157,7 @@ public class SalesModel {
 	private Float vatAmt;
 	
 	@Column(name="CHEQUE_NUMBER")
-	private Integer chequeNumber;
+	private String chequeNumber;
 	
 	@Column(name="CHEQUE_AMT")
 	private Double chequeAmount;
