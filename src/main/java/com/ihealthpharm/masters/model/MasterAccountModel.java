@@ -19,7 +19,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @Entity(name="master_account")
-@EqualsAndHashCode(of="MASTER_ACCOUNT_ID",callSuper=false)
+@EqualsAndHashCode(of="masterAccountId",callSuper=false)
 public class MasterAccountModel extends AuditModel {
 
 	/**

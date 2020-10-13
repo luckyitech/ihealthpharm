@@ -27,7 +27,7 @@ public interface MasterAccountService {
 	
 	public Integer updateMasterAccountByAccountId(Integer masterAccountId,Integer creditLimitLeft,Integer lastUpdatedUser,String entryType,String salesBillNo);
 
-	public List<MasterAccDTO> getMastersForRecievables( Integer start, Integer end);
+	public List<MasterAccDTO> getMastersForRecievables(Integer start, Integer end);
 
 	public List<MasterAccDTO> getMastersForRecievablesBySearch(String creditNumber);
 
@@ -40,4 +40,6 @@ public interface MasterAccountService {
 	public List<String> getFamilyAccountCustomerBySearch(String name);
 	
 	public List<String> getAccByCreditNumber();
+	
+	public MasterAccountModel getDataByMasterAccNumber(String creditNumber);
 }

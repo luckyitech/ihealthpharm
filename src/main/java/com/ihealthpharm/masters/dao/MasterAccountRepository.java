@@ -65,4 +65,12 @@ public interface MasterAccountRepository extends JpaRepository<MasterAccountMode
 	
 	@Query("select c from family_account c where c.customerId.customerId=:customerId")
 	public FamilyAccountModel getFamilyCustomerDataById(@Param("customerId")Integer customerId);
+
+	@Query("select c from master_account c where c.creditNumber=:creditNumber")
+	public MasterAccountModel getDataByMasterCreditNumber(@Param("creditNumber")String creditNumber);
+	
+	@Transactional
+	@Modifying
+	@Query("update master_account m set m.creditLimitLeft=:creditLimitLeft where m.masterAccountId=:masterAccountId")
+	public Integer updateMasterAccountCustomerAmount(@Param ("creditLimitLeft")Integer creditLimitLeft,@Param("masterAccountId")Integer masterAccountId);
 }
