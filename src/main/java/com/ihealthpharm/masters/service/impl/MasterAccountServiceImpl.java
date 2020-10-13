@@ -197,4 +197,10 @@ public class MasterAccountServiceImpl implements MasterAccountService {
 			return false;
 		}
 	}
+
+	@Override
+	public MasterAccountModel getDataByMasterAccNumber(String creditNumber) {
+		MasterAccountModel res=masterAccountRepository.getDataByMasterCreditNumber(creditNumber);
+		return res;
+	}
 }
