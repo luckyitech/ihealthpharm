@@ -1,9 +1,6 @@
 package com.ihealthpharm.reports.helper;
 
 import java.io.File;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
@@ -24,11 +21,11 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
-import com.ihealthpharm.commons.JsonUtility;
 import com.ihealthpharm.reports.model.ReportsMappingModel;
 
 @Component
-public class ItemMovementDetailedExcel extends ReportsExcelUtility{
+public class ItemAuditReportExcel extends ReportsExcelUtility{
+
 	public void generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile,String inputJson) {
 
 		SXSSFWorkbook workbook = new SXSSFWorkbook(100);
@@ -146,7 +143,7 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 			cell.setCellStyle(headerStyle);	
 
 			cell = headerRow.createCell(7);
-			cell.setCellValue("SALE PRICE");
+			cell.setCellValue("S DISC%");
 			cell.setCellStyle(headerStyle);	
 
 			cell = headerRow.createCell(8);
@@ -155,22 +152,43 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 
 
 			cell = headerRow.createCell(9);
-			cell.setCellValue("PURCHASE PRICE");
+			cell.setCellValue("P DISC%");
 			cell.setCellStyle(headerStyle);	
 
 			cell = headerRow.createCell(10);
+			cell.setCellValue("VAT");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(11);
+			cell.setCellValue("BONUS");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(12);
+			cell.setCellValue("TOT. S PRICE");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(13);
+			cell.setCellValue("TOT. P PRICE");
+			cell.setCellStyle(headerStyle);	
+			
+			
+			cell = headerRow.createCell(14);
+			cell.setCellValue("MARGIN%");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(15);
 			cell.setCellValue("EXPIRY DT");
 			cell.setCellStyle(headerStyle);	
 
-			cell = headerRow.createCell(11);
+			cell = headerRow.createCell(16);
 			cell.setCellValue("ENTRY TYPE");
 			cell.setCellStyle(headerStyle);	
 
-			cell = headerRow.createCell(12);
+			cell = headerRow.createCell(17);
 			cell.setCellValue("CREATED BY");
 			cell.setCellStyle(headerStyle);	
 
-			cell = headerRow.createCell(13);
+			cell = headerRow.createCell(18);
 			cell.setCellValue("LAST UPDATE TS");
 			cell.setCellStyle(headerStyle);	
 
@@ -273,7 +291,7 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 
-				value = rowData.containsKey("SALE_PRICE") ? rowData.get("SALE_PRICE") : "";
+				value = rowData.containsKey("SALE_DISCOUNT_PERCENTAGE") ? rowData.get("SALE_DISCOUNT_PERCENTAGE") : "";
 				cell = dataRow.createCell(7);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
@@ -283,29 +301,57 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 
-				value = rowData.containsKey("PURCHASE_PRICE") ? rowData.get("PURCHASE_PRICE") : "";
+				value = rowData.containsKey("PURCHASE_DISCOUNT_PERCENTAGE") ? rowData.get("PURCHASE_DISCOUNT_PERCENTAGE") : "";
 				cell = dataRow.createCell(9);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 
-
-				value = rowData.containsKey("EXPIRY_DT") ? rowData.get("EXPIRY_DT") : "";
+				value = rowData.containsKey("VAT") ? rowData.get("VAT") : "";
 				cell = dataRow.createCell(10);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 
-				value = rowData.containsKey("ENTRY_TYPE") ? rowData.get("ENTRY_TYPE") : "";
+				
+				value = rowData.containsKey("BONUS") ? rowData.get("BONUS") : "";
 				cell = dataRow.createCell(11);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
+				
+				value = rowData.containsKey("SALE_PRICE") ? rowData.get("SALE_PRICE") : "";
+				cell = dataRow.createCell(12);
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("PURCHASE_PRICE") ? rowData.get("PURCHASE_PRICE") : "";
+				cell = dataRow.createCell(13);
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				cell.setCellStyle(borderStyle);
+
+				
+				value = rowData.containsKey("MARGIN") ? rowData.get("MARGIN") : "";
+				cell = dataRow.createCell(14);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+
+
+				value = rowData.containsKey("EXPIRY_DT") ? rowData.get("EXPIRY_DT") : "";
+				cell = dataRow.createCell(15);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+
+				value = rowData.containsKey("ENTRY_TYPE") ? rowData.get("ENTRY_TYPE") : "";
+				cell = dataRow.createCell(16);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 
 				value = rowData.containsKey("LAST_UPDATE_USER") ? rowData.get("LAST_UPDATE_USER") : "";
-				cell = dataRow.createCell(12);
+				cell = dataRow.createCell(17);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 
 				value = rowData.containsKey("LAST_UPDATE_TS") ? rowData.get("LAST_UPDATE_TS") : "";
-				cell = dataRow.createCell(13);
+				cell = dataRow.createCell(18);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 
