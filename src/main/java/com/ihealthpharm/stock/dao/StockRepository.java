@@ -180,8 +180,8 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 	@Query("select b.expiryDt  from stock b  inner join items i on b.item.itemId=i.itemId where  i.itemId=:itemId and b.batchNo=:batch ")
 	String getExpiryDates(@Param("itemId") Integer itemId,@Param("batch") String batch);
 
-	@Query("select  new com.ihealthpharm.stock.dto.StockProfitDTO(sup.name, sum(((s.unitSaleRate-s.unitPurchaseRate)/s.unitPurchaseRate)*100)  as profit) from stock s join supplier sup on s.supplier = sup.supplierId where  s.unitSaleRate > s.unitPurchaseRate group by sup.name order by profit desc")
-	List<StockProfitDTO> ProfitPercentageRepo(Pageable pageable);
+	@Query("select new com.ihealthpharm.stock.dto.StockProfitDTO(sup.name, ((sum(s.unitSaleRate) - sum(s.unitPurchaseRate))/ sum(s.unitSaleRate)) * 100 as profit) from stock s inner join supplier sup on s.supplier = sup.supplierId where s.unitSaleRate > s.unitPurchaseRate group by sup.name order by profit desc") 
+	List<StockProfitDTO> profitPercentageRepo(Pageable pageable);
 
 	@Query("select new com.ihealthpharm.stock.dto.StockRevenueDTO(sup.name, sum((s.quantity * s.unitSaleRate)/1000) as revenue) from supplier sup join stock s on s.supplier = sup.supplierId group by sup.name order by revenue desc")
 	List<StockRevenueDTO> suppliersRevenueRepo(Pageable pageable);
