@@ -289,7 +289,7 @@ public class StockServiceImpl implements StockService {
 		@Override
 		public List findProfitService() {
 			Pageable limit = new PageRequest(0,10);
-		List<StockProfitDTO> res=stockRepository.ProfitPercentageRepo(limit);
+		List<StockProfitDTO> res=stockRepository.profitPercentageRepo(limit);
 			List finalObj = new ArrayList();
 			for(StockProfitDTO obj:res) {
 				List temp = new ArrayList();
