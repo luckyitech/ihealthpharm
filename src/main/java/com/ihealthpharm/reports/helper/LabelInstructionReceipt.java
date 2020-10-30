@@ -155,14 +155,22 @@ public class LabelInstructionReceipt extends ReportsPDFUtility {
 
 	private void addLabelDetails(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException {
 
-
+		String instruction="";
+		System.out.println("========="+responseList);
+		for (Map<String,Object> labelInstruction : responseList) {
+			if(!instruction.isEmpty()) {
+			instruction=instruction+","+labelInstruction.get("INSTRUCTIONS");
+			}else {
+				instruction=String.valueOf(labelInstruction.get("INSTRUCTIONS"));
+			}
+		}
 
 		String expDate="";
 		Date date = new Date();
 
 		String itemName = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("ITEM_NM"));
 		//String quantity= (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("ITEM_QTY"));
-		String instruction= (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("INSTRUCTIONS"));
+		//instruction= (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("INSTRUCTIONS"));
 		//String additionalInstruction="Space the doses evenly.Keep taking until the course is finished,unless you are told to stop";
 
 		//String customerName = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("CUSTOMER_NM"));
