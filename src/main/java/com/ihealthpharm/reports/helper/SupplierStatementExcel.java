@@ -171,16 +171,16 @@ public class SupplierStatementExcel extends ReportsExcelUtility{
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(4);
-			cell.setCellValue("INVOICE#");
+			cell.setCellValue("INVOICE NO");
 			cell.setCellStyle(headerStyle);	
 				
 			
 			cell = headerRow.createCell(5);
-			cell.setCellValue("DEBIT");
+			cell.setCellValue("DEBIT AMT");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(6);
-			cell.setCellValue("CREDIT");
+			cell.setCellValue("CREDIT AMT");
 			cell.setCellStyle(headerStyle);	
 		
 		
@@ -191,17 +191,15 @@ public class SupplierStatementExcel extends ReportsExcelUtility{
 			
 			
 			
-			
+			Row displayRow = sheet.createRow(headRow++);
 			
 			for (Map<String, Object> rowData : productList) {
-				Row displayRow = sheet.createRow(headRow);
+				//Row displayRow = sheet.createRow(headRow);
 				Cell headCell = displayRow.createCell(0);
 				Object value = rowData.containsKey("SP_NAME") ? rowData.get("SP_NAME") : "";
 				headCell.setCellValue("Supplier Name  :   ");
 				headCell=displayRow.createCell(1);
 				headCell.setCellValue(String.valueOf(value));
-				
-				
 				
 				Row dataRow = sheet.createRow(rowNum++);
 			   value =  String.valueOf(productList.indexOf(rowData) + 1);
