@@ -46,6 +46,9 @@ public class BankTransactionsModel  extends AuditModel {
 	@Column(name="BALANCE",length=25)
 	private Double balance;
 	
+	@Column(name="COUNTER_PARTY_BALANCE",length=25)
+	private Double counterPartyBalance;
+	
 	@OneToOne
 	@JoinColumn(name="PARTY")
 	private  ChartOfAccountsModel party;
