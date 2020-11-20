@@ -83,4 +83,40 @@ public class BankTransactionsController {
 		List<String> results = bankTransService.getAllCounterPartyDetails();
 		return new BaseDto<>(results, bankTransactionsHelper.getRetrieveBankTransactionsMessage(), OK).respond();
 	}
+
+	@GetMapping("/getall/bankTransactions/byRefNo")
+	public ResponseEntity<BaseDto<List<BankTransactionsModel>>> getAllBankTransactionsByRefNo(@RequestParam String referenceNo){
+		List<BankTransactionsModel> response=bankTransService.findAllBankTransactionsByRefNo(referenceNo);
+		return new BaseDto<>(response, bankTransactionsHelper.getRetrieveBankTransactionsMessage(), OK).respond();
+	}	
+	
+	
+	@PostMapping("/get/bankTransactionsBySearch")
+	public ResponseEntity<BaseDto<List<BankTransactionsModel>>> getAllBankTransactionsBySearch(
+			@RequestParam("refNo") String refNo,@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate,
+			@RequestParam("party") String party,@RequestParam("counterParty") String counterParty){
+		List<BankTransactionsModel> response=bankTransService.findAllBankTransactionsBySearch(refNo,fromDate,toDate,party,counterParty);
+		return new BaseDto<>(response, bankTransactionsHelper.getRetrieveBankTransactionsMessage(), OK).respond();
+	}	
+	
+	
+	@GetMapping("/get/bankTransactionDetails")
+	public ResponseEntity<BaseDto<BankTransactionsModel>> getBankTransactionDetails(@RequestParam Integer bankTransactionId){
+		BankTransactionsModel response=bankTransService.findBankTxnDetailsById(bankTransactionId);
+		return new BaseDto<>(response, bankTransactionsHelper.getRetrieveBankTransactionsMessage(), OK).respond();
+	}	
+	
+	@PostMapping("update/chartOfAccountWithPreviousAmt")
+	public void updateChartOfAccountWithPrevAmt(
+			@RequestParam("party") String party,@RequestParam("counterParty") String counterParty,
+			@RequestParam("amount") String amount){
+		
+		bankTransService.updateChartOfAccountBal(party,counterParty,amount);
+	
+	}
+	
+	
+	
+	
+	
 }

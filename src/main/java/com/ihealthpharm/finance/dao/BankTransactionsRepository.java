@@ -32,5 +32,12 @@ public interface BankTransactionsRepository extends JpaRepository<BankTransactio
 
 	@Query("select distinct ((concat(ca.accountName,' : ',ca.accountNo))) from  bank_transactions bt,CHART_OF_ACCOUNTS ca where ca.accountId=bt.counterParty.accountId order by (concat(ca.accountName,' : ',ca.accountNo))")
 	List<String> findAllCounterPartyAccountDetails();
+
+	
+	@Query("select bt from bank_transactions bt where bt.transactionRef like :referenceNo%")
+	List<BankTransactionsModel> getAllTransactionsByRefNoSearch(@Param("referenceNo")String referenceNo);
+
+	@Query("select bt from bank_transactions bt where bt.bankTransactionId=:bankTransactionId")
+	BankTransactionsModel getBankTxnDetailsById(@Param("bankTransactionId")Integer bankTransactionId);
 	
 }
