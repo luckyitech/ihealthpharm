@@ -30,7 +30,7 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 
 	@Query("select i from items i where i.itemName like :searchTerm%  order by i.lastUpdateTimestamp desc")
 	List<ItemsModel> findAllByItemNameSearch(@Param("searchTerm") String searchTerm);
-	
+
 	@Query("select i from items i where (i.itemName like :searchTerm%) and i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	List<ItemsModel> findAllByItemNameSearchForSupplier(@Param("searchTerm") String searchTerm);
 
@@ -63,70 +63,70 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 	public List<ItemsModel> findByItemGenericNameContains(ItemGenericNamesModel genericRes);
 
 	@Query("select new com.ihealthpharm.masters.dto.ItemDTO(i.itemId,i.medicalOrNonMedical,i.itemCode,i.itemName,i.itemDescription,i.drugDose) from items i where i.activeS='Y' order by i.lastUpdateTimestamp desc")
-	 List<ItemDTO> findItemsByLimit(Pageable pageable);
-	
+	List<ItemDTO> findItemsByLimit(Pageable pageable);
+
 	@Query("select new com.ihealthpharm.stock.dto.StockAdjustmentItemDTO(i.itemId,i.itemCode) from items i where i.activeS='Y' order by i.lastUpdateTimestamp desc")
-	 List<StockAdjustmentItemDTO> findItemsByLimitWithItemCode(Pageable pageable);
+	List<StockAdjustmentItemDTO> findItemsByLimitWithItemCode(Pageable pageable);
 
 	@Query("select new com.ihealthpharm.stock.dto.StockAdjustmentItemDTO(i.itemId,i.itemDescription) from items i  where i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	List<StockAdjustmentItemDTO>	findItemsByLimitWithItemDesc(Pageable pageable);
-	
+
 	@Query("select new com.ihealthpharm.stock.dto.StockAdjustmentItemDTO(i.itemId,ig.genericName) from items i inner join items_generic_names ig on i.itemGenericName=ig.itemGenericNameId")
-	 List<StockAdjustmentItemDTO> findItemsByLimitWithItemGenericName(Pageable limit);
-	
+	List<StockAdjustmentItemDTO> findItemsByLimitWithItemGenericName(Pageable limit);
+
 	@Query("select new com.ihealthpharm.masters.dto.ItemDTO(i.itemId,i.medicalOrNonMedical,i.itemCode,i.itemName,i.itemDescription,i.drugDose) from items i  "
-			+ "where  i.itemName like :searchTerm%  order by i.lastUpdateTimestamp desc")
+			+ "where  i.itemName like :searchTerm%  order by i.itemName asc")
 	List<ItemDTO> getAllItemsDataByItemName(@Param("searchTerm")String searchTerm, Pageable pageable);
 
 	@Query("select new com.ihealthpharm.masters.dto.ItemDTO(i.itemId,i.medicalOrNonMedical,i.itemCode,i.itemName,i.itemDescription,i.drugDose) from items i  "
-			+ "where  i.itemCode like :searchTerm%  order by i.lastUpdateTimestamp desc")
+			+ "where  i.itemCode like :searchTerm%  order by i.itemName asc")
 	List<ItemDTO> getAllItemsDataByItemCode(@Param("searchTerm")String searchTerm, Pageable pageable);
 
 	@Query("select new com.ihealthpharm.masters.dto.ItemDTO(i.itemId,i.medicalOrNonMedical,i.itemCode,i.itemName,i.itemDescription,i.drugDose) from items i  "
-			+ "where  i.itemDescription like %:searchTerm% order by i.lastUpdateTimestamp desc")
+			+ "where  i.itemDescription like %:searchTerm% order by i.itemName asc")
 	List<ItemDTO> getAllItemsDataByItemDescription(@Param("searchTerm")String searchTerm, Pageable pageable);
 
 	@Query("select new com.ihealthpharm.masters.dto.ItemDTO(i.itemId,i.medicalOrNonMedical,i.itemCode,i.itemName,i.itemDescription,i.drugDose) from items i  "
-			+ "where  i.itemGenericName.genericName like %:searchTerm%  order by i.lastUpdateTimestamp desc")
+			+ "where  i.itemGenericName.genericName like %:searchTerm%  order by i.itemName asc")
 	List<ItemDTO> getAllItemsDataByItemGenericName(@Param("searchTerm")String searchTerm, Pageable pageable);
 
 	@Query("select new com.ihealthpharm.masters.dto.AlternativeItemDTO(i.itemId,i.itemName) from items i  "
 			+ "where  i.itemName like :searchTerm%  order by i.lastUpdateTimestamp desc")
 	List<AlternativeItemDTO> getAlternativeItemsDataByItemName(@Param("searchTerm") String searchTerm);
-	
+
 	@Query("select new com.ihealthpharm.masters.dto.AlternativeItemDTO(i.itemId,i.itemName) from items i  "
 			+ "where  i.itemName like :searchTerm% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	List<AlternativeItemDTO> getAlternativeItemsDataByItemNameForStock(@Param("searchTerm") String searchTerm);
 
 	@Query("select new com.ihealthpharm.masters.dto.AlternativeItemDTO(i.itemId,i.itemCode) from items i  "
 			+ "where  i.itemCode like :itemCode%  order by i.lastUpdateTimestamp desc")
-	 List<AlternativeItemDTO> getAlternativeItemsDataByItemCode(@Param("itemCode") String itemCode);
-	
-	
+	List<AlternativeItemDTO> getAlternativeItemsDataByItemCode(@Param("itemCode") String itemCode);
+
+
 	@Query("select new com.ihealthpharm.masters.dto.AlternativeItemDTO(i.itemId,i.itemCode) from items i  "
 			+ "where  i.itemCode like :itemCode% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
-	 List<AlternativeItemDTO> getAlternativeItemsDataByItemCodeForStock(@Param("itemCode") String itemCode);
-	
-	
+	List<AlternativeItemDTO> getAlternativeItemsDataByItemCodeForStock(@Param("itemCode") String itemCode);
+
+
 	@Query("select new com.ihealthpharm.masters.dto.AlternativeItemDTO(i.itemId,i.itemDescription) from items i  "
 			+ "where  i.itemDescription like :itemdesc%  order by i.lastUpdateTimestamp desc")
 	List<AlternativeItemDTO> getAlternativeItemsDataByItemDesc(@Param("itemdesc") String itemdesc);
-	
-	
+
+
 	@Query("select new com.ihealthpharm.masters.dto.AlternativeItemDTO(i.itemId,i.itemDescription) from items i  "
 			+ "where  i.itemDescription like :itemdesc% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	List<AlternativeItemDTO> getAlternativeItemsDataByItemDescForStock(@Param("itemdesc") String itemdesc);
-	
+
 	@Query("select new com.ihealthpharm.masters.dto.AlternativeItemDTO(i.itemId,ig.genericName) from items i "
 			+ " inner join items_generic_names ig on i.itemGenericName=ig.itemGenericNameId "
 			+ "where  ig.genericName like :itemGeneric% order by i.lastUpdateTimestamp desc")
-    List<AlternativeItemDTO> getAlternativeItemsDataByItemGenericName(@Param("itemGeneric")String itemGeneric);
-	
+	List<AlternativeItemDTO> getAlternativeItemsDataByItemGenericName(@Param("itemGeneric")String itemGeneric);
+
 	@Query("select new com.ihealthpharm.masters.dto.AlternativeItemDTO(i.itemId,ig.genericName) from items i "
 			+ " inner join items_generic_names ig on i.itemGenericName=ig.itemGenericNameId "
 			+ "where ( ig.genericName like :itemGeneric% ) and i.activeS='Y' order by i.lastUpdateTimestamp desc")
-    List<AlternativeItemDTO> getAlternativeItemsDataByItemGenericNameForStock(@Param("itemGeneric")String itemGeneric);
-	
+	List<AlternativeItemDTO> getAlternativeItemsDataByItemGenericNameForStock(@Param("itemGeneric")String itemGeneric);
+
 	@Query("select count(i) from items i where i.itemName like :searchTerm%  order by i.lastUpdateTimestamp desc")
 	public Integer getCountOfItemsByItemName(@Param("searchTerm") String searchTerm);
 
@@ -141,7 +141,7 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 
 	@Query("select count(i) from items i order by i.itemCode")
 	public Integer getAllCountOfItems();
-	
+
 	@Query("select new  com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO(s.stockId,i.itemName,s.item.itemId,s.invoiceNo,s.remarks,s.rack,s.batchNo,s.expiryDt,s.quantity,s.quantity,s.shelf) from stock s inner join items i on s.item=i.itemId where i.itemName like :searchTerm% or s.rack like :searchTerm%  order by i.itemName,s.batchNo asc")
 	public List<ItemsForStockAdjustDTO> FindByItemNameForStockItemNameSearch(@Param("searchTerm")String searchTerm);
 
@@ -150,33 +150,32 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 
 	@Query("select new  com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO(s.stockId,i.itemName,s.item.itemId,s.invoiceNo,s.remarks,s.rack,s.batchNo,s.expiryDt,s.quantity,s.quantity,s.shelf) from stock s inner join items i on s.item=i.itemId where s.rack like :rack% and s.shelf like :shelf% order by i.itemName,s.batchNo asc")
 	public List<ItemsForStockAdjustDTO> getAllRecordsByRackAndShelf(@Param("rack") String rack,@Param("shelf") String shelf);
-	
+
 	@Query("select new  com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO(s.stockId,i.itemName,s.item.itemId,s.invoiceNo,s.remarks,s.rack,s.batchNo,s.expiryDt,s.quantity,s.quantity,s.shelf) from stock s inner join items i on s.item=i.itemId where s.rack=:rack and s.shelf=:shelf order by i.itemName,s.batchNo asc")
 	public List<ItemsForStockAdjustDTO> getAllRecordsByRackAndShelfForIntegers(@Param("rack") String rack,@Param("shelf") String shelf);
-	
-	
+
 	@Query("select new  com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO(s.stockId,i.itemName,s.item.itemId,s.invoiceNo,s.remarks,s.rack,s.batchNo,s.expiryDt,s.quantity,s.quantity,s.shelf) from stock s inner join items i on s.item=i.itemId where s.item.itemId=:itemId and s.batchNo=:batchNo order by i.itemName,s.batchNo asc")
 	public List<ItemsForStockAdjustDTO> getAllRecordsByItemIdAndBatch(@Param("itemId") Integer itemId,@Param("batchNo") String batchNo);
-	
+
 	@Query("select new  com.ihealthpharm.masters.dto.ItemsForStockAdjustDTO(s.stockId,i.itemName,s.item.itemId,s.invoiceNo,s.remarks,s.rack,s.batchNo,s.expiryDt,s.quantity,s.quantity,s.shelf) from stock s inner join items i on s.item=i.itemId where s.stockId=:stockId")
 	public List<ItemsForStockAdjustDTO> getAllRecordsByStockId(@Param("stockId") Integer stockId);
-	
+
 	@Query("select i from items i where i.itemCode like :searchTerm% order by i.lastUpdateTimestamp desc")
 	List<ItemsModel> findAllByItemCodeSWS(@Param("searchTerm") String searchTerm);
-	
+
 	@Query("select configValue from configuration where configDesc='maxdiscount' and activeS='Y'")
 	public Integer getMarkup();
-	
+
 	@Query("select configValue from configuration where configDesc='margin' and activeS='Y'")
 	public Integer getMargin();
-	
+
 	@Transactional
 	@Modifying
 	@Query("update stock s"
 			+ " set s.unitSaleRate=ROUND(((s.unitPurchaseRate*(1+(:margin/100)))*(1+(:markup/100))),2), s.entryType='sales price update',s.mrp=s.unitSaleRate "
 			+ "where s.unitPurchaseRate is not null and s.item.itemId=:itemId")
 	public void updateStockWithMargin(@Param("itemId") Integer itemId,@Param("margin") Integer margin, @Param("markup") Integer markup);
-	
+
 	@Query(value="call StockUpdateByItemId(:itemId)",nativeQuery = true)
 	public Integer StockUpdateByItemId(@Param("itemId") Integer itemId);
 }

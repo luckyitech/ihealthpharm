@@ -1,13 +1,7 @@
 package com.ihealthpharm.sales.service.impl;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Month;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -20,7 +14,6 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.hibernate.type.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,7 +22,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
-import com.ihealthpharm.masters.dto.ItemDTO;
 import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.masters.model.ProviderModel;
 import com.ihealthpharm.sales.dao.SalesRepository;
@@ -44,10 +36,7 @@ import com.ihealthpharm.sales.helper.SalesHelper;
 import com.ihealthpharm.sales.model.SalesModel;
 import com.ihealthpharm.sales.service.SalesService;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Service
-@Slf4j
 public class SalesServiceImpl implements SalesService {
 
 	@Autowired
@@ -106,7 +95,6 @@ public class SalesServiceImpl implements SalesService {
 
 	@Override
 	public List<SalesModel> findAllSalesData() {
-
 		return salesRepository.findAll();
 	}
 
@@ -127,7 +115,6 @@ public class SalesServiceImpl implements SalesService {
 				Join<SalesModel, CustomerModel> bJoin = root.join("customerModel", JoinType.INNER);
 				List<Predicate> predicates = new ArrayList<>();
 				if (status != null && !status.equals("undefined")) {
-					System.out.println("in status condition:" + (status != null && !status.equals("undefined")));
 					predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("paymentStatus"), status)));
 				}
 				if ((code != null && !code.equals("undefined"))
@@ -145,9 +132,6 @@ public class SalesServiceImpl implements SalesService {
 						&& (endDate != null && !endDate.equals("undefined"))) {
 					LocalDate start = LocalDate.parse(startDate);
 					LocalDate end = LocalDate.parse(endDate);
-					log.info("startDate=:" + start);
-					log.info("endDate=:" + end);
-
 					predicates.add(criteriaBuilder.between(root.get("billDate"), start, end));
 				}
 
@@ -158,13 +142,11 @@ public class SalesServiceImpl implements SalesService {
 
 	@Override
 	public SalesModel getSaleByBillCode(String searchTerm) {
-
 		return salesRepository.findByBillCode(searchTerm);
 	}
 
 	@Override
 	public List<SalesModel> findLimitedSalesData() {
-
 		return salesRepository.findFirst100ByOrderByBillCodeDesc();
 	}
 
@@ -179,7 +161,6 @@ public class SalesServiceImpl implements SalesService {
 			finalObj.add(temp);
 		}
 		return finalObj;
-
 	}
 
 	@Override
@@ -277,7 +258,6 @@ public class SalesServiceImpl implements SalesService {
 
 	@Override
 	public List<String> getBillNumbersBySearch(String key) {
-
 		return salesRepository.findByBillCodeSearch(key);
 	}
 
@@ -294,24 +274,20 @@ public class SalesServiceImpl implements SalesService {
 	@Override
 	public List<String> findAllBillCodeINSalesSRBB() {
 		return salesRepository.findAllBillCodeINSalesSRBB();
-
 	}
 
 	@Override
 	public List<String> findCustomersINSalesSRBB(String searchTerm) {
-
 		return salesRepository.findCustomersBySearch(searchTerm);
 	}
 
 	@Override
 	public List<String> findAllCustomersINSalesSRBB() {
-
 		return salesRepository.findAllCustomers();
 	}
 
 	@Override
 	public List<String> findBillCodesByCustomer(String customer) {
-
 		return salesRepository.findBillCodesByCustomer(customer);
 	}
 
@@ -338,7 +314,6 @@ public class SalesServiceImpl implements SalesService {
 	@Override
 	public List<String> findCustomerByBillCode(String billCode) {
 		return salesRepository.findCustomersByBillCode(billCode);
-
 	}
 
 	// End of report code
@@ -382,14 +357,11 @@ public class SalesServiceImpl implements SalesService {
 				&& (endDate != null && !endDate.equals("undefined") && !endDate.equals("null"))) {
 			LocalDate start = LocalDate.parse(startDate);
 			LocalDate end = LocalDate.parse(endDate);
-			log.info("startDate=:" + start);
-			log.info("endDate=:" + end);
 			response = salesRepository.findSalesByBillDate(start, end, limit);
 
 		}
 
 		else if (status != null && !status.equals("undefined") && !status.equals("null")) {
-			System.out.println("in status condition:" + (status != null && !status.equals("undefined")));
 			response = salesRepository.findSalesByPaymentStatus(status, limit);
 		}
 
@@ -511,23 +483,18 @@ public class SalesServiceImpl implements SalesService {
 		}
 
 		else if (status != null && !status.equals("undefined") && !status.equals("null")) {
-
 			return salesRepository.findSalesByPaymentStatusCount(status);
 		}
 
 		else if ((code != null && !code.equals("undefined") && !code.equals("null"))
 				&& (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null"))) {
 			if (code.equalsIgnoreCase("Bill Number")) {
-				log.info("Code :" + code + "\t Code Value:" + codeValue);
 				return salesRepository.findSalesByBillCodeCount(codeValue);
 			} else if (code.equalsIgnoreCase("customer Name")) {
-				log.info("Code :" + code + "\t Code Value:" + codeValue);
 				return salesRepository.findSalesByCustomerNameCount(codeValue);
 			} else if (code.equalsIgnoreCase("customer Phone Number")) {
-				log.info("Code :" + code + "\t Code Value:" + codeValue);
 				return salesRepository.findSalesByCustomerPhoneNumberCount(codeValue);
 			} else if (code.equalsIgnoreCase("Sales Person Name")) {
-				log.info("Code :" + code + "\t Code Value:" + codeValue);
 				return salesRepository.findSalesBySalesPersonCount(codeValue);
 			}
 
@@ -537,8 +504,6 @@ public class SalesServiceImpl implements SalesService {
 				&& (endDate != null && !endDate.equals("undefined") && !endDate.equals("null"))) {
 			LocalDate start = LocalDate.parse(startDate);
 			LocalDate end = LocalDate.parse(endDate);
-			log.info("startDate=:" + start);
-			log.info("endDate=:" + end);
 			return salesRepository.findSalesByBillDateCount(start, end);
 		}
 		return null;
@@ -546,9 +511,7 @@ public class SalesServiceImpl implements SalesService {
 
 	@Override
 	public Integer findTodaySales() {
-
 		return salesRepository.todaySalesRepo();
-
 	}
 
 	@Override
@@ -678,8 +641,6 @@ public class SalesServiceImpl implements SalesService {
 			map.put("label", empName);
 			map.put("data", hoursArray);
 			dataArray.add(map);
-
-			System.out.println("data" + dataArray);
 
 		return dataArray;
 	}
