@@ -128,6 +128,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 						salesRecord.setBalanceAmount((float) 0);
 						String lastUpdatedUserId = Integer.toString(accountReceivablesRes.getLastUpdateUser());
 						salesRecord.setLastUpdateUserId(lastUpdatedUserId);
+						salesRecord.setCreditAmount((double) 0);
 					}
 					else if(Objects.nonNull(accountReceivablesRes.getUpiAmount())) {
 						salesRecord.setPaymentStatus("Paid");
@@ -142,6 +143,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 						salesRecord.setBalanceAmount((float) 0);
 						String lastUpdatedUserId = Integer.toString(accountReceivablesRes.getLastUpdateUser());
 						salesRecord.setLastUpdateUserId(lastUpdatedUserId);
+						salesRecord.setCreditAmount((double) 0);
 					}
 
 

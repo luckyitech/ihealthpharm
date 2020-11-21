@@ -74,4 +74,16 @@ public class ExpensesController {
 		List<expensesDTO> response=expensesService.findAllTransactionId(transactionId);
 		return new BaseDto<>(response, expensesHelper.getRetrieveExpenseMessage(), OK).respond();
 	}
+	
+	@GetMapping("/getall/expensescount")
+	public ResponseEntity<BaseDto<Integer>> getAllExpences(){
+		Integer response=expensesService.getExpecncesCount();
+		return new BaseDto<>(response, expensesHelper.getRetrieveExpenseMessage(), OK).respond();
+	}
+	
+	@GetMapping("/getall/expenses/bypagination")
+	public ResponseEntity<BaseDto<List<ExpensesModel>>> getAllExpencesByPagination(@RequestParam Integer pageNumber,@RequestParam Integer limit){
+		List<ExpensesModel> response=expensesService.getAllExpecncesByPagination(pageNumber,limit);
+		return new BaseDto<>(response, expensesHelper.getRetrieveExpenseMessage(), OK).respond();
+	}
 }
