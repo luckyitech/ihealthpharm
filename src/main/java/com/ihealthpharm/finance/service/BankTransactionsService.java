@@ -1,9 +1,11 @@
 package com.ihealthpharm.finance.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.ihealthpharm.finance.dto.BankTransactionDTO;
 import com.ihealthpharm.finance.model.BankTransactionsModel;
+import com.ihealthpharm.finance.model.ChartOfAccountsModel;
 
 public interface BankTransactionsService {
 
@@ -28,5 +30,6 @@ public interface BankTransactionsService {
 
 	BankTransactionsModel findBankTxnDetailsById(Integer bankTransactionId);
 
-	void updateChartOfAccountBal(String party, String counterParty, String amount);
+	HashMap<String, ChartOfAccountsModel> updateChartOfAccountBal(String party, 
+			String counterParty, String amount,String selectedParty,String selectedCounterParty);
 }

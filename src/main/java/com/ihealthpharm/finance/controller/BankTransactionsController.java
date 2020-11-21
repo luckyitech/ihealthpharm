@@ -2,6 +2,7 @@ package com.ihealthpharm.finance.controller;
 
 import static org.springframework.http.HttpStatus.OK;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.finance.dto.BankTransactionDTO;
 import com.ihealthpharm.finance.helper.BankTransactionsHelper;
+import com.ihealthpharm.finance.helper.ChartOfAccountsHelper;
 import com.ihealthpharm.finance.model.BankTransactionsModel;
+import com.ihealthpharm.finance.model.ChartOfAccountsModel;
 import com.ihealthpharm.finance.service.BankTransactionsService;
 import com.ihealthpharm.stock.service.InvoiceService;
 
@@ -29,6 +32,9 @@ public class BankTransactionsController {
 	
 	@Autowired
 	private BankTransactionsHelper bankTransactionsHelper;
+	
+	@Autowired
+	ChartOfAccountsHelper coaHelper;
 	
 	
 	@GetMapping("/getall/banktransactions")
@@ -107,11 +113,14 @@ public class BankTransactionsController {
 	}	
 	
 	@PostMapping("update/chartOfAccountWithPreviousAmt")
-	public void updateChartOfAccountWithPrevAmt(
+	public ResponseEntity<BaseDto<HashMap<String, ChartOfAccountsModel>>> updateChartOfAccountWithPrevAmt(
 			@RequestParam("party") String party,@RequestParam("counterParty") String counterParty,
-			@RequestParam("amount") String amount){
+			@RequestParam("amount") String amount,@RequestParam("selectedParty") String selectedParty,
+			@RequestParam("selectedCounterParty") String selectedCounterParty){
 		
-		bankTransService.updateChartOfAccountBal(party,counterParty,amount);
+		HashMap<String,ChartOfAccountsModel> coaList=bankTransService.updateChartOfAccountBal(party,counterParty,amount,selectedParty,selectedCounterParty);
+		
+		return new BaseDto<>(coaList, coaHelper.getRetrieveChartOfAccountsMessage(), OK).respond();
 	
 	}
 	
