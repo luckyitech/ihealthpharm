@@ -1,28 +1,21 @@
 package com.ihealthpharm.finance.service.impl;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-
 import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.finance.dao.AccountPayablesRepository;
 import com.ihealthpharm.finance.helper.AccountPayablesHelper;
 import com.ihealthpharm.finance.model.AccountPayablesModel;
 import com.ihealthpharm.finance.service.AccountPayablesService;
-import com.ihealthpharm.sales.dto.SalesEmployeeDTO;
-import com.ihealthpharm.sales.model.SalesModel;
 import com.ihealthpharm.stock.model.InvoiceModel;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -76,7 +69,6 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 	}
 	@Override
 	public List<AccountPayablesModel> findAllAccountsPayables() {
-		
 		return accountPayablesRepository.findAllByOrderByLastUpdateTimestampDesc();
 	}
 
@@ -140,14 +132,11 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 
 	@Override
 	public List<InvoiceModel> getAllInvoicesBySearch(String invoiceNo) {
-
 		return accountPayablesRepository.getInvoiceBasedOnInvoiceSearch(invoiceNo);
 	}
 
 	@Override
-
 	public List<String> findPaymentNoINAP(String PNo) {
-		
 		return accountPayablesRepository.findPaymentNosBySearch(PNo);
 	}
 
@@ -173,13 +162,11 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 	@Override
 	public List<AccountPayablesModel> getAllSuppliersForAccountPayables() {
 		return accountPayablesRepository.findAllAccountPayablesForSuppliers();
-
 	}
 	
 
 	@Override
 	public Integer getCountOfPending() {
-
 		return accountPayablesRepository.getPending();
 	}
 	
@@ -195,7 +182,6 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 
 	@Override
 	public List<AccountPayablesModel> getAllPayablesBasedOnSuppliers(String supplierName) {
-		
 		return accountPayablesRepository.getAllPayablesBasedOnSuppierSearch(supplierName);
 	}
 
@@ -272,8 +258,6 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 		}
 		
 		else if((invoiceNo != null && !invoiceNo.equals("undefined") && !invoiceNo.equals("null")) ) {
-			log.info("-----------invoice querry executes-----------------");
-			log.info(invoiceNo+ " "+ supplierName + " " +limit);
 			List<AccountPayablesModel> response= accountPayablesRepository.findAccPayablesSearchByInvoice(supplierName,invoiceNo,limit);
 			return response;
 		}

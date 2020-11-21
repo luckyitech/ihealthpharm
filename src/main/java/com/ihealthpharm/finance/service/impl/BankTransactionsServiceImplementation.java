@@ -1,16 +1,19 @@
 package com.ihealthpharm.finance.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.ihealthpharm.finance.dao.BankTransactionsRepository;
+import com.ihealthpharm.finance.dao.ChartOfAccountRepository;
 import com.ihealthpharm.finance.dto.BankTransactionDTO;
 import com.ihealthpharm.finance.helper.BankTransactionsHelper;
 import com.ihealthpharm.finance.model.BankTransactionsModel;
+import com.ihealthpharm.finance.model.ChartOfAccountsModel;
 import com.ihealthpharm.finance.service.BankTransactionsService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,9 +24,16 @@ public class BankTransactionsServiceImplementation implements BankTransactionsSe
 
 	@Autowired
 	BankTransactionsRepository bankTransRepo;
+	
+	@Autowired
+	ChartOfAccountRepository chartOfAccRepo;
 
 	@Autowired
 	BankTransactionsHelper bankHelper;
+
+	@PersistenceContext
+	private EntityManager em;
+
 
 	public List<BankTransactionsModel> findAllBankTransactions() {
 		return bankTransRepo.findAll();
@@ -36,45 +46,131 @@ public class BankTransactionsServiceImplementation implements BankTransactionsSe
 		return res;
 	}
 
-//	@Override
-//	public String checkByTransactionId(String transactionId) {
+	//	@Override
+	//	public String checkByTransactionId(String transactionId) {
 
-//		if(res==null) {
-//			return "false";
-//		}
-//		if(res.getTransactionId().equals(transactionId)) {
-//		return "true";
-//		}
-//		return "";
-//	}
+	//		if(res==null) {
+	//			return "false";
+	//		}
+	//		if(res.getTransactionId().equals(transactionId)) {
+	//		return "true";
+	//		}
+	//		return "";
+	//	}
 
 	@Override
 	public List<BankTransactionDTO> findAllTransactionId(String transactionId) {
-		
+
 		return bankTransRepo.getAllTransactionId(transactionId);
 	}
 
-@Override
-public List<String> getBySearchPartyDetails(String searchTerm) {
-	return bankTransRepo.findPartyAccountDetailsBySearch(searchTerm);
-}
+	@Override
+	public List<String> getBySearchPartyDetails(String searchTerm) {
+		return bankTransRepo.findPartyAccountDetailsBySearch(searchTerm);
+	}
 
-@Override
-public List<String> getAllPartyDetails() {
-	return bankTransRepo.findAllPartyAccountDetails();
-}
+	@Override
+	public List<String> getAllPartyDetails() {
+		return bankTransRepo.findAllPartyAccountDetails();
+	}
 
-@Override
-public List<String> getBySearchCounterPartyDetails(String searchTerm) {
-	// TODO Auto-generated method stub
-	return bankTransRepo.findCounterPartyAccountDetailsBySearch(searchTerm);
-}
+	@Override
+	public List<String> getBySearchCounterPartyDetails(String searchTerm) {
+		// TODO Auto-generated method stub
+		return bankTransRepo.findCounterPartyAccountDetailsBySearch(searchTerm);
+	}
 
-@Override
-public List<String> getAllCounterPartyDetails() {
-	// TODO Auto-generated method stub
-	return bankTransRepo.findAllCounterPartyAccountDetails();
-}
+	@Override
+	public List<String> getAllCounterPartyDetails() {
+		// TODO Auto-generated method stub
+		return bankTransRepo.findAllCounterPartyAccountDetails();
+	}
 
+	@Override
+	public List<BankTransactionsModel> findAllBankTransactionsByRefNo(String referenceNo) {
+
+		return bankTransRepo.getAllTransactionsByRefNoSearch(referenceNo);
+	}
+
+	@Override
+	public List<BankTransactionsModel> findAllBankTransactionsBySearch(String refNo, 
+			String fromDate, String toDate,String party,String counterParty) {
+		log.info(refNo);
+		log.info(fromDate);
+		log.info(toDate);
+
+		List<BankTransactionsModel> result = null;
+		String query="select bt from bank_transactions bt where ";
+
+		String clause = " ";
+
+		if(refNo!=null && !refNo.equals("undefined")) {
+			clause+=" bt.transactionRef like "+"'"+refNo+"%"+"'";
+		}
+
+		if(fromDate!=null && !fromDate.equals("undefined")) {
+			if(!clause.equals(" ")) {
+				clause+=" and ";
+			}
+			clause+=" bt.transactionDate >="+"'"+fromDate+"'";
+		}
+
+		if(toDate!=null && !toDate.equals("undefined")) {
+			if(!clause.equals(" ")) {
+				clause+=" and ";
+			}
+			clause+=" bt.transactionDate <= "+"'"+toDate+"'";
+		}
+		
+		if(party!=null && !party.equals("undefined")) {
+			if(!clause.equals(" ")) {
+				clause+=" and ";
+			}
+			clause+=" bt.party.accountId = "+Integer.parseInt(party);
+		}
+		
+		if(counterParty!=null && !counterParty.equals("undefined")) {
+			if(!clause.equals(" ")) {
+				clause+=" and ";
+			}
+			clause+=" bt.counterParty.accountId = "+Integer.parseInt(counterParty);
+		}
+
+		query+=clause;
+		System.out.println("query is "+query);
+		result=em.createQuery(query, BankTransactionsModel.class).getResultList();
+		return result;
+	}
+
+	@Override
+	public BankTransactionsModel findBankTxnDetailsById(Integer bankTransactionId) {
+		
+		return bankTransRepo.getBankTxnDetailsById(bankTransactionId);
+	}
+
+	@Override
+	public HashMap<String, ChartOfAccountsModel> updateChartOfAccountBal(String party, 
+			String counterParty, String amount,String selectedParty,String selectedCounterParty) {
+		
+		Double partyBalance=chartOfAccRepo.findBalanceRepo(Integer.parseInt(party));
+		Double counterPartyBalance=chartOfAccRepo.findBalanceRepo(Integer.parseInt(counterParty));
+		
+		partyBalance=partyBalance+Double.parseDouble(amount);
+		counterPartyBalance=counterPartyBalance-Double.parseDouble(amount);
+		chartOfAccRepo.updatePartyBalance(Integer.parseInt(party),partyBalance);
+		
+		chartOfAccRepo.updateCounterPartyBalance(Integer.parseInt(counterParty),counterPartyBalance);
+		
+		HashMap<String,ChartOfAccountsModel> coaList=new HashMap<>();
+		
+		coaList.put("partyAccount",chartOfAccRepo.getChartOfAccountById(Integer.parseInt(selectedParty)));
+		coaList.put("counterPartyAccount",chartOfAccRepo.getChartOfAccountById(Integer.parseInt(selectedCounterParty)));
 	
+		return coaList;
+	
+	}
+
+
+
+
 }

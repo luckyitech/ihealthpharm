@@ -2,6 +2,7 @@ package com.ihealthpharm.finance.controller;
 
 import static org.springframework.http.HttpStatus.OK;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.finance.dto.BankTransactionDTO;
 import com.ihealthpharm.finance.helper.BankTransactionsHelper;
+import com.ihealthpharm.finance.helper.ChartOfAccountsHelper;
 import com.ihealthpharm.finance.model.BankTransactionsModel;
+import com.ihealthpharm.finance.model.ChartOfAccountsModel;
 import com.ihealthpharm.finance.service.BankTransactionsService;
 import com.ihealthpharm.stock.service.InvoiceService;
 
@@ -29,6 +32,9 @@ public class BankTransactionsController {
 	
 	@Autowired
 	private BankTransactionsHelper bankTransactionsHelper;
+	
+	@Autowired
+	ChartOfAccountsHelper coaHelper;
 	
 	
 	@GetMapping("/getall/banktransactions")
@@ -83,4 +89,43 @@ public class BankTransactionsController {
 		List<String> results = bankTransService.getAllCounterPartyDetails();
 		return new BaseDto<>(results, bankTransactionsHelper.getRetrieveBankTransactionsMessage(), OK).respond();
 	}
+
+	@GetMapping("/getall/bankTransactions/byRefNo")
+	public ResponseEntity<BaseDto<List<BankTransactionsModel>>> getAllBankTransactionsByRefNo(@RequestParam String referenceNo){
+		List<BankTransactionsModel> response=bankTransService.findAllBankTransactionsByRefNo(referenceNo);
+		return new BaseDto<>(response, bankTransactionsHelper.getRetrieveBankTransactionsMessage(), OK).respond();
+	}	
+	
+	
+	@PostMapping("/get/bankTransactionsBySearch")
+	public ResponseEntity<BaseDto<List<BankTransactionsModel>>> getAllBankTransactionsBySearch(
+			@RequestParam("refNo") String refNo,@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate,
+			@RequestParam("party") String party,@RequestParam("counterParty") String counterParty){
+		List<BankTransactionsModel> response=bankTransService.findAllBankTransactionsBySearch(refNo,fromDate,toDate,party,counterParty);
+		return new BaseDto<>(response, bankTransactionsHelper.getRetrieveBankTransactionsMessage(), OK).respond();
+	}	
+	
+	
+	@GetMapping("/get/bankTransactionDetails")
+	public ResponseEntity<BaseDto<BankTransactionsModel>> getBankTransactionDetails(@RequestParam Integer bankTransactionId){
+		BankTransactionsModel response=bankTransService.findBankTxnDetailsById(bankTransactionId);
+		return new BaseDto<>(response, bankTransactionsHelper.getRetrieveBankTransactionsMessage(), OK).respond();
+	}	
+	
+	@PostMapping("update/chartOfAccountWithPreviousAmt")
+	public ResponseEntity<BaseDto<HashMap<String, ChartOfAccountsModel>>> updateChartOfAccountWithPrevAmt(
+			@RequestParam("party") String party,@RequestParam("counterParty") String counterParty,
+			@RequestParam("amount") String amount,@RequestParam("selectedParty") String selectedParty,
+			@RequestParam("selectedCounterParty") String selectedCounterParty){
+		
+		HashMap<String,ChartOfAccountsModel> coaList=bankTransService.updateChartOfAccountBal(party,counterParty,amount,selectedParty,selectedCounterParty);
+		
+		return new BaseDto<>(coaList, coaHelper.getRetrieveChartOfAccountsMessage(), OK).respond();
+	
+	}
+	
+	
+	
+	
+	
 }
