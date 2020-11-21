@@ -21,5 +21,9 @@ public interface ExpensesService {
 	List<String> getAllCounterParties();
 
 	List<String> getAllCounterPartiesBySearch(String searchTerm);
+	
+	Integer getExpecncesCount();
+	
+	List<ExpensesModel> getAllExpecncesByPagination(Integer pageNumber,Integer limit);
 
 	}

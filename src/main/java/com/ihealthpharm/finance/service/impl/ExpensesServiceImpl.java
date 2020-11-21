@@ -5,6 +5,8 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.finance.dao.ExpensesRepository;
@@ -61,6 +63,19 @@ public class ExpensesServiceImpl implements ExpensesService{
 	public List<String> getAllCounterPartiesBySearch(String searchTerm) {
 		
 		return expensesRepo.findExpenseCounterPartyBySearch(searchTerm);
+	}
+
+	@Override
+	public Integer getExpecncesCount() {
+		
+		return expensesRepo.getExpecncesCount();
+	}
+
+	@Override
+	public List<ExpensesModel> getAllExpecncesByPagination(Integer pageNumber, Integer limit) {
+		Pageable pagination = new PageRequest(pageNumber, limit);
+		
+		return expensesRepo.getAllExpencesByPagination(pagination);
 	}
 	
 
