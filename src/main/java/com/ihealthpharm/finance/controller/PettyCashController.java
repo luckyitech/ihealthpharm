@@ -1,5 +1,7 @@
 package com.ihealthpharm.finance.controller;
 import static org.springframework.http.HttpStatus.OK;
+
+import java.util.HashMap;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -13,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.finance.helper.ChartOfAccountsHelper;
 import com.ihealthpharm.finance.helper.PettyCashHelper;
+import com.ihealthpharm.finance.model.BankTransactionsModel;
+import com.ihealthpharm.finance.model.ChartOfAccountsModel;
 import com.ihealthpharm.finance.model.PettyCashModel;
 import com.ihealthpharm.finance.service.PettyCashService;
 
@@ -27,6 +32,11 @@ public class PettyCashController {
 	@Autowired
 	private PettyCashHelper pettyCashHelper;
 	
+	@Autowired
+	private ChartOfAccountsHelper coaHelper;
+	
+	
+	
 	@GetMapping("/getall/pettycashdetails")
 	public ResponseEntity<BaseDto<List<PettyCashModel>>> getAllPettyCash(){
 		List<PettyCashModel> response=pettyCashService.findAllPettyCash();
@@ -39,8 +49,8 @@ public class PettyCashController {
 	}
 	
 	@GetMapping("/getpettycashdetails/byid")
-	public ResponseEntity<BaseDto<PettyCashModel>> getPettyCashById(@Valid @RequestParam Integer pettyCashID){
-		PettyCashModel pettyCashRes= pettyCashService.findPettyCashById(pettyCashID);
+	public ResponseEntity<BaseDto<PettyCashModel>> getPettyCashById(@Valid @RequestParam Integer pettyCashId){
+		PettyCashModel pettyCashRes= pettyCashService.findPettyCashById(pettyCashId);
 		return new BaseDto<>(pettyCashRes,pettyCashHelper.getRetrivepettyCashMessage(),OK).respond();
 	}
 	
@@ -68,4 +78,28 @@ public class PettyCashController {
 		List<String> results = pettyCashService.getAllCounterPartyDetails();
 		return new BaseDto<>(results, pettyCashHelper.getRetrivepettyCashMessage(), OK).respond();
 	}
+	
+	//Asha
+	@PostMapping("/get/pettyCashTransactionsBySearch")
+	public ResponseEntity<BaseDto<List<PettyCashModel>>> getAllPettyCashTransactionsBySearch(
+			@RequestParam("refNo") String refNo,@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate,
+			@RequestParam("party") String party,@RequestParam("counterParty") String counterParty){
+		List<PettyCashModel> response=pettyCashService.findAllPettyCashTransactionsBySearch(refNo,fromDate,toDate,party,counterParty);
+		return new BaseDto<>(response, pettyCashHelper.getRetrivepettyCashMessage(), OK).respond();
+	}	
+	
+	
+	//Asha
+	@PostMapping("update/pettyCashTransactionsWithPrevAmt")
+	public ResponseEntity<BaseDto<HashMap<String, ChartOfAccountsModel>>> updateChartOfAccountWithPrevAmt(
+			@RequestParam("party") String party,@RequestParam("counterParty") String counterParty,
+			@RequestParam("amount") String amount,@RequestParam("selectedParty") String selectedParty,
+			@RequestParam("selectedCounterParty") String selectedCounterParty){
+		
+		HashMap<String,ChartOfAccountsModel> coaList=pettyCashService.updateChartOfAccountBalFromPettyScreen(party,counterParty,amount,selectedParty,selectedCounterParty);
+		
+		return new BaseDto<>(coaList, coaHelper.getRetrieveChartOfAccountsMessage(), OK).respond();
+	
+	}
+	
 }

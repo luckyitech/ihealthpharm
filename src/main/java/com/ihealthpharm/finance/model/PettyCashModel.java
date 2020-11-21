@@ -51,6 +51,9 @@ public class PettyCashModel extends AuditModel{
 
 	@Column(name="BALANCE")
 	private Double balance;
+	
+	@Column(name="COUNTER_PARTY_BALANCE")
+	private Double counterPartyBalance;
 
 	@Column(name="AUDIT_ID")
 	private Integer auditId;
