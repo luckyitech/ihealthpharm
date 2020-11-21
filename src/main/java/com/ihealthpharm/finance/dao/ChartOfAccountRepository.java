@@ -42,5 +42,6 @@ public interface ChartOfAccountRepository extends JpaRepository<ChartOfAccountsM
 	@Query("update CHART_OF_ACCOUNTS set currentBalance=:amount where accountId=:counterParty")
 	void updateCounterPartyBalance(@Param("counterParty")Integer party, @Param("amount")Double amount);
 
-	
+	@Query("select c from CHART_OF_ACCOUNTS c where c.accountId=:accountId")
+	ChartOfAccountsModel getChartOfAccountById(@Param("accountId")Integer accountId);
 }

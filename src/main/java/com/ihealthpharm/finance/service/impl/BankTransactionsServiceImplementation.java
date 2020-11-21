@@ -1,11 +1,11 @@
 package com.ihealthpharm.finance.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ihealthpharm.finance.dao.BankTransactionsRepository;
@@ -13,6 +13,7 @@ import com.ihealthpharm.finance.dao.ChartOfAccountRepository;
 import com.ihealthpharm.finance.dto.BankTransactionDTO;
 import com.ihealthpharm.finance.helper.BankTransactionsHelper;
 import com.ihealthpharm.finance.model.BankTransactionsModel;
+import com.ihealthpharm.finance.model.ChartOfAccountsModel;
 import com.ihealthpharm.finance.service.BankTransactionsService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -148,7 +149,8 @@ public class BankTransactionsServiceImplementation implements BankTransactionsSe
 	}
 
 	@Override
-	public void updateChartOfAccountBal(String party, String counterParty, String amount) {
+	public HashMap<String, ChartOfAccountsModel> updateChartOfAccountBal(String party, 
+			String counterParty, String amount,String selectedParty,String selectedCounterParty) {
 		
 		Double partyBalance=chartOfAccRepo.findBalanceRepo(Integer.parseInt(party));
 		Double counterPartyBalance=chartOfAccRepo.findBalanceRepo(Integer.parseInt(counterParty));
@@ -158,6 +160,14 @@ public class BankTransactionsServiceImplementation implements BankTransactionsSe
 		chartOfAccRepo.updatePartyBalance(Integer.parseInt(party),partyBalance);
 		
 		chartOfAccRepo.updateCounterPartyBalance(Integer.parseInt(counterParty),counterPartyBalance);
+		
+		HashMap<String,ChartOfAccountsModel> coaList=new HashMap<>();
+		
+		coaList.put("partyAccount",chartOfAccRepo.getChartOfAccountById(Integer.parseInt(selectedParty)));
+		coaList.put("counterPartyAccount",chartOfAccRepo.getChartOfAccountById(Integer.parseInt(selectedCounterParty)));
+	
+		return coaList;
+	
 	}
 
 
