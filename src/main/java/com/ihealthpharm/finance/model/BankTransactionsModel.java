@@ -1,5 +1,6 @@
 package com.ihealthpharm.finance.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,8 +38,8 @@ public class BankTransactionsModel  extends AuditModel {
 	@Column(name="BANK_NAME")
 	private String bankName;
 
-	@Column(name="TRANSACTION_DATE",length=25)
-	private Date transactionDate;
+	@Column(name="TRANSACTION_DATE")
+	private LocalDate transactionDate;
 
 	@Column(name="AMOUNT",length=25)
 	private Double amount;
