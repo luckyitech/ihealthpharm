@@ -26,4 +26,11 @@ public interface ExpensesService {
 	
 	List<ExpensesModel> getAllExpecncesByPagination(Integer pageNumber,Integer limit);
 
+	Integer findAllExpensesTransactionsCountBySearch(String refNo, String fromDate, 
+			String toDate, String party,
+			String counterParty);
+
+	List<ExpensesModel> findAllExpensesTransactionsBySearch(String refNo, String fromDate, String toDate,
+			String party, String counterParty,Integer pageNumber,Integer limit);
+
 	}

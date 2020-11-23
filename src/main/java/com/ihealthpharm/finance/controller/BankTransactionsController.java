@@ -20,6 +20,7 @@ import com.ihealthpharm.finance.helper.BankTransactionsHelper;
 import com.ihealthpharm.finance.helper.ChartOfAccountsHelper;
 import com.ihealthpharm.finance.model.BankTransactionsModel;
 import com.ihealthpharm.finance.model.ChartOfAccountsModel;
+import com.ihealthpharm.finance.model.PettyCashModel;
 import com.ihealthpharm.finance.service.BankTransactionsService;
 import com.ihealthpharm.stock.service.InvoiceService;
 
@@ -97,11 +98,27 @@ public class BankTransactionsController {
 	}	
 	
 	
+	@PostMapping("/get/bankTransactionsBySearchCount")
+	public ResponseEntity<BaseDto<Integer>> getAllBankTransactionsBySearchCount(
+			@RequestParam("refNo") String refNo,@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate,
+			@RequestParam("party") String party,@RequestParam("counterParty") String counterParty){
+		
+		Integer response=bankTransService.findAllBankTransactionsBySearchCount(refNo,fromDate,toDate,party,counterParty);
+		return new BaseDto<>(response, bankTransactionsHelper.getRetrieveBankTransactionsMessage(), OK).respond();
+	}	
+	
 	@PostMapping("/get/bankTransactionsBySearch")
 	public ResponseEntity<BaseDto<List<BankTransactionsModel>>> getAllBankTransactionsBySearch(
 			@RequestParam("refNo") String refNo,@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate,
-			@RequestParam("party") String party,@RequestParam("counterParty") String counterParty){
-		List<BankTransactionsModel> response=bankTransService.findAllBankTransactionsBySearch(refNo,fromDate,toDate,party,counterParty);
+			@RequestParam("party") String party,@RequestParam("counterParty") String counterParty,
+			@RequestParam("startPosition") String startPosition,
+			@RequestParam("limit") String limit){
+		
+		int startOfRecords=Integer.parseInt(startPosition);
+		int pageLimit=Integer.parseInt(limit);
+		
+		List<BankTransactionsModel> response=bankTransService.findAllBankTransactionsBySearch(refNo,
+				fromDate,toDate,party,counterParty,startOfRecords,pageLimit);
 		return new BaseDto<>(response, bankTransactionsHelper.getRetrieveBankTransactionsMessage(), OK).respond();
 	}	
 	
@@ -125,6 +142,17 @@ public class BankTransactionsController {
 	}
 	
 	
+	@GetMapping("/getall/banktransactions/byPagination")
+	public ResponseEntity<BaseDto<List<BankTransactionsModel>>> getAllPettyCashByPagination(@RequestParam Integer pageNumber,@RequestParam Integer limit){
+		List<BankTransactionsModel> response=bankTransService.getAllBankTxnByPagination(pageNumber,limit);
+		return new BaseDto<>(response, bankTransactionsHelper.getRetrieveBankTransactionsMessage(), OK).respond();
+	}
+	
+	@GetMapping("/getall/banktransactionscount")
+	public ResponseEntity<BaseDto<Integer>> getAllBankTxnsCount(){
+		Integer response=bankTransService.getAllBankTxnsCount();
+		return new BaseDto<>(response, bankTransactionsHelper.getRetrieveBankTransactionsMessage(), OK).respond();
+	}
 	
 	
 	

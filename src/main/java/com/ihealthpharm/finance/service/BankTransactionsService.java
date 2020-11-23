@@ -6,6 +6,7 @@ import java.util.List;
 import com.ihealthpharm.finance.dto.BankTransactionDTO;
 import com.ihealthpharm.finance.model.BankTransactionsModel;
 import com.ihealthpharm.finance.model.ChartOfAccountsModel;
+import com.ihealthpharm.finance.model.PettyCashModel;
 
 public interface BankTransactionsService {
 
@@ -25,11 +26,19 @@ public interface BankTransactionsService {
 
 	List<BankTransactionsModel> findAllBankTransactionsByRefNo(String referenceNo);
 
-	List<BankTransactionsModel> findAllBankTransactionsBySearch(String refNo, String fromDate, 
+	Integer findAllBankTransactionsBySearchCount(String refNo, String fromDate, 
 			String toDate,String party,String counterParty);
 
 	BankTransactionsModel findBankTxnDetailsById(Integer bankTransactionId);
 
 	HashMap<String, ChartOfAccountsModel> updateChartOfAccountBal(String party, 
 			String counterParty, String amount,String selectedParty,String selectedCounterParty);
+
+	Integer getAllBankTxnsCount();
+
+	List<BankTransactionsModel> getAllBankTxnByPagination(Integer pageNumber, Integer limit);
+
+	List<BankTransactionsModel> findAllBankTransactionsBySearch(String refNo, String fromDate, String toDate,
+			String party, String counterParty, Integer startOfRecords, Integer limit);
+
 }
