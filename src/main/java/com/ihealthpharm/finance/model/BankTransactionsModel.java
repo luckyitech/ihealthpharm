@@ -37,7 +37,7 @@ public class BankTransactionsModel  extends AuditModel {
 	@Column(name="BANK_NAME")
 	private String bankName;
 
-	@Column(name="TRANSACTION_DATE",length=25)
+	@Column(name="TRANSACTION_DATE")
 	private Date transactionDate;
 
 	@Column(name="AMOUNT",length=25)
