@@ -19,6 +19,7 @@ import com.ihealthpharm.finance.helper.ChartOfAccountsHelper;
 import com.ihealthpharm.finance.helper.PettyCashHelper;
 import com.ihealthpharm.finance.model.BankTransactionsModel;
 import com.ihealthpharm.finance.model.ChartOfAccountsModel;
+import com.ihealthpharm.finance.model.ExpensesModel;
 import com.ihealthpharm.finance.model.PettyCashModel;
 import com.ihealthpharm.finance.service.PettyCashService;
 
@@ -83,10 +84,29 @@ public class PettyCashController {
 	@PostMapping("/get/pettyCashTransactionsBySearch")
 	public ResponseEntity<BaseDto<List<PettyCashModel>>> getAllPettyCashTransactionsBySearch(
 			@RequestParam("refNo") String refNo,@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate,
-			@RequestParam("party") String party,@RequestParam("counterParty") String counterParty){
-		List<PettyCashModel> response=pettyCashService.findAllPettyCashTransactionsBySearch(refNo,fromDate,toDate,party,counterParty);
+			@RequestParam("party") String party,
+			@RequestParam("counterParty") String counterParty,
+			@RequestParam("startPosition") String startPosition,
+			@RequestParam("limit") String limit){
+		
+		
+		int startOfRecords=Integer.parseInt(startPosition);
+		int pageLimit=Integer.parseInt(limit);
+		
+		List<PettyCashModel> response=pettyCashService.findAllPettyCashTransactionsBySearch(refNo,fromDate,
+				toDate,party,counterParty,startOfRecords,pageLimit);
 		return new BaseDto<>(response, pettyCashHelper.getRetrivepettyCashMessage(), OK).respond();
 	}	
+	
+	//Asha
+		@PostMapping("/get/pettyCashTransactionsBySearchCount")
+		public ResponseEntity<BaseDto<Integer>> getAllPettyCashTransactionsBySearchCount(
+				@RequestParam("refNo") String refNo,@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate,
+				@RequestParam("party") String party,@RequestParam("counterParty") String counterParty){
+			
+			Integer response=pettyCashService.findAllPettyCashTransactionsBySearchCount(refNo,fromDate,toDate,party,counterParty);
+			return new BaseDto<>(response, pettyCashHelper.getRetrivepettyCashMessage(), OK).respond();
+		}	
 	
 	
 	//Asha
@@ -101,5 +121,18 @@ public class PettyCashController {
 		return new BaseDto<>(coaList, coaHelper.getRetrieveChartOfAccountsMessage(), OK).respond();
 	
 	}
+	
+	@GetMapping("/getall/pettyCashTxns/bypagination")
+	public ResponseEntity<BaseDto<List<PettyCashModel>>> getAllPettyCashByPagination(@RequestParam Integer pageNumber,@RequestParam Integer limit){
+		List<PettyCashModel> response=pettyCashService.getAllPettyCashTxnByPagination(pageNumber,limit);
+		return new BaseDto<>(response, pettyCashHelper.getRetrivepettyCashMessage(), OK).respond();
+	}
+	
+	@GetMapping("/getall/pettycashdetailscount")
+	public ResponseEntity<BaseDto<Integer>> getAllPettyCashCount(){
+		Integer response=pettyCashService.getAllPettyCashCount();
+		return new BaseDto<>(response, pettyCashHelper.getRetrivepettyCashMessage(), OK).respond();
+	}
+	
 	
 }

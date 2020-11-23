@@ -57,5 +57,9 @@ public class PettyCashModel extends AuditModel{
 
 	@Column(name="AUDIT_ID")
 	private Integer auditId;
+	
+	
+	@Column(name="REASON",length=500)
+	private String reason;
 
 }

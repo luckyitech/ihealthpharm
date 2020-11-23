@@ -1,5 +1,5 @@
 package com.ihealthpharm.finance.dao;
-
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,4 +22,10 @@ public interface PettyCashRepository extends JpaRepository<PettyCashModel, Integ
 
 	@Query("select distinct ((concat(ca.accountName,' : ',ca.accountNo))) from  general_ledger gl,CHART_OF_ACCOUNTS ca where ca.accountNo=gl.counterParty and gl.entryType='Petty Cash' or gl.entryType='Exp PettyCash' order by (concat(ca.accountName,' : ',ca.accountNo))")
 	List<String> findAllCounterPartyAccountDetails();
+
+	
+	@Query("select pc from PETTY_CASH pc where pc.pettyCashId is not null")
+	List<PettyCashModel> findPettyCashByPagination(Pageable limit);
+
+	
 }

@@ -22,10 +22,17 @@ public interface PettyCashService {
 	List<String> getBySearchPartyDetails(String searchTerm);
 
 	List<PettyCashModel> findAllPettyCashTransactionsBySearch(String refNo, String fromDate, String toDate,
-			String party, String counterParty);
+			String party, String counterParty,Integer startPosition, Integer limit);
 
 	HashMap<String, ChartOfAccountsModel> updateChartOfAccountBalFromPettyScreen(String party, String counterParty,
 			String amount, String selectedParty, String selectedCounterParty);
+
+	List<PettyCashModel> getAllPettyCashTxnByPagination(Integer pageNumber,Integer limit);
+
+	Integer getAllPettyCashCount();
+
+	Integer findAllPettyCashTransactionsBySearchCount(String refNo, String fromDate, String toDate, String party,
+			String counterParty);
 
 
 }

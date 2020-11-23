@@ -8,6 +8,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -97,7 +99,7 @@ public class PettyCashServiceImpl implements PettyCashService{
 
 	@Override
 	public List<PettyCashModel> findAllPettyCashTransactionsBySearch(String refNo, String fromDate, String toDate,
-			String party, String counterParty) {
+			String party, String counterParty,Integer startPosition,Integer limit) {
 		
 		log.info(refNo);
 		log.info(fromDate);
@@ -142,7 +144,8 @@ public class PettyCashServiceImpl implements PettyCashService{
 
 		query+=clause;
 		System.out.println("query is "+query);
-		result=em.createQuery(query, PettyCashModel.class).getResultList();
+		result=em.createQuery(query, PettyCashModel.class).setFirstResult(startPosition).
+				setMaxResults(limit).getResultList();
 		return result;
 	}
 
@@ -168,5 +171,66 @@ public class PettyCashServiceImpl implements PettyCashService{
 	
 	}
 
+	@Override
+	public List<PettyCashModel> getAllPettyCashTxnByPagination(Integer pageNumber, Integer limit) {
+		
+		Pageable pagination = new PageRequest(pageNumber, limit);
+		
+		return pettyCashRepo.findPettyCashByPagination(pagination);
+	}
+
+	@Override
+	public Integer getAllPettyCashCount() {
+	
+		return pettyCashRepo.findAll().size();
+	}
+
+	@Override
+	public Integer findAllPettyCashTransactionsBySearchCount(String refNo, String fromDate, String toDate, String party,
+			String counterParty) {
+		List<PettyCashModel> result = null;
+		String query="select pc from PETTY_CASH pc where ";
+
+		String clause = " ";
+
+		if(refNo!=null && !refNo.equals("undefined")) {
+			clause+=" pc.pettyCashRef like "+"'"+refNo+"%"+"'";
+		}
+
+		if(fromDate!=null && !fromDate.equals("undefined")) {
+			if(!clause.equals(" ")) {
+				clause+=" and ";
+			}
+			clause+=" pc.date >="+"'"+fromDate+"'";
+		}
+
+		if(toDate!=null && !toDate.equals("undefined")) {
+			if(!clause.equals(" ")) {
+				clause+=" and ";
+			}
+			clause+=" pc.date <= "+"'"+toDate+"'";
+		}
+		
+		if(party!=null && !party.equals("undefined")) {
+			if(!clause.equals(" ")) {
+				clause+=" and ";
+			}
+			clause+=" pc.partyNo.accountId = "+Integer.parseInt(party);
+		}
+		
+		if(counterParty!=null && !counterParty.equals("undefined")) {
+			if(!clause.equals(" ")) {
+				clause+=" and ";
+			}
+			clause+=" pc.counterPartyNo.accountId = "+Integer.parseInt(counterParty);
+		}
+
+		query+=clause;
+		System.out.println("query is "+query);
+		result=em.createQuery(query, PettyCashModel.class).getResultList();
+		return result.size();
+	}
+
+	
 	
 }

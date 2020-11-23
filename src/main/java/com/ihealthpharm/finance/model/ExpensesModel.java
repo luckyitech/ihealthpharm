@@ -50,7 +50,10 @@ public class ExpensesModel extends AuditModel{
 	private String reference;
 	
 	@Column(name="BALANCE")
-	private Float balance;
+	private Double balance;
+	
+	@Column(name="COUNTER_PARTY_BALANCE")
+	private Double counterPartyBalance;
 	
 	@Column(name="AS_OF_DATE")
 	private LocalDate asOfDate;

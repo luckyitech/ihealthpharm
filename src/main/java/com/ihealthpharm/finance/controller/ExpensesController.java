@@ -19,6 +19,7 @@ import com.ihealthpharm.finance.dto.BankTransactionDTO;
 import com.ihealthpharm.finance.dto.expensesDTO;
 import com.ihealthpharm.finance.helper.ExpensesHelper;
 import com.ihealthpharm.finance.model.ExpensesModel;
+import com.ihealthpharm.finance.model.PettyCashModel;
 import com.ihealthpharm.finance.service.ExpensesService;
 
 
@@ -86,4 +87,31 @@ public class ExpensesController {
 		List<ExpensesModel> response=expensesService.getAllExpecncesByPagination(pageNumber,limit);
 		return new BaseDto<>(response, expensesHelper.getRetrieveExpenseMessage(), OK).respond();
 	}
+	
+	@PostMapping("/get/expensesTransactionsCountBySearch")
+	public ResponseEntity<BaseDto<Integer>> getAllPettyCashTransactionsBySearch(
+			@RequestParam("refNo") String refNo,@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate,
+			@RequestParam("party") String party,@RequestParam("counterParty") String counterParty){
+		Integer response=expensesService.findAllExpensesTransactionsCountBySearch(refNo,fromDate,toDate,party,counterParty);
+		return new BaseDto<>(response, expensesHelper.getRetrieveExpenseMessage(), OK).respond();
+	}	
+	
+	
+	@PostMapping("/getall/expensesBySearch")
+	public ResponseEntity<BaseDto<List<ExpensesModel>>> getAllExpensesTransactionsBySearch(
+			@RequestParam("refNo") String refNo,@RequestParam("fromDate") String fromDate,@RequestParam("toDate") String toDate,
+			@RequestParam("party") String party,
+			@RequestParam("counterParty") String counterParty,
+			@RequestParam("pageNumber") String pageNumber,
+			@RequestParam("limit") String limit){
+			
+		int pageNo=Integer.parseInt(pageNumber);
+		int pageLimit=Integer.parseInt(limit);
+		
+		
+		List<ExpensesModel> response=expensesService.findAllExpensesTransactionsBySearch(refNo,fromDate,toDate,
+				party,counterParty,pageNo,pageLimit);
+		return new BaseDto<>(response, expensesHelper.getRetrieveExpenseMessage(), OK).respond();
+	}	
+	
 }
