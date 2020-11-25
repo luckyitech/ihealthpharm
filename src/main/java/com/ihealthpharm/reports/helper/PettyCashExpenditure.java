@@ -50,7 +50,7 @@ public class PettyCashExpenditure extends ReportsPDFUtility {
 			Map<Date, List<Map<String, Object>>> pettyExpMap = responseList.stream()
 					.collect(Collectors.groupingBy(map -> (Date) map.get("CREATION_TS")));	
 
-			System.out.println(pettyExpMap);
+			
 			List<Date> datesList = new ArrayList<>();
 
 

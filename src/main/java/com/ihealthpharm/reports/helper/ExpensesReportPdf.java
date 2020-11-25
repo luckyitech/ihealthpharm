@@ -1,15 +1,17 @@
 package com.ihealthpharm.reports.helper;
 
 import java.io.File;
-
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
@@ -24,14 +26,13 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPRow;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
-import io.jsonwebtoken.Header;
-
 @Component
-public class SalesProfitAttributionPdf extends ReportsPDFUtility{
+public class ExpensesReportPdf extends ReportsPDFUtility{
+
+
 	@Override
 	public Document generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model,
 			File responseFile,String inputJson) {
@@ -43,25 +44,27 @@ public class SalesProfitAttributionPdf extends ReportsPDFUtility{
 			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(responseFile));
 			writer.setPageEvent(event); 
 			document.open();
-			
-			Map<String, List<Map<String, Object>>> salesByPersonMap = responseList.stream()
-					.collect(Collectors.groupingBy(map -> (String) map.get("CREATED_BY")));			
-			
-			
-			if(!ObjectUtils.isEmpty(salesByPersonMap)) { 
-				
-				for(String salesPerson :salesByPersonMap.keySet()) {					
-					List<Map<String, Object>> salesByPersonList = salesByPersonMap.get(salesPerson);
-					createTable(document,model,salesByPersonList,salesPerson);
+
+			Map<Date, List<Map<String, Object>>> pettyExpMap = responseList.stream()
+					.collect(Collectors.groupingBy(map -> (Date) map.get("TXN_DATE")));	
+
+
+			List<Date> datesList = new ArrayList<>();
+
+
+			if(!ObjectUtils.isEmpty(pettyExpMap)) { 
+
+				datesList.addAll(pettyExpMap.keySet());
+				Collections.sort(datesList);
+
+				for(int i = 0; i < datesList.size(); i++) {	
+					List<Map<String, Object>> PettyCashList = pettyExpMap.get(datesList.get(i));
+					createTable(document,model,PettyCashList);
+					generateTotalTable(document,model,PettyCashList);
+
 				}
-				
-				generateTotalTable(document,model,responseList);
-				
+
 			}
-			
-//			Map<String,Object> dataMap= (Map<String, Object>) JsonUtility.jsonToMap(inputJson);
-//			createTable(document,model,responseList,dataMap);
-//			generateTotalTable(document,model,responseList);
 
 		} catch (Exception e) {
 			//log.error(ExceptionUtils.getMessage(e));
@@ -79,13 +82,16 @@ public class SalesProfitAttributionPdf extends ReportsPDFUtility{
 
 	private void generateTotalTable(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException {
 		DecimalFormat df = new DecimalFormat("####0.00");
-		double totalProfit=0.00;
-		double totalPurValue=0.00;
-		double totalSaleValue=0.00;
-		totalProfit  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("PROFIT") && !ObjectUtils.isEmpty(mapper.get("PROFIT"))) ?String.valueOf(mapper.get("PROFIT")):"0")).sum();  
-		totalSaleValue  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("SALE_AMOUNT") && !ObjectUtils.isEmpty(mapper.get("SALE_AMOUNT"))) ?String.valueOf(mapper.get("SALE_AMOUNT")):"0")).sum();  
-		totalPurValue  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("PURCHASE_AMOUNT") && !ObjectUtils.isEmpty(mapper.get("PURCHASE_AMOUNT"))) ?String.valueOf(mapper.get("PURCHASE_AMOUNT")):"0")).sum();  
+		double partyBalance=0.00;
+		double counterPartyBalance=0.00;
 
+		partyBalance  = Double.parseDouble(String.valueOf(responseList.get(responseList.size()-1).get("BALANCE")));
+
+		if(NumberUtils.isNumber(String.valueOf(responseList.get(responseList.size()-1).get("COUNTER_PARTY_BALANCE")))) {
+			counterPartyBalance  = Double.parseDouble(String.valueOf(responseList.get(responseList.size()-1).get("COUNTER_PARTY_BALANCE")));
+		}
+
+		System.out.println(partyBalance);
 		PdfPTable totalProfitTable = new PdfPTable(2);
 		totalProfitTable.setTotalWidth(500);
 		//totalProfitTable.setSpacingBefore(30); 
@@ -93,23 +99,15 @@ public class SalesProfitAttributionPdf extends ReportsPDFUtility{
 		totalProfitTable.setLockedWidth(true);
 		totalProfitTable.getDefaultCell().setBorder(0); 
 
-//		String totProfit=df.format(totalProfit);
-//		Double profitRound=Double.parseDouble(totProfit);
-		
-		String profitRound = String.format("%.2f", totalProfit);
+
+		String partyBalanceRounded = String.format("%.2f", partyBalance);	
+		String counterPartyBalanceRounded = String.format("%.2f", counterPartyBalance);
 
 
-//		String totPur=df.format(totalPurValue);
-//		Double purchaseValueTot=Double.parseDouble(totPur);
-		
-		String purchaseValueTot = String.format("%.2f", totalPurValue);
+		String partyAccount=String.valueOf(responseList.get(responseList.size()-1).get("PARTY"));
+		String counterPartyAccount=String.valueOf(responseList.get(responseList.size()-1).get("COUNTER_PARTY"));
 
-//		String totSale=df.format(totalSaleValue);
-//		Double saleValueTot=Double.parseDouble(totSale);
-		
-		String saleValueTot = String.format("%.2f", totalSaleValue);
-
-		PdfPCell nameCell = new PdfPCell(new Phrase("Total Purchase Amount"+" "+" : "+"	"+purchaseValueTot, title08)); 
+		PdfPCell nameCell = new PdfPCell(new Phrase(partyAccount+" "+"  Balance"+" "+" : "+"	"+partyBalanceRounded, title08)); 
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell.setVerticalAlignment(Element.ALIGN_TOP);
@@ -119,7 +117,7 @@ public class SalesProfitAttributionPdf extends ReportsPDFUtility{
 		totalProfitTable.setTotalWidth(500);
 		totalProfitTable.getDefaultCell().setBorder(0); 
 
-		PdfPCell nameCell2 = new PdfPCell(new Phrase("Total Sale Amount"+" "+" : "+"	"+saleValueTot, title08)); 
+		PdfPCell nameCell2 = new PdfPCell(new Phrase(counterPartyAccount+" "+"  Balance"+" "+" : "+"	"+counterPartyBalanceRounded, title08)); 
 		nameCell2.setColspan(3);
 		nameCell2.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell2.setVerticalAlignment(Element.ALIGN_TOP);
@@ -129,20 +127,11 @@ public class SalesProfitAttributionPdf extends ReportsPDFUtility{
 		totalProfitTable.setTotalWidth(500);
 		totalProfitTable.getDefaultCell().setBorder(0); 
 
-		PdfPCell nameCell3 = new PdfPCell(new Phrase("Total Profit"+" "+" : "+"	"+profitRound, title08)); 
-		nameCell3.setColspan(3);
-		nameCell3.setHorizontalAlignment(Element.ALIGN_RIGHT);
-		nameCell3.setVerticalAlignment(Element.ALIGN_TOP);
-		nameCell3.setBorder(0);
-		totalProfitTable.addCell(nameCell3);
-		totalProfitTable.setLockedWidth(true);
-		totalProfitTable.setTotalWidth(500);
-		totalProfitTable.getDefaultCell().setBorder(0); 
 
 		document.add(totalProfitTable);
 
 	}
-	private void createTable(Document document, ReportsMappingModel model, List<Map<String, Object>> salesProfitList,String salesPerson) throws DocumentException {
+	public void createTable(Document document, ReportsMappingModel model, List<Map<String, Object>> salesProfitList) throws DocumentException {
 
 
 		String reportHeader = model.getReportHeader();
@@ -155,18 +144,9 @@ public class SalesProfitAttributionPdf extends ReportsPDFUtility{
 		finalTable.setLockedWidth(true);
 		finalTable.getDefaultCell().setBorder(0); 
 
-		PdfPTable salePersonNameTable = new PdfPTable(3);
-		PdfPCell nameCell = new PdfPCell(new Phrase("Served By : "+salesPerson, title08)); 
-		nameCell.setColspan(3);
-		nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);
-		nameCell.setVerticalAlignment(Element.ALIGN_TOP);
-		nameCell.setBorder(0);
-		salePersonNameTable.addCell(nameCell);
-		salePersonNameTable.setLockedWidth(true);
-		salePersonNameTable.setTotalWidth(500);
-		salePersonNameTable.getDefaultCell().setBorder(0); 
-		
-		PdfPTable table = new PdfPTable(19);
+
+
+		PdfPTable table = new PdfPTable(headerList.size());
 		table.setTotalWidth(530);
 		//table.setWidths(new int[] {35,40,55,33,25,20,35,35,35,35,20,30,30,30,40,33});
 		table.setWidthPercentage(50);
@@ -211,7 +191,7 @@ public class SalesProfitAttributionPdf extends ReportsPDFUtility{
 			}
 		}
 
-		finalTable.addCell(salePersonNameTable);
+
 		finalTable.addCell(table); 
 		document.add(finalTable);
 
@@ -227,5 +207,4 @@ public class SalesProfitAttributionPdf extends ReportsPDFUtility{
 
 
 	}
-
 }
