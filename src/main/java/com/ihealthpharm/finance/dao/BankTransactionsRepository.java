@@ -42,7 +42,8 @@ public interface BankTransactionsRepository extends JpaRepository<BankTransactio
 	@Query("select bt from bank_transactions bt where bt.bankTransactionId=:bankTransactionId")
 	BankTransactionsModel getBankTxnDetailsById(@Param("bankTransactionId")Integer bankTransactionId);
 
-	@Query("select bt from bank_transactions bt")
+	@Query("select bt from bank_transactions bt order by bt.lastUpdateTimestamp desc")
 	List<BankTransactionsModel> getAllTxnsByPagination(Pageable pagination);
+
 	
 }

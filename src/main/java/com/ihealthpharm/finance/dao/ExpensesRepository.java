@@ -41,7 +41,7 @@ public interface ExpensesRepository extends JpaRepository<ExpensesModel, Integer
 	@Query("select new  com.ihealthpharm.finance.dto.expensesDTO(ex.txnId) from expenses ex where ex.txnId =:transactionId")
 	List<expensesDTO> getAllTransactionId(@Param("transactionId") String transactionId);
 	
-	@Query("select e from expenses e where e.expensesId is not null")
+	@Query("select e from expenses e where e.expensesId is not null order by e.lastUpdateTimestamp desc")
 	List<ExpensesModel> getAllExpencesByPagination(Pageable limit);
 	
 	@Query("select count(e) from expenses e where e.expensesId is not null")

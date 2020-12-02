@@ -139,7 +139,7 @@ public class BankTransactionsServiceImplementation implements BankTransactionsSe
 			clause+=" bt.counterParty.accountId = "+Integer.parseInt(counterParty);
 		}
 
-		query+=clause;
+		query+=clause+" order by bt.lastUpdateTimestamp desc";
 		System.out.println("query is "+query);
 		result=em.createQuery(query, BankTransactionsModel.class).getResultList();
 		return result.size();
@@ -227,7 +227,7 @@ public class BankTransactionsServiceImplementation implements BankTransactionsSe
 			clause+=" bt.counterParty.accountId = "+Integer.parseInt(counterParty);
 		}
 
-		query+=clause;
+		query+=clause+" order by bt.lastUpdateTimestamp desc";
 		System.out.println("query is "+query);
 		result=em.createQuery(query, BankTransactionsModel.class).
 				setFirstResult(startOfRecords).setMaxResults(limit).getResultList();
