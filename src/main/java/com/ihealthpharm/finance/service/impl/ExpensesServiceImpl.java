@@ -129,7 +129,7 @@ public class ExpensesServiceImpl implements ExpensesService{
 			clause+=" ex.counterPartyNo.accountId = "+Integer.parseInt(counterParty);
 		}
 
-		query+=clause;
+		query+=clause+" order by ex.lastUpdateTimestamp desc";
 		System.out.println("query is "+query);
 		result=em.createQuery(query, ExpensesModel.class).getResultList();
 		return result.size();
@@ -179,10 +179,8 @@ public class ExpensesServiceImpl implements ExpensesService{
 			clause+=" ex.counterPartyNo.accountId = "+Integer.parseInt(counterParty);
 		}
 
-		int offset=(limit * pageNumber) - limit;
-		//query+=clause +" order by ex.lastUpdateTimestamp asc"+" limit "+limit+" "+"offset "+offset;
 		
-		query+=clause;
+		query+=clause+" order by ex.lastUpdateTimestamp desc";
 		System.out.println("query is "+query);
 		
 		result=em.createQuery(query, ExpensesModel.class).setFirstResult(pageNumber).setMaxResults(limit).getResultList();
