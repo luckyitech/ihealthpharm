@@ -27,7 +27,7 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 	// @Query("select s from sales s order by s.billDate desc limit 100")
 	List<SalesModel> findFirst100ByOrderByBillCodeDesc();
 
-	@Query("SELECT new com.ihealthpharm.sales.dto.SalesDTO(billDate, sum(totalQty) as totalSales) FROM sales s where TIMESTAMPDIFF(MONTH, billDate, now()) <= 10 GROUP BY month(billDate)  order by billDate")
+	@Query("SELECT new com.ihealthpharm.sales.dto.SalesDTO(billDate, sum(paidAmount) as totalSales) FROM sales s where TIMESTAMPDIFF(MONTH, billDate, now()) <= 10 GROUP BY month(billDate)  order by billDate")
 	List<SalesDTO> getAllSalesDataForCharts();
 
 	// SC
