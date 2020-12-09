@@ -53,11 +53,12 @@ public class ChequeServiceImpl implements ChequeService {
 
 	@Override
 	public ChequeModel updateCheque(ChequeModel chequeModel) {
+		System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>");
 		List<ChequeItemsModel> chequeItemModels = chequeModel.getChequeItems();
-       
+       System.out.println("<<<<<OOOOOOOOOOOOOOOOOOOOOOBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
         
         ChequeModel cheq=chequeRepo.getOne(chequeModel.getChequeId());
-        
+        System.out.println("<WDSXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXS");
         cheq.setLastUpdateUser(chequeModel.getLastUpdateUser());
         cheq.setFirstLevelApproval(chequeModel.getFirstLevelApproval());
         cheq.setStatus(chequeModel.getStatus());
@@ -179,6 +180,11 @@ public class ChequeServiceImpl implements ChequeService {
 		}
 		return res;
 
+	}
+
+	@Override
+	public Integer deleteAllChequeItems(Integer chequeId) {
+		return chequeItemsRepo.deleteAllChequeItems(chequeId);
 	}
 	
 	
