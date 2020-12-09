@@ -8,10 +8,11 @@ public class SalesDTO {
 
 	private LocalDate billDate;
 	private  Double totalSales;
-	public SalesDTO(LocalDate billDate, Long totalSales) {
+	
+	public SalesDTO(LocalDate billDate, Double totalSales) {
 		super();
 		this.billDate = billDate;
-		this.totalSales =  ((double)totalSales/1000);
+		this.totalSales = totalSales;
 	}
 	
 	
