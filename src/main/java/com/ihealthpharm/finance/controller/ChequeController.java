@@ -95,4 +95,13 @@ public class ChequeController {
     		List<ChequeModel> response=service.getAllEmployeeForCheques(employeeId);
     		return new BaseDto<>(response,"retrieved",OK).respond();
     	}
+    	
+    	@GetMapping("/delete/allChequeItems")
+    	public ResponseEntity<BaseDto<Integer>> getChequeId(@RequestParam Integer chequeId ){
+    		Integer response=service.deleteAllChequeItems(chequeId);
+    		return new BaseDto<>(response,"Deleted",OK).respond();
+    	}
+    	
+    	
+    	
 }

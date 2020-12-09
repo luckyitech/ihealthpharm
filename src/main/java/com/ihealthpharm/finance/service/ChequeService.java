@@ -19,4 +19,6 @@ public interface ChequeService {
 	List<ChequeModel> getAllApprovedCheques(String chequeNumber);
 	
 	List<ChequeModel> getAllEmployeeForCheques(Integer employeeId);
+
+	Integer deleteAllChequeItems(Integer chequeId);
 }
