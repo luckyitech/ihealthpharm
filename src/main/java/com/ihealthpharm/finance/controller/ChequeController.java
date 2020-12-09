@@ -56,7 +56,6 @@ public class ChequeController {
     	 */
     	@PostMapping("/update/cheque")
     	public ResponseEntity<BaseDto<ChequeModel>> updateCheque(@Valid @RequestBody ChequeModel chequeModel) {
-    		System.out.println("//////////////////////////////////////////");
     		ChequeModel model = service.updateCheque(chequeModel);
     		return new BaseDto<>(model, chequeHelper.getUpdateChequeMessage(), OK).respond();
     	}
