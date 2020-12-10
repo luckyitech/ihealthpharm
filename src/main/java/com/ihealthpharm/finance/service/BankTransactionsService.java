@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.ihealthpharm.finance.dto.BankTransactionDTO;
+import com.ihealthpharm.finance.model.BankTransactionHistoryModel;
 import com.ihealthpharm.finance.model.BankTransactionsModel;
 import com.ihealthpharm.finance.model.ChartOfAccountsModel;
 import com.ihealthpharm.finance.model.PettyCashModel;
@@ -32,7 +33,8 @@ public interface BankTransactionsService {
 	BankTransactionsModel findBankTxnDetailsById(Integer bankTransactionId);
 
 	HashMap<String, ChartOfAccountsModel> updateChartOfAccountBal(String party, 
-			String counterParty, String amount,String selectedParty,String selectedCounterParty);
+			String counterParty, String amount,String selectedParty,
+			String selectedCounterParty,BankTransactionHistoryModel bankTxnHisModel);
 
 	Integer getAllBankTxnsCount();
 
@@ -40,5 +42,9 @@ public interface BankTransactionsService {
 
 	List<BankTransactionsModel> findAllBankTransactionsBySearch(String refNo, String fromDate, String toDate,
 			String party, String counterParty, Integer startOfRecords, Integer limit);
+
+	List<String> getAllCOAAccountDetails();
+
+	List<String> getBySearchCOAAccountDetails(String searchTerm);
 
 }

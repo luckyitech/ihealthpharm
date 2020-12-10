@@ -46,4 +46,14 @@ public interface BankTransactionsRepository extends JpaRepository<BankTransactio
 	List<BankTransactionsModel> getAllTxnsByPagination(Pageable pagination);
 
 	
+	
+	//Transaction history by account type report
+	@Query("select distinct ((concat(ca.accountName,' : ',ca.accountNo))) from CHART_OF_ACCOUNTS ca where (concat(ca.accountName,' : ',ca.accountNo)) like :searchTerm%")
+	List<String> findCOAAccountDetailsBySearch(@Param("searchTerm") String searchTerm);
+
+	@Query("select distinct ((concat(ca.accountName,' : ',ca.accountNo))) from CHART_OF_ACCOUNTS ca order by (concat(ca.accountName,' : ',ca.accountNo))")
+	List<String> findAllCOAAccountDetails();
+
+
+	
 }
