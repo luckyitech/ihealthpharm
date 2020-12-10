@@ -45,7 +45,7 @@ public class ReportsCommonUtility {
 						
 						
 						
-						if(criteria.getColumnName().equals("COUNTER_PARTY_ACCOUNT_TYPE")) {
+						if(criteria.getColumnName().equals("COUNTER_PARTY_ACCOUNT_TYPE")|| criteria.getColumnName().equals("COUNTER_PARTY")) {
 							stringBuffer.append(" OR ");
 						}else {
 							stringBuffer.append(" AND ");

@@ -183,4 +183,32 @@ public class BankTransactionsController {
 		return new BaseDto<>(results, bankTransactionsHelper.getRetrieveBankTransactionsMessage(), OK).respond();
 	}
 	
+	
+	@GetMapping("/gettransactionrefnobysearch")
+	public ResponseEntity<BaseDto<List<String>>> getBankTxnRefnoBySearch(@RequestParam String searchTerm) {
+		List<String> results = bankTransService.getTransactionRefNoBySearch(searchTerm);
+		return new BaseDto<>(results, bankTransactionsHelper.getRetrieveBankTransactionsMessage(), OK).respond();
+	}
+
+	
+	@GetMapping("/getalltransactionrefno")
+	public ResponseEntity<BaseDto<List<String>>> getAllBankTxnRefNo() {
+		List<String> results = bankTransService.getAllReferenceNo();
+		return new BaseDto<>(results, bankTransactionsHelper.getRetrieveBankTransactionsMessage(), OK).respond();
+	}
+	
+	
+	@GetMapping("/gettransactionrefnobysearchwithexpenseno")
+	public ResponseEntity<BaseDto<List<String>>> getBankTxnRefnoBySearchWithExpNo(@RequestParam String searchTerm) {
+		List<String> results = bankTransService.getTransactionRefNoBySearchWithExpNo(searchTerm);
+		return new BaseDto<>(results, bankTransactionsHelper.getRetrieveBankTransactionsMessage(), OK).respond();
+	}
+
+	
+	@GetMapping("/getalltransactionrefnowithexpenseno")
+	public ResponseEntity<BaseDto<List<String>>> getAllBankTxnRefNoWithExpNo() {
+		List<String> results = bankTransService.getAllReferenceNoWithExpNo();
+		return new BaseDto<>(results, bankTransactionsHelper.getRetrieveBankTransactionsMessage(), OK).respond();
+	}
+	
 }

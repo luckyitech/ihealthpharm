@@ -259,6 +259,30 @@ public class BankTransactionsServiceImplementation implements BankTransactionsSe
 		return bankTransRepo.findCOAAccountDetailsBySearch(searchTerm);
 	}
 
+	@Override
+	public List<String> getTransactionRefNoBySearch(String searchTerm) {
+		
+		return bankTransRepo.findTransactionRefNoBySearch(searchTerm);
+	}
+
+	@Override
+	public List<String> getAllReferenceNo() {
+		// TODO Auto-generated method stub
+		return bankTransRepo.findAllTransactionRefNo();
+	}
+
+	@Override
+	public List<String> getTransactionRefNoBySearchWithExpNo(String searchTerm) {
+		
+		return bankTransRepo.findAllTxnRefNoWithExpNoBySearch(searchTerm);
+	}
+
+	@Override
+	public List<String> getAllReferenceNoWithExpNo() {
+		// TODO Auto-generated method stub
+		return bankTransRepo.findAllTxnRefNoWithExpNo();
+	}
+
 
 
 
