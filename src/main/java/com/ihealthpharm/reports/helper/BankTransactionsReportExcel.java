@@ -214,6 +214,9 @@ public class BankTransactionsReportExcel extends ReportsExcelUtility{
 		cell.setCellValue("SUBMITTED BY");
 		cell.setCellStyle(headerStyle);	
 
+		cell = headerRow.createCell(13);
+		cell.setCellValue("STATUS");
+		cell.setCellStyle(headerStyle);	
 
 		for (Map<String, Object> rowData : accountReceivablesDetails) {
 
@@ -309,7 +312,11 @@ public class BankTransactionsReportExcel extends ReportsExcelUtility{
 			cell.setCellValue(String.valueOf(value));
 			cell.setCellStyle(borderStyle);
 
-
+			value = rowData.containsKey("STATUS") ? rowData.get("STATUS") : "";
+			//sheet.autoSizeColumn(10);
+			cell = dataRow.createCell(13);
+			cell.setCellValue(String.valueOf(value));
+			cell.setCellStyle(borderStyle);
 
 
 		}

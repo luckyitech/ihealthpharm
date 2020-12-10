@@ -10,10 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import com.ihealthpharm.finance.dao.BankTransactionsHistoryRepository;
 import com.ihealthpharm.finance.dao.BankTransactionsRepository;
 import com.ihealthpharm.finance.dao.ChartOfAccountRepository;
 import com.ihealthpharm.finance.dto.BankTransactionDTO;
 import com.ihealthpharm.finance.helper.BankTransactionsHelper;
+import com.ihealthpharm.finance.model.BankTransactionHistoryModel;
 import com.ihealthpharm.finance.model.BankTransactionsModel;
 import com.ihealthpharm.finance.model.ChartOfAccountsModel;
 import com.ihealthpharm.finance.model.PettyCashModel;
@@ -33,6 +36,9 @@ public class BankTransactionsServiceImplementation implements BankTransactionsSe
 
 	@Autowired
 	BankTransactionsHelper bankHelper;
+	
+	@Autowired
+	BankTransactionsHistoryRepository bankTxnHisRepo;
 
 	@PersistenceContext
 	private EntityManager em;
@@ -153,13 +159,20 @@ public class BankTransactionsServiceImplementation implements BankTransactionsSe
 
 	@Override
 	public HashMap<String, ChartOfAccountsModel> updateChartOfAccountBal(String party, 
-			String counterParty, String amount,String selectedParty,String selectedCounterParty) {
+			String counterParty, String amount,String selectedParty,String selectedCounterParty,
+			BankTransactionHistoryModel bankTxnHisModel) {
 		
 		Double partyBalance=chartOfAccRepo.findBalanceRepo(Integer.parseInt(party));
 		Double counterPartyBalance=chartOfAccRepo.findBalanceRepo(Integer.parseInt(counterParty));
 		
 		partyBalance=partyBalance+Double.parseDouble(amount);
 		counterPartyBalance=counterPartyBalance-Double.parseDouble(amount);
+		
+		bankTxnHisModel.setBalance(partyBalance);
+		bankTxnHisModel.setCounterPartyBalance(counterPartyBalance);
+		
+		bankTxnHisRepo.save(bankTxnHisModel);
+		
 		chartOfAccRepo.updatePartyBalance(Integer.parseInt(party),partyBalance);
 		
 		chartOfAccRepo.updateCounterPartyBalance(Integer.parseInt(counterParty),counterPartyBalance);
@@ -232,6 +245,18 @@ public class BankTransactionsServiceImplementation implements BankTransactionsSe
 		result=em.createQuery(query, BankTransactionsModel.class).
 				setFirstResult(startOfRecords).setMaxResults(limit).getResultList();
 		return result;
+	}
+
+	@Override
+	public List<String> getAllCOAAccountDetails() {
+		
+		return bankTransRepo.findAllCOAAccountDetails();
+	}
+
+	@Override
+	public List<String> getBySearchCOAAccountDetails(String searchTerm) {
+		
+		return bankTransRepo.findCOAAccountDetailsBySearch(searchTerm);
 	}
 
 

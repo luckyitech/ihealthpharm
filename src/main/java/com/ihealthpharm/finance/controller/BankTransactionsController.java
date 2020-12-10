@@ -2,6 +2,7 @@ package com.ihealthpharm.finance.controller;
 
 import static org.springframework.http.HttpStatus.OK;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,11 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.finance.dto.BankTransactionDTO;
 import com.ihealthpharm.finance.helper.BankTransactionsHelper;
 import com.ihealthpharm.finance.helper.ChartOfAccountsHelper;
+import com.ihealthpharm.finance.model.BankTransactionHistoryModel;
 import com.ihealthpharm.finance.model.BankTransactionsModel;
 import com.ihealthpharm.finance.model.ChartOfAccountsModel;
 import com.ihealthpharm.finance.model.PettyCashModel;
@@ -133,9 +137,17 @@ public class BankTransactionsController {
 	public ResponseEntity<BaseDto<HashMap<String, ChartOfAccountsModel>>> updateChartOfAccountWithPrevAmt(
 			@RequestParam("party") String party,@RequestParam("counterParty") String counterParty,
 			@RequestParam("amount") String amount,@RequestParam("selectedParty") String selectedParty,
-			@RequestParam("selectedCounterParty") String selectedCounterParty){
+			@RequestParam("selectedCounterParty") String selectedCounterParty,
+			@RequestParam("transactionDetails") String transactionDetails) throws JsonParseException, JsonMappingException, IOException{
 		
-		HashMap<String,ChartOfAccountsModel> coaList=bankTransService.updateChartOfAccountBal(party,counterParty,amount,selectedParty,selectedCounterParty);
+		
+		BankTransactionHistoryModel bankTxnHisModel=new BankTransactionHistoryModel();
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		bankTxnHisModel = objectMapper.readValue(transactionDetails, BankTransactionHistoryModel.class);
+		
+		
+		HashMap<String,ChartOfAccountsModel> coaList=bankTransService.updateChartOfAccountBal(party,counterParty,amount,selectedParty,selectedCounterParty,bankTxnHisModel);
 		
 		return new BaseDto<>(coaList, coaHelper.getRetrieveChartOfAccountsMessage(), OK).respond();
 	
@@ -155,5 +167,20 @@ public class BankTransactionsController {
 	}
 	
 	
+	
+	//Transaction history report by accoun type
+
+	@GetMapping("/getcoaaccountdetailsbysearch")
+	public ResponseEntity<BaseDto<List<String>>> getCOAAccountsBySearch(@RequestParam String searchTerm) {
+		List<String> results = bankTransService.getBySearchCOAAccountDetails(searchTerm);
+		return new BaseDto<>(results, bankTransactionsHelper.getRetrieveBankTransactionsMessage(), OK).respond();
+	}
+
+	
+	@GetMapping("/getallcoaaccountdetails")
+	public ResponseEntity<BaseDto<List<String>>> getAllCOAAccounts() {
+		List<String> results = bankTransService.getAllCOAAccountDetails();
+		return new BaseDto<>(results, bankTransactionsHelper.getRetrieveBankTransactionsMessage(), OK).respond();
+	}
 	
 }

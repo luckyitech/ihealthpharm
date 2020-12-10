@@ -2,6 +2,7 @@ package com.ihealthpharm.finance.model;
 
 import java.time.LocalDate;
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,13 +13,16 @@ import javax.persistence.OneToOne;
 
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.EmployeeModel;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Entity (name="bank_transactions")
+@Entity (name="bank_transactions_history")
 @Data
-@EqualsAndHashCode(of = "bankTransactionId", callSuper = false)
-public class BankTransactionsModel  extends AuditModel {
+@EqualsAndHashCode(of = "bankTransactionHistoryId", callSuper = false)
+public class BankTransactionHistoryModel extends AuditModel{
+
+	
 
 	/**
 	 * 
@@ -28,15 +32,9 @@ public class BankTransactionsModel  extends AuditModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="BANK_TXN_ID")
-	private Integer bankTransactionId;
+	@Column(name="BANK_TXN_HISTORY_ID")
+	private Integer bankTransactionHistoryId;
 
-	
-	@Column(name="BANK_ACCOUNT")
-	private String bankAccount;
-
-	@Column(name="BANK_NAME")
-	private String bankName;
 
 	@Column(name="TRANSACTION_DATE")
 	private Date transactionDate;
@@ -73,31 +71,15 @@ public class BankTransactionsModel  extends AuditModel {
 	@Column(name="TRANSACTION_TYPE",length=20)
 	private String transactionType;
 
-	@Column(name="VALUE_DATE")
-	private Date valueDate;
-
 	@Column(name="REASON",length=100)
 	private String reason;
 
 	@Column(name="MODE",length=20)
 	private String mode;
 
-	@Column(name="FLAG",length=20)
-	private Character flag;
-
-	@Column(name="AUDIT_ID",length=11)
-	private Integer auditId;
-
-	@Column(name="DONE_BY")
-	private EmployeeModel doneBy;
-
-	@Column(name="DONE_TIMESTAMP")
-	private Date DoneByTimeStamp;
-	
 	@Column(name="PHONE_NUMBER",length=20)
 	private String phoneNumber;
 
 	@Column(name="STATUS",length=50)
 	private String status;
-	
 }

@@ -43,7 +43,13 @@ public class ReportsCommonUtility {
 					if(dataMap.containsKey(criteria.getColumnName())) {
 						Object value = dataMap.get(criteria.getColumnName());
 						
-						stringBuffer.append(" AND ");
+						
+						
+						if(criteria.getColumnName().equals("COUNTER_PARTY_ACCOUNT_TYPE")) {
+							stringBuffer.append(" OR ");
+						}else {
+							stringBuffer.append(" AND ");
+						}
 						
 						//TODO need tune this logic
 						if (StringUtils.equalsIgnoreCase("String", criteria.getType())) {
