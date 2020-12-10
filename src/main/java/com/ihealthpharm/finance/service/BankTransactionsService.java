@@ -47,4 +47,12 @@ public interface BankTransactionsService {
 
 	List<String> getBySearchCOAAccountDetails(String searchTerm);
 
+	List<String> getTransactionRefNoBySearch(String searchTerm);
+
+	List<String> getAllReferenceNo();
+
+	List<String> getTransactionRefNoBySearchWithExpNo(String searchTerm);
+
+	List<String> getAllReferenceNoWithExpNo();
+
 }
