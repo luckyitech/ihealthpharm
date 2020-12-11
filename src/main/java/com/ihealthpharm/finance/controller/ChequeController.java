@@ -102,6 +102,11 @@ public class ChequeController {
     		return new BaseDto<>(response,"Deleted",OK).respond();
     	}
     	
-    	
+    	@GetMapping("/delete/ChequeItem")
+    	public ResponseEntity<BaseDto<Integer>> deleteChequeItem(@RequestParam Integer accountPayableId ){
+    		
+    		Integer response=service.deleteChequeItem(accountPayableId);
+    		return new BaseDto<>(response,"Deleted",OK).respond();
+    	}
     	
 }

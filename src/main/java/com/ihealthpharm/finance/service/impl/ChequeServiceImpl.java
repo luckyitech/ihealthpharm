@@ -1,12 +1,12 @@
 package com.ihealthpharm.finance.service.impl;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.ihealthpharm.finance.dao.AccountPayablesRepository;
 import com.ihealthpharm.finance.dao.ChequeItemsRepository;
 import com.ihealthpharm.finance.dao.ChequeRepository;
@@ -182,9 +182,21 @@ public class ChequeServiceImpl implements ChequeService {
 	public Integer deleteAllChequeItems(Integer chequeId) {
 		return chequeItemsRepo.deleteAllChequeItems(chequeId);
 	}
-	
-	
 
-
-
+	@Override
+	public Integer deleteChequeItem(Integer accountPayableId) {
+		ChequeItemsModel currentCheq = chequeItemsRepo.findChequeByAccountPayableId(accountPayableId);
+		Integer delete = chequeItemsRepo.deleteChequeItem(accountPayableId);
+		List<ChequeItemsModel> currentCheqList = chequeItemsRepo.findAllChequeItemsByChequeId(currentCheq.getCheque().getChequeId());
+		ChequeModel  cheque = chequeRepo.findById(currentCheq.getCheque().getChequeId()).get();
+		Double totalChequeAmount = 0D;
+		for(Integer i=0; i<currentCheqList.size();i++) {
+			AccountPayablesModel acc = accRepo.findById(currentCheqList.get(i).getAccountPayablesId().getAccountPayablesId()).get();
+			totalChequeAmount += acc.getTotalAmountToBePaid();
+		}
+		
+		cheque.setChequeAmt(totalChequeAmount.floatValue());
+		chequeRepo.save(cheque);
+		return delete;
+	}
 }

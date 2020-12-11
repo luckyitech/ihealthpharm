@@ -21,4 +21,6 @@ public interface ChequeService {
 	List<ChequeModel> getAllEmployeeForCheques(Integer employeeId);
 
 	Integer deleteAllChequeItems(Integer chequeId);
+	
+	Integer deleteChequeItem(Integer accountPayableId);
 }
