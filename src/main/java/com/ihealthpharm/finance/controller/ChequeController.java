@@ -79,6 +79,13 @@ public class ChequeController {
     		List<ChequeModel> result=service.getAllPendingCheques(chequeNumber,employeeId);
     		return new BaseDto<>(result, chequeHelper.getRetrieveChequeMessage(), OK).respond();
     	}
+    	
+    	@GetMapping("/getAllPending/cheques/basedOnInvoiceNo")
+    	public ResponseEntity<BaseDto<List<ChequeModel>>> getAllPendingChequesByInvoiceNo
+    	(@RequestParam String invoiceNo,@RequestParam String status) {
+    		List<ChequeModel> result=service.getChequeByChequeId(invoiceNo,status);
+    		return new BaseDto<>(result, chequeHelper.getRetrieveChequeMessage(), OK).respond();
+    	}
 	
     	/**
     	 * @author Tarun ,Service is to get the cheque data based on search
@@ -106,6 +113,13 @@ public class ChequeController {
     	public ResponseEntity<BaseDto<Integer>> deleteChequeItem(@RequestParam Integer accountPayableId ){
     		
     		Integer response=service.deleteChequeItem(accountPayableId);
+    		return new BaseDto<>(response,"Deleted",OK).respond();
+    	}
+    	
+    	@GetMapping("/delete/ChequeById")
+    	public ResponseEntity<BaseDto<Integer>> deleteChequeById(@RequestParam Integer chequeId){
+    		
+    		Integer response=service.deleteCheque(chequeId);
     		return new BaseDto<>(response,"Deleted",OK).respond();
     	}
     	

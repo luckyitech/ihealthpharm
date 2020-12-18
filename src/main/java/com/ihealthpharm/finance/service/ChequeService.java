@@ -23,4 +23,8 @@ public interface ChequeService {
 	Integer deleteAllChequeItems(Integer chequeId);
 	
 	Integer deleteChequeItem(Integer accountPayableId);
+	
+	Integer deleteCheque(Integer cheque);
+	
+	List<ChequeModel> getChequeByChequeId(String invoiceNo,String status);
 }

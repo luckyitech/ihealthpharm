@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ihealthpharm.finance.model.ChequeItemsModel;
+import com.ihealthpharm.finance.model.ChequeModel;
 
 @Repository
 public interface ChequeItemsRepository extends JpaRepository<ChequeItemsModel, Integer> {
@@ -29,4 +30,8 @@ public interface ChequeItemsRepository extends JpaRepository<ChequeItemsModel, I
 
 	@Query("select ci from cheque_items ci where ci.cheque.chequeId =:chequeId")
 	List<ChequeItemsModel> findAllChequeItemsByChequeId(Integer chequeId);
+
+	@Query("select ci.cheque from cheque_items ci where ci.accountPayablesId.invoiceNo=:invoiceNo and "
+			+ " ci.accountPayablesId.selectedStatus=:status group by ci.cheque")
+	List<ChequeModel> findChequeByInvoiceId(@Param("invoiceNo") String invoiceNo,@Param("status") String status);
 }

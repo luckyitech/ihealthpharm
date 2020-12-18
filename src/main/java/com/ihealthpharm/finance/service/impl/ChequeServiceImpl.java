@@ -1,5 +1,6 @@
 package com.ihealthpharm.finance.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -60,17 +61,12 @@ public class ChequeServiceImpl implements ChequeService {
         cheq.setStatus(chequeModel.getStatus());
         cheq.setChequeApprovalStatus(chequeModel.getChequeApprovalStatus());
         cheq.setSecondLevelApproval(chequeModel.getSecondLevelApproval());
-        
-        
 		ChequeModel chequeRes = chequeRepo.save(cheq);
 		
-		
-		
-		
-		  System.out.println(chequeRes.getChequeDate());
 		if(Objects.nonNull(chequeRes.getFirstLevelApproval()) && Objects.nonNull(chequeRes.getSecondLevelApproval())  ) {
-			for(int i=0;i<chequeItemModels.size();i++) {
-				AccountPayablesModel p=chequeItemModels.get(i).getAccountPayablesId();
+			for(int i=0;i<chequeRes.getChequeItems().size();i++) {
+				AccountPayablesModel p=chequeRes.getChequeItems().get(i).getAccountPayablesId();
+				
 				p.setSelectedStatus("Approved");
 				p.setSelectedPaymentStatus("Paid");
 				p.setTotalAmountPaid(p.getTotalAmountToBePaid());
@@ -198,5 +194,67 @@ public class ChequeServiceImpl implements ChequeService {
 		cheque.setChequeAmt(totalChequeAmount.floatValue());
 		chequeRepo.save(cheque);
 		return delete;
+	}
+
+	@Override
+	public Integer deleteCheque(Integer cheque) {
+		ChequeModel  chequeObject = chequeRepo.findById(cheque).get();
+		
+		List<AccountPayablesModel> accPayableList = new ArrayList<>();
+		for(ChequeItemsModel chequeItem: chequeObject.getChequeItems())
+		{
+			if(chequeItem.getAccountPayablesId().getSelectedStatus().equals("Approved") &&
+					chequeItem.getAccountPayablesId().getSelectedPaymentStatus().equals("Paid"))
+			{
+				chequeItem.getAccountPayablesId().setTotalAmountToBePaid(chequeItem.getAccountPayablesId().getTotalAmountPaid());
+				
+				if(Objects.nonNull(chequeItem.getAccountPayablesId().getCashAmount()))
+				{
+					chequeItem.getAccountPayablesId().setCashAmount((float) 0);
+				}
+				
+				if(Objects.nonNull(chequeItem.getAccountPayablesId().getCreditCardAmount()))
+				{
+					chequeItem.getAccountPayablesId().setCreditCardAmount(null);
+					chequeItem.getAccountPayablesId().setCreditCardNo(null);
+				}
+				
+				if(Objects.nonNull(chequeItem.getAccountPayablesId().getUpiAmount()))
+				{
+					chequeItem.getAccountPayablesId().setUpiAmount(null);
+					chequeItem.getAccountPayablesId().setUpiPhoneNo(null);
+				}
+				
+				if(Objects.nonNull(chequeItem.getAccountPayablesId().getChequeAmount()))
+				{
+					chequeItem.getAccountPayablesId().setChequeAmount(null);
+					chequeItem.getAccountPayablesId().setChequeNumber(null);
+					chequeItem.getAccountPayablesId().setChequeDate(null);
+				}
+				
+				if(Objects.nonNull(chequeItem.getAccountPayablesId().getApprovedBy()))
+				{
+					chequeItem.getAccountPayablesId().setApprovedBy(null);
+					chequeItem.getAccountPayablesId().setApprovedDate(null);
+				}
+				
+			}
+			chequeItem.getAccountPayablesId().setTotalAmountPaid(null);
+			chequeItem.getAccountPayablesId().setSelectedStatus("Not Approved");
+			chequeItem.getAccountPayablesId().setSelectedPaymentStatus("Pending");
+			
+			accPayableList.add(chequeItem.getAccountPayablesId());
+		}
+		
+		chequeItemsRepo.deleteAllChequeItems(cheque);
+		accRepo.saveAll(accPayableList);
+		chequeRepo.deleteById(cheque);
+		return null;
+	}
+
+	@Override
+	public List<ChequeModel> getChequeByChequeId(String invoiceNo,String status) {
+		List<ChequeModel> res = chequeItemsRepo.findChequeByInvoiceId(invoiceNo,status);
+		return res;
 	}
 }
