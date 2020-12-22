@@ -35,5 +35,7 @@ public interface CreditNoteService
 	List<String> getCreditNoteByBillType(String searchTerm);
 
 	List<CreditNoteModel> getAllCreditNotes();
+
+	List<String> getAllCreditNotesPaymentStatus();
 	
 }

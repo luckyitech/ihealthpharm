@@ -163,6 +163,8 @@ public class CreditNoteReceipt extends ReportsPDFUtility {
 		String approvedBy = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get("APPROVED_BY"));
 		String createdBy = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get("EMP_NM"));
 		String modifiedBy = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get("EMP_MODIFIED"));
+		String status = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get("PAYMENT_STATUS"));
+		
 		
 		PdfPTable table = new PdfPTable(4);
 		table.setSpacingAfter(10); 
@@ -275,17 +277,28 @@ public class CreditNoteReceipt extends ReportsPDFUtility {
 		cell = new PdfPCell(new Phrase("Approved By		:",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setColspan(2);
-		cell.setBorder(Rectangle.BOTTOM);
+		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		
 		cell = new PdfPCell(new Phrase(approvedBy,bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setColspan(2);
-		cell.setBorder(Rectangle.BOTTOM);
+		cell.setBorder(Rectangle.NO_BORDER);
 		table.addCell(cell);
 		table.completeRow();
 		
-	
+		cell = new PdfPCell(new Phrase("Status		:",bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setColspan(2);
+		cell.setBorder(Rectangle.BOTTOM);
+		table.addCell(cell);
+		
+		cell = new PdfPCell(new Phrase(status,bold));
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		cell.setColspan(2);
+		cell.setBorder(Rectangle.BOTTOM);
+		table.addCell(cell);
+		table.completeRow();
 		document.add(table);
 		
 	}

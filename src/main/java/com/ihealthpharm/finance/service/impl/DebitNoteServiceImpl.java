@@ -151,4 +151,10 @@ public class DebitNoteServiceImpl implements DebitNoteService{
 		
 		return debitNoteRepo.getAllReturnTypes();
 	}
+
+	@Override
+	public List<String> findAllDebitNotePaymentStatus() {
+		
+		return debitNoteRepo.findAllDebitNotePaymentStatus();
+	}
 }

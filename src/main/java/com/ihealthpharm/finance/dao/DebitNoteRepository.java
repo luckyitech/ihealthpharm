@@ -39,5 +39,8 @@ extends JpaRepository<DebitNoteModel,Integer>
 
 	@Query("select distinct d.returnType from DEBIT_NOTE d order by d.returnType")
 	List<String> getAllReturnTypes();
+
+	@Query("select distinct d.paymentStatus from DEBIT_NOTE d")	
+	List<String> findAllDebitNotePaymentStatus();
 	
 }
