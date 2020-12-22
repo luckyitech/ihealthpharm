@@ -139,14 +139,17 @@ public class CreditNoteServiceImpl implements CreditNoteService {
 
 	@Override
 	public List<String> findAllCustomersBySearch(String customer) {
-		
 		return creditNoteRepo.getCustomersBySearch(customer);
 	}
 
 	@Override
 	public List<String> getCreditNoteByBillType(String searchTerm) {
-	
 		return creditNoteRepo.getCreditNoteByBillTypes(searchTerm);
+	}
+
+	@Override
+	public List<CreditNoteModel> getAllCreditNotes() {
+		return creditNoteRepo.getAllCNData() ;
 	}
    
 }

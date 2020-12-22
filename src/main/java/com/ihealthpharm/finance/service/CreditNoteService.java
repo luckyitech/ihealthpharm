@@ -33,5 +33,7 @@ public interface CreditNoteService
 	List<String> findAllCustomersBySearch(String customer);
 	
 	List<String> getCreditNoteByBillType(String searchTerm);
+
+	List<CreditNoteModel> getAllCreditNotes();
 	
 }
