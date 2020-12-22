@@ -126,5 +126,11 @@ public class CreditNoteController {
 		return new BaseDto<>(results,creditNoteHelper.getRetriveCreditNoteMessage(),OK).respond();
 	}
 	
+	@GetMapping("/getAllCreditNotes/bySearch")
+	public ResponseEntity<BaseDto<List<CreditNoteModel>>> getAllBySearch(@RequestParam String searchTerm,@RequestParam String searchValue){
+		List<CreditNoteModel> response=creditNoteService.getAllCreditNotesBySearch(searchTerm,searchValue);
+		return new BaseDto<>(response,creditNoteHelper.getRetriveCreditNoteMessage(),OK).respond();
+	}
+	
  
 }

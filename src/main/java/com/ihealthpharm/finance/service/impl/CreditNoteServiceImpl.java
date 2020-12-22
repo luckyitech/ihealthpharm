@@ -151,5 +151,15 @@ public class CreditNoteServiceImpl implements CreditNoteService {
 	public List<CreditNoteModel> getAllCreditNotes() {
 		return creditNoteRepo.getAllCNData() ;
 	}
+
+	@Override
+	public List<CreditNoteModel> getAllCreditNotesBySearch(String searchTerm, String searchValue) {
+		if(searchTerm.equalsIgnoreCase("Invoice No")) {
+			return creditNoteRepo.getAllDataBySearchForInvoices(searchValue);
+		}else {
+			return creditNoteRepo.getAllDataBySearchForBills(searchValue);
+		}
+		
+	}
    
 }
