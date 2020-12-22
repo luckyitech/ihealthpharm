@@ -99,4 +99,7 @@ public class DebitNoteModel extends AuditModel{
    	@JoinColumn(name = "PAYMENT_TYPE_ID")
    	private PaymentTypeModel paymentType;
     
+    @Column(name="PAYMENT_STATUS")
+    private String paymentStatus;
+    
 }

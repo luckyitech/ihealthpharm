@@ -151,5 +151,11 @@ public class CreditNoteServiceImpl implements CreditNoteService {
 	public List<CreditNoteModel> getAllCreditNotes() {
 		return creditNoteRepo.getAllCNData() ;
 	}
+
+	@Override
+	public List<String> getAllCreditNotesPaymentStatus() {
+		
+		return creditNoteRepo.findAllPaymentStatus();
+	}
    
 }

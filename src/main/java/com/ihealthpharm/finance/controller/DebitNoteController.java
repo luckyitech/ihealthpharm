@@ -122,4 +122,11 @@ public class DebitNoteController {
 		List<String> results=debitNoteService.findAllIReturnTypes();
 		return new BaseDto<>(results,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
 	}
+	
+	
+	@GetMapping("/getAllDebitNotePaymentStatus")
+	public ResponseEntity<BaseDto<List<String>>> getAllDebitNotePaymentStatus(){
+		List<String> results=debitNoteService.findAllDebitNotePaymentStatus();
+		return new BaseDto<>(results,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
+	}
 }
