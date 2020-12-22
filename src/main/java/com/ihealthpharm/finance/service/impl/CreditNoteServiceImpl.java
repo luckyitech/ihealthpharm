@@ -159,7 +159,12 @@ public class CreditNoteServiceImpl implements CreditNoteService {
 		}else {
 			return creditNoteRepo.getAllDataBySearchForBills(searchValue);
 		}
+	}
+	
 		
+	public List<String> getAllCreditNotesPaymentStatus() {
+		
+		return creditNoteRepo.findAllPaymentStatus();
 	}
    
 }
