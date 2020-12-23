@@ -14,8 +14,10 @@ import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.finance.dao.DebitNoteRepository;
 import com.ihealthpharm.finance.dto.CreditCustomerDTO;
 import com.ihealthpharm.finance.helper.DebitNoteHelper;
+import com.ihealthpharm.finance.model.CreditNoteModel;
 import com.ihealthpharm.finance.model.DebitNoteModel;
 import com.ihealthpharm.finance.service.DebitNoteService;
+import com.ihealthpharm.masters.dao.EmployeeRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,6 +31,9 @@ public class DebitNoteServiceImpl implements DebitNoteService{
 	
 	@Autowired
 	private DebitNoteHelper debitNoteHelper;
+	
+	@Autowired
+	EmployeeRepository empRepo;
 
 	@Override
 	public DebitNoteModel saveDebitData(DebitNoteModel debitNoteModel) {
@@ -156,5 +161,28 @@ public class DebitNoteServiceImpl implements DebitNoteService{
 	public List<String> findAllDebitNotePaymentStatus() {
 		
 		return debitNoteRepo.findAllDebitNotePaymentStatus();
+	}
+
+	@Override
+	public List<DebitNoteModel> getAllDebitNotes() {
+		List<DebitNoteModel> res=debitNoteRepo.getAllDebitNotes();
+		for(int i=0;i<res.size();i++) {
+			if(res.get(i).getApprovedBy() !=null) {
+				int empId=res.get(i).getApprovedBy().getEmployeeId();
+				String empName=empRepo.getEmpNameByEmpId(empId);
+				res.get(i).setEmpName(empName);
+			}
+		}
+		return res;
+	}
+
+	@Override
+	public List<DebitNoteModel> getDebitNotesBySearch(String searchType, String searchValue) {
+		if(searchType.equalsIgnoreCase("Invoice No")){
+			return debitNoteRepo.getAllDebitNotesForInvoices(searchValue);
+		}else {
+			return debitNoteRepo.getAllDebitNoteForBills(searchValue);
+		}
+		
 	}
 }

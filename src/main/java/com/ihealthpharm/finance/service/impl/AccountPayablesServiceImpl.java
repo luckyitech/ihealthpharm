@@ -12,8 +12,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.finance.dao.AccountPayablesRepository;
+import com.ihealthpharm.finance.dao.CreditNoteRepository;
+import com.ihealthpharm.finance.dao.DebitNoteRepository;
 import com.ihealthpharm.finance.helper.AccountPayablesHelper;
 import com.ihealthpharm.finance.model.AccountPayablesModel;
+import com.ihealthpharm.finance.model.CreditNoteModel;
+import com.ihealthpharm.finance.model.DebitNoteModel;
 import com.ihealthpharm.finance.service.AccountPayablesService;
 import com.ihealthpharm.stock.model.InvoiceModel;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +32,12 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 	
 	@Autowired
 	AccountPayablesHelper accountPayablesHelper;
+	
+	@Autowired
+	CreditNoteRepository creditNoteRepo;
+	
+	@Autowired
+	DebitNoteRepository debitNoteRepo;
 	
 	@Override
 	public AccountPayablesModel saveAccountPayablesData(AccountPayablesModel accountPayables) {
@@ -46,6 +56,18 @@ public class AccountPayablesServiceImpl implements AccountPayablesService{
 			}
 
 			accountPayablesRes = accountPayablesRepository.save(accountPayable);
+			
+			if(accountPayable.getSourceType().contains("Credit Note")) {
+				CreditNoteModel c =creditNoteRepo.getCreditNoteDataById(Integer.parseInt(accountPayable.getSource()));
+				c.setPaymentStatus("paid");
+				creditNoteRepo.save(c);
+				
+				
+			}else if(accountPayable.getSourceType().contains("Debit Note")){
+				DebitNoteModel d=debitNoteRepo.getDebitNoteDataById(Integer.parseInt(accountPayable.getSource()));
+				d.setPaymentStatus("Paid");
+				debitNoteRepo.save(d);
+			}
 			
 			log.info("AccountPayables data with ID : " + accountPayablesRes.getAccountPayablesId() + " updated succesfully");
 		}

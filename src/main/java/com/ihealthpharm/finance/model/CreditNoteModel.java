@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.CustomerModel;
@@ -106,5 +107,8 @@ public class CreditNoteModel extends AuditModel{
     
     @Column(name="PAYMENT_STATUS")
     private String paymentStatus;
+    
+    @Transient
+    private String empName;
     
 }

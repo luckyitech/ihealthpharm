@@ -129,4 +129,18 @@ public class DebitNoteController {
 		List<String> results=debitNoteService.findAllDebitNotePaymentStatus();
 		return new BaseDto<>(results,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
 	}
+	
+	
+	@GetMapping("/getAllDebitNotes")
+	public ResponseEntity<BaseDto<List<DebitNoteModel>>> getAllDebitNotesData(){
+		List<DebitNoteModel> response=debitNoteService.getAllDebitNotes();
+		return new BaseDto<>(response,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getAllDebitNotes/bySearch")
+	public ResponseEntity<BaseDto<List<DebitNoteModel>>> getAllDebitNoteBasedOnSearch(@RequestParam String searchType,@RequestParam String searchValue){
+		List<DebitNoteModel> response=debitNoteService.getDebitNotesBySearch(searchType,searchValue);
+		return new BaseDto<>(response,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
+	}
+	
 }

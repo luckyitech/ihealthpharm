@@ -38,4 +38,8 @@ public interface DebitNoteService
 	List<String> findAllIReturnTypes();
 
 	List<String> findAllDebitNotePaymentStatus();
+
+	List<DebitNoteModel> getAllDebitNotes();
+
+	List<DebitNoteModel> getDebitNotesBySearch(String searchType, String searchValue);
 }
