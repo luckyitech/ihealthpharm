@@ -15,9 +15,13 @@ import org.springframework.stereotype.Service;
 
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.finance.dao.AccountReceivablesRepository;
+import com.ihealthpharm.finance.dao.CreditNoteRepository;
+import com.ihealthpharm.finance.dao.DebitNoteRepository;
 import com.ihealthpharm.finance.dto.AccRecievablesCustomerDTO;
 import com.ihealthpharm.finance.helper.AccountReceivablesHelper;
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
+import com.ihealthpharm.finance.model.CreditNoteModel;
+import com.ihealthpharm.finance.model.DebitNoteModel;
 import com.ihealthpharm.finance.service.AccountReceivablesService;
 import com.ihealthpharm.masters.dao.CustomerInsuranceRepository;
 import com.ihealthpharm.masters.dao.MasterAccountRepository;
@@ -50,6 +54,12 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 
 	@Autowired
 	MasterAccountRepository  masterAccRepo;
+	
+	@Autowired
+	CreditNoteRepository creditNoteRepo;
+	
+	@Autowired
+	DebitNoteRepository debitNoteRepo;
 
 	@Override
 	public AccountReceivablesModel saveAccountReceivablesData(AccountReceivablesModel accountReceivables) {
@@ -79,6 +89,16 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService{
 			}
 
 			accountReceivablesRes = accountReceivablesRepository.save(accountReceivables);
+			
+			if(accountReceivables.getSourceType().contains("Credit Note")) {
+				CreditNoteModel c=creditNoteRepo.getCreditNoteDataById(accountReceivables.getSource());
+				c.setPaymentStatus("Paid");
+				creditNoteRepo.save(c);
+			}else if(accountReceivables.getSourceType().contains("Debit Note")) {
+				DebitNoteModel d=debitNoteRepo.getDebitNoteDataById(accountReceivables.getSource());
+				d.setPaymentStatus("Paid");
+				debitNoteRepo.save(d);
+			}
 
 			if(accountReceivablesRes.getSourceType().equalsIgnoreCase("Sales Billing") && 
 					Objects.nonNull(accountReceivablesRes.getSourceRef()) && 

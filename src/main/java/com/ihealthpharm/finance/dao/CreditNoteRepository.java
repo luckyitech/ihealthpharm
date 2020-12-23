@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ihealthpharm.finance.dto.CreditCustomerDTO;
 import com.ihealthpharm.finance.model.CreditNoteModel;
+import com.sun.org.glassfish.gmbal.ParameterNames;
 
 @Repository
 public interface CreditNoteRepository extends JpaRepository<CreditNoteModel,Integer>
@@ -34,13 +35,21 @@ public interface CreditNoteRepository extends JpaRepository<CreditNoteModel,Inte
 	
 	
 	@Query("select c.creditNoteNo from CREDIT_NOTE c where billType=:searchTerm")
-	List<String> getCreditNoteByBillTypes( @Param ("searchTerm")String searchTerm);
+	List<String> getCreditNoteByBillTypes(@Param ("searchTerm")String searchTerm);
 
 	@Query("select c from CREDIT_NOTE c order by c.lastUpdateTimestamp desc")
 	List<CreditNoteModel> getAllCNData();
 
+	@Query("select c from CREDIT_NOTE c where c.invoiceId like :searchValue% order by c.lastUpdateTimestamp desc ")
+	List<CreditNoteModel> getAllDataBySearchForInvoices(@Param("searchValue") String searchValue);
+
+	@Query("select c from CREDIT_NOTE c where c.billId like :searchValue% order by c.lastUpdateTimestamp desc ")
+	List<CreditNoteModel> getAllDataBySearchForBills(@Param("searchValue") String searchValue);
 	
 	@Query("select distinct c.paymentStatus from CREDIT_NOTE c")
 	List<String> findAllPaymentStatus();
+	
+	@Query("select c from CREDIT_NOTE c where c.creditNoteId=:creditNoteId")
+	CreditNoteModel getCreditNoteDataById(@Param("creditNoteId")Integer creditNoteId);
 	
 }

@@ -16,6 +16,7 @@ import com.ihealthpharm.finance.dto.CreditCustomerDTO;
 import com.ihealthpharm.finance.helper.CreditNoteHelper;
 import com.ihealthpharm.finance.model.CreditNoteModel;
 import com.ihealthpharm.finance.service.CreditNoteService;
+import com.ihealthpharm.masters.dao.EmployeeRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,6 +30,9 @@ public class CreditNoteServiceImpl implements CreditNoteService {
 	
 	@Autowired
 	private CreditNoteHelper creditNoteHelper;
+	
+	@Autowired
+	EmployeeRepository empRepo;
 	
 
 	@Override
@@ -149,10 +153,27 @@ public class CreditNoteServiceImpl implements CreditNoteService {
 
 	@Override
 	public List<CreditNoteModel> getAllCreditNotes() {
-		return creditNoteRepo.getAllCNData() ;
+		List<CreditNoteModel> res=creditNoteRepo.getAllCNData() ;
+		for(int i=0;i<res.size();i++) {
+			if(res.get(i).getApprovedBy() !=null) {
+				int empId=res.get(i).getApprovedBy().getEmployeeId();
+				String empName=empRepo.getEmpNameByEmpId(empId);
+				res.get(i).setEmpName(empName);
+			}
+		}
+		return res;
 	}
 
 	@Override
+	public List<CreditNoteModel> getAllCreditNotesBySearch(String searchTerm, String searchValue) {
+		if(searchTerm.equalsIgnoreCase("Invoice No")) {
+			return creditNoteRepo.getAllDataBySearchForInvoices(searchValue);
+		}else {
+			return creditNoteRepo.getAllDataBySearchForBills(searchValue);
+		}
+	}
+	
+		
 	public List<String> getAllCreditNotesPaymentStatus() {
 		
 		return creditNoteRepo.findAllPaymentStatus();
