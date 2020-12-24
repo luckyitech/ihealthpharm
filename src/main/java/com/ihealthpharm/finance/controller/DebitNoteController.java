@@ -143,4 +143,10 @@ public class DebitNoteController {
 		return new BaseDto<>(response,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
 	}
 	
+	@GetMapping("/getDebitNote/byId")
+	public ResponseEntity<BaseDto<DebitNoteModel>> getDebitNoteBasedOnId(@RequestParam Integer debitNoteId){
+		DebitNoteModel response=debitNoteService.getDebitNotesById(debitNoteId);
+		return new BaseDto<>(response,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
+	}
+	
 }

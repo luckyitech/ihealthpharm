@@ -3,22 +3,17 @@ package com.ihealthpharm.finance.service.impl;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-
 import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.finance.dao.DebitNoteRepository;
 import com.ihealthpharm.finance.dto.CreditCustomerDTO;
 import com.ihealthpharm.finance.helper.DebitNoteHelper;
-import com.ihealthpharm.finance.model.CreditNoteModel;
 import com.ihealthpharm.finance.model.DebitNoteModel;
 import com.ihealthpharm.finance.service.DebitNoteService;
 import com.ihealthpharm.masters.dao.EmployeeRepository;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -84,7 +79,6 @@ public class DebitNoteServiceImpl implements DebitNoteService{
 		}
 		debitNoteRepo.delete(debitNoteRes);
 		log.info("DebitNote data with ID: " + debitNoteRes.getDebitNoteId()+  "Deleted Successfully");
-
 	}
 
 	@Override
@@ -108,7 +102,6 @@ public class DebitNoteServiceImpl implements DebitNoteService{
 		}catch(NoSuchElementException noSuchElementException) {
 			throw new IHealthPharmException(debitNoteHelper.getNotFoundDebitNoteMessage(), HttpStatus.NOT_FOUND);
 		}
-				
 	}
 
 	@Override
@@ -129,37 +122,31 @@ public class DebitNoteServiceImpl implements DebitNoteService{
 
 	@Override
 	public List<String> findAllSuppliers() {
-	
 		return debitNoteRepo.getAllSuppliers();
 	}
 
 	@Override
 	public List<String> findAllSuppliersBySearch(String spName) {
-		
 		return debitNoteRepo.getSuppliersBySearch(spName);
 	}
 
 	@Override
 	public List<String> findAllInvoiceNo() {
-		
 		return debitNoteRepo.getAllInvoiceNo();
 	}
 
 	@Override
 	public List<String> findAllInvoiceNoBySearch(String invoiceNo) {
-		
 		return debitNoteRepo.getInvoiceNoBySearch(invoiceNo);
 	}
 
 	@Override
 	public List<String> findAllIReturnTypes() {
-		
 		return debitNoteRepo.getAllReturnTypes();
 	}
 
 	@Override
 	public List<String> findAllDebitNotePaymentStatus() {
-		
 		return debitNoteRepo.findAllDebitNotePaymentStatus();
 	}
 
@@ -183,6 +170,10 @@ public class DebitNoteServiceImpl implements DebitNoteService{
 		}else {
 			return debitNoteRepo.getAllDebitNoteForBills(searchValue);
 		}
-		
+	}
+
+	@Override
+	public DebitNoteModel getDebitNotesById(Integer debitNoteId) {
+		return debitNoteRepo.getDebitNoteDataById(debitNoteId);
 	}
 }

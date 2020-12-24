@@ -48,5 +48,8 @@ public interface CreditNoteRepository extends JpaRepository<CreditNoteModel,Inte
 	
 	@Query("select c from CREDIT_NOTE c where c.creditNoteId=:creditNoteId")
 	CreditNoteModel getCreditNoteDataById(@Param("creditNoteId")Integer creditNoteId);
+
+	@Query("select c from CREDIT_NOTE c where c.creditNoteId=:creditNoteId")
+	CreditNoteModel getCreditNoteData(@Param("creditNoteId")Integer creditNoteId);
 	
 }

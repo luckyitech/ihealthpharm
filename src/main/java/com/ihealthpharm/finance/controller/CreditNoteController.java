@@ -137,6 +137,15 @@ public class CreditNoteController {
 		List<String> results=creditNoteService.getAllCreditNotesPaymentStatus();
 		return new BaseDto<>(results,creditNoteHelper.getRetriveCreditNoteMessage(),OK).respond();
 	}
+
+	@GetMapping("/getCreditNote/byId")
+	public  ResponseEntity<BaseDto<CreditNoteModel>> getCreditNoteData(@RequestParam Integer creditNoteId ){
+		CreditNoteModel response=creditNoteService.getCreditNote(creditNoteId);
+		return new BaseDto<>(response,creditNoteHelper.getRetriveCreditNoteMessage(),OK).respond();
+		
+	}
+	
+	
 	
  
 }
