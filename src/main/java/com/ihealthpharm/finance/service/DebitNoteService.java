@@ -42,4 +42,6 @@ public interface DebitNoteService
 	List<DebitNoteModel> getAllDebitNotes();
 
 	List<DebitNoteModel> getDebitNotesBySearch(String searchType, String searchValue);
+
+	DebitNoteModel getDebitNotesById(Integer debitNoteId);
 }
