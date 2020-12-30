@@ -50,5 +50,13 @@ public class TillBalanceModel extends AuditModel{
 	@JoinColumn(name="TILL_ACCOUNT_ID")
     ChartOfAccountsModel tillAccount;
 	
+	@Column(name="CUSTOMER_NM",length=100)
+    private String customerName;
+	
+	@Column(name="BILL_CODE",length=50)
+    private String billCode;
+    
+	@Column(name="BILL_DATE")
+	private LocalDate billDate;
 
 }

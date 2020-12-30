@@ -1,5 +1,7 @@
 package com.ihealthpharm.finance.service.impl;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,29 @@ public class TillBalanceServiceImpl implements TillBalanceService{
 	public TillBalanceModel saveTillBalanceDetails(TillBalanceModel tillBalModel) {
 		TillBalanceModel tillBalRes=tillBalanceRepo.save(tillBalModel);
 		return tillBalRes;
+	}
+
+	@Override
+	public List<String> findAllCustomerNamesBySearch(String customer) {
+		return tillBalanceRepo.findAllTillCustomersBySearch(customer);
+	}
+
+	@Override
+	public List<String> findTillCustomerNames() {
+		
+		return tillBalanceRepo.findAllTillcustomers();
+	}
+
+	@Override
+	public List<String> findAllTillAccountsBySearch(String tillAccount) {
+		
+		return tillBalanceRepo.findTillAccountsBySearch(tillAccount);
+	}
+
+	@Override
+	public List<String> findTillAccounts() {
+		
+		return tillBalanceRepo.findAllTillAccounts();
 	}
 	
 	
