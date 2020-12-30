@@ -1,10 +1,17 @@
 package com.ihealthpharm.finance.dao;
 
 import java.util.List;
+
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.ihealthpharm.finance.dto.CreditCustomerDTO;
 import com.ihealthpharm.finance.model.CreditNoteModel;
 
@@ -51,5 +58,10 @@ public interface CreditNoteRepository extends JpaRepository<CreditNoteModel,Inte
 
 	@Query("select c from CREDIT_NOTE c where c.creditNoteId=:creditNoteId")
 	CreditNoteModel getCreditNoteData(@Param("creditNoteId")Integer creditNoteId);
+
+	@Modifying
+	@Transactional
+	@Query("update CREDIT_NOTE c set c.paymentStatus=:paymentStatus where c.creditNoteId=:creditNoteId")
+	Integer updatePaymentStatus(@Param("creditNoteId")Integer creditNoteId,@Param("paymentStatus") String paymentStatus);
 	
 }

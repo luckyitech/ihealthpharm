@@ -41,5 +41,7 @@ public interface CreditNoteService
 	List<String> getAllCreditNotesPaymentStatus();
 
 	CreditNoteModel getCreditNote(Integer creditNoteId);
+
+	Integer updateCreditNoteById(Integer creditNoteId, String paymentStatus);
 	
 }
