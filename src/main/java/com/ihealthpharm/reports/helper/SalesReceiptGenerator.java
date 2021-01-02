@@ -8,6 +8,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
@@ -24,6 +27,8 @@ import com.ihealthpharm.reports.dto.HeaderDto;
 import com.ihealthpharm.reports.dto.HeaderFooterContentDetailsDto;
 import com.ihealthpharm.reports.dto.HeaderFooterContentDto;
 import com.ihealthpharm.reports.model.ReportsMappingModel;
+import com.ihealthpharm.tax.dao.TaxCategoryRepository;
+import com.ihealthpharm.tax.model.TaxCategoryModel;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -47,6 +52,9 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class SalesReceiptGenerator extends ReportsPDFUtility {
+
+	@Autowired
+	TaxCategoryRepository taxRepo;
 
 	@Override
 	public Document generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile,String inputJson) {
@@ -396,21 +404,39 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		cell.setBorder(Rectangle.BOTTOM);
 		table.addCell(cell);
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Date taxChangeDate = sdf.parse("2020-04-01");
-		Date billedDate = sdf.parse((ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("LAST_UPDATE_TS")));
+		String billedDate = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("LAST_UPDATE_TS"));
 
+		SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd"); 
 
-		if(billedDate.after(taxChangeDate)|| billedDate.equals(taxChangeDate) ) {
-			cell = new PdfPCell(new Phrase("A - 14%:",bold));
-		}else{
-			cell = new PdfPCell(new Phrase("A - 16%:",bold));
+		Date parsedBillDate=formatter.parse(billedDate);
+
+		 int aValue=0;
+		 int bValue=0;
+		 int eValue=0;
+		
+		List<TaxCategoryModel> taxCategoryModels=taxRepo.findByDate(parsedBillDate);
+		for (TaxCategoryModel taxCategoryModel : taxCategoryModels) {
+			
+			if(taxCategoryModel.getCategoryCode().equals("A")) {
+				aValue=taxCategoryModel.getCategoryValue();
+			}
+			if(taxCategoryModel.getCategoryCode().equals("B")) {
+
+				bValue=taxCategoryModel.getCategoryValue();
+			}
+			if(taxCategoryModel.getCategoryCode().equals("E")) {
+
+				eValue=taxCategoryModel.getCategoryValue();
+			}
+
 		}
+
+		cell = new PdfPCell(new Phrase("A -"+" "+aValue+"%:",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setBorder(Rectangle.BOTTOM);
 		table.addCell(cell);
 
-		cell = new PdfPCell(new Phrase("B - 0%:",bold));
+		cell = new PdfPCell(new Phrase("B -"+" "+bValue+"%:",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setBorder(Rectangle.BOTTOM);
 		table.addCell(cell);
