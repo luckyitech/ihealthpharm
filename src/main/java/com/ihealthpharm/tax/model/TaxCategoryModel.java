@@ -1,5 +1,9 @@
 package com.ihealthpharm.tax.model;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,4 +27,10 @@ public class TaxCategoryModel {
 	
 	@Column(name = "CATEGORY_VALUE", length = 11)
 	private Integer categoryValue;
+	
+	@Column(name = "START_DATE")
+	private Date startDate;
+	
+	@Column(name = "END_DATE")
+	private Date endDate;
 }
