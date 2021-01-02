@@ -182,5 +182,11 @@ public class CreditNoteServiceImpl implements CreditNoteService {
 	public CreditNoteModel getCreditNote(Integer creditNoteId) {
 		return creditNoteRepo.getCreditNoteData(creditNoteId);
 	}
+
+	@Override
+	public Integer updateCreditNoteById(Integer creditNoteId, String paymentStatus) {
+		  
+		return creditNoteRepo.updatePaymentStatus(creditNoteId,paymentStatus);
+	}
    
 }

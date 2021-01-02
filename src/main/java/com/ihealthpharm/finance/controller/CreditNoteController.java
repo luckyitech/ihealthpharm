@@ -7,6 +7,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -143,6 +144,12 @@ public class CreditNoteController {
 		CreditNoteModel response=creditNoteService.getCreditNote(creditNoteId);
 		return new BaseDto<>(response,creditNoteHelper.getRetriveCreditNoteMessage(),OK).respond();
 		
+	}
+	
+	@GetMapping("/updateCreditNote/paymentStatus")
+	public ResponseEntity<BaseDto<Integer>> updatePaymentStatusForCreditNote(@RequestParam Integer creditNoteId,@RequestParam String paymentStatus){
+		Integer response=creditNoteService.updateCreditNoteById(creditNoteId,paymentStatus);
+		return new BaseDto<>(response,creditNoteHelper.getUpdateCreditNoteMessage(),OK).respond();
 	}
 	
 	
