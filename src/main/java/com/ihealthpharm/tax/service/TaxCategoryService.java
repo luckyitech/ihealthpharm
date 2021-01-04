@@ -7,4 +7,6 @@ import com.ihealthpharm.tax.model.TaxCategoryModel;
 public interface TaxCategoryService {
 
 	public List<TaxCategoryModel> getAllTaxCategories();
+
+	public List<TaxCategoryModel> getAllTaxCategoriesByActiveStatus();
 }

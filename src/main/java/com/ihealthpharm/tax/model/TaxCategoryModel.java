@@ -1,7 +1,5 @@
 package com.ihealthpharm.tax.model;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -33,4 +31,8 @@ public class TaxCategoryModel {
 	
 	@Column(name = "END_DATE")
 	private Date endDate;
+	
+	@Column(name="ACTIVE_S")
+	private Character activeS;
+	
 }
