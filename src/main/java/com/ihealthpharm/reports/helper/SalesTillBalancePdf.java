@@ -45,18 +45,37 @@ public class SalesTillBalancePdf extends ReportsPDFUtility{
 			writer.setPageEvent(event); 
 			document.open();
 			
+			List<Date> datesList = new ArrayList<>();
 			Map<String, List<Map<String, Object>>> tillAccountMap = responseList.stream()
 					.collect(Collectors.groupingBy(map -> (String) map.get("TILL_ACCOUNT")));			
 			
 			
 			if(!ObjectUtils.isEmpty(tillAccountMap)) { 
 				
+				
 				for(String tillAccount :tillAccountMap.keySet()) {					
 					List<Map<String, Object>> tillAccountList = tillAccountMap.get(tillAccount);
-					createTable(document,model,tillAccountList,tillAccount);
+					//createTable(document,model,tillAccountList,tillAccount);
+					Map<Date, List<Map<String, Object>>> salesTillByDateMap = tillAccountList.stream()
+							.collect(Collectors.groupingBy(map -> (Date) map.get("AS_NOW_DATE")));	
+					
+					if(!ObjectUtils.isEmpty(salesTillByDateMap)) { 
+
+						datesList.addAll(salesTillByDateMap.keySet());
+						Collections.sort(datesList);
+
+						for(int i = 0; i < datesList.size(); i++) {	
+							List<Map<String, Object>> salesTillByDateList = salesTillByDateMap.get(datesList.get(i));
+							createTable(document,model,salesTillByDateList,datesList.get(i));
+							generateTotalTable(document,model,salesTillByDateList);
+
+						}
+
+					}
+					
 				}
 				
-				generateTotalTable(document,model,responseList);
+				
 				
 			}
 			
@@ -106,7 +125,7 @@ public class SalesTillBalancePdf extends ReportsPDFUtility{
 	
 		String cashValueTot = String.format("%.2f", totalCashValue);
 
-		PdfPCell nameCell = new PdfPCell(new Phrase("Total Cash Amount"+" "+" : "+"	"+cashValueTot, title08)); 
+		PdfPCell nameCell = new PdfPCell(new Phrase("Day's Cash Amount Rec "+" "+" : "+"	"+cashValueTot, title08)); 
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell.setVerticalAlignment(Element.ALIGN_TOP);
@@ -139,7 +158,7 @@ public class SalesTillBalancePdf extends ReportsPDFUtility{
 		document.add(totalProfitTable);
 
 	}
-	private void createTable(Document document, ReportsMappingModel model, List<Map<String, Object>> tillAccountList,String tillAccount) throws DocumentException {
+	private void createTable(Document document, ReportsMappingModel model, List<Map<String, Object>> tillAccountList,Date tillAccount) throws DocumentException {
 
 
 		String reportHeader = model.getReportHeader();
@@ -153,7 +172,7 @@ public class SalesTillBalancePdf extends ReportsPDFUtility{
 		finalTable.getDefaultCell().setBorder(0); 
 
 		PdfPTable salePersonNameTable = new PdfPTable(3);
-		PdfPCell nameCell = new PdfPCell(new Phrase("Till Account : "+tillAccount, title08)); 
+		PdfPCell nameCell = new PdfPCell(new Phrase("As of Date : "+tillAccount, title08)); 
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		nameCell.setVerticalAlignment(Element.ALIGN_TOP);
