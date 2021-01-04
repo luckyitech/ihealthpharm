@@ -29,5 +29,13 @@ public class TaxCategoryController {
 		List<TaxCategoryModel> response=taxService.getAllTaxCategories();
 		return new BaseDto<>(response, taxHelper.getRetrieveTaxCategoryMessage(), OK).respond();
 	}
+	
+	
+	@GetMapping("/getall/taxcategories/basedOnActive")
+	public ResponseEntity<BaseDto<List<TaxCategoryModel>>> getAllTaxCategoriesByActive(){
+		List<TaxCategoryModel> response=taxService.getAllTaxCategoriesByActiveStatus();
+		return new BaseDto<>(response, taxHelper.getRetrieveTaxCategoryMessage(), OK).respond();
+	}
+	
 
 }

@@ -16,4 +16,7 @@ public interface TaxCategoryRepository extends JpaRepository<TaxCategoryModel, I
 	@Query(value="select * from taxcategory tc where tc.START_DATE <= :billedDate and tc.END_DATE>=:billedDate",nativeQuery = true)
 	List<TaxCategoryModel> findByDate(@Param("billedDate") Date billedDate);
 
+	@Query("select t from taxcategory t where t.activeS='Y' order by t.categoryCode asc")
+	List<TaxCategoryModel> getAllByActiveStatus();
+
 }

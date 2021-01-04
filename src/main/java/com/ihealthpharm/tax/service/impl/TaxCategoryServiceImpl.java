@@ -26,4 +26,9 @@ public class TaxCategoryServiceImpl implements TaxCategoryService{
 		return taxRepo.findAll();
 	}
 
+	@Override
+	public List<TaxCategoryModel> getAllTaxCategoriesByActiveStatus() {
+		return taxRepo.getAllByActiveStatus();
+	}
+
 }
