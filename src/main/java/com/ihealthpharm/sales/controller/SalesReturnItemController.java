@@ -80,5 +80,11 @@ public class SalesReturnItemController {
 		return new BaseDto<>(results,salesReturnItemHelper.getRetrieveSalesReturnItemMessage(),OK).respond();
 	}
 	
+	@GetMapping("/getSalesReturnItems")
+	public ResponseEntity<BaseDto<List<SalesReturnItemsModel>>> getallsalesReturnQtyByItemId(@RequestParam Integer salesReturnId){
+		List<SalesReturnItemsModel> results=salesReturnItemService.getReturnItemsById(salesReturnId);
+		return new BaseDto<>(results,salesReturnItemHelper.getRetrieveSalesReturnItemMessage(),OK).respond();
+	}
+	
 
 }

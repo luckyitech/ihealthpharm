@@ -2,6 +2,7 @@ package com.ihealthpharm.sales.dao;
 
 import java.util.List;
 
+import org.springframework.boot.autoconfigure.quartz.QuartzDataSource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -26,5 +27,8 @@ List<String> findLastSRIByEmp(@Param("searchTerm") String searchTerm);
 			" inner join customer c on c.customerId=s.customerModel.customerId where concat(c.customerName ,' ', c.lastName)= :searchTerm " + 
 			" order by sr.creationTimeStamp desc ")
 List<String> findLastSRIByCust(@Param("searchTerm") String searchTerm);
+
+    @Query("select s from sales_return s order by s.lastUpdateTimestamp desc")
+	List<SalesReturnModel> getAllSalesReturnData();
  
 }

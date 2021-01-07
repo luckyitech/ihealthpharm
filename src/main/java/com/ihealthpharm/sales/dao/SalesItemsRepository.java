@@ -47,4 +47,7 @@ extends JpaRepository<SalesItemsModel,Integer>
 
 	@Query("select DISTINCT s.customerNm from sales s order by s.customerNm ")
 	List<String> findAllnameInSalesSBPS();
+
+	@Query("select s from sales_items s where s.billId.billId=:billId")
+	List<SalesItemsModel> getAllSalesItemsById(@Param("billId")Integer billId);
 }

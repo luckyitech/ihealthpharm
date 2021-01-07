@@ -27,4 +27,6 @@ public interface SalesReturnItemService {
 
 	Integer getReturnQtyByItemId(Integer itemId,Integer billId);
 
+	List<SalesReturnItemsModel> getReturnItemsById(Integer salesReturnId);
+
 }

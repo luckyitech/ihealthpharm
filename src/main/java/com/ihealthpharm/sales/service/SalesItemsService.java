@@ -33,5 +33,7 @@ public interface SalesItemsService
     List<String> findAllitemNameInSalesSBPS();
     
     List<String> findAllnameInSalesSBPS();
+
+	List<SalesItemsModel> findSalesItemsById(Integer billId);
 	
 }

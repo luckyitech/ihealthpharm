@@ -137,4 +137,9 @@ public class SalesItemsServiceImpl implements SalesItemsService {
 	public List<String> findAllnameInSalesSBPS() {
 		return salesItemsRepository.findAllnameInSalesSBPS();
 	}
+
+	@Override
+	public List<SalesItemsModel> findSalesItemsById(Integer billId) {
+		return salesItemsRepository.getAllSalesItemsById(billId);
+	}
 }

@@ -109,6 +109,13 @@ public class SalesItemsController {
 		List<String> results=salesItemsService.findAllnameInSalesSBPS();
 		return new BaseDto<>(results,salesItemsHelper.updateSalesItemsMessage,OK).respond();
 	}
+	
+	@GetMapping("/getAll/salesItemsbyBillId")
+	public ResponseEntity<BaseDto<List<SalesItemsModel>>> getSalesItemsDataByBillId(@RequestParam Integer billId) {
+		log.info("Request Id get is: "+ billId);
+		List<SalesItemsModel> salesItemsModelRes = salesItemsService.findSalesItemsById(billId);
+		return new BaseDto<>(salesItemsModelRes,salesItemsHelper.getUpdateSalesItemsMessage(),OK).respond();
+	}
 				
 			
 }

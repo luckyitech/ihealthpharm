@@ -131,4 +131,9 @@ public class SalesReturnItemServiceImpl implements SalesReturnItemService{
 		return salesReturnItemRepo.getReturnQtyByItem(itemId,billId);
 	}
 
+	@Override
+	public List<SalesReturnItemsModel> getReturnItemsById(Integer salesReturnId) {
+		return salesReturnItemRepo.getAllItemsById(salesReturnId);
+	}
+
 }
