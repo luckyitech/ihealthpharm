@@ -17,4 +17,6 @@ public interface SalesReturnService {
 	List<String> getLastSRIByEmp(String searchTerm);
 
 	List<String> getLastSRIByCust(String searchTerm);
+	
+	List<SalesReturnModel> getAllSalesRetuns();
 }

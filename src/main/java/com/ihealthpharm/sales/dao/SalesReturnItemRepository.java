@@ -23,4 +23,7 @@ public interface SalesReturnItemRepository extends JpaRepository<SalesReturnItem
 	 		"FROM sales_return_item sri inner join sales_return sr on sr.salesReturnId.salesReturnId = sri.salesReturnId where sr.billNumber.billId =:billId  and sri.items.itemId=:itemId"
 	 		)
 	Integer getReturnQtyByItem(@Param("itemId") Integer itemId,@Param("billId")Integer billId);
+
+	 @Query("select s from sales_return_item s where s.salesReturnId.salesReturnId=:salesReturnItemId")
+	List<SalesReturnItemsModel> getAllItemsById(@Param("salesReturnItemId") Integer salesReturnItemId);
 }

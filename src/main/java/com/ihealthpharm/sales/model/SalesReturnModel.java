@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
@@ -63,5 +64,9 @@ public class SalesReturnModel extends AuditModel {
 	@OneToOne
 	@JoinColumn(name="PHARMACY_ID")
 	private PharmacyModel pharmacy;
+	
+	 @Transient
+	    private String empName;
+	    
 	
 }
