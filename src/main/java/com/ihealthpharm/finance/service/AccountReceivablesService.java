@@ -2,8 +2,12 @@ package com.ihealthpharm.finance.service;
 
 import java.util.List;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import com.ihealthpharm.finance.dto.AccRecievablesAccountsDTO;
 import com.ihealthpharm.finance.dto.AccRecievablesCustomerDTO;
+import com.ihealthpharm.finance.dto.RecieptMoneyCalDTO;
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.sales.model.SalesModel;
 
@@ -64,5 +68,7 @@ public interface AccountReceivablesService
 
 	Integer searchInAccRecievablesForCountForAccounts(String paymentStatus, String paymentStartDate,
 			String paymentEndDate, String sourceRef, Integer pageNumber, Integer pageSize, String creditNumber);
+
+	JSONObject doCalculations(List<RecieptMoneyCalDTO> json);
 	
 }

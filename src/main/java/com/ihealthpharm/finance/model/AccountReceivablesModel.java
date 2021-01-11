@@ -127,5 +127,7 @@ public class AccountReceivablesModel extends AuditModel{
 	@Column(name="CHEQUE_DT")
 	private LocalDate chequeDate;
 	
+	@Column(name="BILL_NO")
+	private String billRefNo;
 	
 }

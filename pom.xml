@@ -68,7 +68,7 @@
 			<version>2.6.1</version>
 			<scope>compile</scope>
 		</dependency>
-	 	   <dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
@@ -76,8 +76,12 @@
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt</artifactId>
 			<version>0.9.1</version>
-		</dependency>   
-
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1.1</version>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
 		<dependency>
@@ -131,20 +135,16 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
 		</dependency>
-		
+
 		<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-mail</artifactId>
-        </dependency>
-		
-		<!--  <dependency>
-            <groupId>org.jfree</groupId>
-            <artifactId>jcommon</artifactId>
-            <version>1.0.23</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/src/main/respources/Jars/jcommon-1.0.23.jar</systemPath>
-        </dependency> -->
-		
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+
+		<!-- <dependency> <groupId>org.jfree</groupId> <artifactId>jcommon</artifactId> 
+			<version>1.0.23</version> <scope>system</scope> <systemPath>${basedir}/src/main/respources/Jars/jcommon-1.0.23.jar</systemPath> 
+			</dependency> -->
+
 	</dependencies>
 
 	<build>

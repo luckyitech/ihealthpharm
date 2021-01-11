@@ -6,9 +6,12 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.ihealthpharm.sales.dto.SalesBillDTO;
 import com.ihealthpharm.sales.dto.SalesBillsLimitedDTO;
 import com.ihealthpharm.sales.dto.SalesByDatesDTO;
@@ -274,4 +277,10 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 	@Query("select new com.ihealthpharm.sales.dto.SalesByHour((sum(s.totalAmount))/1000, HOUR(TIME(s.creationTs))) from sales s where s.billDate = :start  and s.employeeModel.employeeId = :selectedChartEmployee and HOUR(TIME(s.creationTs)) between :fromTime and :toTime group by  HOUR(TIME(s.creationTs)) ")
 	List<SalesByHour> findSalesByHours(@Param("selectedChartEmployee")int selectedChartEmployee, @Param("start") LocalDate start, @Param("fromTime")int fromTime,@Param("toTime") int toTime);
 	
+	
+	
+	@Modifying
+	@Transactional
+	@Query("update sales s set s.upiAmount =:upiAmount where s.billCode=:billCode")
+	 Integer updateUpiAmountBasedOnId(@Param("upiAmount")Float upiAmount,@Param("billCode")String billCode);
 }
