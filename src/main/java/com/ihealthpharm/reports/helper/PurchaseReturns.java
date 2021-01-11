@@ -385,7 +385,7 @@ public class PurchaseReturns extends ReportsPDFUtility{
 			nameCell.setBorder(0);
 			supllierNameTable.addCell(nameCell);
 		
-			PdfPTable table = new PdfPTable(12);
+			PdfPTable table = new PdfPTable(13);
 			table.setTotalWidth(500);
 			table.setWidthPercentage(50);
 			table.setLockedWidth(true);
@@ -402,10 +402,20 @@ public class PurchaseReturns extends ReportsPDFUtility{
 				cell.setBorder(Rectangle.BOTTOM);
 	
 			table.addCell(cell);	
+			
+			headerCell = new Paragraph();
+			headerCell.setFont(headerFont);
+			headerCell.add("PR REF NO");
+			cell = new PdfPCell(headerCell);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			if (!model.isShowVerticalLines())
+				cell.setBorder(Rectangle.BOTTOM);
+	
+			table.addCell(cell);	
 		
 			headerCell = new Paragraph();
 			headerCell.setFont(headerFont);
-			headerCell.add("PRODUCT NAME");
+			headerCell.add("ITEM NAME");
 			cell = new PdfPCell(headerCell);
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if (!model.isShowVerticalLines())
@@ -532,6 +542,14 @@ public class PurchaseReturns extends ReportsPDFUtility{
 
 
 				Object value = String.valueOf(purchaseInvoiceDetailsList.indexOf(rowData) + 1);
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+				
+				value = rowData.containsKey("PURCHASE_RETURN_NO") ? rowData.get("PURCHASE_RETURN_NO") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())

@@ -16,7 +16,8 @@ import com.ihealthpharm.masters.model.EmployeeModel;
 public interface EmployeeAccessRepository
 extends JpaRepository<EmployeeAccessModel,Integer>
 {
-	public List<EmployeeAccessModel> findByEmployeeModel(EmployeeModel employeeModel);
+	@Query("select ea from employee_access ea where ea.employeeModel=:employeeModel order by ea.pharmaAccessModel")
+	public List<EmployeeAccessModel> findByEmployeeModel(@Param("employeeModel")EmployeeModel employeeModel);
 	
 	@Transactional
 	@Modifying
