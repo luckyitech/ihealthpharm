@@ -3,6 +3,9 @@ package com.ihealthpharm.finance.controller;
 import static org.springframework.http.HttpStatus.OK;
 import java.util.List;
 import javax.validation.Valid;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.finance.dto.AccRecievablesCustomerDTO;
+import com.ihealthpharm.finance.dto.RecieptMoneyCalDTO;
 import com.ihealthpharm.finance.helper.AccountReceivablesHelper;
 import com.ihealthpharm.finance.model.AccountReceivablesModel;
 import com.ihealthpharm.finance.service.AccountReceivablesService;
@@ -208,5 +212,13 @@ public class AccountReceivablesController {
 		 Integer results=accountReceivablesService.searchInAccRecievablesForCountForAccounts(paymentStatus,paymentStartDate,paymentEndDate,SourceRef,pageNumber,pageSize,creditNumber);
 			return new BaseDto<>(results,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
 	}
+	
+	@PostMapping("/getJsonDataForCaculations")
+	public ResponseEntity<BaseDto<JSONObject>> calculations(@RequestBody List<RecieptMoneyCalDTO> json){
+		JSONObject res=accountReceivablesService.doCalculations(json);
+		
+				return new BaseDto<>(res,accountReceivablesHelper.getRetrieveAccountReceivablesMessage(),OK).respond();
+		}
+		
 	
 }
