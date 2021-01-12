@@ -130,4 +130,7 @@ public class AccountReceivablesModel extends AuditModel{
 	@Column(name="BILL_NO")
 	private String billRefNo;
 	
+	@Column(name="CREDIT_NOTE_DATE")
+	private LocalDate creditNoteDate;
+	
 }
