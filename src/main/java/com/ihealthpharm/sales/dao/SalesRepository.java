@@ -278,9 +278,8 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 	List<SalesByHour> findSalesByHours(@Param("selectedChartEmployee")int selectedChartEmployee, @Param("start") LocalDate start, @Param("fromTime")int fromTime,@Param("toTime") int toTime);
 	
 	
-	
 	@Modifying
 	@Transactional
-	@Query("update sales s set s.upiAmount =:upiAmount where s.billCode=:billCode")
-	 Integer updateUpiAmountBasedOnId(@Param("upiAmount")Float upiAmount,@Param("billCode")String billCode);
+	@Query("update sales s set s.upiAmount =:upiAmount,s.paymentStatus=:paymentStatus where s.billCode=:billCode")
+	 Integer updateUpiAmountBasedOnId(@Param("upiAmount")Float upiAmount,@Param("paymentStatus")String paymentStatus,@Param("billCode")String billCode);
 }
