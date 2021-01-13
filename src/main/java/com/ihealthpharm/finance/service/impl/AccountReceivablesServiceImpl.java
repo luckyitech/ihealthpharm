@@ -1,14 +1,12 @@
 package com.ihealthpharm.finance.service.impl;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import javax.transaction.Transactional;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -103,7 +101,6 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 			accountReceivablesRes = accountReceivablesRepository.save(accountReceivables);
 			
 			for (int i = 0; i < accountsReceivables.size(); i++) {
-				System.out.println("/////////////////////////////////////////////////////");
 				for (int j = 0; j < accountsReceivables.size(); j++) {
 					if (i != j) {
 						if (Objects.nonNull(accountsReceivables.get(i).getBillRefNo())) {
@@ -112,7 +109,8 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 								if(accountsReceivables.get(i).getSourceType().equals("Credit Note")) {
 									Float upiAmt = -1* accountsReceivables.get(i).getAmountReceived();
 									String billNo=accountsReceivables.get(i).getBillRefNo();
-									Integer res=salesRepository.updateUpiAmountBasedOnId(upiAmt,billNo);
+									String paymentStatus="Paid";
+									Integer res=salesRepository.updateUpiAmountBasedOnId(upiAmt,paymentStatus,billNo);
 								}
 							}
 						}
