@@ -168,6 +168,9 @@ public class SalesModel {
 	@Column(name="CREDIT_AMOUNT")
 	private Double creditAmount;
 	
+	@Column(name="CREDIT_NOTE_AMOUNT")
+	private Double creditNoteAmount;
+	
 	@OneToOne
 	@JoinColumn(name = "CUSTOMER_INSURANCE_ID")
 	CustomerInsuranceModel customerInsuranceModel;

@@ -100,23 +100,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 
 			accountReceivablesRes = accountReceivablesRepository.save(accountReceivables);
 			
-			for (int i = 0; i < accountsReceivables.size(); i++) {
-				for (int j = 0; j < accountsReceivables.size(); j++) {
-					if (i != j) {
-						if (Objects.nonNull(accountsReceivables.get(i).getBillRefNo())) {
-							if (accountsReceivables.get(i).getBillRefNo()
-									.equals(accountsReceivables.get(j).getSourceRef())) {
-								if(accountsReceivables.get(i).getSourceType().equals("Credit Note")) {
-									Float upiAmt = -1* accountsReceivables.get(i).getAmountReceived();
-									String billNo=accountsReceivables.get(i).getBillRefNo();
-									String paymentStatus="Paid";
-									Integer res=salesRepository.updateUpiAmountBasedOnId(upiAmt,paymentStatus,billNo);
-								}
-							}
-						}
-					}
-				}
-			}
+			
 
 			if (accountReceivables.getSourceType().contains("Credit Note")) {
 				CreditNoteModel c = creditNoteRepo.getCreditNoteDataById(accountReceivables.getSource());
@@ -143,7 +127,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 						Float cashAmount = Objects.nonNull(salesRecord.getCashAmount()) ? salesRecord.getCashAmount()
 								: 0;
 						Float paidAmount = (float) (cashAmount + creditAmount);
-						salesRecord.setCashAmount(paidAmount);
+						salesRecord.setCashAmount(accountReceivablesRes.getCashAmount());
 						salesRecord.setPaidAmount(paidAmount);
 						salesRecord.setBalanceAmount((float) 0);
 						String lastUpdatedUserId = Integer.toString(accountReceivablesRes.getLastUpdateUser());
@@ -156,7 +140,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 								: 0;
 
 						Float paidAmount = (float) (chequeAmount + creditAmount);
-						salesRecord.setChequeAmount((double) paidAmount);
+						salesRecord.setChequeAmount((double) accountReceivablesRes.getChequeAmount());
 						LocalDate chequeDt = accountReceivablesRes.getChequeDate();
 						salesRecord.setChequeDate(chequeDt.toString());
 						salesRecord.setChequeNumber(accountReceivablesRes.getChequeNumber());
@@ -173,7 +157,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 
 						Float paidAmount = (float) (creditCardAmount + creditAmount);
 
-						salesRecord.setCreditCardAmount(paidAmount);
+						salesRecord.setCreditCardAmount(accountReceivablesRes.getCreditCardAmount());
 						salesRecord.setCreditCardNo(accountReceivablesRes.getCreditCardNo());
 						salesRecord.setCreditCardAuthNo(accountReceivablesRes.getCardAuthCode());
 						salesRecord.setPaidAmount(paidAmount);
@@ -187,7 +171,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 
 						Float paidAmount = (float) (upiAmount + creditAmount);
 
-						salesRecord.setUpiAmount(paidAmount);
+						salesRecord.setUpiAmount(accountReceivablesRes.getUpiAmount());
 						salesRecord.setUpiPhoneNo(accountReceivablesRes.getUpiPhoneNo());
 						salesRecord.setUpiTransactionId(accountReceivablesRes.getUpiAuthCode());
 						salesRecord.setPaidAmount(paidAmount);
@@ -220,7 +204,25 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 
 		}
 
-	
+		for (int i = 0; i < accountsReceivables.size(); i++) {
+			for (int j = 0; j < accountsReceivables.size(); j++) {
+				if (i != j) {
+					if (Objects.nonNull(accountsReceivables.get(i).getBillRefNo())) {
+						if (accountsReceivables.get(i).getBillRefNo().equals(accountsReceivables.get(j).getSourceRef())) {
+							System.out.println("*********************************************");
+							System.out.println("Bill Ref No:"+accountsReceivables.get(i).getBillRefNo()+"\tSource Ref No:"+accountsReceivables.get(j).getSourceRef()+"\t"+accountsReceivables.get(i).getSourceType());
+							System.out.println("*********************************************");
+							if(accountsReceivables.get(i).getSourceType().equals("Credit Note")) {
+								Double creditNoteAmount = -1* accountsReceivables.get(i).getAmountReceived().doubleValue();
+								String billNo=accountsReceivables.get(i).getBillRefNo();
+								String paymentStatus="Paid";
+								Integer res=salesRepository.updateUpiAmountBasedOnId(creditNoteAmount,paymentStatus,billNo);
+							}
+						}
+					}
+				}
+			}
+		}
 
 		return accountsReceivables;
 	}
