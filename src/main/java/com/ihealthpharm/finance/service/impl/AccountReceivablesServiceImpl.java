@@ -213,10 +213,45 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 							System.out.println("Bill Ref No:"+accountsReceivables.get(i).getBillRefNo()+"\tSource Ref No:"+accountsReceivables.get(j).getSourceRef()+"\t"+accountsReceivables.get(i).getSourceType());
 							System.out.println("*********************************************");
 							if(accountsReceivables.get(i).getSourceType().equals("Credit Note")) {
+								SalesModel salesRecord = accountReceivablesRepository
+										.getSalesByBillCode(accountsReceivables.get(i).getBillRefNo());
+								
 								Double creditNoteAmount = -1* accountsReceivables.get(i).getAmountReceived().doubleValue();
 								String billNo=accountsReceivables.get(i).getBillRefNo();
 								String paymentStatus="Paid";
 								Integer res=salesRepository.updateUpiAmountBasedOnId(creditNoteAmount,paymentStatus,billNo);
+								System.out.println("value:"+(salesRecord.getNetAmount().doubleValue() == creditNoteAmount));
+								if(salesRecord.getNetAmount().doubleValue() == creditNoteAmount) {
+									if(Objects.nonNull(salesRecord.getCashAmount())) {
+										salesRecord.setCashAmount(null);
+									}
+									else if(Objects.nonNull(salesRecord.getUpiAmount())) {
+										salesRecord.setUpiAmount(null);
+										salesRecord.setUpiPhoneNo(null);
+										salesRecord.setUpiTransactionId(null);
+									}
+									else if(Objects.nonNull(salesRecord.getCreditCardAmount())) {
+										salesRecord.setCreditCardAuthNo(null);
+										salesRecord.setCreditCardAmount(null);
+										salesRecord.setCreditCardNo(null);
+									}
+									else if(Objects.nonNull(salesRecord.getChequeAmount())) {
+										salesRecord.setChequeAmount(null);
+										salesRecord.setChequeDate(null);
+										salesRecord.setChequeNumber(null);
+									}
+									
+									salesRecord.setCreditAmount((double)0);
+									salesRecord.setBalanceAmount((float)0);
+									salesRecord.setPaidAmount(creditNoteAmount.floatValue());
+									salesRecord.setPaymentStatus("Paid");
+									salesRecord.setCreditNoteAmount(creditNoteAmount);
+									System.out.println("********************************");
+									System.out.println("Credit Note amount:"+salesRecord.getCreditNoteAmount());
+									System.out.println("********************************");
+									salesRepository.save(salesRecord);
+									
+								}
 							}
 						}
 					}
