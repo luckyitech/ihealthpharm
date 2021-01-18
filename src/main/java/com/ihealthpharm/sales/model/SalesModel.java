@@ -212,4 +212,7 @@ public class SalesModel {
 	@Column(name="STAFF")
 	private Boolean staff;
 	
+	@Column(name="SALES_CREDIT_REF_NO")
+	private String salesCreditRefNo;
+	
 }
