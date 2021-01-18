@@ -133,4 +133,7 @@ public class AccountReceivablesModel extends AuditModel{
 	@Column(name="CREDIT_NOTE_DATE")
 	private LocalDate creditNoteDate;
 	
+	@Column(name="PARTIAL_AMT")
+	private Float partialAmt;
+	
 }
