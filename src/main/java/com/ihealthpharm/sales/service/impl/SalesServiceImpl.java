@@ -446,6 +446,7 @@ public class SalesServiceImpl implements SalesService {
 					it.getEmployeeModel().getFirstName() + "  " + it.getEmployeeModel().getLastName());
 			salesModel.setCorporateCustomer(it.getCorporateCustomer());
 			salesModel.setCreditNoteAmount(it.getCreditNoteAmount());
+			salesModel.setSalesCreditRefNo(it.getSalesCreditRefNo());
 			res.add(salesModel);
 
 		}
