@@ -138,6 +138,8 @@ public class SalesEmployeeDTO {
 	private Character activeS;
 
 	private Boolean corporateCustomer;
+	
+	private String salesCreditRefNo;
 
 	private Boolean staff;
 	private Double creditNoteAmount;
@@ -154,7 +156,7 @@ public class SalesEmployeeDTO {
 			Double chequeAmount, String chequeDate, Double creditAmount, CustomerInsuranceModel customerInsuranceModel,
 			CustomerMembershipModel customerMembershipModel, CustomerModel customerModel, String employeeModel,
 			PharmacyModel pharmacyModel, ProviderModel providerModel, HospitalModel hospitalModel, Character activeS,
-			String creditAccountNo,Boolean corporateCustomer,Boolean staff,Double creditNoteAmount) {
+			String creditAccountNo,Boolean corporateCustomer,Boolean staff,Double creditNoteAmount, String salesCreditRefNo) {
 		super();
 		this.billId = billId;
 		this.adjustedQty = adjustedQty;
@@ -214,6 +216,7 @@ public class SalesEmployeeDTO {
 		this.corporateCustomer=corporateCustomer;
 		this.staff=staff;
 		this.creditNoteAmount = creditNoteAmount;
+		this.salesCreditRefNo= salesCreditRefNo;;
 	}
 
 	public SalesEmployeeDTO() {
