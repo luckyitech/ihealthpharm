@@ -134,10 +134,8 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 
 					if (Objects.nonNull(accountReceivablesRes.getCashAmount())) {
 						salesRecord.setPaymentStatus("Paid");
-						System.out.println("???????????????????????????????////////////////");
 						Float cashAmount = Objects.nonNull(salesRecord.getCashAmount()) ? salesRecord.getCashAmount()
 								: 0;
-						System.out.println(cashAmount);
 						
 						Float paidAmount = (float) (cashAmount + creditAmount);
 						System.out.println(paidAmount);
@@ -219,6 +217,8 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 			 
 			 salesRes.setBalanceAmount(salesRes.getBalanceAmount()-accountReceivables.getPartialAmt());
 			 
+			 if(accountReceivables.getPaymentType() !=null) {
+			 
 			 if(accountReceivables.getPaymentType().equals("Card")) {
 				 
 				 salesRes.setCreditCardAmount((salesRes.getCreditCardAmount() != null && salesRes.getCreditCardAmount() >0)?
@@ -249,6 +249,16 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 			 }
 			 salesRes.setCreditAmount(salesRes.getCreditAmount()-accountReceivables.getPartialAmt());
 			 salesRepository.save(salesRes);
+			
+			 }else {
+				 salesRes.setBalanceAmount(salesRes.getBalanceAmount()-accountReceivables.getPartialAmt());
+				 salesRes.setPaidAmount(accountReceivables.getPartialAmt());
+				 salesRes.setCreditNoteAmount((double)accountReceivables.getPartialAmt());
+				 salesRes.setSalesCreditRefNo(accountReceivables.getSourceRef());
+				 salesRepository.save(salesRes);
+			 }
+			 
+			
 				
 			}
 
@@ -259,7 +269,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 				if (i != j) {
 					if (Objects.nonNull(accountsReceivables.get(i).getBillRefNo())) {
 						if (accountsReceivables.get(i).getBillRefNo().equals(accountsReceivables.get(j).getSourceRef())) {
-							if(accountsReceivables.get(i).getSourceType().equals("Credit Note")) {
+							if(accountsReceivables.get(i).getSourceType().toLowerCase().contains("credit note")) {
 								
 								
 								Double creditNoteAmount = -1* accountsReceivables.get(i).getAmountReceived().doubleValue();
@@ -746,6 +756,8 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 		for (int i = 0; i < json.size(); i++) {
 			if (json.get(i).getPayment().equals("Partial")) {
 				if (json.get(i).getPartialAmt() != null && json.get(i).getPartialAmt() > 0) {
+					System.out.println("//////////////////////////////////////////////////////////////////////////////////");
+					System.out.println(json.get(i).getPartialAmt());
 					billPartialAmt += json.get(i).getPartialAmt();
 
 					if (json.get(i).getAmountReceived() != null && json.get(i).getAmountReceived() < 0.0) {
