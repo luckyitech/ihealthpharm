@@ -220,6 +220,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 						salesRecord.setCreditNoteAmount((double) (accountReceivablesRes.getAmountReceived()));
 						salesRecord.setSalesCreditRefNo(accountReceivables.getSourceRef());
 						salesRecord.setCreditAmount((double) 0);
+						salesRecord.setPaidAmount(Objects.nonNull(salesRecord.getPaidAmount())? salesRecord.getPaidAmount()+accountReceivablesRes.getAmountReceived(): accountReceivablesRes.getAmountReceived() );
 						System.out.println("<>>?<<?<>><><>");
 						System.out.println(salesRecord.getBalanceAmount());
 						System.out.println(salesRecord);
