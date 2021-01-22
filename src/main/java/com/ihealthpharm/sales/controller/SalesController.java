@@ -303,7 +303,6 @@ public class SalesController {
 	@GetMapping("/getsaleshistorybysearch")
 	public ResponseEntity<BaseDto<List<SalesEmployeeDTO>>> getSalesBySearch(@RequestParam String status, @RequestParam String code, @RequestParam String codeValue,
 			@RequestParam String startDate, @RequestParam String endDate,@RequestParam Integer pageNumber,@RequestParam Integer pageSize){
-	 System.out.println(startDate +"------------------------------------- "+endDate);
 		List<SalesEmployeeDTO> results=salesService.searchInSalesHistory(status,code,codeValue,startDate,endDate,pageNumber,pageSize);
 		return new BaseDto<>(results,salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
