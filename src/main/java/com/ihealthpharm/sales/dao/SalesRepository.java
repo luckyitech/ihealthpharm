@@ -290,4 +290,8 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 	@Transactional
 	@Query("update sales s set s.creditNoteAmount =:creditNoteAmount where s.billCode=:billCode")
 	Integer updateUpiAmountBasedOnStatusId(@Param("creditNoteAmount")Double creditNoteAmount,@Param("billCode")String billCode);
+
+    @Query("select s from sales s where s.billId=:billId")
+    SalesModel getSalesRecordById(@Param("billId")Integer billId);
+
 }

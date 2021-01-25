@@ -136,4 +136,10 @@ public class AccountReceivablesModel extends AuditModel{
 	@Column(name="PARTIAL_AMT")
 	private Float partialAmt;
 	
+	@Column(name="PAY_REF_CREDIT_NO")
+	private String paymentcreditRefNo;
+	
+	@Column(name="SALES_BILL_ID")
+	private Integer salesBillId;
+	
 }
