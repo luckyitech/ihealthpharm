@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.stock.model.PaymentTypeModel;
@@ -141,5 +143,8 @@ public class AccountReceivablesModel extends AuditModel{
 	
 	@Column(name="SALES_BILL_ID")
 	private Integer salesBillId;
+	
+	@Transient
+	private String partiallyPaid;
 	
 }
