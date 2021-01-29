@@ -484,10 +484,27 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		cell.setBorder(Rectangle.BOTTOM);
 		table_remarks.addCell(cell);
-
+		table_remarks.setSpacingAfter(10);
 		table_remarks.completeRow();
 
 		document.add(table_remarks);
+		
+		
+		PdfPTable msgTable = new PdfPTable(1);
+		msgTable.setTotalWidth(Utilities.millimetersToPoints(80));
+		msgTable.getDefaultCell().setBorder(0);
+		msgTable.setLockedWidth(true);
+
+		cell = new PdfPCell(new Phrase('"'+"GOODS ONCE SOLD CANNOT BE RETURNED"+'"' ,bold));
+		cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+		cell.setBorder(Rectangle.NO_BORDER);
+		msgTable.addCell(cell);
+
+		msgTable.completeRow();
+		
+		document.add(msgTable);
+		
+		
 	}
 
 	private void addBillDetails(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException {
