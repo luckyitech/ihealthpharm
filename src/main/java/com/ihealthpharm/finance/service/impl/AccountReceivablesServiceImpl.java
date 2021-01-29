@@ -5,17 +5,13 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-
 import javax.transaction.Transactional;
-
-import org.hamcrest.collection.IsEmptyCollection;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.finance.dao.AccountReceivablesRepository;
 import com.ihealthpharm.finance.dao.CreditNoteRepository;
@@ -173,7 +169,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 							}
 							System.out.println("<>>?<<?<>>////<><>");
 
-							SalesModel salesUpdatedRes = salesRepository.save(salesRecord);
+							salesRepository.save(salesRecord);
 							/*
 							 * double amount=0; if (salesUpdatedRes.getBalanceAmount() != 0) { amount =
 							 * salesUpdatedRes.getNetAmount() - salesUpdatedRes.getBalanceAmount(); } else {
@@ -244,7 +240,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 									salesRecord.setCreditNoteAmount((double) Double
 											.parseDouble(df.format(-1 * accountReceivablesRes.getAmountReceived())));
 									salesRecord.setSalesCreditRefNo(accountReceivables.getSourceRef());
-									SalesModel salesModel = salesRepository.save(salesRecord);
+									 salesRepository.save(salesRecord);
 
 									/*
 									 * double amount=0; if (salesModel.getBalanceAmount() != 0) { amount =
@@ -325,7 +321,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 								: (-1 * accountReceivablesRes.getAmountReceived()));
 
 					}
-					SalesModel salesModelRes = salesRepository.save(salesRecord);
+					 salesRepository.save(salesRecord);
 
 					/*
 					 * double amount=0; if (salesModelRes.getBalanceAmount() != 0) { amount =
@@ -455,7 +451,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 							salesRes.setPaymentStatus("Paid");
 						}
 					}
-					SalesModel sales = salesRepository.save(salesRes);
+					 salesRepository.save(salesRes);
 
 					/*
 					 * double amount=0; if (sales.getBalanceAmount() != 0) { amount =
@@ -950,7 +946,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 									salesRecord.setCreditNoteAmount(creditNoteAmount);
 
 								}
-								SalesModel salesDataRes = salesRepository.save(salesRecord);
+								 salesRepository.save(salesRecord);
 
 								/*
 								 * double amount=0; if (salesDataRes.getBalanceAmount() != 0) { amount =
