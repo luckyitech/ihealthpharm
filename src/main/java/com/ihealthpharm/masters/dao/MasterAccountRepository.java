@@ -73,4 +73,5 @@ public interface MasterAccountRepository extends JpaRepository<MasterAccountMode
 	@Modifying
 	@Query("update master_account m set m.creditLimitLeft=:creditLimitLeft where m.masterAccountId=:masterAccountId")
 	public Integer updateMasterAccountCustomerAmount(@Param ("creditLimitLeft")Integer creditLimitLeft,@Param("masterAccountId")Integer masterAccountId);
+
 }
