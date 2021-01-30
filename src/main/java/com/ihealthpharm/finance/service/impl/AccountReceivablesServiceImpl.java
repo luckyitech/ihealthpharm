@@ -170,44 +170,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 							System.out.println("<>>?<<?<>>////<><>");
 
 							salesRepository.save(salesRecord);
-							/*
-							 * double amount=0; if (salesUpdatedRes.getBalanceAmount() != 0) { amount =
-							 * salesUpdatedRes.getNetAmount() - salesUpdatedRes.getBalanceAmount(); } else {
-							 * 
-							 * if (Objects.nonNull(salesUpdatedRes.getCashAmount())) { amount =
-							 * salesUpdatedRes.getCashAmount(); } else if
-							 * (Objects.nonNull(salesUpdatedRes.getCreditCardAmount())) { amount =
-							 * salesUpdatedRes.getCreditCardAmount(); } else if
-							 * (Objects.nonNull(salesUpdatedRes.getChequeAmount())) { amount =
-							 * salesUpdatedRes.getChequeAmount(); } else if
-							 * (Objects.nonNull(salesUpdatedRes.getUpiAmount())) { amount =
-							 * salesUpdatedRes.getUpiAmount(); }else
-							 * if(Objects.nonNull(salesUpdatedRes.getCreditNoteAmount()) &&
-							 * (salesUpdatedRes.getCreditNoteAmount() >0 ||
-							 * salesUpdatedRes.getCreditNoteAmount() >0.0)) {
-							 * if(salesUpdatedRes.getPaymentStatus().equals("Paid")) {
-							 * System.out.println(amount + " :if paid amytjnsjj"); amount= amount +
-							 * salesUpdatedRes.getCreditNoteAmount(); }else {
-							 * System.out.println("noerlam pay tsattu else");
-							 * amount=salesUpdatedRes.getCreditNoteAmount(); } }else {
-							 * System.out.println("else paid amoynyt "); amount=
-							 * salesUpdatedRes.getPaidAmount();
-							 * 
-							 * } }
-							 */
 
-							// double amount = salesUpdatedRes.getPaidAmount();
-							// System.out.println(amount + " :in line 178 ");
-
-							/*
-							 * MasterAccountModel masterAccObj = masterService
-							 * .getDataByMasterAccNumber(accountReceivables.getCreditNumber()); if
-							 * (Objects.nonNull(masterAccObj)) { Double creditAmt = amount +
-							 * masterAccObj.getCreditLimitLeft();
-							 * masterAccRepo.updateMasterAccountCustomerAmount(creditAmt.intValue(),
-							 * masterAccObj.getMasterAccountId());
-							 * log.info("Master Account Data Updated Successfully"); }
-							 */
 						} else {
 							if (accountReceivablesRes.getPaymentType().equals("Credit Note")) {
 								System.out.println(accountReceivablesRes.getAmountReceived() + " :::::;;;;;;");
@@ -240,41 +203,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 									salesRecord.setCreditNoteAmount((double) Double
 											.parseDouble(df.format(-1 * accountReceivablesRes.getAmountReceived())));
 									salesRecord.setSalesCreditRefNo(accountReceivables.getSourceRef());
-									 salesRepository.save(salesRecord);
-
-									/*
-									 * double amount=0; if (salesModel.getBalanceAmount() != 0) { amount =
-									 * salesModel.getNetAmount() - salesModel.getBalanceAmount(); } else { // amount
-									 * = salesUpdatedRes.getPaidAmount(); if
-									 * (Objects.nonNull(salesModel.getCashAmount())) { amount =
-									 * salesModel.getCashAmount(); } else if
-									 * (Objects.nonNull(salesModel.getCreditCardAmount())) { amount =
-									 * salesModel.getCreditCardAmount(); } else if
-									 * (Objects.nonNull(salesModel.getChequeAmount())) { amount =
-									 * salesModel.getChequeAmount(); } else if
-									 * (Objects.nonNull(salesModel.getUpiAmount())) { amount =
-									 * salesModel.getUpiAmount(); }else
-									 * if(Objects.nonNull(salesModel.getCreditNoteAmount()) &&
-									 * (salesModel.getCreditNoteAmount() >0 || salesModel.getCreditNoteAmount()
-									 * >0.0)) { if(salesModel.getPaymentStatus().equals("Paid")) {
-									 * System.out.println(amount + " :if paid amytjnsjj"); amount= amount +
-									 * salesModel.getCreditNoteAmount(); }else {
-									 * System.out.println("noerlam pay tsattu else");
-									 * amount=salesModel.getCreditNoteAmount(); } }else {
-									 * System.out.println("else paid amoynyt "); amount= salesModel.getPaidAmount();
-									 * 
-									 * } } System.out.println(amount + " :in line 241 ");
-									 */
-
-									/*
-									 * MasterAccountModel masterAccObj = masterService
-									 * .getDataByMasterAccNumber(accountReceivables.getCreditNumber()); if
-									 * (Objects.nonNull(masterAccObj)) { Double creditsAmount = amount +
-									 * masterAccObj.getCreditLimitLeft();
-									 * masterAccRepo.updateMasterAccountCustomerAmount(creditsAmount.intValue(),
-									 * masterAccObj.getMasterAccountId());
-									 * log.info("Master Account Data Updated Successfully"); }
-									 */
+									salesRepository.save(salesRecord);
 
 								}
 							}
@@ -321,44 +250,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 								: (-1 * accountReceivablesRes.getAmountReceived()));
 
 					}
-					 salesRepository.save(salesRecord);
-
-					/*
-					 * double amount=0; if (salesModelRes.getBalanceAmount() != 0) { amount =
-					 * salesModelRes.getNetAmount() - salesModelRes.getBalanceAmount(); } else { //
-					 * amount = salesUpdatedRes.getPaidAmount(); if
-					 * (Objects.nonNull(salesModelRes.getCashAmount())) { amount =
-					 * salesModelRes.getCashAmount(); } else if
-					 * (Objects.nonNull(salesModelRes.getCreditCardAmount())) { amount =
-					 * salesModelRes.getCreditCardAmount(); } else if
-					 * (Objects.nonNull(salesModelRes.getChequeAmount())) { amount =
-					 * salesModelRes.getChequeAmount(); } else if
-					 * (Objects.nonNull(salesModelRes.getUpiAmount())) { amount =
-					 * salesModelRes.getUpiAmount(); }else
-					 * if(Objects.nonNull(salesModelRes.getCreditNoteAmount()) &&
-					 * (salesModelRes.getCreditNoteAmount() >0 ||
-					 * salesModelRes.getCreditNoteAmount() >0.0)) {
-					 * if(salesModelRes.getPaymentStatus().equals("Paid")) {
-					 * System.out.println(amount + " :if paid amytjnsjj"); amount= amount +
-					 * salesModelRes.getCreditNoteAmount(); }else {
-					 * System.out.println("noerlam pay tsattu else");
-					 * amount=salesModelRes.getCreditNoteAmount(); } }else {
-					 * System.out.println("else paid amoynyt "); amount=
-					 * salesModelRes.getPaidAmount();
-					 * 
-					 * } } System.out.println(amount + " :in line 318 ");
-					 */
-
-					/*
-					 * MasterAccountModel masterAccObj = masterService
-					 * .getDataByMasterAccNumber(accountReceivables.getCreditNumber()); if
-					 * (Objects.nonNull(masterAccObj)) { Double creditLimitLeft = amount +
-					 * masterAccObj.getCreditLimitLeft();
-					 * masterAccRepo.updateMasterAccountCustomerAmount(creditLimitLeft.intValue(),
-					 * masterAccObj.getMasterAccountId());
-					 * log.info("Master Account Data Updated Successfully"); }
-					 */
-
+					salesRepository.save(salesRecord);
 				}
 
 			}
@@ -451,41 +343,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 							salesRes.setPaymentStatus("Paid");
 						}
 					}
-					 salesRepository.save(salesRes);
-
-					/*
-					 * double amount=0; if (sales.getBalanceAmount() != 0) { amount =
-					 * sales.getNetAmount() - sales.getBalanceAmount(); } else { // amount =
-					 * salesUpdatedRes.getPaidAmount(); if (Objects.nonNull(sales.getCashAmount()))
-					 * { amount = sales.getCashAmount(); } else if
-					 * (Objects.nonNull(sales.getCreditCardAmount())) { amount =
-					 * sales.getCreditCardAmount(); } else if
-					 * (Objects.nonNull(sales.getChequeAmount())) { amount =
-					 * sales.getChequeAmount(); } else if (Objects.nonNull(sales.getUpiAmount())) {
-					 * amount = sales.getUpiAmount(); }else
-					 * if(Objects.nonNull(sales.getCreditNoteAmount()) &&
-					 * (sales.getCreditNoteAmount() >0 || sales.getCreditNoteAmount() >0.0)) {
-					 * if(sales.getPaymentStatus().equals("Paid")) { System.out.println(amount +
-					 * " :if paid amytjnsjj"); amount= amount + sales.getCreditNoteAmount(); }else {
-					 * System.out.println("noerlam pay tsattu else");
-					 * amount=sales.getCreditNoteAmount(); } }else {
-					 * System.out.println("else paid amoynyt "); amount= sales.getPaidAmount();
-					 * 
-					 * } } System.out.println(amount + " :in line 442 ");
-					 */
-
-					/*
-					 * MasterAccountModel masterAccObj = masterService
-					 * .getDataByMasterAccNumber(accountReceivables.getCreditNumber()); if
-					 * (Objects.nonNull(masterAccObj)) { System.out.println(creditAmount +
-					 * "credit amtsss"); System.out.println(masterAccObj.getCreditLimitLeft() +
-					 * ":master credit limiy"); Double updateCreditAmount = amount +
-					 * masterAccObj.getCreditLimitLeft(); System.out.println(amount +
-					 * ":creit amt masrer update");
-					 * masterAccRepo.updateMasterAccountCustomerAmount(updateCreditAmount.intValue()
-					 * , masterAccObj.getMasterAccountId());
-					 * log.info("Master Account Data Updated Successfully"); }
-					 */
+					salesRepository.save(salesRes);
 
 				}
 			}
@@ -519,8 +377,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 								salesRecord.setCashAmount((float) paidAmount);
 								String lastUpdatedUserId = Integer.toString(accountReceivablesRes.getLastUpdateUser());
 								salesRecord.setLastUpdateUserId(lastUpdatedUserId);
-								System.out.println(paidAmount + " : just now paid");
-								System.out.println(salesRecord.getCreditNoteAmount() + " :credita mt");
+
 								double amt = Double.parseDouble(df.format(paidAmount))
 										+ +salesRecord.getCreditNoteAmount();
 								System.out.println(salesRecord.getNetAmount());
@@ -783,41 +640,6 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 
 					}
 					SalesModel salesRes = salesRepository.save(salesRecord);
-					/*
-					 * MasterAccountModel masterAccObj = masterService
-					 * .getDataByMasterAccNumber(accountReceivables.getCreditNumber());
-					 */
-
-					/*
-					 * double amount=0; if (salesRes.getBalanceAmount() != 0) { amount =
-					 * salesRes.getNetAmount() - salesRes.getBalanceAmount(); } else { // amount =
-					 * salesUpdatedRes.getPaidAmount(); if
-					 * (Objects.nonNull(salesRes.getCashAmount())) { amount =
-					 * salesRes.getCashAmount(); } else if
-					 * (Objects.nonNull(salesRes.getCreditCardAmount())) { amount =
-					 * salesRes.getCreditCardAmount(); } else if
-					 * (Objects.nonNull(salesRes.getChequeAmount())) { amount =
-					 * salesRes.getChequeAmount(); } else if
-					 * (Objects.nonNull(salesRes.getUpiAmount())) { amount =
-					 * salesRes.getUpiAmount(); }else
-					 * if(Objects.nonNull(salesRes.getCreditNoteAmount()) &&
-					 * (salesRes.getCreditNoteAmount() >0 || salesRes.getCreditNoteAmount() >0.0)) {
-					 * if(salesRes.getPaymentStatus().equals("Paid")) { System.out.println(amount +
-					 * " :if paid amytjnsjj"); amount= amount + salesRes.getCreditNoteAmount();
-					 * }else { System.out.println("noerlam pay tsattu else");
-					 * amount=salesRes.getCreditNoteAmount(); } }else {
-					 * System.out.println("else paid amoynyt "); amount= salesRes.getPaidAmount();
-					 * 
-					 * } } System.out.println(amount + " : line 773");
-					 */
-
-					/*
-					 * if (Objects.nonNull(masterAccObj)) { Double creditAmtUpdate = amount +
-					 * masterAccObj.getCreditLimitLeft();
-					 * masterAccRepo.updateMasterAccountCustomerAmount(creditAmtUpdate.intValue(),
-					 * masterAccObj.getMasterAccountId());
-					 * log.info("Master Account Data Updated Successfully"); }
-					 */
 				}
 			}
 
@@ -896,21 +718,9 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 									}
 									salesRecord.setCreditNoteAmount(creditNoteAmount);
 									salesRecord.setSalesCreditRefNo(accountsReceivables.get(i).getSourceRef());
-									// SalesModel salesData = salesRepository.save(salesRecord);
-
-									/*
-									 * MasterAccountModel masterAccObj = masterService
-									 * .getDataByMasterAccNumber(accountsReceivables.get(i).getCreditNumber()); if
-									 * (Objects.nonNull(masterAccObj)) { Double amount = creditAmount +
-									 * masterAccObj.getCreditLimitLeft();
-									 * masterAccRepo.updateMasterAccountCustomerAmount(amount.intValue(),
-									 * masterAccObj.getMasterAccountId());
-									 * log.info("Master Account Data Updated Successfully"); }
-									 */
 
 								} else {
-									System.out.println("in if dfvdfkjffsdhdsdsfdhsudhsshsdkwcice");
-									System.out.println(accountsReceivables.get(i).getPaymentType());
+
 									if (accountsReceivables.get(i).getPaymentType().equals("Cash")) {
 
 										salesRecord.setCashAmount(
@@ -931,59 +741,18 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 														: null);
 
 									} else if (accountsReceivables.get(i).getPaymentType().equals("Cheque")) {
-										System.out.println(salesRecord.getChequeAmount() + " :c hew amty");
-										System.out.println(creditNoteAmount);
-										System.out
-												.println(salesRecord.getChequeAmount() - creditNoteAmount.floatValue());
+
 										salesRecord.setChequeAmount((salesRecord.getChequeAmount() != null
 												&& salesRecord.getChequeAmount() > 0)
 														? salesRecord.getChequeAmount() - creditNoteAmount.floatValue()
 														: null);
 
-									} else {
-										System.out.println("both amounts elser cvxcfffvffdfdfdff");
 									}
 									salesRecord.setCreditNoteAmount(creditNoteAmount);
 
 								}
-								 salesRepository.save(salesRecord);
+								salesRepository.save(salesRecord);
 
-								/*
-								 * double amount=0; if (salesDataRes.getBalanceAmount() != 0) { amount =
-								 * salesDataRes.getNetAmount() - salesDataRes.getBalanceAmount(); } else { //
-								 * amount = salesUpdatedRes.getPaidAmount(); if
-								 * (Objects.nonNull(salesDataRes.getCashAmount())) { amount =
-								 * salesDataRes.getCashAmount(); } else if
-								 * (Objects.nonNull(salesDataRes.getCreditCardAmount())) { amount =
-								 * salesDataRes.getCreditCardAmount(); } else if
-								 * (Objects.nonNull(salesDataRes.getChequeAmount())) { amount =
-								 * salesDataRes.getChequeAmount(); } else if
-								 * (Objects.nonNull(salesDataRes.getUpiAmount())) { amount =
-								 * salesDataRes.getUpiAmount(); }else
-								 * if(Objects.nonNull(salesDataRes.getCreditNoteAmount()) &&
-								 * (salesDataRes.getCreditNoteAmount() >0 || salesDataRes.getCreditNoteAmount()
-								 * >0.0)) { if(salesDataRes.getPaymentStatus().equals("Paid")) {
-								 * System.out.println(amount + " :if paid amytjnsjj"); amount= amount +
-								 * salesDataRes.getCreditNoteAmount(); }else {
-								 * System.out.println("noerlam pay tsattu else");
-								 * amount=salesDataRes.getCreditNoteAmount(); } }else {
-								 * System.out.println("else paid amoynyt "); amount=
-								 * salesDataRes.getPaidAmount(); } } System.out.println(amount +
-								 * " :in line 935 ");
-								 */
-
-								/*
-								 * MasterAccountModel masterAccObj = masterService
-								 * .getDataByMasterAccNumber(accountsReceivables.get(i).getCreditNumber()); if
-								 * (Objects.nonNull(masterAccObj)) { System.out.println(amount +
-								 * ":2 for loops master"); System.out.println(masterAccObj.getCreditDaysLeft() +
-								 * " :masteraccobj limit"); Double creditAmountUpdate = amount +
-								 * masterAccObj.getCreditLimitLeft(); System.out.println(amount +
-								 * ": 2 lopps amfeiucjjb");
-								 * masterAccRepo.updateMasterAccountCustomerAmount(creditAmountUpdate.intValue()
-								 * , masterAccObj.getMasterAccountId());
-								 * log.info("Master Account Data Updated Successfully"); }
-								 */
 							}
 						}
 					}
@@ -1001,21 +770,24 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 			String BillNo = "";
 
 			if (accRecModel.getPaymentType().equals("Credit Note")) {
-				if(accountsReceivables.get(i).getAmountToBeReceived() == 0) {
+				if (accountsReceivables.get(i).getAmountToBeReceived() == 0) {
 					System.out.println("in if oa amt to ne zero");
 					amount = -1 * accountsReceivables.get(i).getAmountReceived();
-				}else {
-					amount =  accountsReceivables.get(i).getAmountReceived();
+				} else {
+					amount = accountsReceivables.get(i).getAmountReceived();
 				}
-				if(accountsReceivables.get(i).getAmountToBeReceived() == 0 && accountsReceivables.get(i).getSourceType().equals("Sales Billing")) {
+				if (accountsReceivables.get(i).getAmountToBeReceived() == 0
+						&& accountsReceivables.get(i).getSourceType().equals("Sales Billing")) {
 					System.out.println("in sales bukl");
-					amount =  accountsReceivables.get(i).getAmountReceived();
-				}else if(accountsReceivables.get(i).getAmountToBeReceived() == 0 && accountsReceivables.get(i).getSourceType().equals("Sales Returns - Credit Note") ) {
-					amount =(double)0;
+					amount = accountsReceivables.get(i).getAmountReceived();
+				} else if (accountsReceivables.get(i).getAmountToBeReceived() == 0
+						&& accountsReceivables.get(i).getSourceType().equals("Sales Returns - Credit Note")) {
+					System.out.println("in expected case");
+					amount = (double) 0;
 				}
 				System.out.println(amount + ": final for loop credit amount");
 
-			} else if(accRecModel.getPaymentType().equals("Cheque") || accRecModel.getPaymentType().equals("MPesa") 
+			} else if (accRecModel.getPaymentType().equals("Cheque") || accRecModel.getPaymentType().equals("MPesa")
 					|| accRecModel.getPaymentType().equals("Cash") || accRecModel.getPaymentType().equals("Card")) {
 				if (Objects.nonNull(accRecModel.getCashAmount())) {
 					amount = accRecModel.getCashAmount();
@@ -1026,36 +798,35 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 				} else if (Objects.nonNull(accRecModel.getUpiAmount())) {
 					amount = accRecModel.getUpiAmount();
 				}
-				System.out.println(amount+"amttttttttttttt");
+				System.out.println(amount + "amttttttttttttt");
 			}
-			
 
-			if (accRecModel.getCreditNumber() !=null && !accRecModel.getCreditNumber().isEmpty()) {
-				System.out.println("in if od css" + accRecModel.getCreditNumber() );
+			if (accRecModel.getCreditNumber() != null && !accRecModel.getCreditNumber().isEmpty()) {
+				System.out.println("in if od css" + accRecModel.getCreditNumber());
 				masterAccObj = masterAccRepo.getDataByMasterCreditNumber(accRecModel.getCreditNumber().trim());
 				System.out.println(masterAccObj.getCreditNumber());
-				
+
 				if (Objects.nonNull(masterAccObj)) {
 					System.out.println(amount + ":final credit amotjjkk paying");
 					System.out.println(masterAccObj.getCreditLimitLeft());
-					Double creditAmountLimit = amount + masterAccObj.getCreditLimitLeft();
+					DecimalFormat df = new DecimalFormat(".##");
+					
+					Double creditAmountLimit =  Double.parseDouble(df.format(amount)) + masterAccObj.getCreditLimitLeft();
 					System.out.println(creditAmountLimit + ": wlsd sk lopps amfeiucjjb");
 					masterAccObj.setCreditLimitLeft(creditAmountLimit.intValue());
 					masterAccRepo.save(masterAccObj);
 				}
-				
-				
-			} else if(accRecModel.getBillRefNo() !=null && !accRecModel.getBillRefNo().isEmpty()) {
-				System.out.println("eslwdxsxc");
-					
-					SalesModel salesRecord = accountReceivablesRepository
-							.getSalesByBillCode(accRecModel.getBillRefNo().trim());
 
-					if (Objects.nonNull(salesRecord)) {
-						BillNo = salesRecord.getCreditAccountNo();
-						System.out.println(BillNo + "oen bill");
-					}
-					else {
+			} else if (accRecModel.getBillRefNo() != null && !accRecModel.getBillRefNo().isEmpty()) {
+				System.out.println("eslwdxsxc");
+
+				SalesModel salesRecord = accountReceivablesRepository
+						.getSalesByBillCode(accRecModel.getBillRefNo().trim());
+
+				if (Objects.nonNull(salesRecord)) {
+					BillNo = salesRecord.getCreditAccountNo();
+					System.out.println(BillNo + "oen bill");
+				} else {
 					SalesModel salesData = salesRepository
 							.getSalesRecordById(accountsReceivables.get(i).getSalesBillId());
 
@@ -1063,33 +834,26 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 						BillNo = salesData.getCreditAccountNo();
 						System.out.println(BillNo + "3rf bill");
 					}
-					}
-					masterAccObj = masterAccRepo.getDataByMasterCreditNumber(BillNo);
-					System.out.println(masterAccObj.getCreditNumber());
-					if(accountsReceivables.get(i).getPartiallyPaid()!=null) {
-						System.out.println("in if oa partiallu =p");
-					/*if (Objects.nonNull(masterAccObj)) {
+				}
+				masterAccObj = masterAccRepo.getDataByMasterCreditNumber(BillNo);
+				System.out.println(masterAccObj.getCreditNumber());
+				if (accountsReceivables.get(i).getPartiallyPaid() != null) {
+					System.out.println("in if oa partiallu =p");
+
+				} else {
+					if (Objects.nonNull(masterAccObj)) {
 						System.out.println(amount + ":final credit amotjjkk paying");
 						System.out.println(masterAccObj.getCreditLimitLeft());
-						Double creditAmountUpdate = (amount - accountsReceivables.get(i).getAmountReceived()) + masterAccObj.getCreditLimitLeft();
+						DecimalFormat df = new DecimalFormat(".##");
+						Double creditAmountUpdate = Double.parseDouble(df.format(amount)) + masterAccObj.getCreditLimitLeft();
 						System.out.println(creditAmountUpdate + ": wlsd sk lopps amfeiucjjb");
 						masterAccObj.setCreditLimitLeft(creditAmountUpdate.intValue());
 						masterAccRepo.save(masterAccObj);
-					}*/
-					}else {
-						if (Objects.nonNull(masterAccObj)) {
-							System.out.println(amount + ":final credit amotjjkk paying");
-							System.out.println(masterAccObj.getCreditLimitLeft());
-							Double creditAmountUpdate = amount + masterAccObj.getCreditLimitLeft();
-							System.out.println(creditAmountUpdate + ": wlsd sk lopps amfeiucjjb");
-							masterAccObj.setCreditLimitLeft(creditAmountUpdate.intValue());
-							masterAccRepo.save(masterAccObj);
-						}
 					}
-					amount=(double)0;
-			}else if(accRecModel.getSalesBillId() !=null) {
-				SalesModel salesData = salesRepository
-						.getSalesRecordById(accRecModel.getSalesBillId());
+				}
+				amount = (double) 0;
+			} else if (accRecModel.getSalesBillId() != null) {
+				SalesModel salesData = salesRepository.getSalesRecordById(accRecModel.getSalesBillId());
 				if (Objects.nonNull(salesData)) {
 					BillNo = salesData.getCreditAccountNo();
 					System.out.println(BillNo + "3rf billbbvnbnbvnbn");
@@ -1099,14 +863,69 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 				if (Objects.nonNull(masterAccObj)) {
 					System.out.println(amount + ":final credit amotjjkk paying");
 					System.out.println(masterAccObj.getCreditLimitLeft());
-					Double creditAmountUpdate = amount + masterAccObj.getCreditLimitLeft();
+					DecimalFormat df = new DecimalFormat(".##");
+					Double creditAmountUpdate = Double.parseDouble(df.format(amount)) + masterAccObj.getCreditLimitLeft();
 					System.out.println(creditAmountUpdate + ": wlsd sk lopps amfeiucjjb");
 					masterAccObj.setCreditLimitLeft(creditAmountUpdate.intValue());
 					masterAccRepo.save(masterAccObj);
 				}
 			}
 
-		
+		}
+
+		// without distubing existed things to make sales return and sales bill with
+		// two payments of fully paid
+		for (int i = 0; i < accountsReceivables.size(); i++) {
+			for (int j = i; j < accountsReceivables.size(); j++) {
+				if (i != j) {
+					System.out.println("in last for loop");
+					if (accountsReceivables.get(i).getSourceType().equals("Sales Returns - Credit Note")
+							&& accountsReceivables.get(i).getPaymentType().equals("Credit Note")
+							&& accountsReceivables.get(i).getSalesBillId() != null) {
+						
+						if (accountsReceivables.get(i).getPartiallyPaid() == null) {
+							if (accountsReceivables.get(j).getPartiallyPaid() == null) {
+								System.out.println(
+										",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,==============================================");
+								SalesModel salesModel = salesRepository
+										.getSalesRecordById(accountsReceivables.get(i).getSalesBillId());
+
+								if (salesModel.getPaymentStatus().equals("Paid")
+										&& salesModel.getCreditNoteAmount() != null) {
+									double amount = 0;
+									if (Objects.nonNull(accountsReceivables.get(j).getCashAmount())) {
+										amount = accountsReceivables.get(j).getCashAmount();
+									} else if (Objects.nonNull(accountsReceivables.get(j).getCreditCardAmount())) {
+										amount = accountsReceivables.get(j).getCreditCardAmount();
+									} else if (Objects.nonNull(accountsReceivables.get(j).getChequeAmount())) {
+										amount = accountsReceivables.get(j).getChequeAmount();
+									} else if (Objects.nonNull(accountsReceivables.get(j).getUpiAmount())) {
+										amount = accountsReceivables.get(j).getUpiAmount();
+									}
+									System.out.println(amount + ":?>?>>??");
+									double netAmt = salesModel.getNetAmount();
+									double amt = netAmt - amount;
+									if (accountsReceivables.get(j).getCreditNumber() != null) {
+										MasterAccountModel masterAccObj = masterAccRepo.getDataByMasterCreditNumber(
+												accountsReceivables.get(j).getCreditNumber().trim());
+										System.out.println(masterAccObj.getCreditNumber());
+										if (Objects.nonNull(masterAccObj)) {
+											System.out.println(amt + ":final credit amotjjkk paying");
+											System.out.println(masterAccObj.getCreditLimitLeft());
+											DecimalFormat df = new DecimalFormat(".##");
+											Double creditAmountUpdate = Double.parseDouble(df.format(amt)) + masterAccObj.getCreditLimitLeft();
+											System.out.println(creditAmountUpdate + ": wlsd sk lopps amfeiucjjb");
+											masterAccObj.setCreditLimitLeft(creditAmountUpdate.intValue());
+											masterAccRepo.save(masterAccObj);
+										}
+									}
+								}
+							}
+						}
+					}
+
+				}
+			}
 		}
 
 		return accountsReceivables;
