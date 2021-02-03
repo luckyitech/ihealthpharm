@@ -178,7 +178,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 								if (Objects.nonNull(accountReceivablesRes.getBillRefNo())
 										|| Objects.nonNull(accountReceivablesRes.getSalesBillId())) {
 									SalesModel salesRecord = accountReceivablesRepository
-											.getSalesByBillCode((accountReceivablesRes.getBillRefNo()).trim());
+											.getSalesByBillCode(accountReceivablesRes.getBillRefNo().trim());
 									Double creditAmount = Objects.nonNull(salesRecord.getCreditAmount())
 											? salesRecord.getCreditAmount()
 											: 0;
@@ -221,7 +221,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 								: 0;
 					} else {
 						salesRecord = accountReceivablesRepository
-								.getSalesByBillCode((accountReceivablesRes.getBillRefNo()).trim());
+								.getSalesByBillCode(accountReceivablesRes.getBillRefNo().trim());
 						creditAmount = Objects.nonNull(salesRecord.getCreditAmount()) ? salesRecord.getCreditAmount()
 								: 0;
 					}
@@ -268,8 +268,10 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 						salesData = salesRepository.getSalesRecordById(accountReceivablesRes.getSalesBillId());
 						creditAmount = Objects.nonNull(salesData.getCreditAmount()) ? salesData.getCreditAmount() : 0;
 					} else {
+						System.out.println(accountReceivablesRes.getBillRefNo());
 						salesData = accountReceivablesRepository
-								.getSalesByBillCode((accountReceivablesRes.getBillRefNo()).trim());
+								.getSalesByBillCode(accountReceivablesRes.getBillRefNo().trim());
+						System.out.println(salesData);
 						creditAmount = Objects.nonNull(salesData.getCreditAmount()) ? salesData.getCreditAmount() : 0;
 					}
 
@@ -315,7 +317,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 
 				System.out.println("acc rec source tyep and seconf if in for loop");
 
-				SalesModel salesRes = salesRepository.getSalesRecordByNo((accountReceivables.getSourceRef()).trim());
+				SalesModel salesRes = salesRepository.getSalesRecordByNo(accountReceivables.getSourceRef().trim());
 
 				salesRes.setBalanceAmount(salesRes.getBalanceAmount() - accountReceivables.getPartialAmt());
 				Double creditAmount = Objects.nonNull(salesRes.getCreditAmount()) ? salesRes.getCreditAmount() : 0;
@@ -404,7 +406,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 				DecimalFormat df = new DecimalFormat(".##");
 				System.out.println(accountReceivables);
 				SalesModel salesRecord = accountReceivablesRepository
-						.getSalesByBillCode((accountReceivablesRes.getSourceRef()).trim());
+						.getSalesByBillCode(accountReceivablesRes.getSourceRef().trim());
 				Double creditAmount = Objects.nonNull(salesRecord.getCreditAmount()) ? salesRecord.getCreditAmount()
 						: 0;
 				System.out.println(creditAmount + ":crrrredit amt");
@@ -698,16 +700,17 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 		for (int i = 0; i < accountsReceivables.size(); i++) {
 			for (int j = 0; j < accountsReceivables.size(); j++) {
 				if (i != j) {
+					DecimalFormat df = new DecimalFormat(".##");
 					if (Objects.nonNull(accountsReceivables.get(i).getBillRefNo())) {
 						if (accountsReceivables.get(i).getBillRefNo()
-								.equals((accountsReceivables.get(j).getSourceRef()).trim())) {
+								.equals(accountsReceivables.get(j).getSourceRef().trim())) {
 							if (accountsReceivables.get(i).getSourceType().toLowerCase().contains("credit note")) {
 
 								Double creditNoteAmount = -1
 										* accountsReceivables.get(i).getAmountReceived().doubleValue();
 								String billNo = accountsReceivables.get(i).getBillRefNo();
 								SalesModel salesRecord = accountReceivablesRepository
-										.getSalesByBillCode((accountsReceivables.get(i).getBillRefNo()).trim());
+										.getSalesByBillCode(accountsReceivables.get(i).getBillRefNo().trim());
 
 								if (salesRecord.getBalanceAmount() == 0) {
 									String paymentStatus = "Paid";
@@ -742,8 +745,9 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 										String lastUpdatedUserId = Integer
 												.toString(accountsReceivables.get(i).getLastUpdateUser());
 										salesRecord.setLastUpdateUserId(lastUpdatedUserId);
+										double d= accountsReceivables.get(i).getAmountReceived();
 										salesRecord.setCreditNoteAmount(
-												(double) (accountsReceivables.get(i).getAmountReceived()));
+												 Double.parseDouble(df.format(d)));
 										salesRecord.setSalesCreditRefNo(accountsReceivables.get(i).getSourceRef());
 										salesRecord.setCreditAmount((double) 0);
 										System.out.println("<>>?<<?<>><><>");
@@ -763,7 +767,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 										System.out.println("in 2 for lopps of if else");
 										salesRecord.setPaymentStatus("Paid");
 									}
-									salesRecord.setCreditNoteAmount(creditNoteAmount);
+									salesRecord.setCreditNoteAmount((double) Double.parseDouble(df.format(creditNoteAmount)));
 									salesRecord.setSalesCreditRefNo(accountsReceivables.get(i).getSourceRef());
 
 								} else {
@@ -795,7 +799,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 														: null);
 
 									}
-									salesRecord.setCreditNoteAmount(creditNoteAmount);
+									salesRecord.setCreditNoteAmount((double) Double.parseDouble(df.format(creditNoteAmount)));
 
 								}
 								salesRepository.save(salesRecord);
@@ -979,6 +983,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 		//to update credit note amount if it goes for multiple creditnotes
 		for (int i = 0; i < accountsReceivables.size(); i++) {
 			SalesModel salesRecord =null;
+			DecimalFormat df = new DecimalFormat(".##");
 			if(Objects.nonNull(accountsReceivables.get(i).getBillRefNo())) {
 			 salesRecord = accountReceivablesRepository
 					.getSalesByBillCode(accountsReceivables.get(i).getBillRefNo().trim());
@@ -994,7 +999,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 						&& Objects.isNull(accountsReceivables.get(i).getChequeAmount()) && Objects.isNull(accountsReceivables.get(i).getUpiAmount())) {
 						
 						System.out.println("inside of if");
-						salesRecord.setCreditNoteAmount((double)salesRecord.getPaidAmount());
+						salesRecord.setCreditNoteAmount((double) Double.parseDouble(df.format(salesRecord.getPaidAmount())));
 						salesRepository.save(salesRecord);
 						
 					}
