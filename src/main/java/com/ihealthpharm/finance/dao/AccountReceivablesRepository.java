@@ -234,5 +234,4 @@ public interface AccountReceivablesRepository extends JpaRepository<AccountRecei
 		@Query("select a from account_receivables a where accountReceivablesId=:accountReceivablesId")
 		AccountReceivablesModel getAccRecDataById(@Param("accountReceivablesId")Integer accountReceivablesId);
 		
-		
 }
