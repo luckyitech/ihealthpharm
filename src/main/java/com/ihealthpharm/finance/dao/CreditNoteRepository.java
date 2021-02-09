@@ -44,8 +44,8 @@ public interface CreditNoteRepository extends JpaRepository<CreditNoteModel,Inte
 	@Query("select c from CREDIT_NOTE c order by c.lastUpdateTimestamp desc")
 	List<CreditNoteModel> getAllCNData();
 
-	@Query("select c from CREDIT_NOTE c where c.invoiceId like :searchValue% order by c.lastUpdateTimestamp desc ")
-	List<CreditNoteModel> getAllDataBySearchForInvoices(@Param("searchValue") String searchValue);
+	@Query("select c from CREDIT_NOTE c where c.creditNoteNo like :searchValue% order by c.lastUpdateTimestamp desc ")
+	List<CreditNoteModel> getAllDataBySearchForCreditNoteNo(@Param("searchValue") String searchValue);
 
 	@Query("select c from CREDIT_NOTE c where c.billId like :searchValue% order by c.lastUpdateTimestamp desc ")
 	List<CreditNoteModel> getAllDataBySearchForBills(@Param("searchValue") String searchValue);
