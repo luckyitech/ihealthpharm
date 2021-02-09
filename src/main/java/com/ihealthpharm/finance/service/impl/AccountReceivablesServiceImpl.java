@@ -114,6 +114,10 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 				d.setPaymentStatus("Paid");
 				debitNoteRepo.save(d);
 			}
+			
+			
+			
+			
 			// if it is credit note record
 			if (accountReceivables.getPaymentType().equals("Credit Note")) {
 				System.out.println("payment credit first case");
@@ -153,6 +157,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 					}
 			    }
 				
+				if(Objects.nonNull(salesRecord)) {
 				if (accountReceivables.getPaymentType().equals("Card")) {
 					anotherModePayments = (double)accountReceivables.getCreditCardAmount();
 					salesRecord.setCreditCardAmount(accountReceivables.getCreditCardAmount());
@@ -176,12 +181,6 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 					salesRecord.setChequeDate(chequeDt.toString());
 					salesRecord.setChequeNumber(accountReceivables.getChequeNumber());
 				}
-
-				
-			}
-			System.out.println(salesRecord);
-			System.out.println(creditNoteRefNo +"credit note ref numbers");
-			System.out.println(amountRecived + "amounts recieved");
 			
 			
 			double bal= salesRecord.getNetAmount() - Double.parseDouble(df.format(amountRecived));
@@ -217,9 +216,8 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 			}
 			
 			salesRepository.save(salesRecord);
-			
-			
-			
+			}
+			}
 		} else {
 			System.out.println("[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]][]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
 			for (AccountReceivablesModel accountReceivables : accountsReceivables) {

@@ -166,8 +166,8 @@ public class CreditNoteServiceImpl implements CreditNoteService {
 
 	@Override
 	public List<CreditNoteModel> getAllCreditNotesBySearch(String searchTerm, String searchValue) {
-		if(searchTerm.equalsIgnoreCase("Invoice No")) {
-			return creditNoteRepo.getAllDataBySearchForInvoices(searchValue);
+		if(searchTerm.equalsIgnoreCase("Credit Note No")) {
+			return creditNoteRepo.getAllDataBySearchForCreditNoteNo(searchValue);
 		}else {
 			return creditNoteRepo.getAllDataBySearchForBills(searchValue);
 		}
