@@ -125,6 +125,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 			Double amountRecived = 0.0;
 			String creditNoteRefNo = "";
 			SalesModel salesRecord=null;
+			Double anotherModePayments=0.0;
 			DecimalFormat df = new DecimalFormat(".##");
 			for (AccountReceivablesModel accountReceivables : accountsReceivables) {
 				
@@ -151,6 +152,32 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 						salesRecord.setLastUpdateUserId(lastUpdatedUserId);
 					}
 			    }
+				
+				if (accountReceivables.getPaymentType().equals("Card")) {
+					anotherModePayments = (double)accountReceivables.getCreditCardAmount();
+					salesRecord.setCreditCardAmount(accountReceivables.getCreditCardAmount());
+					salesRecord.setCreditAccountNo(accountReceivables.getCreditCardNo());
+					salesRecord.setCreditCardAuthNo(accountReceivables.getCardAuthCode());
+
+				} else if (accountReceivables.getPaymentType().equals("Cash")) {
+					anotherModePayments = (double)accountReceivables.getCashAmount();
+					salesRecord.setCashAmount(accountReceivables.getCashAmount());
+
+				} else if ((accountReceivables.getPaymentType().equals("MPesa"))) {
+					anotherModePayments = (double)accountReceivables.getUpiAmount();
+					salesRecord.setUpiAmount(accountReceivables.getUpiAmount());
+					salesRecord.setUpiPhoneNo(accountReceivables.getUpiPhoneNo());
+					salesRecord.setUpiTransactionId(accountReceivables.getUpiAuthCode());
+
+				} else if ((accountReceivables.getPaymentType().equals("Cheque"))) {
+					anotherModePayments = (double)accountReceivables.getChequeAmount();
+					salesRecord.setChequeAmount(accountReceivables.getChequeAmount());
+					LocalDate chequeDt = accountReceivables.getChequeDate();
+					salesRecord.setChequeDate(chequeDt.toString());
+					salesRecord.setChequeNumber(accountReceivables.getChequeNumber());
+				}
+
+				
 			}
 			System.out.println(salesRecord);
 			System.out.println(creditNoteRefNo +"credit note ref numbers");
@@ -158,7 +185,16 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 			
 			
 			double bal= salesRecord.getNetAmount() - Double.parseDouble(df.format(amountRecived));
-			if(bal > 0) {
+			System.out.println(bal + "balancerfdfcdvd");
+			Double balance=0.0;
+			System.out.println(balance + "balancerfdfcdvd");
+			if(Objects.nonNull(anotherModePayments)) {
+				balance=((double) salesRecord.getNetAmount())-(Double.parseDouble(df.format(anotherModePayments))+Double.parseDouble(df.format(amountRecived)));
+			}else {
+				balance=(double)bal;
+			}
+			System.out.println(balance +"final bal");
+			if(balance > 0) {
 				salesRecord.setBalanceAmount((float) bal);
 				salesRecord.setPaymentStatus("Partially Paid");
 				salesRecord.setPaidAmount((float) Double
@@ -181,6 +217,8 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 			}
 			
 			salesRepository.save(salesRecord);
+			
+			
 			
 		} else {
 			System.out.println("[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]][]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
@@ -964,7 +1002,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 
 			}
 
-			for (int i = 0; i < accountsReceivables.size(); i++) {
+			/*for (int i = 0; i < accountsReceivables.size(); i++) {
 				for (int j = 0; j < accountsReceivables.size(); j++) {
 					if (i != j) {
 						DecimalFormat df = new DecimalFormat(".##");
@@ -1079,7 +1117,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 						}
 					}
 				}
-			}
+			}*/
 
 			for (int i = 0; i < accountsReceivables.size(); i++) {
 				AccountReceivablesModel accRecModel = accountReceivablesRepository
@@ -1773,10 +1811,11 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 				}
 			}
 		}
+		DecimalFormat df = new DecimalFormat(".##");
 System.out.println(billPartialAmt+"mntrfgvhj");
-		res.put("totalAmount", billPartialAmt);
-		res.put("totalCredit", billTotalCredit);
-		res.put("totalBill", billTotalCredit - billTotalDebit);
+		res.put("totalAmount", Double.parseDouble(df.format(billPartialAmt)));
+		res.put("totalCredit", Double.parseDouble(df.format(billTotalCredit)));
+		res.put("totalBill",Double.parseDouble(df.format(billTotalCredit - billTotalDebit)));
 
 		return res;
 	}
