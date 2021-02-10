@@ -122,6 +122,11 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 			if (accountReceivables.getPaymentType().equals("Credit Note")) {
 				System.out.println("payment credit first case");
 				creditNoteTransaction = true;
+			}else if(Objects.nonNull(accountReceivables.getPartiallyPaid())) {
+				if(accountReceivables.getPartiallyPaid().equals("Credit Note")) {
+					System.out.println("in elade chefevv");
+					creditNoteTransaction = true;
+				}
 			}
 		}
 
