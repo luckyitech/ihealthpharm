@@ -230,9 +230,13 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 							System.out.println(masterAccObj.getCreditLimitLeft());
 							Double creditAmountUpdate=0.0;
 							if(salesRes.getPaymentStatus().equals("Paid")) {
+								System.out.println("if case for sales billing");
 								creditAmountUpdate=(double) Double.parseDouble(df.format(salesRes.getNetAmount()));
+								System.out.println(creditAmountUpdate);
 							}else {
+								System.out.println("else case for sales billing");
 								creditAmountUpdate=(double) Double.parseDouble(df.format(amountRecived));
+								System.out.println(creditAmountUpdate);
 							}
 							double amount= (double) Double.parseDouble(df.format(creditAmountUpdate+(double)masterAccObj.getCreditLimitLeft()));
 							 masterAccObj.setCreditLimitLeft((int)amount);
@@ -807,7 +811,32 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 								}
 
 							}
-							salesRepository.save(salesRecord);
+							SalesModel salesData= salesRepository.save(salesRecord);
+							
+							
+							if (Objects.nonNull(salesData)) {
+								MasterAccountModel masterAccObj=null;
+								if(Objects.nonNull(salesData.getCreditAccountNo())) {
+									if(Objects.nonNull(salesData.getCreditAccountNo())) {
+								 masterAccObj = masterAccRepo
+										.getDataByMasterCreditNumber(salesData.getCreditAccountNo());
+									}
+								}
+								if (Objects.nonNull(masterAccObj)) {
+									System.out.println(masterAccObj.getCreditLimitLeft());
+									Double creditAmountUpdate=0.0;
+									
+										System.out.println("sales billing");
+										creditAmountUpdate=(double) Double.parseDouble(df.format(creditAmount));
+									
+									double amount= (double) Double.parseDouble(df.format(creditAmountUpdate+(double)masterAccObj.getCreditLimitLeft()));
+									 masterAccObj.setCreditLimitLeft((int)amount);
+									masterAccRepo.save(masterAccObj);
+
+								}
+							}
+							
+							
 						}
 					}
 
