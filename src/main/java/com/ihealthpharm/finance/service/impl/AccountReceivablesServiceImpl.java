@@ -92,9 +92,10 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 			List<AccountReceivablesModel> accountsReceivables) {
 
 		Boolean creditNoteTransaction = false;
+		String CustomerName="";
 
 		for (AccountReceivablesModel accountReceivables : accountsReceivables) {
-			
+
 			AccountReceivablesModel accountReceivablesRes = getValidAccountsReceivables(
 					accountReceivables.getAccountReceivablesId());
 			if (!Objects.nonNull(accountReceivablesRes)) {
@@ -114,17 +115,13 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 				d.setPaymentStatus("Paid");
 				debitNoteRepo.save(d);
 			}
-			
-			
-			
-			
+
 			// if it is credit note record
 			if (accountReceivables.getPaymentType().equals("Credit Note")) {
-				System.out.println("payment credit first case");
 				creditNoteTransaction = true;
-			}else if(Objects.nonNull(accountReceivables.getPartiallyPaid())) {
-				if(accountReceivables.getPartiallyPaid().equals("Credit Note")) {
-					System.out.println("in elade chefevv");
+			} else if (Objects.nonNull(accountReceivables.getPartiallyPaid())) {
+				if (accountReceivables.getPartiallyPaid().equals("Credit Note")) {
+					CustomerName=accountReceivables.getCustomerName();
 					creditNoteTransaction = true;
 				}
 			}
@@ -133,13 +130,13 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 		if (creditNoteTransaction) {
 			Double amountRecived = 0.0;
 			String creditNoteRefNo = "";
-			SalesModel salesRecord=null;
-			Double anotherModePayments=0.0;
+			SalesModel salesRecord = null;
+			Double anotherModePayments = 0.0;
 			DecimalFormat df = new DecimalFormat(".##");
 			for (AccountReceivablesModel accountReceivables : accountsReceivables) {
-				
-				if (!accountReceivables.getSourceType().contains("Sales Billing")) {	
-					
+
+				if (!accountReceivables.getSourceType().contains("Sales Billing")) {
+
 					if (accountReceivables.getSourceType().contains("Credit")) {
 						if (accountReceivables.getAmountReceived() > 0) {
 							amountRecived += accountReceivables.getAmountReceived();
@@ -153,98 +150,138 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 							creditNoteRefNo += "," + accountReceivables.getSourceRef();
 						}
 					}
-				}else {
-					if(Objects.nonNull(accountReceivables.getSourceRef())) {
-						salesRecord=accountReceivablesRepository.getSalesByBillCode(accountReceivables.getSourceRef().trim());
-						String lastUpdatedUserId = Integer
-								.toString(accountReceivables.getLastUpdateUser());
+				} else {
+					if (Objects.nonNull(accountReceivables.getSourceRef())) {
+						salesRecord = accountReceivablesRepository
+								.getSalesByBillCode(accountReceivables.getSourceRef().trim());
+						String lastUpdatedUserId = Integer.toString(accountReceivables.getLastUpdateUser());
 						salesRecord.setLastUpdateUserId(lastUpdatedUserId);
 					}
-			    }
-				
-				if(Objects.nonNull(salesRecord)) {
-				if (accountReceivables.getPaymentType().equals("Card")) {
-					anotherModePayments = (double)accountReceivables.getCreditCardAmount();
-					salesRecord.setCreditCardAmount(accountReceivables.getCreditCardAmount());
-					salesRecord.setCreditAccountNo(accountReceivables.getCreditCardNo());
-					salesRecord.setCreditCardAuthNo(accountReceivables.getCardAuthCode());
-
-				} else if (accountReceivables.getPaymentType().equals("Cash")) {
-					anotherModePayments = (double)accountReceivables.getCashAmount();
-					salesRecord.setCashAmount(accountReceivables.getCashAmount());
-
-				} else if ((accountReceivables.getPaymentType().equals("MPesa"))) {
-					anotherModePayments = (double)accountReceivables.getUpiAmount();
-					salesRecord.setUpiAmount(accountReceivables.getUpiAmount());
-					salesRecord.setUpiPhoneNo(accountReceivables.getUpiPhoneNo());
-					salesRecord.setUpiTransactionId(accountReceivables.getUpiAuthCode());
-
-				} else if ((accountReceivables.getPaymentType().equals("Cheque"))) {
-					anotherModePayments = (double)accountReceivables.getChequeAmount();
-					salesRecord.setChequeAmount(accountReceivables.getChequeAmount());
-					LocalDate chequeDt = accountReceivables.getChequeDate();
-					salesRecord.setChequeDate(chequeDt.toString());
-					salesRecord.setChequeNumber(accountReceivables.getChequeNumber());
 				}
-			
-			
-			double bal= salesRecord.getNetAmount() - Double.parseDouble(df.format(amountRecived));
-			System.out.println(bal + "balancerfdfcdvd");
-			Double balance=0.0;
-			System.out.println(balance + "balancerfdfcdvd");
-			if(Objects.nonNull(anotherModePayments)) {
-				balance=((double) salesRecord.getNetAmount())-(Double.parseDouble(df.format(anotherModePayments))+Double.parseDouble(df.format(amountRecived)));
-			}else {
-				balance=(double)bal;
-			}
-			System.out.println(balance +"final bal");
-			if(balance > 0) {
-				salesRecord.setBalanceAmount((float) bal);
-				salesRecord.setPaymentStatus("Partially Paid");
-				salesRecord.setPaidAmount((float) Double
-						.parseDouble(df.format(salesRecord.getNetAmount() - bal)));
-				double creditAmt = salesRecord.getCreditAmount()
-						- (Double.parseDouble(df.format(amountRecived)));
-				System.out.println(creditAmt);
-				salesRecord.setCreditAmount((Double.parseDouble(df.format(creditAmt))));
-				salesRecord.setCreditNoteAmount((double) Double.parseDouble(
-						df.format(amountRecived)));
-				salesRecord.setSalesCreditRefNo(creditNoteRefNo);
-			}else {
-				salesRecord.setBalanceAmount((float) 0);
-				salesRecord.setPaymentStatus("Paid");
-				salesRecord.setCreditNoteAmount((double) Double.parseDouble(
-						df.format(amountRecived)));
-				salesRecord.setSalesCreditRefNo(creditNoteRefNo);
-				salesRecord.setCreditAmount((double) 0);
-				salesRecord.setPaidAmount(salesRecord.getNetAmount());
-			}
-			
-			salesRepository.save(salesRecord);
-			}
+
+				if (Objects.nonNull(salesRecord)) {
+					if (accountReceivables.getPaymentType().equals("Card")) {
+						anotherModePayments = (double) accountReceivables.getCreditCardAmount();
+						salesRecord.setCreditCardAmount(accountReceivables.getCreditCardAmount());
+						salesRecord.setCreditCardNo(accountReceivables.getCreditCardNo());
+						salesRecord.setCreditCardAuthNo(accountReceivables.getCardAuthCode());
+
+					} else if (accountReceivables.getPaymentType().equals("Cash")) {
+						anotherModePayments = (double) accountReceivables.getCashAmount();
+						salesRecord.setCashAmount(accountReceivables.getCashAmount());
+
+					} else if ((accountReceivables.getPaymentType().equals("MPesa"))) {
+						anotherModePayments = (double) accountReceivables.getUpiAmount();
+						salesRecord.setUpiAmount(accountReceivables.getUpiAmount());
+						salesRecord.setUpiPhoneNo(accountReceivables.getUpiPhoneNo());
+						salesRecord.setUpiTransactionId(accountReceivables.getUpiAuthCode());
+
+					} else if ((accountReceivables.getPaymentType().equals("Cheque"))) {
+						anotherModePayments = (double) accountReceivables.getChequeAmount();
+						salesRecord.setChequeAmount(accountReceivables.getChequeAmount());
+						LocalDate chequeDt = accountReceivables.getChequeDate();
+						salesRecord.setChequeDate(chequeDt.toString());
+						salesRecord.setChequeNumber(accountReceivables.getChequeNumber());
+					}
+
+					double bal = salesRecord.getNetAmount() - Double.parseDouble(df.format(amountRecived));
+					System.out.println(bal + "balancerfdfcdvd");
+					Double balance = 0.0;
+					System.out.println(balance + "balancerfdfcdvd");
+					if (Objects.nonNull(anotherModePayments)) {
+						balance = ((double) salesRecord.getNetAmount())
+								- (Double.parseDouble(df.format(anotherModePayments))
+										+ Double.parseDouble(df.format(amountRecived)));
+					} else {
+						balance = (double) bal;
+					}
+					System.out.println(balance + "final bal");
+					if (balance > 0) {
+						salesRecord.setBalanceAmount((float) bal);
+						salesRecord.setPaymentStatus("Partially Paid");
+						salesRecord
+								.setPaidAmount((float) Double.parseDouble(df.format(salesRecord.getNetAmount() - bal)));
+						double creditAmt = salesRecord.getCreditAmount()
+								- (Double.parseDouble(df.format(amountRecived)));
+						System.out.println(creditAmt);
+						salesRecord.setCreditAmount((Double.parseDouble(df.format(creditAmt))));
+						salesRecord.setCreditNoteAmount((double) Double.parseDouble(df.format(amountRecived)));
+						salesRecord.setSalesCreditRefNo(creditNoteRefNo);
+					} else {
+						salesRecord.setBalanceAmount((float) 0);
+						salesRecord.setPaymentStatus("Paid");
+						salesRecord.setCreditNoteAmount((double) Double.parseDouble(df.format(amountRecived)));
+						salesRecord.setSalesCreditRefNo(creditNoteRefNo);
+						salesRecord.setCreditAmount((double) 0);
+						salesRecord.setPaidAmount(salesRecord.getNetAmount());
+					}
+
+					SalesModel salesRes = salesRepository.save(salesRecord);
+					System.out.println(salesRes.getBillCode());
+					if (Objects.nonNull(salesRes)) {
+						MasterAccountModel masterAccObj=null;
+						if(Objects.nonNull(salesRes.getCreditAccountNo())) {
+							if(Objects.nonNull(salesRes.getCreditAccountNo())) {
+						 masterAccObj = masterAccRepo
+								.getDataByMasterCreditNumber(salesRes.getCreditAccountNo());
+							}
+						}
+						if (Objects.nonNull(masterAccObj)) {
+							System.out.println(masterAccObj.getCreditLimitLeft());
+							Double creditAmountUpdate=0.0;
+							if(salesRes.getPaymentStatus().equals("Paid")) {
+								creditAmountUpdate=(double) Double.parseDouble(df.format(salesRes.getNetAmount()));
+							}else {
+								creditAmountUpdate=(double) Double.parseDouble(df.format(amountRecived));
+							}
+							double amount= (double) Double.parseDouble(df.format(creditAmountUpdate+(double)masterAccObj.getCreditLimitLeft()));
+							 masterAccObj.setCreditLimitLeft((int)amount);
+							masterAccRepo.save(masterAccObj);
+
+						}
+					}
+
+				}else {
+					if(!CustomerName.equals("")) {
+						MasterAccountModel masterAccObj =null;
+						SalesModel salesResponse=null;
+								if(Objects.nonNull(accountReceivables.getBillRefNo())) {
+									salesResponse=accountReceivablesRepository.getSalesByBillCode(accountReceivables.getBillRefNo());
+									if(Objects.nonNull(salesResponse.getCreditAccountNo())) {
+									masterAccObj=masterAccRepo.getDataByMasterCreditNumber(salesResponse.getCreditAccountNo());
+									}
+								}else {
+									salesResponse=salesRepository.getSalesRecordById(accountReceivables.getSalesBillId());
+									if(Objects.nonNull(salesResponse.getCreditAccountNo())) {
+									masterAccObj=masterAccRepo.getDataByMasterCreditNumber(salesResponse.getCreditAccountNo());
+									}
+								}
+								
+								if(Objects.nonNull(masterAccObj)) {
+									
+									if(salesResponse.getPaymentStatus().equalsIgnoreCase("Partially Paid")) {
+										double amt=(double) Double.parseDouble(df.format(salesResponse.getPaidAmount()));  
+										double amount= (double) Double.parseDouble(df.format(amt+(double)masterAccObj.getCreditLimitLeft()));
+										 masterAccObj.setCreditLimitLeft((int)amount);
+									}else if(salesResponse.getPaymentStatus().equalsIgnoreCase("Paid")) {
+										double amt=(double) Double.parseDouble(df.format(salesResponse.getNetAmount()));
+										double amount= (double) Double.parseDouble(df.format(amt+(double)masterAccObj.getCreditLimitLeft()));
+										masterAccObj.setCreditLimitLeft((int)amount);
+									}else {
+										System.out.println("credit note else case ");
+										System.out.println(accountReceivables.getAmountReceived());
+										double amt=(double) Double.parseDouble(df.format(-1*accountReceivables.getAmountReceived()));
+										double amount= (double) Double.parseDouble(df.format(amt+(double)masterAccObj.getCreditLimitLeft()));
+										masterAccObj.setCreditLimitLeft((int)amount);
+									}
+									masterAccRepo.save(masterAccObj);
+								}
+					}
+				}
 			}
 		} else {
 			System.out.println("[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]][]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
 			for (AccountReceivablesModel accountReceivables : accountsReceivables) {
-			/*	AccountReceivablesModel accountReceivablesRes = getValidAccountsReceivables(
-						accountReceivables.getAccountReceivablesId());
-				if (!Objects.nonNull(accountReceivablesRes)) {
-					throw new IHealthPharmException(accountReceivablesHelper.getNotFoundAccountReceivablesMessage(),
-							HttpStatus.NOT_FOUND);
-				}
-
-			//	accountReceivablesRes = accountReceivablesRepository.save(accountReceivables);
-
-				// to update credit and debit note payment status
-				if (accountReceivables.getSourceType().contains("Credit Note")) {
-					CreditNoteModel c = creditNoteRepo.getCreditNoteDataById(accountReceivables.getSource());
-					c.setPaymentStatus("Paid");
-					creditNoteRepo.save(c);
-				} else if (accountReceivables.getSourceType().contains("Debit Note")) {
-					DebitNoteModel d = debitNoteRepo.getDebitNoteDataById(accountReceivables.getSource());
-					d.setPaymentStatus("Paid");
-					debitNoteRepo.save(d);
-				}*/
 
 				// to update the sales billing by using sales return credit note
 				if (accountReceivables.getPaymentStatus().equalsIgnoreCase("Paid")) {
@@ -258,546 +295,475 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 						if (accountReceivables.getPaymentType().equals("Credit Note")) {
 
 							DecimalFormat df = new DecimalFormat(".##");
-							// if account recievables record is containing sales bill Id
-						/*	if (Objects.nonNull(accountReceivablesRes.getSalesBillId())) {
-								System.out.println("billid");
-								SalesModel salesRecord = salesRepository
-										.getSalesRecordById(accountReceivablesRes.getSalesBillId());
-								System.out.println(salesRecord);
-								// if sales billing is paid
-								if (salesRecord.getPaymentStatus().equals("Paid")) {
 
-								} else {
-									Double creditAmount = Objects.nonNull(salesRecord.getCreditAmount())
-											? salesRecord.getCreditAmount()
-											: 0;
-									System.out.println(creditAmount + " :sales bill credit amt 1st");
-									System.out.println(
-											"????????????????????????????????????????????????????????????????????????????????????????????");
-									System.out.println("in sales fully paid with crrteedeffbfvhjfvfdvkdvkjdkjvv");
-									System.out.println(accountReceivablesRes.getAmountReceived());
-
-									double finalAmt = salesRecord.getNetAmount()
-											- (-1 * accountReceivablesRes.getAmountReceived());
-									double balAmt = Double.parseDouble(df.format(finalAmt));
-									if (balAmt != 0) {
-										System.out.println("in if bal is zeeto :" + balAmt);
-										salesRecord.setBalanceAmount((float) balAmt);
-										salesRecord.setPaymentStatus("Partially Paid");
-										salesRecord.setPaidAmount((float) Double
-												.parseDouble(df.format(salesRecord.getNetAmount() - balAmt)));
-										String lastUpdatedUserId = Integer
-												.toString(accountReceivablesRes.getLastUpdateUser());
-										salesRecord.setLastUpdateUserId(lastUpdatedUserId);
-										double creditAmt = salesRecord.getCreditAmount()
-												- (-1 * accountReceivablesRes.getAmountReceived());
-										System.out.println(creditAmt);
-										salesRecord.setCreditAmount((Double.parseDouble(df.format(creditAmt))));
-										salesRecord.setCreditNoteAmount((double) Double.parseDouble(
-												df.format(-1 * accountReceivablesRes.getAmountReceived())));
-										salesRecord.setSalesCreditRefNo(accountReceivables.getSourceRef());
-									} else {
-										System.out.println("in if bal is zeeto :" + balAmt);
-										salesRecord.setBalanceAmount((float) 0);
-										salesRecord.setPaymentStatus("Paid");
-										salesRecord.setCreditNoteAmount((double) Double.parseDouble(
-												df.format(-1 * accountReceivablesRes.getAmountReceived())));
-										salesRecord.setSalesCreditRefNo(accountReceivables.getSourceRef());
-										salesRecord.setCreditAmount((double) 0);
-										String lastUpdatedUserId = Integer
-												.toString(accountReceivablesRes.getLastUpdateUser());
-										salesRecord.setLastUpdateUserId(lastUpdatedUserId);
-										salesRecord.setPaidAmount(Objects.nonNull(salesRecord.getPaidAmount())
-												? salesRecord.getPaidAmount()
-														+ (-1 * accountReceivablesRes.getAmountReceived())
-												: (-1 * accountReceivablesRes.getAmountReceived()));
-
-									}
-									System.out.println("<>>?<<?<>>////<><>");
-								}
-
-								salesRepository.save(salesRecord);
-
+						} else if (accountReceivables.getSourceType().equals("Sales Returns - Credit Note")
+								&& accountReceivables.getPaymentStatus().equals("Paid")) {
+							System.out.println("skipped paid with credut note");
+							SalesModel salesRecord = null;
+							Double creditAmount = 0.0;
+							if (Objects.nonNull(accountReceivables.getSalesBillId())) {
+								salesRecord = salesRepository.getSalesRecordById(accountReceivables.getSalesBillId());
+								creditAmount = Objects.nonNull(salesRecord.getCreditAmount())
+										? salesRecord.getCreditAmount()
+										: 0;
 							} else {
-								// if acc rec record is containing bill number
-								System.out.println(accountReceivablesRes.getAmountReceived() + " :::::;;;;;;");
-								SalesModel salesRecord = accountReceivablesRepository
-										.getSalesByBillCode(accountReceivablesRes.getBillRefNo().trim());
-								System.out.println(salesRecord);
-
-								if (salesRecord.getPaymentStatus().equals("Paid")) {
-									salesRecord.setCreditNoteAmount((double) Double
-											.parseDouble(df.format(-1 * accountReceivablesRes.getAmountReceived())));
-									salesRecord.setSalesCreditRefNo(accountReceivables.getSourceRef());
-									double amount = 0;
-									double amt = 0;
-									if (Objects.nonNull(salesRecord.getCashAmount())) {
-										amount = salesRecord.getCashAmount()
-												- (-1 * accountReceivablesRes.getAmountReceived());
-										amt = Double.parseDouble(df.format(amount));
-										System.out.println(amt + ":cash");
-										salesRecord.setCashAmount((float) amt);
-									} else if (Objects.nonNull(salesRecord.getCreditCardAmount())) {
-										amount = salesRecord.getCreditCardAmount()
-												- (-1 * accountReceivablesRes.getAmountReceived());
-										amt = Double.parseDouble(df.format(amount));
-										System.out.println(amt + ":card.");
-										salesRecord.setCreditCardAmount((float) amt);
-									} else if (Objects.nonNull(salesRecord.getChequeAmount())) {
-										amount = salesRecord.getChequeAmount()
-												- (-1 * accountReceivablesRes.getAmountReceived());
-										amt = Double.parseDouble(df.format(amount));
-										System.out.println(amt + ":cheque");
-										salesRecord.setChequeAmount(amt);
-									} else if (Objects.nonNull(salesRecord.getUpiAmount())) {
-										amount = salesRecord.getUpiAmount()
-												- (-1 * accountReceivablesRes.getAmountReceived());
-										amt = Double.parseDouble(df.format(amount));
-										System.out.println(amt + ":upi");
-										salesRecord.setUpiAmount((float) amt);
-									}
-
-								} else {
-									Double creditAmount = Objects.nonNull(salesRecord.getCreditAmount())
-											? salesRecord.getCreditAmount()
-											: 0;
-									System.out.println(creditAmount + " :sales bill credit amt 1st");
-									System.out.println(
-											"????????????????????????????????????????????????????????????????????????????????????????????");
-									System.out.println("in sales fully paid with crrteedeffbfvhjfvfdvkdvkjdkjvv");
-									System.out.println(accountReceivablesRes.getAmountReceived());
-
-									double finalAmt = salesRecord.getNetAmount()
-											- (-1 * accountReceivablesRes.getAmountReceived());
-
-									double balAmt = Double.parseDouble(df.format(finalAmt));
-									if (balAmt != 0) {
-										System.out.println("in if bal is zeeto :" + balAmt);
-										salesRecord.setBalanceAmount((float) balAmt);
-										salesRecord.setPaymentStatus("Partially Paid");
-										salesRecord.setPaidAmount((float) Double
-												.parseDouble(df.format(salesRecord.getNetAmount() - balAmt)));
-										String lastUpdatedUserId = Integer
-												.toString(accountReceivablesRes.getLastUpdateUser());
-										salesRecord.setLastUpdateUserId(lastUpdatedUserId);
-										double creditAmt = salesRecord.getCreditAmount()
-												- (-1 * accountReceivablesRes.getAmountReceived());
-										System.out.println(creditAmt);
-										salesRecord.setCreditAmount((Double.parseDouble(df.format(creditAmt))));
-										salesRecord.setCreditNoteAmount((double) Double.parseDouble(
-												df.format(-1 * accountReceivablesRes.getAmountReceived())));
-										salesRecord.setSalesCreditRefNo(accountReceivables.getSourceRef());
-									} else {
-										System.out.println("in if bal is zeeto :" + balAmt);
-										salesRecord.setBalanceAmount((float) 0);
-										salesRecord.setPaymentStatus("Paid");
-										salesRecord.setCreditNoteAmount((double) Double.parseDouble(
-												df.format(-1 * accountReceivablesRes.getAmountReceived())));
-										salesRecord.setSalesCreditRefNo(accountReceivables.getSourceRef());
-										salesRecord.setCreditAmount((double) 0);
-										String lastUpdatedUserId = Integer
-												.toString(accountReceivablesRes.getLastUpdateUser());
-										salesRecord.setLastUpdateUserId(lastUpdatedUserId);
-										salesRecord.setPaidAmount(Objects.nonNull(salesRecord.getPaidAmount())
-												? salesRecord.getPaidAmount()
-														+ (-1 * accountReceivablesRes.getAmountReceived())
-												: (-1 * accountReceivablesRes.getAmountReceived()));
-
-									}
-									System.out.println("<>>?<<?<>>////<><>");
-								}
-
-								salesRepository.save(salesRecord);
+								salesRecord = accountReceivablesRepository
+										.getSalesByBillCode(accountReceivables.getBillRefNo().trim());
+								creditAmount = Objects.nonNull(salesRecord.getCreditAmount())
+										? salesRecord.getCreditAmount()
+										: 0;
 							}
-						}*/
-					} else if (accountReceivables.getSourceType().equals("Sales Returns - Credit Note")
-							&& accountReceivables.getPaymentStatus().equals("Paid")) {
-						System.out.println("skipped paid with credut note");
-						SalesModel salesRecord = null;
-						Double creditAmount = 0.0;
-						if (Objects.nonNull(accountReceivables.getSalesBillId())) {
-							salesRecord = salesRepository.getSalesRecordById(accountReceivables.getSalesBillId());
-							creditAmount = Objects.nonNull(salesRecord.getCreditAmount())
-									? salesRecord.getCreditAmount()
-									: 0;
-						} else {
-							salesRecord = accountReceivablesRepository
-									.getSalesByBillCode(accountReceivables.getBillRefNo().trim());
-							creditAmount = Objects.nonNull(salesRecord.getCreditAmount())
-									? salesRecord.getCreditAmount()
-									: 0;
-						}
 
-						System.out.println(creditAmount + " :sales bill credit amt 3rd");
-						double finalAmt = salesRecord.getNetAmount() - (-1 * accountReceivables.getAmountReceived());
-						DecimalFormat df = new DecimalFormat(".##");
-						double balAmt = Double.parseDouble(df.format(finalAmt));
-						System.out.println(balAmt);
-						if (balAmt != 0) {
-							salesRecord.setBalanceAmount((float) balAmt);
-							salesRecord.setPaymentStatus("Partially Paid");
-							salesRecord.setPaidAmount(salesRecord.getNetAmount() - salesRecord.getBalanceAmount());
-							String lastUpdatedUserId = Integer.toString(accountReceivables.getLastUpdateUser());
-							salesRecord.setLastUpdateUserId(lastUpdatedUserId);
-							double creditAmt = balAmt; /*
-														 * (salesRecord.getCreditAmount() != null ?
-														 * salesRecord.getCreditAmount() : 0) - (-1 *
-														 * accountReceivablesRes.getAmountReceived());
-														 */
-							System.out.println(creditAmt);
-							salesRecord.setCreditAmount((Double.parseDouble(df.format(creditAmt))));
-							System.out.println(-1 * accountReceivables.getAmountReceived());
+							System.out.println(creditAmount + " :sales bill credit amt 3rd");
+							double finalAmt = salesRecord.getNetAmount()
+									- (-1 * accountReceivables.getAmountReceived());
+							DecimalFormat df = new DecimalFormat(".##");
+							double balAmt = Double.parseDouble(df.format(finalAmt));
+							System.out.println(balAmt);
+							if (balAmt != 0) {
+								salesRecord.setBalanceAmount((float) balAmt);
+								salesRecord.setPaymentStatus("Partially Paid");
+								salesRecord.setPaidAmount(salesRecord.getNetAmount() - salesRecord.getBalanceAmount());
+								String lastUpdatedUserId = Integer.toString(accountReceivables.getLastUpdateUser());
+								salesRecord.setLastUpdateUserId(lastUpdatedUserId);
+								double creditAmt = balAmt; /*
+															 * (salesRecord.getCreditAmount() != null ?
+															 * salesRecord.getCreditAmount() : 0) - (-1 *
+															 * accountReceivablesRes.getAmountReceived());
+															 */
+								System.out.println(creditAmt);
+								salesRecord.setCreditAmount((Double.parseDouble(df.format(creditAmt))));
+								System.out.println(-1 * accountReceivables.getAmountReceived());
 
-							System.out.println("else casre of partial pay");
-							if (accountReceivables.getPaymentcreditRefNo() != null) {
-								System.out.println("in cred'it ref of if 1");
-								salesRecord.setSalesCreditRefNo(accountReceivables.getPaymentcreditRefNo());
-								salesRecord.setCreditNoteAmount((double) Double
-										.parseDouble(df.format(-1 * accountReceivables.getAmountReceived())));
-							} else {
-								System.out.println("in else of... 3");
-								if (salesRecord.getBillCode().equals(accountReceivables.getSourceRef().trim())) {
-									System.out.println(salesRecord.getSalesCreditRefNo() != null
-											? salesRecord.getSalesCreditRefNo()
-											: "..88..s");
-									if (Objects.isNull(salesRecord.getSalesCreditRefNo())) {
-										salesRecord.setChequeAmount((double) Double.parseDouble(
-												df.format(-1 * accountReceivables.getAmountReceived())));
-										salesRecord.setChequeNumber(accountReceivables.getReceiptNumber());
-										System.out.println("dwswdwegvv re");
-										salesRecord.setCreditNoteAmount((double) 0);
-										LocalDate chequeDt = LocalDate.now();
-										salesRecord.setChequeDate(chequeDt.toString());
-									}
-								} else {
-									salesRecord.setSalesCreditRefNo(accountReceivables.getSourceRef());
+								System.out.println("else casre of partial pay");
+								if (accountReceivables.getPaymentcreditRefNo() != null) {
+									System.out.println("in cred'it ref of if 1");
+									salesRecord.setSalesCreditRefNo(accountReceivables.getPaymentcreditRefNo());
 									salesRecord.setCreditNoteAmount((double) Double
 											.parseDouble(df.format(-1 * accountReceivables.getAmountReceived())));
-								}
-
-							}
-							System.out.println(salesRecord.getCreditNoteAmount() + "credit npoegu g amhyh");
-						} else {
-							salesRecord.setBalanceAmount((float) 0);
-							salesRecord.setPaymentStatus("Paid");
-
-							if (accountReceivables.getPaymentcreditRefNo() != null) {
-								System.out.println("in credit ref of if 2");
-								salesRecord.setSalesCreditRefNo(accountReceivables.getPaymentcreditRefNo());
-								salesRecord
-										.setCreditNoteAmount((double) (-1 * accountReceivables.getAmountReceived()));
-							} else {
-								System.out.println("in else of... 2");
-								if (salesRecord.getBillCode().equals(accountReceivables.getSourceRef().trim())) {
-									System.out.println(salesRecord.getSalesCreditRefNo() != null
-											? salesRecord.getSalesCreditRefNo()
-											: "223..88..s");
-									if (Objects.isNull(salesRecord.getSalesCreditRefNo())) {
-										salesRecord.setChequeAmount((double) Double.parseDouble(
-												df.format(-1 * accountReceivables.getAmountReceived())));
-										salesRecord.setChequeNumber(accountReceivables.getReceiptNumber());
-										System.out.println("eskej i cnien");
-										salesRecord.setCreditNoteAmount((double) 0);
-										LocalDate chequeDt = LocalDate.now();
-										salesRecord.setChequeDate(chequeDt.toString());
-									}
 								} else {
-									salesRecord.setSalesCreditRefNo(accountReceivables.getSourceRef());
+									System.out.println("in else of... 3");
+									if (salesRecord.getBillCode().equals(accountReceivables.getSourceRef().trim())) {
+										System.out.println(salesRecord.getSalesCreditRefNo() != null
+												? salesRecord.getSalesCreditRefNo()
+												: "..88..s");
+										if (Objects.isNull(salesRecord.getSalesCreditRefNo())) {
+											salesRecord.setChequeAmount((double) Double.parseDouble(
+													df.format(-1 * accountReceivables.getAmountReceived())));
+											salesRecord.setChequeNumber(accountReceivables.getReceiptNumber());
+											System.out.println("dwswdwegvv re");
+											salesRecord.setCreditNoteAmount((double) 0);
+											LocalDate chequeDt = LocalDate.now();
+											salesRecord.setChequeDate(chequeDt.toString());
+										}
+									} else {
+										salesRecord.setSalesCreditRefNo(accountReceivables.getSourceRef());
+										salesRecord.setCreditNoteAmount((double) Double
+												.parseDouble(df.format(-1 * accountReceivables.getAmountReceived())));
+									}
+
+								}
+								System.out.println(salesRecord.getCreditNoteAmount() + "credit npoegu g amhyh");
+							} else {
+								salesRecord.setBalanceAmount((float) 0);
+								salesRecord.setPaymentStatus("Paid");
+
+								if (accountReceivables.getPaymentcreditRefNo() != null) {
+									System.out.println("in credit ref of if 2");
+									salesRecord.setSalesCreditRefNo(accountReceivables.getPaymentcreditRefNo());
 									salesRecord.setCreditNoteAmount(
 											(double) (-1 * accountReceivables.getAmountReceived()));
-								}
-
-							}
-
-							// salesRecord.setSalesCreditRefNo(accountReceivables.getSourceRef());
-							salesRecord.setCreditAmount((double) 0);
-							String lastUpdatedUserId = Integer.toString(accountReceivables.getLastUpdateUser());
-							salesRecord.setLastUpdateUserId(lastUpdatedUserId);
-							salesRecord.setPaidAmount(Objects.nonNull(salesRecord.getPaidAmount())
-									? salesRecord.getPaidAmount() + (-1 * accountReceivables.getAmountReceived())
-									: (-1 * accountReceivables.getAmountReceived()));
-
-						}
-						System.out.println(salesRecord.getCreditNoteAmount() != null ? salesRecord.getCreditNoteAmount()
-								: " no lllll");
-						salesRepository.save(salesRecord);
-					} else if (accountReceivables.getSourceType().equals("Credit Note")
-							&& accountReceivables.getPaymentStatus().equals("Paid")) {
-						System.out.println("new if conditijbjjb");
-						SalesModel salesData = null;
-						Double creditAmount = 0.0;
-						if (Objects.nonNull(accountReceivables.getSalesBillId())) {
-							salesData = salesRepository.getSalesRecordById(accountReceivables.getSalesBillId());
-							creditAmount = Objects.nonNull(salesData.getCreditAmount()) ? salesData.getCreditAmount()
-									: 0;
-						} else {
-							System.out.println(accountReceivables.getBillRefNo());
-							salesData = accountReceivablesRepository
-									.getSalesByBillCode(accountReceivables.getBillRefNo().trim());
-							System.out.println(salesData);
-							creditAmount = Objects.nonNull(salesData.getCreditAmount()) ? salesData.getCreditAmount()
-									: 0;
-						}
-
-						System.out.println(creditAmount + " :sales bill credit ,.ambad 3rd");
-						double recievedAmt = -1 * accountReceivables.getAmountReceived();
-
-						double paidAmt = (double) (salesData.getPaidAmount() + recievedAmt);
-						DecimalFormat df = new DecimalFormat(".##");
-						System.out.println("////");
-						String lastUpdatedUserId = Integer.toString(accountReceivables.getLastUpdateUser());
-						salesData.setLastUpdateUserId(lastUpdatedUserId);
-						if (salesData.getBalanceAmount() == recievedAmt) {
-							System.out.println(salesData.getPaidAmount() + " paid amt");
-							System.out.println(recievedAmt + "... recieved am");
-							salesData.setBalanceAmount((float) 0);
-							salesData.setPaymentStatus("Paid");
-							salesData.setPaidAmount((float) Double.parseDouble(df.format(paidAmt)));
-							double creditAmt = (salesData.getCreditAmount() != null ? salesData.getCreditAmount() : 0)
-									- (recievedAmt);
-							salesData.setCreditAmount((Double.parseDouble(df.format(creditAmt))));
-							// doubt here struck
-							double creditNoteAmt = salesData.getCreditNoteAmount() != null
-									? salesData.getCreditNoteAmount()
-									: 0;
-							System.out.println(creditNoteAmt);
-							double creditNOteAmttoFixed = (double) Double.parseDouble(df.format(creditNoteAmt));
-							double d = (double) Double.parseDouble(df.format(recievedAmt));
-							double amt = (double) (creditNOteAmttoFixed + d);
-							System.out.println(amt + "final credit note amt" + Double.parseDouble(df.format(amt)));
-							// salesData.setCreditNoteAmount((double) Double.parseDouble(df.format(amt)));
-							String salesCreditRef = salesData.getSalesCreditRefNo() != null
-									? salesData.getSalesCreditRefNo()
-									: " ";
-							salesData.setSalesCreditRefNo(salesCreditRef + "," + accountReceivables.getSourceRef());
-						} else {
-							System.out.println("in else casdejnjjjnbjb amm");
-							if (Objects.nonNull(accountReceivables.getBillRefNo())) {
-								if (accountReceivables.getBillRefNo().equals(salesData.getBillCode())) {
-									salesData.setSalesCreditRefNo(accountReceivables.getSourceRef());
-									salesData.setCreditNoteAmount((double) Double.parseDouble(df.format(recievedAmt)));
-								}
-							}
-
-						}
-						salesRepository.save(salesData);
-					}
-				}
-
-
-				if (accountReceivables.getSourceType().equalsIgnoreCase("Sales Billing")
-						&& Objects.nonNull(accountReceivables.getSourceRef())
-						&& accountReceivables.getPaymentStatus().equalsIgnoreCase("Paid")
-						&& Objects.nonNull(accountReceivables.getCreditNumber())) {
-					System.out.println(
-							"........................................................................in 1st for loop");
-					DecimalFormat df = new DecimalFormat(".##");
-					System.out.println(accountReceivables);
-					SalesModel salesRecord = accountReceivablesRepository
-							.getSalesByBillCode(accountReceivables.getSourceRef().trim());
-					Double creditAmount = Objects.nonNull(salesRecord.getCreditAmount()) ? salesRecord.getCreditAmount()
-							: 0;
-					System.out.println(creditAmount + ":crrrredit amt");
-					if (creditAmount > 0) {
-						System.out.println("in if of credit amont gretaer than zero");
-
-						if (Objects.nonNull(accountReceivables.getCashAmount())) {
-							System.out.println("if payment type cash");
-							salesRecord.setPaymentStatus("Paid");
-							Float cashAmount = Objects.nonNull(salesRecord.getCashAmount())
-									? salesRecord.getCashAmount()
-									: 0;
-System.out.println(salesRecord.getBalanceAmount() +"balance antedcd");
-							if (salesRecord.getBalanceAmount() != 0) {
-
-								if (salesRecord.getCreditNoteAmount() != null) {
-									Float paidAmount = (float) (cashAmount + creditAmount);
-									salesRecord.setCashAmount((float) paidAmount);
-									String lastUpdatedUserId = Integer
-											.toString(accountReceivables.getLastUpdateUser());
-									salesRecord.setLastUpdateUserId(lastUpdatedUserId);
-
-									double amt = Double.parseDouble(df.format(paidAmount))
-											+ +salesRecord.getCreditNoteAmount();
-									System.out.println(salesRecord.getNetAmount());
-									if (amt == salesRecord.getNetAmount()) {
-										System.out.println(
-												"ammmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
-										salesRecord.setPaymentStatus("Paid");
-										salesRecord.setCreditAmount((double) 0);
-										salesRecord.setBalanceAmount((float) 0);
-										salesRecord.setPaidAmount((float) amt);
-									} else {
-										double bal = salesRecord.getBalanceAmount() - salesRecord.getPaidAmount();
-										System.out.println(bal);
-										if (bal == 0) {
-											salesRecord.setPaymentStatus("Paid");
-											salesRecord.setPaidAmount((float) salesRecord.getNetAmount());
-											salesRecord.setCreditAmount((double) 0);
-										} else {
-											System.out.println(salesRecord.getCreditAmount() + " cedit amt");
-											salesRecord.setPaymentStatus("Partially Paid");
-											salesRecord.setPaidAmount((float) Double.parseDouble(df.format((salesRecord.getNetAmount()-salesRecord.getBalanceAmount()))));
-											salesRecord.setCreditAmount((double) bal);
+								} else {
+									System.out.println("in else of... 2");
+									if (salesRecord.getBillCode().equals(accountReceivables.getSourceRef().trim())) {
+										System.out.println(salesRecord.getSalesCreditRefNo() != null
+												? salesRecord.getSalesCreditRefNo()
+												: "223..88..s");
+										if (Objects.isNull(salesRecord.getSalesCreditRefNo())) {
+											salesRecord.setChequeAmount((double) Double.parseDouble(
+													df.format(-1 * accountReceivables.getAmountReceived())));
+											salesRecord.setChequeNumber(accountReceivables.getReceiptNumber());
+											System.out.println("eskej i cnien");
+											salesRecord.setCreditNoteAmount((double) 0);
+											LocalDate chequeDt = LocalDate.now();
+											salesRecord.setChequeDate(chequeDt.toString());
 										}
-										salesRecord.setBalanceAmount((float) bal);
-									
-										/*if (salesRecord.getCreditNoteAmount() != null) {
-											double amtPaid = salesRecord.getCreditNoteAmount() + paidAmount;
-											salesRecord.setPaidAmount((float) amtPaid);
-										}*/
+									} else {
+										salesRecord.setSalesCreditRefNo(accountReceivables.getSourceRef());
+										salesRecord.setCreditNoteAmount(
+												(double) (-1 * accountReceivables.getAmountReceived()));
+									}
 
-										System.out.println(salesRecord.getBalanceAmount());
+								}
+
+								// salesRecord.setSalesCreditRefNo(accountReceivables.getSourceRef());
+								salesRecord.setCreditAmount((double) 0);
+								String lastUpdatedUserId = Integer.toString(accountReceivables.getLastUpdateUser());
+								salesRecord.setLastUpdateUserId(lastUpdatedUserId);
+								salesRecord.setPaidAmount(Objects.nonNull(salesRecord.getPaidAmount())
+										? salesRecord.getPaidAmount() + (-1 * accountReceivables.getAmountReceived())
+										: (-1 * accountReceivables.getAmountReceived()));
+
+							}
+							System.out.println(
+									salesRecord.getCreditNoteAmount() != null ? salesRecord.getCreditNoteAmount()
+											: " no lllll");
+							salesRepository.save(salesRecord);
+						} else if (accountReceivables.getSourceType().equals("Credit Note")
+								&& accountReceivables.getPaymentStatus().equals("Paid")) {
+							System.out.println("new if conditijbjjb");
+							SalesModel salesData = null;
+							Double creditAmount = 0.0;
+							if (Objects.nonNull(accountReceivables.getSalesBillId())) {
+								salesData = salesRepository.getSalesRecordById(accountReceivables.getSalesBillId());
+								creditAmount = Objects.nonNull(salesData.getCreditAmount())
+										? salesData.getCreditAmount()
+										: 0;
+							} else {
+								System.out.println(accountReceivables.getBillRefNo());
+								salesData = accountReceivablesRepository
+										.getSalesByBillCode(accountReceivables.getBillRefNo().trim());
+								System.out.println(salesData);
+								creditAmount = Objects.nonNull(salesData.getCreditAmount())
+										? salesData.getCreditAmount()
+										: 0;
+							}
+
+							System.out.println(creditAmount + " :sales bill credit ,.ambad 3rd");
+							double recievedAmt = -1 * accountReceivables.getAmountReceived();
+
+							double paidAmt = (double) (salesData.getPaidAmount() + recievedAmt);
+							DecimalFormat df = new DecimalFormat(".##");
+							System.out.println("////");
+							String lastUpdatedUserId = Integer.toString(accountReceivables.getLastUpdateUser());
+							salesData.setLastUpdateUserId(lastUpdatedUserId);
+							if (salesData.getBalanceAmount() == recievedAmt) {
+								System.out.println(salesData.getPaidAmount() + " paid amt");
+								System.out.println(recievedAmt + "... recieved am");
+								salesData.setBalanceAmount((float) 0);
+								salesData.setPaymentStatus("Paid");
+								salesData.setPaidAmount((float) Double.parseDouble(df.format(paidAmt)));
+								double creditAmt = (salesData.getCreditAmount() != null ? salesData.getCreditAmount()
+										: 0) - (recievedAmt);
+								salesData.setCreditAmount((Double.parseDouble(df.format(creditAmt))));
+								// doubt here struck
+								double creditNoteAmt = salesData.getCreditNoteAmount() != null
+										? salesData.getCreditNoteAmount()
+										: 0;
+								System.out.println(creditNoteAmt);
+								double creditNOteAmttoFixed = (double) Double.parseDouble(df.format(creditNoteAmt));
+								double d = (double) Double.parseDouble(df.format(recievedAmt));
+								double amt = (double) (creditNOteAmttoFixed + d);
+								System.out.println(amt + "final credit note amt" + Double.parseDouble(df.format(amt)));
+								// salesData.setCreditNoteAmount((double) Double.parseDouble(df.format(amt)));
+								String salesCreditRef = salesData.getSalesCreditRefNo() != null
+										? salesData.getSalesCreditRefNo()
+										: " ";
+								salesData.setSalesCreditRefNo(salesCreditRef + "," + accountReceivables.getSourceRef());
+							} else {
+								System.out.println("in else casdejnjjjnbjb amm");
+								if (Objects.nonNull(accountReceivables.getBillRefNo())) {
+									if (accountReceivables.getBillRefNo().equals(salesData.getBillCode())) {
+										salesData.setSalesCreditRefNo(accountReceivables.getSourceRef());
+										salesData.setCreditNoteAmount(
+												(double) Double.parseDouble(df.format(recievedAmt)));
+									}
+								}
+
+							}
+							salesRepository.save(salesData);
+						}
+					}
+
+					if (accountReceivables.getSourceType().equalsIgnoreCase("Sales Billing")
+							&& Objects.nonNull(accountReceivables.getSourceRef())
+							&& accountReceivables.getPaymentStatus().equalsIgnoreCase("Paid")
+							&& Objects.nonNull(accountReceivables.getCreditNumber())) {
+						System.out.println(
+								"........................................................................in 1st for loop");
+						DecimalFormat df = new DecimalFormat(".##");
+						System.out.println(accountReceivables);
+						SalesModel salesRecord = accountReceivablesRepository
+								.getSalesByBillCode(accountReceivables.getSourceRef().trim());
+						Double creditAmount = Objects.nonNull(salesRecord.getCreditAmount())
+								? salesRecord.getCreditAmount()
+								: 0;
+						System.out.println(creditAmount + ":crrrredit amt");
+						if (creditAmount > 0) {
+							System.out.println("in if of credit amont gretaer than zero");
+
+							if (Objects.nonNull(accountReceivables.getCashAmount())) {
+								System.out.println("if payment type cash");
+								salesRecord.setPaymentStatus("Paid");
+								Float cashAmount = Objects.nonNull(salesRecord.getCashAmount())
+										? salesRecord.getCashAmount()
+										: 0;
+								System.out.println(salesRecord.getBalanceAmount() + "balance antedcd");
+								if (salesRecord.getBalanceAmount() != 0) {
+
+									if (salesRecord.getCreditNoteAmount() != null) {
+										Float paidAmount = (float) (cashAmount + creditAmount);
+										salesRecord.setCashAmount((float) paidAmount);
+										String lastUpdatedUserId = Integer
+												.toString(accountReceivables.getLastUpdateUser());
+										salesRecord.setLastUpdateUserId(lastUpdatedUserId);
+
+										double amt = Double.parseDouble(df.format(paidAmount))
+												+ +salesRecord.getCreditNoteAmount();
+										System.out.println(salesRecord.getNetAmount());
+										if (amt == salesRecord.getNetAmount()) {
+											System.out.println(
+													"ammmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+											salesRecord.setPaymentStatus("Paid");
+											salesRecord.setCreditAmount((double) 0);
+											salesRecord.setBalanceAmount((float) 0);
+											salesRecord.setPaidAmount((float) amt);
+										} else {
+											double bal = salesRecord.getBalanceAmount() - salesRecord.getPaidAmount();
+											System.out.println(bal);
+											if (bal == 0) {
+												salesRecord.setPaymentStatus("Paid");
+												salesRecord.setPaidAmount((float) salesRecord.getNetAmount());
+												salesRecord.setCreditAmount((double) 0);
+											} else {
+												System.out.println(salesRecord.getCreditAmount() + " cedit amt");
+												salesRecord.setPaymentStatus("Partially Paid");
+												salesRecord.setPaidAmount(
+														(float) Double.parseDouble(df.format((salesRecord.getNetAmount()
+																- salesRecord.getBalanceAmount()))));
+												salesRecord.setCreditAmount((double) bal);
+											}
+											salesRecord.setBalanceAmount((float) bal);
+
+											/*
+											 * if (salesRecord.getCreditNoteAmount() != null) { double amtPaid =
+											 * salesRecord.getCreditNoteAmount() + paidAmount;
+											 * salesRecord.setPaidAmount((float) amtPaid); }
+											 */
+
+											System.out.println(salesRecord.getBalanceAmount());
+										}
+									} else {
+										System.out.println(accountReceivables);
+										Float paidAmount = (float) (cashAmount + creditAmount);
+										System.out.println(paidAmount);
+										salesRecord.setPaymentStatus("Paid");
+										salesRecord.setCashAmount((float) paidAmount);
+										salesRecord.setCreditAmount((double) 0);
+										salesRecord.setPaidAmount((float) salesRecord.getNetAmount());
+										salesRecord.setBalanceAmount((float) 0);
+										String lastUpdatedUserId = Integer
+												.toString(accountReceivables.getLastUpdateUser());
+										salesRecord.setLastUpdateUserId(lastUpdatedUserId);
 									}
 								} else {
-									System.out.println(accountReceivables);
-									Float paidAmount = (float) (cashAmount + creditAmount);
-									System.out.println(paidAmount);
+									System.out.println("eksefeucgugug");
 									salesRecord.setPaymentStatus("Paid");
-									salesRecord.setCashAmount((float) paidAmount);
 									salesRecord.setCreditAmount((double) 0);
 									salesRecord.setPaidAmount((float) salesRecord.getNetAmount());
 									salesRecord.setBalanceAmount((float) 0);
-									String lastUpdatedUserId = Integer
-											.toString(accountReceivables.getLastUpdateUser());
+									String lastUpdatedUserId = Integer.toString(accountReceivables.getLastUpdateUser());
 									salesRecord.setLastUpdateUserId(lastUpdatedUserId);
 								}
-							}else {
-								System.out.println("eksefeucgugug");
-								salesRecord.setPaymentStatus("Paid");
-								salesRecord.setCreditAmount((double) 0);
-								salesRecord.setPaidAmount((float) salesRecord.getNetAmount());
-								salesRecord.setBalanceAmount((float) 0);
-								String lastUpdatedUserId = Integer
-										.toString(accountReceivables.getLastUpdateUser());
-								salesRecord.setLastUpdateUserId(lastUpdatedUserId);
-							}
 
-						} else if (Objects.nonNull(accountReceivables.getChequeAmount())) {
-							System.out.println("cheque amt");
-							System.out.println(salesRecord.getBalanceAmount());
+							} else if (Objects.nonNull(accountReceivables.getChequeAmount())) {
+								System.out.println("cheque amt");
+								System.out.println(salesRecord.getBalanceAmount());
 
-							Double chequeAmount = Objects.nonNull(salesRecord.getChequeAmount())
-									? salesRecord.getChequeAmount()
-									: 0;
-							if (salesRecord.getBalanceAmount() != 0) {
+								Double chequeAmount = Objects.nonNull(salesRecord.getChequeAmount())
+										? salesRecord.getChequeAmount()
+										: 0;
+								if (salesRecord.getBalanceAmount() != 0) {
 
-								if (salesRecord.getCreditNoteAmount() != null) {
-									System.out.println(chequeAmount + " cheque amt and credit :" + creditAmount);
-									Float paidAmount = (float) (chequeAmount + creditAmount);
-									System.out.println(paidAmount);
-									salesRecord.setChequeAmount((double) paidAmount);
-									LocalDate chequeDt = accountReceivables.getChequeDate();
-									salesRecord.setChequeDate(chequeDt.toString());
-									salesRecord.setChequeNumber(accountReceivables.getChequeNumber());
-									String lastUpdatedUserId = Integer
-											.toString(accountReceivables.getLastUpdateUser());
-									salesRecord.setLastUpdateUserId(lastUpdatedUserId);
-									System.out.println(paidAmount + " : just now paid");
-									System.out.println(salesRecord.getCreditNoteAmount() + " :credita mt");
-									double amt = Double.parseDouble(df.format(paidAmount))
-											+ +salesRecord.getCreditNoteAmount();
-									System.out.println(salesRecord.getNetAmount());
-									if (amt == salesRecord.getNetAmount()) {
-										System.out.println(
-												"ammmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
-										salesRecord.setPaymentStatus("Paid");
-										salesRecord.setCreditAmount((double) 0);
-										salesRecord.setBalanceAmount((float) 0);
-										salesRecord.setPaidAmount((float) amt);
-									} else {
-										double bal = salesRecord.getBalanceAmount() - salesRecord.getPaidAmount();
-										System.out.println(bal);
-										if (bal == 0) {
-											salesRecord.setPaymentStatus("Paid");
-											salesRecord.setCreditAmount((double) 0);
-											salesRecord.setPaidAmount(salesRecord.getNetAmount()-salesRecord.getBalanceAmount());
-										} else {
-											System.out.println(salesRecord.getCreditAmount() + " cedit amt");
-											salesRecord.setPaymentStatus("Partially Paid");
-											salesRecord.setCreditAmount((double) bal);
-										}
-										salesRecord.setBalanceAmount((float) bal);
-
-										/*if (salesRecord.getCreditNoteAmount() != null) {
-											double amtPaid = salesRecord.getCreditNoteAmount() + paidAmount;
-											salesRecord.setPaidAmount((float) amtPaid);
-										}*/
-									}
-
-								} else {
-									System.out.println(accountReceivables.getSourceType() + " ..,.,..  "
-											+ salesRecord.getCreditNoteAmount());
-									if (accountReceivables.getSourceType().equals("Credit Note")) {
-										System.out.println("insdhsdidsb");
-										Float paidAmount = (float) (chequeAmount + creditAmount);
-										System.out.println(paidAmount + " : paid amnfj");
-										salesRecord.setPaymentStatus("Paid");
-										double paidAmt = salesRecord.getNetAmount()
-												- (salesRecord.getCreditNoteAmount() != null
-														? salesRecord.getCreditNoteAmount()
-														: 0);
-										System.out.println(paidAmt + " double value");
-										salesRecord.setChequeAmount((double) paidAmt);
-										salesRecord.setCreditAmount((double) 0);
-										salesRecord.setPaidAmount((float) paidAmount);
-
-										salesRecord.setSalesCreditRefNo(accountReceivables.getSourceRef());
-										salesRecord.setBalanceAmount((float) 0);
-										LocalDate chequeDt = accountReceivables.getChequeDate();
-										salesRecord.setChequeDate(chequeDt.toString());
-										salesRecord.setChequeNumber(accountReceivables.getChequeNumber());
-										String lastUpdatedUserId = Integer
-												.toString(accountReceivables.getLastUpdateUser());
-										salesRecord.setLastUpdateUserId(lastUpdatedUserId);
-
-									} else {
-										System.out.println("else case of cheque amt");
+									if (salesRecord.getCreditNoteAmount() != null) {
+										System.out.println(chequeAmount + " cheque amt and credit :" + creditAmount);
 										Float paidAmount = (float) (chequeAmount + creditAmount);
 										System.out.println(paidAmount);
-										salesRecord.setPaymentStatus("Paid");
 										salesRecord.setChequeAmount((double) paidAmount);
-										salesRecord.setCreditAmount((double) 0);
-										salesRecord.setPaidAmount((float) paidAmount);
-										salesRecord.setBalanceAmount((float) 0);
 										LocalDate chequeDt = accountReceivables.getChequeDate();
 										salesRecord.setChequeDate(chequeDt.toString());
 										salesRecord.setChequeNumber(accountReceivables.getChequeNumber());
 										String lastUpdatedUserId = Integer
 												.toString(accountReceivables.getLastUpdateUser());
 										salesRecord.setLastUpdateUserId(lastUpdatedUserId);
-									}
-								}
-							}else {
-								salesRecord.setPaymentStatus("Paid");
-								salesRecord.setCreditAmount((double) 0);
-								salesRecord.setPaidAmount((float) salesRecord.getNetAmount());
-								salesRecord.setBalanceAmount((float) 0);
-								String lastUpdatedUserId = Integer
-										.toString(accountReceivables.getLastUpdateUser());
-								salesRecord.setLastUpdateUserId(lastUpdatedUserId);
-							}
-						} else if (Objects.nonNull(accountReceivables.getCreditCardAmount())) {
-							System.out.println("credit card");
+										System.out.println(paidAmount + " : just now paid");
+										System.out.println(salesRecord.getCreditNoteAmount() + " :credita mt");
+										double amt = Double.parseDouble(df.format(paidAmount))
+												+ +salesRecord.getCreditNoteAmount();
+										System.out.println(salesRecord.getNetAmount());
+										if (amt == salesRecord.getNetAmount()) {
+											System.out.println(
+													"ammmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+											salesRecord.setPaymentStatus("Paid");
+											salesRecord.setCreditAmount((double) 0);
+											salesRecord.setBalanceAmount((float) 0);
+											salesRecord.setPaidAmount((float) amt);
+										} else {
+											double bal = salesRecord.getBalanceAmount() - salesRecord.getPaidAmount();
+											System.out.println(bal);
+											if (bal == 0) {
+												salesRecord.setPaymentStatus("Paid");
+												salesRecord.setCreditAmount((double) 0);
+												salesRecord.setPaidAmount(
+														salesRecord.getNetAmount() - salesRecord.getBalanceAmount());
+											} else {
+												System.out.println(salesRecord.getCreditAmount() + " cedit amt");
+												salesRecord.setPaymentStatus("Partially Paid");
+												salesRecord.setCreditAmount((double) bal);
+											}
+											salesRecord.setBalanceAmount((float) bal);
 
-							if (salesRecord.getBalanceAmount() != 0) {
-								Float creditCardAmount = Objects.nonNull(salesRecord.getCreditCardAmount())
-										? salesRecord.getCreditCardAmount()
+											/*
+											 * if (salesRecord.getCreditNoteAmount() != null) { double amtPaid =
+											 * salesRecord.getCreditNoteAmount() + paidAmount;
+											 * salesRecord.setPaidAmount((float) amtPaid); }
+											 */
+										}
+
+									} else {
+										System.out.println(accountReceivables.getSourceType() + " ..,.,..  "
+												+ salesRecord.getCreditNoteAmount());
+										if (accountReceivables.getSourceType().equals("Credit Note")) {
+											System.out.println("insdhsdidsb");
+											Float paidAmount = (float) (chequeAmount + creditAmount);
+											System.out.println(paidAmount + " : paid amnfj");
+											salesRecord.setPaymentStatus("Paid");
+											double paidAmt = salesRecord.getNetAmount()
+													- (salesRecord.getCreditNoteAmount() != null
+															? salesRecord.getCreditNoteAmount()
+															: 0);
+											System.out.println(paidAmt + " double value");
+											salesRecord.setChequeAmount((double) paidAmt);
+											salesRecord.setCreditAmount((double) 0);
+											salesRecord.setPaidAmount((float) paidAmount);
+
+											salesRecord.setSalesCreditRefNo(accountReceivables.getSourceRef());
+											salesRecord.setBalanceAmount((float) 0);
+											LocalDate chequeDt = accountReceivables.getChequeDate();
+											salesRecord.setChequeDate(chequeDt.toString());
+											salesRecord.setChequeNumber(accountReceivables.getChequeNumber());
+											String lastUpdatedUserId = Integer
+													.toString(accountReceivables.getLastUpdateUser());
+											salesRecord.setLastUpdateUserId(lastUpdatedUserId);
+
+										} else {
+											System.out.println("else case of cheque amt");
+											Float paidAmount = (float) (chequeAmount + creditAmount);
+											System.out.println(paidAmount);
+											salesRecord.setPaymentStatus("Paid");
+											salesRecord.setChequeAmount((double) paidAmount);
+											salesRecord.setCreditAmount((double) 0);
+											salesRecord.setPaidAmount((float) paidAmount);
+											salesRecord.setBalanceAmount((float) 0);
+											LocalDate chequeDt = accountReceivables.getChequeDate();
+											salesRecord.setChequeDate(chequeDt.toString());
+											salesRecord.setChequeNumber(accountReceivables.getChequeNumber());
+											String lastUpdatedUserId = Integer
+													.toString(accountReceivables.getLastUpdateUser());
+											salesRecord.setLastUpdateUserId(lastUpdatedUserId);
+										}
+									}
+								} else {
+									salesRecord.setPaymentStatus("Paid");
+									salesRecord.setCreditAmount((double) 0);
+									salesRecord.setPaidAmount((float) salesRecord.getNetAmount());
+									salesRecord.setBalanceAmount((float) 0);
+									String lastUpdatedUserId = Integer.toString(accountReceivables.getLastUpdateUser());
+									salesRecord.setLastUpdateUserId(lastUpdatedUserId);
+								}
+							} else if (Objects.nonNull(accountReceivables.getCreditCardAmount())) {
+								System.out.println("credit card");
+
+								if (salesRecord.getBalanceAmount() != 0) {
+									Float creditCardAmount = Objects.nonNull(salesRecord.getCreditCardAmount())
+											? salesRecord.getCreditCardAmount()
+											: 0;
+									if (salesRecord.getCreditNoteAmount() != null) {
+
+										Float paidAmount = (float) (creditCardAmount + creditAmount);
+										salesRecord.setCreditCardAmount(paidAmount);
+										salesRecord.setCreditCardNo(accountReceivables.getCreditCardNo());
+										salesRecord.setCreditCardAuthNo(accountReceivables.getCardAuthCode());
+										String lastUpdatedUserId = Integer
+												.toString(accountReceivables.getLastUpdateUser());
+										salesRecord.setLastUpdateUserId(lastUpdatedUserId);
+										// after doing partial amt again paying the full amt with any payment type
+										System.out.println(paidAmount + " : just now paid");
+										System.out.println(salesRecord.getCreditNoteAmount() + " :credita mt");
+										double amt = Double.parseDouble(df.format(paidAmount))
+												+ +salesRecord.getCreditNoteAmount();
+										System.out.println(salesRecord.getNetAmount());
+										if (amt == salesRecord.getNetAmount()) {
+											System.out.println(
+													"ammmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+											salesRecord.setPaymentStatus("Paid");
+											salesRecord.setCreditAmount((double) 0);
+											salesRecord.setBalanceAmount((float) 0);
+											salesRecord.setPaidAmount((float) amt);
+										} else {
+
+											double bal = salesRecord.getBalanceAmount() - salesRecord.getPaidAmount();
+											System.out.println(bal);
+											if (bal == 0) {
+												salesRecord.setPaymentStatus("Paid");
+												salesRecord.setCreditAmount((double) 0);
+											} else {
+												System.out.println(salesRecord.getCreditAmount() + " cedit amt");
+												salesRecord.setPaymentStatus("Partially Paid");
+												salesRecord.setCreditAmount((double) bal);
+											}
+											salesRecord.setBalanceAmount((float) bal);
+
+											if (salesRecord.getCreditNoteAmount() != null) {
+												double amtPaid = salesRecord.getCreditNoteAmount() + paidAmount;
+												salesRecord.setPaidAmount((float) amtPaid);
+											}
+										}
+										System.out.println(salesRecord.getBalanceAmount());
+									} else {
+										Float paidAmount = (float) (creditCardAmount + creditAmount);
+										System.out.println(paidAmount);
+										salesRecord.setPaymentStatus("Paid");
+										salesRecord.setCreditCardAmount((float) paidAmount);
+										salesRecord.setCreditCardNo(accountReceivables.getCreditCardNo());
+										salesRecord.setCreditCardAuthNo(accountReceivables.getCardAuthCode());
+										salesRecord.setCreditAmount((double) 0);
+										salesRecord.setPaidAmount((float) paidAmount);
+										salesRecord.setBalanceAmount((float) 0);
+										String lastUpdatedUserId = Integer
+												.toString(accountReceivables.getLastUpdateUser());
+										salesRecord.setLastUpdateUserId(lastUpdatedUserId);
+									}
+								} else {
+									salesRecord.setPaymentStatus("Paid");
+									salesRecord.setCreditAmount((double) 0);
+									salesRecord.setPaidAmount((float) salesRecord.getNetAmount());
+									salesRecord.setBalanceAmount((float) 0);
+									String lastUpdatedUserId = Integer.toString(accountReceivables.getLastUpdateUser());
+									salesRecord.setLastUpdateUserId(lastUpdatedUserId);
+								}
+
+							} else if (Objects.nonNull(accountReceivables.getUpiAmount())) {
+								System.out.println("upi amount ...//");
+								Float upiAmount = Objects.nonNull(salesRecord.getUpiAmount())
+										? salesRecord.getUpiAmount()
 										: 0;
+
 								if (salesRecord.getCreditNoteAmount() != null) {
 
-									Float paidAmount = (float) (creditCardAmount + creditAmount);
-									salesRecord.setCreditCardAmount(paidAmount);
-									salesRecord.setCreditCardNo(accountReceivables.getCreditCardNo());
-									salesRecord.setCreditCardAuthNo(accountReceivables.getCardAuthCode());
-									String lastUpdatedUserId = Integer
-											.toString(accountReceivables.getLastUpdateUser());
+									Float paidAmount = (float) (upiAmount + creditAmount);
+									String lastUpdatedUserId = Integer.toString(accountReceivables.getLastUpdateUser());
 									salesRecord.setLastUpdateUserId(lastUpdatedUserId);
-									// after doing partial amt again paying the full amt with any payment type
+									salesRecord.setUpiAmount(paidAmount);
+									salesRecord.setUpiPhoneNo(accountReceivables.getUpiPhoneNo());
+									salesRecord.setUpiTransactionId(accountReceivables.getUpiAuthCode());
+
 									System.out.println(paidAmount + " : just now paid");
 									System.out.println(salesRecord.getCreditNoteAmount() + " :credita mt");
+
 									double amt = Double.parseDouble(df.format(paidAmount))
-											+ +salesRecord.getCreditNoteAmount();
+											+ salesRecord.getCreditNoteAmount();
+									System.out.println(amt);
 									System.out.println(salesRecord.getNetAmount());
 									if (amt == salesRecord.getNetAmount()) {
 										System.out.println(
@@ -825,103 +791,31 @@ System.out.println(salesRecord.getBalanceAmount() +"balance antedcd");
 											salesRecord.setPaidAmount((float) amtPaid);
 										}
 									}
-									System.out.println(salesRecord.getBalanceAmount());
+
 								} else {
-									Float paidAmount = (float) (creditCardAmount + creditAmount);
+									Float paidAmount = (float) (upiAmount + creditAmount);
 									System.out.println(paidAmount);
 									salesRecord.setPaymentStatus("Paid");
-									salesRecord.setCreditCardAmount((float) paidAmount);
-									salesRecord.setCreditCardNo(accountReceivables.getCreditCardNo());
-									salesRecord.setCreditCardAuthNo(accountReceivables.getCardAuthCode());
+									salesRecord.setUpiAmount((float) paidAmount);
+									salesRecord.setUpiPhoneNo(accountReceivables.getUpiPhoneNo());
+									salesRecord.setUpiTransactionId(accountReceivables.getUpiAuthCode());
 									salesRecord.setCreditAmount((double) 0);
 									salesRecord.setPaidAmount((float) paidAmount);
 									salesRecord.setBalanceAmount((float) 0);
-									String lastUpdatedUserId = Integer
-											.toString(accountReceivables.getLastUpdateUser());
+									String lastUpdatedUserId = Integer.toString(accountReceivables.getLastUpdateUser());
 									salesRecord.setLastUpdateUserId(lastUpdatedUserId);
 								}
-							}else {
-								salesRecord.setPaymentStatus("Paid");
-								salesRecord.setCreditAmount((double) 0);
-								salesRecord.setPaidAmount((float) salesRecord.getNetAmount());
-								salesRecord.setBalanceAmount((float) 0);
-								String lastUpdatedUserId = Integer
-										.toString(accountReceivables.getLastUpdateUser());
-								salesRecord.setLastUpdateUserId(lastUpdatedUserId);
+
 							}
-
-						} else if (Objects.nonNull(accountReceivables.getUpiAmount())) {
-							System.out.println("upi amount ...//");
-							Float upiAmount = Objects.nonNull(salesRecord.getUpiAmount()) ? salesRecord.getUpiAmount()
-									: 0;
-
-							if (salesRecord.getCreditNoteAmount() != null) {
-
-								Float paidAmount = (float) (upiAmount + creditAmount);
-								String lastUpdatedUserId = Integer.toString(accountReceivables.getLastUpdateUser());
-								salesRecord.setLastUpdateUserId(lastUpdatedUserId);
-								salesRecord.setUpiAmount(paidAmount);
-								salesRecord.setUpiPhoneNo(accountReceivables.getUpiPhoneNo());
-								salesRecord.setUpiTransactionId(accountReceivables.getUpiAuthCode());
-
-								System.out.println(paidAmount + " : just now paid");
-								System.out.println(salesRecord.getCreditNoteAmount() + " :credita mt");
-
-								double amt = Double.parseDouble(df.format(paidAmount))
-										+ salesRecord.getCreditNoteAmount();
-								System.out.println(amt);
-								System.out.println(salesRecord.getNetAmount());
-								if (amt == salesRecord.getNetAmount()) {
-									System.out.println(
-											"ammmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
-									salesRecord.setPaymentStatus("Paid");
-									salesRecord.setCreditAmount((double) 0);
-									salesRecord.setBalanceAmount((float) 0);
-									salesRecord.setPaidAmount((float) amt);
-								} else {
-
-									double bal = salesRecord.getBalanceAmount() - salesRecord.getPaidAmount();
-									System.out.println(bal);
-									if (bal == 0) {
-										salesRecord.setPaymentStatus("Paid");
-										salesRecord.setCreditAmount((double) 0);
-									} else {
-										System.out.println(salesRecord.getCreditAmount() + " cedit amt");
-										salesRecord.setPaymentStatus("Partially Paid");
-										salesRecord.setCreditAmount((double) bal);
-									}
-									salesRecord.setBalanceAmount((float) bal);
-
-									if (salesRecord.getCreditNoteAmount() != null) {
-										double amtPaid = salesRecord.getCreditNoteAmount() + paidAmount;
-										salesRecord.setPaidAmount((float) amtPaid);
-									}
-								}
-
-							} else {
-								Float paidAmount = (float) (upiAmount + creditAmount);
-								System.out.println(paidAmount);
-								salesRecord.setPaymentStatus("Paid");
-								salesRecord.setUpiAmount((float) paidAmount);
-								salesRecord.setUpiPhoneNo(accountReceivables.getUpiPhoneNo());
-								salesRecord.setUpiTransactionId(accountReceivables.getUpiAuthCode());
-								salesRecord.setCreditAmount((double) 0);
-								salesRecord.setPaidAmount((float) paidAmount);
-								salesRecord.setBalanceAmount((float) 0);
-								String lastUpdatedUserId = Integer.toString(accountReceivables.getLastUpdateUser());
-								salesRecord.setLastUpdateUserId(lastUpdatedUserId);
-							}
-
+							salesRepository.save(salesRecord);
 						}
-						salesRepository.save(salesRecord);
 					}
+
+					log.info("AccountReceivables data with ID : " + accountReceivables.getAccountReceivablesId()
+							+ " updated succesfully");
+
 				}
 
-				log.info("AccountReceivables data with ID : " + accountReceivables.getAccountReceivablesId()
-						+ " updated succesfully");
-
-			}
-				
 				System.out.println("???????????????????????????????????????????");
 				// if payment is partially paid
 				if (accountReceivables.getSourceType().equalsIgnoreCase("Sales Billing")
@@ -970,47 +864,18 @@ System.out.println(salesRecord.getBalanceAmount() +"balance antedcd");
 							salesRes.setChequeDate(chequeDt.toString());
 							salesRes.setChequeNumber(accountReceivables.getChequeNumber());
 
-						} /*else if (accountReceivables.getPaymentType().equals("Credit Note")) {
-							System.out.println("????????????.......................");
-							salesRes.setPaidAmount(accountReceivables.getPartialAmt());
-							double partAmt = Double.parseDouble(df.format(accountReceivables.getPartialAmt()));
-							System.out.println(partAmt);
-
-							if (accountReceivables.getPaymentcreditRefNo() != null) {
-								System.out.println("in credit ref of if 3");
-								salesRes.setSalesCreditRefNo(accountReceivables.getPaymentcreditRefNo());
-								salesRes.setCreditNoteAmount((double) partAmt);
-							} else {
-								System.out.println("in else of 3");
-								if (salesRes.getBillCode().equals(accountReceivables.getSourceRef().trim())) {
-									System.out.println(
-											salesRes.getSalesCreditRefNo() != null ? salesRes.getSalesCreditRefNo()
-													: "...9.s");
-									if (Objects.isNull(salesRes.getSalesCreditRefNo())) {
-										System.out.println("cheque csdej9s");
-										salesRes.setChequeAmount((double) partAmt);
-										salesRes.setChequeNumber(accountReceivables.getReceiptNumber());
-										salesRes.setCreditNoteAmount((double) 0);
-										LocalDate chequeDt = LocalDate.now();
-										salesRes.setChequeDate(chequeDt.toString());
-									}
-								} else {
-									salesRes.setCreditNoteAmount((double) partAmt);
-									salesRes.setSalesCreditRefNo(accountReceivables.getSourceRef());
-								}
-							}
-							// salesRes.setSalesCreditRefNo(accountReceivables.getSourceRef());
-						}*/
+						}
 						if (accountReceivables.getAmountToBeReceived() != null) {
 							System.out.println(salesRes.getCreditAmount());
 							System.out.println(accountReceivables.getAmountReceived());
 
 							salesRes.setCreditAmount((double) Double.parseDouble(
 									df.format((salesRes.getCreditAmount() - accountReceivables.getAmountReceived()))));
-							salesRes.setBalanceAmount((float) Double.parseDouble(
-									df.format((salesRes.getCreditAmount()))));
-							salesRes.setPaidAmount((float) Double.parseDouble(df.format((salesRes.getNetAmount() - salesRes.getBalanceAmount()))));
-							double bal = salesRes.getBalanceAmount() ;
+							salesRes.setBalanceAmount(
+									(float) Double.parseDouble(df.format((salesRes.getCreditAmount()))));
+							salesRes.setPaidAmount((float) Double
+									.parseDouble(df.format((salesRes.getNetAmount() - salesRes.getBalanceAmount()))));
+							double bal = salesRes.getBalanceAmount();
 							if (bal > 0) {
 								salesRes.setPaymentStatus("Partially Paid");
 							} else {
@@ -1035,327 +900,277 @@ System.out.println(salesRecord.getBalanceAmount() +"balance antedcd");
 					}
 				}
 
-			/*for (int i = 0; i < accountsReceivables.size(); i++) {
-				for (int j = 0; j < accountsReceivables.size(); j++) {
-					if (i != j) {
-						DecimalFormat df = new DecimalFormat(".##");
-						if (Objects.nonNull(accountsReceivables.get(i).getBillRefNo())) {
-							if (accountsReceivables.get(i).getBillRefNo()
-									.equals(accountsReceivables.get(j).getSourceRef().trim())) {
-								if (accountsReceivables.get(i).getSourceType().toLowerCase().contains("credit note")) {
+				/*
+				 * for (int i = 0; i < accountsReceivables.size(); i++) { for (int j = 0; j <
+				 * accountsReceivables.size(); j++) { if (i != j) { DecimalFormat df = new
+				 * DecimalFormat(".##"); if
+				 * (Objects.nonNull(accountsReceivables.get(i).getBillRefNo())) { if
+				 * (accountsReceivables.get(i).getBillRefNo()
+				 * .equals(accountsReceivables.get(j).getSourceRef().trim())) { if
+				 * (accountsReceivables.get(i).getSourceType().toLowerCase().
+				 * contains("credit note")) {
+				 * 
+				 * Double creditNoteAmount = -1
+				 * accountsReceivables.get(i).getAmountReceived().doubleValue(); String billNo =
+				 * accountsReceivables.get(i).getBillRefNo(); SalesModel salesRecord =
+				 * accountReceivablesRepository
+				 * .getSalesByBillCode(accountsReceivables.get(i).getBillRefNo().trim());
+				 * 
+				 * if (salesRecord.getBalanceAmount() == 0) { String paymentStatus = "Paid";
+				 * Integer res = salesRepository.updateUpiAmountBasedOnId(creditNoteAmount,
+				 * paymentStatus, billNo); } else { Integer res =
+				 * salesRepository.updateUpiAmountBasedOnStatusId(creditNoteAmount, billNo); }
+				 * 
+				 * if (salesRecord.getNetAmount().doubleValue() == creditNoteAmount) {
+				 * System.out.println(
+				 * "if both amounts are equalmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"); if
+				 * (Objects.nonNull(salesRecord.getCashAmount())) {
+				 * salesRecord.setCashAmount(null); } else if
+				 * (Objects.nonNull(salesRecord.getUpiAmount())) {
+				 * salesRecord.setUpiAmount(null); salesRecord.setUpiPhoneNo(null);
+				 * salesRecord.setUpiTransactionId(null); } else if
+				 * (Objects.nonNull(salesRecord.getCreditCardAmount())) {
+				 * salesRecord.setCreditCardAuthNo(null); salesRecord.setCreditCardAmount(null);
+				 * salesRecord.setCreditCardNo(null); } else if
+				 * (Objects.nonNull(salesRecord.getChequeAmount())) {
+				 * salesRecord.setChequeAmount(null); salesRecord.setChequeDate(null);
+				 * salesRecord.setChequeNumber(null); } else if
+				 * (accountsReceivables.get(i).getPaymentType()
+				 * .equalsIgnoreCase("Credit Note")) {
+				 * System.out.println("<><><>_+_+++++++++++++++++++++++++");
+				 * salesRecord.setBalanceAmount((float) 0); String lastUpdatedUserId = Integer
+				 * .toString(accountsReceivables.get(i).getLastUpdateUser());
+				 * salesRecord.setLastUpdateUserId(lastUpdatedUserId); double d =
+				 * accountsReceivables.get(i).getAmountReceived();
+				 * salesRecord.setCreditNoteAmount(Double.parseDouble(df.format(d)));
+				 * salesRecord.setSalesCreditRefNo(accountsReceivables.get(i).getSourceRef());
+				 * salesRecord.setCreditAmount((double) 0);
+				 * System.out.println("<>>?<<?<>><><>");
+				 * System.out.println(salesRecord.getBalanceAmount());
+				 * System.out.println(salesRecord); }
+				 * 
+				 * salesRecord.setCreditAmount((double) 0); salesRecord.setBalanceAmount((float)
+				 * 0); salesRecord.setPaidAmount(creditNoteAmount.floatValue());
+				 * System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::");
+				 * System.out.println(salesRecord.getBalanceAmount()); if
+				 * (salesRecord.getBalanceAmount() > 0) {
+				 * System.out.println("in 2 for lopps of if");
+				 * salesRecord.setPaymentStatus("Partially Paid"); } else if
+				 * (salesRecord.getBalanceAmount() == 0) {
+				 * System.out.println("in 2 for lopps of if else");
+				 * salesRecord.setPaymentStatus("Paid"); } salesRecord.setCreditNoteAmount(
+				 * (double) Double.parseDouble(df.format(creditNoteAmount)));
+				 * salesRecord.setSalesCreditRefNo(accountsReceivables.get(i).getSourceRef());
+				 * 
+				 * } else {
+				 * 
+				 * if (accountsReceivables.get(i).getPaymentType().equals("Cash")) {
+				 * 
+				 * salesRecord.setCashAmount((salesRecord.getCashAmount() != null &&
+				 * salesRecord.getCashAmount() > 0) ? salesRecord.getCashAmount() -
+				 * creditNoteAmount.floatValue() : null); } else if
+				 * (accountsReceivables.get(i).getPaymentType().equals("Card")) {
+				 * salesRecord.setCreditCardAmount((salesRecord.getCreditCardAmount() != null &&
+				 * salesRecord.getCreditCardAmount() > 0) ? salesRecord.getCreditCardAmount() -
+				 * creditNoteAmount.floatValue() : null);
+				 * 
+				 * } else if (accountsReceivables.get(i).getPaymentType().equals("MPesa")) {
+				 * salesRecord.setUpiAmount((salesRecord.getUpiAmount() != null &&
+				 * salesRecord.getUpiAmount() > 0) ? salesRecord.getUpiAmount() -
+				 * creditNoteAmount.floatValue() : null);
+				 * 
+				 * } else if (accountsReceivables.get(i).getPaymentType().equals("Cheque")) {
+				 * 
+				 * salesRecord.setChequeAmount((salesRecord.getChequeAmount() != null &&
+				 * salesRecord.getChequeAmount() > 0) ? salesRecord.getChequeAmount() -
+				 * creditNoteAmount.floatValue() : null);
+				 * 
+				 * } salesRecord.setCreditNoteAmount( (double)
+				 * Double.parseDouble(df.format(creditNoteAmount)));
+				 * 
+				 * } salesRepository.save(salesRecord);
+				 * 
+				 * } } } } } }
+				 */
 
-									Double creditNoteAmount = -1
-											* accountsReceivables.get(i).getAmountReceived().doubleValue();
-									String billNo = accountsReceivables.get(i).getBillRefNo();
-									SalesModel salesRecord = accountReceivablesRepository
-											.getSalesByBillCode(accountsReceivables.get(i).getBillRefNo().trim());
+				/*
+				 * for (int i = 0; i < accountsReceivables.size(); i++) {
+				 * AccountReceivablesModel accRecModel = accountReceivablesRepository
+				 * .getAccRecDataById(accountsReceivables.get(i).getAccountReceivablesId());
+				 * System.out.println(
+				 * "???????credit limit updation?????????????????????????????????/////////////////////////////////////////////////////////////////////////////////////"
+				 * ); double amount = 0; MasterAccountModel masterAccObj = null; String BillNo =
+				 * "";
+				 * 
+				 * if (accRecModel.getPaymentType().equals("Credit Note")) { if
+				 * (accountsReceivables.get(i).getAmountToBeReceived() == 0) {
+				 * System.out.println("in if oa amt to ne zero"); amount = -1 *
+				 * accountsReceivables.get(i).getAmountReceived(); } else { amount =
+				 * accountsReceivables.get(i).getAmountReceived(); } if
+				 * (accountsReceivables.get(i).getAmountToBeReceived() == 0 &&
+				 * accountsReceivables.get(i).getSourceType().equals("Sales Billing")) {
+				 * System.out.println("in sales bukl"); amount =
+				 * accountsReceivables.get(i).getAmountReceived(); } else if
+				 * (accountsReceivables.get(i).getAmountToBeReceived() == 0 &&
+				 * accountsReceivables.get(i).getSourceType().
+				 * equals("Sales Returns - Credit Note")) {
+				 * System.out.println("in expected case"); amount = (double) 0; }
+				 * System.out.println(amount + ": final for loop credit amount");
+				 * 
+				 * } else if (accRecModel.getPaymentType().equals("Cheque") ||
+				 * accRecModel.getPaymentType().equals("MPesa") ||
+				 * accRecModel.getPaymentType().equals("Cash") ||
+				 * accRecModel.getPaymentType().equals("Card")) { if
+				 * (Objects.nonNull(accRecModel.getCashAmount())) { amount =
+				 * accRecModel.getCashAmount(); } else if
+				 * (Objects.nonNull(accRecModel.getCreditCardAmount())) { amount =
+				 * accRecModel.getCreditCardAmount(); } else if
+				 * (Objects.nonNull(accRecModel.getChequeAmount())) { amount =
+				 * accRecModel.getChequeAmount(); } else if
+				 * (Objects.nonNull(accRecModel.getUpiAmount())) { amount =
+				 * accRecModel.getUpiAmount(); } System.out.println(amount + "amttttttttttttt");
+				 * }
+				 * 
+				 * if (accRecModel.getCreditNumber() != null &&
+				 * !accRecModel.getCreditNumber().isEmpty()) { System.out.println("in if od css"
+				 * + accRecModel.getCreditNumber()); masterAccObj =
+				 * masterAccRepo.getDataByMasterCreditNumber(accRecModel.getCreditNumber().trim(
+				 * ));
+				 * 
+				 * if (Objects.nonNull(masterAccObj)) { System.out.println(amount +
+				 * ":final credit amotjjkk paying");
+				 * System.out.println(masterAccObj.getCreditLimitLeft()); DecimalFormat df = new
+				 * DecimalFormat(".##");
+				 * 
+				 * Double creditAmountLimit = Double.parseDouble(df.format(amount)) +
+				 * masterAccObj.getCreditLimitLeft(); System.out.println(creditAmountLimit +
+				 * ": wlsd sk lopps amfeiucjjb");
+				 * masterAccObj.setCreditLimitLeft(creditAmountLimit.intValue());
+				 * masterAccRepo.save(masterAccObj); }
+				 * 
+				 * } else if (accRecModel.getBillRefNo() != null &&
+				 * !accRecModel.getBillRefNo().isEmpty()) { System.out.println("eslwdxsxc");
+				 * 
+				 * SalesModel salesRecord = accountReceivablesRepository
+				 * .getSalesByBillCode(accRecModel.getBillRefNo().trim());
+				 * 
+				 * if (Objects.nonNull(salesRecord)) { BillNo =
+				 * salesRecord.getCreditAccountNo(); System.out.println(BillNo + "oen bill"); }
+				 * else { SalesModel salesData = salesRepository
+				 * .getSalesRecordById(accountsReceivables.get(i).getSalesBillId());
+				 * 
+				 * if (Objects.nonNull(salesData)) { BillNo = salesData.getCreditAccountNo();
+				 * System.out.println(BillNo + "3rf bill"); } } masterAccObj =
+				 * masterAccRepo.getDataByMasterCreditNumber(BillNo); if
+				 * (accountsReceivables.get(i).getPartiallyPaid() != null) {
+				 * System.out.println("in if oa partiallu =p");
+				 * 
+				 * } else { if (Objects.nonNull(masterAccObj)) { System.out.println(amount +
+				 * ":final credit amotjjkk paying");
+				 * System.out.println(masterAccObj.getCreditLimitLeft()); DecimalFormat df = new
+				 * DecimalFormat(".##"); Double creditAmountUpdate =
+				 * Double.parseDouble(df.format(amount)) + masterAccObj.getCreditLimitLeft();
+				 * System.out.println(creditAmountUpdate + ": wlsd sk lopps amfeiucjjb");
+				 * masterAccObj.setCreditLimitLeft(creditAmountUpdate.intValue());
+				 * masterAccRepo.save(masterAccObj); } } amount = (double) 0; } else if
+				 * (accRecModel.getSalesBillId() != null) { SalesModel salesData =
+				 * salesRepository.getSalesRecordById(accRecModel.getSalesBillId()); if
+				 * (Objects.nonNull(salesData)) { BillNo = salesData.getCreditAccountNo() !=
+				 * null ? salesData.getCreditAccountNo() : " "; System.out.println(BillNo +
+				 * "3rf billbbvnbnbvnbn"); }
+				 * 
+				 * masterAccObj = masterAccRepo.getDataByMasterCreditNumber(BillNo); if
+				 * (Objects.nonNull(masterAccObj)) { System.out.println(amount +
+				 * ":final credit amotjjkk paying");
+				 * System.out.println(masterAccObj.getCreditLimitLeft()); DecimalFormat df = new
+				 * DecimalFormat(".##"); Double creditAmountUpdate =
+				 * Double.parseDouble(df.format(amount)) + masterAccObj.getCreditLimitLeft();
+				 * System.out.println(creditAmountUpdate + ": wlsd sk lopps amfeiucjjb");
+				 * masterAccObj.setCreditLimitLeft(creditAmountUpdate.intValue());
+				 * masterAccRepo.save(masterAccObj); } }
+				 * 
+				 * }
+				 */
 
-									if (salesRecord.getBalanceAmount() == 0) {
-										String paymentStatus = "Paid";
-										Integer res = salesRepository.updateUpiAmountBasedOnId(creditNoteAmount,
-												paymentStatus, billNo);
-									} else {
-										Integer res = salesRepository.updateUpiAmountBasedOnStatusId(creditNoteAmount,
-												billNo);
-									}
+				// without distubing existed things to make sales return and sales bill with
+				// two payments of fully paid
+				/*
+				 * for (int i = 0; i < accountsReceivables.size(); i++) { for (int j = i; j <
+				 * accountsReceivables.size(); j++) { if (i != j) {
+				 * System.out.println("in last for loop"); if
+				 * (accountsReceivables.get(i).getSourceType().
+				 * equals("Sales Returns - Credit Note") &&
+				 * accountsReceivables.get(i).getPaymentType().equals("Credit Note") &&
+				 * accountsReceivables.get(i).getSalesBillId() != null) {
+				 * 
+				 * if (accountsReceivables.get(i).getPartiallyPaid() == null) { if
+				 * (accountsReceivables.get(j).getPartiallyPaid() == null) { System.out.println(
+				 * ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,=============================================="
+				 * ); SalesModel salesModel = salesRepository
+				 * .getSalesRecordById(accountsReceivables.get(i).getSalesBillId());
+				 * 
+				 * if (salesModel.getPaymentStatus().equals("Paid") &&
+				 * salesModel.getCreditNoteAmount() != null) { double amount = 0; if
+				 * (Objects.nonNull(accountsReceivables.get(j).getCashAmount())) { amount =
+				 * accountsReceivables.get(j).getCashAmount(); } else if
+				 * (Objects.nonNull(accountsReceivables.get(j).getCreditCardAmount())) { amount
+				 * = accountsReceivables.get(j).getCreditCardAmount(); } else if
+				 * (Objects.nonNull(accountsReceivables.get(j).getChequeAmount())) { amount =
+				 * accountsReceivables.get(j).getChequeAmount(); } else if
+				 * (Objects.nonNull(accountsReceivables.get(j).getUpiAmount())) { amount =
+				 * accountsReceivables.get(j).getUpiAmount(); } System.out.println(amount +
+				 * ":?>?>>??"); double netAmt = salesModel.getNetAmount(); double amt = netAmt -
+				 * amount; if (accountsReceivables.get(j).getCreditNumber() != null) {
+				 * MasterAccountModel masterAccObj = masterAccRepo.getDataByMasterCreditNumber(
+				 * accountsReceivables.get(j).getCreditNumber().trim());
+				 * System.out.println(masterAccObj.getCreditNumber()); if
+				 * (Objects.nonNull(masterAccObj)) { System.out.println(amt +
+				 * ":final credit amotjjkk paying");
+				 * System.out.println(masterAccObj.getCreditLimitLeft()); DecimalFormat df = new
+				 * DecimalFormat(".##"); Double creditAmountUpdate =
+				 * Double.parseDouble(df.format(amt)) + masterAccObj.getCreditLimitLeft();
+				 * System.out.println(creditAmountUpdate + ": wlsd sk lopps amfeiucjjb");
+				 * masterAccObj.setCreditLimitLeft(creditAmountUpdate.intValue());
+				 * masterAccRepo.save(masterAccObj); } } } } } }
+				 * 
+				 * } } }
+				 */
 
-									if (salesRecord.getNetAmount().doubleValue() == creditNoteAmount) {
-										System.out.println(
-												"if both amounts are equalmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
-										if (Objects.nonNull(salesRecord.getCashAmount())) {
-											salesRecord.setCashAmount(null);
-										} else if (Objects.nonNull(salesRecord.getUpiAmount())) {
-											salesRecord.setUpiAmount(null);
-											salesRecord.setUpiPhoneNo(null);
-											salesRecord.setUpiTransactionId(null);
-										} else if (Objects.nonNull(salesRecord.getCreditCardAmount())) {
-											salesRecord.setCreditCardAuthNo(null);
-											salesRecord.setCreditCardAmount(null);
-											salesRecord.setCreditCardNo(null);
-										} else if (Objects.nonNull(salesRecord.getChequeAmount())) {
-											salesRecord.setChequeAmount(null);
-											salesRecord.setChequeDate(null);
-											salesRecord.setChequeNumber(null);
-										} else if (accountsReceivables.get(i).getPaymentType()
-												.equalsIgnoreCase("Credit Note")) {
-											System.out.println("<><><>_+_+++++++++++++++++++++++++");
-											salesRecord.setBalanceAmount((float) 0);
-											String lastUpdatedUserId = Integer
-													.toString(accountsReceivables.get(i).getLastUpdateUser());
-											salesRecord.setLastUpdateUserId(lastUpdatedUserId);
-											double d = accountsReceivables.get(i).getAmountReceived();
-											salesRecord.setCreditNoteAmount(Double.parseDouble(df.format(d)));
-											salesRecord.setSalesCreditRefNo(accountsReceivables.get(i).getSourceRef());
-											salesRecord.setCreditAmount((double) 0);
-											System.out.println("<>>?<<?<>><><>");
-											System.out.println(salesRecord.getBalanceAmount());
-											System.out.println(salesRecord);
-										}
-
-										salesRecord.setCreditAmount((double) 0);
-										salesRecord.setBalanceAmount((float) 0);
-										salesRecord.setPaidAmount(creditNoteAmount.floatValue());
-										System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::");
-										System.out.println(salesRecord.getBalanceAmount());
-										if (salesRecord.getBalanceAmount() > 0) {
-											System.out.println("in 2 for lopps of if");
-											salesRecord.setPaymentStatus("Partially Paid");
-										} else if (salesRecord.getBalanceAmount() == 0) {
-											System.out.println("in 2 for lopps of if else");
-											salesRecord.setPaymentStatus("Paid");
-										}
-										salesRecord.setCreditNoteAmount(
-												(double) Double.parseDouble(df.format(creditNoteAmount)));
-										salesRecord.setSalesCreditRefNo(accountsReceivables.get(i).getSourceRef());
-
-									} else {
-
-										if (accountsReceivables.get(i).getPaymentType().equals("Cash")) {
-
-											salesRecord.setCashAmount((salesRecord.getCashAmount() != null
-													&& salesRecord.getCashAmount() > 0)
-															? salesRecord.getCashAmount()
-																	- creditNoteAmount.floatValue()
-															: null);
-										} else if (accountsReceivables.get(i).getPaymentType().equals("Card")) {
-											salesRecord.setCreditCardAmount((salesRecord.getCreditCardAmount() != null
-													&& salesRecord.getCreditCardAmount() > 0)
-															? salesRecord.getCreditCardAmount()
-																	- creditNoteAmount.floatValue()
-															: null);
-
-										} else if (accountsReceivables.get(i).getPaymentType().equals("MPesa")) {
-											salesRecord.setUpiAmount((salesRecord.getUpiAmount() != null
-													&& salesRecord.getUpiAmount() > 0)
-															? salesRecord.getUpiAmount() - creditNoteAmount.floatValue()
-															: null);
-
-										} else if (accountsReceivables.get(i).getPaymentType().equals("Cheque")) {
-
-											salesRecord.setChequeAmount((salesRecord.getChequeAmount() != null
-													&& salesRecord.getChequeAmount() > 0)
-															? salesRecord.getChequeAmount()
-																	- creditNoteAmount.floatValue()
-															: null);
-
-										}
-										salesRecord.setCreditNoteAmount(
-												(double) Double.parseDouble(df.format(creditNoteAmount)));
-
-									}
-									salesRepository.save(salesRecord);
-
-								}
-							}
-						}
-					}
-				}
-			}*/
-
-			for (int i = 0; i < accountsReceivables.size(); i++) {
-				AccountReceivablesModel accRecModel = accountReceivablesRepository
-						.getAccRecDataById(accountsReceivables.get(i).getAccountReceivablesId());
-				System.out.println(
-						"????????????????????????????????????????/////////////////////////////////////////////////////////////////////////////////////");
-				double amount = 0;
-				MasterAccountModel masterAccObj = null;
-				String BillNo = "";
-
-				if (accRecModel.getPaymentType().equals("Credit Note")) {
-					if (accountsReceivables.get(i).getAmountToBeReceived() == 0) {
-						System.out.println("in if oa amt to ne zero");
-						amount = -1 * accountsReceivables.get(i).getAmountReceived();
+				// to update credit note amount if it goes for multiple creditnotes
+				for (int i = 0; i < accountsReceivables.size(); i++) {
+					SalesModel salesRecord = null;
+					DecimalFormat df = new DecimalFormat(".##");
+					if (Objects.nonNull(accountsReceivables.get(i).getBillRefNo())) {
+						salesRecord = accountReceivablesRepository
+								.getSalesByBillCode(accountsReceivables.get(i).getBillRefNo().trim());
 					} else {
-						amount = accountsReceivables.get(i).getAmountReceived();
+						salesRecord = salesRepository.getSalesRecordById(accountsReceivables.get(i).getSalesBillId());
 					}
-					if (accountsReceivables.get(i).getAmountToBeReceived() == 0
-							&& accountsReceivables.get(i).getSourceType().equals("Sales Billing")) {
-						System.out.println("in sales bukl");
-						amount = accountsReceivables.get(i).getAmountReceived();
-					} else if (accountsReceivables.get(i).getAmountToBeReceived() == 0
-							&& accountsReceivables.get(i).getSourceType().equals("Sales Returns - Credit Note")) {
-						System.out.println("in expected case");
-						amount = (double) 0;
-					}
-					System.out.println(amount + ": final for loop credit amount");
-
-				} else if (accRecModel.getPaymentType().equals("Cheque") || accRecModel.getPaymentType().equals("MPesa")
-						|| accRecModel.getPaymentType().equals("Cash") || accRecModel.getPaymentType().equals("Card")) {
-					if (Objects.nonNull(accRecModel.getCashAmount())) {
-						amount = accRecModel.getCashAmount();
-					} else if (Objects.nonNull(accRecModel.getCreditCardAmount())) {
-						amount = accRecModel.getCreditCardAmount();
-					} else if (Objects.nonNull(accRecModel.getChequeAmount())) {
-						amount = accRecModel.getChequeAmount();
-					} else if (Objects.nonNull(accRecModel.getUpiAmount())) {
-						amount = accRecModel.getUpiAmount();
-					}
-					System.out.println(amount + "amttttttttttttt");
-				}
-
-				if (accRecModel.getCreditNumber() != null && !accRecModel.getCreditNumber().isEmpty()) {
-					System.out.println("in if od css" + accRecModel.getCreditNumber());
-					masterAccObj = masterAccRepo.getDataByMasterCreditNumber(accRecModel.getCreditNumber().trim());
-
-					if (Objects.nonNull(masterAccObj)) {
-						System.out.println(amount + ":final credit amotjjkk paying");
-						System.out.println(masterAccObj.getCreditLimitLeft());
-						DecimalFormat df = new DecimalFormat(".##");
-
-						Double creditAmountLimit = Double.parseDouble(df.format(amount))
-								+ masterAccObj.getCreditLimitLeft();
-						System.out.println(creditAmountLimit + ": wlsd sk lopps amfeiucjjb");
-						masterAccObj.setCreditLimitLeft(creditAmountLimit.intValue());
-						masterAccRepo.save(masterAccObj);
-					}
-
-				} else if (accRecModel.getBillRefNo() != null && !accRecModel.getBillRefNo().isEmpty()) {
-					System.out.println("eslwdxsxc");
-
-					SalesModel salesRecord = accountReceivablesRepository
-							.getSalesByBillCode(accRecModel.getBillRefNo().trim());
 
 					if (Objects.nonNull(salesRecord)) {
-						BillNo = salesRecord.getCreditAccountNo();
-						System.out.println(BillNo + "oen bill");
-					} else {
-						SalesModel salesData = salesRepository
-								.getSalesRecordById(accountsReceivables.get(i).getSalesBillId());
+						System.out.println("in side of sales updation condyi");
+						if (salesRecord.getPaymentStatus().equals("Paid") && salesRecord.getBalanceAmount() == 0) {
+							if (Objects.isNull(accountsReceivables.get(i).getCashAmount())
+									&& Objects.isNull(accountsReceivables.get(i).getCreditCardAmount())
+									&& Objects.isNull(accountsReceivables.get(i).getChequeAmount())
+									&& Objects.isNull(accountsReceivables.get(i).getUpiAmount())) {
 
-						if (Objects.nonNull(salesData)) {
-							BillNo = salesData.getCreditAccountNo();
-							System.out.println(BillNo + "3rf bill");
-						}
-					}
-					masterAccObj = masterAccRepo.getDataByMasterCreditNumber(BillNo);
-					if (accountsReceivables.get(i).getPartiallyPaid() != null) {
-						System.out.println("in if oa partiallu =p");
+								System.out.println("inside of if");
+								salesRecord.setCreditNoteAmount(
+										(double) Double.parseDouble(df.format(salesRecord.getPaidAmount())));
 
-					} else {
-						if (Objects.nonNull(masterAccObj)) {
-							System.out.println(amount + ":final credit amotjjkk paying");
-							System.out.println(masterAccObj.getCreditLimitLeft());
-							DecimalFormat df = new DecimalFormat(".##");
-							Double creditAmountUpdate = Double.parseDouble(df.format(amount))
-									+ masterAccObj.getCreditLimitLeft();
-							System.out.println(creditAmountUpdate + ": wlsd sk lopps amfeiucjjb");
-							masterAccObj.setCreditLimitLeft(creditAmountUpdate.intValue());
-							masterAccRepo.save(masterAccObj);
-						}
-					}
-					amount = (double) 0;
-				} else if (accRecModel.getSalesBillId() != null) {
-					SalesModel salesData = salesRepository.getSalesRecordById(accRecModel.getSalesBillId());
-					if (Objects.nonNull(salesData)) {
-						BillNo = salesData.getCreditAccountNo() != null ? salesData.getCreditAccountNo() : " ";
-						System.out.println(BillNo + "3rf billbbvnbnbvnbn");
-					}
-					masterAccObj = masterAccRepo.getDataByMasterCreditNumber(BillNo);
-					if (Objects.nonNull(masterAccObj)) {
-						System.out.println(amount + ":final credit amotjjkk paying");
-						System.out.println(masterAccObj.getCreditLimitLeft());
-						DecimalFormat df = new DecimalFormat(".##");
-						Double creditAmountUpdate = Double.parseDouble(df.format(amount))
-								+ masterAccObj.getCreditLimitLeft();
-						System.out.println(creditAmountUpdate + ": wlsd sk lopps amfeiucjjb");
-						masterAccObj.setCreditLimitLeft(creditAmountUpdate.intValue());
-						masterAccRepo.save(masterAccObj);
-					}
-				}
-
-			}
-
-			// without distubing existed things to make sales return and sales bill with
-			// two payments of fully paid
-			for (int i = 0; i < accountsReceivables.size(); i++) {
-				for (int j = i; j < accountsReceivables.size(); j++) {
-					if (i != j) {
-						System.out.println("in last for loop");
-						if (accountsReceivables.get(i).getSourceType().equals("Sales Returns - Credit Note")
-								&& accountsReceivables.get(i).getPaymentType().equals("Credit Note")
-								&& accountsReceivables.get(i).getSalesBillId() != null) {
-
-							if (accountsReceivables.get(i).getPartiallyPaid() == null) {
-								if (accountsReceivables.get(j).getPartiallyPaid() == null) {
-									System.out.println(
-											",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,==============================================");
-									SalesModel salesModel = salesRepository
-											.getSalesRecordById(accountsReceivables.get(i).getSalesBillId());
-
-									if (salesModel.getPaymentStatus().equals("Paid")
-											&& salesModel.getCreditNoteAmount() != null) {
-										double amount = 0;
-										if (Objects.nonNull(accountsReceivables.get(j).getCashAmount())) {
-											amount = accountsReceivables.get(j).getCashAmount();
-										} else if (Objects.nonNull(accountsReceivables.get(j).getCreditCardAmount())) {
-											amount = accountsReceivables.get(j).getCreditCardAmount();
-										} else if (Objects.nonNull(accountsReceivables.get(j).getChequeAmount())) {
-											amount = accountsReceivables.get(j).getChequeAmount();
-										} else if (Objects.nonNull(accountsReceivables.get(j).getUpiAmount())) {
-											amount = accountsReceivables.get(j).getUpiAmount();
-										}
-										System.out.println(amount + ":?>?>>??");
-										double netAmt = salesModel.getNetAmount();
-										double amt = netAmt - amount;
-										if (accountsReceivables.get(j).getCreditNumber() != null) {
-											MasterAccountModel masterAccObj = masterAccRepo.getDataByMasterCreditNumber(
-													accountsReceivables.get(j).getCreditNumber().trim());
-											System.out.println(masterAccObj.getCreditNumber());
-											if (Objects.nonNull(masterAccObj)) {
-												System.out.println(amt + ":final credit amotjjkk paying");
-												System.out.println(masterAccObj.getCreditLimitLeft());
-												DecimalFormat df = new DecimalFormat(".##");
-												Double creditAmountUpdate = Double.parseDouble(df.format(amt))
-														+ masterAccObj.getCreditLimitLeft();
-												System.out.println(creditAmountUpdate + ": wlsd sk lopps amfeiucjjb");
-												masterAccObj.setCreditLimitLeft(creditAmountUpdate.intValue());
-												masterAccRepo.save(masterAccObj);
-											}
-										}
-									}
-								}
 							}
+						} else if (Objects.isNull(salesRecord.getSalesCreditRefNo())
+								&& salesRecord.getPaymentStatus().equals("Partially Paid")
+								&& salesRecord.getChequeNumber().contains("DPAR")) {
+							System.out.println("updating credit note amt");
+							salesRecord.setCreditNoteAmount(null);
 						}
-
+						salesRepository.save(salesRecord);
 					}
+
 				}
 			}
-
-			// to update credit note amount if it goes for multiple creditnotes
-			for (int i = 0; i < accountsReceivables.size(); i++) {
-				SalesModel salesRecord = null;
-				DecimalFormat df = new DecimalFormat(".##");
-				if (Objects.nonNull(accountsReceivables.get(i).getBillRefNo())) {
-					salesRecord = accountReceivablesRepository
-							.getSalesByBillCode(accountsReceivables.get(i).getBillRefNo().trim());
-				} else {
-					salesRecord = salesRepository.getSalesRecordById(accountsReceivables.get(i).getSalesBillId());
-				}
-
-				if (Objects.nonNull(salesRecord)) {
-					System.out.println("in side of sales updation condyi");
-					if (salesRecord.getPaymentStatus().equals("Paid") && salesRecord.getBalanceAmount() == 0) {
-						if (Objects.isNull(accountsReceivables.get(i).getCashAmount())
-								&& Objects.isNull(accountsReceivables.get(i).getCreditCardAmount())
-								&& Objects.isNull(accountsReceivables.get(i).getChequeAmount())
-								&& Objects.isNull(accountsReceivables.get(i).getUpiAmount())) {
-
-							System.out.println("inside of if");
-							salesRecord.setCreditNoteAmount(
-									(double) Double.parseDouble(df.format(salesRecord.getPaidAmount())));
-
-						}
-					} else if (Objects.isNull(salesRecord.getSalesCreditRefNo())
-							&& salesRecord.getPaymentStatus().equals("Partially Paid")
-							&& salesRecord.getChequeNumber().contains("DPAR")) {
-						System.out.println("updating credit note amt");
-						salesRecord.setCreditNoteAmount(null);
-					}
-					salesRepository.save(salesRecord);
-				}
-
-			}
-		}
 		}
 
 		return accountsReceivables;
@@ -1808,32 +1623,32 @@ System.out.println(salesRecord.getBalanceAmount() +"balance antedcd");
 
 					}
 				} else if (json.get(i).getPayment().equals("Full")) {
-					System.out.println("else ddddfdvdf"+json.get(i).getAmountToBeReceived());
+					System.out.println("else ddddfdvdf" + json.get(i).getAmountToBeReceived());
 					billPartialAmt += json.get(i).getAmountToBeReceived();
-					System.out.println(billPartialAmt+"/lkuhh");
+					System.out.println(billPartialAmt + "/lkuhh");
 					if (json.get(i).getAmountReceived() != null && json.get(i).getAmountReceived() < 0.0) {
-						System.out.println(json.get(i).getAmountReceived()+"/////...,,.,,,,mmmmmm");
+						System.out.println(json.get(i).getAmountReceived() + "/////...,,.,,,,mmmmmm");
 						billTotalDebit += json.get(i).getAmountReceived() != null ? 0
 								: -1 * json.get(i).getAmountReceived();
 					} else {
-						System.out.println(json.get(i).getAmountReceived() +"eslecs");
+						System.out.println(json.get(i).getAmountReceived() + "eslecs");
 						billTotalCredit += json.get(i).getAmountReceived() != null ? json.get(i).getAmountReceived()
 								: 0;
 					}
 
 					if (json.get(i).getAmountToBeReceived() != null) {
 						if (json.get(i).getAmountToBeReceived() < 0.0) {
-							System.out.println(json.get(i).getAmountReceived() +"not nullssc");
+							System.out.println(json.get(i).getAmountReceived() + "not nullssc");
 							billTotalDebit += json.get(i).getAmountToBeReceived() != null ? 0
 									: -1 * json.get(i).getAmountToBeReceived() + json.get(i).getPartialAmt();
 						} else {
 							if (json.get(i).getPayment().equals("Full")) {
-								System.out.println(json.get(i).getAmountReceived()+"full//");
+								System.out.println(json.get(i).getAmountReceived() + "full//");
 								billTotalCredit += json.get(i).getAmountToBeReceived() != null
 										? json.get(i).getAmountToBeReceived()
 										: 0;
 							} else {
-								System.out.println(json.get(i).getAmountReceived()+"{{}{}{}{{{}{{{");
+								System.out.println(json.get(i).getAmountReceived() + "{{}{}{}{{{}{{{");
 								billTotalCredit += json.get(i).getAmountToBeReceived() != null
 										? json.get(i).getAmountToBeReceived() + json.get(i).getPartialAmt()
 										: 0;
@@ -1845,10 +1660,10 @@ System.out.println(salesRecord.getBalanceAmount() +"balance antedcd");
 			}
 		}
 		DecimalFormat df = new DecimalFormat(".##");
-System.out.println(billPartialAmt+"mntrfgvhj");
+		System.out.println(billPartialAmt + "mntrfgvhj");
 		res.put("totalAmount", Double.parseDouble(df.format(billPartialAmt)));
 		res.put("totalCredit", Double.parseDouble(df.format(billTotalCredit)));
-		res.put("totalBill",Double.parseDouble(df.format(billTotalCredit - billTotalDebit)));
+		res.put("totalBill", Double.parseDouble(df.format(billTotalCredit - billTotalDebit)));
 
 		return res;
 	}
