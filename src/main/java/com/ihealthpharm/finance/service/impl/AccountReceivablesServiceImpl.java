@@ -247,12 +247,15 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 
 				}else {
 					if(!CustomerName.equals("")) {
+						System.out.println(CustomerName+"....,,,,,,nnnnnnnnnnnnnnyyyyyyyyyyyyyy");
 						MasterAccountModel masterAccObj =null;
 						SalesModel salesResponse=null;
 								if(Objects.nonNull(accountReceivables.getBillRefNo())) {
 									salesResponse=accountReceivablesRepository.getSalesByBillCode(accountReceivables.getBillRefNo());
+									System.out.println(salesResponse.getCreditAccountNo() +"creditr acc no");
 									if(Objects.nonNull(salesResponse.getCreditAccountNo())) {
 									masterAccObj=masterAccRepo.getDataByMasterCreditNumber(salesResponse.getCreditAccountNo());
+									System.out.println(masterAccObj.getCreditDaysLeft());
 									}
 								}else {
 									salesResponse=salesRepository.getSalesRecordById(accountReceivables.getSalesBillId());
@@ -262,13 +265,15 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 								}
 								
 								if(Objects.nonNull(masterAccObj)) {
-									
+									System.out.println("master accc obj  not null");
 									if(salesResponse.getPaymentStatus().equalsIgnoreCase("Partially Paid")) {
-										double amt=(double) Double.parseDouble(df.format(salesResponse.getPaidAmount()));  
+										//double amt=(double) Double.parseDouble(df.format(salesResponse.getPaidAmount()));  
+										double amt=(double) Double.parseDouble(df.format(-1*accountReceivables.getAmountReceived()));
 										double amount= (double) Double.parseDouble(df.format(amt+(double)masterAccObj.getCreditLimitLeft()));
 										 masterAccObj.setCreditLimitLeft((int)amount);
 									}else if(salesResponse.getPaymentStatus().equalsIgnoreCase("Paid")) {
-										double amt=(double) Double.parseDouble(df.format(salesResponse.getNetAmount()));
+										//double amt=(double) Double.parseDouble(df.format(salesResponse.getNetAmount()));
+										double amt=(double) Double.parseDouble(df.format(-1*accountReceivables.getAmountReceived()));
 										double amount= (double) Double.parseDouble(df.format(amt+(double)masterAccObj.getCreditLimitLeft()));
 										masterAccObj.setCreditLimitLeft((int)amount);
 									}else {
