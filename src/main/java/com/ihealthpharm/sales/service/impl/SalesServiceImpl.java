@@ -647,5 +647,10 @@ public class SalesServiceImpl implements SalesService {
 		return dataArray;
 	}
 
+	@Override
+	public SalesModel findSalesData(String billNo) {
+		return salesRepository.getAllDataByBillNo(billNo);
+	}
+
 
 }

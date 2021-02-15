@@ -294,4 +294,7 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
     @Query("select s from sales s where s.billId=:billId")
     SalesModel getSalesRecordById(@Param("billId")Integer billId);
 
+    @Query("select s from sales s where s.billCode=:billNo")
+	SalesModel getAllDataByBillNo(@Param("billNo") String billNo);
+
 }

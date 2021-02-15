@@ -1,9 +1,6 @@
 package com.ihealthpharm.sales.service;
 
-import java.util.Date;
 import java.util.List;
-
-import com.ihealthpharm.masters.dto.ItemDTO;
 import com.ihealthpharm.sales.dto.SalesBillDTO;
 import com.ihealthpharm.sales.dto.SalesBillsLimitedDTO;
 import com.ihealthpharm.sales.dto.SalesByDatesDTO;
@@ -142,5 +139,7 @@ public interface SalesService
 	List<SalesBillsLimitedDTO> findBillsByName(String billCode);
 
 	List<SalesByHour> findSalesByHour(String date, int selectedChartEmployee, String empName, int fromTime, int toTime, int[] timeArray);
+
+	SalesModel findSalesData(String billNo);
 
 }
