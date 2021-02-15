@@ -1,9 +1,7 @@
 package com.ihealthpharm.sales.controller;
 
 import static org.springframework.http.HttpStatus.OK;
-
 import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,11 +75,6 @@ public class SalesController {
 	@PostMapping("/get/bysalessearchkeys")
 	public ResponseEntity<BaseDto<List<SalesModel>>> getByStatus(@RequestParam("status") String status,
 			@RequestParam("code")  String code,@RequestParam("codeValue") String codeValue,@RequestParam("startDate") String startDate,@RequestParam("endDate") String endDate) {
-		log.info("Status=: "+status);
-		log.info("Code=: "+code);
-		log.info("code Value=: "+codeValue);
-		log.info("start=:"+startDate);
-		log.info("end=:"+endDate);
 		
 		List<SalesModel> salesModelRes = salesService.findByCriteria(status,code,codeValue,startDate,endDate);
 		
@@ -416,6 +409,12 @@ public class SalesController {
 	@GetMapping("/getSalesByHours")
 	public  ResponseEntity<BaseDto<List<SalesByHour>>> getData(@RequestParam String date,@RequestParam String empName, @RequestParam int selectedChartEmployee, @RequestParam int fromTime, @RequestParam int toTime,@RequestParam int[] timeArray ){
 		List<SalesByHour> result =salesService.findSalesByHour(date,selectedChartEmployee,empName,fromTime,toTime,timeArray);
+		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(), OK).respond();
+	}
+	
+	@GetMapping("/getSalesBillData/inCreditNote")
+	public  ResponseEntity<BaseDto<SalesModel>> getBillData(@RequestParam String billNo){
+		SalesModel result =salesService.findSalesData(billNo);
 		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(), OK).respond();
 	}
 	
