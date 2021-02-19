@@ -554,6 +554,23 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 						if (creditAmount > 0) {
 							System.out.println("in if of credit amont gretaer than zero");
 
+							Double anotherPayAmt = 0.0;
+							if (salesRecord.getChequeAmount() != null) {
+								anotherPayAmt += salesRecord.getChequeAmount();
+							}
+							if (salesRecord.getCreditCardAmount() != null) {
+								anotherPayAmt += salesRecord.getCreditCardAmount().doubleValue();
+							}
+							if (salesRecord.getCashAmount() != null) {
+								anotherPayAmt += salesRecord.getCashAmount().doubleValue();
+							}
+							if (salesRecord.getUpiAmount() != null) {
+								anotherPayAmt += salesRecord.getUpiAmount().doubleValue();
+							}
+							if (salesRecord.getCreditNoteAmount() != null) {
+								anotherPayAmt += salesRecord.getCreditNoteAmount();
+							}
+							
 							if (Objects.nonNull(accountReceivables.getCashAmount())) {
 								System.out.println("if payment type cash");
 								salesRecord.setPaymentStatus("Paid");
@@ -571,7 +588,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 										salesRecord.setLastUpdateUserId(lastUpdatedUserId);
 
 										double amt = Double.parseDouble(df.format(paidAmount))
-												+ salesRecord.getCreditNoteAmount();
+												+ Double.parseDouble(df.format(anotherPayAmt));
 										System.out.println(salesRecord.getNetAmount());
 										if (amt == salesRecord.getNetAmount()) {
 											System.out.println(
@@ -597,11 +614,6 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 											}
 											salesRecord.setBalanceAmount((float) bal);
 
-											/*
-											 * if (salesRecord.getCreditNoteAmount() != null) { double amtPaid =
-											 * salesRecord.getCreditNoteAmount() + paidAmount;
-											 * salesRecord.setPaidAmount((float) amtPaid); }
-											 */
 
 											System.out.println(salesRecord.getBalanceAmount());
 										}
@@ -638,24 +650,6 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 								if (salesRecord.getBalanceAmount() != 0) {
 
 									if (salesRecord.getCreditNoteAmount() != null) {
-										
-										Double anotherPayAmt = 0.0;
-										if (salesRecord.getChequeAmount() != null) {
-											anotherPayAmt += salesRecord.getChequeAmount();
-										}
-										if (salesRecord.getCreditCardAmount() != null) {
-											anotherPayAmt += salesRecord.getCreditCardAmount().doubleValue();
-										}
-										if (salesRecord.getCashAmount() != null) {
-											anotherPayAmt += salesRecord.getCashAmount().doubleValue();
-										}
-										if (salesRecord.getUpiAmount() != null) {
-											anotherPayAmt += salesRecord.getUpiAmount().doubleValue();
-										}
-										if (salesRecord.getCreditNoteAmount() != null) {
-											anotherPayAmt += salesRecord.getCreditNoteAmount();
-										}
-										
 										
 										System.out.println(chequeAmount + " cheque amt and credit :" + creditAmount);
 										Float paidAmount = (float) (chequeAmount + creditAmount);
@@ -772,7 +766,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 										System.out.println(paidAmount + " : just now paid");
 										System.out.println(salesRecord.getCreditNoteAmount() + " :credita mt");
 										double amt = Double.parseDouble(df.format(paidAmount))
-												+ +salesRecord.getCreditNoteAmount();
+												+ + Double.parseDouble(df.format(anotherPayAmt));
 										System.out.println(salesRecord.getNetAmount());
 										if (amt == salesRecord.getNetAmount()) {
 											System.out.println(
@@ -843,7 +837,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 									System.out.println(salesRecord.getCreditNoteAmount() + " :credita mt");
 
 									double amt = Double.parseDouble(df.format(paidAmount))
-											+ salesRecord.getCreditNoteAmount();
+											+  Double.parseDouble(df.format(anotherPayAmt));
 									System.out.println(amt);
 									System.out.println(salesRecord.getNetAmount());
 									if (amt == salesRecord.getNetAmount()) {
