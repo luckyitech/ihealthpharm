@@ -160,37 +160,44 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 				}
 
 				if (Objects.nonNull(salesRecord)) {
-					
-					Double anotherPayAmt=0.0;
-					if(salesRecord.getChequeAmount() !=null) {
-						anotherPayAmt=salesRecord.getChequeAmount();
-					}else if(salesRecord.getCreditCardAmount() !=null) {
-						anotherPayAmt=salesRecord.getCreditCardAmount().doubleValue();
-					}else if(salesRecord.getCashAmount() !=null) {
-						anotherPayAmt=salesRecord.getCashAmount().doubleValue();
-					}else if(salesRecord.getUpiAmount() !=null) {
-						anotherPayAmt=salesRecord.getUpiAmount().doubleValue();
-					}else if(salesRecord.getCreditNoteAmount() !=null) {
-						anotherPayAmt=salesRecord.getCreditNoteAmount();
+
+					Double anotherPayAmt = 0.0;
+					if (salesRecord.getChequeAmount() != null) {
+						anotherPayAmt += salesRecord.getChequeAmount();
 					}
-					
+					if (salesRecord.getCreditCardAmount() != null) {
+						anotherPayAmt += salesRecord.getCreditCardAmount().doubleValue();
+					}
+					if (salesRecord.getCashAmount() != null) {
+						anotherPayAmt += salesRecord.getCashAmount().doubleValue();
+					}
+					if (salesRecord.getUpiAmount() != null) {
+						anotherPayAmt += salesRecord.getUpiAmount().doubleValue();
+					}
+					if (salesRecord.getCreditNoteAmount() != null) {
+						anotherPayAmt += salesRecord.getCreditNoteAmount();
+					}
+
 					if (accountReceivables.getPaymentType().equals("Card")) {
 						anotherModePayments = (double) accountReceivables.getCreditCardAmount();
 						salesRecord.setCreditCardAmount(accountReceivables.getCreditCardAmount());
 						salesRecord.setCreditCardNo(accountReceivables.getCreditCardNo());
 						salesRecord.setCreditCardAuthNo(accountReceivables.getCardAuthCode());
 
-					} else if (accountReceivables.getPaymentType().equals("Cash")) {
+					}
+					if (accountReceivables.getPaymentType().equals("Cash")) {
 						anotherModePayments = (double) accountReceivables.getCashAmount();
 						salesRecord.setCashAmount(accountReceivables.getCashAmount());
 
-					} else if ((accountReceivables.getPaymentType().equals("MPesa"))) {
+					}
+					if ((accountReceivables.getPaymentType().equals("MPesa"))) {
 						anotherModePayments = (double) accountReceivables.getUpiAmount();
 						salesRecord.setUpiAmount(accountReceivables.getUpiAmount());
 						salesRecord.setUpiPhoneNo(accountReceivables.getUpiPhoneNo());
 						salesRecord.setUpiTransactionId(accountReceivables.getUpiAuthCode());
 
-					} else if ((accountReceivables.getPaymentType().equals("Cheque"))) {
+					}
+					if ((accountReceivables.getPaymentType().equals("Cheque"))) {
 						anotherModePayments = (double) accountReceivables.getChequeAmount();
 						salesRecord.setChequeAmount(accountReceivables.getChequeAmount());
 						LocalDate chequeDt = accountReceivables.getChequeDate();
@@ -201,28 +208,23 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 					if (salesRecord.getPaymentStatus().equals("Pending")) {
 						bal = salesRecord.getNetAmount() - Double.parseDouble(df.format(amountRecived));
 					} else {
-						System.out.println(salesRecord.getBalanceAmount()+"bal amt");
+						System.out.println(salesRecord.getBalanceAmount() + "bal amt");
 						System.out.println(amountRecived);
 						bal = salesRecord.getBalanceAmount() - Double.parseDouble(df.format(amountRecived));
 						System.out.println(bal);
 					}
 
-					System.out.println(bal + "balancerfdfcdvd");
 					Double balance = 0.0;
-					System.out.println(balance + "balancerfdfcdvd");
 					if (Objects.nonNull(anotherModePayments)) {
 						System.out.println("in if");
-						System.out.println(salesRecord.getNetAmount());
-						System.out.println(anotherModePayments);
-						System.out.println(amountRecived);
-					System.out.println(anotherPayAmt);
+
 						balance = ((double) salesRecord.getNetAmount())
 								- (Double.parseDouble(df.format(anotherModePayments))
-										+ Double.parseDouble(df.format(amountRecived)) +Double.parseDouble(df.format(anotherPayAmt)));
-						
+										+ Double.parseDouble(df.format(amountRecived))
+										+ Double.parseDouble(df.format(anotherPayAmt)));
+
 						System.out.println(balance);
 					} else {
-						System.out.println("else....");
 						balance = (double) bal;
 					}
 					System.out.println(balance + "final bal");
