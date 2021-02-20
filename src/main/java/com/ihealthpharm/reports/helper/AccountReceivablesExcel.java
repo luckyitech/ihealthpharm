@@ -111,14 +111,14 @@ public class AccountReceivablesExcel extends ReportsExcelUtility{
 		cell.setCellValue("");
 		cell1.setCellValue("");
 		
-		cell = dataRow.createCell(9);
-		cell1=dataRow1.createCell(9);
+		cell = dataRow.createCell(16);
+		cell1=dataRow1.createCell(16);
 		
 		cell.setCellValue("Total Amount Received : ");
 		cell1.setCellValue("Total Amount To Be Received : ");
 		
-		cell = dataRow.createCell(10);
-		cell1=dataRow1.createCell(10);
+		cell = dataRow.createCell(17);
+		cell1=dataRow1.createCell(17);
 		
 		String totAmountReceived=df.format(TotalAmtReceived);
 		Double totalReceived=Double.parseDouble(totAmountReceived);
@@ -195,15 +195,15 @@ public class AccountReceivablesExcel extends ReportsExcelUtility{
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(6);
-			cell.setCellValue("AMOUNT RECEIVED");
+			cell.setCellValue("AMT REC");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(7);
-			cell.setCellValue("AMOUNT TO BE RECEIVED");
+			cell.setCellValue("AMT TO BE REC");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(8);
-			cell.setCellValue("PAYMENT STATUS");
+			cell.setCellValue("PAY STATUS");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(9);
@@ -211,22 +211,35 @@ public class AccountReceivablesExcel extends ReportsExcelUtility{
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(10);
-			cell.setCellValue("PAYMENT TYPE");
+			cell.setCellValue("PAY TYPE");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(11);
-			cell.setCellValue("APPROVED BY");
+			cell.setCellValue("AMOUNT");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(12);
-			cell.setCellValue("APPROVED DATE");
+			cell.setCellValue("CHEQUE/CARD/UPI NO");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(13);
+			cell.setCellValue("CHEQUE/CARD/UPI AUTH CODE");
+			cell.setCellStyle(headerStyle);	
+			
+			
+			cell = headerRow.createCell(14);
+			cell.setCellValue("APPROVED BY");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(15);
+			cell.setCellValue("APPROVED DATE");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(16);
 			cell.setCellValue("CREATED BY");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(14);
+			cell = headerRow.createCell(17);
 			cell.setCellValue("MODIFIED BY");
 			cell.setCellStyle(headerStyle);	
 			
@@ -315,27 +328,47 @@ public class AccountReceivablesExcel extends ReportsExcelUtility{
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("FIRST_NM") ? rowData.get("FIRST_NM") : "";
-				//sheet.autoSizeColumn(10);
+				value = rowData.containsKey("PAY_TYPE_AMOUNT") ? rowData.get("PAY_TYPE_AMOUNT") : "";
+				//sheet.autoSizeColumn(9);
 				cell = dataRow.createCell(11);
+				cell.setCellValue((Double.parseDouble(String.valueOf(value))));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("REF_NO") ? rowData.get("REF_NO") : "";
+				//sheet.autoSizeColumn(9);
+				cell = dataRow.createCell(12);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
+				value = rowData.containsKey("AUTH_CODE_DATE") ? rowData.get("AUTH_CODE_DATE") : "";
+				//sheet.autoSizeColumn(9);
+				cell = dataRow.createCell(13);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
+
+				value = rowData.containsKey("FIRST_NM") ? rowData.get("FIRST_NM") : "";
+				//sheet.autoSizeColumn(10);
+				cell = dataRow.createCell(14);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
+				
 				value = rowData.containsKey("FROM_APPROVED_DATE") ? rowData.get("FROM_APPROVED_DATE") : "";
 				//sheet.autoSizeColumn(10);
-				cell = dataRow.createCell(12);
+				cell = dataRow.createCell(15);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("CREATED_BY") ? rowData.get("CREATED_BY") : "";
 				//sheet.autoSizeColumn(10);
-				cell = dataRow.createCell(13);
+				cell = dataRow.createCell(16);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("MODIFIED_BY") ? rowData.get("MODIFIED_BY") : "";
 				//sheet.autoSizeColumn(10);
-				cell = dataRow.createCell(14);
+				cell = dataRow.createCell(17);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
@@ -383,15 +416,15 @@ public class AccountReceivablesExcel extends ReportsExcelUtility{
 				cell.setCellStyle(headerStyle);	
 				
 				cell = headerRow.createCell(6);
-				cell.setCellValue("AMOUNT RECEIVED");
+				cell.setCellValue("AMT REC");
 				cell.setCellStyle(headerStyle);	
 				
 				cell = headerRow.createCell(7);
-				cell.setCellValue("AMOUNT TO BE RECEIVED");
+				cell.setCellValue("AMT TO BE REC");
 				cell.setCellStyle(headerStyle);	
 				
 				cell = headerRow.createCell(8);
-				cell.setCellValue("PAYMENT STATUS");
+				cell.setCellValue("PAY STATUS");
 				cell.setCellStyle(headerStyle);	
 				
 				cell = headerRow.createCell(9);
@@ -399,22 +432,35 @@ public class AccountReceivablesExcel extends ReportsExcelUtility{
 				cell.setCellStyle(headerStyle);	
 				
 				cell = headerRow.createCell(10);
-				cell.setCellValue("PAYMENT TYPE");
+				cell.setCellValue("PAY TYPE");
 				cell.setCellStyle(headerStyle);	
 				
 				cell = headerRow.createCell(11);
-				cell.setCellValue("APPROVED BY");
+				cell.setCellValue("AMOUNT");
 				cell.setCellStyle(headerStyle);	
 				
 				cell = headerRow.createCell(12);
-				cell.setCellValue("APPROVED DATE");
+				cell.setCellValue("CHEQUE/CARD/UPI NO");
 				cell.setCellStyle(headerStyle);	
 				
 				cell = headerRow.createCell(13);
+				cell.setCellValue("CHEQUE/CARD/UPI AUTH CODE");
+				cell.setCellStyle(headerStyle);	
+				
+				
+				cell = headerRow.createCell(14);
+				cell.setCellValue("APPROVED BY");
+				cell.setCellStyle(headerStyle);	
+				
+				cell = headerRow.createCell(15);
+				cell.setCellValue("APPROVED DATE");
+				cell.setCellStyle(headerStyle);	
+				
+				cell = headerRow.createCell(16);
 				cell.setCellValue("CREATED BY");
 				cell.setCellStyle(headerStyle);	
 				
-				cell = headerRow.createCell(14);
+				cell = headerRow.createCell(17);
 				cell.setCellValue("MODIFIED BY");
 				cell.setCellStyle(headerStyle);	
 				
@@ -493,27 +539,45 @@ public class AccountReceivablesExcel extends ReportsExcelUtility{
 					cell.setCellValue(String.valueOf(value));
 					cell.setCellStyle(borderStyle);
 					
+					value = rowData.containsKey("PAY_TYPE_AMOUNT") ? rowData.get("PAY_TYPE_AMOUNT") : "";
+					//sheet.autoSizeColumn(9);
+					cell = dataRow.createCell(11);
+					cell.setCellValue((Double.parseDouble(String.valueOf(value))));
+					cell.setCellStyle(borderStyle);
+					
+					value = rowData.containsKey("REF_NO") ? rowData.get("REF_NO") : "";
+					//sheet.autoSizeColumn(9);
+					cell = dataRow.createCell(12);
+					cell.setCellValue(String.valueOf(value));
+					cell.setCellStyle(borderStyle);
+					
+					value = rowData.containsKey("AUTH_CODE_DATE") ? rowData.get("AUTH_CODE_DATE") : "";
+					//sheet.autoSizeColumn(9);
+					cell = dataRow.createCell(13);
+					cell.setCellValue(String.valueOf(value));
+					cell.setCellStyle(borderStyle);
+					
 					value = rowData.containsKey("FIRST_NM") ? rowData.get("FIRST_NM") : "";
 					//sheet.autoSizeColumn(10);
-					cell = dataRow.createCell(11);
+					cell = dataRow.createCell(14);
 					cell.setCellValue(String.valueOf(value));
 					cell.setCellStyle(borderStyle);
 					
 					value = rowData.containsKey("FROM_APPROVED_DATE") ? rowData.get("FROM_APPROVED_DATE") : "";
 					//sheet.autoSizeColumn(10);
-					cell = dataRow.createCell(12);
+					cell = dataRow.createCell(15);
 					cell.setCellValue(String.valueOf(value));
 					cell.setCellStyle(borderStyle);
 					
 					value = rowData.containsKey("CREATED_BY") ? rowData.get("CREATED_BY") : "";
 					//sheet.autoSizeColumn(10);
-					cell = dataRow.createCell(13);
+					cell = dataRow.createCell(16);
 					cell.setCellValue(String.valueOf(value));
 					cell.setCellStyle(borderStyle);
 					
 					value = rowData.containsKey("MODIFIED_BY") ? rowData.get("MODIFIED_BY") : "";
 					//sheet.autoSizeColumn(10);
-					cell = dataRow.createCell(14);
+					cell = dataRow.createCell(17);
 					cell.setCellValue(String.valueOf(value));
 					cell.setCellStyle(borderStyle);
 			
