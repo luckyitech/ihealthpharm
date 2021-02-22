@@ -1,5 +1,6 @@
 package com.ihealthpharm.sales.service.impl;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.masters.model.ProviderModel;
+import com.ihealthpharm.sales.dao.SalesItemsRepository;
 import com.ihealthpharm.sales.dao.SalesRepository;
 import com.ihealthpharm.sales.dto.SalesBillDTO;
 import com.ihealthpharm.sales.dto.SalesBillsLimitedDTO;
@@ -33,6 +35,7 @@ import com.ihealthpharm.sales.dto.SalesByPersonsDTO;
 import com.ihealthpharm.sales.dto.SalesDTO;
 import com.ihealthpharm.sales.dto.SalesEmployeeDTO;
 import com.ihealthpharm.sales.helper.SalesHelper;
+import com.ihealthpharm.sales.model.SalesItemsModel;
 import com.ihealthpharm.sales.model.SalesModel;
 import com.ihealthpharm.sales.service.SalesService;
 
@@ -44,6 +47,9 @@ public class SalesServiceImpl implements SalesService {
 
 	@Autowired
 	SalesHelper salesHelper;
+	
+	@Autowired
+	SalesItemsRepository salesItemsRepo;
 
 	@Override
 	public void deleteSalesData(Integer salesId) {
@@ -650,6 +656,39 @@ public class SalesServiceImpl implements SalesService {
 	@Override
 	public SalesModel findSalesData(String billNo) {
 		return salesRepository.getAllDataByBillNo(billNo);
+	}
+
+	@Override
+	public SalesModel updateSalesOldDat() {
+
+		List<SalesItemsModel> salesItems=salesItemsRepo.getAllSalesItemsToUpdateVatAmt();
+		
+		DecimalFormat df = new DecimalFormat(".##");
+		for(int i=0;i<salesItems.size();i++) {
+			List<SalesItemsModel> salesItemsData=salesItemsRepo.getAllSalesItemsById(salesItems.get(i).getBillId().getBillId());
+			
+			float totalVat=(float)0;
+			for(int j=0;j<salesItemsData.size();j++) {
+				salesItemsData.get(j).setVat(16);
+				SalesItemsModel salesItemsRes =salesItemsRepo.save(salesItemsData.get(j));
+			
+				double vatAmt=0.0; 
+				 double price = (salesItemsRes.getSaleQty() * Double.parseDouble(df.format(salesItemsRes.getUnitPurchasePrice())));
+				
+				 vatAmt= (((0.16 * price)*100)/100) ;
+				totalVat+= (float)vatAmt;
+				
+				SalesModel s = salesRepository.getSalesRecordById(salesItemsRes.getBillId().getBillId());
+				s.setVatAmt(totalVat);
+				salesRepository.save(s);
+			}
+			
+			
+		}
+		
+		
+		
+		return null;
 	}
 
 

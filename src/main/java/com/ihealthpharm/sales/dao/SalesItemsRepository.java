@@ -1,5 +1,6 @@
 package com.ihealthpharm.sales.dao;
 
+import java.sql.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -50,4 +51,7 @@ extends JpaRepository<SalesItemsModel,Integer>
 
 	@Query("select s from sales_items s where s.billId.billId=:billId")
 	List<SalesItemsModel> getAllSalesItemsById(@Param("billId")Integer billId);
+
+	@Query("select s from sales_items s where s.vat=14 and s.creationTs between '2021-01-01' and CURRENT_DATE group by s.billId.billId")
+	List<SalesItemsModel> getAllSalesItemsToUpdateVatAmt();
 }

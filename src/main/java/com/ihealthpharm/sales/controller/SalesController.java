@@ -418,4 +418,13 @@ public class SalesController {
 		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(), OK).respond();
 	}
 	
+	
+	@GetMapping("/updateOldBillsData")
+	public ResponseEntity<BaseDto<SalesModel>> updateOldSalesData(){
+		SalesModel s=salesService.updateSalesOldDat();
+		return new BaseDto<>(s,salesHelper.getUpdateSalesMessage(),OK).respond();
+	}
+	
+	
+	
 }
