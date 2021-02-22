@@ -142,4 +142,6 @@ public interface SalesService
 
 	SalesModel findSalesData(String billNo);
 
+	SalesModel updateSalesOldDat();
+
 }
