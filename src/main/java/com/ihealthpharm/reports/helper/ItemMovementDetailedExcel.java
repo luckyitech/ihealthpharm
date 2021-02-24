@@ -200,6 +200,8 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 					if((String.valueOf(salesProfitList.get(i).get("ENTRY_TYPE")).equals("Stock Take"))) {
 
 						closingStock=Integer.parseInt(String.valueOf((salesProfitList.get(i).get("QUANTITY"))));
+					}else {
+						closingStock=closingStock+Integer.parseInt(String.valueOf((salesProfitList.get(i).get("QUANTITY"))));
 					}
 				}
 
