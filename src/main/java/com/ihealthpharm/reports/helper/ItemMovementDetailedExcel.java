@@ -316,11 +316,11 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 
 			long totalSales = salesProfitList.stream() .filter(x -> (x.containsValue("Sales Billing"))||(x.containsValue("Sales Update"))||(x.containsValue("Sales Maintenance (+)"))) .count();
 			long totalInv = salesProfitList.stream() .filter(x -> (x.containsValue("Purchase"))||(x.containsValue("Purchase Update"))||(x.containsValue("Invoice Addition"))) .count();
-			long totalSalesRetrun = salesProfitList.stream() .filter(x -> x.containsValue("Sales Canceling")).count();
+			long totalSalesCancel = salesProfitList.stream() .filter(x -> x.containsValue("Sales Canceling")).count();
 			long totalStockTake = salesProfitList.stream() .filter(x -> (x.containsValue("Stock Take"))||(x.containsValue("Stock Adjustment"))) .count();
 			long totalStockAdd = salesProfitList.stream() .filter(x -> (x.containsValue("Stock"))||(x.containsValue("Stock Update"))||(x.containsValue("Stock Addition"))) .count();
 			long totalPurReturn = salesProfitList.stream() .filter(x -> (x.containsValue("Purchase Return"))||x.containsValue("Purchase Delete")) .count();
-
+			long totalSalesRetrun = salesProfitList.stream() .filter(x -> x.containsValue("Sales Return")).count();
 
 			Row dataRow = sheet.createRow(currentRow+2);
 			Row dataRow1=sheet.createRow(currentRow+3);
@@ -328,6 +328,7 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 			Row dataRow3=sheet.createRow(currentRow+5);
 			Row dataRow4=sheet.createRow(currentRow+6);
 			Row dataRow5=sheet.createRow(currentRow+7);
+			Row dataRow6=sheet.createRow(currentRow+8);
 
 			cell = dataRow.createCell(0);
 			Cell cell1=dataRow1.createCell(0);
@@ -335,6 +336,7 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 			Cell cell3=dataRow3.createCell(0);
 			Cell cell4=dataRow4.createCell(0);
 			Cell cell5=dataRow5.createCell(0);
+			Cell cell6=dataRow6.createCell(0);
 
 			cell.setCellValue("");
 			cell1.setCellValue("");
@@ -342,6 +344,7 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 			cell3.setCellValue("");
 			cell4.setCellValue("");
 			cell5.setCellValue("");
+			cell6.setCellValue("");
 
 
 			cell = dataRow.createCell(14);
@@ -350,6 +353,7 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 			cell3 = dataRow3.createCell(14);
 			cell4 = dataRow4.createCell(14);
 			cell5 = dataRow5.createCell(14);
+			cell6 = dataRow6.createCell(14);
 
 			if(salesProfitList.stream() .filter(x -> (x.containsValue("Sales Billing"))||(x.containsValue("Sales Update"))||(x.containsValue("Sales Maintenance (+)"))) .count()>0) {
 
@@ -357,8 +361,9 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 			}
 			if(salesProfitList.stream() .filter(x -> x.containsValue("Sales Canceling")).count()>0) {
 
-				cell1.setCellValue("Total Sales Return");
+				cell1.setCellValue("Total Sales Cancel");
 			}
+			
 			if(salesProfitList.stream() .filter(x -> (x.containsValue("Purchase"))||(x.containsValue("Purchase Update"))||(x.containsValue("Invoice Addition"))) .count()>0) {
 
 				cell2.setCellValue("Total Invoice");
@@ -375,6 +380,10 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 
 				cell5.setCellValue("Total Stock Addition");
 			}
+			if(salesProfitList.stream() .filter(x -> x.containsValue("Sales Return")).count()>0) {
+
+				cell6.setCellValue("Total Sales Return");
+			}
 
 			cell = dataRow.createCell(15);
 			cell1 = dataRow1.createCell(15);
@@ -382,6 +391,7 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 			cell3 = dataRow3.createCell(15);
 			cell4 = dataRow4.createCell(15);
 			cell5 = dataRow5.createCell(15);
+			cell6 = dataRow6.createCell(15);
 
 			if(salesProfitList.stream() .filter(x -> (x.containsValue("Sales Billing"))||(x.containsValue("Sales Update"))||(x.containsValue("Sales Maintenance (+)"))) .count()>0) {
 
@@ -389,7 +399,7 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 			}
 			if(salesProfitList.stream() .filter(x -> x.containsValue("Sales Canceling")).count()>0) {
 
-				cell1.setCellValue(totalSalesRetrun);
+				cell1.setCellValue(totalSalesCancel);
 			}
 			if(salesProfitList.stream() .filter(x -> (x.containsValue("Purchase"))||(x.containsValue("Purchase Update"))||(x.containsValue("Invoice Addition"))) .count()>0) {
 
@@ -406,6 +416,10 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 			if(salesProfitList.stream() .filter(x -> (x.containsValue("Stock"))||(x.containsValue("Stock Update"))||(x.containsValue("New Stock Addition"))) .count()>0) {
 
 				cell5.setCellValue(totalStockAdd);
+			}
+			if(salesProfitList.stream() .filter(x -> x.containsValue("Sales Return")).count()>0) {
+
+				cell6.setCellValue(totalSalesRetrun);
 			}
 
 		}
