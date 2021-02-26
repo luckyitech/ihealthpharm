@@ -202,10 +202,11 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 
 			long totalSales = salesProfitList.stream() .filter(x -> (x.containsValue("Sales Billing"))||(x.containsValue("Sales Update"))||(x.containsValue("Sales Maintenance (+)"))) .count();
 			long totalInv = salesProfitList.stream() .filter(x -> (x.containsValue("Purchase"))||(x.containsValue("Purchase Update"))||(x.containsValue("Invoice Addition"))) .count();
-			long totalSalesRetrun = salesProfitList.stream() .filter(x -> x.containsValue("Sales Canceling")).count();
+			long totalSalesCancel = salesProfitList.stream() .filter(x -> x.containsValue("Sales Canceling")).count();
 			long totalStockTake = salesProfitList.stream() .filter(x -> (x.containsValue("Stock Take"))||(x.containsValue("Stock Adjustment"))) .count();
 			long totalStockAdd = salesProfitList.stream() .filter(x -> (x.containsValue("Stock"))||(x.containsValue("Stock Update"))||(x.containsValue("New Stock Addition"))) .count();
 			long totalPurReturn = salesProfitList.stream() .filter(x -> (x.containsValue("Purchase Return"))||x.containsValue("Purchase Delete")) .count();
+			long totalSalesRetrun = salesProfitList.stream() .filter(x -> x.containsValue("Sales Return")) .count();
 
 
 
@@ -243,7 +244,7 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 			}
 
 			if(salesProfitList.stream() .filter(x -> x.containsValue("Sales Canceling")).count()>0) {
-				PdfPCell nameCell3 = new PdfPCell(new Phrase("Total Sales Return :"+" "+" : "+"	"+totalSalesRetrun, title08)); 
+				PdfPCell nameCell3 = new PdfPCell(new Phrase("Total Sales Cancel :"+" "+" : "+"	"+totalSalesCancel, title08)); 
 				nameCell3.setColspan(3);
 				nameCell3.setHorizontalAlignment(Element.ALIGN_RIGHT);
 				nameCell3.setVerticalAlignment(Element.ALIGN_TOP);
@@ -289,6 +290,19 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 				totalAmountTable.setTotalWidth(500);
 				totalAmountTable.getDefaultCell().setBorder(0);
 			}
+			
+			if(salesProfitList.stream() .filter(x -> x.containsValue("Sales Return")).count()>0) {
+				PdfPCell nameCell7 = new PdfPCell(new Phrase("Total Sales Return :"+" "+" : "+"	"+totalSalesRetrun, title08)); 
+				nameCell7.setColspan(3);
+				nameCell7.setHorizontalAlignment(Element.ALIGN_RIGHT);
+				nameCell7.setVerticalAlignment(Element.ALIGN_TOP);
+				nameCell7.setBorder(0);
+				totalAmountTable.addCell(nameCell7);
+				totalAmountTable.setLockedWidth(true);
+				totalAmountTable.setTotalWidth(500);
+				totalAmountTable.getDefaultCell().setBorder(0);
+			}
+
 
 			totalAmountTable.setSpacingAfter(15);
 
