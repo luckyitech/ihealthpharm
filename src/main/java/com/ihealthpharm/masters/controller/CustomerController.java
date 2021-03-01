@@ -177,4 +177,11 @@ public class CustomerController {
 		List<String> response=customerService.findAllCustomersLastNameBySearch(searchTerm);
 		return new BaseDto<>(response,customerHelper.getRetrieveCustomerMessage(),OK).respond();
 	}
+	
+	
+	@GetMapping("/get/customermodelbyname")
+	public ResponseEntity<BaseDto<CustomerModel>> getCustomerModelByName(@RequestParam String name){
+		CustomerModel response=customerService.getCustomerModelByName(name);
+		return new BaseDto<>(response,customerHelper.getRetrieveCustomerMessage(),OK).respond();
+	}
 }
