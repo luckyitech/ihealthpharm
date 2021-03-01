@@ -230,6 +230,12 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerRepository.findByStaffPhoneNumber(phno);
 	}
 
+	@Override
+	public CustomerModel getCustomerModelByName(String name) {
+		
+		return customerRepository.findByCustomerName(name);
+	}
+
 
 	
 

@@ -57,4 +57,6 @@ public interface CustomerService
 
 	List<CustomerModel> findStaffCustomersByPhNo(String phno);
 
+	CustomerModel getCustomerModelByName(String name);
+
 }
