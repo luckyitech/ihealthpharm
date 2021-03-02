@@ -93,12 +93,15 @@ public class CustomerStatementByAccountExcel extends ReportsExcelUtility{
 	}
 	private void generateTotalTable(SXSSFSheet sheet,File responseFile, CellStyle borderStyle, ReportsMappingModel model,
 			List<Map<String, Object>> responseList) {
-		DecimalFormat df=new DecimalFormat("0.00");
+		
+		DecimalFormat df = new DecimalFormat("####0.00");
 		int currentRow = sheet.getLastRowNum();
 
+		double TotalAmtPaid = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT_SPENT")?String.valueOf(mapper.get("AMOUNT_SPENT")):"0")).sum(); 
 		double TotalAmtReceived = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT_RECEIVED")?String.valueOf(mapper.get("AMOUNT_RECEIVED")):"0")).sum(); 
-		double TotalAmtPaid = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT_RECEIVED")?String.valueOf(mapper.get("AMOUNT_RECEIVED")):"0")).sum(); 
 		double TotalOustandingAmt = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("outstanding_amt")?String.valueOf(mapper.get("outstanding_amt")):"0")).sum(); 
+		//	double TotalAmtToBeReceived = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT_TO_BE_RECEIVED")?String.valueOf(mapper.get("AMOUNT_TO_BE_RECEIVED")):"0")).sum(); 
+
 
 
 		Row dataRow = sheet.createRow(currentRow+2);
@@ -113,22 +116,22 @@ public class CustomerStatementByAccountExcel extends ReportsExcelUtility{
 		cell_card_amount.setCellValue("");
 		cell_credit_amount.setCellValue("");
 
-		cell = dataRow.createCell(5);
-		cell_card_amount=dataRow1.createCell(5);
-		cell_credit_amount=dataRow2.createCell(5);
+		cell = dataRow.createCell(11);
+		cell_card_amount=dataRow1.createCell(11);
+		cell_credit_amount=dataRow2.createCell(11);
 
 		cell.setCellValue("Total Amount Spent : ");
-		cell_card_amount.setCellValue("Total Amount Paid");
+		cell_card_amount.setCellValue("Total Amount Rec");
 		cell_credit_amount.setCellValue("Total Outstanding Amount");
 
-		cell = dataRow.createCell(6);
+		cell = dataRow.createCell(12);
 		//		cell1=dataRow1.createCell(10);
-		cell_card_amount=dataRow1.createCell(6);
-		cell_credit_amount=dataRow2.createCell(6);
+		cell_card_amount=dataRow1.createCell(12);
+		cell_credit_amount=dataRow2.createCell(12);
 
 
-		cell.setCellValue((TotalAmtPaid+TotalOustandingAmt));
-		cell_card_amount.setCellValue(TotalAmtPaid);
+		cell.setCellValue(TotalAmtPaid);
+		cell_card_amount.setCellValue(TotalAmtReceived);
 		cell_credit_amount.setCellValue(TotalOustandingAmt);
 		//cell1.setCellValue(totalToBeReceived);
 
@@ -148,36 +151,50 @@ public class CustomerStatementByAccountExcel extends ReportsExcelUtility{
 			cell.setCellValue("CUSTOMER NAME");
 			cell.setCellStyle(headerStyle);
 
-
-
-			cell = headerRow.createCell(1);
-			cell.setCellValue("TRANSACTION DATE");
-			cell.setCellStyle(headerStyle);	
+			 cell = headerRow.createCell(1);
+			cell.setCellValue("ACC NO");
+			cell.setCellStyle(headerStyle);
 
 			cell = headerRow.createCell(2);
+			cell.setCellValue("TXN DATE");
+			cell.setCellStyle(headerStyle);	
+
+			cell = headerRow.createCell(3);
 			cell.setCellValue("BILL TYPE");
 			cell.setCellStyle(headerStyle);	
 
 
-			cell = headerRow.createCell(3);
-			cell.setCellValue("BILL NUMBER");
+			cell = headerRow.createCell(4);
+			cell.setCellValue("BILL NO");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(4);
+			cell = headerRow.createCell(5);
 			cell.setCellValue("PAYMENT STATUS");
 			cell.setCellStyle(headerStyle);	
 
-			cell = headerRow.createCell(5);
-			cell.setCellValue("AMOINT PAID");
-			cell.setCellStyle(headerStyle);	
-
-
 			cell = headerRow.createCell(6);
-			cell.setCellValue("AMOUNT RECEIVED");
+			cell.setCellValue("AMOINT SPENT");
 			cell.setCellStyle(headerStyle);	
+
 
 			cell = headerRow.createCell(7);
-			cell.setCellValue("OUTSTANDING AMOUNT");
+			cell.setCellValue("AMT REC");
+			cell.setCellStyle(headerStyle);	
+
+			cell = headerRow.createCell(8);
+			cell.setCellValue("OUTSTANDING AMT");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(9);
+			cell.setCellValue("CHEQUE/CARD/UPI NO");
+			cell.setCellStyle(headerStyle);	
+
+			cell = headerRow.createCell(10);
+			cell.setCellValue("CHEQUE/CARD/UPI AUTH CODE");
+			cell.setCellStyle(headerStyle);	
+
+			cell = headerRow.createCell(11);
+			cell.setCellValue("CHEQUE/CARD/UPI/CASH AMT");
 			cell.setCellStyle(headerStyle);	
 
 			Row displayRow = sheet.createRow(headRow++);
@@ -197,58 +214,85 @@ public class CustomerStatementByAccountExcel extends ReportsExcelUtility{
 				cell = dataRow.createCell(0);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("CREDIT_NUMBER") ? rowData.get("CREDIT_NUMBER") : "";
+				//sheet.autoSizeColumn(2);
+				cell = dataRow.createCell(1);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
 
 				value = rowData.containsKey("RECEIPT_DATE") ? rowData.get("RECEIPT_DATE") : "";
 				//sheet.autoSizeColumn(9);
-				cell = dataRow.createCell(1);
+				cell = dataRow.createCell(2);
 				cell.setCellValue(String.valueOf(value)); 
 				cell.setCellStyle(borderStyle);
 
-				value = rowData.containsKey("bill_type_id") ? rowData.get("bill_type_id") : "";
+				value = rowData.containsKey("SOURCE_TYPE") ? rowData.get("SOURCE_TYPE") : "";
 				//sheet.autoSizeColumn(3);
-				cell = dataRow.createCell(2);
+				cell = dataRow.createCell(3);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 
 				value = rowData.containsKey("SOURCE_REF") ? rowData.get("SOURCE_REF") : "";
 				//sheet.autoSizeColumn(6);
-				cell = dataRow.createCell(3);
+				cell = dataRow.createCell(4);
 				cell.setCellValue((String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("PAYMENT_STATUS") ? rowData.get("PAYMENT_STATUS") : "";
 				//sheet.autoSizeColumn(6);
-				cell = dataRow.createCell(4);
+				cell = dataRow.createCell(5);
 				cell.setCellValue((String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 
-				value = rowData.containsKey("AMOUNT_RECEIVED") ? rowData.get("AMOUNT_RECEIVED") : "";
+				value = rowData.containsKey("AMOUNT_SPENT") ? rowData.get("AMOUNT_SPENT") : "";
 				//sheet.autoSizeColumn(7);
-				cell = dataRow.createCell(5);
-				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
-				cell.setCellStyle(borderStyle);
-
-				value = rowData.containsKey("AMOUNT_RECEIVED") ? rowData.get("AMOUNT_RECEIVED") : "";
-				//sheet.autoSizeColumn(8);
 				cell = dataRow.createCell(6);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 
-				value = rowData.containsKey("outstanding_amt") ? rowData.get("outstanding_amt") : "";
+				value = rowData.containsKey("AMOUNT_RECEIVED") ? rowData.get("AMOUNT_RECEIVED") : "";
 				//sheet.autoSizeColumn(8);
 				cell = dataRow.createCell(7);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
+
+				value = rowData.containsKey("OUTSTANDING_AMT") ? rowData.get("OUTSTANDING_AMT") : "";
+				//sheet.autoSizeColumn(8);
+				cell = dataRow.createCell(8);
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				cell.setCellStyle(borderStyle);
+				
+
+				value = rowData.containsKey("REF_NO") ? rowData.get("REF_NO") : "";
+				//sheet.autoSizeColumn(8);
+				cell = dataRow.createCell(9);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+
+				value = rowData.containsKey("AUTH_CODE_DATE") ? rowData.get("AUTH_CODE_DATE") : "";
+				//sheet.autoSizeColumn(8);
+				cell = dataRow.createCell(10);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+
+				value = rowData.containsKey("PAY_TYPE_AMOUNT") ? rowData.get("PAY_TYPE_AMOUNT") : "";
+				//sheet.autoSizeColumn(8);
+				cell = dataRow.createCell(11);
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				cell.setCellStyle(borderStyle);
 			}
 
-			DecimalFormat df=new DecimalFormat("0.00");
+			
+			DecimalFormat df = new DecimalFormat("####0.00");
 			int currentRow = sheet.getLastRowNum();
 
+			double TotalAmtPaid = accountReceivablesDetails.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT_SPENT")?String.valueOf(mapper.get("AMOUNT_SPENT")):"0")).sum(); 
 			double TotalAmtReceived = accountReceivablesDetails.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT_RECEIVED")?String.valueOf(mapper.get("AMOUNT_RECEIVED")):"0")).sum(); 
-			double TotalAmtPaid = accountReceivablesDetails.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT_RECEIVED")?String.valueOf(mapper.get("AMOUNT_RECEIVED")):"0")).sum(); 
 			double TotalOustandingAmt = accountReceivablesDetails.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("outstanding_amt")?String.valueOf(mapper.get("outstanding_amt")):"0")).sum(); 
+			//	double TotalAmtToBeReceived = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT_TO_BE_RECEIVED")?String.valueOf(mapper.get("AMOUNT_TO_BE_RECEIVED")):"0")).sum(); 
 
-
+			
 			Row dataRow = sheet.createRow(currentRow+2);
 			Row dataRow1=sheet.createRow(currentRow+3);
 			Row dataRow2=sheet.createRow(currentRow+4);
@@ -261,22 +305,22 @@ public class CustomerStatementByAccountExcel extends ReportsExcelUtility{
 			cell_card_amount.setCellValue("");
 			cell_credit_amount.setCellValue("");
 
-			cell_amt_spent = dataRow.createCell(5);
-			cell_card_amount=dataRow1.createCell(5);
-			cell_credit_amount=dataRow2.createCell(5);
+			cell_amt_spent = dataRow.createCell(10);
+			cell_card_amount=dataRow1.createCell(10);
+			cell_credit_amount=dataRow2.createCell(10);
 
 			cell_amt_spent.setCellValue("Total Amount Spent : ");
-			cell_card_amount.setCellValue("Total Amount Paid");
+			cell_card_amount.setCellValue("Total Amount Rec");
 			cell_credit_amount.setCellValue("Total Outstanding Amount");
 
-			cell_amt_spent = dataRow.createCell(6);
+			cell_amt_spent = dataRow.createCell(11);
 			//		cell1=dataRow1.createCell(10);
-			cell_card_amount=dataRow1.createCell(6);
-			cell_credit_amount=dataRow2.createCell(6);
+			cell_card_amount=dataRow1.createCell(11);
+			cell_credit_amount=dataRow2.createCell(11);
 
 
-			cell_amt_spent.setCellValue((TotalAmtPaid+TotalOustandingAmt));
-			cell_card_amount.setCellValue(TotalAmtPaid);
+			cell_amt_spent.setCellValue(TotalAmtPaid);
+			cell_card_amount.setCellValue(TotalAmtReceived);
 			cell_credit_amount.setCellValue(TotalOustandingAmt);
 			//cell1.setCellValue(totalToBeReceived);
 		}
