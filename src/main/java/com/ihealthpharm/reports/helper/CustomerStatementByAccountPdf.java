@@ -75,15 +75,19 @@ public class CustomerStatementByAccountPdf extends ReportsPDFUtility{
 	}
 
 	private void generateTotalTable(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException {
-		DecimalFormat df=new DecimalFormat("0.00");
+		DecimalFormat df = new DecimalFormat("####0.00");
 		double totalAmtReceived;
 		double totalAmtPaid;
 		double totalTotalOutstanding;
-
-		totalAmtPaid  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("AMOUNT_RECEIVED") && !ObjectUtils.isEmpty(mapper.get("AMOUNT_RECEIVED"))) ?String.valueOf(mapper.get("AMOUNT_RECEIVED")):"0")).sum();  
+		//double totalAmtToBePaid;
+		//totalAmtReceived  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("INVOICE_AMOUNT") && !ObjectUtils.isEmpty(mapper.get("INVOICE_AMOUNT"))) ?String.valueOf(mapper.get("INVOICE_AMOUNT")):"0")).sum();  
+		totalAmtPaid  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("AMOUNT_SPENT") && !ObjectUtils.isEmpty(mapper.get("AMOUNT_SPENT"))) ?String.valueOf(mapper.get("AMOUNT_SPENT")):"0")).sum();  
+		totalAmtReceived  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("AMOUNT_RECEIVED") && !ObjectUtils.isEmpty(mapper.get("AMOUNT_RECEIVED"))) ?String.valueOf(mapper.get("AMOUNT_RECEIVED")):"0")).sum();  
+		
 		totalTotalOutstanding  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("outstanding_amt") && !ObjectUtils.isEmpty(mapper.get("outstanding_amt"))) ?String.valueOf(mapper.get("outstanding_amt")):"0")).sum();  
-		totalAmtReceived=totalAmtPaid +totalTotalOutstanding;
-
+		
+		//totalAmtReceived=totalAmtPaid +totalTotalOutstanding;
+		
 		System.out.println(totalAmtReceived);
 		//totalAmtToBePaid  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("TOTAL_AMOUNT_TO_BE_PAID") && !ObjectUtils.isEmpty(mapper.get("TOTAL_AMOUNT_TO_BE_PAID"))) ?String.valueOf(mapper.get("TOTAL_AMOUNT_TO_BE_PAID")):"0")).sum();   
 		PdfPTable totalQtyTable = new PdfPTable(2);
@@ -98,7 +102,7 @@ public class CustomerStatementByAccountPdf extends ReportsPDFUtility{
 
 		Font bold = new Font(FontFamily.HELVETICA,9);
 
-		PdfPCell nameCell = new PdfPCell(new Phrase("Total Amount Spent"+" "+" : "+"	"+totalReceived, bold)); 
+		PdfPCell nameCell = new PdfPCell(new Phrase("Total Amount Spent"+" "+" : "+"	"+totalAmtPaid, bold)); 
 		nameCell.setColspan(3);
 		nameCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell.setVerticalAlignment(Element.ALIGN_TOP);
@@ -110,7 +114,7 @@ public class CustomerStatementByAccountPdf extends ReportsPDFUtility{
 
 
 
-		PdfPCell nameCell2 = new PdfPCell(new Phrase("Total Amount Received"+" "+":"+" "+totalAmtPaid, bold)); 
+		PdfPCell nameCell2 = new PdfPCell(new Phrase("Total Amount Received"+" "+":"+" "+totalAmtReceived, bold)); 
 		nameCell2.setColspan(3);
 		nameCell2.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		nameCell2.setVerticalAlignment(Element.ALIGN_TOP);
@@ -156,7 +160,7 @@ public class CustomerStatementByAccountPdf extends ReportsPDFUtility{
 		supllierNameTable.getDefaultCell().setBorder(0); 
 
 
-		PdfPTable table = new PdfPTable(9);
+		PdfPTable table = new PdfPTable(13);
 		table.setTotalWidth(500);
 		table.setWidthPercentage(50);
 		table.setLockedWidth(true);
@@ -174,7 +178,7 @@ public class CustomerStatementByAccountPdf extends ReportsPDFUtility{
 
 		table.addCell(cell);
 
-		;
+		
 		headerCell = new Paragraph();
 		headerCell.setFont(headerFont);
 		headerCell.add("CUSTOMER NAME");
@@ -185,11 +189,19 @@ public class CustomerStatementByAccountPdf extends ReportsPDFUtility{
 
 		table.addCell(cell);
 
+		headerCell = new Paragraph();
+		headerCell.setFont(headerFont);
+		headerCell.add("ACC NO");
+		cell = new PdfPCell(headerCell);
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		if (!model.isShowVerticalLines())
+			cell.setBorder(Rectangle.BOTTOM);
 
+		table.addCell(cell);
 
 		headerCell = new Paragraph();
 		headerCell.setFont(headerFont);
-		headerCell.add("TRANSACTION DATE");
+		headerCell.add("TXN DATE");
 		cell = new PdfPCell(headerCell);
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		if (!model.isShowVerticalLines())
@@ -212,7 +224,7 @@ public class CustomerStatementByAccountPdf extends ReportsPDFUtility{
 
 		headerCell = new Paragraph();
 		headerCell.setFont(headerFont);
-		headerCell.add("BILL NUMBER");
+		headerCell.add("BILL NO");
 		cell = new PdfPCell(headerCell);
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		if (!model.isShowVerticalLines())
@@ -222,7 +234,7 @@ public class CustomerStatementByAccountPdf extends ReportsPDFUtility{
 		
 		headerCell = new Paragraph();
 		headerCell.setFont(headerFont);
-		headerCell.add("PAYMENT STATUS");
+		headerCell.add("PAY STATUS");
 		cell = new PdfPCell(headerCell);
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		if (!model.isShowVerticalLines())
@@ -232,7 +244,7 @@ public class CustomerStatementByAccountPdf extends ReportsPDFUtility{
 
 		headerCell = new Paragraph();
 		headerCell.setFont(headerFont);
-		headerCell.add("AMOINT PAID");
+		headerCell.add("AMT SPENT");
 		cell = new PdfPCell(headerCell);
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		if (!model.isShowVerticalLines())
@@ -242,7 +254,7 @@ public class CustomerStatementByAccountPdf extends ReportsPDFUtility{
 
 		headerCell = new Paragraph();
 		headerCell.setFont(headerFont);
-		headerCell.add("AMOUNT RECEIVED");
+		headerCell.add("AMT REC");
 		cell = new PdfPCell(headerCell);
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		if (!model.isShowVerticalLines())
@@ -252,7 +264,39 @@ public class CustomerStatementByAccountPdf extends ReportsPDFUtility{
 
 		headerCell = new Paragraph();
 		headerCell.setFont(headerFont);
-		headerCell.add("OUTSTANDING AMOUNT");
+		headerCell.add("OUTSTANDING AMT");
+		cell = new PdfPCell(headerCell);
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		if (!model.isShowVerticalLines())
+			cell.setBorder(Rectangle.BOTTOM);
+
+		table.addCell(cell);
+		
+
+		headerCell = new Paragraph();
+		headerCell.setFont(headerFont);
+		headerCell.add("CHEQUE/CARD/UPI NO");
+		cell = new PdfPCell(headerCell);
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		if (!model.isShowVerticalLines())
+			cell.setBorder(Rectangle.BOTTOM);
+
+		table.addCell(cell);
+
+
+		headerCell = new Paragraph();
+		headerCell.setFont(headerFont);
+		headerCell.add("CHEQUE/CARD/UPI AUTH CODE");
+		cell = new PdfPCell(headerCell);
+		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		if (!model.isShowVerticalLines())
+			cell.setBorder(Rectangle.BOTTOM);
+
+		table.addCell(cell);
+
+		headerCell = new Paragraph();
+		headerCell.setFont(headerFont);
+		headerCell.add("CHEQUE/CARD/UPI AMT");
 		cell = new PdfPCell(headerCell);
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 		if (!model.isShowVerticalLines())
@@ -285,6 +329,14 @@ public class CustomerStatementByAccountPdf extends ReportsPDFUtility{
 					cell.setBorder(Rectangle.BOTTOM);
 
 				table.addCell(cell);
+				
+				value = rowData.containsKey("CREDIT_NUMBER") ? rowData.get("CREDIT_NUMBER") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
 
 				value = rowData.containsKey("RECEIPT_DATE") ? rowData.get("RECEIPT_DATE") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
@@ -295,7 +347,7 @@ public class CustomerStatementByAccountPdf extends ReportsPDFUtility{
 				table.addCell(cell);
 
 
-				value = rowData.containsKey("bill_type_id") ? rowData.get("bill_type_id") : "";
+				value = rowData.containsKey("SOURCE_TYPE") ? rowData.get("SOURCE_TYPE") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
@@ -322,7 +374,7 @@ public class CustomerStatementByAccountPdf extends ReportsPDFUtility{
 
 				table.addCell(cell);
 
-				value = rowData.containsKey("AMOUNT_RECEIVED") ? rowData.get("AMOUNT_RECEIVED") : "";
+				value = rowData.containsKey("AMOUNT_SPENT") ? rowData.get("AMOUNT_SPENT") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
@@ -340,7 +392,32 @@ public class CustomerStatementByAccountPdf extends ReportsPDFUtility{
 
 
 
-				value = rowData.containsKey("outstanding_amt") ? rowData.get("outstanding_amt") : "";
+				value = rowData.containsKey("OUTSTANDING_AMT") ? rowData.get("OUTSTANDING_AMT") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+
+
+				value = rowData.containsKey("REF_NO") ? rowData.get("REF_NO") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+
+				value = rowData.containsKey("AUTH_CODE_DATE") ? rowData.get("AUTH_CODE_DATE") : "";
+				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+
+				value = rowData.containsKey("PAY_TYPE_AMOUNT") ? rowData.get("PAY_TYPE_AMOUNT") : "";
 				cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
 				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 				if (!model.isShowVerticalLines())
