@@ -43,11 +43,11 @@ public class SalesReturnModel extends AuditModel {
 
 	@Column(name="STATUS",length=20)
 	private String status;
-	
+
 	@OneToOne
 	@JoinColumn(name="BILL_ID")
 	private SalesModel billNumber;
-	
+
 	@Column(name="TOTAL_AMOUNT")
 	private Float totalAmount;
 
@@ -56,17 +56,19 @@ public class SalesReturnModel extends AuditModel {
 
 	@Column(name = "AUDIT_ID",length=11)
 	private Integer auditId;
-	
+
 	@OneToOne
 	@JoinColumn(name="PAYMENT_TYPE_ID")
 	private PaymentTypeModel paymentType;
-	
+
 	@OneToOne
 	@JoinColumn(name="PHARMACY_ID")
 	private PharmacyModel pharmacy;
+
+	@Transient
+	private String empName;
 	
-	 @Transient
-	    private String empName;
-	    
-	
+	@Column(name="REMARKS",length=20)
+	private String remarks;
+
 }

@@ -78,4 +78,11 @@ public class SalesReturnController {
 		return new BaseDto<>(response,salesReturnHelper.getRetrieveSalesReturnMessage(),OK).respond();
 	}
 	
+	
+	@GetMapping("/update/salesReturnRemarks")
+	public ResponseEntity<BaseDto<SalesReturnModel>> updateSalesReturnRemarks(@RequestParam String remarks,@RequestParam String srNo) {
+		
+		SalesReturnModel salesRetrunModelRes = salesReturnService.updateSalesReturnRemarks(remarks, srNo);
+		return new BaseDto<>(salesRetrunModelRes, salesReturnHelper.getUpdateSalesReturnMessage(), OK).respond();
+	}
 }
