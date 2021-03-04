@@ -36,8 +36,8 @@ public interface SalesReturnRepository extends JpaRepository<SalesReturnModel, I
 
 	@Transactional
 	@Modifying
-	@Query("update sales_return set remarks=:remarks where salesReturnNumber=:srNo")
-	void updateRemarksInSalesReturn(@Param("remarks")String remarks, @Param("srNo")String srNo);
+	@Query("update sales_return set remarks=:remarks,status='Paid' where salesReturnNumber=:srNo")
+	void updateRemarksStatusInSalesReturn(@Param("remarks")String remarks, @Param("srNo")String srNo);
 
 	
 	@Query("select s from sales_return s where salesReturnNumber=:srNo")

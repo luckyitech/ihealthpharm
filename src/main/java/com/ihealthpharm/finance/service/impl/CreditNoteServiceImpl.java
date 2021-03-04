@@ -188,5 +188,14 @@ public class CreditNoteServiceImpl implements CreditNoteService {
 		  
 		return creditNoteRepo.updatePaymentStatus(creditNoteId,paymentStatus);
 	}
+
+	@Override
+	public CreditNoteModel updateCreditNoteRemarks(String remarks, String crNo) {
+		
+		creditNoteRepo.updateRemarks(remarks, crNo);
+		CreditNoteModel res=creditNoteRepo.findByCreditNoteNo(crNo);
+		
+		return res;
+	}
    
 }
