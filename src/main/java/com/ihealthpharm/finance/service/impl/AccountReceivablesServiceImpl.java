@@ -108,8 +108,9 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 			// to update credit and debit note payment status
 			if (accountReceivables.getSourceType().contains("Credit Note")) {
 				CreditNoteModel c = creditNoteRepo.getCreditNoteDataById(accountReceivables.getSource());
-				c.setPaymentStatus("Paid");
-				creditNoteRepo.save(c);
+				creditNoteRepo.updatePaymentStatus(c.getCreditNoteId(),"Paid");
+				//c.setPaymentStatus("Paid");
+				//creditNoteRepo.save(c);
 			} else if (accountReceivables.getSourceType().contains("Debit Note")) {
 				DebitNoteModel d = debitNoteRepo.getDebitNoteDataById(accountReceivables.getSource());
 				d.setPaymentStatus("Paid");

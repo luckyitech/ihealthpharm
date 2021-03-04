@@ -153,6 +153,13 @@ public class CreditNoteController {
 	}
 	
 	
+	@GetMapping("/update/creditNoteRemarks")
+	public ResponseEntity<BaseDto<CreditNoteModel>> updateCreditNoteRemarks(@RequestParam String remarks,@RequestParam String crNo){
+		CreditNoteModel response=creditNoteService.updateCreditNoteRemarks(remarks,crNo);
+		return new BaseDto<>(response,creditNoteHelper.getUpdateCreditNoteMessage(),OK).respond();
+	}
+	
+	
 	
  
 }

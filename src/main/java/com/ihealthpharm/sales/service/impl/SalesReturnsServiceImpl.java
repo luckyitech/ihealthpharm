@@ -96,7 +96,7 @@ public class SalesReturnsServiceImpl implements SalesReturnService {
 	@Override
 	public SalesReturnModel updateSalesReturnRemarks(String remarks, String srNo) {
 		
-		salesReturnRepo.updateRemarksInSalesReturn(remarks,srNo);
+		salesReturnRepo.updateRemarksStatusInSalesReturn(remarks,srNo);
 		SalesReturnModel salesReturnModel= salesReturnRepo.getSalesReturnDataByRefNo(srNo);
 		return salesReturnModel;
 	}
