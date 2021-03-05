@@ -192,10 +192,11 @@ public class CreditNoteServiceImpl implements CreditNoteService {
 	@Override
 	public CreditNoteModel updateCreditNoteRemarks(String remarks, String crNo) {
 		
-		creditNoteRepo.updateRemarks(remarks, crNo);
 		CreditNoteModel res=creditNoteRepo.findByCreditNoteNo(crNo);
+		creditNoteRepo.updateRemarks(res.getRemarks()+" - "+remarks, crNo);
+		CreditNoteModel resToSend=creditNoteRepo.findByCreditNoteNo(crNo);
 		
-		return res;
+		return resToSend;
 	}
    
 }

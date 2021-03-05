@@ -38,7 +38,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 @Component
 public class AccountReceivablesReceiptPdf extends ReportsPDFUtility{
-	
+
 
 	@Override
 	public Document generateReport(List<Map<String, Object>> responseList, ReportsMappingModel model, File responseFile,String inputJson) {
@@ -186,13 +186,23 @@ public class AccountReceivablesReceiptPdf extends ReportsPDFUtility{
 			for (Map<String, Object> rowData : responseList) {
 				for (HeaderDto hearder : headerList) {
 
+					//System.out.println(rowData);
+
+
 					Object value = rowData.containsKey(hearder.getColumnName()) ? rowData.get(hearder.getColumnName()): "";		
+
 					if(ObjectUtils.isEmpty(value) && true) {
 
 
 					}
+
 					Font bold = new Font(FontFamily.HELVETICA,7,Font.BOLD);
-					cell = new PdfPCell(new Phrase(String.valueOf(value),bold));
+					if(rowData.get("PAYMENT_STATUS").equals("Partially Paid") && hearder.getColumnName().equals("SOURCE_REF")) {
+
+						cell = new PdfPCell(new Phrase(String.valueOf(value)+" *",bold));
+					}else {
+						cell = new PdfPCell(new Phrase(String.valueOf(value),bold));
+					}
 					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 					if(!model.isShowVerticalLines())
 						cell.setBorder(Rectangle.BOTTOM);
@@ -219,15 +229,15 @@ public class AccountReceivablesReceiptPdf extends ReportsPDFUtility{
 
 		double totalAmountRec =responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("AMOUNT_RECEIVED") && !ObjectUtils.isEmpty(mapper.get("AMOUNT_RECEIVED"))) ?String.valueOf(mapper.get("AMOUNT_RECEIVED")):"0")).sum();  
 		double totalAmountToBeRec =responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("AMOUNT_TO_BE_RECEIVED") && !ObjectUtils.isEmpty(mapper.get("AMOUNT_TO_BE_RECEIVED"))) ?String.valueOf(mapper.get("AMOUNT_TO_BE_RECEIVED")):"0")).sum();  
-		
+
 
 		String totRecAmt=df.format(totalAmountRec);
 		Double Recamount=Double.parseDouble(totRecAmt);
-		
+
 		String totToBeRecAmt=df.format(totalAmountToBeRec);
 		Double toBeRecamount=Double.parseDouble(totToBeRecAmt);
 
-		
+
 		Font bold = new Font(FontFamily.HELVETICA,7, Font.BOLD);
 		PdfPCell cell = new PdfPCell(new Phrase("		",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -252,12 +262,12 @@ public class AccountReceivablesReceiptPdf extends ReportsPDFUtility{
 		table.completeRow();
 
 		document.add(table);
-		
+
 	}
 
 	private void addBillDetails(Document document, ReportsMappingModel model, List<Map<String, Object>> responseList) throws DocumentException {
 
-	
+
 		String apprDate = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("APPROVED_DATE"));
 		//String billCode = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("BILL_CODE"));
 		String customerName = (ObjectUtils.isEmpty(responseList))?"":String.valueOf(responseList.get(0).get("CUSTOMER_NAME"));
@@ -283,15 +293,15 @@ public class AccountReceivablesReceiptPdf extends ReportsPDFUtility{
 		cell.setBorder(Rectangle.TOP);
 		table.addCell(cell);
 
-//		cell = new PdfPCell(new Phrase());
-//		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-//		cell.setBorder(Rectangle.TOP);
-//		table.addCell(cell);
-//
-//		cell = new PdfPCell(new Phrase());
-//		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-//		cell.setBorder(Rectangle.TOP);
-//		table.addCell(cell);
+		//		cell = new PdfPCell(new Phrase());
+		//		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		//		cell.setBorder(Rectangle.TOP);
+		//		table.addCell(cell);
+		//
+		//		cell = new PdfPCell(new Phrase());
+		//		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+		//		cell.setBorder(Rectangle.TOP);
+		//		table.addCell(cell);
 
 		cell = new PdfPCell(new Phrase("Customer	:",bold));
 		cell.setHorizontalAlignment(Element.ALIGN_LEFT);
