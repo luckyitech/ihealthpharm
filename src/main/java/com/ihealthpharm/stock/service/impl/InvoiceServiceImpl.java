@@ -13,6 +13,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
+
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.finance.dao.AccountPayablesInvoicesRepository;
 import com.ihealthpharm.finance.dao.AccountPayablesRepository;
@@ -291,14 +293,14 @@ public class InvoiceServiceImpl implements InvoiceService {
 				
 		
 				
-				if(!it.getItemsModel().getRackNumber().isEmpty() )
+				if(!Objects.isNull(it.getItemsModel().getRackNumber()) &&!ObjectUtils.isEmpty(it.getItemsModel().getRackNumber()))
 				{
 					stockModel.setRack(it.getItemsModel().getRackNumber());
 				}
 				
 				
 				
-				if(!it.getItemsModel().getShelfNumber().isEmpty())
+				if(!ObjectUtils.isEmpty(it.getItemsModel().getShelfNumber()) && !Objects.isNull(it.getItemsModel().getShelfNumber()))
 				{
 					stockModel.setShelf(it.getItemsModel().getShelfNumber());
 				}
