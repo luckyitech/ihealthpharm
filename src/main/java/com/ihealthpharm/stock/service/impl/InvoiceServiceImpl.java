@@ -149,31 +149,31 @@ public class InvoiceServiceImpl implements InvoiceService {
 				stockModel.setSaleDiscountAmount(it.getSaleDiscountAmount());
 				stockModel.setMargin(it.getMargin());
 				stockModel.setTaxCategoryModel(it.getTax());
-				
+
 				stockModel.setVat(it.getTax() != null ? it.getTax().getCategoryValue().doubleValue() : 0);
 				stockModel.setSupplier(invoiceModelres.getSupplierModel());
 				stockModel.setInvoiceNo(it.getInvoice().getGrnNo());
 				stockModel.setStockNumber(uniqueCodeService.findByUniqueCodeName("ST"));
-				
+
 				System.out.println("-----------------------------------------------------------");
-				
+
 				System.out.println("Rack No Exists:"+it.getItemsModel().getRackNumber().isEmpty());
 				System.out.println("Shelf No Exists:"+it.getItemsModel().getShelfNumber().isEmpty());
 				System.out.println("Rack :"+it.getItemsModel().getRackNumber());
 				System.out.println("Shelf:"+it.getItemsModel().getShelfNumber());
 				System.out.println("-----------------------------------------------------------");
-				
+
 				if(!it.getItemsModel().getRackNumber().isEmpty() )
 				{
 					stockModel.setRack(it.getItemsModel().getRackNumber());
 				}
-				
-				
+
+
 				if(!it.getItemsModel().getShelfNumber().isEmpty())
 				{
 					stockModel.setRack(it.getItemsModel().getShelfNumber());
 				}
-				
+
 				historyModel.setInvoice(invoiceModelres);
 				historyModel.setBatchNo(it.getBatchNo());
 				historyModel.setPharmacy(invoiceModelres.getPharmacy());
@@ -258,9 +258,9 @@ public class InvoiceServiceImpl implements InvoiceService {
 			}
 
 			AccountPayablesModel accountPayablesModelres = accountPayablesRepository.save(accountPayablesModel);
-			
+
 			for (InvoiceItemModel it : invoiceItemModels) {
-			
+
 				StockModel stockModel = new StockModel();
 				StockHistoryModel historyModel = new StockHistoryModel();
 
@@ -290,21 +290,21 @@ public class InvoiceServiceImpl implements InvoiceService {
 				stockModel.setSupplier(invoiceModelres.getSupplierModel());
 				stockModel.setInvoiceNo(it.getInvoice().getGrnNo());
 				stockModel.setStockNumber(uniqueCodeService.findByUniqueCodeName("ST"));
-				
-		
-				
-				if(!Objects.isNull(it.getItemsModel().getRackNumber()) &&!ObjectUtils.isEmpty(it.getItemsModel().getRackNumber()))
+
+
+
+				if(!Objects.isNull(it.getItemsModel().getRackNumber()) && !ObjectUtils.isEmpty(it.getItemsModel().getRackNumber()))
 				{
 					stockModel.setRack(it.getItemsModel().getRackNumber());
 				}
-				
-				
-				
+
+
+
 				if(!ObjectUtils.isEmpty(it.getItemsModel().getShelfNumber()) && !Objects.isNull(it.getItemsModel().getShelfNumber()))
 				{
 					stockModel.setShelf(it.getItemsModel().getShelfNumber());
 				}
-				
+
 				log.info("--------------------------------------------------------------------------");
 				historyModel.setInvoice(invoiceModelres);
 				historyModel.setBatchNo(it.getBatchNo());
