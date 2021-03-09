@@ -628,5 +628,10 @@ public class QuotationServiceImpl implements QuotationService {
 		return quotationRepository.getAllQtnNo();
 	}
 
+	@Override
+	public List<QuotationItemsModel>  getQuotationDataForPOBySupplier(Integer quotationId,Integer supplierId) {
+		return quotationRepository.getQuotationDataByIdAndSupplier(quotationId,supplierId);
+	}
+
 
 }

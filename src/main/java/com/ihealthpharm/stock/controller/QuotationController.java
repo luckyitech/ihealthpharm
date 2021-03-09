@@ -34,6 +34,7 @@ import com.ihealthpharm.masters.model.SupplierModel;
 import com.ihealthpharm.stock.dto.QuotationDTO;
 import com.ihealthpharm.stock.helper.MediaTypeUtils;
 import com.ihealthpharm.stock.helper.QuotationHelper;
+import com.ihealthpharm.stock.model.QuotationItemsModel;
 import com.ihealthpharm.stock.model.QuotationModel;
 import com.ihealthpharm.stock.service.QuotationService;
 import com.ihealthpharm.stock.utils.GenerateQuotationNo;
@@ -731,4 +732,11 @@ public class QuotationController {
 		List<String> results=quotationService.findSuppliersInQtnBySearch(searchTerm);
 		return new BaseDto<>(results,quotationHelper.getRetrieveQuotationMessage(),OK).respond();
 	}
+	
+	@GetMapping("/getQuotation/ForPO/bySupplierAndQuotation")
+	public ResponseEntity<BaseDto<List<QuotationItemsModel>>> getQuotationDataForPOBySupplier(@RequestParam Integer quotationId,@RequestParam Integer supplierId) {
+		List<QuotationItemsModel> model = quotationService.getQuotationDataForPOBySupplier(quotationId,supplierId);
+		return new BaseDto<>(model, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
+	}
+	
 }
