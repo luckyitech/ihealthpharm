@@ -292,12 +292,10 @@ public class InvoiceServiceImpl implements InvoiceService {
 				stockModel.setStockNumber(uniqueCodeService.findByUniqueCodeName("ST"));
 
 
-
 				if(!Objects.isNull(it.getItemsModel().getRackNumber()) && !ObjectUtils.isEmpty(it.getItemsModel().getRackNumber()))
 				{
 					stockModel.setRack(it.getItemsModel().getRackNumber());
 				}
-
 
 
 				if(!ObjectUtils.isEmpty(it.getItemsModel().getShelfNumber()) && !Objects.isNull(it.getItemsModel().getShelfNumber()))
