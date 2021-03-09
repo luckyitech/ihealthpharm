@@ -300,7 +300,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 				
 				
 				
-				if(!!ObjectUtils.isEmpty(it.getItemsModel().getShelfNumber()) && !Objects.isNull(it.getItemsModel().getShelfNumber()))
+				if(!ObjectUtils.isEmpty(it.getItemsModel().getShelfNumber()) && !Objects.isNull(it.getItemsModel().getShelfNumber()))
 				{
 					stockModel.setShelf(it.getItemsModel().getShelfNumber());
 				}
