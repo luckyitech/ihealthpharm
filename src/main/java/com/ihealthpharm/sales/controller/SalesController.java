@@ -425,6 +425,10 @@ public class SalesController {
 		return new BaseDto<>(s,salesHelper.getUpdateSalesMessage(),OK).respond();
 	}
 	
-	
+	@GetMapping("/update/billingRemarks")
+	public ResponseEntity<BaseDto<SalesModel>> updateSalesRemarks(@RequestParam String remarks,@RequestParam String billCode){
+		SalesModel s=salesService.updateSalesRemarksAfterBulkPayment(remarks,billCode);
+		return new BaseDto<>(s,salesHelper.getUpdateSalesMessage(),OK).respond();
+	}
 	
 }

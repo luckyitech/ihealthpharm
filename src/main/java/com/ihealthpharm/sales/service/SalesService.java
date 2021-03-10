@@ -144,4 +144,6 @@ public interface SalesService
 
 	SalesModel updateSalesOldDat();
 
+	SalesModel updateSalesRemarksAfterBulkPayment(String remarks, String billCode);
+
 }

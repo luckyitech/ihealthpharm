@@ -8,6 +8,7 @@ import com.ihealthpharm.masters.dto.ItemSupplierDTO;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.SupplierModel;
 import com.ihealthpharm.stock.dto.QuotationDTO;
+import com.ihealthpharm.stock.model.QuotationItemsModel;
 import com.ihealthpharm.stock.model.QuotationModel;
 
 public interface QuotationService {
@@ -108,4 +109,6 @@ public interface QuotationService {
 	List<String> findSuppliersInQtnBySearch(String searchTerm);
 
 	List<String> findAllQuotationNo();
+
+	List<QuotationItemsModel>  getQuotationDataForPOBySupplier(Integer quotationId,Integer supplierId);
 }

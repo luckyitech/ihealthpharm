@@ -12,6 +12,7 @@ import com.ihealthpharm.masters.dto.ItemSupplierDTO;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.SupplierModel;
 import com.ihealthpharm.stock.dto.QuotationDTO;
+import com.ihealthpharm.stock.model.QuotationItemsModel;
 import com.ihealthpharm.stock.model.QuotationModel;
 
 
@@ -75,7 +76,7 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 	List<SupplierModel> getSupplierQuotationId(@Param("quotationId") Integer quotationId );
 	
 	@Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(i.itemId,i.itemCode, i.itemName, i.itemDescription,i.itemForm.form ,i.manufacturer.name,"
-			+ "qi.supplier.supplierId,qi.supplier.name,qi.quantity) "
+			+ "qi.supplier.supplierId,qi.supplier.name,qi.quantity,i.pack,qi.item,qi.discountPercentage,qi.unitPurchasePrice) "
 			+ " from quotation q inner join quotation_items qi on q.quotationId = qi.quotation.quotationId "
 			+ "inner join items i on qi.item.itemId = i.itemId where qi.quotation.quotationId = :quotationId and "
 			+ " qi.supplier.supplierId = :supplierId")
@@ -197,6 +198,11 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 	
 	@Query("select distinct sp.name from quotation_items qi,supplier sp where qi.supplier.supplierId=sp.supplierId and sp.name like :searchTerm% order by qi.lastUpdateTimestamp desc")
 	List<String> getAllSuppliersInQtnBySearch(@Param("searchTerm")String searchTerm);
+
+	@Query("select qi from quotation_items qi inner join quotation q on qi.quotation.quotationId=q.quotationId "
+			+ "where q.supplierQtnApprovedBy is not null and q.supplierQtnApprovedDt is not null "
+			+ "and q.quotationId=:quotationId and qi.supplier.supplierId=:supplierId")
+	List<QuotationItemsModel>  getQuotationDataByIdAndSupplier(Integer quotationId, Integer supplierId);
 	
 	
 }
