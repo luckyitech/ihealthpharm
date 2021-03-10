@@ -76,7 +76,7 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 	List<SupplierModel> getSupplierQuotationId(@Param("quotationId") Integer quotationId );
 	
 	@Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(i.itemId,i.itemCode, i.itemName, i.itemDescription,i.itemForm.form ,i.manufacturer.name,"
-			+ "qi.supplier.supplierId,qi.supplier.name,qi.quantity) "
+			+ "qi.supplier.supplierId,qi.supplier.name,qi.quantity,i.pack,qi.item,qi.discountPercentage,qi.unitPurchasePrice) "
 			+ " from quotation q inner join quotation_items qi on q.quotationId = qi.quotation.quotationId "
 			+ "inner join items i on qi.item.itemId = i.itemId where qi.quotation.quotationId = :quotationId and "
 			+ " qi.supplier.supplierId = :supplierId")

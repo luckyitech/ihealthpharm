@@ -54,6 +54,12 @@ public class ItemSupplierDTO {
 	
 	private Integer quantity;
 	
+	private String pack;
+	
+	private Double unitPurchasePrice;
+	
+	
+	
 	public ItemSupplierDTO(Integer itemSupplierId, Integer itemId, Integer supplierId, String activeS, String supplierName, String itemName) {
 		this.itemSupplierId = itemSupplierId;
 		this.itemId = itemId;
@@ -121,6 +127,8 @@ public class ItemSupplierDTO {
 		this.itemName = itemName;
 		this.quantity = quantity;
 	}
+	
+	
 	
 	
 	
@@ -229,6 +237,26 @@ public class ItemSupplierDTO {
 		this.quantity = quantity;
 	}
 	
-	
+	public ItemSupplierDTO(Integer itemId, String itemCode, String itemName, String itemDescription, 
+			String formulation,String manufacturerName, Integer supplierId, String supplierName, 
+			Integer quantity,
+			String pack,ItemsModel itemsModel,Double discountPercentage,
+			Double unitRate) {
+		//super();
+		this.itemId = itemId;
+		this.itemName = itemName;
+		this.itemCode = itemCode;
+		this.itemDescription = itemDescription;
+		this.formulation = formulation;
+		this.manufacturerName = manufacturerName;
+		this.supplierId = supplierId;
+		this.supplierName = supplierName;
+		this.quantity=quantity;
+		this.pack=pack;
+		this.itemsModel=itemsModel;
+		this.discountPercentage=discountPercentage;
+		//this.unitPurchasePrice=unitPurchasePrice;
+		this.unitRate=unitRate;
+	}
 	
 }

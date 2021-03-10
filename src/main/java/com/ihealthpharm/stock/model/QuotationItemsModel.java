@@ -82,7 +82,7 @@ public class QuotationItemsModel extends AuditModel {
 	private Double discount;
 
 	@Column(name = "DISCOUNT_PERCENTAGE")
-	private Float discountPercentage;
+	private Double discountPercentage;
 
 	@Column(name = "EXCISE_DUTY")
 	private Float exciseDuty;
