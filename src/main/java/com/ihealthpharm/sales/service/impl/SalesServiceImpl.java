@@ -696,7 +696,11 @@ public class SalesServiceImpl implements SalesService {
 	public SalesModel updateSalesRemarksAfterBulkPayment(String remarks, String billCode) {
 		
 		SalesModel res=salesRepository.getAllDataByBillNo(billCode);
+		if(Objects.nonNull(res.getRemarks())) {
 		salesRepository.updateRemarksForBill(res.getRemarks()+" - "+remarks, billCode);
+		}else {
+		salesRepository.updateRemarksForBill(remarks, billCode);
+		}
 		SalesModel resToSend=salesRepository.getAllDataByBillNo(billCode);
 		
 		return resToSend;
