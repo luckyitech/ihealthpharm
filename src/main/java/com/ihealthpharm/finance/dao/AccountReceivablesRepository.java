@@ -234,4 +234,8 @@ public interface AccountReceivablesRepository extends JpaRepository<AccountRecei
 		@Query("select a from account_receivables a where accountReceivablesId=:accountReceivablesId")
 		AccountReceivablesModel getAccRecDataById(@Param("accountReceivablesId")Integer accountReceivablesId);
 		
+		
+		@Query("select ac from account_receivables ac  where ac.SourceRef=:sourceRef and ac.paymentStatus='Pending'")
+		AccountReceivablesModel findBySourceRef(@Param("sourceRef")String sourceRef);
+		
 }
