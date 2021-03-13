@@ -171,9 +171,9 @@ public class CreditNoteController {
 	
 	
 	@GetMapping("/updateCreditNoteAndAddNewCreditNote")
-	public ResponseEntity<BaseDto<CreditNoteModel>> updateCreditNoteAndAddNewCreditNoteBySales(@RequestParam Double leftAmount,
-			@RequestParam String prevCreditNoteNo,@RequestParam String newCreditNoteNo){
-		CreditNoteModel response=creditNoteService.updateCreditNoteRemarks(leftAmount,prevCreditNoteNo,newCreditNoteNo);
+	public ResponseEntity<BaseDto<CreditNoteModel>> updateCreditNoteAndAddNewCreditNoteBySales(@RequestParam Float leftAmount,
+			@RequestParam String prevCreditNoteNo,@RequestParam String newCreditNoteNo,@RequestParam String billCode,@RequestParam Float netAmount){
+		CreditNoteModel response=creditNoteService.updateCreditNoteRemarks(leftAmount,prevCreditNoteNo,newCreditNoteNo,billCode,netAmount);
 		return new BaseDto<>(response,creditNoteHelper.getUpdateCreditNoteMessage(),OK).respond();
 	}
 	

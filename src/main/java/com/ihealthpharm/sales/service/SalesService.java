@@ -146,4 +146,6 @@ public interface SalesService
 
 	SalesModel updateSalesRemarksAfterBulkPayment(String remarks, String billCode);
 
+	SalesModel findBillDataByCodeAndCustomerId(Integer customerId, String billCode);
+
 }

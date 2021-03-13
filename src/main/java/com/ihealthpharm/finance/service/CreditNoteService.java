@@ -48,6 +48,7 @@ public interface CreditNoteService
 
 	List<CreditNoteModel> findAllCreditNotesByCustomerId(Integer customerId);
 
-	CreditNoteModel updateCreditNoteRemarks(Double leftAmount, String prevCreditNoteNo, String newCreditNoteNo);
+	CreditNoteModel updateCreditNoteRemarks(Float leftAmount, String prevCreditNoteNo, 
+			String newCreditNoteNo,String billCode,Float netAmount);
 	
 }

@@ -18,6 +18,7 @@ import com.ihealthpharm.finance.model.CreditNoteModel;
 import com.ihealthpharm.finance.service.CreditNoteService;
 import com.ihealthpharm.masters.dao.EmployeeRepository;
 
+
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -27,6 +28,7 @@ public class CreditNoteServiceImpl implements CreditNoteService {
 	
 	@Autowired
 	private CreditNoteRepository creditNoteRepo;
+	
 	
 	@Autowired
 	private CreditNoteHelper creditNoteHelper;
@@ -206,15 +208,38 @@ public class CreditNoteServiceImpl implements CreditNoteService {
 	}
 
 	@Override
-	public CreditNoteModel updateCreditNoteRemarks(Double leftAmount, String prevCreditNoteNo, String newCreditNoteNo) {
+	public CreditNoteModel updateCreditNoteRemarks(Float leftAmount, 
+			String prevCreditNoteNo, String newCreditNoteNo,String billCode,Float netAmount) {
 		
 		CreditNoteModel res=creditNoteRepo.findByCreditNoteNo(prevCreditNoteNo);
+		
 		res.setPaymentStatus("Paid");
 		creditNoteRepo.save(res);
 		
 		CreditNoteModel newCreditNote=new CreditNoteModel();
 		
-		return null;
+		newCreditNote.setCreditNoteNo(newCreditNoteNo);
+		newCreditNote.setAmount(leftAmount);
+		newCreditNote.setCreditDate(res.getCreditDate());
+		newCreditNote.setBillId(res.getBillId());
+		newCreditNote.setPharmacyModel(res.getPharmacyModel());
+		newCreditNote.setActiveS(res.getActiveS());
+		newCreditNote.setReturnType(res.getReturnType());
+		newCreditNote.setReturnTypeReason(res.getReturnTypeReason());
+		newCreditNote.setCustomerModel(res.getCustomerModel());
+		newCreditNote.setApprovedBy(res.getApprovedBy());
+		newCreditNote.setApprovedDate(res.getApprovedDate());
+		newCreditNote.setStatus(res.getStatus());
+		newCreditNote.setPaymentType(res.getPaymentType());
+		newCreditNote.setTax(res.getTax());
+		newCreditNote.setDiscount(res.getDiscount());
+		newCreditNote.setBillType(res.getBillType());
+		newCreditNote.setPaymentStatus("Pending");
+	
+		newCreditNote.setRemarks(prevCreditNoteNo+" - "+"used against the sales bill - "+billCode+
+		" of amount - "+netAmount+" and generated new credit note with the balance left - "+leftAmount);
+		
+		return creditNoteRepo.save(newCreditNote);
 	}
    
 }

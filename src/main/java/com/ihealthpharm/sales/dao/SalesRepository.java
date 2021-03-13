@@ -302,4 +302,8 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 	@Query("update sales s set s.remarks =:remarks where s.billCode=:billCode")
 	void updateRemarksForBill(@Param("remarks")String remarks, @Param("billCode")String billCode);
 
+    @Query("select s from sales s inner join customer c on c.customerId=s.customerModel.customerId "
+    		+ "where s.billCode=:billCode and c.customerId=:customerId")
+	SalesModel findByCustomerIdAndBillCode(@Param("customerId")Integer customerId, @Param("billCode")String billCode);
+
 }
