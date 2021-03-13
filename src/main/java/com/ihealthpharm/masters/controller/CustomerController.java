@@ -184,4 +184,11 @@ public class CustomerController {
 		CustomerModel response=customerService.getCustomerModelByName(name);
 		return new BaseDto<>(response,customerHelper.getRetrieveCustomerMessage(),OK).respond();
 	}
+	
+	@GetMapping("/get/customerModelBySourceRefAndType")
+	public ResponseEntity<BaseDto<CustomerModel>> getCustomerModelBySourceRefAndType(@RequestParam String sourceRef,@RequestParam String sourceType){
+		CustomerModel response=customerService.getCustomerModelBySourceRefAndType(sourceRef,sourceType);
+		return new BaseDto<>(response,customerHelper.getRetrieveCustomerMessage(),OK).respond();
+	}
+	
 }

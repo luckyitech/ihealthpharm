@@ -23,6 +23,7 @@ import com.ihealthpharm.finance.dto.CreditCustomerDTO;
 import com.ihealthpharm.finance.helper.CreditNoteHelper;
 import com.ihealthpharm.finance.model.CreditNoteModel;
 import com.ihealthpharm.finance.service.CreditNoteService;
+import com.ihealthpharm.masters.model.CustomerModel;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -160,6 +161,20 @@ public class CreditNoteController {
 	}
 	
 	
+	@GetMapping("/getCreditNotesByCustomerIdPending")
+	public ResponseEntity<BaseDto<List<CreditNoteModel>>> getAllCreditNotesByCustomerId(@RequestParam Integer customerId){
+		List<CreditNoteModel> response=creditNoteService.findAllCreditNotesByCustomerId(customerId);
+
+		return new BaseDto<>(response,creditNoteHelper.getRetriveCreditNoteMessage(),OK).respond();
+	}
 	
- 
+	
+	
+	@GetMapping("/updateCreditNoteAndAddNewCreditNote")
+	public ResponseEntity<BaseDto<CreditNoteModel>> updateCreditNoteAndAddNewCreditNoteBySales(@RequestParam Double leftAmount,
+			@RequestParam String prevCreditNoteNo,@RequestParam String newCreditNoteNo){
+		CreditNoteModel response=creditNoteService.updateCreditNoteRemarks(leftAmount,prevCreditNoteNo,newCreditNoteNo);
+		return new BaseDto<>(response,creditNoteHelper.getUpdateCreditNoteMessage(),OK).respond();
+	}
+	
 }

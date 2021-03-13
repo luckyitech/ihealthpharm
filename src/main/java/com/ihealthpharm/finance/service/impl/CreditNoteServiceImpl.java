@@ -198,5 +198,23 @@ public class CreditNoteServiceImpl implements CreditNoteService {
 		
 		return resToSend;
 	}
+
+	@Override
+	public List<CreditNoteModel> findAllCreditNotesByCustomerId(Integer customerId) {
+		
+		return creditNoteRepo.findPendingCreditNotesByCustomer(customerId);
+	}
+
+	@Override
+	public CreditNoteModel updateCreditNoteRemarks(Double leftAmount, String prevCreditNoteNo, String newCreditNoteNo) {
+		
+		CreditNoteModel res=creditNoteRepo.findByCreditNoteNo(prevCreditNoteNo);
+		res.setPaymentStatus("Paid");
+		creditNoteRepo.save(res);
+		
+		CreditNoteModel newCreditNote=new CreditNoteModel();
+		
+		return null;
+	}
    
 }
