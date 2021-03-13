@@ -74,8 +74,14 @@ public interface CustomerRepository extends JpaRepository<CustomerModel,Integer>
 	@Query("select distinct c.lastName from customer c where c.lastName like :key%")
 	List<String> findCustomerLastNamesBySearch(@Param("key")String key);
 
-	@Query("select c from customer c where concat(c.customerName,' ',c.lastName)=:name "
-			+ "and (c.activeS!='N' or c.activeS is null)")
+	@Query("select c from customer c where concat(c.customerName,' ',c.lastName)=:name")
 	CustomerModel findByCustomerName(@Param("name")String name);
+
+	@Query("select s.customerModel from sales s where s.billCode=:sourceRef")
+	CustomerModel findCustomerModelByBillCode(@Param("sourceRef")String sourceRef);
+	
+	
+	@Query("select c.customerModel from CREDIT_NOTE c where c.creditNoteNo=:sourceRef")
+	CustomerModel findCustomerModelByCreditNote(@Param("sourceRef")String sourceRef);
 
 }

@@ -237,6 +237,17 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 
+	@Override
+	public CustomerModel getCustomerModelBySourceRefAndType(String sourceRef, String sourceType) {
+		if(sourceType.equalsIgnoreCase("Sales Billing")) {
+			return customerRepository.findCustomerModelByBillCode(sourceRef);
+		}else if(sourceType.equalsIgnoreCase("Credit Note") || sourceType.equalsIgnoreCase("Sales Returns - Credit Note")){
+			return customerRepository.findCustomerModelByCreditNote(sourceRef);
+		}else {
+			return null;
+		}
+		
+	}
 	
 
 }

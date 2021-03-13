@@ -59,4 +59,6 @@ public interface CustomerService
 
 	CustomerModel getCustomerModelByName(String name);
 
+	CustomerModel getCustomerModelBySourceRefAndType(String sourceRef, String sourceType);
+
 }
