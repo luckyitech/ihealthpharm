@@ -66,9 +66,23 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 
 	@Override
 	public AccountReceivablesModel saveAccountReceivablesData(AccountReceivablesModel accountReceivables) {
+
+
 		AccountReceivablesModel accountReceivablesRes = accountReceivablesRepository.save(accountReceivables);
 		log.info("AccountReceivables data with ID : " + accountReceivablesRes.getAccountReceivablesId()
 		+ " Saved succesfully");
+
+		if(accountReceivables.getPaymentStatus().equals("Cancel") && accountReceivables.getSourceType().equals("Sales Billing")) {
+
+			AccountReceivablesModel accRecExistedRecord=accountReceivablesRepository.findBySourceRef(accountReceivables.getSourceRef());
+			System.out.println(accRecExistedRecord);
+			if(Objects.nonNull(accRecExistedRecord)) {
+			accRecExistedRecord.setPaymentStatus("Cancel");
+			accRecExistedRecord.setStatus("Approved");
+			AccountReceivablesModel saveRes = accountReceivablesRepository.save(accRecExistedRecord);
+			}
+		}
+
 		return accountReceivablesRes;
 	}
 
