@@ -214,6 +214,7 @@ public class CreditNoteServiceImpl implements CreditNoteService {
 		CreditNoteModel res=creditNoteRepo.findByCreditNoteNo(prevCreditNoteNo);
 		
 		res.setPaymentStatus("Paid");
+	
 		creditNoteRepo.save(res);
 		
 		CreditNoteModel newCreditNote=new CreditNoteModel();
@@ -235,6 +236,8 @@ public class CreditNoteServiceImpl implements CreditNoteService {
 		newCreditNote.setDiscount(res.getDiscount());
 		newCreditNote.setBillType(res.getBillType());
 		newCreditNote.setPaymentStatus("Pending");
+		newCreditNote.setCreatedUser(String.valueOf(res.getLastUpdateUser()));
+		newCreditNote.setLastUpdateUser(res.getLastUpdateUser());
 	
 		newCreditNote.setRemarks(prevCreditNoteNo+" - "+"used against the sales bill - "+billCode+
 		" of amount - "+netAmount+" and generated new credit note with the balance left - "+leftAmount);
