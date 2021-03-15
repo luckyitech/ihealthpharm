@@ -83,6 +83,9 @@ public class PurchaseOrderModel extends AuditModel {
 
 	@Column(name = "DISCOUNT")
 	private Double discount;
+	
+	@Column(name = "TAX_AMOUNT")
+	private Double taxAmt;
 
 	@Column(name = "DISC_PERCENTAGE")
 	private Float discPercentage;
