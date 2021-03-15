@@ -71,4 +71,7 @@ public class SalesReturnModel extends AuditModel {
 	@Column(name="REMARKS",length=20)
 	private String remarks;
 
+	
+	@Column(name="BILL_TYPE",length=20)
+	private String billType;
 }

@@ -431,4 +431,11 @@ public class SalesController {
 		return new BaseDto<>(s,salesHelper.getUpdateSalesMessage(),OK).respond();
 	}
 	
+	
+	@GetMapping("/get/salesDataByBillCodeAndCustomer")
+	public  ResponseEntity<BaseDto<SalesModel>> getBillDataByCodeAndCustomerId(@RequestParam Integer customerId,@RequestParam String billCode){
+		SalesModel result =salesService.findBillDataByCodeAndCustomerId(customerId,billCode);
+		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(), OK).respond();
+	}
+	
 }
