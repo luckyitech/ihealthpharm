@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.masters.dto.CustomerDTO;
+import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.sales.dto.SalesBillDTO;
 import com.ihealthpharm.sales.dto.SalesBillsLimitedDTO;
 import com.ihealthpharm.sales.dto.SalesByDatesDTO;
@@ -435,6 +437,12 @@ public class SalesController {
 	@GetMapping("/get/salesDataByBillCodeAndCustomer")
 	public  ResponseEntity<BaseDto<SalesModel>> getBillDataByCodeAndCustomerId(@RequestParam Integer customerId,@RequestParam String billCode){
 		SalesModel result =salesService.findBillDataByCodeAndCustomerId(customerId,billCode);
+		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(), OK).respond();
+	}
+	
+	@GetMapping("/getCustomerModelByBillCode")
+	public  ResponseEntity<BaseDto<CustomerModel>> getCustomerModelByBillCode(@RequestParam String billCode){
+		CustomerModel result =salesService.findCustomerModelByBillCode(billCode);
 		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(), OK).respond();
 	}
 	

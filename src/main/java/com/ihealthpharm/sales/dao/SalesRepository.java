@@ -12,6 +12,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.sales.dto.SalesBillDTO;
 import com.ihealthpharm.sales.dto.SalesBillsLimitedDTO;
 import com.ihealthpharm.sales.dto.SalesByDatesDTO;
@@ -305,5 +306,9 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
     @Query("select s from sales s inner join customer c on c.customerId=s.customerModel.customerId "
     		+ "where s.billCode=:billCode and c.customerId=:customerId")
 	SalesModel findByCustomerIdAndBillCode(@Param("customerId")Integer customerId, @Param("billCode")String billCode);
+
+    @Query("select s.customerModel from sales s "
+    		+ "where s.billCode=:billCode")
+	CustomerModel findByCustomerByBillCode(@Param("billCode")String billCode);
 
 }

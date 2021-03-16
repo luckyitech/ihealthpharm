@@ -712,5 +712,11 @@ public class SalesServiceImpl implements SalesService {
 		return salesRepository.findByCustomerIdAndBillCode(customerId,billCode);
 	}
 
+	@Override
+	public CustomerModel findCustomerModelByBillCode(String billCode) {
+		
+	 return salesRepository.findByCustomerByBillCode(billCode);
+	}
+
 
 }
