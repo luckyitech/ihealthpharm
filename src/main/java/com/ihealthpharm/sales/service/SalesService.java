@@ -1,6 +1,8 @@
 package com.ihealthpharm.sales.service;
 
 import java.util.List;
+
+import com.ihealthpharm.masters.model.CustomerModel;
 import com.ihealthpharm.sales.dto.SalesBillDTO;
 import com.ihealthpharm.sales.dto.SalesBillsLimitedDTO;
 import com.ihealthpharm.sales.dto.SalesByDatesDTO;
@@ -147,5 +149,7 @@ public interface SalesService
 	SalesModel updateSalesRemarksAfterBulkPayment(String remarks, String billCode);
 
 	SalesModel findBillDataByCodeAndCustomerId(Integer customerId, String billCode);
+
+	CustomerModel findCustomerModelByBillCode(String billCode);
 
 }
