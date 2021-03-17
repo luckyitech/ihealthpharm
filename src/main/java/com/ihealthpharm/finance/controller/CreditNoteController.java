@@ -148,8 +148,8 @@ public class CreditNoteController {
 	}
 	
 	@GetMapping("/updateCreditNote/paymentStatus")
-	public ResponseEntity<BaseDto<Integer>> updatePaymentStatusForCreditNote(@RequestParam Integer creditNoteId,@RequestParam String paymentStatus){
-		Integer response=creditNoteService.updateCreditNoteById(creditNoteId,paymentStatus);
+	public ResponseEntity<BaseDto<CreditNoteModel>> updatePaymentStatusForCreditNote(@RequestParam Integer creditNoteId,@RequestParam String paymentStatus){
+		CreditNoteModel response=creditNoteService.updateCreditNoteById(creditNoteId,paymentStatus);
 		return new BaseDto<>(response,creditNoteHelper.getUpdateCreditNoteMessage(),OK).respond();
 	}
 	
