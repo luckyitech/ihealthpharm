@@ -17,7 +17,8 @@ import com.ihealthpharm.finance.helper.CreditNoteHelper;
 import com.ihealthpharm.finance.model.CreditNoteModel;
 import com.ihealthpharm.finance.service.CreditNoteService;
 import com.ihealthpharm.masters.dao.EmployeeRepository;
-
+import com.ihealthpharm.sales.dao.SalesReturnRepository;
+import com.ihealthpharm.sales.model.SalesReturnModel;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,6 +29,9 @@ public class CreditNoteServiceImpl implements CreditNoteService {
 	
 	@Autowired
 	private CreditNoteRepository creditNoteRepo;
+	
+	@Autowired
+	private SalesReturnRepository salesReturnRepo;
 	
 	
 	@Autowired
@@ -195,7 +199,12 @@ public class CreditNoteServiceImpl implements CreditNoteService {
 	public CreditNoteModel updateCreditNoteRemarks(String remarks, String crNo) {
 		
 		CreditNoteModel res=creditNoteRepo.findByCreditNoteNo(crNo);
+		
+		if(Objects.nonNull(res.getRemarks())) {
 		creditNoteRepo.updateRemarks(res.getRemarks()+" - "+remarks, crNo);
+		}else {
+			creditNoteRepo.updateRemarks(remarks, crNo);
+		}
 		CreditNoteModel resToSend=creditNoteRepo.findByCreditNoteNo(crNo);
 		
 		return resToSend;
@@ -214,8 +223,12 @@ public class CreditNoteServiceImpl implements CreditNoteService {
 		CreditNoteModel res=creditNoteRepo.findByCreditNoteNo(prevCreditNoteNo);
 		
 		res.setPaymentStatus("Paid");
+		res.setRemarks("used against the sales bill - "+billCode+
+				" of amount - "+netAmount);
+				
 	
 		creditNoteRepo.save(res);
+		
 		
 		CreditNoteModel newCreditNote=new CreditNoteModel();
 		
@@ -238,10 +251,19 @@ public class CreditNoteServiceImpl implements CreditNoteService {
 		newCreditNote.setPaymentStatus("Pending");
 		newCreditNote.setCreatedUser(String.valueOf(res.getLastUpdateUser()));
 		newCreditNote.setLastUpdateUser(res.getLastUpdateUser());
+		newCreditNote.setSourceRef(billCode);
 	
 		newCreditNote.setRemarks(prevCreditNoteNo+" - "+"used against the sales bill - "+billCode+
 		" of amount - "+netAmount+" and generated new credit note with the balance left - "+leftAmount);
 		
+		if(res.getReturnTypeReason().equals("Sales Returns") && Objects.nonNull(res.getSourceRef())) {
+			SalesReturnModel saleReturnModel=salesReturnRepo.getSalesReturnDataByRefNo(res.getSourceRef());
+			saleReturnModel.setPaymentStatus("Paid");
+			saleReturnModel.setRemarks("used against the sales bill - "+billCode+
+					" of amount - "+netAmount);
+					
+			salesReturnRepo.save(saleReturnModel);
+		}
 		return creditNoteRepo.save(newCreditNote);
 	}
    
