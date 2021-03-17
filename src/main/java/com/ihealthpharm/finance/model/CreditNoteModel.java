@@ -111,4 +111,7 @@ public class CreditNoteModel extends AuditModel{
     @Transient
     private String empName;
     
+    @Column(name="SOURCE_REF",length=20)
+	private String sourceRef;
+    
 }

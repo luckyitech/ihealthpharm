@@ -6,6 +6,8 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
+
 import com.ihealthpharm.exception.IHealthPharmException;
 import com.ihealthpharm.masters.dao.EmployeeRepository;
 import com.ihealthpharm.sales.dao.SalesReturnRepository;
@@ -97,7 +99,11 @@ public class SalesReturnsServiceImpl implements SalesReturnService {
 	public SalesReturnModel updateSalesReturnRemarks(String remarks, String srNo) {
 		
 		SalesReturnModel salesReturnModel= salesReturnRepo.getSalesReturnDataByRefNo(srNo);
+		if(Objects.nonNull(salesReturnModel.getRemarks())) {
 		salesReturnRepo.updateRemarksStatusInSalesReturn(salesReturnModel.getRemarks()+" - "+remarks,srNo);
+		}else {
+			salesReturnRepo.updateRemarksStatusInSalesReturn(remarks,srNo);
+		}
 		SalesReturnModel salesReturnModelToSend= salesReturnRepo.getSalesReturnDataByRefNo(srNo);
 		return salesReturnModelToSend;
 	}
