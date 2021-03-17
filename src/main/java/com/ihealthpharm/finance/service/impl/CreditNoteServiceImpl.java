@@ -190,9 +190,23 @@ public class CreditNoteServiceImpl implements CreditNoteService {
 	}
 
 	@Override
-	public Integer updateCreditNoteById(Integer creditNoteId, String paymentStatus) {
-		  
-		return creditNoteRepo.updatePaymentStatus(creditNoteId,paymentStatus);
+	public CreditNoteModel updateCreditNoteById(Integer creditNoteId, String paymentStatus) {
+		
+		
+		creditNoteRepo.updatePaymentStatus(creditNoteId,paymentStatus);
+		CreditNoteModel res=creditNoteRepo.getCreditNoteData(creditNoteId);
+		String remarks="used against the sales bill - "+res.getBillId();
+		creditNoteRepo.updateRemarks(remarks, res.getCreditNoteNo());
+		
+		if(res.getReturnTypeReason().equals("Sales Returns") && Objects.nonNull(res.getSourceRef())) {
+			SalesReturnModel saleReturnModel=salesReturnRepo.getSalesReturnDataByRefNo(res.getSourceRef());
+			saleReturnModel.setPaymentStatus("Paid");
+			saleReturnModel.setRemarks("used against the sales bill - "+res.getBillId());
+					
+			salesReturnRepo.save(saleReturnModel);
+		}
+		
+		return res;
 	}
 
 	@Override
