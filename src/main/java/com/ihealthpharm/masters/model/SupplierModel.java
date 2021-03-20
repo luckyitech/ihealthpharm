@@ -55,6 +55,15 @@ public class SupplierModel extends AuditModel {
 	@Column(name = "CONTACT_PERSON_EMAIL_ID",length=50)
 	private String contactPersonEmailID;
 	
+	@Column(name = "CONTACT_PERSON_EMAIL_TWO",length=50)
+	private String contactPersonEmailIdTwo;
+	
+	@Column(name = "CONTACT_PERSON_EMAIL_THREE",length=50)
+	private String contactPersonEmailIdThree;
+	
+	@Column(name = "CONTACT_PERSON_EMAIL_FOUR",length=50)
+	private String contactPersonEmailIdFour;
+	
 	@Column(name = "CONTACT_PERSON_PHONE_NBR",length=20)
 	private String contactPersonPhoneNumber;
 	

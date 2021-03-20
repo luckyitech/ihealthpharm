@@ -5,12 +5,19 @@ import static org.springframework.http.HttpStatus.OK;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import javax.servlet.ServletContext;
 import javax.validation.Valid;
 
+import org.apache.commons.math3.stat.descriptive.moment.SecondMoment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -26,11 +33,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.mail.model.SendQuotationMailModel;
 import com.ihealthpharm.mail.service.impl.SendQuotationMailService;
 import com.ihealthpharm.masters.dto.ItemSupplierDTO;
 import com.ihealthpharm.masters.helper.ItemPropertyHelper;
 import com.ihealthpharm.masters.helper.SupplierHelper;
+import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.SupplierModel;
+import com.ihealthpharm.masters.service.PharmacyService;
 import com.ihealthpharm.stock.dto.QuotationDTO;
 import com.ihealthpharm.stock.helper.MediaTypeUtils;
 import com.ihealthpharm.stock.helper.QuotationHelper;
@@ -39,6 +49,7 @@ import com.ihealthpharm.stock.model.QuotationModel;
 import com.ihealthpharm.stock.service.QuotationService;
 import com.ihealthpharm.stock.utils.GenerateQuotationNo;
 
+import freemarker.template.TemplateException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -67,6 +78,9 @@ public class QuotationController {
 	
 	@Autowired
     private ServletContext servletContext;
+	
+	@Autowired
+	private PharmacyService pharmacyService;
 	
 	/**
 	 * @author Gunasekhar 
@@ -592,10 +606,66 @@ public class QuotationController {
 	/**
 	 * @author Tarun 
 	 * Service is to save the send by mail Quotation
+	 * @throws TemplateException 
+	 * @throws IOException 
 	 */
 	@PostMapping("/save/sendingByMailQuotation")
-	public ResponseEntity<BaseDto<QuotationModel>> saveSendByMailQuotation(@Valid @RequestBody QuotationModel quotationModel) {
+	public ResponseEntity<BaseDto<QuotationModel>> saveSendByMailQuotation(@Valid @RequestBody QuotationModel quotationModel) throws IOException, TemplateException {
 		QuotationModel model = quotationService.saveSendByMailQuotation(quotationModel,"SENT EMAIL");
+		
+		PharmacyModel pharmacyDetails=pharmacyService.findPharmacyById(quotationModel.getPharmacyModel().getPharmacyId());
+		
+		if(Objects.nonNull(model)) {
+			List<SupplierModel> suppliersList=quotationService.getAllSuppliersByQuotationId(model.getQuotationId());
+			System.out.println(suppliersList.size());
+			
+			if(suppliersList.size()>0) {
+				for (SupplierModel supplierModel : suppliersList) {
+					
+					List<QuotationItemsModel> quotationItemsForEachSupplier=quotationService.getQuotationDataByIdAndSup(model.getQuotationId(),supplierModel.getSupplierId());
+					
+					SendQuotationMailModel mailModel=new SendQuotationMailModel();
+					mailModel.setFromEmail("quotation@docpharmkenya.com");
+					
+					mailModel.setSubject("A new quotation request from ihealthpharm");
+					mailModel.setQuotationNo(quotationModel.getQuotationNo());
+					
+					mailModel.setRequestedBy(quotationModel.getRequestedName());
+					mailModel.setQuotationNo(quotationModel.getQuotationNo());
+					mailModel.setDescription(quotationModel.getDescription());
+					
+					mailModel.setQuotItemModel(quotationItemsForEachSupplier);
+					
+					DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+					
+					mailModel.setQuotationDate(dateFormat.format(quotationModel.getQuotationDt()));
+					
+					mailModel.setPharmacyName(pharmacyDetails.getPharmacyName());
+					mailModel.setPharmaAddress1(pharmacyDetails.getAddressLine1());
+					mailModel.setPharmaAddress2(pharmacyDetails.getAddressLine2());
+					mailModel.setPinNo(pharmacyDetails.getTaxId());
+					mailModel.setMobileOne(pharmacyDetails.getPhoneNumber());
+					mailModel.setWhatsAppNo(pharmacyDetails.getPhoneNumber());
+					
+					if(Objects.nonNull(supplierModel.getContactPersonEmailID())) {
+						mailModel.setToEmail(supplierModel.getContactPersonEmailID());
+
+
+					}
+					if(Objects.nonNull(supplierModel.getContactPersonEmailID())) {
+						
+						SendQuotationMailModel secondMailModel=new SendQuotationMailModel();
+						secondMailModel=mailModel;
+						secondMailModel.setToEmail(supplierModel.getContactPersonEmailIdTwo());
+						sendQuotationMailService.sendQuotationEmail(secondMailModel);
+					}
+					
+					
+				}
+			}
+		}
+		
+		 
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
 	}
 	

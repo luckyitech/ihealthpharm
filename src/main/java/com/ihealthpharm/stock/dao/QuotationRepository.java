@@ -203,6 +203,13 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 			+ "where q.supplierQtnApprovedBy is not null and q.supplierQtnApprovedDt is not null "
 			+ "and q.quotationId=:quotationId and qi.supplier.supplierId=:supplierId")
 	List<QuotationItemsModel>  getQuotationDataByIdAndSupplier(Integer quotationId, Integer supplierId);
+
+	@Query("select distinct sp from quotation_items qi,supplier sp where qi.supplier.supplierId=sp.supplierId and qi.quotation.quotationId=:quotationId")
+	List<SupplierModel> getSuppliersByQuotationId(@Param("quotationId")Integer quotationId);
+
+	@Query("select qi from quotation_items qi inner join quotation q on qi.quotation.quotationId=q.quotationId "
+			+ "where q.quotationId=:quotationId and qi.supplier.supplierId=:supplierId")
+	List<QuotationItemsModel> findQuotationDataByIdAndSupplier(Integer quotationId, Integer supplierId);
 	
 	
 }
