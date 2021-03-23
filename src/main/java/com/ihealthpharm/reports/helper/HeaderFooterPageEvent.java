@@ -120,7 +120,8 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 				HeaderFooterContentDto contentDto = (HeaderFooterContentDto) JsonUtility.jsonToObject(headerContent,HeaderFooterContentDto.class);	
 
 				for(HeaderFooterContentDetailsDto dto:contentDto.getLeftContent()) {		
-					if(reportsMappingModel.getReportCode().equals("PRINT_QUOTATION_RECEIPT")) {
+					if(reportsMappingModel.getReportCode().equals("PRINT_QUOTATION_RECEIPT")
+							|| reportsMappingModel.getReportCode().equals("PRINT_PURCHASE_ORDER_RECEIPT")) {
 						
 					}else {
 					leftContent.addElement(new Phrase(dto.getText(), FontFactory.getFont(dto.getFontName(), dto.getSize())));
@@ -131,7 +132,8 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 				}
 
 				for(HeaderFooterContentDetailsDto dto:contentDto.getCenterContent()) {	
-					if(reportsMappingModel.getReportCode().equals("PRINT_QUOTATION_RECEIPT")) {
+					if(reportsMappingModel.getReportCode().equals("PRINT_QUOTATION_RECEIPT") 
+							|| reportsMappingModel.getReportCode().equals("PRINT_PURCHASE_ORDER_RECEIPT")) {
 						
 					}else {
 						centerContent.addElement(new Phrase(dto.getText(), FontFactory.getFont(dto.getFontName(), dto.getSize())));
@@ -140,7 +142,8 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 
 
 				for(HeaderFooterContentDetailsDto dto:contentDto.getRightContent()) {	
-					if(reportsMappingModel.getReportCode().equals("PRINT_QUOTATION_RECEIPT")) {
+					if(reportsMappingModel.getReportCode().equals("PRINT_QUOTATION_RECEIPT")
+							|| reportsMappingModel.getReportCode().equals("PRINT_PURCHASE_ORDER_RECEIPT")) {
 						
 					}else {
 						rightContent.addElement(new Phrase(dto.getText(), FontFactory.getFont(dto.getFontName(), dto.getSize())));
