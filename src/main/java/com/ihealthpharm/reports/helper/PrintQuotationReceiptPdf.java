@@ -57,10 +57,12 @@ public class PrintQuotationReceiptPdf extends ReportsPDFUtility{
 
 			if(!ObjectUtils.isEmpty(purchaseOrderDetails)) { 
 
-				for(String itemName :purchaseOrderDetails.keySet()) {	
+				for(String itemName :purchaseOrderDetails.keySet()) {
+					
+					addHeader(writer, document,model,responseList);
 					List<Map<String, Object>> purchaseOrderDetailsMap = purchaseOrderDetails.get(itemName);
 					createTable(document,model,purchaseOrderDetailsMap,itemName);
-
+					document.newPage();
 				}
 
 				//generateTotalTable(document,model,responseList);
