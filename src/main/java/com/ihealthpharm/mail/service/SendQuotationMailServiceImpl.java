@@ -45,6 +45,8 @@ public class SendQuotationMailServiceImpl implements SendQuotationMailService {
 			Template t = config.getTemplate("quotation-template.ftl");
 			String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, mailObj);
 			
+			System.out.println(mailObj);
+			
 			helper.setTo(mailObj.getToEmail());
 			helper.setText(html, true);
 			helper.setSubject(mailObj.getSubject());

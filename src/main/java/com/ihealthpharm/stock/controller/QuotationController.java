@@ -23,6 +23,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,28 +61,28 @@ import lombok.extern.slf4j.Slf4j;
 @CrossOrigin
 @Slf4j
 public class QuotationController {
-	
+
 	@Autowired
 	private QuotationHelper quotationHelper;
-	
+
 	@Autowired
 	private QuotationService quotationService;
-	
+
 	@Autowired
 	private ItemPropertyHelper propertyHelper;
-	
+
 	@Autowired
 	private SupplierHelper supplierHelper;
-	
+
 	@Autowired
 	private SendQuotationMailService sendQuotationMailService;
-	
+
 	@Autowired
-    private ServletContext servletContext;
-	
+	private ServletContext servletContext;
+
 	@Autowired
 	private PharmacyService pharmacyService;
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is to save the Quotation
@@ -92,7 +93,7 @@ public class QuotationController {
 		QuotationModel model = quotationService.saveQuotation(quotationModel);
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is to save the Request New Quotation
@@ -104,7 +105,7 @@ public class QuotationController {
 		QuotationModel model = quotationService.saveQuotation(quotationModel, "REQUEST NEW");
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is to save the Request Pending Quotation
@@ -116,7 +117,7 @@ public class QuotationController {
 		QuotationModel model = quotationService.saveQuotation(quotationModel, "REQUEST PENDING");
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is to save the Request Approved Quotation
@@ -128,7 +129,7 @@ public class QuotationController {
 		QuotationModel model = quotationService.saveQuotation(quotationModel, "REQUEST APPROVED");
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is to save the Request Rejected Quotation
@@ -140,7 +141,7 @@ public class QuotationController {
 		QuotationModel model = quotationService.saveQuotation(quotationModel, "REQUEST REJECTED");
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
 	}
-	
+
 	/*
 	 * @author Gunasekhar 
 	 * Service is to save the Received Pending Quotation
@@ -151,7 +152,7 @@ public class QuotationController {
 		QuotationModel model = quotationService.saveQuotation(quotationModel, "RECEIVED PENDING");
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is to save the Received Rejected Quotation
@@ -162,7 +163,7 @@ public class QuotationController {
 		QuotationModel model = quotationService.saveQuotation(quotationModel, "RECEIVED APPROVED");
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is to save the Received Rejected Quotation
@@ -173,7 +174,7 @@ public class QuotationController {
 		QuotationModel model = quotationService.saveQuotation(quotationModel, "RECEIVED REJECTED");
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is to update the Quotation
@@ -184,7 +185,7 @@ public class QuotationController {
 		QuotationModel model = quotationService.updateQuotation(quotationModel);
 		return new BaseDto<>(model, quotationHelper.getUpdateQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is to update the Quotations
@@ -195,7 +196,7 @@ public class QuotationController {
 		List<QuotationModel> models = quotationService.updateQuotation(quotationModels);
 		return new BaseDto<>(models, quotationHelper.getUpdateQuotationMessage(), OK).respond();
 	}
-		
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is to delete the Quotation
@@ -206,7 +207,7 @@ public class QuotationController {
 		quotationService.deleteQuotationById(quotationId);
 		return new BaseDto<>(quotationHelper.getDeleteQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is to delete all the Quotations
@@ -228,7 +229,7 @@ public class QuotationController {
 		List<QuotationModel> quotationModels = quotationService.findAllQuotation();
 		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is to get the Quotation
@@ -238,7 +239,7 @@ public class QuotationController {
 		QuotationModel result = quotationService.findQuotationById(quotationId);
 		return new BaseDto<>(result, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for Request New Quotation based on the pharmacyId
@@ -248,7 +249,7 @@ public class QuotationController {
 		List<QuotationModel> quotationModels = quotationService.getQuotationByPharmacyAndStatus(pharmacyId, "REQUEST NEW");
 		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for Request Pending Quotation based on the pharmacyId
@@ -258,7 +259,7 @@ public class QuotationController {
 		List<QuotationModel> quotationModels = quotationService.getQuotationByPharmacyAndStatus(pharmacyId, "REQUEST PENDING");
 		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for Request Approved Quotation based on the pharmacyId
@@ -269,7 +270,7 @@ public class QuotationController {
 		List<QuotationModel> quotationModels = quotationService.getQuotationByPharmacyAndStatus(pharmacyId, "REQUEST APPROVED");
 		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for Request Rejected Quotation based on the pharmacyId
@@ -279,7 +280,7 @@ public class QuotationController {
 		List<QuotationModel> quotationModels = quotationService.getQuotationByPharmacyAndStatus(pharmacyId, "REQUEST REJECTED");
 		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for Received Pending Quotation based on the pharmacyId
@@ -289,7 +290,7 @@ public class QuotationController {
 		List<QuotationModel> quotationModels = quotationService.getQuotationByPharmacyAndStatus(pharmacyId, "RECEIVED PENDING");
 		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for Received Approved Quotation based on the pharmacyId
@@ -299,7 +300,7 @@ public class QuotationController {
 		List<QuotationModel> quotationModels = quotationService.getQuotationByPharmacyAndStatus(pharmacyId, "RECEIVED APPROVED");
 		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for Received Rejected Quotation based on the pharmacyId
@@ -309,7 +310,7 @@ public class QuotationController {
 		List<QuotationModel> quotationModels = quotationService.getQuotationByPharmacyAndStatus(pharmacyId, "RECEIVED REJECTED");
 		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for Request Pending Quotation based on the pharmacyId
@@ -319,7 +320,7 @@ public class QuotationController {
 		List<QuotationModel> quotationModels = quotationService.getSentQuotationByPharmacy(pharmacyId);
 		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for Search Request New Quotation based on the pharmacyId and Quotation No or Description
@@ -330,7 +331,7 @@ public class QuotationController {
 		List<QuotationModel> quotationModels = quotationService.getQuotationByPharmacyAndStatus(pharmacyId, "REQUEST NEW", quotationNo, description);
 		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for Search Request Pending Quotation based on the pharmacyId and Quotation No or Description
@@ -341,7 +342,7 @@ public class QuotationController {
 		List<QuotationModel> quotationModels = quotationService.getQuotationByPharmacyAndStatus(pharmacyId, "REQUEST PENDING", quotationNo, description);
 		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for Search Request Approved Quotation based on the pharmacyId and Quotation No or Description
@@ -352,7 +353,7 @@ public class QuotationController {
 		List<QuotationModel> quotationModels = quotationService.getQuotationByPharmacyAndStatus(pharmacyId, "REQUEST APPROVED", quotationNo, description);
 		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for Search Request Rejected Quotation based on the pharmacyId and Quotation No or Description
@@ -363,7 +364,7 @@ public class QuotationController {
 		List<QuotationModel> quotationModels = quotationService.getQuotationByPharmacyAndStatus(pharmacyId, "REQUEST REJECTED", quotationNo, description);
 		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for Search Received Pending Quotation based on the pharmacyId and Quotation No or Description
@@ -374,7 +375,7 @@ public class QuotationController {
 		List<QuotationModel> quotationModels = quotationService.getQuotationByPharmacyAndStatus(pharmacyId, "RECEIVED PENDING", quotationNo, description);
 		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for Search Received Approved Quotation based on the pharmacyId and Quotation No or Description
@@ -385,7 +386,7 @@ public class QuotationController {
 		List<QuotationModel> quotationModels = quotationService.getQuotationByPharmacyAndStatus(pharmacyId, "RECEIVED APPROVED", quotationNo, description);
 		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for Search Received Rejected Quotation based on the pharmacyId and Quotation No or Description
@@ -396,7 +397,7 @@ public class QuotationController {
 		List<QuotationModel> quotationModels = quotationService.getQuotationByPharmacyAndStatus(pharmacyId, "RECEIVED REJECTED", quotationNo, description);
 		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for Request Pending Quotation based on the pharmacyId
@@ -407,7 +408,7 @@ public class QuotationController {
 		List<QuotationModel> quotationModels = quotationService.getSentQuotationByPharmacy(pharmacyId, quotationNo, description);
 		return new BaseDto<>(quotationModels, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is for automatic generation of Quotation Number 
@@ -420,7 +421,7 @@ public class QuotationController {
 		String purchaseNo = generateQuotNo.generateQuotNo(pharmacyNm, quotationCount);
 		return new BaseDto<>(purchaseNo, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is to get the items based on the Supplier
@@ -430,7 +431,7 @@ public class QuotationController {
 		List<ItemSupplierDTO> result = quotationService.getItemsBySupplier(supplierId);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is to get the items based on the Supplier
@@ -441,7 +442,7 @@ public class QuotationController {
 		List<ItemSupplierDTO> result = quotationService.getItemsBySupplier(supplierId, itemCode, itemName);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is to get the list of suppliers and items.
@@ -451,7 +452,7 @@ public class QuotationController {
 		List<SupplierModel> result = quotationService.getSupplierItemsByQuotationId(quotationId);
 		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is to get the list of suppliers and items.
@@ -461,7 +462,7 @@ public class QuotationController {
 		List<SupplierModel> result = quotationService.getSupplierItemsByQuotationIdAndSupplierId(quotationId, suppliersId);
 		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is to get the list of suppliers and items.
@@ -471,7 +472,7 @@ public class QuotationController {
 		List<SupplierModel> result = quotationService.getSuppliersByQuotationId(quotationId);
 		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is to get the list of suppliers and items.
@@ -481,7 +482,7 @@ public class QuotationController {
 		List<ItemSupplierDTO> result = quotationService.getItemsBySupplierQuotationId(supplierId, quotationId);
 		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is to get the list of suppliers and items.
@@ -491,7 +492,7 @@ public class QuotationController {
 		List<SupplierModel> result = quotationService.getSupplierByItem(itemsId);
 		return new BaseDto<>(result, supplierHelper.getRetrieveSupplierMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is to get the items based on the itemcode or itemname
@@ -502,8 +503,8 @@ public class QuotationController {
 		List<ItemSupplierDTO> result = quotationService.getItemsByItemCodeOrItemName(itemCode, itemName);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
-	
-	
+
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is to get the items based on the item code or item name or item description
@@ -514,7 +515,7 @@ public class QuotationController {
 		List<ItemSupplierDTO> result = quotationService.getItemsByItemCodeOrItemNameorItemDesc(itemCode, itemName, itemDescription,supplierId);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author tarun 
 	 * Service is to get the items based on the item code or item name or item description
@@ -525,7 +526,7 @@ public class QuotationController {
 		List<ItemSupplierDTO> result = quotationService.getItemsByItemCodeOrItemNameorItemDescForQuotation(itemCode, itemName, itemDescription);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is to get the items based on the item code or item name
@@ -535,32 +536,32 @@ public class QuotationController {
 		sendQuotationMailService.attachFileToMail();
 		return new BaseDto<>("", propertyHelper.getRetrieveMessage(), OK).respond();
 	}
-	
-	 // http://localhost:8080/download1?fileName=abc.zip
-    // Using ResponseEntity<InputStreamResource>
+
+	// http://localhost:8080/download1?fileName=abc.zip
+	// Using ResponseEntity<InputStreamResource>
 	@GetMapping("/download1")
-    public ResponseEntity<InputStreamResource> downloadFile1() throws IOException {
- 
-        MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(this.servletContext, "guna");
-        System.out.println("fileName: " + "guna");
-        System.out.println("mediaType: " + mediaType);
- 
-        File file = new File("d://guna.pdf");
-        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
- 
-        return ResponseEntity.ok()
-                // Content-Disposition
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getName())
-                // Content-Type
-                .contentType(mediaType)
-                // Contet-Length
-                .contentLength(file.length()) //
-                .body(resource);
-    }
-	
-	
+	public ResponseEntity<InputStreamResource> downloadFile1() throws IOException {
+
+		MediaType mediaType = MediaTypeUtils.getMediaTypeForFileName(this.servletContext, "guna");
+		System.out.println("fileName: " + "guna");
+		System.out.println("mediaType: " + mediaType);
+
+		File file = new File("d://guna.pdf");
+		InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+
+		return ResponseEntity.ok()
+				// Content-Disposition
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getName())
+				// Content-Type
+				.contentType(mediaType)
+				// Contet-Length
+				.contentLength(file.length()) //
+				.body(resource);
+	}
+
+
 	//   ---------------------Quotation Changes --------------------------------------------------- //
-	
+
 	/**
 	 * @author Tarun 
 	 * Service is to get the quotations based on qtn number
@@ -570,39 +571,39 @@ public class QuotationController {
 		List<QuotationModel> response=quotationService.getAllQuotationsBasedOnQtnNoForPendingSearch(quotationNo,"REQUEST NEW");
 		return new BaseDto<>(response,quotationHelper.getRetrieveQuotationMessage(),OK).respond();
 	}
-	
+
 	@GetMapping("/getPendingApprovalQuotations/basedOnQtnNo")
 	public ResponseEntity<BaseDto<List<QuotationModel>>> getAllPendingQuotationsForPendingQtnSearch(@RequestParam String quotationNo){
 		List<QuotationModel> response=quotationService.getAllQuotationsBasedOnQtnNoForPendingApprovalSearch(quotationNo,"REQUEST PENDING");
 		return new BaseDto<>(response,quotationHelper.getRetrieveQuotationMessage(),OK).respond();
 	}
-	
+
 	@GetMapping("/getApprovedQuotations/basedOnQtnNo")
 	public ResponseEntity<BaseDto<List<QuotationModel>>> getAllQuotationsForApprovedQtnSearch(@RequestParam String quotationNo){
 		List<QuotationModel> response=quotationService.getAllQuotationsForApprovedQtnSearchBasedOnQtnNo(quotationNo,"REQUEST APPROVED");
 		return new BaseDto<>(response,quotationHelper.getRetrieveQuotationMessage(),OK).respond();
 	}
-	
+
 	@GetMapping("/getRejectededQuotations/basedOnQtnNo")
 	public ResponseEntity<BaseDto<List<QuotationModel>>> getAllQuotationsForRejectedQtnSearch(@RequestParam String quotationNo){
 		List<QuotationModel> response=quotationService.getAllQuotationsForRejectedQtnSearchBasedOnQtnNo(quotationNo,"REQUEST REJECTED");
 		return new BaseDto<>(response,quotationHelper.getRetrieveQuotationMessage(),OK).respond();
 	}
-	
+
 
 	/**
 	 * @author Tarun 
 	 * Service is to get the quotations based on qtn number
 	 */
-	
+
 	//qtn popup search
 	@GetMapping("/getItems/byItemDescForQuotation")
 	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsByItemDescForQuotation(
-			 @RequestParam String itemDescription) {
+			@RequestParam String itemDescription) {
 		List<ItemSupplierDTO> result = quotationService.getItemsByItemDescForQuotation(itemDescription);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Tarun 
 	 * Service is to save the send by mail Quotation
@@ -612,63 +613,80 @@ public class QuotationController {
 	@PostMapping("/save/sendingByMailQuotation")
 	public ResponseEntity<BaseDto<QuotationModel>> saveSendByMailQuotation(@Valid @RequestBody QuotationModel quotationModel) throws IOException, TemplateException {
 		QuotationModel model = quotationService.saveSendByMailQuotation(quotationModel,"SENT EMAIL");
-		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+
 		PharmacyModel pharmacyDetails=pharmacyService.findPharmacyById(quotationModel.getPharmacyModel().getPharmacyId());
-		
+
 		if(Objects.nonNull(model)) {
 			List<SupplierModel> suppliersList=quotationService.getAllSuppliersByQuotationId(model.getQuotationId());
 			System.out.println(suppliersList.size());
-			
+
 			if(suppliersList.size()>0) {
 				for (SupplierModel supplierModel : suppliersList) {
-					
+
 					List<QuotationItemsModel> quotationItemsForEachSupplier=quotationService.getQuotationDataByIdAndSup(model.getQuotationId(),supplierModel.getSupplierId());
-					
+
 					SendQuotationMailModel mailModel=new SendQuotationMailModel();
-					mailModel.setFromEmail("quotation@docpharmkenya.com");
-					
-					mailModel.setSubject("A new quotation request from ihealthpharm");
+					mailModel.setFromEmail("contact@dailywalkins.ai");
+
+					mailModel.setSubject("Request for quotation"+" "+pharmacyDetails.getPharmacyName()+"("+dateFormat.format(new Date())+")");
 					mailModel.setQuotationNo(quotationModel.getQuotationNo());
-					
+
 					mailModel.setRequestedBy(quotationModel.getRequestedName());
 					mailModel.setQuotationNo(quotationModel.getQuotationNo());
 					mailModel.setDescription(quotationModel.getDescription());
-					
+
 					mailModel.setQuotItemModel(quotationItemsForEachSupplier);
-					
-					DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
-					
+
+
 					mailModel.setQuotationDate(dateFormat.format(quotationModel.getQuotationDt()));
-					
+
 					mailModel.setPharmacyName(pharmacyDetails.getPharmacyName());
 					mailModel.setPharmaAddress1(pharmacyDetails.getAddressLine1());
 					mailModel.setPharmaAddress2(pharmacyDetails.getAddressLine2());
 					mailModel.setPinNo(pharmacyDetails.getTaxId());
 					mailModel.setMobileOne(pharmacyDetails.getPhoneNumber());
 					mailModel.setWhatsAppNo(pharmacyDetails.getPhoneNumber());
-					
-					if(Objects.nonNull(supplierModel.getContactPersonEmailID())) {
+
+					if(Objects.nonNull(supplierModel.getEmailId())&&!ObjectUtils.isEmpty(supplierModel.getEmailId())) {
+						System.out.println("mail main");
+						mailModel.setToEmail(supplierModel.getEmailId());
+						sendQuotationMailService.sendQuotationEmail(mailModel);
+
+					}
+
+					if(Objects.nonNull(supplierModel.getContactPersonEmailID()) &&!ObjectUtils.isEmpty(supplierModel.getContactPersonEmailID())) {
+						System.out.println("mail one");
 						mailModel.setToEmail(supplierModel.getContactPersonEmailID());
-
-
+						sendQuotationMailService.sendQuotationEmail(mailModel);
 					}
-					if(Objects.nonNull(supplierModel.getContactPersonEmailID())) {
-						
-						SendQuotationMailModel secondMailModel=new SendQuotationMailModel();
-						secondMailModel=mailModel;
-						secondMailModel.setToEmail(supplierModel.getContactPersonEmailIdTwo());
-						sendQuotationMailService.sendQuotationEmail(secondMailModel);
+
+					if(Objects.nonNull(supplierModel.getContactPersonEmailIdTwo()) && !ObjectUtils.isEmpty(supplierModel.getContactPersonEmailIdTwo())) {
+						System.out.println("mail two");
+						mailModel.setToEmail(supplierModel.getContactPersonEmailIdTwo());
+						sendQuotationMailService.sendQuotationEmail(mailModel);
 					}
-					
-					
+
+					if(Objects.nonNull(supplierModel.getContactPersonEmailIdThree()) && !ObjectUtils.isEmpty(supplierModel.getContactPersonEmailIdThree())) {
+						System.out.println("mail three");
+						mailModel.setToEmail(supplierModel.getContactPersonEmailIdThree());
+						sendQuotationMailService.sendQuotationEmail(mailModel);
+					}
+
+					if(Objects.nonNull(supplierModel.getContactPersonEmailIdFour()) && !ObjectUtils.isEmpty(supplierModel.getContactPersonEmailIdFour())) {
+
+						mailModel.setToEmail(supplierModel.getContactPersonEmailIdFour());
+						sendQuotationMailService.sendQuotationEmail(mailModel);
+					}
+
 				}
 			}
 		}
-		
-		 
+
+
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author Tarun 
 	 * Service is to save the send by mail Quotation
@@ -678,7 +696,7 @@ public class QuotationController {
 		List<QuotationModel> model = quotationService.getSendByMailQuotation();
 		return new BaseDto<>(model, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author tarun 
 	 * Service is to save the Received Rejected Quotation
@@ -688,8 +706,8 @@ public class QuotationController {
 		QuotationModel model = quotationService.saveSupplierApprovedQuotation(quotationModel, "SENT EMAIL APPROVED");
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
 	}
-	
-	
+
+
 	/**
 	 * @author tarun 
 	 * Service is to save the Received Rejected Quotation
@@ -699,9 +717,9 @@ public class QuotationController {
 		QuotationModel model = quotationService.saveSupplierRejectedQuotation(quotationModel, "SENT EMAIL REJECTED");
 		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
 	}
-	
-	
-	
+
+
+
 	/**
 	 * @author tarun 
 	 * Service is to get the Received mail approved Quotation
@@ -711,7 +729,7 @@ public class QuotationController {
 		List<QuotationModel> model = quotationService.getSupplierApprovedQuotation();
 		return new BaseDto<>(model, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author tarun 
 	 * Service is to get the Received mail approved Quotation
@@ -721,7 +739,7 @@ public class QuotationController {
 		List<QuotationModel> model = quotationService.getSupplierRejectedQuotation();
 		return new BaseDto<>(model, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
+
 	// searches in supplier qtns
 	/**
 	 * @author tarun 
@@ -732,7 +750,7 @@ public class QuotationController {
 		List<QuotationModel> model = quotationService.getSendByMailQuotationForOutstanding(quotationNo);
 		return new BaseDto<>(model, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author tarun 
 	 * Service is to get the Supplier Quoations Approved quotations by qtuotation number
@@ -742,7 +760,7 @@ public class QuotationController {
 		List<QuotationModel> model = quotationService.getSupplierApprovedQuotationSearch(quotationNo);
 		return new BaseDto<>(model, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author tarun 
 	 * Service is to get the Supplier Quoations Rejected quotations by qtuotation number
@@ -752,8 +770,8 @@ public class QuotationController {
 		List<QuotationModel> model = quotationService.getSupplierRejectedQuotationForSearch(quotationNo);
 		return new BaseDto<>(model, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
-	
+
+
 	/**
 	 * @author tarun 
 	 * Service is to get the  Quoations for po
@@ -763,7 +781,7 @@ public class QuotationController {
 		List<QuotationDTO> model = quotationService.getLimitedQuotationsForPO(start,end);
 		return new BaseDto<>(model, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author tarun 
 	 * Service is to get the  Quoations for po
@@ -773,7 +791,7 @@ public class QuotationController {
 		QuotationModel model = quotationService.getQuotationDataForPO(quotationId);
 		return new BaseDto<>(model, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
+
 	/**
 	 * @author tarun 
 	 * Service is to get the  Quoations for po on Qtn search
@@ -783,30 +801,30 @@ public class QuotationController {
 		List<QuotationDTO> model = quotationService.getQuotationsForPOBySearch(quotationNo);
 		return new BaseDto<>(model, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
-	
+
+
 	@GetMapping("/getQuotationNoBySearch")
 	public ResponseEntity<BaseDto<List<String>>> getQtnNoBySearch(@RequestParam String searchTerm){
 		List<String> results=quotationService.findQuotationNoBySearch(searchTerm);
 		return new BaseDto<>(results,quotationHelper.getRetrieveQuotationMessage(),OK).respond();
 	}
-	
+
 	@GetMapping("/getAllQuotationNo")
 	public ResponseEntity<BaseDto<List<String>>> getAllQtnNo(){
 		List<String> results=quotationService.findAllQuotationNo();
 		return new BaseDto<>(results,quotationHelper.getRetrieveQuotationMessage(),OK).respond();
 	}
-	
+
 	@GetMapping("/getSuppliersInQtnBySearch")
 	public ResponseEntity<BaseDto<List<String>>> getSuppliersInQtnBySearch(@RequestParam String searchTerm){
 		List<String> results=quotationService.findSuppliersInQtnBySearch(searchTerm);
 		return new BaseDto<>(results,quotationHelper.getRetrieveQuotationMessage(),OK).respond();
 	}
-	
+
 	@GetMapping("/getQuotation/ForPO/bySupplierAndQuotation")
 	public ResponseEntity<BaseDto<List<QuotationItemsModel>>> getQuotationDataForPOBySupplier(@RequestParam Integer quotationId,@RequestParam Integer supplierId) {
 		List<QuotationItemsModel> model = quotationService.getQuotationDataForPOBySupplier(quotationId,supplierId);
 		return new BaseDto<>(model, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
 	}
-	
+
 }
