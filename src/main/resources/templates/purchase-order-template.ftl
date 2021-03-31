@@ -58,26 +58,30 @@
             width="700" cellspacing="0" cellpadding="10" align="center" bgcolor="#FFFFFF ">    
 
 <tr style="font-size:12px">
-
+<th >S.No</th>
 <th >Item Name</th>
 <th>Quantity</th>
-<th>Pack</th>
-<th>P.Price</th>
-<th>Discount</th>
-<th>Tax</th>
+<th>Bonus</th>
+<th>Unit Price</th>
+<th>Disc%</th>
+<th>Disc Amt</th>
+<th>Vat%</th>
+<th>Vat Amt</th>
 <th>Net Amt</th>
 </tr>
 
 <#list poItemModel as index>
    
 <tr>
-
-<td >${index.itemsModel.itemName}</td>
-<td >${index.quantity}</td>
-<td >${index.pack}</td>
+<td>${index?counter}</td>
+<td>${index.itemsModel.itemName}</td>
+<td>${index.quantity}</td>
+<td>${index.bonus}</td>
 <td>${index.packRate}</td>
 <td>${index.discountPercentage}</td>
+<td>${index.discount}</td>
 <td>${index.tax.categoryValue}</td>
+<td>${(index.quantity*index.packRate) * (1-index.discountPercentage/100)*(index.tax.categoryValue/100)}</td>
 <td>${index.netAmount}</td>
 </tr>
 </#list>
