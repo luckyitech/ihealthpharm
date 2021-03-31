@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ihealthpharm.masters.dto.ItemSupplierDTO;
 import com.ihealthpharm.masters.model.EmployeeModel;
@@ -210,6 +212,20 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 	@Query("select qi from quotation_items qi inner join quotation q on qi.quotation.quotationId=q.quotationId "
 			+ "where q.quotationId=:quotationId and qi.supplier.supplierId=:supplierId")
 	List<QuotationItemsModel> findQuotationDataByIdAndSupplier(Integer quotationId, Integer supplierId);
+
+	
+	@Query("select sp from quotation_items qi inner join quotation q "
+			+ "on qi.quotation.quotationId=q.quotationId inner join supplier sp on sp.supplierId=qi.supplier.supplierId "
+			+ "where q.quotationNo=:quotationNo "
+			+ "and (qi.supplierMailSent is null or qi.supplierMailSent='N') group by qi.supplier.supplierId")
+	List<SupplierModel> findSuppliersByQuotationNo(String quotationNo);
+
+	
+	  @Modifying
+		@Transactional
+		@Query("update quotation_items qi set qi.supplierMailSent ='Y' "
+				+ "where qi.quotation.quotationId=:quotationId and qi.supplier.supplierId=:supplierId")
+	void updateSupplierMailStatus(@Param("quotationId")Integer quotationId, @Param("supplierId")Integer supplierId);
 	
 	
 }

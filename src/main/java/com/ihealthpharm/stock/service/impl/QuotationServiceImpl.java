@@ -645,5 +645,18 @@ public class QuotationServiceImpl implements QuotationService {
 		return quotationRepository.findQuotationDataByIdAndSupplier(quotationId,supplierId);
 	}
 
+	@Override
+	public List<SupplierModel> findSuppliersInQtnByQuotationNo(String quotationNo) {
+		
+		return quotationRepository.findSuppliersByQuotationNo(quotationNo);
+	}
+
+	@Override
+	public void updateQuotationItemSupplierMailStatusToSent(Integer quotationId, Integer supplierId) {
+	
+		quotationRepository.updateSupplierMailStatus(quotationId,supplierId);
+		
+	}
+
 	
 }

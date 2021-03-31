@@ -116,6 +116,10 @@ public interface QuotationService {
 
 	List<QuotationItemsModel> getQuotationDataByIdAndSup(Integer quotationId, Integer supplierId);
 
+	List<SupplierModel> findSuppliersInQtnByQuotationNo(String quotationNo);
+
+	void updateQuotationItemSupplierMailStatusToSent(Integer quotationId,Integer supplierId);
+
 	
 	
 }

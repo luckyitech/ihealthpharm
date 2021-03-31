@@ -25,7 +25,6 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 @Entity(name = "quotation_items")
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class QuotationItemsModel extends AuditModel {
@@ -134,6 +133,9 @@ public class QuotationItemsModel extends AuditModel {
 	@Column(name = "UNIT_PURCHASE_PRICE")
 	private Double unitPurchasePrice;
 
+	
+	@Column(name="SUPPLIER_MAIL_SENT")
+	private Character supplierMailSent;
 	//@Column(name = "UNIT_SALE_PRICE")
 	//private Double unitSalePrice;
 

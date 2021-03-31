@@ -142,4 +142,10 @@ public class PurchaseOrderItemsServiceImpl implements PurchaseOrderItemsService 
 		return purchaseOrderItemsRepository.findAllSuppliersInPurchaseOrderPBPD();
 	}
 
+	@Override
+	public List<PurchaseOrderItemsModel> findPurchaseOrderItemsByPoId(Integer purchaseOrderId) {
+		
+		return purchaseOrderItemsRepository.findAllPoItemsListByPoId(purchaseOrderId);
+	}
+
 }

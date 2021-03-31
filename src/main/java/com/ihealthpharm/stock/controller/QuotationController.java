@@ -4,7 +4,12 @@ import static org.springframework.http.HttpStatus.OK;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,11 +19,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMultipart;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.math3.stat.descriptive.moment.SecondMoment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -32,16 +51,24 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.multipart.MultipartFile;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.commons.TimeDurationUtility;
+import com.ihealthpharm.mail.model.AttachmentModel;
 import com.ihealthpharm.mail.model.SendQuotationMailModel;
 import com.ihealthpharm.mail.service.impl.SendQuotationMailService;
 import com.ihealthpharm.masters.dto.ItemSupplierDTO;
 import com.ihealthpharm.masters.helper.ItemPropertyHelper;
 import com.ihealthpharm.masters.helper.SupplierHelper;
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.SupplierModel;
 import com.ihealthpharm.masters.service.PharmacyService;
+import com.ihealthpharm.reports.helper.ReportsExcelUtility;
+import com.ihealthpharm.reports.helper.ReportsHelper;
+import com.ihealthpharm.reports.helper.ReportsPDFUtility;
+import com.ihealthpharm.reports.service.ReportsService;
 import com.ihealthpharm.stock.dto.QuotationDTO;
 import com.ihealthpharm.stock.helper.MediaTypeUtils;
 import com.ihealthpharm.stock.helper.QuotationHelper;
@@ -82,6 +109,18 @@ public class QuotationController {
 
 	@Autowired
 	private PharmacyService pharmacyService;
+
+	@Autowired
+	private ReportsService resportsService;
+
+	@Autowired
+	private ReportsPDFUtility reportsPDFUtility;
+
+	@Autowired
+	private ReportsExcelUtility reportsExcelUtility;
+
+	@Autowired
+	private ReportsHelper reportsHelper;
 
 	/**
 	 * @author Gunasekhar 
@@ -613,78 +652,161 @@ public class QuotationController {
 	@PostMapping("/save/sendingByMailQuotation")
 	public ResponseEntity<BaseDto<QuotationModel>> saveSendByMailQuotation(@Valid @RequestBody QuotationModel quotationModel) throws IOException, TemplateException {
 		QuotationModel model = quotationService.saveSendByMailQuotation(quotationModel,"SENT EMAIL");
+
+
+		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
+	}
+
+
+	@PostMapping("/sent/sendingByMailQuotationExcel")
+	public ResponseEntity<BaseDto<QuotationModel>> sendExcelFileAsMailAttach(
+			@RequestParam Integer quotationId,
+			@RequestParam("excelFile") MultipartFile blobData,
+			@RequestParam String requestedName,
+			@RequestParam String supplierModelObj) throws IOException, TemplateException {
+
+		QuotationModel quotationModel=quotationService.findQuotationById(quotationId);
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
 
 		PharmacyModel pharmacyDetails=pharmacyService.findPharmacyById(quotationModel.getPharmacyModel().getPharmacyId());
 
-		if(Objects.nonNull(model)) {
-			List<SupplierModel> suppliersList=quotationService.getAllSuppliersByQuotationId(model.getQuotationId());
-			System.out.println(suppliersList.size());
+		SupplierModel supplierModel = new SupplierModel();
+		ObjectMapper objectMapper = new ObjectMapper();
 
-			if(suppliersList.size()>0) {
-				for (SupplierModel supplierModel : suppliersList) {
+		supplierModel = objectMapper.readValue(supplierModelObj, SupplierModel.class);
 
-					List<QuotationItemsModel> quotationItemsForEachSupplier=quotationService.getQuotationDataByIdAndSup(model.getQuotationId(),supplierModel.getSupplierId());
-
-					SendQuotationMailModel mailModel=new SendQuotationMailModel();
-					mailModel.setFromEmail("contact@dailywalkins.ai");
-
-					mailModel.setSubject("Request for quotation"+" "+pharmacyDetails.getPharmacyName()+"("+dateFormat.format(new Date())+")");
-					mailModel.setQuotationNo(quotationModel.getQuotationNo());
-
-					mailModel.setRequestedBy(quotationModel.getRequestedName());
-					mailModel.setQuotationNo(quotationModel.getQuotationNo());
-					mailModel.setDescription(quotationModel.getDescription());
-
-					mailModel.setQuotItemModel(quotationItemsForEachSupplier);
+		if(Objects.nonNull(quotationModel)) {
+			//			List<SupplierModel> suppliersList=quotationService.getAllSuppliersByQuotationId(quotationModel.getQuotationId());
+			//			System.out.println(suppliersList.size());
 
 
-					mailModel.setQuotationDate(dateFormat.format(quotationModel.getQuotationDt()));
+			if(Objects.nonNull(supplierModel)) {
 
-					mailModel.setPharmacyName(pharmacyDetails.getPharmacyName());
-					mailModel.setPharmaAddress1(pharmacyDetails.getAddressLine1());
-					mailModel.setPharmaAddress2(pharmacyDetails.getAddressLine2());
-					mailModel.setPinNo(pharmacyDetails.getTaxId());
-					mailModel.setMobileOne(pharmacyDetails.getPhoneNumber());
-					mailModel.setWhatsAppNo(pharmacyDetails.getPhoneNumber());
+				List<QuotationItemsModel> quotationItemsForEachSupplier=quotationService.getQuotationDataByIdAndSup(quotationModel.getQuotationId(),supplierModel.getSupplierId());
 
-					if(Objects.nonNull(supplierModel.getEmailId())&&!ObjectUtils.isEmpty(supplierModel.getEmailId())) {
-						System.out.println("mail main");
-						mailModel.setToEmail(supplierModel.getEmailId());
-						sendQuotationMailService.sendQuotationEmail(mailModel);
+				SendQuotationMailModel mailModel=new SendQuotationMailModel();
 
+				mailModel.setFromEmail("gutta.asharani@gmail.com");
+
+
+				mailModel.setSubject("Request for quotation"+" "+pharmacyDetails.getPharmacyName()+"("+dateFormat.format(new Date())+")");
+				mailModel.setQuotationNo(quotationModel.getQuotationNo());
+
+
+				mailModel.setRequestedBy(requestedName);
+				mailModel.setQuotationNo(quotationModel.getQuotationNo());
+				mailModel.setDescription(quotationModel.getDescription());
+
+				mailModel.setQuotItemModel(quotationItemsForEachSupplier);
+
+
+				mailModel.setQuotationDate(dateFormat.format(quotationModel.getQuotationDt()));
+
+				mailModel.setPharmacyName(pharmacyDetails.getPharmacyName());
+				mailModel.setPharmaAddress1(pharmacyDetails.getAddressLine1());
+				mailModel.setPharmaAddress2(pharmacyDetails.getAddressLine2());
+				mailModel.setPinNo(pharmacyDetails.getTaxId());
+				mailModel.setMobileOne(pharmacyDetails.getPhoneNumber());
+				mailModel.setWhatsAppNo(pharmacyDetails.getPhoneNumber());
+
+
+				System.out.println("file name"+"Request for quotation" );
+				String FilePath = blobData.getOriginalFilename();
+				File f= new File(FilePath);
+
+
+				AttachmentModel mail = new AttachmentModel();
+
+				try {
+
+					byte[] b=blobData.getBytes();
+					OutputStream os= new FileOutputStream(f);
+					os.write(b);
+					os.close();
+					System.out.println("OutputStream"+os);
+					System.out.println("File"+f);
+					List < Object > attachments = new ArrayList < Object > ();
+					attachments.add(f);
+					mail.setAttachments(attachments);
+					System.out.println(attachments);
+
+
+				}  catch(Exception e) {
+					e.printStackTrace();
+				}
+
+
+
+				if(Objects.nonNull(supplierModel.getEmailId())&&!ObjectUtils.isEmpty(supplierModel.getEmailId())) {
+					System.out.println("mail main");
+					mailModel.setToEmail(supplierModel.getEmailId());
+					System.out.println(mailModel.getQuotItemModel());
+
+					try {
+
+						sendQuotationMailService.sendQuotationEmail(mailModel,mail);
+
+
+					} catch (MessagingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 
-					if(Objects.nonNull(supplierModel.getContactPersonEmailID()) &&!ObjectUtils.isEmpty(supplierModel.getContactPersonEmailID())) {
-						System.out.println("mail one");
-						mailModel.setToEmail(supplierModel.getContactPersonEmailID());
-						sendQuotationMailService.sendQuotationEmail(mailModel);
-					}
-
-					if(Objects.nonNull(supplierModel.getContactPersonEmailIdTwo()) && !ObjectUtils.isEmpty(supplierModel.getContactPersonEmailIdTwo())) {
-						System.out.println("mail two");
-						mailModel.setToEmail(supplierModel.getContactPersonEmailIdTwo());
-						sendQuotationMailService.sendQuotationEmail(mailModel);
-					}
-
-					if(Objects.nonNull(supplierModel.getContactPersonEmailIdThree()) && !ObjectUtils.isEmpty(supplierModel.getContactPersonEmailIdThree())) {
-						System.out.println("mail three");
-						mailModel.setToEmail(supplierModel.getContactPersonEmailIdThree());
-						sendQuotationMailService.sendQuotationEmail(mailModel);
-					}
-
-					if(Objects.nonNull(supplierModel.getContactPersonEmailIdFour()) && !ObjectUtils.isEmpty(supplierModel.getContactPersonEmailIdFour())) {
-
-						mailModel.setToEmail(supplierModel.getContactPersonEmailIdFour());
-						sendQuotationMailService.sendQuotationEmail(mailModel);
-					}
 
 				}
+
+				if(Objects.nonNull(supplierModel.getContactPersonEmailID()) &&!ObjectUtils.isEmpty(supplierModel.getContactPersonEmailID())) {
+					System.out.println("mail one");
+					mailModel.setToEmail(supplierModel.getContactPersonEmailID());
+					try {
+						sendQuotationMailService.sendQuotationEmail(mailModel,mail);
+					} catch (MessagingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				if(Objects.nonNull(supplierModel.getContactPersonEmailIdTwo()) && !ObjectUtils.isEmpty(supplierModel.getContactPersonEmailIdTwo())) {
+					System.out.println("mail two");
+					mailModel.setToEmail(supplierModel.getContactPersonEmailIdTwo());
+					try {
+						sendQuotationMailService.sendQuotationEmail(mailModel,mail);
+					} catch (MessagingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				if(Objects.nonNull(supplierModel.getContactPersonEmailIdThree()) && !ObjectUtils.isEmpty(supplierModel.getContactPersonEmailIdThree())) {
+					System.out.println("mail three");
+					mailModel.setToEmail(supplierModel.getContactPersonEmailIdThree());
+					try {
+						sendQuotationMailService.sendQuotationEmail(mailModel,mail);
+					} catch (MessagingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				if(Objects.nonNull(supplierModel.getContactPersonEmailIdFour()) && !ObjectUtils.isEmpty(supplierModel.getContactPersonEmailIdFour())) {
+
+					mailModel.setToEmail(supplierModel.getContactPersonEmailIdFour());
+					try {
+						sendQuotationMailService.sendQuotationEmail(mailModel,mail);
+					} catch (MessagingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+
+
 			}
 		}
 
+		quotationService.updateQuotationItemSupplierMailStatusToSent(quotationModel.getQuotationId(),supplierModel.getSupplierId());
+		return new BaseDto<>(quotationModel, "Mail sent successfully", OK).respond();
 
-		return new BaseDto<>(model, quotationHelper.getSaveQuotationMessage(), OK).respond();
 	}
 
 	/**
@@ -825,6 +947,13 @@ public class QuotationController {
 	public ResponseEntity<BaseDto<List<QuotationItemsModel>>> getQuotationDataForPOBySupplier(@RequestParam Integer quotationId,@RequestParam Integer supplierId) {
 		List<QuotationItemsModel> model = quotationService.getQuotationDataForPOBySupplier(quotationId,supplierId);
 		return new BaseDto<>(model, quotationHelper.getRetrieveQuotationMessage(), OK).respond();
+	}
+
+
+	@GetMapping("/getSuppliersList/basedOnQtnNo")
+	public ResponseEntity<BaseDto<List<SupplierModel>>> getSuppliersInQtnByQuotationNo(@RequestParam String quotationNo){
+		List<SupplierModel> results=quotationService.findSuppliersInQtnByQuotationNo(quotationNo);
+		return new BaseDto<>(results,quotationHelper.getRetrieveQuotationMessage(),OK).respond();
 	}
 
 }

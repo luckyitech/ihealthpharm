@@ -1,24 +1,21 @@
 package com.ihealthpharm.mail.model;
 
-import java.util.Date;
 import java.util.List;
 
-import javax.mail.internet.InternetAddress;
-
-import com.ihealthpharm.masters.model.ItemsModel;
+import com.ihealthpharm.stock.model.PurchaseOrderItemsModel;
 import com.ihealthpharm.stock.model.QuotationItemsModel;
 
 import lombok.Data;
 
 @Data
-public class SendQuotationMailModel {
+public class SendPurchaseOrderModel {
 
 	private String name;
 	private String toEmail;
 	private String fromEmail;
 	private String subject;
-    public String quotationNo;
-    public String quotationDate;
+    public String purchaseOrderNo;
+    public String poDate;
     public String pharmacyName;
     public String pharmaAddress1;
     public String pharmaAddress2;
@@ -27,17 +24,8 @@ public class SendQuotationMailModel {
     public String mobileTwo;
     public String whatsAppNo;
   
-    public String requestedBy;
+    public String createdBy;
     public String description;
    
-    public List<QuotationItemsModel> quotItemModel;
-    
-    
-    
-    
-    
-    
-    
-    
-	
+    public List<PurchaseOrderItemsModel> poItemModel;
 }
