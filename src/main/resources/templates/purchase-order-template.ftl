@@ -58,7 +58,7 @@
             width="700" cellspacing="0" cellpadding="10" align="center" bgcolor="#FFFFFF ">    
 
 <tr style="font-size:12px">
-
+<th >S.No</th>
 <th >Item Name</th>
 <th>Quantity</th>
 <th>Bonus</th>
@@ -73,10 +73,10 @@
 <#list poItemModel as index>
    
 <tr>
-
-<td >${index.itemsModel.itemName}</td>
-<td >${index.quantity}</td>
-<td >${index.bonus}</td>
+<td>${index?counter}</td>
+<td>${index.itemsModel.itemName}</td>
+<td>${index.quantity}</td>
+<td>${index.bonus}</td>
 <td>${index.packRate}</td>
 <td>${index.discountPercentage}</td>
 <td>${index.discount}</td>

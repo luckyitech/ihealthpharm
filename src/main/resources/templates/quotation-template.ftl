@@ -59,7 +59,7 @@
 
 <tr style="font-size:12px">
 
-
+<th >S.No</th>
 <th >Item Name</th>
 <th>Quantity</th>
 <th>Bonus</th>
@@ -74,7 +74,7 @@
 <#list quotItemModel as index>
    
 <tr>
-
+<td>${index?counter}</td>
 <td >${index.item.itemName}</td>
 <td >${index.quantity}</td>
 <td >0</td>
