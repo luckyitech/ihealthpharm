@@ -59,11 +59,16 @@
 
 <tr style="font-size:12px">
 
+
 <th >Item Name</th>
 <th>Quantity</th>
-<th>Formulation</th>
-<th>Manufacturer</th>
-<th>Description</th>
+<th>Bonus</th>
+<th>Unit Price</th>
+<th>Disc%</th>
+<th>Disc Amt</th>
+<th>Vat%</th>
+<th>Vat Amt</th>
+<th>Total Amt</th>
 </tr>
 
 <#list quotItemModel as index>
@@ -72,9 +77,14 @@
 
 <td >${index.item.itemName}</td>
 <td >${index.quantity}</td>
-<td >${index.item.itemForm.form}</td>
-<td >${index.item.manufacturer.name}</td>
-<td>${index.item.itemDescription}</td>
+<td >0</td>
+<td >${index.unitPurchasePrice}</td>
+<td>${index.discountPercentage}</td>
+<td>${index.quantity*index.unitPurchasePrice*index.discountPercentage/100}</td>
+<td>${index.tax.categoryValue}</td>
+<td >${(index.quantity*index.unitPurchasePrice)*(1-index.discountPercentage/100)*(index.tax.categoryValue/100)}</td>
+<td >${index.quantity*index.unitPurchasePrice*(1-index.discountPercentage/100)*(1+index.tax.categoryValue/100)}</td>
+
 </tr>
 </#list>
 </table>
