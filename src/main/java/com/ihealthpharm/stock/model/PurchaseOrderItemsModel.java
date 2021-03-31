@@ -22,7 +22,6 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 @Entity(name = "purchase_order_items")
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class PurchaseOrderItemsModel extends AuditModel {

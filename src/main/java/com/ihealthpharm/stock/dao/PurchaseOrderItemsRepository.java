@@ -38,5 +38,10 @@ public interface PurchaseOrderItemsRepository extends JpaRepository<PurchaseOrde
 			+ "and poi.itemsModel.itemId=i.itemId "
 			+ "and i.manufacturer.manufacturerId=m.manufacturerId order by sp.name")
 	List<String> findAllSuppliersInPurchaseOrderPBPD();
+
+	
+	@Query("Select poi from purchase_order_items poi inner join purchase_order po on "
+			+ "poi.purchaseOrderModel.purchaseOrderId=po.purchaseOrderId where po.purchaseOrderId=:purchaseOrderId")
+	List<PurchaseOrderItemsModel> findAllPoItemsListByPoId(@Param("purchaseOrderId")Integer purchaseOrderId);
 	
 }

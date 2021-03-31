@@ -633,5 +633,30 @@ public class QuotationServiceImpl implements QuotationService {
 		return quotationRepository.getQuotationDataByIdAndSupplier(quotationId,supplierId);
 	}
 
+	@Override
+	public List<SupplierModel> getAllSuppliersByQuotationId(Integer quotationId) {
+		
+		return quotationRepository.getSuppliersByQuotationId(quotationId);
+	}
 
+	@Override
+	public List<QuotationItemsModel> getQuotationDataByIdAndSup(Integer quotationId, Integer supplierId) {
+		
+		return quotationRepository.findQuotationDataByIdAndSupplier(quotationId,supplierId);
+	}
+
+	@Override
+	public List<SupplierModel> findSuppliersInQtnByQuotationNo(String quotationNo) {
+		
+		return quotationRepository.findSuppliersByQuotationNo(quotationNo);
+	}
+
+	@Override
+	public void updateQuotationItemSupplierMailStatusToSent(Integer quotationId, Integer supplierId) {
+	
+		quotationRepository.updateSupplierMailStatus(quotationId,supplierId);
+		
+	}
+
+	
 }

@@ -2,13 +2,23 @@ package com.ihealthpharm.stock.controller;
 
 import static org.springframework.http.HttpStatus.OK;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,19 +27,34 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.mail.model.AttachmentModel;
+import com.ihealthpharm.mail.model.SendPurchaseOrderModel;
+import com.ihealthpharm.mail.model.SendQuotationMailModel;
+import com.ihealthpharm.mail.service.impl.SendQuotationMailService;
 import com.ihealthpharm.masters.helper.SupplierHelper;
 import com.ihealthpharm.masters.dto.ItemSupplierDTO;
 import com.ihealthpharm.masters.helper.ItemPropertyHelper;
 import com.ihealthpharm.masters.model.SupplierModel;
+import com.ihealthpharm.masters.service.EmployeeService;
+import com.ihealthpharm.masters.service.PharmacyService;
+import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.ItemsModel;
+import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.stock.helper.PurchaseOrderHelper;
+import com.ihealthpharm.stock.model.PurchaseOrderItemsModel;
 import com.ihealthpharm.stock.model.PurchaseOrderModel;
+import com.ihealthpharm.stock.model.QuotationItemsModel;
+import com.ihealthpharm.stock.model.QuotationModel;
+import com.ihealthpharm.stock.service.PurchaseOrderItemsService;
 import com.ihealthpharm.stock.service.PurchaseOrderService;
 import com.ihealthpharm.stock.service.QuotationService;
 import com.ihealthpharm.stock.utils.GenerateGRNNo;
 
+import freemarker.template.TemplateException;
 import lombok.extern.slf4j.Slf4j;
 
 @CrossOrigin
@@ -51,7 +76,19 @@ public class PurchaseOrderController {
 
 	@Autowired
 	private QuotationService quotationService;
+	
+	@Autowired
+	private SendQuotationMailService sendQuotationMailService;
 
+	@Autowired
+	private PharmacyService pharmacyService;
+	
+	@Autowired
+	PurchaseOrderItemsService purchaseOrderItemsService;
+	
+	@Autowired
+	private EmployeeService employeeService;
+	
 	@PostMapping("/save/purchaseorder")
 	public ResponseEntity<BaseDto<PurchaseOrderModel>> insertPurchaseOrderData(@Valid @RequestBody PurchaseOrderModel purchaseorderModel) {
 		PurchaseOrderModel purchaseorderModelRes = purchaseorderService.savePurchaseOrderData(purchaseorderModel);
@@ -463,4 +500,152 @@ public class PurchaseOrderController {
 		List<PurchaseOrderModel> purchaseOrderModels = purchaseorderService.getPurchaseOrderByPharmacyAndStatusForPending(pharmacyId, start, end, "PENDING");
 		return new BaseDto<>(purchaseOrderModels, purchaseorderHelper.getRetrievePurchaseOrderMessage(), OK).respond();
 	}
+	
+	
+	
+	@PostMapping("/sent/sendingByMailPurchaseOrderExcel")
+	public ResponseEntity<BaseDto<PurchaseOrderModel>> sendExcelFileAsMailAttachForPO(
+			@RequestParam Integer purchaseOrderId,
+			@RequestParam("excelFile") MultipartFile file,
+			@RequestParam String supplierModelObj) throws IOException, TemplateException {
+
+		PurchaseOrderModel purchaseOrderModel=purchaseorderService.findPurchaseOrderById(purchaseOrderId);
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+
+		PharmacyModel pharmacyDetails=pharmacyService.findPharmacyById(purchaseOrderModel.getPharmacyModel().getPharmacyId());
+
+		SupplierModel supplierModel = new SupplierModel();
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		supplierModel = objectMapper.readValue(supplierModelObj, SupplierModel.class);
+
+		if(Objects.nonNull(purchaseOrderModel)) {
+			
+		List<PurchaseOrderItemsModel> poItemsList=purchaseOrderItemsService.findPurchaseOrderItemsByPoId(purchaseOrderModel.getPurchaseOrderId());
+			if(Objects.nonNull(supplierModel)) {
+
+				EmployeeModel emp=employeeService.findEmployeeById(Integer.parseInt(purchaseOrderModel.getCreatedUser()));
+				SendPurchaseOrderModel mailModel=new SendPurchaseOrderModel();
+
+				mailModel.setFromEmail("gutta.asharani@gmail.com");
+
+
+				mailModel.setSubject("Request for Purchase Order"+" "+pharmacyDetails.getPharmacyName()+"("+dateFormat.format(new Date())+")");
+				
+				mailModel.setCreatedBy(emp.getFirstName()+" "+emp.getLastName());
+				mailModel.setPurchaseOrderNo(purchaseOrderModel.getPurchaseOrderNo());
+				mailModel.setDescription(purchaseOrderModel.getRemarks());
+
+				mailModel.setPoItemModel(poItemsList);
+
+
+				mailModel.setPoDate(purchaseOrderModel.getPurchaseOrderDate().toString());
+
+				mailModel.setPharmacyName(pharmacyDetails.getPharmacyName());
+				mailModel.setPharmaAddress1(pharmacyDetails.getAddressLine1());
+				mailModel.setPharmaAddress2(pharmacyDetails.getAddressLine2());
+				mailModel.setPinNo(pharmacyDetails.getTaxId());
+				mailModel.setMobileOne(pharmacyDetails.getPhoneNumber());
+				mailModel.setWhatsAppNo(pharmacyDetails.getPhoneNumber());
+
+
+				System.out.println("file name"+"Request for po" );
+				String FilePath = file.getOriginalFilename();
+				File f= new File(FilePath);
+
+
+				AttachmentModel mail = new AttachmentModel();
+
+				try {
+
+					byte[] b=file.getBytes();
+					OutputStream os= new FileOutputStream(f);
+					os.write(b);
+					os.close();
+					System.out.println("OutputStream"+os);
+					System.out.println("File"+f);
+					List < Object > attachments = new ArrayList < Object > ();
+					attachments.add(f);
+					mail.setAttachments(attachments);
+					System.out.println(attachments);
+
+
+				}  catch(Exception e) {
+					e.printStackTrace();
+				}
+
+
+
+				if(Objects.nonNull(supplierModel.getEmailId())&&!ObjectUtils.isEmpty(supplierModel.getEmailId())) {
+					System.out.println("mail main");
+					mailModel.setToEmail(supplierModel.getEmailId());
+					System.out.println(mailModel.getPoItemModel());
+
+					try {
+
+						sendQuotationMailService.sendPurchaseOrderEmail(mailModel,mail);
+
+
+					} catch (MessagingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+
+				}
+
+				if(Objects.nonNull(supplierModel.getContactPersonEmailID()) &&!ObjectUtils.isEmpty(supplierModel.getContactPersonEmailID())) {
+					System.out.println("mail one");
+					mailModel.setToEmail(supplierModel.getContactPersonEmailID());
+					try {
+						sendQuotationMailService.sendPurchaseOrderEmail(mailModel,mail);
+					} catch (MessagingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				if(Objects.nonNull(supplierModel.getContactPersonEmailIdTwo()) && !ObjectUtils.isEmpty(supplierModel.getContactPersonEmailIdTwo())) {
+					System.out.println("mail two");
+					mailModel.setToEmail(supplierModel.getContactPersonEmailIdTwo());
+					try {
+						sendQuotationMailService.sendPurchaseOrderEmail(mailModel,mail);
+					} catch (MessagingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				if(Objects.nonNull(supplierModel.getContactPersonEmailIdThree()) && !ObjectUtils.isEmpty(supplierModel.getContactPersonEmailIdThree())) {
+					System.out.println("mail three");
+					mailModel.setToEmail(supplierModel.getContactPersonEmailIdThree());
+					try {
+						sendQuotationMailService.sendPurchaseOrderEmail(mailModel,mail);
+					} catch (MessagingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				if(Objects.nonNull(supplierModel.getContactPersonEmailIdFour()) && !ObjectUtils.isEmpty(supplierModel.getContactPersonEmailIdFour())) {
+
+					mailModel.setToEmail(supplierModel.getContactPersonEmailIdFour());
+					try {
+						sendQuotationMailService.sendPurchaseOrderEmail(mailModel,mail);
+					} catch (MessagingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+
+
+			}
+		}
+
+		
+		return new BaseDto<>(purchaseOrderModel, "Mail sent successfully", OK).respond();
+
+	}
+
 }

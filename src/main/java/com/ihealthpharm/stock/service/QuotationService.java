@@ -111,4 +111,15 @@ public interface QuotationService {
 	List<String> findAllQuotationNo();
 
 	List<QuotationItemsModel>  getQuotationDataForPOBySupplier(Integer quotationId,Integer supplierId);
+
+	List<SupplierModel> getAllSuppliersByQuotationId(Integer quotationId);
+
+	List<QuotationItemsModel> getQuotationDataByIdAndSup(Integer quotationId, Integer supplierId);
+
+	List<SupplierModel> findSuppliersInQtnByQuotationNo(String quotationNo);
+
+	void updateQuotationItemSupplierMailStatusToSent(Integer quotationId,Integer supplierId);
+
+	
+	
 }

@@ -28,4 +28,6 @@ public interface PurchaseOrderItemsService {
 	
 	List<String> findAllSuppliersByPurchaseOrderItem();
 
+	List<PurchaseOrderItemsModel> findPurchaseOrderItemsByPoId(Integer purchaseOrderId);
+
 }
