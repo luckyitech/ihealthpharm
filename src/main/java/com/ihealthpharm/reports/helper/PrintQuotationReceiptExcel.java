@@ -1,6 +1,7 @@
 package com.ihealthpharm.reports.helper;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,12 +12,14 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.util.CellReference;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
@@ -43,6 +46,9 @@ public class PrintQuotationReceiptExcel extends ReportsExcelUtility{
 
 		SXSSFWorkbook workbook = new SXSSFWorkbook(100);
 		SXSSFSheet sheet = workbook.createSheet("Report Data");
+
+		FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+
 
 		if (ObjectUtils.isEmpty(responseList)) {
 			Row headerRow = sheet.createRow(0);
@@ -85,8 +91,8 @@ public class PrintQuotationReceiptExcel extends ReportsExcelUtility{
 		headerStyle.setTopBorderColor(IndexedColors.BLACK.getIndex());  
 		headerStyle.setBorderLeft(BorderStyle.THIN);  
 		headerStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());  
-		
-		
+
+
 		CellStyle subHeaderStyle = workbook.createCellStyle();
 		subHeaderStyle.setFont(font);
 		subHeaderStyle.setFillForegroundColor(IndexedColors.WHITE.getIndex());
@@ -94,14 +100,14 @@ public class PrintQuotationReceiptExcel extends ReportsExcelUtility{
 		subHeaderStyle.setVerticalAlignment(VerticalAlignment.TOP);
 		subHeaderStyle.setAlignment(HorizontalAlignment.CENTER);
 		subHeaderStyle.setBorderBottom(BorderStyle.THIN);  
-	
+
 		subHeaderStyle.setBorderRight(BorderStyle.THIN);  
-	
+
 		subHeaderStyle.setBorderTop(BorderStyle.THIN);  
-		
+
 		subHeaderStyle.setBorderLeft(BorderStyle.THIN);  
-		
-		
+
+
 
 
 		Map<String, List<Map<String, Object>>> QuotationDetailsMap = responseList.stream()
@@ -133,8 +139,8 @@ public class PrintQuotationReceiptExcel extends ReportsExcelUtility{
 
 
 		int headRow=rowNum+1;
-		rowNum = rowNum + 9;
-		
+		rowNum = rowNum + 12;
+
 
 		// populate Date
 		if (!ObjectUtils.isEmpty(quotationDetails)) {
@@ -152,7 +158,7 @@ public class PrintQuotationReceiptExcel extends ReportsExcelUtility{
 			headCell.setCellStyle(subHeaderStyle);
 			headCell=displayRow.createCell(1);
 			headCell.setCellValue(String.valueOf(value));
-			
+
 			//sheet.addMergedRegion(new CellRangeAddress(8,8,0,5));
 
 
@@ -162,7 +168,7 @@ public class PrintQuotationReceiptExcel extends ReportsExcelUtility{
 			headCell1.setCellStyle(subHeaderStyle);
 			headCell1=displayRow1.createCell(1);
 			headCell1.setCellValue(String.valueOf(value));
-			
+
 
 			Cell headCell2 = displayRow2.createCell(0);
 			value = quotationDetails.get(0).containsKey("ADDRESS") ? quotationDetails.get(0).get("ADDRESS") : "";
@@ -170,7 +176,7 @@ public class PrintQuotationReceiptExcel extends ReportsExcelUtility{
 			headCell2.setCellStyle(subHeaderStyle);
 			headCell2=displayRow2.createCell(1);
 			headCell2.setCellValue(String.valueOf(value));
-			
+
 
 			Cell headCell3 = displayRow3.createCell(0);
 			value = quotationDetails.get(0).containsKey("PHONE_NBR") ? quotationDetails.get(0).get("PHONE_NBR") : "";
@@ -178,8 +184,16 @@ public class PrintQuotationReceiptExcel extends ReportsExcelUtility{
 			headCell3.setCellStyle(subHeaderStyle);
 			headCell3=displayRow3.createCell(1);
 			headCell3.setCellValue(String.valueOf(value));
-			
-			
+
+
+			int supQuotRowNum=headRow+1;
+			Row supQuotNo = sheet.createRow(supQuotRowNum);
+			Cell quotCell = supQuotNo.createCell(1);
+			quotCell.setCellValue("Enter Supplier Quotation No :");
+			quotCell.setCellStyle(subHeaderStyle);
+			//sheet.addMergedRegion(new CellRangeAddress(supQuotRowNum-1, supQuotRowNum, 0,10));
+
+			int newRowNum=supQuotRowNum+2;
 
 			Row headerRow = sheet.createRow(rowNum++);
 			Cell cell = headerRow.createCell(0);
@@ -223,20 +237,12 @@ public class PrintQuotationReceiptExcel extends ReportsExcelUtility{
 			cell.setCellStyle(headerStyle);	
 
 
-			int supQuotRowNum=rowNum+2;
-			Row supQuotNo = sheet.createRow(supQuotRowNum);
-			Cell quotCell = supQuotNo.createCell(1);
-			quotCell.setCellValue("Enter Supplier Quotation No :");
-			quotCell.setCellStyle(subHeaderStyle);
-			//sheet.addMergedRegion(new CellRangeAddress(supQuotRowNum-1, supQuotRowNum, 0,10));
-
-			int newRowNum=supQuotRowNum+2;
 			for (Map<String, Object> rowData : quotationDetails) {
 
 
 
 
-				Row dataRow = sheet.createRow(newRowNum++);
+				Row dataRow = sheet.createRow(rowNum++);
 				value =  String.valueOf(quotationDetails.indexOf(rowData) + 1);
 				//sheet.autoSizeColumn(0);
 				cell = dataRow.createCell(0);
@@ -263,7 +269,7 @@ public class PrintQuotationReceiptExcel extends ReportsExcelUtility{
 				}
 				cell.setCellStyle(borderStyle);
 
-
+				int quantityCol=sheet.getLastRowNum()+1;
 
 				value = rowData.containsKey("BONUS") ? rowData.get("BONUS") : "";
 				//sheet.autoSizeColumn(5);
@@ -288,6 +294,7 @@ public class PrintQuotationReceiptExcel extends ReportsExcelUtility{
 				}
 				cell.setCellStyle(borderStyle);
 
+				int unitPriceCol=sheet.getLastRowNum()+1;
 
 				value = rowData.containsKey("DISCOUNT_PERCENTAGE") ? rowData.get("DISCOUNT_PERCENTAGE") : "";
 				//sheet.autoSizeColumn(6);
@@ -298,6 +305,9 @@ public class PrintQuotationReceiptExcel extends ReportsExcelUtility{
 				}else {	
 					cell.setCellValue(String.valueOf(value));
 				}
+
+
+				int discPerCol=sheet.getLastRowNum()+1;
 				cell.setCellStyle(borderStyle);
 
 
@@ -306,12 +316,18 @@ public class PrintQuotationReceiptExcel extends ReportsExcelUtility{
 				value = rowData.containsKey("DISCOUNT_AMT") ? rowData.get("DISCOUNT_AMT") : "";
 				//sheet.autoSizeColumn(9);
 				cell = dataRow.createCell(6);
-				if(NumberUtils.isNumber(String.valueOf(value))) {
+				/*if(NumberUtils.isNumber(String.valueOf(value))) {
 					cell.setCellType(CellType.NUMERIC);		
 					cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				}else {	
 					cell.setCellValue(String.valueOf(value));
-				}
+				}*/
+
+				int discAmtCol=sheet.getLastRowNum()+1;
+				String discAmtFor="C"+quantityCol+ "*E"+unitPriceCol+"*(F"+discPerCol+"/100)";
+
+				cell.setCellFormula(discAmtFor);
+
 				cell.setCellStyle(borderStyle);
 
 				value = rowData.containsKey("VAT_PER") ? rowData.get("VAT_PER") : "";
@@ -323,6 +339,9 @@ public class PrintQuotationReceiptExcel extends ReportsExcelUtility{
 				}else {	
 					cell.setCellValue(String.valueOf(value));
 				}
+
+				int vatPerCol=sheet.getLastRowNum()+1;
+
 				cell.setCellStyle(borderStyle);
 
 				value = rowData.containsKey("VAT_AMT") ? rowData.get("VAT_AMT") : "";
@@ -334,8 +353,16 @@ public class PrintQuotationReceiptExcel extends ReportsExcelUtility{
 				}else {	
 					cell.setCellValue(String.valueOf(value));
 				}
+				
+				int vatAmtCol =sheet.getLastRowNum()+1;
+				
+				String vatAmtFor="C"+quantityCol+ "*E"+unitPriceCol+"*(H"+vatPerCol+"/100)";
+
+				cell.setCellFormula(vatAmtFor);
 				cell.setCellStyle(borderStyle);
 
+				
+				
 				value = rowData.containsKey("TOTAL_VALUE") ? rowData.get("TOTAL_VALUE") : "";
 				//sheet.autoSizeColumn(10);
 				cell = dataRow.createCell(9);
@@ -345,6 +372,9 @@ public class PrintQuotationReceiptExcel extends ReportsExcelUtility{
 				}else {	
 					cell.setCellValue(String.valueOf(value));
 				}
+				
+				String totalAmtFor="(C"+quantityCol+ "*E"+unitPriceCol+"-G"+discAmtCol+")+I"+vatAmtCol;
+				cell.setCellFormula(totalAmtFor);
 				cell.setCellStyle(borderStyle);
 
 
@@ -369,7 +399,7 @@ public class PrintQuotationReceiptExcel extends ReportsExcelUtility{
 		wrapStyle.setVerticalAlignment(VerticalAlignment.TOP);
 		wrapStyle.setAlignment(HorizontalAlignment.CENTER);
 		wrapStyle.setFont(font);
-		
+
 		CellStyle wrapStyleLeft = workbook.createCellStyle();
 		wrapStyleLeft.setWrapText(true);
 		wrapStyleLeft.setVerticalAlignment(VerticalAlignment.TOP);
@@ -440,7 +470,7 @@ public class PrintQuotationReceiptExcel extends ReportsExcelUtility{
 					headCell=displayRow.createCell(8);
 					headCell.setCellStyle(headerStyle);
 					headCell.setCellValue(contentDto.getRightContent().get(i).getText());
-					
+
 					break;
 				}
 			}
