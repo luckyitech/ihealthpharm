@@ -133,7 +133,7 @@ public class PrintQuotationReceiptExcel extends ReportsExcelUtility{
 
 
 		int headRow=rowNum+1;
-		rowNum = rowNum + 9;
+		rowNum = rowNum + 12;
 		
 
 		// populate Date
@@ -179,7 +179,15 @@ public class PrintQuotationReceiptExcel extends ReportsExcelUtility{
 			headCell3=displayRow3.createCell(1);
 			headCell3.setCellValue(String.valueOf(value));
 			
-			
+
+			int supQuotRowNum=headRow+1;
+			Row supQuotNo = sheet.createRow(supQuotRowNum);
+			Cell quotCell = supQuotNo.createCell(1);
+			quotCell.setCellValue("Enter Supplier Quotation No :");
+			quotCell.setCellStyle(subHeaderStyle);
+			//sheet.addMergedRegion(new CellRangeAddress(supQuotRowNum-1, supQuotRowNum, 0,10));
+
+			int newRowNum=supQuotRowNum+2;
 
 			Row headerRow = sheet.createRow(rowNum++);
 			Cell cell = headerRow.createCell(0);
@@ -223,20 +231,12 @@ public class PrintQuotationReceiptExcel extends ReportsExcelUtility{
 			cell.setCellStyle(headerStyle);	
 
 
-			int supQuotRowNum=rowNum+2;
-			Row supQuotNo = sheet.createRow(supQuotRowNum);
-			Cell quotCell = supQuotNo.createCell(1);
-			quotCell.setCellValue("Enter Supplier Quotation No :");
-			quotCell.setCellStyle(subHeaderStyle);
-			//sheet.addMergedRegion(new CellRangeAddress(supQuotRowNum-1, supQuotRowNum, 0,10));
-
-			int newRowNum=supQuotRowNum+2;
 			for (Map<String, Object> rowData : quotationDetails) {
 
 
 
 
-				Row dataRow = sheet.createRow(newRowNum++);
+				Row dataRow = sheet.createRow(rowNum++);
 				value =  String.valueOf(quotationDetails.indexOf(rowData) + 1);
 				//sheet.autoSizeColumn(0);
 				cell = dataRow.createCell(0);
