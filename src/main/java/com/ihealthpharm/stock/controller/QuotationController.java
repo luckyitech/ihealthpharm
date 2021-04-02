@@ -686,7 +686,7 @@ public class QuotationController {
 
 				SendQuotationMailModel mailModel=new SendQuotationMailModel();
 
-				mailModel.setFromEmail("gutta.asharani@gmail.com");
+				mailModel.setFromEmail("quotation@docpharmkenya.com");
 
 
 				mailModel.setSubject("Request for quotation"+" "+pharmacyDetails.getPharmacyName()+"("+dateFormat.format(new Date())+")");
