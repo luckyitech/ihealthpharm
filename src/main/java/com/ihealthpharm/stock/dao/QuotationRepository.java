@@ -226,6 +226,12 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 		@Query("update quotation_items qi set qi.supplierMailSent ='Y' "
 				+ "where qi.quotation.quotationId=:quotationId and qi.supplier.supplierId=:supplierId")
 	void updateSupplierMailStatus(@Param("quotationId")Integer quotationId, @Param("supplierId")Integer supplierId);
+
+	  
+	  @Query("select sp from quotation_items qi inner join quotation q "
+				+ "on qi.quotation.quotationId=q.quotationId inner join supplier sp on sp.supplierId=qi.supplier.supplierId "
+				+ "where q.quotationNo=:quotationNo group by qi.supplier.supplierId")
+	List<SupplierModel> findSuppliersByQuotationNoForPriceUpdate(String quotationNo);
 	
 	
 }

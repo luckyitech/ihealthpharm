@@ -658,5 +658,11 @@ public class QuotationServiceImpl implements QuotationService {
 		
 	}
 
+	@Override
+	public List<SupplierModel> findSuppliersInQtnByQuotationNoForPriceUpdate(String quotationNo) {
+		
+		return quotationRepository.findSuppliersByQuotationNoForPriceUpdate(quotationNo);
+	}
+
 	
 }

@@ -2,6 +2,7 @@ package com.ihealthpharm.stock.controller;
 
 import static org.springframework.http.HttpStatus.OK;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -16,7 +17,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ihealthpharm.commons.BaseDto;
 import com.ihealthpharm.stock.helper.QuotationItemsHelper;
 import com.ihealthpharm.stock.model.QuotationItemsModel;
@@ -216,6 +220,26 @@ public class QuotationItemsController {
 	public ResponseEntity<BaseDto<Object>> getQuotationItemsByQuotationId(@RequestParam Integer quotationId) {
 	  	quotationItemsService.getAllQuotationsItemsByQuotationId(quotationId);
 		return new BaseDto<>(quotationItemsHelper.getDeleteQuotationItemMessage(), OK).respond();
+	}
+	
+	/**
+	 * @author Tarun 
+	 * Service is to update the QuotationItems
+	 * @throws IOException 
+	 * @throws JsonMappingException 
+	 * @throws JsonParseException 
+	 */
+	@PostMapping("/update/multiplequotationitemsForPriceUpdate")
+	public ResponseEntity<BaseDto<List<QuotationItemsModel>>> updateQuotationItemsForPriceUpdate(@Valid @RequestParam String quotationItemsModels) throws JsonParseException, JsonMappingException, IOException {
+		
+		List<QuotationItemsModel> models =null;
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		models = objectMapper.readValue(quotationItemsModels, new TypeReference<List<QuotationItemsModel>>() {
+		});
+		log.info("Request Object for update is: "+ quotationItemsModels.toString());
+		List<QuotationItemsModel> quotationItemList = quotationItemsService.updateQuotationItems(models);
+		return new BaseDto<>(quotationItemList, quotationItemsHelper.getUpdateQuotationItemMessage(), OK).respond();
 	}
 	
 }

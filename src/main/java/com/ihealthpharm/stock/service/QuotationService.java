@@ -120,6 +120,8 @@ public interface QuotationService {
 
 	void updateQuotationItemSupplierMailStatusToSent(Integer quotationId,Integer supplierId);
 
+	List<SupplierModel> findSuppliersInQtnByQuotationNoForPriceUpdate(String quotationNo);
+
 	
 	
 }
