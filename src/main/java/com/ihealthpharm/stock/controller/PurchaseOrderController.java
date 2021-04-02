@@ -527,7 +527,7 @@ public class PurchaseOrderController {
 				EmployeeModel emp=employeeService.findEmployeeById(Integer.parseInt(purchaseOrderModel.getCreatedUser()));
 				SendPurchaseOrderModel mailModel=new SendPurchaseOrderModel();
 
-				mailModel.setFromEmail("gutta.asharani@gmail.com");
+				mailModel.setFromEmail("quotation@docpharmkenya.com");
 
 
 				mailModel.setSubject("Request for Purchase Order"+" "+pharmacyDetails.getPharmacyName()+"("+dateFormat.format(new Date())+")");
