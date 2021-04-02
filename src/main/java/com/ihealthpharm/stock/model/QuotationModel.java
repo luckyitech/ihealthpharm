@@ -135,6 +135,9 @@ public class QuotationModel extends AuditModel {
 	@Column(name="SUPPLIER_QTN_REJECTED_REASON")
 	private String supplierQtnRejectedReason;
 	
+	@Column(name="SUPPLIER_SENT_QTN_NO")
+	private String supplierSentQtnNo;
+	
 	@Transient
 	private Integer createdId;
 	
@@ -179,6 +182,8 @@ public class QuotationModel extends AuditModel {
 	
 	@Transient
 	private String supplierMailRejecterName;
+	
+	
 	
 	public QuotationModel() {
 		

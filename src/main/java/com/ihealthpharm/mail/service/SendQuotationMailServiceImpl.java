@@ -13,6 +13,7 @@ import javax.activation.FileDataSource;
 import javax.mail.BodyPart;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
@@ -27,6 +28,7 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -50,7 +52,7 @@ public class SendQuotationMailServiceImpl implements SendQuotationMailService {
 
 	@Autowired
 	private JavaMailSender javaMailSender;
-
+	
 	@Autowired
 	private Configuration config;
 
@@ -59,7 +61,7 @@ public class SendQuotationMailServiceImpl implements SendQuotationMailService {
 			MailResponse response = new MailResponse();
 
 			MimeMessage message = javaMailSender.createMimeMessage();
-			
+			//SimpleMailMessage message = new SimpleMailMessage(); 
    	
             MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
     				StandardCharsets.UTF_8.name());
@@ -83,7 +85,7 @@ public class SendQuotationMailServiceImpl implements SendQuotationMailService {
 			helper.setTo(mailObj.getToEmail());
 			helper.setText(html, true);
 			helper.setSubject(mailObj.getSubject());
-			helper.setFrom(mailObj.getFromEmail());
+			helper.setFrom(new InternetAddress(mailObj.getFromEmail()));
 			
 		} catch (MessagingException | IOException | TemplateException e) {
 			response.setMessage("Mail Sending failure : "+e.getMessage());
