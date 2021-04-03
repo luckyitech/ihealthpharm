@@ -191,7 +191,7 @@ public class PrintPurchaseOrderReceipt extends ReportsPDFUtility{
 		
 		Font bold  = new Font(FontFamily.HELVETICA, 8, Font.BOLD);
 		
-		PdfPCell nameCell = new PdfPCell(new Phrase("Supplier  : "+supplier,bold)); 
+		PdfPCell nameCell = new PdfPCell(new Phrase("Supplier  : "+purchaseOrderDetailsList.get(0).get("SP_NAME"),bold)); 
 		PdfPCell nameCell1 = new PdfPCell(new Phrase("Address  : "+purchaseOrderDetailsList.get(0).get("ADDRESS"),bold)); 
 		PdfPCell nameCell2 = new PdfPCell(new Phrase("Phone  : "+purchaseOrderDetailsList.get(0).get("PHONE_NBR"),bold)); 
 		PdfPCell nameCell3 = new PdfPCell(new Phrase("PO No  : "+purchaseOrderDetailsList.get(0).get("PURCHASE_ORDER_NO"),bold)); 

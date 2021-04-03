@@ -37,6 +37,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.math3.stat.descriptive.moment.SecondMoment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -110,17 +111,9 @@ public class QuotationController {
 	@Autowired
 	private PharmacyService pharmacyService;
 
+	
 	@Autowired
-	private ReportsService resportsService;
-
-	@Autowired
-	private ReportsPDFUtility reportsPDFUtility;
-
-	@Autowired
-	private ReportsExcelUtility reportsExcelUtility;
-
-	@Autowired
-	private ReportsHelper reportsHelper;
+	private Environment env;
 
 	/**
 	 * @author Gunasekhar 
@@ -686,10 +679,10 @@ public class QuotationController {
 
 				SendQuotationMailModel mailModel=new SendQuotationMailModel();
 
-				mailModel.setFromEmail("quotation@docpharmkenya.com");
+				mailModel.setFromEmail(env.getProperty("spring.mail.username"));
 
 
-				mailModel.setSubject("Request for quotation"+" "+pharmacyDetails.getPharmacyName()+"("+dateFormat.format(new Date())+")");
+				mailModel.setSubject("REQUEST FOR QUOTATION"+" "+pharmacyDetails.getPharmacyName()+"("+dateFormat.format(new Date())+")");
 				mailModel.setQuotationNo(quotationModel.getQuotationNo());
 
 

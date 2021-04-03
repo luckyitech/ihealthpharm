@@ -17,6 +17,7 @@ import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -88,6 +89,10 @@ public class PurchaseOrderController {
 	
 	@Autowired
 	private EmployeeService employeeService;
+	
+	@Autowired
+	private Environment env;
+	
 	
 	@PostMapping("/save/purchaseorder")
 	public ResponseEntity<BaseDto<PurchaseOrderModel>> insertPurchaseOrderData(@Valid @RequestBody PurchaseOrderModel purchaseorderModel) {
@@ -527,10 +532,9 @@ public class PurchaseOrderController {
 				EmployeeModel emp=employeeService.findEmployeeById(Integer.parseInt(purchaseOrderModel.getCreatedUser()));
 				SendPurchaseOrderModel mailModel=new SendPurchaseOrderModel();
 
-				mailModel.setFromEmail("quotation@docpharmkenya.com");
+				mailModel.setFromEmail(env.getProperty("spring.mail.username"));
 
-
-				mailModel.setSubject("Request for Purchase Order"+" "+pharmacyDetails.getPharmacyName()+"("+dateFormat.format(new Date())+")");
+				mailModel.setSubject("REQUEST FOR PURCHASE ORDER"+" "+pharmacyDetails.getPharmacyName()+"("+dateFormat.format(new Date())+")");
 				
 				mailModel.setCreatedBy(emp.getFirstName()+" "+emp.getLastName());
 				mailModel.setPurchaseOrderNo(purchaseOrderModel.getPurchaseOrderNo());
