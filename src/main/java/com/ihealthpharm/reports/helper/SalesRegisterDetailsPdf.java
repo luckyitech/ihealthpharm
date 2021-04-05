@@ -79,6 +79,7 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 		double totalMPesaAmt=0.0;
 		double totalCreditAmt=0.0;
 		double totalChequeAmt=0.0;
+		double totalCreditNoteAmt=0.0;
 		double totalInsuranceAmt=0.0;
 		double totalVatAmt=0.0;
 		double totalAmount=0.0;
@@ -89,9 +90,10 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 		totalCardAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("CARD")?String.valueOf(mapper.get("AMOUNT")):"0")).sum();
 		totalChequeAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("CHEQUE")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
 		totalCreditAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("CREDIT")?String.valueOf(mapper.get("AMOUNT")):"0")).sum();
+		totalCreditNoteAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("CREDIT NOTE")?String.valueOf(mapper.get("AMOUNT")):"0")).sum();
 		totalInsuranceAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("INSURANCE")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
 		totalVatAmt=responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("VAT_AMT")?String.valueOf(mapper.get("VAT_AMT")):"0")).sum(); 
-		totalAmount=Double.parseDouble(df.format((totalCashAmt+totalMPesaAmt+totalCardAmt+totalChequeAmt+totalCreditAmt+totalInsuranceAmt)-(totalVatAmt)));
+		totalAmount=Double.parseDouble(df.format((totalCashAmt+totalMPesaAmt+totalCardAmt+totalChequeAmt+totalCreditAmt+totalInsuranceAmt+totalCreditNoteAmt)-(totalVatAmt)));
 		grandTotal=Double.parseDouble(df.format(totalAmount+totalVatAmt));
 		
 		PdfPTable totalQtyTable = new PdfPTable(3);
@@ -149,6 +151,16 @@ public class SalesRegisterDetailsPdf extends ReportsPDFUtility{
 		nameCell5.setVerticalAlignment(Element.ALIGN_TOP);
 		nameCell5.setBorder(0);
 		totalQtyTable.addCell(nameCell5);
+		totalQtyTable.setLockedWidth(true);
+		totalQtyTable.setTotalWidth(500);
+		totalQtyTable.getDefaultCell().setBorder(0);
+		
+		PdfPCell nameCellCreditNote = new PdfPCell(new Phrase("CREDIT NOTE AMOUNT"+"		"+":"+"		"+totalCreditNoteAmt, bold)); 
+		nameCellCreditNote.setColspan(3);
+		nameCellCreditNote.setHorizontalAlignment(Element.ALIGN_RIGHT);
+		nameCellCreditNote.setVerticalAlignment(Element.ALIGN_TOP);
+		nameCellCreditNote.setBorder(0);
+		totalQtyTable.addCell(nameCellCreditNote);
 		totalQtyTable.setLockedWidth(true);
 		totalQtyTable.setTotalWidth(500);
 		totalQtyTable.getDefaultCell().setBorder(0);
