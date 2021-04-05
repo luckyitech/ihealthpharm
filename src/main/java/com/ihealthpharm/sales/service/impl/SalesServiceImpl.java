@@ -48,7 +48,7 @@ public class SalesServiceImpl implements SalesService {
 
 	@Autowired
 	SalesHelper salesHelper;
-	
+
 	@Autowired
 	SalesItemsRepository salesItemsRepo;
 
@@ -75,8 +75,13 @@ public class SalesServiceImpl implements SalesService {
 			provider.setProviderId(512);
 			salesModel.setProviderModel(provider);
 		}
-		salesModel = salesRepository.save(salesModel);
-		return salesModel;
+		if(salesModel.getPaymentStatus().equals("Delete")) {
+			salesRepository.deleteSalesRecordForDummyBill(salesModel.getBillId());
+			return null;
+		}else {
+			salesModel = salesRepository.save(salesModel);
+			return salesModel;
+		}
 	}
 
 	@Override
@@ -128,7 +133,7 @@ public class SalesServiceImpl implements SalesService {
 						&& (codeValue != null && !codeValue.equals("undefined"))) {
 					if (code.equalsIgnoreCase("Bill Number")) {
 						predicates
-								.add(criteriaBuilder.and(criteriaBuilder.like(root.get("billCode"), codeValue + "%")));
+						.add(criteriaBuilder.and(criteriaBuilder.like(root.get("billCode"), codeValue + "%")));
 					} else if (code.equalsIgnoreCase("customer Name")) {
 						predicates.add(
 								criteriaBuilder.and(criteriaBuilder.like(bJoin.get("customerName"), codeValue + "%")));
@@ -600,7 +605,7 @@ public class SalesServiceImpl implements SalesService {
 	public List<SalesByPersonsDTO> findSalesByPersons() {
 		List<SalesByPersonsDTO> results = salesRepository.getSalesByPersonRepo();
 		List finalObj = new ArrayList();
-		
+
 		for (SalesByPersonsDTO obj : results) {
 			List temp = new ArrayList();
 			temp.add(obj.getFirstName());
@@ -630,26 +635,26 @@ public class SalesServiceImpl implements SalesService {
 		HashMap<String, Object> map = new HashMap<>();
 		HashMap<String, Object> data = new HashMap<>();
 		LocalDate start = LocalDate.parse(date);
-			List<SalesByHour> res = salesRepository.findSalesByHours(selectedChartEmployee, start, fromTime, toTime);
+		List<SalesByHour> res = salesRepository.findSalesByHours(selectedChartEmployee, start, fromTime, toTime);
 
-			for (int h = 0; h < timeArray.length; h++) {
-				for (SalesByHour obj : res) {
-					if (timeArray[h] == obj.getHour()) {
-						hoursArray.add(obj.getTotalSales());
-					} else {
-						variable++;
-						if (variable == res.size()) {
-							hoursArray.add(0);
-						}
-
+		for (int h = 0; h < timeArray.length; h++) {
+			for (SalesByHour obj : res) {
+				if (timeArray[h] == obj.getHour()) {
+					hoursArray.add(obj.getTotalSales());
+				} else {
+					variable++;
+					if (variable == res.size()) {
+						hoursArray.add(0);
 					}
 
 				}
-				variable = 0;
+
 			}
-			map.put("label", empName);
-			map.put("data", hoursArray);
-			dataArray.add(map);
+			variable = 0;
+		}
+		map.put("label", empName);
+		map.put("data", hoursArray);
+		dataArray.add(map);
 
 		return dataArray;
 	}
@@ -663,59 +668,59 @@ public class SalesServiceImpl implements SalesService {
 	public SalesModel updateSalesOldDat() {
 
 		List<SalesItemsModel> salesItems=salesItemsRepo.getAllSalesItemsToUpdateVatAmt();
-		
+
 		DecimalFormat df = new DecimalFormat(".##");
 		for(int i=0;i<salesItems.size();i++) {
 			List<SalesItemsModel> salesItemsData=salesItemsRepo.getAllSalesItemsById(salesItems.get(i).getBillId().getBillId());
-			
+
 			float totalVat=(float)0;
 			for(int j=0;j<salesItemsData.size();j++) {
 				salesItemsData.get(j).setVat(16);
 				SalesItemsModel salesItemsRes =salesItemsRepo.save(salesItemsData.get(j));
-			
+
 				double vatAmt=0.0; 
-				 double price = (salesItemsRes.getSaleQty() * Double.parseDouble(df.format(salesItemsRes.getUnitPurchasePrice())));
-				
-				 vatAmt= (((0.16 * price)*100)/100) ;
+				double price = (salesItemsRes.getSaleQty() * Double.parseDouble(df.format(salesItemsRes.getUnitPurchasePrice())));
+
+				vatAmt= (((0.16 * price)*100)/100) ;
 				totalVat+= (float)vatAmt;
-				
+
 				SalesModel s = salesRepository.getSalesRecordById(salesItemsRes.getBillId().getBillId());
 				s.setVatAmt(totalVat);
 				salesRepository.save(s);
 			}
-			
-			
+
+
 		}
-		
-		
-		
+
+
+
 		return null;
 	}
 
 	@Override
 	public SalesModel updateSalesRemarksAfterBulkPayment(String remarks, String billCode) {
-		
+
 		SalesModel res=salesRepository.getAllDataByBillNo(billCode);
 		if(Objects.nonNull(res.getRemarks())) {
-		salesRepository.updateRemarksForBill(res.getRemarks()+" - "+remarks, billCode);
+			salesRepository.updateRemarksForBill(res.getRemarks()+" - "+remarks, billCode);
 		}else {
-		salesRepository.updateRemarksForBill(remarks, billCode);
+			salesRepository.updateRemarksForBill(remarks, billCode);
 		}
 		SalesModel resToSend=salesRepository.getAllDataByBillNo(billCode);
-		
+
 		return resToSend;
 	}
 
 	@Override
 	public SalesModel findBillDataByCodeAndCustomerId(Integer customerId, String billCode) {
-		
+
 		return salesRepository.findByCustomerIdAndBillCode(customerId,billCode);
 	}
 
 	@Override
 	public CustomerModel findCustomerModelByBillCode(String billCode) {
-		
-	 return salesRepository.findByCustomerByBillCode(billCode);
+
+		return salesRepository.findByCustomerByBillCode(billCode);
 	}
 
 

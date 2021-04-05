@@ -120,6 +120,7 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 		double totalMPesaAmt=0.0;
 		double totalCreditAmt=0.0;
 		double totalChequeAmt=0.0;
+		double totalCreditNoteAmt=0.0;
 		double totalInsuranceAmt=0.0;
 		double totalVatAmt=0.0;
 		double totalAmount=0.0;
@@ -130,9 +131,10 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 		totalCardAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("CARD")?String.valueOf(mapper.get("AMOUNT")):"0")).sum();
 		totalChequeAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("CHEQUE")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
 		totalCreditAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("CREDIT")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
+		totalCreditNoteAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("CREDIT NOTE")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
 		totalInsuranceAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("AMOUNT")&&mapper.containsValue("INSURANCE")?String.valueOf(mapper.get("AMOUNT")):"0")).sum(); 
 		totalVatAmt=responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("VAT_AMT")?String.valueOf(mapper.get("VAT_AMT")):"0")).sum(); 
-		totalAmount=Double.parseDouble(df.format((totalCashAmt+totalMPesaAmt+totalCardAmt+totalChequeAmt+totalCreditAmt+totalInsuranceAmt)-(totalVatAmt)));
+		totalAmount=Double.parseDouble(df.format((totalCashAmt+totalMPesaAmt+totalCardAmt+totalChequeAmt+totalCreditAmt+totalInsuranceAmt+totalCreditNoteAmt)-(totalVatAmt)));
 		grandTotal=Double.parseDouble(df.format(totalAmount+totalVatAmt));
 
 		Row dataRow = sheet.createRow(currentRow+2);
@@ -144,6 +146,7 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 		Row dataRow6=sheet.createRow(currentRow+8);
 		Row dataRow7=sheet.createRow(currentRow+9);
 		Row dataRow8=sheet.createRow(currentRow+10);
+		Row dataRow9=sheet.createRow(currentRow+11);
 
 
 		Cell cell_cash_amount = dataRow.createCell(0);
@@ -151,10 +154,11 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 		Cell cell_credit_amount=dataRow2.createCell(0);
 		Cell cell_mpesa_amount=dataRow3.createCell(0);
 		Cell cell_cheque_amount=dataRow4.createCell(0);
-		Cell cell_insurance_amount=dataRow5.createCell(0);
-		Cell cell_total_amount=dataRow6.createCell(0);
-		Cell cell_vat_amount=dataRow7.createCell(0);
-		Cell cell_grand_amount=dataRow8.createCell(0);
+		Cell cell_credit_note_amount=dataRow5.createCell(0);
+		Cell cell_insurance_amount=dataRow6.createCell(0);
+		Cell cell_total_amount=dataRow7.createCell(0);
+		Cell cell_vat_amount=dataRow8.createCell(0);
+		Cell cell_grand_amount=dataRow9.createCell(0);
 
 
 		cell_cash_amount.setCellValue("");
@@ -162,6 +166,7 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 		cell_credit_amount.setCellValue("");
 		cell_mpesa_amount.setCellValue("");
 		cell_cheque_amount.setCellValue("");
+		cell_credit_note_amount.setCellValue("");
 		cell_insurance_amount.setCellValue("");
 		cell_total_amount.setCellValue("");
 		cell_vat_amount.setCellValue("");
@@ -173,16 +178,18 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 		cell_credit_amount=dataRow2.createCell(7);
 		cell_mpesa_amount=dataRow3.createCell(7);
 		cell_cheque_amount=dataRow4.createCell(7);
-		cell_insurance_amount=dataRow5.createCell(7);
-		cell_total_amount=dataRow6.createCell(7);
-		cell_vat_amount=dataRow7.createCell(7);
-		cell_grand_amount=dataRow8.createCell(7);
+		cell_credit_note_amount=dataRow5.createCell(7);
+		cell_insurance_amount=dataRow6.createCell(7);
+		cell_total_amount=dataRow7.createCell(7);
+		cell_vat_amount=dataRow8.createCell(7);
+		cell_grand_amount=dataRow9.createCell(7);
 
 		cell_cash_amount.setCellValue("CASH AMOUNT");
 		cell_card_amount.setCellValue("CARD AMOUNT");
 		cell_credit_amount.setCellValue("CREDIT AMOUNT");
 		cell_mpesa_amount.setCellValue("M-PESA AMOUNT");
 		cell_cheque_amount.setCellValue("CHEQUE AMOUNT");
+		cell_credit_note_amount.setCellValue("CREDIT NOTE AMOUNT");
 		cell_insurance_amount.setCellValue("INSURANCE AMOUNT");
 		cell_total_amount.setCellValue("TOTAL AMOUNT");
 		cell_vat_amount.setCellValue("TOTAL VAT AMONT");
@@ -193,10 +200,11 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 		cell_credit_amount=dataRow2.createCell(8);
 		cell_mpesa_amount=dataRow3.createCell(8);
 		cell_cheque_amount=dataRow4.createCell(8);
-		cell_insurance_amount=dataRow5.createCell(8);
-		cell_total_amount=dataRow6.createCell(8);
-		cell_vat_amount=dataRow7.createCell(8);
-		cell_grand_amount=dataRow8.createCell(8);
+		cell_credit_note_amount=dataRow5.createCell(8);
+		cell_insurance_amount=dataRow6.createCell(8);
+		cell_total_amount=dataRow7.createCell(8);
+		cell_vat_amount=dataRow8.createCell(8);
+		cell_grand_amount=dataRow9.createCell(8);
 
 		if(NumberUtils.isNumber(String.valueOf(totalCashAmt))) {
 			cell_cash_amount.setCellType(CellType.NUMERIC);		
@@ -231,6 +239,13 @@ public class SalesRegisterDetailsExcel extends ReportsExcelUtility{
 			cell_cheque_amount.setCellValue(Double.parseDouble(String.valueOf(totalChequeAmt)));
 		}else {	
 			cell_cheque_amount.setCellValue(String.valueOf(totalChequeAmt));
+		}
+		
+		if(NumberUtils.isNumber(String.valueOf(totalCreditNoteAmt))) {
+			cell_credit_note_amount.setCellType(CellType.NUMERIC);		
+			cell_credit_note_amount.setCellValue(Double.parseDouble(String.valueOf(totalCreditNoteAmt)));
+		}else {	
+			cell_credit_note_amount.setCellValue(String.valueOf(totalCreditNoteAmt));
 		}
 
 		if(NumberUtils.isNumber(String.valueOf(totalInsuranceAmt))) {
