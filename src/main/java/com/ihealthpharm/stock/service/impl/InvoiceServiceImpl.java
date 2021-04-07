@@ -290,7 +290,10 @@ public class InvoiceServiceImpl implements InvoiceService {
 				stockModel.setSupplier(invoiceModelres.getSupplierModel());
 				stockModel.setInvoiceNo(it.getInvoice().getGrnNo());
 				stockModel.setStockNumber(uniqueCodeService.findByUniqueCodeName("ST"));
-
+				
+				if(Objects.nonNull(it.getItemsModel().getBarcode())) {
+					stockModel.setBarcode(it.getItemsModel().getBarcode());
+				}
 
 				if(!Objects.isNull(it.getItemsModel().getRackNumber()) && !ObjectUtils.isEmpty(it.getItemsModel().getRackNumber()))
 				{

@@ -270,5 +270,7 @@ public class ItemsModel extends AuditModel {
 	@JoinColumn(name="PHARMACY_ID")
 	private PharmacyModel pharmacy;
 	
+	@Column(name="BARCODE",length=20)
+	private String barcode;
 
 }

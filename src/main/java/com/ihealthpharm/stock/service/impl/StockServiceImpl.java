@@ -211,6 +211,11 @@ public class StockServiceImpl implements StockService {
 			res = stockRepository.findStockByItemGenericNameAndPharmacyId(searchTerm,pharmacyId,limit);
 		}
 		
+		else if(searchCode.equalsIgnoreCase("BarCode"))
+		{
+			res = stockRepository.findStockByBarCodeAndPharmacyId(searchTerm,pharmacyId,limit);
+		}
+		
 		return res;
 	}
 
@@ -238,6 +243,10 @@ public class StockServiceImpl implements StockService {
 			res = stockRepository.findStockByItemGenericNameAndPharmacyId(searchTerm,pharmacyId);
 		}
 		
+		else if(searchCode.equalsIgnoreCase("BarCode"))
+		{
+			res = stockRepository.findStockByBarCodeAndPharmacyId(searchTerm,pharmacyId);
+		}
 		return res;
 		
 	}
