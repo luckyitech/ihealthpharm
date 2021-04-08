@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -16,6 +17,7 @@ import javax.mail.Multipart;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMessage.RecipientType;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
 import javax.transaction.Transactional;
@@ -39,6 +41,8 @@ import com.ihealthpharm.mail.model.SendPurchaseOrderModel;
 import com.ihealthpharm.mail.model.SendQuotationMailModel;
 import com.ihealthpharm.mail.service.impl.SendQuotationMailService;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+import org.springframework.util.ObjectUtils;
+
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -52,28 +56,29 @@ public class SendQuotationMailServiceImpl implements SendQuotationMailService {
 
 	@Autowired
 	private JavaMailSender javaMailSender;
-	
+
 	@Autowired
 	private Configuration config;
 
 	@Override
 	public void sendQuotationEmail(SendQuotationMailModel mailObj,AttachmentModel mail) throws IOException, TemplateException, MessagingException {
-			MailResponse response = new MailResponse();
+		MailResponse response = new MailResponse();
 
-			MimeMessage message = javaMailSender.createMimeMessage();
-			//SimpleMailMessage message = new SimpleMailMessage(); 
-   	
-            MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
-    				StandardCharsets.UTF_8.name());
-            
-            for(Object f:mail.getAttachments())
-            {
-            	File resource = (File) f;
-            	FileSystemResource file = new FileSystemResource(resource);
-            	// add attachment
-            	helper.addAttachment(file.getFilename(), file);
-            }
-        
+		MimeMessage message = javaMailSender.createMimeMessage();
+		//SimpleMailMessage message = new SimpleMailMessage(); 
+
+
+		MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+				StandardCharsets.UTF_8.name());
+
+		for(Object f:mail.getAttachments())
+		{
+			File resource = (File) f;
+			FileSystemResource file = new FileSystemResource(resource);
+			// add attachment
+			helper.addAttachment(file.getFilename(), file);
+		}
+
 
 		try {
 
@@ -83,10 +88,13 @@ public class SendQuotationMailServiceImpl implements SendQuotationMailService {
 			System.out.println(mailObj);
 
 			helper.setTo(mailObj.getToEmail());
+			if(Objects.nonNull(mailObj.getBccEmail()) && !ObjectUtils.isEmpty(mailObj.getBccEmail())) {
+				helper.setBcc(mailObj.getBccEmail());
+			}
 			helper.setText(html, true);
 			helper.setSubject(mailObj.getSubject());
 			helper.setFrom(new InternetAddress(mailObj.getFromEmail()));
-			
+
 		} catch (MessagingException | IOException | TemplateException e) {
 			response.setMessage("Mail Sending failure : "+e.getMessage());
 			response.setStatus(Boolean.FALSE);
@@ -95,47 +103,50 @@ public class SendQuotationMailServiceImpl implements SendQuotationMailService {
 		javaMailSender.send(message);
 	}
 
-	
-	
+
+
 	public void sendPurchaseOrderEmail(SendPurchaseOrderModel mailObj,AttachmentModel mail) throws  MessagingException, IOException, TemplateException {
 		MailResponse response = new MailResponse();
 
 		MimeMessage message = javaMailSender.createMimeMessage();
-		
-	
-        MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+
+
+		MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
 				StandardCharsets.UTF_8.name());
-        
-        for(Object f:mail.getAttachments())
-        {
-        	File resource = (File) f;
-        	FileSystemResource file = new FileSystemResource(resource);
-        	// add attachment
-        	helper.addAttachment(file.getFilename(), file);
-        }
-    
 
-	try {
+		for(Object f:mail.getAttachments())
+		{
+			File resource = (File) f;
+			FileSystemResource file = new FileSystemResource(resource);
+			// add attachment
+			helper.addAttachment(file.getFilename(), file);
+		}
 
-		Template t = config.getTemplate("purchase-order-template.ftl");
-		String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, mailObj);
 
-		System.out.println(mailObj);
+		try {
 
-		helper.setTo(mailObj.getToEmail());
-		helper.setText(html,true);
-		helper.setSubject(mailObj.getSubject());
-		helper.setFrom(mailObj.getFromEmail());
-		
-	} catch (MessagingException e) {
-		response.setMessage("Mail Sending failure : "+e.getMessage());
-		response.setStatus(Boolean.FALSE);
+			Template t = config.getTemplate("purchase-order-template.ftl");
+			String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, mailObj);
+
+			System.out.println(mailObj);
+
+			helper.setTo(mailObj.getToEmail());
+			if(Objects.nonNull(mailObj.getBccEmail()) && !ObjectUtils.isEmpty(mailObj.getBccEmail())) {
+				helper.setBcc(mailObj.getBccEmail());
+			}
+			helper.setText(html,true);
+			helper.setSubject(mailObj.getSubject());
+			helper.setFrom(mailObj.getFromEmail());
+
+		} catch (MessagingException e) {
+			response.setMessage("Mail Sending failure : "+e.getMessage());
+			response.setStatus(Boolean.FALSE);
+		}
+
+		javaMailSender.send(message);
 	}
 
-	javaMailSender.send(message);
-}
 
-	
 	@Override
 	public void attachFileToMail() {
 		log.info("attachFileToMail");

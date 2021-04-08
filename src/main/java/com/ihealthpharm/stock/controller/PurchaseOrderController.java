@@ -551,7 +551,7 @@ public class PurchaseOrderController {
 				mailModel.setPinNo(pharmacyDetails.getTaxId());
 				mailModel.setMobileOne(pharmacyDetails.getPhoneNumber());
 				mailModel.setWhatsAppNo(pharmacyDetails.getPhoneNumber());
-
+				mailModel.setBccEmail(pharmacyDetails.getBccEmailId());
 
 				System.out.println("file name"+"Request for po" );
 				String FilePath = file.getOriginalFilename();

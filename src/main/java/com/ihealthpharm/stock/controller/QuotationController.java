@@ -701,7 +701,7 @@ public class QuotationController {
 				mailModel.setPinNo(pharmacyDetails.getTaxId());
 				mailModel.setMobileOne(pharmacyDetails.getPhoneNumber());
 				mailModel.setWhatsAppNo(pharmacyDetails.getPhoneNumber());
-
+				mailModel.setBccEmail(pharmacyDetails.getBccEmailId());
 
 				System.out.println("file name"+"Request for quotation" );
 				String FilePath = blobData.getOriginalFilename();
