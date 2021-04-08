@@ -251,7 +251,26 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 
 	@Query("select sum(s.upiAmount) from sales s where date(billDate) = CURDATE() and s.upiAmount is not null and PAYMENT_STATUS not in ('CANCEL','DUMMY BILL') group by billDate")
 	Integer upiAmount();
+	
+	@Query("select sum(c.amount) from CREDIT_NOTE c where date(creditDate) = CURDATE() and c.amount is not null and c.paymentStatus='Paid' group by creditDate")
+	Integer creditNoteAmount();
+	
+	@Query("select count(c.creditNoteNo) from CREDIT_NOTE c where date(creditDate) = CURDATE() and c.amount is not null and c.paymentStatus='Paid' group by creditDate")
+	Integer creditNoteCustomers();
+	
+	@Query("select count(c.creditNoteNo) from CREDIT_NOTE c where date(creditDate) = CURDATE() and c.amount is not null and c.returnType!='Sales Returns' group by creditDate")
+	Integer totalCreditNotesIssued();
+	
+	@Query("select sum(c.amount) from CREDIT_NOTE c where date(creditDate) = CURDATE() and c.amount is not null and c.returnType!='Sales Returns' group by creditDate")
+	Integer creditNotesIssuedAmount();
 
+	
+	@Query("select count(s.salesReturnNumber) from sales_return s where date(salesReturnDate) = CURDATE() and s.totalAmount is not null group by salesReturnDate")
+	Integer totalSalesReturns();
+	
+	@Query("select sum(s.totalAmount) from sales_return s where date(salesReturnDate) = CURDATE() and s.totalAmount is not null group by salesReturnDate")
+	Integer totalSalesReturnAmount();
+	
 	@Query("select sum(s.creditCardAmount) from sales s where date(billDate) = CURDATE() and s.creditCardAmount is not null and PAYMENT_STATUS not in ('CANCEL','DUMMY BILL') group by billDate")
 	Integer CreditCardAmount();
 
