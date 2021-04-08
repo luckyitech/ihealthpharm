@@ -204,21 +204,21 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 	@Query("select qi from quotation_items qi inner join quotation q on qi.quotation.quotationId=q.quotationId "
 			+ "where q.supplierQtnApprovedBy is not null and q.supplierQtnApprovedDt is not null "
 			+ "and q.quotationId=:quotationId and qi.supplier.supplierId=:supplierId")
-	List<QuotationItemsModel>  getQuotationDataByIdAndSupplier(Integer quotationId, Integer supplierId);
+	List<QuotationItemsModel>  getQuotationDataByIdAndSupplier(@Param("quotationId")Integer quotationId, @Param("supplierId")Integer supplierId);
 
 	@Query("select distinct sp from quotation_items qi,supplier sp where qi.supplier.supplierId=sp.supplierId and qi.quotation.quotationId=:quotationId")
 	List<SupplierModel> getSuppliersByQuotationId(@Param("quotationId")Integer quotationId);
 
 	@Query("select qi from quotation_items qi inner join quotation q on qi.quotation.quotationId=q.quotationId "
 			+ "where q.quotationId=:quotationId and qi.supplier.supplierId=:supplierId")
-	List<QuotationItemsModel> findQuotationDataByIdAndSupplier(Integer quotationId, Integer supplierId);
+	List<QuotationItemsModel> findQuotationDataByIdAndSupplier(@Param("quotationId")Integer quotationId, @Param("supplierId")Integer supplierId);
 
 	
 	@Query("select sp from quotation_items qi inner join quotation q "
 			+ "on qi.quotation.quotationId=q.quotationId inner join supplier sp on sp.supplierId=qi.supplier.supplierId "
 			+ "where q.quotationNo=:quotationNo "
 			+ "and (qi.supplierMailSent is null or qi.supplierMailSent='N') group by qi.supplier.supplierId")
-	List<SupplierModel> findSuppliersByQuotationNo(String quotationNo);
+	List<SupplierModel> findSuppliersByQuotationNo(@Param("quotationNo")String quotationNo);
 
 	
 	  @Modifying
@@ -231,7 +231,7 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 	  @Query("select sp from quotation_items qi inner join quotation q "
 				+ "on qi.quotation.quotationId=q.quotationId inner join supplier sp on sp.supplierId=qi.supplier.supplierId "
 				+ "where q.quotationNo=:quotationNo group by qi.supplier.supplierId")
-	List<SupplierModel> findSuppliersByQuotationNoForPriceUpdate(String quotationNo);
+	List<SupplierModel> findSuppliersByQuotationNoForPriceUpdate(@Param("quotationNo")String quotationNo);
 	
 	
 }
