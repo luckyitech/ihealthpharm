@@ -400,6 +400,13 @@ public class StockServiceImpl implements StockService {
 		public StockModel getLatestStock(String batchNo, Integer itemId, String invoiceNo) {
 			return stockRepository.getLatestStock(batchNo,itemId,invoiceNo);
 		}
+
+		@Override
+		public StockModel findByItemBatchExpiryAndPharmacy(String itemName, String batchNo, String expiryDt,
+				Integer pharmacyId) {
+			StockModel stock=stockRepository.findStockByItemNameBatchExpiryAndPharmacyId(itemName,batchNo,expiryDt,pharmacyId);
+			return stock;
+		}
 		
 		
 

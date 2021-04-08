@@ -102,4 +102,6 @@ public interface StockService {
 	List<String> findAllItemNamesByST();
 
 	StockModel getLatestStock(String batchNo, Integer itemId, String invoiceNo);
+
+	StockModel findByItemBatchExpiryAndPharmacy(String itemName, String batchNo, String expiryDt, Integer pharmacyId);
 }

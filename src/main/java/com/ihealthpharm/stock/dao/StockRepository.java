@@ -216,4 +216,10 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 
 	@Query("select s from stock s where s.batchNo=:batchNo and s.item.itemId=:itemId and s.invoiceNo=:invoiceNo")
 	StockModel getLatestStock(@Param("batchNo")String batchNo,@Param("itemId") Integer itemId,@Param("invoiceNo") String invoiceNo);
+
+	@Query("select s from stock s inner join items i on s.item.itemId=i.itemId where s.item.itemName=:itemName and s.batchNo=:batchNo "
+			+ "and s.expiryDt=:expiryDt "
+			+ "and s.pharmacy.pharmacyId=:pharmacyId")
+	StockModel findStockByItemNameBatchExpiryAndPharmacyId(@Param("itemName")String itemName, @Param("batchNo")String batchNo, @Param("expiryDt")String expiryDt,
+			@Param("pharmacyId")Integer pharmacyId);
 }
