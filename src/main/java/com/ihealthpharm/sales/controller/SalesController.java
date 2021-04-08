@@ -351,6 +351,24 @@ public class SalesController {
 		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
 	
+	@GetMapping("/creditNoteCustomers")
+	public ResponseEntity<BaseDto<Integer>> getCreditNoteCustomers(){
+		Integer result = salesService.findCreditNoteCustomers();
+		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/creditNoteIssuedCount")
+	public ResponseEntity<BaseDto<Integer>> getCreditNoteIssuedCount(){
+		Integer result = salesService.findCreditNoteIssuedCount();
+		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/salesReturnCount")
+	public ResponseEntity<BaseDto<Integer>> getSalesReturnCount(){
+		Integer result = salesService.findSalesReturnCount();
+		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
 	@GetMapping("/cashAmount")
 	public ResponseEntity<BaseDto<Integer>> getCashAmount(){
 		Integer result = salesService.findCashAmount();
@@ -369,6 +387,12 @@ public class SalesController {
 		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
 	
+	@GetMapping("/creditNoteAmount")
+	public ResponseEntity<BaseDto<Integer>> getCreditNoteAmount(){
+		Integer result = salesService.findCreditNoteAmount();
+		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
 	@GetMapping("/creditCardAmount")
 	public ResponseEntity<BaseDto<Integer>> getCreditCardAmount(){
 		Integer result = salesService.findCreditCardAmount();
@@ -378,6 +402,18 @@ public class SalesController {
 	@GetMapping("/chequeAmount")
 	public ResponseEntity<BaseDto<Integer>> getChequeAmount(){
 		Integer result = salesService.findChequeAmount();
+		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/creditNoteAmountIssued")
+	public ResponseEntity<BaseDto<Integer>> getCreditNoteAmountIssued(){
+		Integer result = salesService.findCreditNoteAmountIssued();
+		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(),OK).respond();
+	}
+	
+	@GetMapping("/salesReturnAmount")
+	public ResponseEntity<BaseDto<Integer>> getSalesReturnAmount(){
+		Integer result = salesService.findSalesReturnAmount();
 		return new BaseDto<>(result, salesHelper.getRetrieveSalesMessage(),OK).respond();
 	}
 	
