@@ -311,4 +311,10 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
     		+ "where s.billCode=:billCode")
 	CustomerModel findByCustomerByBillCode(@Param("billCode")String billCode);
 
+    
+    @Modifying
+	@Transactional
+	@Query("delete from sales s where s.billId=:billId")
+	void deleteSalesRecordForDummyBill(@Param("billId")Integer billId);
+
 }

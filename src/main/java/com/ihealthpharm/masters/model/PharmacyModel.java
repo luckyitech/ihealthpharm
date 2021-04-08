@@ -97,4 +97,6 @@ public class PharmacyModel extends AuditModel{
 	@Column(name="24_HOURS",length=1)
 	private String hours;
 
+	@Column(name="BCC_EMAIL_ID",length=50)
+	private String bccEmailId;
 }

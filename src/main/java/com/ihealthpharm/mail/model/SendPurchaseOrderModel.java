@@ -12,6 +12,7 @@ public class SendPurchaseOrderModel {
 
 	private String name;
 	private String toEmail;
+	private String bccEmail;
 	private String fromEmail;
 	private String subject;
     public String purchaseOrderNo;
