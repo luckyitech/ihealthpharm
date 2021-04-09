@@ -558,6 +558,20 @@ public class SalesServiceImpl implements SalesService {
 		return salesRepository.chequeCustomers();
 	}
 
+	
+	@Override
+	public Integer findCreditNoteCustomers() {
+	
+		return salesRepository.creditNoteCustomers();
+	}
+
+	@Override
+	public Integer findCreditNoteIssuedCount() {
+		
+		return salesRepository.totalCreditNotesIssued();
+	}
+
+	
 	@Override
 	public Integer findCashAmount() {
 		return salesRepository.cashAmount();
@@ -574,6 +588,18 @@ public class SalesServiceImpl implements SalesService {
 	}
 
 	@Override
+	public Integer findCreditNoteAmount() {
+		
+		return salesRepository.creditNoteAmount();
+	}
+
+	@Override
+	public Integer findCreditNoteAmountIssued() {
+		
+		return salesRepository.creditNotesIssuedAmount();
+	}
+	
+	@Override
 	public Integer findCreditCardAmount() {
 		return salesRepository.CreditCardAmount();
 	}
@@ -581,6 +607,19 @@ public class SalesServiceImpl implements SalesService {
 	@Override
 	public Integer findChequeAmount() {
 		return salesRepository.chequeAmount();
+	}
+	
+	
+	@Override
+	public Integer findSalesReturnCount() {
+		
+		return salesRepository.totalSalesReturns();
+	}
+
+	@Override
+	public Integer findSalesReturnAmount() {
+		
+		return salesRepository.totalSalesReturnAmount();
 	}
 
 	@Override
@@ -723,5 +762,9 @@ public class SalesServiceImpl implements SalesService {
 		return salesRepository.findByCustomerByBillCode(billCode);
 	}
 
+	
+
+
+	
 
 }
