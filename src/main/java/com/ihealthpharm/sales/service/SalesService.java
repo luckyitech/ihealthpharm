@@ -152,4 +152,16 @@ public interface SalesService
 
 	CustomerModel findCustomerModelByBillCode(String billCode);
 
+	Integer findCreditNoteAmount();
+
+	Integer findCreditNoteCustomers();
+
+	Integer findCreditNoteAmountIssued();
+
+	Integer findCreditNoteIssuedCount();
+
+	Integer findSalesReturnCount();
+
+	Integer findSalesReturnAmount();
+
 }

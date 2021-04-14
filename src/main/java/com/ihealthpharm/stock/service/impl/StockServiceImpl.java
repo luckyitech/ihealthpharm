@@ -210,12 +210,14 @@ public class StockServiceImpl implements StockService {
 		{
 			res = stockRepository.findStockByItemGenericNameAndPharmacyId(searchTerm,pharmacyId,limit);
 		}
+
+		
 		
 		else if(searchCode.equalsIgnoreCase("BarCode"))
 		{
-			res = stockRepository.findStockByBarCodeAndPharmacyId(searchTerm,pharmacyId,limit);
+			res = stockRepository.findStockByQRBarCodeNumberAndPharmacyId(searchTerm,pharmacyId);
 		}
-		
+
 		return res;
 	}
 
@@ -243,10 +245,7 @@ public class StockServiceImpl implements StockService {
 			res = stockRepository.findStockByItemGenericNameAndPharmacyId(searchTerm,pharmacyId);
 		}
 		
-		else if(searchCode.equalsIgnoreCase("BarCode"))
-		{
-			res = stockRepository.findStockByBarCodeAndPharmacyId(searchTerm,pharmacyId);
-		}
+		
 		return res;
 		
 	}
@@ -408,6 +407,13 @@ public class StockServiceImpl implements StockService {
 		@Override
 		public StockModel getLatestStock(String batchNo, Integer itemId, String invoiceNo) {
 			return stockRepository.getLatestStock(batchNo,itemId,invoiceNo);
+		}
+
+		@Override
+		public StockModel findByItemBatchExpiryAndPharmacy(String itemName, String batchNo, String expiryDt,
+				Integer pharmacyId) {
+			StockModel stock=stockRepository.findStockByItemNameBatchExpiryAndPharmacyId(itemName,batchNo,expiryDt,pharmacyId);
+			return stock;
 		}
 		
 		
