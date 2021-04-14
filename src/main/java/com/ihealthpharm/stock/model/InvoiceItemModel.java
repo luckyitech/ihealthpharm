@@ -146,4 +146,7 @@ public class InvoiceItemModel extends AuditModel {
 	@Column(name="MARGIN_PER")
 	private Double marginPer;
 	
+	@Column(name="QR_BAR_CODE")
+	private String qrBarCode;
+	
 }

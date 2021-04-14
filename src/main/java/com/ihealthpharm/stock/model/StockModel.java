@@ -131,7 +131,7 @@ public class StockModel extends AuditModel {
 	@Column(name="SHELF",length=50)
 	private String shelf;
 	
-	@Column(name="BARCODE")
+	@Column(name="BARCODE",length=500)
 	private String barcode;
 	
 	@Column(name="VAT")
