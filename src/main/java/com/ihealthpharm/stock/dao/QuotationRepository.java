@@ -67,7 +67,7 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 	List<ItemSupplierDTO> getItemsBySupplier(@Param("supplierId") Integer supplierId);
 	
 	@Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(id.unitRate, id.discountPercentage, i.itemCode, i.itemName, i.itemDescription, "
-			+ " i.itemId, i.manufacturer.name) "
+			+ " i.itemId, i.manufacturer.name,i) "
 			+ " from items_supplier id join supplier d on id.suppliersId = d.supplierId join items i on i.itemId = id.itemsId "
 			+ " where id.suppliersId = :supplierId and id.activeS = 'Y' and "
 			+ " (i.itemCode like %:itemCode% or  i.itemName like %:itemName% ) ")
@@ -232,6 +232,14 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 				+ "on qi.quotation.quotationId=q.quotationId inner join supplier sp on sp.supplierId=qi.supplier.supplierId "
 				+ "where q.quotationNo=:quotationNo group by qi.supplier.supplierId")
 	List<SupplierModel> findSuppliersByQuotationNoForPriceUpdate(@Param("quotationNo")String quotationNo);
+
+	  
+	  @Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(id.unitRate, id.discountPercentage, i.itemCode, i.itemName, i.itemDescription, "
+				+ " i.itemId, i.manufacturer.name,i) "
+				+ " from items_supplier id join supplier d on id.suppliersId = d.supplierId join items i on i.itemId = id.itemsId "
+				+ " where id.suppliersId = :supplierId and id.activeS = 'Y' and "
+				+ " i.barcode like %:scanCode% ")
+	List<ItemSupplierDTO> getItemsBySupplierAndScannedCode(@Param("supplierId")Integer supplierId, @Param("scanCode")String scanCode);
 	
 	
 }

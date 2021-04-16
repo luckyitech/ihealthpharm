@@ -122,6 +122,8 @@ public interface QuotationService {
 
 	List<SupplierModel> findSuppliersInQtnByQuotationNoForPriceUpdate(String quotationNo);
 
+	List<ItemSupplierDTO> getItemsBySupplierAndScannedCode(Integer supplierId, String scanCode);
+
 	
 	
 }

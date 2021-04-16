@@ -201,6 +201,19 @@ public class ItemSupplierDTO {
 		this.manufacturerName = manufacturerName;
 	}
 	
+	
+	public ItemSupplierDTO(Double unitRate, Double discountPercentage, String itemCode, String itemName, String itemDescription, 
+			Integer itemsId, String manufacturerName,ItemsModel itemsModel) {
+		this.unitRate = unitRate;
+		this.discountPercentage = discountPercentage;
+		this.itemCode = itemCode;
+		this.itemDescription = itemDescription;
+		this.itemName = itemName;
+		this.itemId = itemsId;
+		this.manufacturerName = manufacturerName;
+		this.itemsModel=itemsModel;
+	}
+	
 	public ItemSupplierDTO(Double unitRate, Float discountPercentage, String itemCode, String itemName, String itemDescription, 
 			Integer itemsId, String manufacturerName) {
 		this.unitRate = unitRate;

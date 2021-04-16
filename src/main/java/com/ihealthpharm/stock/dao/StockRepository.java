@@ -52,6 +52,10 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 			+ "and s.pharmacy.pharmacyId=:pharmacyId")
 	List<StockModel> findStockByQRBarCodeNumberAndPharmacyId(@Param("searchTerm")String searchTerm, @Param("pharmacyId")Integer pharmacyId);
 	
+	@Query("select count(s) from stock s inner join items i on s.item.itemId=i.itemId where s.barcode =:searchTerm "
+			+ "and s.pharmacy.pharmacyId=:pharmacyId")
+	Integer findStockCountByQRBarCodeNumberAndPharmacyId(@Param("searchTerm")String searchTerm, @Param("pharmacyId")Integer pharmacyId);
+	
 	// find stock by item code
 	@Query("select s from stock s inner join items i on s.item.itemId=i.itemId where s.item.itemCode like :searchTerm% "
 			+ "and s.pharmacy.pharmacyId=:pharmacyId")
@@ -226,6 +230,8 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 			+ "and s.pharmacy.pharmacyId=:pharmacyId")
 	StockModel findStockByItemNameBatchExpiryAndPharmacyId(@Param("itemName")String itemName, @Param("batchNo")String batchNo, @Param("expiryDt")String expiryDt,
 			@Param("pharmacyId")Integer pharmacyId);
+
+	
 
 	
 }
