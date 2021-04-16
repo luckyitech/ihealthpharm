@@ -48,11 +48,11 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 	List<StockModel> findStockByItemNameAndPharmacyId(@Param("searchTerm") String itemName,
 			@Param("pharmacyId") Integer pharmacyId, Pageable pageable);
 
-	@Query("select s from stock s inner join items i on s.item.itemId=i.itemId where s.barcode =:searchTerm "
+	@Query("select s from stock s inner join items i on s.item.itemId=i.itemId where s.barcode like %:searchTerm% "
 			+ "and s.pharmacy.pharmacyId=:pharmacyId")
 	List<StockModel> findStockByQRBarCodeNumberAndPharmacyId(@Param("searchTerm")String searchTerm, @Param("pharmacyId")Integer pharmacyId);
 	
-	@Query("select count(s) from stock s inner join items i on s.item.itemId=i.itemId where s.barcode =:searchTerm "
+	@Query("select count(s) from stock s inner join items i on s.item.itemId=i.itemId where s.barcode like %:searchTerm% "
 			+ "and s.pharmacy.pharmacyId=:pharmacyId")
 	Integer findStockCountByQRBarCodeNumberAndPharmacyId(@Param("searchTerm")String searchTerm, @Param("pharmacyId")Integer pharmacyId);
 	
