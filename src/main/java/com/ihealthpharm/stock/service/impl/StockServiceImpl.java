@@ -244,8 +244,12 @@ public class StockServiceImpl implements StockService {
 		{
 			res = stockRepository.findStockByItemGenericNameAndPharmacyId(searchTerm,pharmacyId);
 		}
-		
-		
+	
+		else if(searchCode.equalsIgnoreCase("BarCode"))
+		{
+			res = stockRepository.findStockCountByQRBarCodeNumberAndPharmacyId(searchTerm,pharmacyId);
+		}
+
 		return res;
 		
 	}

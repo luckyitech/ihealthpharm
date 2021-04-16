@@ -19,6 +19,7 @@ import com.ihealthpharm.masters.dto.ItemSupplierDTO;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.model.SupplierModel;
+import com.ihealthpharm.masters.model.TaxModel;
 import com.ihealthpharm.stock.dao.QuotationItemStatusRepository;
 import com.ihealthpharm.stock.dao.QuotationItemsRepository;
 import com.ihealthpharm.stock.dao.QuotationRepository;
@@ -285,6 +286,8 @@ public class QuotationServiceImpl implements QuotationService {
 			itemsModel.setItemCode(i.getItemCode());
 			itemsModel.setItemName(i.getItemName());
 			itemsModel.setItemDescription(i.getItemDescription());
+			itemsModel.setTax(i.getItemsModel().getTax());
+			
 
 			//TaxModel taxModel = new TaxModel();
 			//taxModel.setPercentage(i.getPercentage());
@@ -294,6 +297,25 @@ public class QuotationServiceImpl implements QuotationService {
 		}
 		return model;
 	}
+
+
+	@Override
+	public List<ItemSupplierDTO> getItemsBySupplierAndScannedCode(Integer supplierId, String scanCode) {
+		List<ItemSupplierDTO> model = quotationRepository.getItemsBySupplierAndScannedCode(supplierId,scanCode);
+		/*for(ItemSupplierDTO i : model) {
+			ItemsModel itemsModel = new ItemsModel();
+
+			itemsModel.setItemId(i.getItemId());
+			itemsModel.setItemCode(i.getItemCode());
+			itemsModel.setItemName(i.getItemName());
+			itemsModel.setItemDescription(i.getItemDescription());
+			
+			i.setItemsModel(itemsModel);
+		}*/
+		return model;
+	}
+
+
 
 	@Override
 	public List<SupplierModel> getSupplierItemsByQuotationId(Integer quotationId) {
@@ -612,19 +634,19 @@ public class QuotationServiceImpl implements QuotationService {
 
 	@Override
 	public List<String> findQuotationNoBySearch(String searchTerm) {
-		
+
 		return quotationRepository.getAllQtnNoBySearch(searchTerm);
 	}
 
 	@Override
 	public List<String> findSuppliersInQtnBySearch(String searchTerm) {
-		
+
 		return quotationRepository.getAllSuppliersInQtnBySearch(searchTerm);
 	}
 
 	@Override
 	public List<String> findAllQuotationNo() {
-		
+
 		return quotationRepository.getAllQtnNo();
 	}
 
@@ -635,34 +657,34 @@ public class QuotationServiceImpl implements QuotationService {
 
 	@Override
 	public List<SupplierModel> getAllSuppliersByQuotationId(Integer quotationId) {
-		
+
 		return quotationRepository.getSuppliersByQuotationId(quotationId);
 	}
 
 	@Override
 	public List<QuotationItemsModel> getQuotationDataByIdAndSup(Integer quotationId, Integer supplierId) {
-		
+
 		return quotationRepository.findQuotationDataByIdAndSupplier(quotationId,supplierId);
 	}
 
 	@Override
 	public List<SupplierModel> findSuppliersInQtnByQuotationNo(String quotationNo) {
-		
+
 		return quotationRepository.findSuppliersByQuotationNo(quotationNo);
 	}
 
 	@Override
 	public void updateQuotationItemSupplierMailStatusToSent(Integer quotationId, Integer supplierId) {
-	
+
 		quotationRepository.updateSupplierMailStatus(quotationId,supplierId);
-		
+
 	}
 
 	@Override
 	public List<SupplierModel> findSuppliersInQtnByQuotationNoForPriceUpdate(String quotationNo) {
-		
+
 		return quotationRepository.findSuppliersByQuotationNoForPriceUpdate(quotationNo);
 	}
 
-	
+
 }

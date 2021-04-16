@@ -468,6 +468,14 @@ public class QuotationController {
 	 * @author Gunasekhar 
 	 * Service is to get the items based on the Supplier
 	 */
+	@GetMapping("/getitemsbysupplierqrandbarcode")
+	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsBySupplierAndScannedCode(@RequestParam Integer supplierId, 
+			@RequestParam(required=false) String scanCode) {
+		List<ItemSupplierDTO> result = quotationService.getItemsBySupplierAndScannedCode(supplierId,scanCode);
+		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+
+	
 	@GetMapping("/getitemsbysupplieritemcditemname")
 	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsBySupplier(@RequestParam Integer supplierId, 
 			@RequestParam(required=false) String itemCode, @RequestParam(required=false) String itemName) {
@@ -475,6 +483,7 @@ public class QuotationController {
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 
+	
 	/**
 	 * @author Gunasekhar 
 	 * Service is to get the list of suppliers and items.
