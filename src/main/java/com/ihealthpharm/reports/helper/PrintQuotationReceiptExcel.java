@@ -353,16 +353,16 @@ public class PrintQuotationReceiptExcel extends ReportsExcelUtility{
 				}else {	
 					cell.setCellValue(String.valueOf(value));
 				}
-				
+
 				int vatAmtCol =sheet.getLastRowNum()+1;
-				
+
 				String vatAmtFor="C"+quantityCol+ "*E"+unitPriceCol+"*(H"+vatPerCol+"/100)";
 
 				cell.setCellFormula(vatAmtFor);
 				cell.setCellStyle(borderStyle);
 
-				
-				
+
+
 				value = rowData.containsKey("TOTAL_VALUE") ? rowData.get("TOTAL_VALUE") : "";
 				//sheet.autoSizeColumn(10);
 				cell = dataRow.createCell(9);
@@ -372,7 +372,7 @@ public class PrintQuotationReceiptExcel extends ReportsExcelUtility{
 				}else {	
 					cell.setCellValue(String.valueOf(value));
 				}
-				
+
 				String totalAmtFor="(C"+quantityCol+ "*E"+unitPriceCol+"-G"+discAmtCol+")+I"+vatAmtCol;
 				cell.setCellFormula(totalAmtFor);
 				cell.setCellStyle(borderStyle);
@@ -380,6 +380,19 @@ public class PrintQuotationReceiptExcel extends ReportsExcelUtility{
 
 
 			}
+			
+			
+			int lastRemarks=sheet.getLastRowNum()+4;
+			Row remarks = sheet.createRow(lastRemarks);
+			Cell remarksCell = remarks.createCell(1);
+			remarksCell.setCellValue("REMARKS :");
+			remarksCell.setCellStyle(subHeaderStyle);
+			
+			
+			Row remarks1 = sheet.createRow(lastRemarks+2);
+			Cell remarksCell1 = remarks1.createCell(1);
+			remarksCell1.setCellValue("TERMS AND CONDITIONS :");
+			remarksCell1.setCellStyle(subHeaderStyle);
 		}
 
 	}

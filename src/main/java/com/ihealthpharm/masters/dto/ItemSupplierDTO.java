@@ -54,6 +54,8 @@ public class ItemSupplierDTO {
 	
 	private Integer quantity;
 	
+	private Integer bonus;
+	
 	private String pack;
 	
 	private Double unitPurchasePrice;
@@ -239,7 +241,7 @@ public class ItemSupplierDTO {
 	
 	public ItemSupplierDTO(Integer itemId, String itemCode, String itemName, String itemDescription, 
 			String formulation,String manufacturerName, Integer supplierId, String supplierName, 
-			Integer quantity,
+			Integer quantity,Integer bonus,
 			String pack,ItemsModel itemsModel,Double discountPercentage,
 			Double unitRate) {
 		//super();
@@ -252,6 +254,7 @@ public class ItemSupplierDTO {
 		this.supplierId = supplierId;
 		this.supplierName = supplierName;
 		this.quantity=quantity;
+		this.bonus=bonus;
 		this.pack=pack;
 		this.itemsModel=itemsModel;
 		this.discountPercentage=discountPercentage;
