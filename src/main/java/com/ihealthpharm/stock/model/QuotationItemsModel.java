@@ -118,6 +118,9 @@ public class QuotationItemsModel extends AuditModel {
 
 	@Column(name = "QUANTITY", length = 11)
 	private Integer quantity;
+	
+	@Column(name = "BONUS", length = 11)
+	private Integer bonus;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

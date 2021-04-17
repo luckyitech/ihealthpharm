@@ -77,7 +77,7 @@
 <td>${index?counter}</td>
 <td >${index.item.itemName}</td>
 <td >${index.quantity}</td>
-<td >0</td>
+<td >${index.bonus}</td>
 <td >${index.unitPurchasePrice}</td>
 <td>${index.discountPercentage}</td>
 <td>${index.quantity*index.unitPurchasePrice*index.discountPercentage/100}</td>
