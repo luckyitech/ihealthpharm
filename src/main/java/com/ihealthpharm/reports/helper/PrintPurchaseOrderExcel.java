@@ -359,6 +359,28 @@ public class PrintPurchaseOrderExcel extends ReportsExcelUtility{
 
 
 			}
+			
+			
+			int lastRemarks=sheet.getLastRowNum()+4;
+			Row remarks = sheet.createRow(lastRemarks);
+			Cell remarksCell = remarks.createCell(1);
+			remarksCell.setCellValue("REMARKS :");
+			remarksCell.setCellStyle(subHeaderStyle);
+			Cell remarksCellValue = remarks.createCell(2);
+			value=purchaseOrderDetails.get(0).containsKey("REMARKS") ? purchaseOrderDetails.get(0).get("REMARKS") : "";
+			remarksCellValue.setCellValue(String.valueOf(value));
+			//remarksCellValue.setCellStyle(subHeaderStyle);
+			
+			
+			
+			Row terms = sheet.createRow(lastRemarks+2);
+			Cell termsCell = terms.createCell(1);
+			termsCell.setCellValue("TERMS & CONDITIONS :");
+			termsCell.setCellStyle(subHeaderStyle);
+			Cell termsCellValue = terms.createCell(2);
+			value=purchaseOrderDetails.get(0).containsKey("PO_TERM") ? purchaseOrderDetails.get(0).get("PO_TERM") : "";
+			termsCellValue.setCellValue(String.valueOf(value));
+			//termsCellValue.setCellStyle(subHeaderStyle);
 		}
 
 	}
