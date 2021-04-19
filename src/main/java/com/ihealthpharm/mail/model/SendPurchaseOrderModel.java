@@ -27,6 +27,8 @@ public class SendPurchaseOrderModel {
   
     public String createdBy;
     public String description;
+    public String remarks;
+    public String poTerms;
    
     public List<PurchaseOrderItemsModel> poItemModel;
 }

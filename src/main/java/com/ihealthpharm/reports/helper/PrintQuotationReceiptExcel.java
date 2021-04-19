@@ -389,10 +389,10 @@ public class PrintQuotationReceiptExcel extends ReportsExcelUtility{
 			remarksCell.setCellStyle(subHeaderStyle);
 			
 			
-			Row remarks1 = sheet.createRow(lastRemarks+2);
-			Cell remarksCell1 = remarks1.createCell(1);
-			remarksCell1.setCellValue("TERMS AND CONDITIONS :");
-			remarksCell1.setCellStyle(subHeaderStyle);
+			Row terms = sheet.createRow(lastRemarks+2);
+			Cell termsCell = terms.createCell(1);
+			termsCell.setCellValue("TERMS AND CONDITIONS :");
+			termsCell.setCellStyle(subHeaderStyle);
 		}
 
 	}
