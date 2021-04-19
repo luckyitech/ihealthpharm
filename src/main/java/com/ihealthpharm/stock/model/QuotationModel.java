@@ -138,6 +138,9 @@ public class QuotationModel extends AuditModel {
 	@Column(name="SUPPLIER_SENT_QTN_NO")
 	private String supplierSentQtnNo;
 	
+	@Column(name="REMARKS")
+	private String remarks;
+	
 	@Transient
 	private Integer createdId;
 	

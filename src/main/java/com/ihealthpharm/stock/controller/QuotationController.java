@@ -689,12 +689,8 @@ public class QuotationController {
 				mailModel.setRequestedBy(requestedName);
 				mailModel.setQuotationNo(quotationModel.getQuotationNo());
 				mailModel.setDescription(quotationModel.getDescription());
-
 				mailModel.setQuotItemModel(quotationItemsForEachSupplier);
-
-
 				mailModel.setQuotationDate(dateFormat.format(quotationModel.getQuotationDt()));
-
 				mailModel.setPharmacyName(pharmacyDetails.getPharmacyName());
 				mailModel.setPharmaAddress1(pharmacyDetails.getAddressLine1());
 				mailModel.setPharmaAddress2(pharmacyDetails.getAddressLine2());
@@ -702,6 +698,7 @@ public class QuotationController {
 				mailModel.setMobileOne(pharmacyDetails.getPhoneNumber());
 				mailModel.setWhatsAppNo(pharmacyDetails.getPhoneNumber());
 				mailModel.setBccEmail(pharmacyDetails.getBccEmailId());
+				mailModel.setRemarks(quotationModel.getRemarks());
 
 				System.out.println("file name"+"Request for quotation" );
 				String FilePath = blobData.getOriginalFilename();

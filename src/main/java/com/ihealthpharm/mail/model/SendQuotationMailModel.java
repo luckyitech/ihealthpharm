@@ -30,7 +30,7 @@ public class SendQuotationMailModel {
   
     public String requestedBy;
     public String description;
-   
+    public String remarks;
     public List<QuotationItemsModel> quotItemModel;
     
     
