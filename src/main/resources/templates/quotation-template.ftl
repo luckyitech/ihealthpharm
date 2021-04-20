@@ -97,7 +97,7 @@
 </table>
 
 <table style="padding-top:40px;font-family: Arial, Helvetica, sans-serif; color: #202124; font-size: 12px;">
-<tr><td>Remarks :</td></tr>
+<tr><td>Remarks : ${remarks}</td></tr>
 
 <tr><td>Terms & Conditions :</td></tr>
 </table>
