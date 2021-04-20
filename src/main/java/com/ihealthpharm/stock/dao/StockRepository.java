@@ -44,28 +44,28 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 
 	// find stock by item name
 	@Query("select s from stock s inner join items i on s.item.itemId=i.itemId where s.item.itemName like :searchTerm% "
-			+ "and s.pharmacy.pharmacyId=:pharmacyId and s.quantity>0 order by i.itemName,s.expiryDt asc")
+			+ "and s.pharmacy.pharmacyId=:pharmacyId order by i.itemName,s.expiryDt asc")
 	List<StockModel> findStockByItemNameAndPharmacyId(@Param("searchTerm") String itemName,
 			@Param("pharmacyId") Integer pharmacyId, Pageable pageable);
 
 	// find stock by barcode
 	@Query("select s from stock s inner join items i on s.item.itemId=i.itemId where s.barcode like %:searchTerm% "
-			+ "and s.pharmacy.pharmacyId=:pharmacyId and s.quantity>0 order by i.itemName,s.expiryDt asc")
+			+ "and s.pharmacy.pharmacyId=:pharmacyId order by i.itemName,s.expiryDt asc")
 	List<StockModel> findStockByQRBarCodeNumberAndPharmacyId(@Param("searchTerm")String searchTerm, @Param("pharmacyId")Integer pharmacyId);
 	
 	@Query("select count(s) from stock s inner join items i on s.item.itemId=i.itemId where s.barcode like %:searchTerm% "
-			+ "and s.pharmacy.pharmacyId=:pharmacyId and s.quantity>0 order by i.itemName,s.expiryDt asc")
+			+ "and s.pharmacy.pharmacyId=:pharmacyId order by i.itemName,s.expiryDt asc")
 	Integer findStockCountByQRBarCodeNumberAndPharmacyId(@Param("searchTerm")String searchTerm, @Param("pharmacyId")Integer pharmacyId);
 	
 	// find stock by item code
 	@Query("select s from stock s inner join items i on s.item.itemId=i.itemId where s.item.itemCode like :searchTerm% "
-			+ "and s.pharmacy.pharmacyId=:pharmacyId and s.quantity>0 order by i.itemName,s.expiryDt asc")
+			+ "and s.pharmacy.pharmacyId=:pharmacyId order by i.itemName,s.expiryDt asc")
 	List<StockModel> findStockByItemCodeAndPharmacyId(@Param("searchTerm") String searchTerm,
 			@Param("pharmacyId") Integer pharmacyId, Pageable pageable);
 
 	// find stock by item Description
 	@Query("select s from stock s inner join items i on s.item.itemId=i.itemId where s.item.itemDescription like %:searchTerm% "
-			+ "and s.pharmacy.pharmacyId=:pharmacyId and s.quantity>0 order by i.itemName,s.expiryDt asc")
+			+ "and s.pharmacy.pharmacyId=:pharmacyId order by i.itemName,s.expiryDt asc")
 	List<StockModel> findStockByItemDescriptionAndPharmacyId(@Param("searchTerm") String searchTerm,
 			@Param("pharmacyId") Integer pharmacyId, Pageable pageable);
 
@@ -85,25 +85,25 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 
 	// find stock by item name
 	@Query("select count(s) from stock s inner join items i on s.item.itemId=i.itemId where s.item.itemName like :searchTerm% "
-			+ "and s.pharmacy.pharmacyId=:pharmacyId and s.quantity>0 order by i.itemName,s.expiryDt asc")
+			+ "and s.pharmacy.pharmacyId=:pharmacyId order by i.itemName,s.expiryDt asc")
 	Integer findStockByItemNameAndPharmacyId(@Param("searchTerm") String itemName,
 			@Param("pharmacyId") Integer pharmacyId);
 
 	// find stock by item code
 	@Query("select count(s) from stock s inner join items i on s.item.itemId=i.itemId where s.item.itemCode like :searchTerm% "
-			+ "and s.pharmacy.pharmacyId=:pharmacyId and s.quantity>0 order by i.itemName,s.expiryDt asc")
+			+ "and s.pharmacy.pharmacyId=:pharmacyId order by i.itemName,s.expiryDt asc")
 	Integer findStockByItemCodeAndPharmacyId(@Param("searchTerm") String searchTerm,
 			@Param("pharmacyId") Integer pharmacyId);
 
 	// find stock by item Description
 	@Query("select count(s) from stock s inner join items i on s.item.itemId=i.itemId where s.item.itemDescription like %:searchTerm% "
-			+ "and s.pharmacy.pharmacyId=:pharmacyId and s.quantity>0 order by i.itemName,s.expiryDt asc")
+			+ "and s.pharmacy.pharmacyId=:pharmacyId order by i.itemName,s.expiryDt asc")
 	Integer findStockByItemDescriptionAndPharmacyId(@Param("searchTerm") String searchTerm,
 			@Param("pharmacyId") Integer pharmacyId);
 
 	// find stock by stock batch number
 	@Query("select count(s) from stock s  where s.batchNo like :searchTerm% " + "and s.pharmacy.pharmacyId=:pharmacyId "
-			+ "and s.quantity>0 order by s.expiryDt asc")
+			+ "order by s.expiryDt asc")
 	Integer findStockByBatchNumberAndPharmacyId(@Param("searchTerm") String searchTerm,
 			@Param("pharmacyId") Integer pharmacyId);
 
@@ -111,7 +111,7 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 	@Query("select count(s) from stock s inner join items i on s.item.itemId=i.itemId inner join "
 			+ "items_generic_names ig on ig.itemGenericNameId=i.itemGenericName.itemGenericNameId "
 			+ "where ig.genericName like %:searchTerm% " + "and s.pharmacy.pharmacyId=:pharmacyId "
-					+ "and s.quantity>0 order by i.itemName,s.expiryDt asc")
+					+ "order by i.itemName,s.expiryDt asc")
 	Integer findStockByItemGenericNameAndPharmacyId(@Param("searchTerm") String searchTerm,
 			@Param("pharmacyId") Integer pharmacyId);
 
