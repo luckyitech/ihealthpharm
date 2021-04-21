@@ -45,7 +45,7 @@ public class StockServiceImpl implements StockService {
 		log.info("Stock data with ID: " + stockModel.getStockId() + " saved succesfully");
 		return stockModel;
 	}
-	
+
 	@Override
 	public List<StockModel> saveStock(List<StockModel> stockModels) {
 		for(int i=0;i<stockModels.size();i++)
@@ -138,25 +138,25 @@ public class StockServiceImpl implements StockService {
 
 	@Override
 	public List<String> getBatchNumbersByItemId(ItemsModel itemId) {
-		
+
 		return stockRepository.getBatchNumbersByItemId(itemId);
 	}
 
 	@Override
 	public StockModel getStockByItemAndBatchNumber(ItemsModel itemId, String batchNo) {
-		
+
 		return stockRepository.findByItemAndBatchNo(itemId, batchNo);
 	}
 
 	@Override
 	public List<StockModel> findByItem(ItemsModel itemId) {
-		
+
 		return stockRepository.findByItem(itemId);
 	}
 
 	@Override
 	public List<StockModel> findByItemName(ItemsModel itemName) {
-		
+
 		return stockRepository.findByItemName(itemName);
 	}
 
@@ -210,9 +210,42 @@ public class StockServiceImpl implements StockService {
 		{
 			res = stockRepository.findStockByItemGenericNameAndPharmacyId(searchTerm,pharmacyId,limit);
 		}
-		
+
 		return res;
 	}
+
+
+	@Override
+	public List<StockModel> findByItemAndPharmacyInEditStock(String searchTerm, String searchCode,
+			Integer pharmacyId, Integer pageNumber, Integer pageSize) {
+		Pageable limit = new PageRequest(pageNumber,pageSize);
+		List<StockModel> res=null;
+		if(searchCode.equalsIgnoreCase("Item Name"))
+		{
+			res = stockRepository.findStockByItemNameAndPharmacyIdInEditStock(searchTerm,pharmacyId,limit);
+		}
+		else if(searchCode.equalsIgnoreCase("Item Code"))
+		{
+			res = stockRepository.findStockByItemCodeAndPharmacyIdInEditStock(searchTerm,pharmacyId,limit);
+		}
+		else if(searchCode.equalsIgnoreCase("Description"))
+		{
+			res = stockRepository.findStockByItemDescriptionAndPharmacyIdInEditStock(searchTerm,pharmacyId,limit);
+		}
+		else if(searchCode.equalsIgnoreCase("Batch Number"))
+		{
+			res = stockRepository.findStockByBatchNumberAndPharmacyIdInEditStock(searchTerm,pharmacyId,limit);
+		}
+		else if(searchCode.equalsIgnoreCase("Generic Name"))
+		{
+			res = stockRepository.findStockByItemGenericNameAndPharmacyIdInEditStock(searchTerm,pharmacyId,limit);
+		}
+
+		return res;
+	}
+
+
+
 
 	@Override
 	public Integer findByItemAndPharmacyCount(String searchTerm, String searchCode, Integer pharmacyId) {
@@ -237,10 +270,40 @@ public class StockServiceImpl implements StockService {
 		{
 			res = stockRepository.findStockByItemGenericNameAndPharmacyId(searchTerm,pharmacyId);
 		}
-		
+
 		return res;
-		
+
 	}
+
+
+	@Override
+	public Integer findByItemAndPharmacyCountInEditStock(String searchTerm, String searchCode, Integer pharmacyId) {
+		Integer res=0;
+		if(searchCode.equalsIgnoreCase("Item Name"))
+		{
+			res = stockRepository.findStockByItemNameAndPharmacyIdInEditStock(searchTerm,pharmacyId);
+		}
+		else if(searchCode.equalsIgnoreCase("Item Code"))
+		{
+			res = stockRepository.findStockByItemCodeAndPharmacyIdInEditStock(searchTerm,pharmacyId);
+		}
+		else if(searchCode.equalsIgnoreCase("Description"))
+		{
+			res = stockRepository.findStockByItemDescriptionAndPharmacyIdInEditStock(searchTerm,pharmacyId);
+		}
+		else if(searchCode.equalsIgnoreCase("Batch Number"))
+		{
+			res = stockRepository.findStockByBatchNumberAndPharmacyIdInEditStock(searchTerm,pharmacyId);
+		}
+		else if(searchCode.equalsIgnoreCase("Generic Name"))
+		{
+			res = stockRepository.findStockByItemGenericNameAndPharmacyIdInEditStock(searchTerm,pharmacyId);
+		}
+
+		return res;
+
+	}
+
 
 	@Override
 	public List<String> findSuppliersByStock(String searchTerm) {
@@ -271,136 +334,135 @@ public class StockServiceImpl implements StockService {
 	public List<String> findAllInvoiceDatesByStock() {
 		return stockRepository.findAllInvoiceDatesInStockPOL();
 	}
-	
-		public List<StockModel> findAllByBatchNo(String searchTerm) {
+
+	public List<StockModel> findAllByBatchNo(String searchTerm) {
 		return stockRepository.findAllByBatchNoSearch(searchTerm);
 	}
 	//Supplier By MFR List
-		@Override
-		public List<String> findSupplierbynameInStockSBML(String searchTerm) {
-			return stockRepository.findSupplierbynameInStockSBML(searchTerm);
-		}
+	@Override
+	public List<String> findSupplierbynameInStockSBML(String searchTerm) {
+		return stockRepository.findSupplierbynameInStockSBML(searchTerm);
+	}
 
-		@Override
-		public List<String> findallSBML() {
-			return stockRepository.findallSBML();
-		}
-		
-		@Override
-		public List findProfitService() {
-			Pageable limit = new PageRequest(0,10);
+	@Override
+	public List<String> findallSBML() {
+		return stockRepository.findallSBML();
+	}
+
+	@Override
+	public List findProfitService() {
+		Pageable limit = new PageRequest(0,10);
 		List<StockProfitDTO> res=stockRepository.profitPercentageRepo(limit);
-			List finalObj = new ArrayList();
-			for(StockProfitDTO obj:res) {
-				List temp = new ArrayList();
-				temp.add(obj.getName());
-				temp.add(obj.getProfit());
-				finalObj.add(temp);
-				
-			}
-			return finalObj;
-		}
+		List finalObj = new ArrayList();
+		for(StockProfitDTO obj:res) {
+			List temp = new ArrayList();
+			temp.add(obj.getName());
+			temp.add(obj.getProfit());
+			finalObj.add(temp);
 
-		@Override
-		public List findSuppliersRevenue() {
-			Pageable limit = new PageRequest(0,5);
-			List<StockRevenueDTO> res = stockRepository.suppliersRevenueRepo(limit);
-			List finalObj = new ArrayList();
-			for(StockRevenueDTO obj:res) {
-				List temp = new ArrayList();
-				temp.add(obj.getName());
-				temp.add(obj.getRevenue());
-				finalObj.add(temp);
-			}
-			return finalObj;
 		}
+		return finalObj;
+	}
 
-		@Override
-		public List<StockAdjustmentDTO> getAllBatchesOnItemCode(String searchTerm) {
-			return stockRepository.findAllBatchesOnCode(searchTerm);
+	@Override
+	public List findSuppliersRevenue() {
+		Pageable limit = new PageRequest(0,5);
+		List<StockRevenueDTO> res = stockRepository.suppliersRevenueRepo(limit);
+		List finalObj = new ArrayList();
+		for(StockRevenueDTO obj:res) {
+			List temp = new ArrayList();
+			temp.add(obj.getName());
+			temp.add(obj.getRevenue());
+			finalObj.add(temp);
 		}
+		return finalObj;
+	}
 
-		@Override
-		public String getStockExpiryDate(Integer  itemId, String batch) {
-            String res=stockRepository.getExpiryDate(itemId,batch);
-			return res;
-		}
+	@Override
+	public List<StockAdjustmentDTO> getAllBatchesOnItemCode(String searchTerm) {
+		return stockRepository.findAllBatchesOnCode(searchTerm);
+	}
 
-		@Override
-		public List<StockAdjustmentDTO> getAllBatchesOnItemName(String searchTerm) {
-			return stockRepository.findAllBatchesBasedOnName(searchTerm);
-		}
+	@Override
+	public String getStockExpiryDate(Integer  itemId, String batch) {
+		String res=stockRepository.getExpiryDate(itemId,batch);
+		return res;
+	}
 
-		@Override
-		public List<StockAdjustmentDTO> getAllBatchesOnItemDesc(String searchTerm) {
-			System.out.println(searchTerm);
-			return stockRepository.findAllBatchesBasedOnItemDesc(searchTerm);
-		}
+	@Override
+	public List<StockAdjustmentDTO> getAllBatchesOnItemName(String searchTerm) {
+		return stockRepository.findAllBatchesBasedOnName(searchTerm);
+	}
 
-		@Override
-		public String getStocksExpiryDates(Integer itemId, String batch) {
-           String res=stockRepository.getExpiryDates(itemId,batch);
-			return res;
-		}
+	@Override
+	public List<StockAdjustmentDTO> getAllBatchesOnItemDesc(String searchTerm) {
+		System.out.println(searchTerm);
+		return stockRepository.findAllBatchesBasedOnItemDesc(searchTerm);
+	}
 
-		@Override
-		public List<StockAdjustmentDTO> getAllBatchesOnItemGenericName(String searchTerm) {
-			return stockRepository.findAllBatchesBasedOnItemGeneric(searchTerm);
-		}
+	@Override
+	public String getStocksExpiryDates(Integer itemId, String batch) {
+		String res=stockRepository.getExpiryDates(itemId,batch);
+		return res;
+	}
 
-		@Override
-		public String getStocksExpiryDatesByGeneric(Integer itemId, String batch) {
-			return stockRepository.getExpiryDateBasedOnGeneric(itemId,batch);
-		}
+	@Override
+	public List<StockAdjustmentDTO> getAllBatchesOnItemGenericName(String searchTerm) {
+		return stockRepository.findAllBatchesBasedOnItemGeneric(searchTerm);
+	}
 
-		@Override
-		public String getStockExpiryBasedOnItemName(Integer  itemId, String batch) {
-			return stockRepository.getExpiryDateByItemName( itemId,  batch);
-		}
+	@Override
+	public String getStocksExpiryDatesByGeneric(Integer itemId, String batch) {
+		return stockRepository.getExpiryDateBasedOnGeneric(itemId,batch);
+	}
 
-		@Override
-		public List<StockModel> findStockByItemIdAndPharmacyId(Integer itemId, Integer pharmacyId) {
-			return stockRepository.getStockByItemIdAndPharmacyId(itemId,pharmacyId);
-		}
+	@Override
+	public String getStockExpiryBasedOnItemName(Integer  itemId, String batch) {
+		return stockRepository.getExpiryDateByItemName( itemId,  batch);
+	}
 
-		@Override
-		public Integer updateStock(Integer stockId,Integer previousQty, Integer quantity,Integer lastUpdateUser) {
-			
-			 Date lastUpdateTimestamp = new Date();
-			 String entryType="Stock Take";
-			return stockRepository.updateStockData(stockId,previousQty,quantity,lastUpdateUser,entryType,lastUpdateTimestamp);
-		}
+	@Override
+	public List<StockModel> findStockByItemIdAndPharmacyId(Integer itemId, Integer pharmacyId) {
+		return stockRepository.getStockByItemIdAndPharmacyId(itemId,pharmacyId);
+	}
 
-		@Override
-		public List<ItemsForStockAdjustDTO> getStockAdjustRecords(Integer stockId) {
-			return stockRepository.getStockRecordById(stockId);
-		}
+	@Override
+	public Integer updateStock(Integer stockId,Integer previousQty, Integer quantity,Integer lastUpdateUser) {
 
-		@Override
-		public List<String> findInvoiceNosBySearchST(String searchTerm) {
-			return stockRepository.findInvoiceNoInST(searchTerm);
-		}
+		Date lastUpdateTimestamp = new Date();
+		String entryType="Stock Take";
+		return stockRepository.updateStockData(stockId,previousQty,quantity,lastUpdateUser,entryType,lastUpdateTimestamp);
+	}
 
-		@Override
-		public List<String> findAllInvoiceNosByST() {
-			return stockRepository.findAllInvoiceNoInST();
-		}
+	@Override
+	public List<ItemsForStockAdjustDTO> getStockAdjustRecords(Integer stockId) {
+		return stockRepository.getStockRecordById(stockId);
+	}
 
-		@Override
-		public List<String> findItemNamesBySearchST(String searchTerm) {
-			return stockRepository.findItemNmaesInST(searchTerm);
-		}
+	@Override
+	public List<String> findInvoiceNosBySearchST(String searchTerm) {
+		return stockRepository.findInvoiceNoInST(searchTerm);
+	}
 
-		@Override
-		public List<String> findAllItemNamesByST() {
-			return stockRepository.findAllItemNmaesInST();
-		}
+	@Override
+	public List<String> findAllInvoiceNosByST() {
+		return stockRepository.findAllInvoiceNoInST();
+	}
 
-		@Override
-		public StockModel getLatestStock(String batchNo, Integer itemId, String invoiceNo) {
-			return stockRepository.getLatestStock(batchNo,itemId,invoiceNo);
-		}
-		
-		
+	@Override
+	public List<String> findItemNamesBySearchST(String searchTerm) {
+		return stockRepository.findItemNmaesInST(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllItemNamesByST() {
+		return stockRepository.findAllItemNmaesInST();
+	}
+
+	@Override
+	public StockModel getLatestStock(String batchNo, Integer itemId, String invoiceNo) {
+		return stockRepository.getLatestStock(batchNo,itemId,invoiceNo);
+	}
+
 
 }
