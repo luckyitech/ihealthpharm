@@ -205,6 +205,16 @@ public class StockController {
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}
 	
+	
+	@GetMapping("/getstockbyitemandpharmacyidInEditStock")
+	public ResponseEntity<BaseDto<List<StockModel>>> getStockByItemNameAndPharmacyInEditStock(@RequestParam String searchTerm,@RequestParam String searchCode, @RequestParam Integer pharmacyId,
+			@RequestParam Integer pageNumber,@RequestParam Integer pageSize){
+		List<StockModel> result = stockService.findByItemAndPharmacyInEditStock(searchTerm,searchCode,pharmacyId,pageNumber,pageSize);
+
+		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
+	}
+	
+	
 	@GetMapping("/getstockbyitemidandpharmacyid")
 	public ResponseEntity<BaseDto<List<StockModel>>> getStockByItemIdAndPharmacy(@RequestParam Integer itemId,@RequestParam Integer pharmacyId){
 		List<StockModel> result = stockService.findStockByItemIdAndPharmacyId(itemId,pharmacyId);
@@ -212,9 +222,17 @@ public class StockController {
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}	
 
+	
 	@GetMapping("/getstockbyitemandpharmacyidcount")
 	public ResponseEntity<BaseDto<Integer>> getStockByItemNameAndPharmacyCount(@RequestParam String searchTerm,@RequestParam String searchCode, @RequestParam Integer pharmacyId){
 		Integer result = stockService.findByItemAndPharmacyCount(searchTerm,searchCode,pharmacyId);
+
+		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
+	}
+	
+	@GetMapping("/getstockbyitemandpharmacyidcountInEditStock")
+	public ResponseEntity<BaseDto<Integer>> getStockByItemNameAndPharmacyCountInEditStock(@RequestParam String searchTerm,@RequestParam String searchCode, @RequestParam Integer pharmacyId){
+		Integer result = stockService.findByItemAndPharmacyCountInEditStock(searchTerm,searchCode,pharmacyId);
 
 		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
 	}
