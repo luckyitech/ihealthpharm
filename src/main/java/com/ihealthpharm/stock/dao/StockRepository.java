@@ -315,7 +315,6 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 						+ "order by i.itemName,s.expiryDt asc")
 		List<StockModel> findStockByItemGenericNameAndPharmacyIdInEditStock(@Param("searchTerm") String searchTerm,
 				@Param("pharmacyId") Integer pharmacyId, Pageable pageable);
->>>>>>> 5ac488e9c680f28272496653153db0be8e4c5304
 
 	
 }
