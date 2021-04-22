@@ -86,6 +86,18 @@
 </tr>
 </#list>
 </table>
+
+<table style="padding-top:40px;font-family: Arial, Helvetica, sans-serif; color: #202124; 
+font-size: 12px;width:50%">
+<tr>
+<td>Remarks : ${remarks}</td>
+
+</tr>
+
+<tr>
+<td>Terms & Conditions : ${poTerms}</td>
+</tr>
+</table>
                     </div>
                 </div>
                 
@@ -106,5 +118,6 @@
         </p>
     </div>
 </body>
+
 </html>
                                                     

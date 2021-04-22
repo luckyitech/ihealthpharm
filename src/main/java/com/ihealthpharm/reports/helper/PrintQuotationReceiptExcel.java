@@ -387,12 +387,18 @@ public class PrintQuotationReceiptExcel extends ReportsExcelUtility{
 			Cell remarksCell = remarks.createCell(1);
 			remarksCell.setCellValue("REMARKS :");
 			remarksCell.setCellStyle(subHeaderStyle);
+			Cell remarksCellValue = remarks.createCell(2);
+			value=quotationDetails.get(0).containsKey("REMARKS") ? quotationDetails.get(0).get("REMARKS") : "";
+			remarksCellValue.setCellValue(String.valueOf(value));
 			
-			
-			Row remarks1 = sheet.createRow(lastRemarks+2);
-			Cell remarksCell1 = remarks1.createCell(1);
-			remarksCell1.setCellValue("TERMS AND CONDITIONS :");
-			remarksCell1.setCellStyle(subHeaderStyle);
+			Row terms = sheet.createRow(lastRemarks+2);
+			Cell termsCell = terms.createCell(1);
+			termsCell.setCellValue("TERMS AND CONDITIONS :");
+			termsCell.setCellStyle(subHeaderStyle);
+			Cell termsCellValue = terms.createCell(2);
+			value=quotationDetails.get(0).containsKey("QUO_TERM") ? quotationDetails.get(0).get("QUO_TERM") : "";
+			termsCellValue.setCellValue(String.valueOf(value));
+			//termsCellValue.setCellStyle(subHeaderStyle);
 		}
 
 	}

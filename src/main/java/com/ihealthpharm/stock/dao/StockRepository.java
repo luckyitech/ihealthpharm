@@ -75,7 +75,7 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 	List<StockModel> findStockByBatchNumberAndPharmacyId(@Param("searchTerm") String searchTerm,
 			@Param("pharmacyId") Integer pharmacyId, Pageable pageable);
 
-	// find stock by item Description
+	// find stock by item generic name
 	@Query("select s from stock s inner join items i on s.item.itemId=i.itemId inner join "
 			+ "items_generic_names ig on ig.itemGenericNameId=i.itemGenericName.itemGenericNameId "
 			+ "where ig.genericName like %:searchTerm% " + "and s.pharmacy.pharmacyId=:pharmacyId "
@@ -248,6 +248,74 @@ public interface StockRepository extends JpaRepository<StockModel, Integer> {
 			@Param("pharmacyId")Integer pharmacyId);
 
 	
+	
+	// find stock by item name In Edit Stock
+		@Query("select count(s) from stock s inner join items i on s.item.itemId=i.itemId where s.item.itemName like :searchTerm% "
+				+ "and s.pharmacy.pharmacyId=:pharmacyId order by i.itemName,s.expiryDt asc")
+		Integer findStockByItemNameAndPharmacyIdInEditStock(@Param("searchTerm") String itemName,
+				@Param("pharmacyId") Integer pharmacyId);
+
+		// find stock by item code In EditStock
+		@Query("select count(s) from stock s inner join items i on s.item.itemId=i.itemId where s.item.itemCode like :searchTerm% "
+				+ "and s.pharmacy.pharmacyId=:pharmacyId order by i.itemName,s.expiryDt asc")
+		Integer findStockByItemCodeAndPharmacyIdInEditStock(@Param("searchTerm") String searchTerm,
+				@Param("pharmacyId") Integer pharmacyId);
+
+		// find stock by item Description In EditStock
+		@Query("select count(s) from stock s inner join items i on s.item.itemId=i.itemId where s.item.itemDescription like %:searchTerm% "
+				+ "and s.pharmacy.pharmacyId=:pharmacyId order by i.itemName,s.expiryDt asc")
+		Integer findStockByItemDescriptionAndPharmacyIdInEditStock(@Param("searchTerm") String searchTerm,
+				@Param("pharmacyId") Integer pharmacyId);
+
+		// find stock by stock batch number In EditStock
+		@Query("select count(s) from stock s  where s.batchNo like :searchTerm% " + "and s.pharmacy.pharmacyId=:pharmacyId "
+				+ "order by s.expiryDt asc")
+		Integer findStockByBatchNumberAndPharmacyIdInEditStock(@Param("searchTerm") String searchTerm,
+				@Param("pharmacyId") Integer pharmacyId);
+
+		// find stock by item generic name In EditStock
+		@Query("select count(s) from stock s inner join items i on s.item.itemId=i.itemId inner join "
+				+ "items_generic_names ig on ig.itemGenericNameId=i.itemGenericName.itemGenericNameId "
+				+ "where ig.genericName like %:searchTerm% " + "and s.pharmacy.pharmacyId=:pharmacyId "
+						+ "order by i.itemName,s.expiryDt asc")
+		Integer findStockByItemGenericNameAndPharmacyIdInEditStock(@Param("searchTerm") String searchTerm,
+				@Param("pharmacyId") Integer pharmacyId);
+	
+		
+		
+		// find stock by item name In EditStock
+		@Query("select s from stock s inner join items i on s.item.itemId=i.itemId where s.item.itemName like :searchTerm% "
+				+ "and s.pharmacy.pharmacyId=:pharmacyId order by i.itemName,s.expiryDt asc")
+		List<StockModel> findStockByItemNameAndPharmacyIdInEditStock(@Param("searchTerm") String itemName,
+				@Param("pharmacyId") Integer pharmacyId, Pageable pageable);
+
+		
+		// find stock by item code In EditStock
+		@Query("select s from stock s inner join items i on s.item.itemId=i.itemId where s.item.itemCode like :searchTerm% "
+				+ "and s.pharmacy.pharmacyId=:pharmacyId order by i.itemName,s.expiryDt asc")
+		List<StockModel> findStockByItemCodeAndPharmacyIdInEditStock(@Param("searchTerm") String searchTerm,
+				@Param("pharmacyId") Integer pharmacyId, Pageable pageable);
+
+		// find stock by item Description In EditStock
+		@Query("select s from stock s inner join items i on s.item.itemId=i.itemId where s.item.itemDescription like %:searchTerm% "
+				+ "and s.pharmacy.pharmacyId=:pharmacyId order by i.itemName,s.expiryDt asc")
+		List<StockModel> findStockByItemDescriptionAndPharmacyIdInEditStock(@Param("searchTerm") String searchTerm,
+				@Param("pharmacyId") Integer pharmacyId, Pageable pageable);
+
+		// find stock by stock batch number In EditStock
+		@Query("select s from stock s  where s.batchNo like :searchTerm% " + "and s.pharmacy.pharmacyId=:pharmacyId "
+				+ "order by s.expiryDt asc")
+		List<StockModel> findStockByBatchNumberAndPharmacyIdInEditStock(@Param("searchTerm") String searchTerm,
+				@Param("pharmacyId") Integer pharmacyId, Pageable pageable);
+
+		// find stock by item generic name In EditStock
+		@Query("select s from stock s inner join items i on s.item.itemId=i.itemId inner join "
+				+ "items_generic_names ig on ig.itemGenericNameId=i.itemGenericName.itemGenericNameId "
+				+ "where ig.genericName like %:searchTerm% " + "and s.pharmacy.pharmacyId=:pharmacyId "
+						+ "order by i.itemName,s.expiryDt asc")
+		List<StockModel> findStockByItemGenericNameAndPharmacyIdInEditStock(@Param("searchTerm") String searchTerm,
+				@Param("pharmacyId") Integer pharmacyId, Pageable pageable);
+>>>>>>> 5ac488e9c680f28272496653153db0be8e4c5304
 
 	
 }

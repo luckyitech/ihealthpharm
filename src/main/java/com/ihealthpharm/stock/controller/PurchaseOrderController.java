@@ -551,6 +551,8 @@ public class PurchaseOrderController {
 				mailModel.setPinNo(pharmacyDetails.getTaxId());
 				mailModel.setMobileOne(pharmacyDetails.getPhoneNumber());
 				mailModel.setWhatsAppNo(pharmacyDetails.getPhoneNumber());
+				mailModel.setRemarks(purchaseOrderModel.getRemarks());
+				mailModel.setPoTerms(purchaseOrderModel.getPoTerm());
 				mailModel.setBccEmail(pharmacyDetails.getBccEmailId());
 
 				System.out.println("file name"+"Request for po" );

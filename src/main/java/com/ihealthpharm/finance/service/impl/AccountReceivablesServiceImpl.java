@@ -924,11 +924,13 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 
 							}
 						} else if (Objects.isNull(salesRecord.getSalesCreditRefNo())
-								&& salesRecord.getPaymentStatus().equals("Partially Paid")
-								&& salesRecord.getChequeNumber().contains("DPAR")) {
+								&& salesRecord.getPaymentStatus().equals("Partially Paid")) {
+							/*condition in else if is commented*/
+							//&& salesRecord.getChequeNumber().contains("DPAR")
 							salesRecord.setCreditNoteAmount(null);
 						}
 						salesRepository.save(salesRecord);
+						
 					}
 
 				}
