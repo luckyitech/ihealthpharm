@@ -474,6 +474,8 @@ public class QuotationServiceImpl implements QuotationService {
 	public List<ItemSupplierDTO> getItemsByItemDescForQuotation(String itemDescription) {
 		return quotationRepository.getItemsByItemDescForQuotation(itemDescription);
 	}
+	
+	
 
 	@Override
 	public QuotationModel saveSendByMailQuotation(QuotationModel quotationModel,String quotationstatus) {
@@ -686,5 +688,9 @@ public class QuotationServiceImpl implements QuotationService {
 		return quotationRepository.findSuppliersByQuotationNoForPriceUpdate(quotationNo);
 	}
 
+	@Override
+	public List<ItemSupplierDTO> getItemsByItemBarcodeForQuotation(String barcode) {
+		return quotationRepository.getItemsByItemBarcodeForQuotation(barcode);
+	}
 
 }

@@ -111,7 +111,7 @@ public class QuotationController {
 	@Autowired
 	private PharmacyService pharmacyService;
 
-	
+
 	@Autowired
 	private Environment env;
 
@@ -475,7 +475,7 @@ public class QuotationController {
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 
-	
+
 	@GetMapping("/getitemsbysupplieritemcditemname")
 	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsBySupplier(@RequestParam Integer supplierId, 
 			@RequestParam(required=false) String itemCode, @RequestParam(required=false) String itemName) {
@@ -483,7 +483,7 @@ public class QuotationController {
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 
-	
+
 	/**
 	 * @author Gunasekhar 
 	 * Service is to get the list of suppliers and items.
@@ -642,6 +642,14 @@ public class QuotationController {
 	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsByItemDescForQuotation(
 			@RequestParam String itemDescription) {
 		List<ItemSupplierDTO> result = quotationService.getItemsByItemDescForQuotation(itemDescription);
+		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+
+	//qtn popup barcode search
+	@GetMapping("/getItems/byItemBarcodeForQuotation")
+	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsByItemBarcodeForQuotation(
+			@RequestParam String barcode) {
+		List<ItemSupplierDTO> result = quotationService.getItemsByItemBarcodeForQuotation(barcode);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 
@@ -957,7 +965,7 @@ public class QuotationController {
 		return new BaseDto<>(results,quotationHelper.getRetrieveQuotationMessage(),OK).respond();
 	}
 
-	
+
 	@GetMapping("/getSuppliersList/basedOnQtnNoForUpdatePrice")
 	public ResponseEntity<BaseDto<List<SupplierModel>>> getSuppliersInQtnByQuotationNoForPriceUpdate(@RequestParam String quotationNo){
 		List<SupplierModel> results=quotationService.findSuppliersInQtnByQuotationNoForPriceUpdate(quotationNo);
