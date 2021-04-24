@@ -283,6 +283,13 @@ public class ItemController {
 		List<ItemsForStockAdjustDTO> response=itemService.findItemsDataByItemName(itemName);
 		return new BaseDto<>(response, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
+	
+	
+	@GetMapping("/getitemsdatabybarcodesearch/stockadjustGrid")
+	public ResponseEntity<BaseDto<List<ItemsForStockAdjustDTO>>> getStockDataByBarcode(@RequestParam("barcode")String barcode){
+		List<ItemsForStockAdjustDTO> response=itemService.findItemsDataByBarcodeSearch(barcode);
+		return new BaseDto<>(response, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
 
 
 	@GetMapping("/getallstocks/forStockAdjustGrid")
@@ -320,6 +327,13 @@ public class ItemController {
 	public ResponseEntity<BaseDto<List<ItemsModel>>> getAllByItemCodeSWS(@RequestParam String searchTerm) {
 		
 		List<ItemsModel> results = itemService.findAllByItemCodeSWS(searchTerm);
+		return new BaseDto<>(results, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+	
+	
+	@GetMapping("/getItemsByBarcode/forItemSupplier")
+	public ResponseEntity<BaseDto<List<ItemsModel>>> getItemsByBarcodeForItemSupplier(@RequestParam String barcode) {
+		List<ItemsModel> results = itemService.findAllItemsByBarcodeForItemSupplier(barcode);
 		return new BaseDto<>(results, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 

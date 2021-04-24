@@ -413,6 +413,19 @@ public class ItemServiceImpl implements ItemService {
 		return resp;
 	}
 
+	@Override
+	public List<ItemsModel> findAllItemsByBarcodeForItemSupplier(String barcode) {
+		List<ItemsModel> resp = itemRepository.findAllItemsByBarCodeSearchForSupplier(barcode);
+		return resp;
+	}
+
+	@Override
+	public List<ItemsForStockAdjustDTO> findItemsDataByBarcodeSearch(String barcode) {
+		
+			return itemRepository.FindByBarcodeForStockTakeSearch(barcode);
+	
+	}
+
 
 
 }

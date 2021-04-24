@@ -93,4 +93,8 @@ public interface ItemService {
 	List<ItemsModel> findAllByItemCodeSWS(String searchTerm);
 
 	List<ItemsForStockAdjustDTO> getAllStockAdjustRecordBasedOnRackAndShelfForIntegers(String rack, String shelf);
+
+	List<ItemsModel> findAllItemsByBarcodeForItemSupplier(String barcode);
+
+	List<ItemsForStockAdjustDTO> findItemsDataByBarcodeSearch(String barcode);
 }
