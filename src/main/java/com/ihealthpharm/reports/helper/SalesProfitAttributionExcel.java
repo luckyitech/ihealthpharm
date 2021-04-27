@@ -218,6 +218,14 @@ public class SalesProfitAttributionExcel extends ReportsExcelUtility{
 			cell.setCellValue("CREATION TS");
 			cell.setCellStyle(headerStyle);	
 			
+			cell = headerRow.createCell(20);
+			cell.setCellValue("CUSTOMER NAME");
+			cell.setCellStyle(headerStyle);	
+			
+			cell = headerRow.createCell(21);
+			cell.setCellValue("CUSTOMER TYPE");
+			cell.setCellStyle(headerStyle);	
+			
 			Row displayRow = sheet.createRow(headRow++);
 			for (Map<String, Object> rowData : salesProfitList) {
 
@@ -329,6 +337,16 @@ public class SalesProfitAttributionExcel extends ReportsExcelUtility{
 				
 				value = rowData.containsKey("CREATION_TS") ? rowData.get("CREATION_TS") : "";
 				cell = dataRow.createCell(19);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("CUSTOMER_NM") ? rowData.get("CUSTOMER_NM") : "";
+				cell = dataRow.createCell(20);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("CUSTOMER_TYPE") ? rowData.get("CUSTOMER_TYPE") : "";
+				cell = dataRow.createCell(21);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
