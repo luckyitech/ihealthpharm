@@ -70,9 +70,9 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 			+ " i.itemId, i.manufacturer.name,i) "
 			+ " from items_supplier id join supplier d on id.suppliersId = d.supplierId join items i on i.itemId = id.itemsId "
 			+ " where id.suppliersId = :supplierId and id.activeS = 'Y' and "
-			+ " (i.itemCode like %:itemCode% or  i.itemName like %:itemName% ) ")
+			+ " (i.itemCode like %:itemCode% or  i.itemName like %:itemName% or i.barcode like %:barcode% ) ")
 	List<ItemSupplierDTO> getItemsBySupplier(@Param("supplierId") Integer supplierId, @Param("itemCode") String itemCode, 
-			@Param("itemName") String itemName);
+			@Param("itemName") String itemName,@Param("barcode") String barcode);
 	
 	@Query("select qi.supplier from quotation q join q.quotationItems qi where q.quotationId = :quotationId group by qi.supplier ")
 	List<SupplierModel> getSupplierQuotationId(@Param("quotationId") Integer quotationId );

@@ -277,8 +277,8 @@ public class QuotationServiceImpl implements QuotationService {
 	}
 
 	@Override
-	public List<ItemSupplierDTO> getItemsBySupplier(Integer supplierId, String itemCode, String itemName) {
-		List<ItemSupplierDTO> model = quotationRepository.getItemsBySupplier(supplierId, itemCode, itemName);
+	public List<ItemSupplierDTO> getItemsBySupplier(Integer supplierId, String itemCode, String itemName,String barcode) {
+		List<ItemSupplierDTO> model = quotationRepository.getItemsBySupplier(supplierId, itemCode, itemName,barcode);
 		for(ItemSupplierDTO i : model) {
 			ItemsModel itemsModel = new ItemsModel();
 

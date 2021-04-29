@@ -41,7 +41,7 @@ public interface QuotationService {
 	
 	List<ItemSupplierDTO> getItemsBySupplier(Integer supplierId);
 	
-	List<ItemSupplierDTO> getItemsBySupplier(Integer supplierId, String itemCode, String itemName);
+	List<ItemSupplierDTO> getItemsBySupplier(Integer supplierId, String itemCode, String itemName,String barcode);
 	
 	List<SupplierModel> getSupplierItemsByQuotationId(Integer quotationId );
 	
