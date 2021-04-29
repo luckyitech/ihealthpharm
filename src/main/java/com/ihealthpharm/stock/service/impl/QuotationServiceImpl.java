@@ -380,6 +380,11 @@ public class QuotationServiceImpl implements QuotationService {
 	}
 
 	@Override
+	public List<ItemSupplierDTO> getItemsByBarcodeAndSupplier(String barCode, Integer supplierId) {
+		return quotationRepository.getItemsByBarcodeAndSupplier(barCode,supplierId);
+	}
+	
+	@Override
 	public List<ItemSupplierDTO> getItemsByItemCodeOrItemNameorItemDescForQuotation(String itemCode, String itemName,
 			String itemDescription) {
 		return quotationRepository.getItemsByItemCodeOrItemNameorItemDescForQuotation(itemCode, itemName, itemDescription);
@@ -692,5 +697,7 @@ public class QuotationServiceImpl implements QuotationService {
 	public List<ItemSupplierDTO> getItemsByItemBarcodeForQuotation(String barcode) {
 		return quotationRepository.getItemsByItemBarcodeForQuotation(barcode);
 	}
+
+	
 
 }

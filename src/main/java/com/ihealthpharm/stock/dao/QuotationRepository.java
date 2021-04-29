@@ -246,6 +246,12 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 				" inner join manufacturer m on m.manufacturerId=i.manufacturer where "
 				+ "  i.barcode like %:barcode%  and id.activeS='Y'")
 	List<ItemSupplierDTO> getItemsByItemBarcodeForQuotation(@Param("barcode")String barcode);
+
+	  
+	  @Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(id.itemSupplierId,id.activeS,d.name as supplierName,i.itemName,m.name as manufacturerName,m.licence as manufacturerLicense,i.itemDescription,i.itemId,d.supplierId,id.supplierPriority,f.form as formulation,i.itemCode,id.unitRate,id.discountPercentage,id.validity,i as itemsModel) from items_supplier id inner join supplier d on id.suppliersId=d.supplierId inner join items i on i.itemId=id.itemsId inner join items_forms f on i.itemForm=f.itemformId " + 
+				" inner join manufacturer m on m.manufacturerId=i.manufacturer where d.supplierId=:supplierId and"
+				+ " (i.barcode like %:barCode% ) and id.activeS='Y'")
+	List<ItemSupplierDTO> getItemsByBarcodeAndSupplier(@Param("barCode")String barCode, @Param("supplierId")Integer supplierId);
 	
 	
 }

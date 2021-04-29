@@ -556,6 +556,12 @@ public class QuotationController {
 		List<ItemSupplierDTO> result = quotationService.getItemsByItemCodeOrItemNameorItemDesc(itemCode, itemName, itemDescription,supplierId);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
+	
+	@GetMapping("/getitemsbybarcodeandsupplier")
+	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsByBarcodeAndSupplier(@RequestParam(required=false) String barcode,@RequestParam(required=true) Integer supplierId) {
+		List<ItemSupplierDTO> result = quotationService.getItemsByBarcodeAndSupplier(barcode,supplierId);
+		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
 
 	/**
 	 * @author tarun 

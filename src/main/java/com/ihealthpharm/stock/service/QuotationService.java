@@ -126,6 +126,8 @@ public interface QuotationService {
 
 	List<ItemSupplierDTO> getItemsByItemBarcodeForQuotation(String barcode);
 
+	List<ItemSupplierDTO> getItemsByBarcodeAndSupplier(String barCode, Integer supplierId);
+
 	
 	
 }
