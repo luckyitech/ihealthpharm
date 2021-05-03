@@ -356,7 +356,7 @@ public class PrintQuotationReceiptExcel extends ReportsExcelUtility{
 
 				int vatAmtCol =sheet.getLastRowNum()+1;
 
-				String vatAmtFor="C"+quantityCol+ "*E"+unitPriceCol+"*(H"+vatPerCol+"/100)";
+				String vatAmtFor="(C"+quantityCol+ "*E"+unitPriceCol+"-G"+discAmtCol+")"+"*H"+vatPerCol+"/100";
 
 				cell.setCellFormula(vatAmtFor);
 				cell.setCellStyle(borderStyle);
