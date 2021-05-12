@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -66,21 +68,40 @@ public class PurchaseInvoiceDetails extends ReportsPDFUtility{
 			addHeader(writer, document,model,responseList);
 
 
-			Map<String, List<Map<String, Object>>> invoiceMap = responseList.stream()
-					.collect(Collectors.groupingBy(map -> (String) map.get("INVOICE_NO")));			
+			Map<Date, List<Map<String, Object>>> invoiceMap = responseList.stream()
+					.collect(Collectors.groupingBy(map -> (Date) map.get("INVOICE_DT")));
+			
+			
+			List<Date> datesList = new ArrayList<>();
+
 
 			if(!ObjectUtils.isEmpty(invoiceMap)) { 
 
-				for(String invoiceNo :invoiceMap.keySet()) {					
-					List<Map<String, Object>> invoiceDetailsList = invoiceMap.get(invoiceNo);
-					createTable(document,model,invoiceDetailsList,invoiceNo);
-				}
+				datesList.addAll(invoiceMap.keySet());
+				Collections.sort(datesList,Collections.reverseOrder());
 
+				for(int i = 0; i < datesList.size(); i++) {	
+					List<Map<String, Object>> invoiceDataList = invoiceMap.get(datesList.get(i));
+					
+					Map<String, List<Map<String, Object>>> invoiceNoMap = invoiceDataList.stream()
+							.collect(Collectors.groupingBy(map -> (String) map.get("INVOICE_NO")));
+					
+					if(!ObjectUtils.isEmpty(invoiceNoMap)) { 
+
+						
+						for(String invoiceNo :invoiceNoMap.keySet()) {					
+							List<Map<String, Object>> invoiceDetailsList = invoiceNoMap.get(invoiceNo);
+							createTable(document,model,invoiceDetailsList,invoiceNo);
+						}
+					}
+					
+
+				}
 				generateTotalTable(document,model,responseList);
 
 			}
 
-
+		
 
 		} catch (Exception e) {
 			//log.error(ExceptionUtils.getMessage(e));
