@@ -698,8 +698,13 @@ public class QuotationController {
 				mailModel.setMobileOne(pharmacyDetails.getPhoneNumber());
 				mailModel.setWhatsAppNo(pharmacyDetails.getPhoneNumber());
 				mailModel.setBccEmail(pharmacyDetails.getBccEmailId());
+				
+				if(Objects.isNull(quotationModel.getRemarks())) {
+					mailModel.setRemarks("");
+				}else {
 				mailModel.setRemarks(quotationModel.getRemarks());
-
+				}
+				
 				System.out.println("file name"+"Request for quotation" );
 				String FilePath = blobData.getOriginalFilename();
 				File f= new File(FilePath);
