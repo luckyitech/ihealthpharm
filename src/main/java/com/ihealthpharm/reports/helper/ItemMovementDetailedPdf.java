@@ -8,6 +8,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -83,7 +84,7 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 
 		String openingStock=null;
 		int closingStock=0;
-
+		int leftStock=0;
 
 		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 		String itemName=String.valueOf(salesProfitList.get(0).get("ITEM_NM"));
@@ -150,7 +151,8 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 		String reportHeader1 = model.getReportHeader();
 		List<HeaderDto> headerList1 = JsonUtility.jsonToList(reportHeader1, HeaderDto.class);
 
-		PdfPTable table = new PdfPTable(headerList1.size());
+		System.out.println(headerList1);
+		PdfPTable table = new PdfPTable(headerList1.size()+1);
 		table.setTotalWidth(530);
 		//table.setWidths(new int[] {35,40,55,33,25,20,35,35,35,35,20,30,30,30,40,33});
 		table.setWidthPercentage(50);
@@ -167,9 +169,21 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			if(!model.isShowVerticalLines())
 				cell.setBorder(Rectangle.BOTTOM);
-
-
 			table.addCell(cell);
+
+			if(hearder.getColumnName().equals("QUANTITY")) {
+				headerCell = new Paragraph();
+				headerCell.setFont(headerFont);
+				headerCell.add("QTY LEFT");
+				cell = new PdfPCell(headerCell);
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				if (!model.isShowVerticalLines())
+					cell.setBorder(Rectangle.BOTTOM);
+
+				table.addCell(cell);
+			}
+
+
 		}
 		table.setHeaderRows(1);
 
@@ -178,9 +192,13 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 
 		if (!ObjectUtils.isEmpty(salesProfitList)) {
 
+			leftStock=Integer.parseInt(openingStock);
+			int index = 0;
 			for (Map<String, Object> rowData : salesProfitList) {
+				index=index+1;;
 
 				for (HeaderDto hearder : headerList1) {
+
 					Object value = rowData.containsKey(hearder.getColumnName()) ? rowData.get(hearder.getColumnName())
 							: "";
 
@@ -190,8 +208,45 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 					if(!model.isShowVerticalLines())
 						cell.setBorder(Rectangle.BOTTOM);
-
 					table.addCell(cell);
+
+					if(hearder.getColumnName().equals("QUANTITY")) {
+
+						if(Objects.nonNull(openingStock)) {
+
+
+							if(rowData.get("ENTRY_TYPE").equals("Sales Billing")) {
+
+								leftStock=leftStock-Integer.parseInt(String.valueOf(rowData.get("QUANTITY")));
+
+
+							}else if(rowData.get("ENTRY_TYPE").equals("Sales Canceling") ||
+									rowData.get("ENTRY_TYPE").equals("Invoice Addition")||
+									rowData.get("ENTRY_TYPE").equals("Sales Return")||
+									rowData.get("ENTRY_TYPE").equals("Purchase Return")) {
+
+								if(index==1) {
+									leftStock=Integer.parseInt(String.valueOf(rowData.get("QUANTITY")));
+								}else {
+									leftStock=leftStock+Integer.parseInt(String.valueOf(rowData.get("QUANTITY")));
+								}
+							}else {
+								leftStock=Integer.parseInt(String.valueOf(rowData.get("QUANTITY")));
+							}
+
+							value = rowData.containsKey(hearder.getColumnName()) ? String.valueOf(leftStock):"";
+							cell = new PdfPCell(new Phrase(String.valueOf(value), title06));
+							cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+							if (!model.isShowVerticalLines())
+								cell.setBorder(Rectangle.BOTTOM);
+							table.addCell(cell);
+						}else {
+
+						}
+
+					}
+
+
 
 				}
 			}
@@ -290,7 +345,7 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 				totalAmountTable.setTotalWidth(500);
 				totalAmountTable.getDefaultCell().setBorder(0);
 			}
-			
+
 			if(salesProfitList.stream() .filter(x -> x.containsValue("Sales Return")).count()>0) {
 				PdfPCell nameCell7 = new PdfPCell(new Phrase("Total Sales Return :"+" "+" : "+"	"+totalSalesRetrun, title08)); 
 				nameCell7.setColspan(3);
