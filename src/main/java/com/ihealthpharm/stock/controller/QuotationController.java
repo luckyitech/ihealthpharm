@@ -559,6 +559,21 @@ public class QuotationController {
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 
+	
+	@GetMapping("/getitemsbyitemcodeoritemnameoritemdescForAutoQuotation")
+	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsByItemCodeOrItemNameOrItemDescForAutoQuotation(@RequestParam(required=false) String itemCode, 
+			@RequestParam(required=false) String itemName, @RequestParam(required=false) String itemDescription) {
+		List<ItemSupplierDTO> result = quotationService.getItemsByItemCodeOrItemNameorItemDescForAutoQuotation(itemCode, itemName, itemDescription);
+		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+
+	
+	@GetMapping("/getItemsForAutoQuotation")
+	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsForAutoQuotation() {
+		List<ItemSupplierDTO> result = quotationService.getItemsForAutoQuotation();
+		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+	
 	/**
 	 * @author Gunasekhar 
 	 * Service is to get the items based on the item code or item name
