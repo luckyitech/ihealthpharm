@@ -664,5 +664,18 @@ public class QuotationServiceImpl implements QuotationService {
 		return quotationRepository.findSuppliersByQuotationNoForPriceUpdate(quotationNo);
 	}
 
+	@Override
+	public List<ItemSupplierDTO> getItemsForAutoQuotation() {
+		
+		return quotationRepository.findItemsForAutoQuotation();
+	}
+
+	@Override
+	public List<ItemSupplierDTO> getItemsByItemCodeOrItemNameorItemDescForAutoQuotation(String itemCode,
+			String itemName, String itemDescription) {
+		
+		return quotationRepository.getItemsByItemCodeOrItemNameorItemDescForAutoQuotation(itemCode,itemName,itemDescription);
+	}
+
 	
 }
