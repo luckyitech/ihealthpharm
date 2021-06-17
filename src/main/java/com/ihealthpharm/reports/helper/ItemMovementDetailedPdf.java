@@ -82,7 +82,7 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 
 	private void createTable(Document document, ReportsMappingModel model, List<Map<String, Object>> salesProfitList,String expiryDate) throws DocumentException {
 
-		String openingStock=null;
+		int openingStock=0;
 		int closingStock=0;
 		int leftStock=0;
 
@@ -92,10 +92,11 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 
 
 		if((String.valueOf(salesProfitList.get(0).get("ENTRY_TYPE")).equals("Sales Billing"))) {
-			openingStock=String.valueOf(salesProfitList.get(0).get("OPENING_STOCK"));
-			closingStock=Integer.parseInt(openingStock);
+			System.out.println(openingStock);
+			openingStock=Integer.parseInt(String.valueOf(salesProfitList.get(0).get("OPENING_STOCK")))+Integer.parseInt(String.valueOf(salesProfitList.get(0).get("QUANTITY")));
+			closingStock=openingStock;
 		}else {
-			openingStock=String.valueOf(salesProfitList.get(0).get("QUANTITY"));
+			openingStock=Integer.parseInt(String.valueOf(salesProfitList.get(0).get("QUANTITY")));
 		}
 
 
@@ -192,7 +193,7 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 
 		if (!ObjectUtils.isEmpty(salesProfitList)) {
 
-			leftStock=Integer.parseInt(openingStock);
+			leftStock=openingStock;
 			int index = 0;
 			for (Map<String, Object> rowData : salesProfitList) {
 				index=index+1;;
