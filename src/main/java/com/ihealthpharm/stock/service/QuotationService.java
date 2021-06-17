@@ -122,6 +122,11 @@ public interface QuotationService {
 
 	List<SupplierModel> findSuppliersInQtnByQuotationNoForPriceUpdate(String quotationNo);
 
+	List<ItemSupplierDTO> getItemsForAutoQuotation();
+
+	List<ItemSupplierDTO> getItemsByItemCodeOrItemNameorItemDescForAutoQuotation(String itemCode, String itemName,
+			String itemDescription);
+
 	
 	
 }
