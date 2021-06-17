@@ -59,7 +59,7 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 					for(String expiryDt :salesByExpiryMap.keySet()) {
 						List<Map<String, Object>> salesByExpiryList = salesByExpiryMap.get(expiryDt);
 
-						Map<String, List<Map<String, Object>>> salesByInvoiceMap = itemsMovementList.stream()
+						Map<String, List<Map<String, Object>>> salesByInvoiceMap = salesByExpiryList.stream()
 								.collect(Collectors.groupingBy(map -> (String) map.get("INVOICE_NO")));			
 						for(String invoiceNo :salesByInvoiceMap.keySet()) {
 							List<Map<String, Object>> salesByInvoiceList = salesByInvoiceMap.get(invoiceNo);
