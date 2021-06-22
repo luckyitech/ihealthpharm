@@ -235,21 +235,24 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 	
 	
 	  
-	  @Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(id.itemSupplierId,id.activeS,d.name as supplierName,i.itemName,m.name as manufacturerName,m.licence as manufacturerLicense,i.itemDescription,i.itemId,d.supplierId,id.supplierPriority,f.form as formulation,i.itemCode, "
-	  		+ "id.unitRate,id.discountPercentage,id.validity,i as itemsModel,i.reOrderQuantity) from items_supplier id "
-	  		+ "inner join supplier d on id.suppliersId=d.supplierId inner join items i on i.itemId=id.itemsId "
-	  		+ "inner join auto_quotations a on a.itemId.itemId=i.itemId inner join items_forms f on i.itemForm=f.itemformId " + 
-				" inner join manufacturer m on m.manufacturerId=i.manufacturer where id.activeS='Y'")
+	  @Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(a.itemSupplierId,d.name as supplierName,i.itemName,m.name as manufacturerName,m.licence as manufacturerLicense,i.itemDescription,i.itemId,d.supplierId,a.supplierPriority,f.form as formulation,i.itemCode, "
+	  		+ "a.unitRate,a.discountPercentage,a.validity, "
+	  		+ "i as itemsModel,i.reOrderQuantity,a.autoQuotId,a.activeS) from  auto_quotations a "
+	  		+ "inner join supplier d on a.supplierId=d.supplierId "
+	  		+ "inner join items i on i.itemId=a.itemId "
+	  		+ "inner join items_forms f on i.itemForm=f.itemformId " + 
+				" inner join manufacturer m on m.manufacturerId=i.manufacturer")
 		List<ItemSupplierDTO> findItemsForAutoQuotation();
 
-	  @Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(id.itemSupplierId,id.activeS,d.name as supplierName, "
+	  @Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(a.itemSupplierId,d.name as supplierName, "
 	  		+ "i.itemName,m.name as manufacturerName,m.licence as manufacturerLicense,i.itemDescription,i.itemId,d.supplierId, "
-	  		+ "id.supplierPriority,f.form as formulation,i.itemCode,id.unitRate,id.discountPercentage,id.validity,i as itemsModel) from items_supplier id inner join supplier d on "
-	  		+ "id.suppliersId=d.supplierId "
-	  		+ "inner join items i on i.itemId=id.itemsId inner join auto_quotations a on a.itemId.itemId=i.itemId "
+	  		+ "a.supplierPriority,f.form as formulation,i.itemCode,a.unitRate, "
+	  		+ "a.discountPercentage,a.validity,i as itemsModel,i.reOrderQuantity,a.autoQuotId,a.activeS) from auto_quotations a inner join supplier d on "
+	  		+ "a.supplierId=d.supplierId "
+	  		+ "inner join items i on i.itemId=a.itemId "
 	  		+ "inner join items_forms f on i.itemForm=f.itemformId " + 
 				" inner join manufacturer m on m.manufacturerId=i.manufacturer where "
-				+ " i.itemCode like %:itemCode%  or i.itemName like %:itemName% or i.itemDescription like :itemDescription%  and id.activeS='Y'")
+				+ " i.itemCode like %:itemCode%  or i.itemName like %:itemName% or i.itemDescription like :itemDescription%")
 		List<ItemSupplierDTO> getItemsByItemCodeOrItemNameorItemDescForAutoQuotation(@Param("itemCode") String itemCode, @Param("itemName") String itemName, 
 				@Param("itemDescription") String itemDescription);
 }

@@ -73,6 +73,7 @@ import com.ihealthpharm.reports.service.ReportsService;
 import com.ihealthpharm.stock.dto.QuotationDTO;
 import com.ihealthpharm.stock.helper.MediaTypeUtils;
 import com.ihealthpharm.stock.helper.QuotationHelper;
+import com.ihealthpharm.stock.model.AutoQuotationsModel;
 import com.ihealthpharm.stock.model.QuotationItemsModel;
 import com.ihealthpharm.stock.model.QuotationModel;
 import com.ihealthpharm.stock.service.QuotationService;
@@ -971,5 +972,12 @@ public class QuotationController {
 	public ResponseEntity<BaseDto<List<SupplierModel>>> getSuppliersInQtnByQuotationNoForPriceUpdate(@RequestParam String quotationNo){
 		List<SupplierModel> results=quotationService.findSuppliersInQtnByQuotationNoForPriceUpdate(quotationNo);
 		return new BaseDto<>(results,quotationHelper.getRetrieveQuotationMessage(),OK).respond();
+	}
+	
+	
+	@GetMapping("/updateAutoQuotationRecord/ForQuotation")
+	public ResponseEntity<BaseDto<AutoQuotationsModel>> markAutoQuotationItemInActive(@RequestParam Integer itemId,@RequestParam Integer supplierId,@RequestParam Character flag){
+		AutoQuotationsModel autoQuotModel=quotationService.markAutoQuotationItemInActive(itemId,supplierId,flag);
+		return new BaseDto<>(autoQuotModel,quotationHelper.getRetrieveQuotationMessage(),OK).respond();
 	}
 }

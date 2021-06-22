@@ -30,6 +30,26 @@ public class AutoQuotationsModel {
 	@Column(name="QUANTITY")
 	private Integer quantity;
 	
+	@Column(name="ACTIVE_S")
+	private Character activeS;
 	
+	@Column(name="SUPPLIER_ID")
+	private Integer supplierId;
+	
+	@Column(name="ITEM_SUPPLIER_ID")
+	private Integer itemSupplierId;
+	
+	@Column(name="SUPPLIER_PRIORITY",length=11)
+	private Integer supplierPriority;
+	
+	
+	@Column(name="UNIT_RATE")
+	private Double unitRate;
+	
+	@Column(name="DISCOUNT_PERCENTAGE")
+	private Double discountPercentage;
+	
+	@Column(name="VALIDITY")
+	private String validity;
 	
 }
