@@ -60,7 +60,9 @@ public class ItemSupplierDTO {
 	
 	private Double unitPurchasePrice;
 	
+	private Integer autoQuotationItemId;
 	
+	private Character autoQuotStatus;
 	
 	public ItemSupplierDTO(Integer itemSupplierId, Integer itemId, Integer supplierId, String activeS, String supplierName, String itemName) {
 		this.itemSupplierId = itemSupplierId;
@@ -103,12 +105,13 @@ public class ItemSupplierDTO {
 		
 	}
 	
-	public ItemSupplierDTO(Integer itemSupplierId,String activeS,String supplierName,String itemName,String manufacturerName,String manufacturerLicense,String itemDescription,Integer itemId,
+	public ItemSupplierDTO(Integer itemSupplierId,String supplierName,
+			String itemName,String manufacturerName,String manufacturerLicense,String itemDescription,Integer itemId,
 			Integer supplierId,Integer supplierPriority,String formulation,
 			String itemCode,Double unitRate,Double discountPercentage,
-			String validity, ItemsModel itemsModel,Integer quantity) {
+			String validity, ItemsModel itemsModel,Integer quantity,
+			Integer autoQuotationItemId,Character autoQuotStatus) {
 		this.itemSupplierId=itemSupplierId;
-		this.activeS=activeS;
 		this.supplierName=supplierName;
 		this.itemName=itemName;
 		this.manufacturerName=manufacturerName;
@@ -124,7 +127,8 @@ public class ItemSupplierDTO {
 		this.validity=validity;
 		this.itemsModel = itemsModel;
 		this.quantity=quantity;
-		
+		this.autoQuotationItemId=autoQuotationItemId;
+		this.autoQuotStatus=autoQuotStatus;
 	}
 	
 	public ItemSupplierDTO(Integer itemSupplierId,String activeS,String supplierName,String itemName,String manufacturerName,String manufacturerLicense,String itemDescription,Integer itemId,

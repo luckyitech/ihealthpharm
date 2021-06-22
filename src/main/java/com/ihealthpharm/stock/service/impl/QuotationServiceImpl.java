@@ -19,12 +19,14 @@ import com.ihealthpharm.masters.dto.ItemSupplierDTO;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.ItemsModel;
 import com.ihealthpharm.masters.model.SupplierModel;
+import com.ihealthpharm.stock.dao.AutoQuotationRepository;
 import com.ihealthpharm.stock.dao.QuotationItemStatusRepository;
 import com.ihealthpharm.stock.dao.QuotationItemsRepository;
 import com.ihealthpharm.stock.dao.QuotationRepository;
 import com.ihealthpharm.stock.dao.QuotationStatusRepository;
 import com.ihealthpharm.stock.dto.QuotationDTO;
 import com.ihealthpharm.stock.helper.QuotationHelper;
+import com.ihealthpharm.stock.model.AutoQuotationsModel;
 import com.ihealthpharm.stock.model.QuotationItemsModel;
 import com.ihealthpharm.stock.model.QuotationModel;
 import com.ihealthpharm.stock.model.QuotationStatusModel;
@@ -56,6 +58,9 @@ public class QuotationServiceImpl implements QuotationService {
 
 	@Autowired
 	SupplierRepository supplierRepository;
+	
+	@Autowired
+	AutoQuotationRepository autoQuotRepo;
 
 	@Override
 	public QuotationModel saveQuotation(QuotationModel quotationModel) {
@@ -675,6 +680,14 @@ public class QuotationServiceImpl implements QuotationService {
 			String itemName, String itemDescription) {
 		
 		return quotationRepository.getItemsByItemCodeOrItemNameorItemDescForAutoQuotation(itemCode,itemName,itemDescription);
+	}
+
+	@Override
+	public AutoQuotationsModel markAutoQuotationItemInActive(Integer itemId,Integer supplierId, Character flag) {
+	
+		autoQuotRepo.updateAutoQuotationItemStatus(itemId,supplierId,flag);
+		AutoQuotationsModel res=autoQuotRepo.findByAutoQuotId(itemId);
+		return res;
 	}
 
 	
