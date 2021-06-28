@@ -102,7 +102,8 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 
 		if((String.valueOf(salesProfitList.get(0).get("ENTRY_TYPE")).equals("Sales Billing"))) {
 			System.out.println(openingStock);
-			openingStock=Integer.parseInt(String.valueOf(salesProfitList.get(0).get("OPENING_STOCK")))+Integer.parseInt(String.valueOf(salesProfitList.get(0).get("QUANTITY")));
+			//openingStock=Integer.parseInt(String.valueOf(salesProfitList.get(0).get("OPENING_STOCK")))+Integer.parseInt(String.valueOf(salesProfitList.get(0).get("QUANTITY")));
+			openingStock=Integer.parseInt(String.valueOf(salesProfitList.get(0).get("OPENING_STOCK")));
 			closingStock=openingStock;
 		}else {
 			openingStock=Integer.parseInt(String.valueOf(salesProfitList.get(0).get("QUANTITY")));
@@ -141,6 +142,19 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 		finalTable.setLockedWidth(true);
 		finalTable.getDefaultCell().setBorder(0); 
 
+		Double openingBal=0.0;
+		Double closingBal=0.0;
+		Double openingPurPrice=Double.parseDouble(String.valueOf(salesProfitList.get(0).get("UNIT_PURCHASE_RATE")));
+		Double closingPurPrice=Double.parseDouble(String.valueOf(salesProfitList.get(salesProfitList.size()-1).get("UNIT_PURCHASE_RATE")));
+		Double openingDisc=Double.parseDouble(String.valueOf(salesProfitList.get(0).get("PURCHASE_DISCOUNT_PERCENTAGE")));
+		Double closingDisc=Double.parseDouble(String.valueOf(salesProfitList.get(salesProfitList.size()-1).get("PURCHASE_DISCOUNT_PERCENTAGE")));
+		Double openingTax=Double.parseDouble(String.valueOf(salesProfitList.get(0).get("CATEGORY_VALUE")));
+		Double closingTax=Double.parseDouble(String.valueOf(salesProfitList.get(salesProfitList.size()-1).get("CATEGORY_VALUE")));
+		
+		
+		openingBal=openingStock*openingPurPrice*(1-openingDisc/100)*(1+openingTax/100);
+		closingBal=closingStock*closingPurPrice*(1-closingDisc/100)*(1+closingTax/100);
+				
 		Font bold = new Font(FontFamily.HELVETICA,9);
 		PdfPTable salePersonNameTable = new PdfPTable(3);
 		PdfPCell nameCell = new PdfPCell(new Phrase("Item  : "+itemName+  "       "
@@ -152,6 +166,21 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 		nameCell.setVerticalAlignment(Element.ALIGN_TOP);
 		nameCell.setBorder(0);
 		salePersonNameTable.addCell(nameCell);
+		salePersonNameTable.setLockedWidth(true);
+		salePersonNameTable.setTotalWidth(500);
+		salePersonNameTable.getDefaultCell().setBorder(0);
+		
+		String openingBalance = String.format("%.2f", openingBal);
+		String closingBalance = String.format("%.2f", closingBal);
+		
+		PdfPCell nameCellBal = new PdfPCell(new Phrase("O.Balance  : "+openingBalance+  "       "
+				+ "C.Balance  :  "+closingBalance+"         ", bold)); 
+
+		nameCellBal.setColspan(3);
+		nameCellBal.setHorizontalAlignment(Element.ALIGN_LEFT);
+		nameCellBal.setVerticalAlignment(Element.ALIGN_TOP);
+		nameCellBal.setBorder(0);
+		salePersonNameTable.addCell(nameCellBal);
 		salePersonNameTable.setLockedWidth(true);
 		salePersonNameTable.setTotalWidth(500);
 		salePersonNameTable.getDefaultCell().setBorder(0);
@@ -214,7 +243,18 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 
 					value = formatData(hearder,value); 
 
-					cell = new PdfPCell(new Phrase(String.valueOf(value),title06));
+					if(hearder.getColumnName().equals("QUANTITY")) {
+						if(rowData.get("ENTRY_TYPE").equals("Sales Canceling") ||
+								rowData.get("ENTRY_TYPE").equals("Invoice Addition")||
+								rowData.get("ENTRY_TYPE").equals("Sales Return")||
+								rowData.get("ENTRY_TYPE").equals("Purchase Return")) {
+							cell = new PdfPCell(new Phrase("(+)"+" "+String.valueOf(value),title06));
+						}else {
+							cell = new PdfPCell(new Phrase("(-)"+" "+String.valueOf(value),title06));
+						}
+					}else{
+						cell = new PdfPCell(new Phrase(String.valueOf(value),title06));
+					}
 					cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 					if(!model.isShowVerticalLines())
 						cell.setBorder(Rectangle.BOTTOM);
