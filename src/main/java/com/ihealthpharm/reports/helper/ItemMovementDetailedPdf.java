@@ -59,15 +59,11 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 					for(String expiryDt :salesByExpiryMap.keySet()) {
 						List<Map<String, Object>> salesByExpiryList = salesByExpiryMap.get(expiryDt);
 
-						Map<String, List<Map<String, Object>>> salesByInvoiceMap = salesByExpiryList.stream()
-								.collect(Collectors.groupingBy(map -> (String) map.get("INVOICE_NO")));			
-						for(String invoiceNo :salesByInvoiceMap.keySet()) {
-							List<Map<String, Object>> salesByInvoiceList = salesByInvoiceMap.get(invoiceNo);
+						
 
+							createTable(document,model,salesByExpiryList,expiryDt);
 
-							createTable(document,model,salesByInvoiceList,expiryDt);
-
-						}
+						
 					}
 				}
 
@@ -98,12 +94,14 @@ public class ItemMovementDetailedPdf extends ReportsPDFUtility{
 		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 		String itemName=String.valueOf(salesProfitList.get(0).get("ITEM_NM"));
 
-
+//		openingStock=Integer.parseInt(String.valueOf(salesProfitList.get(0).get("OPENING_STOCK")));
+//		closingStock=openingStock;
 
 		if((String.valueOf(salesProfitList.get(0).get("ENTRY_TYPE")).equals("Sales Billing"))) {
 			System.out.println(openingStock);
 			//openingStock=Integer.parseInt(String.valueOf(salesProfitList.get(0).get("OPENING_STOCK")))+Integer.parseInt(String.valueOf(salesProfitList.get(0).get("QUANTITY")));
 			openingStock=Integer.parseInt(String.valueOf(salesProfitList.get(0).get("OPENING_STOCK")));
+			
 			closingStock=openingStock;
 		}else {
 			openingStock=Integer.parseInt(String.valueOf(salesProfitList.get(0).get("QUANTITY")));
