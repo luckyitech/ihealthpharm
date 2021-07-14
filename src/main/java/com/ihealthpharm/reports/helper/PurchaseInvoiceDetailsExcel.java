@@ -2,6 +2,9 @@ package com.ihealthpharm.reports.helper;
 
 import java.io.File;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -75,24 +78,55 @@ public class PurchaseInvoiceDetailsExcel extends ReportsExcelUtility {
 		headerStyle.setLeftBorderColor(IndexedColors.BLACK.getIndex());  
 
 
-		Map<String, List<Map<String, Object>>> purchaseInvoiceDetailsMap = responseList.stream()
-				.collect(Collectors.groupingBy(map -> (String) map.get("INVOICE_NO")));			
+		Map<Date, List<Map<String, Object>>> purchaseInvoiceDetailsMap = responseList.stream()
+				.collect(Collectors.groupingBy(map -> (Date) map.get("INVOICE_DT")));			
 
 
 		setHeader(workbook,sheet,model);
 
 
-		if(!ObjectUtils.isEmpty(purchaseInvoiceDetailsMap)) { 
+		/*if(!ObjectUtils.isEmpty(purchaseInvoiceDetailsMap)) { 
 
 			for(String invoiceNo :purchaseInvoiceDetailsMap.keySet()) {		
 				int currentRow = sheet.getLastRowNum();
 				List<Map<String, Object>> invoiceDetailsList = purchaseInvoiceDetailsMap.get(invoiceNo);
-				
+
 				createTable(sheet, responseFile, borderStyle, headerStyle,invoiceDetailsList, invoiceNo, currentRow); 
 			}
 			generateTotalTable(sheet, responseFile,borderStyle,model,responseList);
-		}
+		}*/
 
+
+		List<Date> datesList = new ArrayList<>();
+
+
+		if(!ObjectUtils.isEmpty(purchaseInvoiceDetailsMap)) { 
+
+			datesList.addAll(purchaseInvoiceDetailsMap.keySet());
+			Collections.sort(datesList,Collections.reverseOrder());
+
+			for(int i = 0; i < datesList.size(); i++) {	
+				List<Map<String, Object>> invoiceDataList = purchaseInvoiceDetailsMap.get(datesList.get(i));
+
+				Map<String, List<Map<String, Object>>> invoiceNoMap = invoiceDataList.stream()
+						.collect(Collectors.groupingBy(map -> (String) map.get("INVOICE_NO")));
+
+				if(!ObjectUtils.isEmpty(invoiceNoMap)) { 
+
+
+					for(String invoiceNo :invoiceNoMap.keySet()) {	
+						int currentRow = sheet.getLastRowNum();
+						List<Map<String, Object>> invoiceDetailsList = invoiceNoMap.get(invoiceNo);
+						createTable(sheet, responseFile, borderStyle, headerStyle,invoiceDetailsList, invoiceNo, currentRow); 
+					}
+					
+				}
+
+				
+			}
+
+			generateTotalTable(sheet, responseFile,borderStyle,model,responseList);
+		}
 
 		writeToFile(workbook, responseFile);
 
@@ -134,7 +168,7 @@ public class PurchaseInvoiceDetailsExcel extends ReportsExcelUtility {
 		Cell cell3=dataRow3.createCell(0);
 		Cell cell4=dataRow4.createCell(0);
 		Cell cell5=dataRow4.createCell(0);
-		
+
 		cell.setCellValue("");
 		cell1.setCellValue("");
 		cell2.setCellValue("");
@@ -219,7 +253,7 @@ public class PurchaseInvoiceDetailsExcel extends ReportsExcelUtility {
 			cell.setCellValue("UNIT PRICE");
 			cell.setCellStyle(headerStyle);	
 
-			
+
 			cell = headerRow.createCell(7);
 			cell.setCellValue("DISCOUNT");
 			cell.setCellStyle(headerStyle);	
@@ -235,20 +269,20 @@ public class PurchaseInvoiceDetailsExcel extends ReportsExcelUtility {
 			cell = headerRow.createCell(10);
 			cell.setCellValue("NET AMOUNT");
 			cell.setCellStyle(headerStyle);	
-			
+
 			cell = headerRow.createCell(11);
 			cell.setCellValue("CREATED BY");
 			cell.setCellStyle(headerStyle);	
-			
+
 			cell = headerRow.createCell(12);
 			cell.setCellValue("MODIFIED BY");
 			cell.setCellStyle(headerStyle);	
 
 			Row displayRow = sheet.createRow(headRow++);
-		
+
 			for (Map<String, Object> rowData : purchaseInvoiceDetails) {
-				
-				
+
+
 				Cell headCell = displayRow.createCell(0);
 				Object value = rowData.containsKey("SP_NAME") ? rowData.get("SP_NAME") : "";
 				headCell.setCellValue("Supplier Name  :   ");
@@ -267,7 +301,7 @@ public class PurchaseInvoiceDetailsExcel extends ReportsExcelUtility {
 				headCell2.setCellValue("Invoice Date  :   ");
 				headCell2=displayRow.createCell(5);
 				headCell2.setCellValue(String.valueOf(value));
-				
+
 
 				Row dataRow = sheet.createRow(rowNum++);
 				value =  String.valueOf(purchaseInvoiceDetails.indexOf(rowData) + 1);
@@ -292,7 +326,12 @@ public class PurchaseInvoiceDetailsExcel extends ReportsExcelUtility {
 				value = rowData.containsKey("QUANTITY_APPROVED") ? rowData.get("QUANTITY_APPROVED") : "";
 				//sheet.autoSizeColumn(3);
 				cell = dataRow.createCell(3);
-				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				if(NumberUtils.isNumber(String.valueOf(value))) {
+					cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				}else {
+					cell.setCellValue(String.valueOf(value));
+				}
+				
 				cell.setCellStyle(borderStyle);
 
 				value = rowData.containsKey("EXPIRY_DT") ? rowData.get("EXPIRY_DT") : "";
@@ -353,7 +392,7 @@ public class PurchaseInvoiceDetailsExcel extends ReportsExcelUtility {
 				cell = dataRow.createCell(11);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
-				
+
 				value = rowData.containsKey("EMP_MODIFIED") ? rowData.get("EMP_MODIFIED") : "";
 				//sheet.autoSizeColumn(10);
 				cell = dataRow.createCell(12);

@@ -73,6 +73,7 @@ import com.ihealthpharm.reports.service.ReportsService;
 import com.ihealthpharm.stock.dto.QuotationDTO;
 import com.ihealthpharm.stock.helper.MediaTypeUtils;
 import com.ihealthpharm.stock.helper.QuotationHelper;
+import com.ihealthpharm.stock.model.AutoQuotationsModel;
 import com.ihealthpharm.stock.model.QuotationItemsModel;
 import com.ihealthpharm.stock.model.QuotationModel;
 import com.ihealthpharm.stock.service.QuotationService;
@@ -574,6 +575,21 @@ public class QuotationController {
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 
+	
+	@GetMapping("/getitemsbyitemcodeoritemnameoritemdescForAutoQuotation")
+	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsByItemCodeOrItemNameOrItemDescForAutoQuotation(@RequestParam(required=false) String itemCode, 
+			@RequestParam(required=false) String itemName, @RequestParam(required=false) String itemDescription) {
+		List<ItemSupplierDTO> result = quotationService.getItemsByItemCodeOrItemNameorItemDescForAutoQuotation(itemCode, itemName, itemDescription);
+		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+
+	
+	@GetMapping("/getItemsForAutoQuotation")
+	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsForAutoQuotation() {
+		List<ItemSupplierDTO> result = quotationService.getItemsForAutoQuotation();
+		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+	
 	/**
 	 * @author Gunasekhar 
 	 * Service is to get the items based on the item code or item name
@@ -722,9 +738,13 @@ public class QuotationController {
 				mailModel.setWhatsAppNo(pharmacyDetails.getPhoneNumber());
 
 				mailModel.setBccEmail(pharmacyDetails.getBccEmailId());
+				
+				if(Objects.isNull(quotationModel.getRemarks())) {
+					mailModel.setRemarks("");
+				}else {
 				mailModel.setRemarks(quotationModel.getRemarks());
-
-
+				}
+				
 				System.out.println("file name"+"Request for quotation" );
 				String FilePath = blobData.getOriginalFilename();
 				File f= new File(FilePath);
@@ -813,12 +833,9 @@ public class QuotationController {
 						e.printStackTrace();
 					}
 				}
-
-
-
+				
 			}
 		}
-
 		quotationService.updateQuotationItemSupplierMailStatusToSent(quotationModel.getQuotationId(),supplierModel.getSupplierId());
 		return new BaseDto<>(quotationModel, "Mail sent successfully", OK).respond();
 
@@ -976,5 +993,12 @@ public class QuotationController {
 	public ResponseEntity<BaseDto<List<SupplierModel>>> getSuppliersInQtnByQuotationNoForPriceUpdate(@RequestParam String quotationNo){
 		List<SupplierModel> results=quotationService.findSuppliersInQtnByQuotationNoForPriceUpdate(quotationNo);
 		return new BaseDto<>(results,quotationHelper.getRetrieveQuotationMessage(),OK).respond();
+	}
+	
+	
+	@GetMapping("/updateAutoQuotationRecord/ForQuotation")
+	public ResponseEntity<BaseDto<AutoQuotationsModel>> markAutoQuotationItemInActive(@RequestParam Integer itemId,@RequestParam Integer supplierId,@RequestParam Character flag){
+		AutoQuotationsModel autoQuotModel=quotationService.markAutoQuotationItemInActive(itemId,supplierId,flag);
+		return new BaseDto<>(autoQuotModel,quotationHelper.getRetrieveQuotationMessage(),OK).respond();
 	}
 }

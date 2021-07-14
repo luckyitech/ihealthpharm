@@ -7,6 +7,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -26,6 +27,10 @@ import org.springframework.util.ObjectUtils;
 
 import com.ihealthpharm.commons.JsonUtility;
 import com.ihealthpharm.reports.model.ReportsMappingModel;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.PdfPCell;
 
 @Component
 public class ItemMovementDetailedExcel extends ReportsExcelUtility{
@@ -142,35 +147,39 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 			cell.setCellStyle(headerStyle);	
 
 			cell = headerRow.createCell(6);
-			cell.setCellValue("UNIT SALE RATE");
+			cell.setCellValue("QTY LEFT");
 			cell.setCellStyle(headerStyle);	
 
 			cell = headerRow.createCell(7);
-			cell.setCellValue("SALE PRICE");
+			cell.setCellValue("UNIT SALE RATE");
 			cell.setCellStyle(headerStyle);	
 
 			cell = headerRow.createCell(8);
+			cell.setCellValue("SALE PRICE");
+			cell.setCellStyle(headerStyle);	
+
+			cell = headerRow.createCell(9);
 			cell.setCellValue("UNIT PURCHASE RATE");
 			cell.setCellStyle(headerStyle);	
 
 
-			cell = headerRow.createCell(9);
+			cell = headerRow.createCell(10);
 			cell.setCellValue("PURCHASE PRICE");
 			cell.setCellStyle(headerStyle);	
 
-			cell = headerRow.createCell(10);
+			cell = headerRow.createCell(11);
 			cell.setCellValue("EXPIRY DT");
 			cell.setCellStyle(headerStyle);	
 
-			cell = headerRow.createCell(11);
+			cell = headerRow.createCell(12);
 			cell.setCellValue("ENTRY TYPE");
 			cell.setCellStyle(headerStyle);	
 
-			cell = headerRow.createCell(12);
+			cell = headerRow.createCell(13);
 			cell.setCellValue("CREATED BY");
 			cell.setCellStyle(headerStyle);	
 
-			cell = headerRow.createCell(13);
+			cell = headerRow.createCell(14);
 			cell.setCellValue("LAST UPDATE TS");
 			cell.setCellStyle(headerStyle);	
 
@@ -178,6 +187,7 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 
 			Row displayRow = sheet.createRow(headRow++);
 			int closingStock=0;
+			int leftStock=0;
 			String openingStock=null;
 
 
@@ -207,6 +217,7 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 
 			}
 
+			leftStock=Integer.parseInt(openingStock);
 			for (Map<String, Object> rowData : salesProfitList) {
 
 
@@ -268,44 +279,72 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 				cell.setCellStyle(borderStyle);
 
 
-				value = rowData.containsKey("UNIT_SALE_RATE") ? rowData.get("UNIT_SALE_RATE") : "";
-				cell = dataRow.createCell(6);
-				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
-				cell.setCellStyle(borderStyle);
+				if(Objects.nonNull(openingStock)) {
 
-				value = rowData.containsKey("SALE_PRICE") ? rowData.get("SALE_PRICE") : "";
+
+					if(rowData.get("ENTRY_TYPE").equals("Sales Billing")) {
+
+						leftStock=leftStock-Integer.parseInt(String.valueOf(rowData.get("QUANTITY")));
+
+
+					}else if(rowData.get("ENTRY_TYPE").equals("Sales Canceling") ||
+							rowData.get("ENTRY_TYPE").equals("Invoice Addition")||
+							rowData.get("ENTRY_TYPE").equals("Sales Return")||
+							rowData.get("ENTRY_TYPE").equals("Purchase Return")) {
+
+						leftStock=leftStock+Integer.parseInt(String.valueOf(rowData.get("QUANTITY")));
+
+					}else {
+						leftStock=Integer.parseInt(String.valueOf(rowData.get("QUANTITY")));
+					}
+
+					value = rowData.containsKey("QUANTITY") ? String.valueOf(leftStock) : "";
+					cell = dataRow.createCell(6);
+					cell.setCellValue(String.valueOf(value));
+					cell.setCellStyle(borderStyle);
+				}else {
+
+				}
+
+
+				value = rowData.containsKey("UNIT_SALE_RATE") ? rowData.get("UNIT_SALE_RATE") : "";
 				cell = dataRow.createCell(7);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 
-				value = rowData.containsKey("UNIT_PURCHASE_RATE") ? rowData.get("UNIT_PURCHASE_RATE") : "";
+				value = rowData.containsKey("SALE_PRICE") ? rowData.get("SALE_PRICE") : "";
 				cell = dataRow.createCell(8);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 
-				value = rowData.containsKey("PURCHASE_PRICE") ? rowData.get("PURCHASE_PRICE") : "";
+				value = rowData.containsKey("UNIT_PURCHASE_RATE") ? rowData.get("UNIT_PURCHASE_RATE") : "";
 				cell = dataRow.createCell(9);
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				cell.setCellStyle(borderStyle);
+
+				value = rowData.containsKey("PURCHASE_PRICE") ? rowData.get("PURCHASE_PRICE") : "";
+				cell = dataRow.createCell(10);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 
 
 				value = rowData.containsKey("EXPIRY_DT") ? rowData.get("EXPIRY_DT") : "";
-				cell = dataRow.createCell(10);
-				cell.setCellValue(String.valueOf(value));
-				cell.setCellStyle(borderStyle);
-
-				value = rowData.containsKey("ENTRY_TYPE") ? rowData.get("ENTRY_TYPE") : "";
 				cell = dataRow.createCell(11);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 
-				value = rowData.containsKey("LAST_UPDATE_USER") ? rowData.get("LAST_UPDATE_USER") : "";
+				value = rowData.containsKey("ENTRY_TYPE") ? rowData.get("ENTRY_TYPE") : "";
 				cell = dataRow.createCell(12);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 
-				value = rowData.containsKey("LAST_UPDATE_TS") ? rowData.get("LAST_UPDATE_TS") : "";
+				value = rowData.containsKey("LAST_UPDATE_USER") ? rowData.get("LAST_UPDATE_USER") : "";
 				cell = dataRow.createCell(13);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+
+				value = rowData.containsKey("LAST_UPDATE_TS") ? rowData.get("LAST_UPDATE_TS") : "";
+				cell = dataRow.createCell(14);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 
@@ -363,7 +402,7 @@ public class ItemMovementDetailedExcel extends ReportsExcelUtility{
 
 				cell1.setCellValue("Total Sales Cancel");
 			}
-			
+
 			if(salesProfitList.stream() .filter(x -> (x.containsValue("Purchase"))||(x.containsValue("Purchase Update"))||(x.containsValue("Invoice Addition"))) .count()>0) {
 
 				cell2.setCellValue("Total Invoice");

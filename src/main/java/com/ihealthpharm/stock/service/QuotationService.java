@@ -8,6 +8,7 @@ import com.ihealthpharm.masters.dto.ItemSupplierDTO;
 import com.ihealthpharm.masters.model.EmployeeModel;
 import com.ihealthpharm.masters.model.SupplierModel;
 import com.ihealthpharm.stock.dto.QuotationDTO;
+import com.ihealthpharm.stock.model.AutoQuotationsModel;
 import com.ihealthpharm.stock.model.QuotationItemsModel;
 import com.ihealthpharm.stock.model.QuotationModel;
 
@@ -128,6 +129,12 @@ public interface QuotationService {
 
 	List<ItemSupplierDTO> getItemsByBarcodeAndSupplier(String barCode, Integer supplierId);
 
-	
+	List<ItemSupplierDTO> getItemsForAutoQuotation();
+
+	List<ItemSupplierDTO> getItemsByItemCodeOrItemNameorItemDescForAutoQuotation(String itemCode, String itemName,
+			String itemDescription);
+
+	AutoQuotationsModel markAutoQuotationItemInActive(Integer itemId, Integer supplierId,Character flag);
+
 	
 }

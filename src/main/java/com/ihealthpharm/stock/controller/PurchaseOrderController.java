@@ -534,7 +534,7 @@ public class PurchaseOrderController {
 
 				mailModel.setFromEmail(env.getProperty("spring.mail.username"));
 
-				mailModel.setSubject("REQUEST FOR PURCHASE ORDER"+" "+pharmacyDetails.getPharmacyName()+"("+dateFormat.format(new Date())+")");
+				mailModel.setSubject("PURCHASE ORDER"+" "+pharmacyDetails.getPharmacyName()+"("+dateFormat.format(new Date())+")");
 				
 				mailModel.setCreatedBy(emp.getFirstName()+" "+emp.getLastName());
 				mailModel.setPurchaseOrderNo(purchaseOrderModel.getPurchaseOrderNo());
