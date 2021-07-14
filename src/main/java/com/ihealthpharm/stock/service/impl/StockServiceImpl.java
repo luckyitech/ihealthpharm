@@ -210,7 +210,10 @@ public class StockServiceImpl implements StockService {
 		{
 			res = stockRepository.findStockByItemGenericNameAndPharmacyId(searchTerm,pharmacyId,limit);
 		}
-
+		else if(searchCode.equalsIgnoreCase("BarCode"))
+		{
+			res = stockRepository.findStockByQRBarCodeNumberAndPharmacyId(searchTerm,pharmacyId);
+		}
 		return res;
 	}
 
@@ -239,6 +242,11 @@ public class StockServiceImpl implements StockService {
 		else if(searchCode.equalsIgnoreCase("Generic Name"))
 		{
 			res = stockRepository.findStockByItemGenericNameAndPharmacyIdInEditStock(searchTerm,pharmacyId,limit);
+
+		}
+		else if(searchCode.equalsIgnoreCase("BarCode"))
+		{
+			res = stockRepository.findStockByQRBarCodeNumberAndPharmacyIdInEditStock(searchTerm,pharmacyId);
 		}
 
 		return res;
@@ -271,6 +279,14 @@ public class StockServiceImpl implements StockService {
 			res = stockRepository.findStockByItemGenericNameAndPharmacyId(searchTerm,pharmacyId);
 		}
 
+	
+		else if(searchCode.equalsIgnoreCase("BarCode"))
+		{
+			res = stockRepository.findStockCountByQRBarCodeNumberAndPharmacyId(searchTerm,pharmacyId);
+		}
+
+
+
 		return res;
 
 	}
@@ -299,6 +315,12 @@ public class StockServiceImpl implements StockService {
 		{
 			res = stockRepository.findStockByItemGenericNameAndPharmacyIdInEditStock(searchTerm,pharmacyId);
 		}
+		
+		else if(searchCode.equalsIgnoreCase("BarCode"))
+		{
+			res = stockRepository.findStockCountByQRBarCodeNumberAndPharmacyIdInEditStock(searchTerm,pharmacyId);
+		}
+
 
 		return res;
 
@@ -463,6 +485,17 @@ public class StockServiceImpl implements StockService {
 	public StockModel getLatestStock(String batchNo, Integer itemId, String invoiceNo) {
 		return stockRepository.getLatestStock(batchNo,itemId,invoiceNo);
 	}
+
+
+
+		@Override
+		public StockModel findByItemBatchExpiryAndPharmacy(String itemName, String batchNo, String expiryDt,
+				Integer pharmacyId) {
+			StockModel stock=stockRepository.findStockByItemNameBatchExpiryAndPharmacyId(itemName,batchNo,expiryDt,pharmacyId);
+			return stock;
+		}
+		
+		
 
 
 }

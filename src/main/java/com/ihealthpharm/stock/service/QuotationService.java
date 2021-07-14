@@ -42,7 +42,7 @@ public interface QuotationService {
 	
 	List<ItemSupplierDTO> getItemsBySupplier(Integer supplierId);
 	
-	List<ItemSupplierDTO> getItemsBySupplier(Integer supplierId, String itemCode, String itemName);
+	List<ItemSupplierDTO> getItemsBySupplier(Integer supplierId, String itemCode, String itemName,String barcode);
 	
 	List<SupplierModel> getSupplierItemsByQuotationId(Integer quotationId );
 	
@@ -123,6 +123,12 @@ public interface QuotationService {
 
 	List<SupplierModel> findSuppliersInQtnByQuotationNoForPriceUpdate(String quotationNo);
 
+	List<ItemSupplierDTO> getItemsBySupplierAndScannedCode(Integer supplierId, String scanCode);
+
+	List<ItemSupplierDTO> getItemsByItemBarcodeForQuotation(String barcode);
+
+	List<ItemSupplierDTO> getItemsByBarcodeAndSupplier(String barCode, Integer supplierId);
+
 	List<ItemSupplierDTO> getItemsForAutoQuotation();
 
 	List<ItemSupplierDTO> getItemsByItemCodeOrItemNameorItemDescForAutoQuotation(String itemCode, String itemName,
@@ -130,6 +136,5 @@ public interface QuotationService {
 
 	AutoQuotationsModel markAutoQuotationItemInActive(Integer itemId, Integer supplierId,Character flag);
 
-	
 	
 }

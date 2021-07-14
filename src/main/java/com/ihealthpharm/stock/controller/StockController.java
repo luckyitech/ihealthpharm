@@ -406,8 +406,16 @@ public class StockController {
 	}
 	
 	
+	/*
+	 * Author:Asha
+	 * Service is to get a single stock by item name, batch and expiry*/
 	
-	
-	
+	@GetMapping("/getstockbyitembatchexpiryandpharmacy")
+	public ResponseEntity<BaseDto<StockModel>> getStockByItemNameBatchExpiryAndPharmacy(@RequestParam String itemName,
+			@RequestParam String batchNo,@RequestParam String expiryDt,@RequestParam Integer pharmacyId){
+		StockModel result = stockService.findByItemBatchExpiryAndPharmacy(itemName,batchNo,expiryDt,pharmacyId);
+
+		return new BaseDto<>(result, stockHelper.getRetrieveStockMessage(), OK).respond();
+	}
 	
 }

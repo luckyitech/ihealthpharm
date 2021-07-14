@@ -281,8 +281,8 @@ public class QuotationServiceImpl implements QuotationService {
 	}
 
 	@Override
-	public List<ItemSupplierDTO> getItemsBySupplier(Integer supplierId, String itemCode, String itemName) {
-		List<ItemSupplierDTO> model = quotationRepository.getItemsBySupplier(supplierId, itemCode, itemName);
+	public List<ItemSupplierDTO> getItemsBySupplier(Integer supplierId, String itemCode, String itemName,String barcode) {
+		List<ItemSupplierDTO> model = quotationRepository.getItemsBySupplier(supplierId, itemCode, itemName,barcode);
 		for(ItemSupplierDTO i : model) {
 			ItemsModel itemsModel = new ItemsModel();
 
@@ -290,6 +290,8 @@ public class QuotationServiceImpl implements QuotationService {
 			itemsModel.setItemCode(i.getItemCode());
 			itemsModel.setItemName(i.getItemName());
 			itemsModel.setItemDescription(i.getItemDescription());
+			itemsModel.setTax(i.getItemsModel().getTax());
+			
 
 			//TaxModel taxModel = new TaxModel();
 			//taxModel.setPercentage(i.getPercentage());
@@ -299,6 +301,25 @@ public class QuotationServiceImpl implements QuotationService {
 		}
 		return model;
 	}
+
+
+	@Override
+	public List<ItemSupplierDTO> getItemsBySupplierAndScannedCode(Integer supplierId, String scanCode) {
+		List<ItemSupplierDTO> model = quotationRepository.getItemsBySupplierAndScannedCode(supplierId,scanCode);
+		/*for(ItemSupplierDTO i : model) {
+			ItemsModel itemsModel = new ItemsModel();
+
+			itemsModel.setItemId(i.getItemId());
+			itemsModel.setItemCode(i.getItemCode());
+			itemsModel.setItemName(i.getItemName());
+			itemsModel.setItemDescription(i.getItemDescription());
+			
+			i.setItemsModel(itemsModel);
+		}*/
+		return model;
+	}
+
+
 
 	@Override
 	public List<SupplierModel> getSupplierItemsByQuotationId(Integer quotationId) {
@@ -362,6 +383,11 @@ public class QuotationServiceImpl implements QuotationService {
 		return quotationRepository.getItemsByItemCodeOrItemNameorItemDesc(itemCode, itemName, itemDescription,supplierId);
 	}
 
+	@Override
+	public List<ItemSupplierDTO> getItemsByBarcodeAndSupplier(String barCode, Integer supplierId) {
+		return quotationRepository.getItemsByBarcodeAndSupplier(barCode,supplierId);
+	}
+	
 	@Override
 	public List<ItemSupplierDTO> getItemsByItemCodeOrItemNameorItemDescForQuotation(String itemCode, String itemName,
 			String itemDescription) {
@@ -457,6 +483,8 @@ public class QuotationServiceImpl implements QuotationService {
 	public List<ItemSupplierDTO> getItemsByItemDescForQuotation(String itemDescription) {
 		return quotationRepository.getItemsByItemDescForQuotation(itemDescription);
 	}
+	
+	
 
 	@Override
 	public QuotationModel saveSendByMailQuotation(QuotationModel quotationModel,String quotationstatus) {
@@ -617,19 +645,19 @@ public class QuotationServiceImpl implements QuotationService {
 
 	@Override
 	public List<String> findQuotationNoBySearch(String searchTerm) {
-		
+
 		return quotationRepository.getAllQtnNoBySearch(searchTerm);
 	}
 
 	@Override
 	public List<String> findSuppliersInQtnBySearch(String searchTerm) {
-		
+
 		return quotationRepository.getAllSuppliersInQtnBySearch(searchTerm);
 	}
 
 	@Override
 	public List<String> findAllQuotationNo() {
-		
+
 		return quotationRepository.getAllQtnNo();
 	}
 
@@ -640,36 +668,42 @@ public class QuotationServiceImpl implements QuotationService {
 
 	@Override
 	public List<SupplierModel> getAllSuppliersByQuotationId(Integer quotationId) {
-		
+
 		return quotationRepository.getSuppliersByQuotationId(quotationId);
 	}
 
 	@Override
 	public List<QuotationItemsModel> getQuotationDataByIdAndSup(Integer quotationId, Integer supplierId) {
-		
+
 		return quotationRepository.findQuotationDataByIdAndSupplier(quotationId,supplierId);
 	}
 
 	@Override
 	public List<SupplierModel> findSuppliersInQtnByQuotationNo(String quotationNo) {
-		
+
 		return quotationRepository.findSuppliersByQuotationNo(quotationNo);
 	}
 
 	@Override
 	public void updateQuotationItemSupplierMailStatusToSent(Integer quotationId, Integer supplierId) {
-	
+
 		quotationRepository.updateSupplierMailStatus(quotationId,supplierId);
-		
+
 	}
 
 	@Override
 	public List<SupplierModel> findSuppliersInQtnByQuotationNoForPriceUpdate(String quotationNo) {
-		
+
 		return quotationRepository.findSuppliersByQuotationNoForPriceUpdate(quotationNo);
 	}
 
 	@Override
+	public List<ItemSupplierDTO> getItemsByItemBarcodeForQuotation(String barcode) {
+		
+		return quotationRepository.getItemsByItemBarcodeForQuotation(barcode);
+
+	}
+	
 	public List<ItemSupplierDTO> getItemsForAutoQuotation() {
 		
 		return quotationRepository.findItemsForAutoQuotation();
@@ -688,7 +722,9 @@ public class QuotationServiceImpl implements QuotationService {
 		autoQuotRepo.updateAutoQuotationItemStatus(itemId,supplierId,flag);
 		AutoQuotationsModel res=autoQuotRepo.findByAutoQuotId(itemId);
 		return res;
+
 	}
 
 	
+
 }

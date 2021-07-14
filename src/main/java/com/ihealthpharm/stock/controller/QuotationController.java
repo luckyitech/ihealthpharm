@@ -112,7 +112,7 @@ public class QuotationController {
 	@Autowired
 	private PharmacyService pharmacyService;
 
-	
+
 	@Autowired
 	private Environment env;
 
@@ -469,12 +469,21 @@ public class QuotationController {
 	 * @author Gunasekhar 
 	 * Service is to get the items based on the Supplier
 	 */
-	@GetMapping("/getitemsbysupplieritemcditemname")
-	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsBySupplier(@RequestParam Integer supplierId, 
-			@RequestParam(required=false) String itemCode, @RequestParam(required=false) String itemName) {
-		List<ItemSupplierDTO> result = quotationService.getItemsBySupplier(supplierId, itemCode, itemName);
+	@GetMapping("/getitemsbysupplierqrandbarcode")
+	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsBySupplierAndScannedCode(@RequestParam Integer supplierId, 
+			@RequestParam(required=false) String scanCode) {
+		List<ItemSupplierDTO> result = quotationService.getItemsBySupplierAndScannedCode(supplierId,scanCode);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
+
+
+	@GetMapping("/getitemsbysupplieritemcditemname")
+	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsBySupplier(@RequestParam Integer supplierId, 
+			@RequestParam(required=false) String itemCode, @RequestParam(required=false) String itemName, @RequestParam(required=false) String barcode) {
+		List<ItemSupplierDTO> result = quotationService.getItemsBySupplier(supplierId, itemCode, itemName,barcode);
+		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+
 
 	/**
 	 * @author Gunasekhar 
@@ -546,6 +555,12 @@ public class QuotationController {
 	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsByItemCodeOrItemNameOrItemDesc(@RequestParam(required=false) String itemCode, 
 			@RequestParam(required=false) String itemName, @RequestParam(required=false) String itemDescription,@RequestParam(required=true) Integer supplierId) {
 		List<ItemSupplierDTO> result = quotationService.getItemsByItemCodeOrItemNameorItemDesc(itemCode, itemName, itemDescription,supplierId);
+		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+	
+	@GetMapping("/getitemsbybarcodeandsupplier")
+	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsByBarcodeAndSupplier(@RequestParam(required=false) String barcode,@RequestParam(required=true) Integer supplierId) {
+		List<ItemSupplierDTO> result = quotationService.getItemsByBarcodeAndSupplier(barcode,supplierId);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 
@@ -652,6 +667,14 @@ public class QuotationController {
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 
+	//qtn popup barcode search
+	@GetMapping("/getItems/byItemBarcodeForQuotation")
+	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsByItemBarcodeForQuotation(
+			@RequestParam String barcode) {
+		List<ItemSupplierDTO> result = quotationService.getItemsByItemBarcodeForQuotation(barcode);
+		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
+	}
+
 	/**
 	 * @author Tarun 
 	 * Service is to save the send by mail Quotation
@@ -713,6 +736,7 @@ public class QuotationController {
 				mailModel.setPinNo(pharmacyDetails.getTaxId());
 				mailModel.setMobileOne(pharmacyDetails.getPhoneNumber());
 				mailModel.setWhatsAppNo(pharmacyDetails.getPhoneNumber());
+
 				mailModel.setBccEmail(pharmacyDetails.getBccEmailId());
 				
 				if(Objects.isNull(quotationModel.getRemarks())) {
@@ -809,12 +833,9 @@ public class QuotationController {
 						e.printStackTrace();
 					}
 				}
-
-
-
+				
 			}
 		}
-
 		quotationService.updateQuotationItemSupplierMailStatusToSent(quotationModel.getQuotationId(),supplierModel.getSupplierId());
 		return new BaseDto<>(quotationModel, "Mail sent successfully", OK).respond();
 
@@ -967,7 +988,7 @@ public class QuotationController {
 		return new BaseDto<>(results,quotationHelper.getRetrieveQuotationMessage(),OK).respond();
 	}
 
-	
+
 	@GetMapping("/getSuppliersList/basedOnQtnNoForUpdatePrice")
 	public ResponseEntity<BaseDto<List<SupplierModel>>> getSuppliersInQtnByQuotationNoForPriceUpdate(@RequestParam String quotationNo){
 		List<SupplierModel> results=quotationService.findSuppliersInQtnByQuotationNoForPriceUpdate(quotationNo);

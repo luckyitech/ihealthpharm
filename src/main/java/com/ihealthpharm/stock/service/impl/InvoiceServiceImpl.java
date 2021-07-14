@@ -163,6 +163,11 @@ public class InvoiceServiceImpl implements InvoiceService {
 				System.out.println("Shelf:"+it.getItemsModel().getShelfNumber());
 				System.out.println("-----------------------------------------------------------");
 
+				
+				if(!ObjectUtils.isEmpty(it.getQrBarCode()) && Objects.nonNull(it.getQrBarCode())) {
+					stockModel.setBarcode(it.getQrBarCode());
+				}
+				
 				if(!it.getItemsModel().getRackNumber().isEmpty() )
 				{
 					stockModel.setRack(it.getItemsModel().getRackNumber());
@@ -290,8 +295,16 @@ public class InvoiceServiceImpl implements InvoiceService {
 				stockModel.setSupplier(invoiceModelres.getSupplierModel());
 				stockModel.setInvoiceNo(it.getInvoice().getGrnNo());
 				stockModel.setStockNumber(uniqueCodeService.findByUniqueCodeName("ST"));
+				
+				if(Objects.nonNull(it.getItemsModel().getBarcode())) {
+					stockModel.setBarcode(it.getItemsModel().getBarcode());
+				}
 
 
+				if(!ObjectUtils.isEmpty(it.getQrBarCode()) && Objects.nonNull(it.getQrBarCode())) {
+					stockModel.setBarcode(it.getQrBarCode());
+				}
+				
 				if(!Objects.isNull(it.getItemsModel().getRackNumber()) && !ObjectUtils.isEmpty(it.getItemsModel().getRackNumber()))
 				{
 					stockModel.setRack(it.getItemsModel().getRackNumber());
