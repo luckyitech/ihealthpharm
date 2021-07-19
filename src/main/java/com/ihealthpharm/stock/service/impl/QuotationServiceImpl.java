@@ -711,9 +711,9 @@ public class QuotationServiceImpl implements QuotationService {
 
 	@Override
 	public List<ItemSupplierDTO> getItemsByItemCodeOrItemNameorItemDescForAutoQuotation(String itemCode,
-			String itemName, String itemDescription) {
+			String itemName, String itemDescription,String barcode) {
 		
-		return quotationRepository.getItemsByItemCodeOrItemNameorItemDescForAutoQuotation(itemCode,itemName,itemDescription);
+		return quotationRepository.getItemsByItemCodeOrItemNameorItemDescForAutoQuotation(itemCode,itemName,itemDescription,barcode);
 	}
 
 	@Override

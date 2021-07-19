@@ -64,6 +64,8 @@ public class ItemSupplierDTO {
 	
 	private Character autoQuotStatus;
 	
+	private String barcode;
+	
 	public ItemSupplierDTO(Integer itemSupplierId, Integer itemId, Integer supplierId, String activeS, String supplierName, String itemName) {
 		this.itemSupplierId = itemSupplierId;
 		this.itemId = itemId;
@@ -110,7 +112,7 @@ public class ItemSupplierDTO {
 			Integer supplierId,Integer supplierPriority,String formulation,
 			String itemCode,Double unitRate,Double discountPercentage,
 			String validity, ItemsModel itemsModel,Integer quantity,
-			Integer autoQuotationItemId,Character autoQuotStatus,Integer bonus) {
+			Integer autoQuotationItemId,Character autoQuotStatus,Integer bonus,String barcode) {
 		this.itemSupplierId=itemSupplierId;
 		this.supplierName=supplierName;
 		this.itemName=itemName;
@@ -130,6 +132,7 @@ public class ItemSupplierDTO {
 		this.autoQuotationItemId=autoQuotationItemId;
 		this.autoQuotStatus=autoQuotStatus;
 		this.bonus=bonus;
+		this.barcode=barcode;
 	}
 	
 	public ItemSupplierDTO(Integer itemSupplierId,String activeS,String supplierName,String itemName,String manufacturerName,String manufacturerLicense,String itemDescription,Integer itemId,

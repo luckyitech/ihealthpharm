@@ -257,7 +257,7 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 	  
 	  @Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(a.itemSupplierId,d.name as supplierName,i.itemName,m.name as manufacturerName,m.licence as manufacturerLicense,i.itemDescription,i.itemId,d.supplierId,a.supplierPriority,f.form as formulation,i.itemCode, "
 	  		+ "a.unitRate,a.discountPercentage,a.validity, "
-	  		+ "i as itemsModel,i.reOrderQuantity,a.autoQuotId,a.activeS,a.bonus) from  auto_quotations a "
+	  		+ "i as itemsModel,i.reOrderQuantity,a.autoQuotId,a.activeS,a.bonus,a.barcode) from  auto_quotations a "
 	  		+ "inner join supplier d on a.supplierId=d.supplierId "
 	  		+ "inner join items i on i.itemId=a.itemId "
 	  		+ "inner join items_forms f on i.itemForm=f.itemformId " + 
@@ -267,12 +267,12 @@ public interface QuotationRepository extends JpaRepository<QuotationModel, Integ
 	  @Query("select new com.ihealthpharm.masters.dto.ItemSupplierDTO(a.itemSupplierId,d.name as supplierName, "
 	  		+ "i.itemName,m.name as manufacturerName,m.licence as manufacturerLicense,i.itemDescription,i.itemId,d.supplierId, "
 	  		+ "a.supplierPriority,f.form as formulation,i.itemCode,a.unitRate, "
-	  		+ "a.discountPercentage,a.validity,i as itemsModel,i.reOrderQuantity,a.autoQuotId,a.activeS,a.bonus) from auto_quotations a inner join supplier d on "
+	  		+ "a.discountPercentage,a.validity,i as itemsModel,i.reOrderQuantity,a.autoQuotId,a.activeS,a.bonus,a.barcode) from auto_quotations a inner join supplier d on "
 	  		+ "a.supplierId=d.supplierId "
 	  		+ "inner join items i on i.itemId=a.itemId "
 	  		+ "inner join items_forms f on i.itemForm=f.itemformId " + 
 				" inner join manufacturer m on m.manufacturerId=i.manufacturer where "
-				+ " i.itemCode like %:itemCode%  or i.itemName like %:itemName% or i.itemDescription like :itemDescription%")
+				+ " i.itemCode like %:itemCode%  or i.itemName like %:itemName% or i.itemDescription like :itemDescription% or a.barcode like %:barcode%")
 		List<ItemSupplierDTO> getItemsByItemCodeOrItemNameorItemDescForAutoQuotation(@Param("itemCode") String itemCode, @Param("itemName") String itemName, 
-				@Param("itemDescription") String itemDescription);
+				@Param("itemDescription") String itemDescription,@Param("barcode") String barcode);
 }
