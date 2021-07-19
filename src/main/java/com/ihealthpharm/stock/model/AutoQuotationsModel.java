@@ -52,4 +52,9 @@ public class AutoQuotationsModel {
 	@Column(name="VALIDITY")
 	private String validity;
 	
+	@Column(name="BARCODE")
+	private String barcode;
+	
+	@Column(name="BONUS")
+	private Integer bonus;
 }
