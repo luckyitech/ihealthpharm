@@ -578,8 +578,8 @@ public class QuotationController {
 	
 	@GetMapping("/getitemsbyitemcodeoritemnameoritemdescForAutoQuotation")
 	public ResponseEntity<BaseDto<List<ItemSupplierDTO>>> getItemsByItemCodeOrItemNameOrItemDescForAutoQuotation(@RequestParam(required=false) String itemCode, 
-			@RequestParam(required=false) String itemName, @RequestParam(required=false) String itemDescription) {
-		List<ItemSupplierDTO> result = quotationService.getItemsByItemCodeOrItemNameorItemDescForAutoQuotation(itemCode, itemName, itemDescription);
+			@RequestParam(required=false) String itemName, @RequestParam(required=false) String itemDescription,@RequestParam(required=false) String barcode) {
+		List<ItemSupplierDTO> result = quotationService.getItemsByItemCodeOrItemNameorItemDescForAutoQuotation(itemCode, itemName, itemDescription,barcode);
 		return new BaseDto<>(result, propertyHelper.getRetrieveMessage(), OK).respond();
 	}
 

@@ -132,7 +132,7 @@ public interface QuotationService {
 	List<ItemSupplierDTO> getItemsForAutoQuotation();
 
 	List<ItemSupplierDTO> getItemsByItemCodeOrItemNameorItemDescForAutoQuotation(String itemCode, String itemName,
-			String itemDescription);
+			String itemDescription,String barcode);
 
 	AutoQuotationsModel markAutoQuotationItemInActive(Integer itemId, Integer supplierId,Character flag);
 
