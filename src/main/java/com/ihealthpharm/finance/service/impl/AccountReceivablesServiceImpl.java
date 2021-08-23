@@ -533,10 +533,12 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 														String lastUpdatedUserId = Integer
 																.toString(accountReceivables.getLastUpdateUser());
 														salesRecord.setLastUpdateUserId(lastUpdatedUserId);
-
-														double amt = Double.parseDouble(df.format(paidAmount))
+														System.out.println("paid amount "+paidAmount);
+														System.out.println("another payment "+anotherPayAmt);
+														double amt = Double.parseDouble(df.format(salesRecord.getBalanceAmount()))
 																+ Double.parseDouble(df.format(anotherPayAmt));
 														System.out.println(salesRecord.getNetAmount());
+														System.out.println(salesRecord.getBalanceAmount());
 														if (amt == salesRecord.getNetAmount()) {
 															salesRecord.setPaymentStatus("Paid");
 															salesRecord.setCreditAmount((double) 0);
