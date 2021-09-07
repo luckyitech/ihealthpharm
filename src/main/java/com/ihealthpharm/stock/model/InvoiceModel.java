@@ -16,8 +16,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.ihealthpharm.masters.model.AuditModel;
 import com.ihealthpharm.masters.model.PharmacyModel;
 import com.ihealthpharm.masters.model.SupplierModel;
@@ -35,6 +37,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity(name = "invoice")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "invoiceId")
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class InvoiceModel extends AuditModel {
 	private static final long serialVersionUID = 1L;
