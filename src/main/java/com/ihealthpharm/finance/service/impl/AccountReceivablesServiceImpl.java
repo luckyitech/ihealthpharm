@@ -71,7 +71,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 		AccountReceivablesModel accountReceivablesRes = accountReceivablesRepository.save(accountReceivables);
 		log.info("AccountReceivables data with ID : " + accountReceivablesRes.getAccountReceivablesId()
 		+ " Saved succesfully");
-
+        float amountRecived = 0;
 		if(accountReceivables.getPaymentStatus().equals("Cancel") && accountReceivables.getSourceType().equals("Sales Billing")) {
 
 			AccountReceivablesModel accRecExistedRecord=accountReceivablesRepository.findBySourceRef(accountReceivables.getSourceRef());
@@ -79,6 +79,10 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 			if(Objects.nonNull(accRecExistedRecord)) {
 			accRecExistedRecord.setPaymentStatus("Cancel");
 			accRecExistedRecord.setStatus("Approved");
+			if (accRecExistedRecord.getAmountToBeReceived() > 0) {
+				amountRecived += -1 * accountReceivables.getAmountToBeReceived();
+			}
+			accRecExistedRecord.setAmountToBeReceived(amountRecived);
 			AccountReceivablesModel saveRes = accountReceivablesRepository.save(accRecExistedRecord);
 			}
 		}
