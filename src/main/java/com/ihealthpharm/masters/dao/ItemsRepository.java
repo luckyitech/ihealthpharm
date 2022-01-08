@@ -182,6 +182,6 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 	@Query(value="call StockUpdateByItemId(:itemId)",nativeQuery = true)
 	public Integer StockUpdateByItemId(@Param("itemId") Integer itemId);
 
-	@Query("select i from items i where i.barcode=:barcode and i.activeS='Y' order by i.lastUpdateTimestamp desc")
+	@Query("select i from items i where i.barcode like %:barcode% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	public List<ItemsModel> findAllItemsByBarCodeSearchForSupplier(@Param("barcode")String barcode);
 }
