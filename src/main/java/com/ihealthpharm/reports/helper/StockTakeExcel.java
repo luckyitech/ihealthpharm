@@ -185,30 +185,35 @@ public class StockTakeExcel extends ReportsExcelUtility{
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(9);
-			cell.setCellValue("P DISC%");
+			cell.setCellValue("STOCK CHANGE");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(10);
-			cell.setCellValue("S PRICE");
+			cell.setCellValue("P DISC%");
 			cell.setCellStyle(headerStyle);	
 			
 			cell = headerRow.createCell(11);
+			cell.setCellValue("P PRICE");
+			cell.setCellStyle(headerStyle);	
+			
+			
+			cell = headerRow.createCell(12);
 			cell.setCellValue("ACTUAL AMT");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(11);
+			cell = headerRow.createCell(13);
 			cell.setCellValue("ADJ AMT");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(12);
+			cell = headerRow.createCell(14);
 			cell.setCellValue("REMARKS");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(13);
+			cell = headerRow.createCell(15);
 			cell.setCellValue("UPDATED BY");
 			cell.setCellStyle(headerStyle);	
 			
-			cell = headerRow.createCell(13);
+			cell = headerRow.createCell(16);
 			cell.setCellValue("UPDATED TS");
 			cell.setCellStyle(headerStyle);	
 			
@@ -272,33 +277,43 @@ public class StockTakeExcel extends ReportsExcelUtility{
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("P_DISC") ? rowData.get("P_DISC") : "";
+				value = rowData.containsKey("STOCK_VALUE_CHANGE") ? rowData.get("STOCK_VALUE_CHANGE") : "";
 				cell = dataRow.createCell(9);
-				cell.setCellValue(String.valueOf(value));
-				cell.setCellStyle(borderStyle);
-				
-				value = rowData.containsKey("PREVIOUS_AMT") ? rowData.get("PREVIOUS_AMT") : "";
-				cell = dataRow.createCell(10);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("ADJUSTED_AMT") ? rowData.get("ADJUSTED_AMT") : "";
+				value = rowData.containsKey("P_DISC") ? rowData.get("P_DISC") : "";
+				cell = dataRow.createCell(10);
+				cell.setCellValue(String.valueOf(value));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("P_PRICE") ? rowData.get("P_PRICE") : "";
 				cell = dataRow.createCell(11);
 				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
 				cell.setCellStyle(borderStyle);
 				
-				value = rowData.containsKey("REMARKS") ? rowData.get("REMARKS") : "";
+				value = rowData.containsKey("PREVIOUS_AMT") ? rowData.get("PREVIOUS_AMT") : "";
 				cell = dataRow.createCell(12);
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("ADJUSTED_AMT") ? rowData.get("ADJUSTED_AMT") : "";
+				cell = dataRow.createCell(13);
+				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				cell.setCellStyle(borderStyle);
+				
+				value = rowData.containsKey("REMARKS") ? rowData.get("REMARKS") : "";
+				cell = dataRow.createCell(14);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("LAST_UPDATE_TS") ? rowData.get("LAST_UPDATE_TS") : "";
-				cell = dataRow.createCell(13);
+				cell = dataRow.createCell(15);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("LAST_UPDATE_USER") ? rowData.get("LAST_UPDATE_USER") : "";
-				cell = dataRow.createCell(14);
+				cell = dataRow.createCell(16);
 				cell.setCellValue(String.valueOf(value));
 				cell.setCellStyle(borderStyle);
 				
