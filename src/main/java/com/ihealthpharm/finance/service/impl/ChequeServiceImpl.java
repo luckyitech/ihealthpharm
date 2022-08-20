@@ -65,19 +65,51 @@ public class ChequeServiceImpl implements ChequeService {
 		
 		if(Objects.nonNull(chequeRes.getFirstLevelApproval()) && Objects.nonNull(chequeRes.getSecondLevelApproval())  ) {
 			for(int i=0;i<chequeRes.getChequeItems().size();i++) {
+				
+				List<ChequeModel> chequesApproved=chequeRepo.findApprovedCheques(chequeRes.getChequeItems().get(i).getAccountPayablesId().getAccountPayablesId());
+				List<ChequeModel> chequeListForPayableId=chequeRepo.findChequeListForPayableId(chequeRes.getChequeItems().get(i).getAccountPayablesId().getAccountPayablesId());
+				
+				if(chequesApproved.size()>0) {
+					
+				}else {
 				AccountPayablesModel p=chequeRes.getChequeItems().get(i).getAccountPayablesId();
 				
 				p.setSelectedStatus("Approved");
 				p.setSelectedPaymentStatus("Paid");
 				p.setTotalAmountPaid(p.getTotalAmountToBePaid());
 				p.setTotalAmountToBePaid(0.00);
-				p.setChequeAmount(chequeRes.getChequeAmt());
+				
 			//	LocalDate date=LocalDate.parse(chequeDateRes.getChequeDate())
+				if(chequeListForPayableId.size()>0) {
+					String multiChequeNum=null;
+					Float multiChequeAmt = null;
+					
+					for(ChequeModel ch:chequeListForPayableId) {
+						
+						if(Objects.nonNull(multiChequeNum)) {
+							
+							multiChequeNum=multiChequeNum+","+ch.getChequeNumber();
+							multiChequeAmt=multiChequeAmt+ch.getChequeAmt();
+						}else {
+							
+							multiChequeNum=ch.getChequeNumber();
+							multiChequeAmt=ch.getChequeAmt();
+						}
+						System.out.println(multiChequeNum);
+						
+						p.setChequeNumber(multiChequeNum);
+						p.setChequeAmount(multiChequeAmt);
+					}
+				}else {
+					p.setChequeNumber(chequeRes.getChequeNumber());
+					p.setChequeAmount(chequeRes.getChequeAmt());
+				}
 				p.setChequeDate(chequeRes.getChequeDate());
-				p.setChequeNumber(chequeRes.getChequeNumber());
+				
 				p.setLastUpdateUser(chequeRes.getLastUpdateUser());
 				p.setPaymentType("Cheque");
 				accRepo.save(p);
+				}
 			}
 		}
 
