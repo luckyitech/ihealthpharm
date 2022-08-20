@@ -60,4 +60,13 @@ public interface ChequeRepository extends JpaRepository<ChequeModel, Integer>{
 	
 	@Query("select CONCAT(e.firstName,'  ',e.lastName) from cheque  q inner join employee e on q.firstLevelApproval=e.employeeId where q.chequeId = :chequeId")
 	String firstLevelApproverName(@Param("chequeId")Integer chequeId);
+
+	@Query(value="SELECT ch.* FROM cheque ch inner join cheque_items ci on ci.CHEQUE_ID=ch.CHEQUE_ID "
+			+ "where FIRST_LEVEL_APPROVAL_ID is null and SECOND_LEVEL_APPROVAL_ID is null "
+			+ "and APPROVAL_STATUS='Pending' and ci.ACCOUNT_PAYABLES_ID=:accountPayablesId",nativeQuery = true)
+	List<ChequeModel> findApprovedCheques(@Param("accountPayablesId")Integer accountPayablesId);
+
+	@Query(value="SELECT ch.* FROM cheque ch inner join cheque_items ci on ci.CHEQUE_ID=ch.CHEQUE_ID "
+			+ "where ci.ACCOUNT_PAYABLES_ID=:accountPayablesId",nativeQuery = true)
+	List<ChequeModel> findChequeListForPayableId(Integer accountPayablesId);
 }
