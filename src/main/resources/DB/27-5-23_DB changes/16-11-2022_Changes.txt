@@ -1,0 +1,3 @@
+ALTER TABLE account_payables
+MODIFY CHEQUE_NUMBER
+varchar(500);
