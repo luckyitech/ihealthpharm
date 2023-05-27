@@ -1,17 +1,15 @@
 package com.ihealthpharm.reports.helper;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
@@ -23,7 +21,6 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
-import com.ihealthpharm.commons.JsonUtility;
 import com.ihealthpharm.reports.model.ReportsMappingModel;
 
 @Component
@@ -102,10 +99,10 @@ public class StockTakeExcel extends ReportsExcelUtility{
 		
 		double totalPreviousAmt = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("PREVIOUS_AMT")?String.valueOf(mapper.get("PREVIOUS_AMT")):"0")).sum(); 
 		double totalAdjustAmt = responseList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("ADJUSTED_AMT")?String.valueOf(mapper.get("ADJUSTED_AMT")):"0")).sum(); 
-		if(totalPreviousAmt>totalAdjustAmt)
+		//if(totalPreviousAmt>totalAdjustAmt)
 			totalDiff  = totalPreviousAmt-totalAdjustAmt;
-		else
-			totalDiff  = totalAdjustAmt-totalPreviousAmt;
+		//else
+			//totalDiff  = totalAdjustAmt-totalPreviousAmt;
 		
 		Row dataRow = sheet.createRow(currentRow+2);
 		Row dataRow1=sheet.createRow(currentRow+3);
@@ -269,37 +266,79 @@ public class StockTakeExcel extends ReportsExcelUtility{
 				
 				value = rowData.containsKey("PHYSICAL_STOCK") ? rowData.get("PHYSICAL_STOCK") : "";
 				cell = dataRow.createCell(7);
-				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				
+					if(NumberUtils.isNumber(String.valueOf(value))) {
+						cell.setCellType(CellType.NUMERIC);		
+						cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+					}else {	
+					   cell.setCellValue(String.valueOf(value));
+					}
+				
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("ADJUSTEMENT_STOCK") ? rowData.get("ADJUSTEMENT_STOCK") : "";
 				cell = dataRow.createCell(8);
-				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				
+					if(NumberUtils.isNumber(String.valueOf(value))) {
+						cell.setCellType(CellType.NUMERIC);		
+						cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+					}else {	
+					   cell.setCellValue(String.valueOf(value));
+					}
+				
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("STOCK_VALUE_CHANGE") ? rowData.get("STOCK_VALUE_CHANGE") : "";
 				cell = dataRow.createCell(9);
-				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				
+					if(NumberUtils.isNumber(String.valueOf(value))) {
+						cell.setCellType(CellType.NUMERIC);		
+						cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+					}else {	
+					   cell.setCellValue(String.valueOf(value));
+					}
+				
+				
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("P_DISC") ? rowData.get("P_DISC") : "";
 				cell = dataRow.createCell(10);
-				cell.setCellValue(String.valueOf(value));
+				if(NumberUtils.isNumber(String.valueOf(value))) {
+					cell.setCellType(CellType.NUMERIC);		
+					cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				}else {	
+				   cell.setCellValue(String.valueOf(value));
+				}
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("P_PRICE") ? rowData.get("P_PRICE") : "";
 				cell = dataRow.createCell(11);
-				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				if(NumberUtils.isNumber(String.valueOf(value))) {
+					cell.setCellType(CellType.NUMERIC);		
+					cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				}else {	
+				   cell.setCellValue(String.valueOf(value));
+				}
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("PREVIOUS_AMT") ? rowData.get("PREVIOUS_AMT") : "";
 				cell = dataRow.createCell(12);
-				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				if(NumberUtils.isNumber(String.valueOf(value))) {
+					cell.setCellType(CellType.NUMERIC);		
+					cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				}else {	
+				   cell.setCellValue(String.valueOf(value));
+				}
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("ADJUSTED_AMT") ? rowData.get("ADJUSTED_AMT") : "";
 				cell = dataRow.createCell(13);
-				cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				if(NumberUtils.isNumber(String.valueOf(value))) {
+					cell.setCellType(CellType.NUMERIC);		
+					cell.setCellValue(Double.parseDouble(String.valueOf(value)));
+				}else {	
+				   cell.setCellValue(String.valueOf(value));
+				}
 				cell.setCellStyle(borderStyle);
 				
 				value = rowData.containsKey("REMARKS") ? rowData.get("REMARKS") : "";
@@ -326,10 +365,10 @@ public class StockTakeExcel extends ReportsExcelUtility{
 			
 			double totalPreviousAmt = salesProfitList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("PREVIOUS_AMT")?String.valueOf(mapper.get("PREVIOUS_AMT")):"0")).sum(); 
 			double totalAdjustAmt = salesProfitList.stream().mapToDouble(mapper->Double.parseDouble(mapper.containsKey("ADJUSTED_AMT")?String.valueOf(mapper.get("ADJUSTED_AMT")):"0")).sum(); 
-			if(totalPreviousAmt>totalAdjustAmt)
+			//if(totalPreviousAmt>totalAdjustAmt)
 				totalDiff  = totalPreviousAmt-totalAdjustAmt;
-			else
-				totalDiff  = totalAdjustAmt-totalPreviousAmt;
+			//else
+				//totalDiff  = totalAdjustAmt-totalPreviousAmt;
 			
 			Row dataRow = sheet.createRow(currentRow+2);
 			Row dataRow1=sheet.createRow(currentRow+3);

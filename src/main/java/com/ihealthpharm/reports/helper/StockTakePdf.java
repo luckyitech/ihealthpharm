@@ -80,10 +80,10 @@ public class StockTakePdf extends ReportsPDFUtility{
 		double totalDiff;
 		totalPreviousAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("PREVIOUS_AMT") && !ObjectUtils.isEmpty(mapper.get("PREVIOUS_AMT"))) ?String.valueOf(mapper.get("PREVIOUS_AMT")):"0")).sum();  
 		totalAdjustAmt  = responseList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("ADJUSTED_AMT") && !ObjectUtils.isEmpty(mapper.get("ADJUSTED_AMT"))) ?String.valueOf(mapper.get("ADJUSTED_AMT")):"0")).sum();  
-		if(totalPreviousAmt>totalAdjustAmt)
+		//if(totalPreviousAmt>totalAdjustAmt)
 			totalDiff  = totalPreviousAmt-totalAdjustAmt;
-		else
-			totalDiff  = totalAdjustAmt-totalPreviousAmt;
+		//else
+			//totalDiff  = totalAdjustAmt-totalPreviousAmt;
 
 		PdfPTable totalProfitTable = new PdfPTable(2);
 		totalProfitTable.setTotalWidth(500);
@@ -215,10 +215,10 @@ public class StockTakePdf extends ReportsPDFUtility{
 			double totalDiff;
 			totalPreviousAmt  = salesProfitList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("PREVIOUS_AMT") && !ObjectUtils.isEmpty(mapper.get("PREVIOUS_AMT"))) ?String.valueOf(mapper.get("PREVIOUS_AMT")):"0")).sum();  
 			totalAdjustAmt  = salesProfitList.stream().mapToDouble(mapper->Double.parseDouble((mapper.containsKey("ADJUSTED_AMT") && !ObjectUtils.isEmpty(mapper.get("ADJUSTED_AMT"))) ?String.valueOf(mapper.get("ADJUSTED_AMT")):"0")).sum();  
-			if(totalPreviousAmt>totalAdjustAmt)
+			//if(totalPreviousAmt>totalAdjustAmt)
 				totalDiff  = totalPreviousAmt-totalAdjustAmt;
-			else
-				totalDiff  = totalAdjustAmt-totalPreviousAmt;
+			//else
+				//totalDiff  = totalAdjustAmt-totalPreviousAmt;
 
 			PdfPTable totalAmountTable = new PdfPTable(2);
 			totalAmountTable.setTotalWidth(500);

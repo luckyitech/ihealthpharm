@@ -66,7 +66,17 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 
 	@Override
 	public AccountReceivablesModel saveAccountReceivablesData(AccountReceivablesModel accountReceivables) {
-
+		
+		List<AccountReceivablesModel> accountReceivablesModelList=accountReceivablesRepository.
+				findAccountReceivablesByBillIdAndStatus(accountReceivables.getSourceRef(),
+						accountReceivables.getSourceType(),accountReceivables.getPaymentStatus());
+		if(accountReceivablesModelList.size()>0) {
+			
+			accountReceivablesRepository.
+			deleteAccountReceivablesByBillIdAndStatus(accountReceivables.getSourceRef(),
+					accountReceivables.getSourceType(),accountReceivables.getPaymentStatus());
+			
+		}
 
 		AccountReceivablesModel accountReceivablesRes = accountReceivablesRepository.save(accountReceivables);
 		log.info("AccountReceivables data with ID : " + accountReceivablesRes.getAccountReceivablesId()
@@ -86,6 +96,7 @@ public class AccountReceivablesServiceImpl implements AccountReceivablesService 
 			AccountReceivablesModel saveRes = accountReceivablesRepository.save(accRecExistedRecord);
 			}
 		}
+		
 
 		return accountReceivablesRes;
 	}

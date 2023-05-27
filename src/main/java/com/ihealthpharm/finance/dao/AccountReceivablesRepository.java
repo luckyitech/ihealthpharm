@@ -3,8 +3,11 @@ package com.ihealthpharm.finance.dao;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -237,5 +240,18 @@ public interface AccountReceivablesRepository extends JpaRepository<AccountRecei
 		
 		@Query("select ac from account_receivables ac  where ac.SourceRef=:sourceRef and ac.paymentStatus='Pending'")
 		AccountReceivablesModel findBySourceRef(@Param("sourceRef")String sourceRef);
+		
+		@Query("select ac from account_receivables ac  where ac.SourceRef=:sourceRef  and  "
+				+ " ac.paymentStatus=:paymentStatus and  ac.sourceType=:sourceType")
+		List<AccountReceivablesModel> findAccountReceivablesByBillIdAndStatus(@Param("sourceRef")String sourceRef,@Param("sourceType")String sourceType,@Param("paymentStatus")String paymentStatus);
+		
+		
+		@Transactional
+		@Modifying
+		@Query("delete from account_receivables ac  where ac.SourceRef=:sourceRef  and  "
+				+ " ac.paymentStatus=:paymentStatus and  ac.sourceType=:sourceType")
+		void deleteAccountReceivablesByBillIdAndStatus(@Param("sourceRef")String sourceRef, 
+				@Param("sourceType")String sourceType,
+				@Param("paymentStatus")String paymentStatus);
 		
 }
