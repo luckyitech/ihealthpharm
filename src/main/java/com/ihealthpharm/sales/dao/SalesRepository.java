@@ -179,7 +179,7 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 	@Query("select s from sales s where s.billCode like :key% order by s.lastUpdateTs DESC")
 	List<SalesModel> findSalesByBillCode(@Param("key") String key, Pageable limit);
 
-	@Query("select s from sales s inner join customer c on s.customerModel.customerId=c.customerId where c.customerName like %:key% or c.lastName like %:key% order by s.lastUpdateTs DESC")
+	@Query("select s from sales s inner join customer c on s.customerModel.customerId=c.customerId where c.customerName like :key% order by s.lastUpdateTs DESC")
 	List<SalesModel> findSalesByCustomerName(@Param("key") String key, Pageable limit);
 
 	
@@ -209,7 +209,7 @@ public interface SalesRepository extends JpaRepository<SalesModel, Integer> {
 	@Query("select count(s) from sales s where s.billCode like :key% order by s.lastUpdateTs DESC")
 	Integer findSalesByBillCodeCount(@Param("key") String key);
 
-	@Query("select count(s) from sales s inner join customer c on s.customerModel.customerId=c.customerId where c.customerName like %:key% or c.lastName like %:key% order by s.lastUpdateTs DESC")
+	@Query("select count(s) from sales s inner join customer c on s.customerModel.customerId=c.customerId where c.customerName like :key% order by s.lastUpdateTs DESC")
 	Integer findSalesByCustomerNameCount(@Param("key") String key);
 
 	@Query("select count(s) from sales s inner join employee e on e.employeeId=s.creationUserId where e.firstName  like %:key% or e.lastName  like %:key% order by s.lastUpdateTs DESC")

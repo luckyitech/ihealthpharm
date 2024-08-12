@@ -176,5 +176,12 @@ public class CreditNoteController {
 		CreditNoteModel response=creditNoteService.updateCreditNoteRemarks(leftAmount,prevCreditNoteNo,newCreditNoteNo,billCode,netAmount);
 		return new BaseDto<>(response,creditNoteHelper.getUpdateCreditNoteMessage(),OK).respond();
 	}
+
+	@GetMapping("/getCreditNote/byInvoiceNo")
+	public  ResponseEntity<BaseDto<List<CreditNoteModel>>> getCreditNoteDataByInvoiceNo(@RequestParam String invoiceNo ){
+		List<CreditNoteModel> response=creditNoteService.getCreditNoteDataByInvoiceNo(invoiceNo);
+		return new BaseDto<>(response,creditNoteHelper.getRetriveCreditNoteMessage(),OK).respond();
+
+	}
 	
 }

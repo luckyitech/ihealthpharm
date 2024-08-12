@@ -280,5 +280,10 @@ public class CreditNoteServiceImpl implements CreditNoteService {
 		}
 		return creditNoteRepo.save(newCreditNote);
 	}
-   
+
+	@Override
+	public List<CreditNoteModel> getCreditNoteDataByInvoiceNo(String invoiceNo) {
+		return creditNoteRepo.findExistingCreditNoteByInvoiceNo(invoiceNo);
+	}
+
 }
