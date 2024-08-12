@@ -68,7 +68,9 @@ public interface CreditNoteRepository extends JpaRepository<CreditNoteModel,Inte
 	void updateRemarks(@Param("remarks")String remarks,@Param("crNo")String crNo);
 
 	@Query("select c from CREDIT_NOTE c where c.customerModel.customerId=:customerId and "
-			+ "c.paymentStatus='Pending' and c.paymentType.type='Credit' and c.billType='Credit Note'")
+			+ "c.paymentStatus='Pending' and c.paymentType.type='Credit' and c.billType in('Credit Note','Cash Back','Cash Payment')")
 	List<CreditNoteModel> findPendingCreditNotesByCustomer(@Param("customerId")Integer customerId);
-	
+
+	@Query("select c from CREDIT_NOTE c where c.invoiceId=:invoiceNo")
+	List<CreditNoteModel> findExistingCreditNoteByInvoiceNo(@Param("invoiceNo")String invoiceNo);
 }

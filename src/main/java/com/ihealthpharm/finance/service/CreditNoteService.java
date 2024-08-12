@@ -50,5 +50,6 @@ public interface CreditNoteService
 
 	CreditNoteModel updateCreditNoteRemarks(Float leftAmount, String prevCreditNoteNo, 
 			String newCreditNoteNo,String billCode,Float netAmount);
-	
+
+    List<CreditNoteModel> getCreditNoteDataByInvoiceNo(String invoiceNo);
 }

@@ -42,7 +42,7 @@ public interface CustomerRepository extends JpaRepository<CustomerModel,Integer>
 	List<CustomerModel> findAll(Specification<CustomerModel> specification);
 
 	@Query("SELECT new com.ihealthpharm.masters.model.CustomerModel(c.customerId, concat(c.customerName,' ', c.lastName) as customerName,phoneNumber,corporate)  "
-			+ "FROM customer c where (c.phoneNumber like %:customerName% or c.customerName like %:customerName% or c.lastName like %:customerName%) and activeS='Y'")
+			+ "FROM customer c where (c.phoneNumber like :customerName% or c.customerName like :customerName%) and activeS='Y'")
 	List<CustomerModel> findCustomerByNameSearch(@Param("customerName") String customerName);
 	
 	@Query("SELECT new com.ihealthpharm.masters.model.CustomerModel(c.customerId, concat(c.customerName,' ', c.lastName) as customerName,phoneNumber,corporate)  "
