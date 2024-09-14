@@ -70,7 +70,9 @@ public class SalesReceiptGenerator extends ReportsPDFUtility {
 			addBillDetails(document, model, responseList);
 			createTable(document, model, responseList);
 			addTotals(document, model, responseList);
-			addFooter(writer, model,document); 
+			if(responseList.size()<6) {
+				addFooter(writer, model, document);
+			}
 
 		} catch (Exception e) {
 			log.error(ExceptionUtils.getMessage(e));
