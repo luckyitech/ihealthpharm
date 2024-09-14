@@ -91,7 +91,7 @@ public class ItemServiceImpl implements ItemService {
 				//itemRepository.updateStockWithMargin(itemsModelRes.getItemId(), margin, markup);
 			}
 		}
-
+		itemRepository.updateRackAndShelfinStockTable(itemsModelRes.getRackNumber(),itemsModelRes.getShelfNumber(),itemsModelRes.getItemId());
 		log.info("Items data with ID : " + itemsModelRes.getItemId() + " updated succesfully");
 		return itemsModelRes;
 	}

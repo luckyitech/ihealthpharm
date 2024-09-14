@@ -184,4 +184,11 @@ public interface ItemsRepository extends JpaRepository<ItemsModel, Serializable>
 
 	@Query("select i from items i where i.barcode like %:barcode% and i.activeS='Y' order by i.lastUpdateTimestamp desc")
 	public List<ItemsModel> findAllItemsByBarCodeSearchForSupplier(@Param("barcode")String barcode);
+
+	@Transactional
+	@Modifying
+	@Query("update stock s"
+			+ " set s.shelf=:shelfNumber, s.rack=:rackNumber "
+			+ "where s.item.itemId=:itemId")
+	void updateRackAndShelfinStockTable(@Param("rackNumber")String rackNumber, @Param("shelfNumber")String shelfNumber,@Param("itemId")Integer itemId);
 }
