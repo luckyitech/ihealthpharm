@@ -13,4 +13,8 @@ import com.ihealthpharm.stock.model.PurchaseReturnModel;
 public interface PurchaseReturnRepository extends JpaRepository<PurchaseReturnModel, Integer> {
 	
 	List<PurchaseReturnModel> findByPurchaseReturnId(@Param("purchaseReturnId") Integer purchaseReturnId);
+
+	@Query("select inv.invoiceNo from invoice inv,purchase_return pr "
+			+ "where pr.invoiceModel.invoiceId=inv.invoiceId and inv.invoiceNo like :invoiceNo%")
+	List<String> findPurchaseReturnDataByInvoiceNo(@Param("invoiceNo") String invoiceNo);
 }

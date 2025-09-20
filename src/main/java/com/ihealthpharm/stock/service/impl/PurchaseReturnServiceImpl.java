@@ -107,6 +107,11 @@ public class PurchaseReturnServiceImpl implements PurchaseReturnService {
 		}
 	}
 
+	@Override
+	public List<String> getPurchaseReturnDataByInvoiceNo(String invoiceNo) {
+		return purchaseReturnDao.findPurchaseReturnDataByInvoiceNo(invoiceNo);
+	}
+
 
 	@Override
 	public List<PurchaseReturnModel> updatePurchaseReturns(List<PurchaseReturnModel> purchaseReturnModels) {

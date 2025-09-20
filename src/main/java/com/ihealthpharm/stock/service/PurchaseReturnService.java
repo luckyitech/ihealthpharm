@@ -20,4 +20,5 @@ public interface PurchaseReturnService {
 
 	void deletePurchaseReturnByIds(Integer[] purchaseRetrunIds);
 
+    List<String> getPurchaseReturnDataByInvoiceNo(String invoiceNo);
 }

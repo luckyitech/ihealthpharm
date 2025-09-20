@@ -80,5 +80,10 @@ public class PurchaseReturnController {
 		List<PurchaseReturnModel> PurchaseReturnModelRes = purchaseReturnService.updatePurchaseReturns(PurchaseReturnModel);
 		return new BaseDto<>(PurchaseReturnModelRes, purchaseReturnHelper.getUpdatePurchaseReturnMessage(), OK).respond();
 	}
-	
+
+	@GetMapping("/getPurchaseReturnDataByInvoiceNo")
+	public ResponseEntity<BaseDto<List<String>>> getPurchaseReturnDataByInvoiceNo(@RequestParam String invoiceNo){
+		List<String> purchaseRetrunModelRes=purchaseReturnService.getPurchaseReturnDataByInvoiceNo(invoiceNo);
+		return new BaseDto<>(purchaseRetrunModelRes, purchaseReturnHelper.getRetrievePurchaseReturnMessage(), OK).respond();
+	}
 }
