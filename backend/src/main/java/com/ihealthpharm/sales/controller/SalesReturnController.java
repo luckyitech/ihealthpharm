@@ -1,0 +1,88 @@
+package com.ihealthpharm.sales.controller;
+
+import static org.springframework.http.HttpStatus.OK;
+import java.util.List;
+import javax.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.sales.helper.SalesHelper;
+import com.ihealthpharm.sales.helper.SalesReturnHelper;
+import com.ihealthpharm.sales.model.SalesReturnModel;
+import com.ihealthpharm.sales.service.SalesReturnService;
+import lombok.extern.slf4j.Slf4j;
+
+@RestController
+@CrossOrigin
+@Slf4j
+public class SalesReturnController {
+	
+	@Autowired
+	private SalesReturnService salesReturnService;
+	
+	@Autowired
+	private SalesReturnHelper salesReturnHelper;
+	
+	@Autowired
+	SalesHelper salesHelper;
+	
+	@PostMapping("/save/salesreturns")
+	public ResponseEntity<BaseDto<SalesReturnModel>> saveSalesReturn(@Valid @RequestBody  SalesReturnModel salesReturnModel ){
+		log.info("Request Object to insert is :"+salesReturnModel);
+		SalesReturnModel salesReturn=salesReturnService.saveSalesReturnData(salesReturnModel);
+		return new BaseDto<>(salesReturn,salesReturnHelper.getSaveSalesReturnMessage(),OK).respond();
+	}
+		
+	@PutMapping("/update/salesreturn")
+	public ResponseEntity<BaseDto<SalesReturnModel>> updateSalesReturnData(@Valid @RequestBody SalesReturnModel salesReturnModel) {
+		log.info("Request Object for update is: ", salesReturnModel);
+		SalesReturnModel salesRetrunModelRes = salesReturnService.updateSalesReturns(salesReturnModel);
+		return new BaseDto<>(salesRetrunModelRes, salesReturnHelper.getUpdateSalesReturnMessage(), OK).respond();
+	}
+	
+	@DeleteMapping("/delete/salesreturn")
+	public ResponseEntity<BaseDto<Object>> deleteSalesReturnData(@RequestParam Integer salesReturnId) {
+		log.info("Request Object for delete is: ", salesReturnId);
+		salesReturnService.deleteSalesReturnById(salesReturnId);
+		return new BaseDto<>(salesReturnHelper.getDeleteSalesReturnMessage(), OK).respond();
+	}
+	
+	@GetMapping("/getsalesreturn")
+	public ResponseEntity<BaseDto<List<SalesReturnModel>>> getAllSalesReturnsData(){
+		List<SalesReturnModel> response=salesReturnService.findAllSalesReturns();
+		return new BaseDto<>(response,salesReturnHelper.getRetrieveSalesReturnMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getLastSRIByEmp")
+	public List<String> getLastSRIByEmp(@RequestParam String searchTerm){
+		return	salesReturnService.getLastSRIByEmp(searchTerm); 
+	}
+	
+	@GetMapping("/getLastSRIByCust")
+	public List<String> getLastSRIByCust(@RequestParam String searchTerm){
+		return	salesReturnService.getLastSRIByCust(searchTerm); 
+	}
+	
+	
+	@GetMapping("/getAllSalesReturn/historyData")
+	public ResponseEntity<BaseDto<List<SalesReturnModel>>> getAllSalesReturnHistory(){
+		List<SalesReturnModel> response=salesReturnService.getAllSalesRetuns();
+		return new BaseDto<>(response,salesReturnHelper.getRetrieveSalesReturnMessage(),OK).respond();
+	}
+	
+	
+	@GetMapping("/update/salesReturnRemarks")
+	public ResponseEntity<BaseDto<SalesReturnModel>> updateSalesReturnRemarks(@RequestParam String remarks,@RequestParam String srNo) {
+		
+		SalesReturnModel salesRetrunModelRes = salesReturnService.updateSalesReturnRemarks(remarks, srNo);
+		return new BaseDto<>(salesRetrunModelRes, salesReturnHelper.getUpdateSalesReturnMessage(), OK).respond();
+	}
+}

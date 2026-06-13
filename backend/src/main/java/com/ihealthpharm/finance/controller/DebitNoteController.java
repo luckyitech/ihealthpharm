@@ -1,0 +1,152 @@
+package com.ihealthpharm.finance.controller;
+
+import static org.springframework.http.HttpStatus.OK;
+
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ihealthpharm.commons.BaseDto;
+import com.ihealthpharm.finance.dto.CreditCustomerDTO;
+import com.ihealthpharm.finance.helper.DebitNoteHelper;
+import com.ihealthpharm.finance.model.DebitNoteModel;
+import com.ihealthpharm.finance.service.DebitNoteService;
+
+import lombok.extern.slf4j.Slf4j;
+
+@RestController
+@CrossOrigin
+@Slf4j
+public class DebitNoteController {
+
+	@Autowired
+	private DebitNoteService debitNoteService;
+	
+	@Autowired
+	private DebitNoteHelper debitNoteHelper;
+	
+	@PostMapping("/save/debitNote")
+	public ResponseEntity<BaseDto<DebitNoteModel>> saveDebitNote(@Valid @RequestBody  DebitNoteModel debitNoteModel ){
+		log.info("Request Object to insert is :"+debitNoteModel);
+		DebitNoteModel debitNote= debitNoteService.saveDebitData(debitNoteModel);
+		return new BaseDto<>(debitNote,debitNoteHelper.getSaveDebitNoteMessage(),OK).respond();
+	}
+	@PutMapping("/update/DebitNote")
+	public ResponseEntity<BaseDto<DebitNoteModel>> updateDebitNoteData(@Valid @RequestBody DebitNoteModel debitNoteModel){
+		log.info("Request Object for update is :"+debitNoteModel);
+		DebitNoteModel debitNoteRes=debitNoteService.updateDebitData(debitNoteModel);
+		return new BaseDto<>(debitNoteRes,debitNoteHelper.getUpdateDebitNoteMessage(),OK).respond();
+	}
+	@PutMapping("/update/allDebitNotes")
+	public ResponseEntity<BaseDto<List<DebitNoteModel>>> updateDebitNotes(@Valid @RequestBody List<DebitNoteModel> debitNoteModels ){
+		log.info("Request Update For Multiples :"+debitNoteModels);
+		List<DebitNoteModel> debitNotes=debitNoteService.updateMultipleDebit(debitNoteModels);
+		return new BaseDto<>(debitNotes,debitNoteHelper.getUpdateDebitNoteMessage(),OK).respond();
+	}
+	@DeleteMapping("/delete/DebitNote")
+	public ResponseEntity<BaseDto<Object>> deleteDebitNote(@RequestParam Integer debitNoteId){
+		log.info("Request Object for delete :"+debitNoteId);
+		debitNoteService.deleteDebitById(debitNoteId);
+		return new BaseDto<>(debitNoteHelper.getDeleteDebitNoteMessage(),OK).respond();
+	}
+	
+	
+	@GetMapping("/getDebitNote")
+	public ResponseEntity<BaseDto<List<DebitNoteModel>>> getAllDebitNotes(){
+		List<DebitNoteModel> response=debitNoteService.findAllDebit();
+		return new BaseDto<>(response,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getDebitNote/byid")
+	public ResponseEntity<BaseDto<DebitNoteModel>> getDebitNoteById(@Valid @RequestParam Integer DebitNoteId){
+		DebitNoteModel debitNoteRes= debitNoteService.findDebitById(DebitNoteId);
+		return new BaseDto<>(debitNoteRes,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getCustomers/fromdebit")
+	public ResponseEntity<BaseDto<List<CreditCustomerDTO>>> getCustomersByDebitNote(){
+		List<CreditCustomerDTO> result=debitNoteService.getAllCustomersMappedWithDebit();
+		return new BaseDto<>(result,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getalldebitnosindn")
+	public ResponseEntity<BaseDto<List<String>>> getAllDebitNosInDN(){
+		List<String> results=debitNoteService.findAllDebitNosINDN();
+		return new BaseDto<>(results,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
+	}
+	@GetMapping("/getdebitnosindnbysearch")
+	public ResponseEntity<BaseDto<List<String>>> getDebitNosInDN(@RequestParam String DNNO){
+		List<String> results=debitNoteService.findDebitNoINDN(DNNO);
+		return new BaseDto<>(results,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
+	}
+	
+	//Getting suppliers for debit note report
+	@GetMapping("/debitnote/getsuppliers")
+	public ResponseEntity<BaseDto<List<String>>> getsuppliers(){
+		List<String> results=debitNoteService.findAllSuppliers();
+		return new BaseDto<>(results,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
+	}
+	
+	@GetMapping("/debitnote/getsuppliersbysearch")
+	public ResponseEntity<BaseDto<List<String>>> getsuppliersbysearch(@RequestParam String spName){
+		List<String> results=debitNoteService.findAllSuppliersBySearch(spName);
+		return new BaseDto<>(results,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
+	}
+	
+	//debit note report get invoice numbers
+	@GetMapping("/debitnote/getInvoiceNo")
+	public ResponseEntity<BaseDto<List<String>>> getInvoiceNo(){
+		List<String> results=debitNoteService.findAllInvoiceNo();
+		return new BaseDto<>(results,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
+	}
+	
+	@GetMapping("/debitnote/getInvoiceNoBySearch")
+	public ResponseEntity<BaseDto<List<String>>> getInvoiceNoBySearch(@RequestParam String invoiceNo){
+		List<String> results=debitNoteService.findAllInvoiceNoBySearch(invoiceNo);
+		return new BaseDto<>(results,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
+	}
+	
+	@GetMapping("/debitnote/getReturnTypes")
+	public ResponseEntity<BaseDto<List<String>>> getReturnTypes(){
+		List<String> results=debitNoteService.findAllIReturnTypes();
+		return new BaseDto<>(results,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
+	}
+	
+	
+	@GetMapping("/getAllDebitNotePaymentStatus")
+	public ResponseEntity<BaseDto<List<String>>> getAllDebitNotePaymentStatus(){
+		List<String> results=debitNoteService.findAllDebitNotePaymentStatus();
+		return new BaseDto<>(results,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
+	}
+	
+	
+	@GetMapping("/getAllDebitNotes")
+	public ResponseEntity<BaseDto<List<DebitNoteModel>>> getAllDebitNotesData(){
+		List<DebitNoteModel> response=debitNoteService.getAllDebitNotes();
+		return new BaseDto<>(response,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getAllDebitNotes/bySearch")
+	public ResponseEntity<BaseDto<List<DebitNoteModel>>> getAllDebitNoteBasedOnSearch(@RequestParam String searchType,@RequestParam String searchValue){
+		List<DebitNoteModel> response=debitNoteService.getDebitNotesBySearch(searchType,searchValue);
+		return new BaseDto<>(response,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
+	}
+	
+	@GetMapping("/getDebitNote/byId")
+	public ResponseEntity<BaseDto<DebitNoteModel>> getDebitNoteBasedOnId(@RequestParam Integer debitNoteId){
+		DebitNoteModel response=debitNoteService.getDebitNotesById(debitNoteId);
+		return new BaseDto<>(response,debitNoteHelper.getRetriveDebitNoteMessage(),OK).respond();
+	}
+	
+}

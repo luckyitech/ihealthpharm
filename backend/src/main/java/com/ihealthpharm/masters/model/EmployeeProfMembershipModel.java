@@ -1,0 +1,46 @@
+package com.ihealthpharm.masters.model;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@Entity(name = "employee_prof_membership")
+@EqualsAndHashCode(of="employeeProfMembershipId",callSuper=false)
+public class EmployeeProfMembershipModel extends AuditModel{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -139613049002182773L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "EMPLOYEE_PROF_MEMBERSHIP_ID", length=11)
+	private Integer employeeProfMembershipId;
+
+	@OneToOne
+	@JoinColumn(name = "EMPLOYEE_ID")
+	private EmployeeModel employee;
+	
+	@Column( name = "MEMBERSHIP_NM", length=250)
+	private String membershipName;
+	
+	@Column( name = "START_DT")
+	private Date startDate;
+	
+	@Column( name = "END_DT")
+	private Date endDate;
+	
+	@Column( name = "AUDIT_ID",length=11)
+	private Integer auditId;
+}

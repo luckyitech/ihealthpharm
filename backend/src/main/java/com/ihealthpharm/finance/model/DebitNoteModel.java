@@ -1,0 +1,109 @@
+package com.ihealthpharm.finance.model;
+
+import java.time.LocalDate;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+
+import com.ihealthpharm.masters.model.AuditModel;
+import com.ihealthpharm.masters.model.CustomerModel;
+import com.ihealthpharm.masters.model.EmployeeModel;
+import com.ihealthpharm.masters.model.PharmacyModel;
+import com.ihealthpharm.masters.model.SupplierModel;
+import com.ihealthpharm.stock.model.PaymentTypeModel;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Entity (name="DEBIT_NOTE")
+@Getter
+@Setter
+@ToString
+public class DebitNoteModel extends AuditModel{
+	
+	private static final long serialVersionUID = 1L;
+	
+	@OneToOne
+    @JoinColumn(name="PHARMACY_ID")
+    PharmacyModel pharmacyModel;
+	
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="DEBIT_NOTE_ID",length=11, columnDefinition = "AUTO_INCREMENT")
+    private Integer debitNoteId;
+    
+    @Column(name="AMOUNT",length=25)
+    private Float amount;
+
+    @Column(name="AUDIT_ID",length=11)
+    private Integer auditId;
+
+    @Column(name="BILL_ID",length=11)
+    private String billId;
+  
+    @Column(name="DEBIT_DATE",length=25)
+    private LocalDate debitDate;
+    
+    @Column(name="DEBIT_NOTE_NO",length=20)
+    private String debitNoteNo;
+
+    @Column(name="INVOICE_ID",length=11)
+    private String invoiceId;
+  
+    @Column(name="REMARKS",length=200)
+    private String remarks;
+    
+    @OneToOne
+    @JoinColumn(name="APPROVED_BY")
+    private EmployeeModel approvedBy;
+    
+    @Column(name="APPROVED_DATE")
+    private LocalDate approvedDate;
+    
+    @Column(name="STATUS",length=20)
+   	private String selectedStatus;
+
+    @Column(name="RETURN_TYPE",length=20)
+    private String returnType;
+    
+    @Column(name="return_type_reason",length=100)
+    private String returnTypeReason;
+    
+	@Column(name = "DISCOUNT")
+	private Double discount;
+	
+	@Column(name = "TAX")
+	private Double tax;
+	
+	@Column(name="NET_AMOUNT")
+	private Float netAmount;
+    
+	@OneToOne
+	@JoinColumn(name="SUPPLIER_ID")
+	SupplierModel supplierModel;
+    
+	@OneToOne
+	@JoinColumn(name="CUSTOMER_ID")
+	CustomerModel customerModel;
+	
+    @Column(name = "ACTIVE_S",  columnDefinition = "default 'Y'")
+	private String activeS = "Y";
+    
+    @OneToOne
+   	@JoinColumn(name = "PAYMENT_TYPE_ID")
+   	private PaymentTypeModel paymentType;
+    
+    @Column(name="PAYMENT_STATUS")
+    private String paymentStatus;
+    
+    @Transient
+    private String empName;
+    
+}

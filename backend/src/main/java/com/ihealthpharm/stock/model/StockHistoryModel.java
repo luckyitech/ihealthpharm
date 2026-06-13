@@ -1,0 +1,114 @@
+
+package com.ihealthpharm.stock.model;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.ihealthpharm.masters.model.AuditModel;
+import com.ihealthpharm.masters.model.ItemsModel;
+import com.ihealthpharm.masters.model.PharmacyModel;
+import com.ihealthpharm.masters.model.SupplierModel;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+
+/**
+ * The persistent class for the stock database table.
+ * 
+ */
+@Getter
+@Setter
+@ToString
+@Entity(name="stock_history")
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
+public class StockHistoryModel extends AuditModel {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="STOCK_ID", length=11)
+	private Integer stockId;
+	
+	//bi-directional many-to-one association to Invoice
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="INVOICE_ID")
+	private InvoiceModel invoice;
+	
+	//bi-directional many-to-one association to Item
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="ITEM_ID")
+	private ItemsModel item;
+
+	//bi-directional many-to-one association to Pharmacy
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="PHARMACY_ID")
+	private PharmacyModel pharmacy;
+	
+	//bi-directional many-to-one association to Invoice
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="SUPPLIER_ID")
+	private SupplierModel supplier;
+	
+	@Column(name="QUANTITY", length=11)
+	private Integer quantity;
+
+	@Column(name="UNIT_SALE_RATE")
+	private Double unitSaleRate;
+	
+	@Column(name="MRP")
+	private Double mrp;
+	
+	@Column(name="MARGIN")
+	private Double margin;
+	
+	@Column(name="SALE_DISCOUNT_AMOUNT")
+	private Double saleDiscountAmount;
+
+	@Column(name="SALE_DISCOUNT_PERCENTAGE")
+	private Double saleDiscountPercentage;
+	
+	@Column(name="AUDIT_ID", length=11)
+	private Integer auditId;
+
+	@Column(name="BATCH_NO", length=20)
+	private String batchNo;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="EXPIRY_DT")
+	private Date expiryDt;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="MANUFACTURE_DT")
+	private Date manufactureDt;
+
+	@Column(name="PURCHASE_DISCOUNT_AMOUNT")
+	private Double purchaseDiscountAmount;
+
+	@Column(name="PURCHASE_DISCOUNT_PERCENTAGE")
+	private Double purchaseDiscountPercentage;
+
+	@Column(name="UNIT_PURCHASE_RATE")
+	private Double unitPurchaseRate;
+
+	@Column(name="RACK")
+	private String rack;
+	
+	@Column(name="SHELF")
+	private String shelf;
+	
+	@Column(name="BARCODE")
+	private String barcode;
+}

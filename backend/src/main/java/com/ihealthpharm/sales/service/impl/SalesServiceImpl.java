@@ -1,0 +1,770 @@
+package com.ihealthpharm.sales.service.impl;
+
+import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Objects;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
+import com.ihealthpharm.exception.IHealthPharmException;
+import com.ihealthpharm.finance.model.CreditNoteModel;
+import com.ihealthpharm.masters.model.CustomerModel;
+import com.ihealthpharm.masters.model.ProviderModel;
+import com.ihealthpharm.sales.dao.SalesItemsRepository;
+import com.ihealthpharm.sales.dao.SalesRepository;
+import com.ihealthpharm.sales.dto.SalesBillDTO;
+import com.ihealthpharm.sales.dto.SalesBillsLimitedDTO;
+import com.ihealthpharm.sales.dto.SalesByDatesDTO;
+import com.ihealthpharm.sales.dto.SalesByHour;
+import com.ihealthpharm.sales.dto.SalesByPersonsDTO;
+import com.ihealthpharm.sales.dto.SalesDTO;
+import com.ihealthpharm.sales.dto.SalesEmployeeDTO;
+import com.ihealthpharm.sales.helper.SalesHelper;
+import com.ihealthpharm.sales.model.SalesItemsModel;
+import com.ihealthpharm.sales.model.SalesModel;
+import com.ihealthpharm.sales.service.SalesService;
+
+@Service
+public class SalesServiceImpl implements SalesService {
+
+	@Autowired
+	SalesRepository salesRepository;
+
+	@Autowired
+	SalesHelper salesHelper;
+
+	@Autowired
+	SalesItemsRepository salesItemsRepo;
+
+	@Override
+	public void deleteSalesData(Integer salesId) {
+		SalesModel salesRes = getValidSalesItem(salesId);
+		if (!Objects.nonNull(salesRes)) {
+			throw new IHealthPharmException(salesHelper.getNotFoundMessage(), HttpStatus.NOT_FOUND);
+		}
+		salesRepository.delete(salesRes);
+
+	}
+
+	@Override
+	public SalesModel findSalesData(Integer billId) {
+		SalesModel salesRes = salesRepository.findById(billId).get();
+		return salesRes;
+	}
+
+	@Override
+	public SalesModel saveSalesData(SalesModel salesModel) {
+		if (!Objects.nonNull(salesModel.getProviderModel())) {
+			ProviderModel provider = new ProviderModel();
+			provider.setProviderId(512);
+			salesModel.setProviderModel(provider);
+		}
+		if(salesModel.getPaymentStatus().equals("Delete")) {
+			salesRepository.deleteSalesRecordForDummyBill(salesModel.getBillId());
+			return null;
+		}else {
+			salesModel = salesRepository.save(salesModel);
+			return salesModel;
+		}
+	}
+
+	@Override
+	public SalesModel updateSalesData(SalesModel salesModel) {
+		SalesModel salesRes = getValidSalesItem(salesModel.getBillId());
+		if (!Objects.nonNull(salesRes)) {
+			throw new IHealthPharmException(salesHelper.getNotFoundMessage(), HttpStatus.NOT_FOUND);
+		}
+		salesRes = salesRepository.save(salesModel);
+		return salesRes;
+	}
+
+	public SalesModel getValidSalesItem(Integer salesId) {
+		SalesModel salesRes = null;
+
+		try {
+			salesRes = salesRepository.findById(salesId).get();
+			return salesRes;
+		} catch (NoSuchElementException noSuchElementException) {
+			throw new IHealthPharmException(salesHelper.getNotFoundMessage(), HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@Override
+	public List<SalesModel> findAllSalesData() {
+		return salesRepository.findAll();
+	}
+
+	@Override
+	public List<SalesModel> findByCriteria(String status, String code, String codeValue, String startDate,
+			String endDate) {
+
+		return salesRepository.findAll(new Specification<SalesModel>() {
+			/**
+			 * 
+			 */
+
+			private static final long serialVersionUID = -2059726564132190131L;
+
+			@Override
+			public Predicate toPredicate(Root<SalesModel> root, CriteriaQuery<?> query,
+					CriteriaBuilder criteriaBuilder) {
+				Join<SalesModel, CustomerModel> bJoin = root.join("customerModel", JoinType.INNER);
+				List<Predicate> predicates = new ArrayList<>();
+				if (status != null && !status.equals("undefined")) {
+					predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("paymentStatus"), status)));
+				}
+				if ((code != null && !code.equals("undefined"))
+						&& (codeValue != null && !codeValue.equals("undefined"))) {
+					if (code.equalsIgnoreCase("Bill Number")) {
+						predicates
+						.add(criteriaBuilder.and(criteriaBuilder.like(root.get("billCode"), codeValue + "%")));
+					} else if (code.equalsIgnoreCase("customer Name")) {
+						predicates.add(
+								criteriaBuilder.and(criteriaBuilder.like(bJoin.get("customerName"), codeValue + "%")));
+					}
+
+				}
+				if ((startDate != null && !startDate.equals("undefined"))
+						&& (endDate != null && !endDate.equals("undefined"))) {
+					LocalDate start = LocalDate.parse(startDate);
+					LocalDate end = LocalDate.parse(endDate);
+					predicates.add(criteriaBuilder.between(root.get("billDate"), start, end));
+				}
+
+				return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+			}
+		});
+	}
+
+	@Override
+	public SalesModel getSaleByBillCode(String searchTerm) {
+		return salesRepository.findByBillCode(searchTerm);
+	}
+
+	@Override
+	public List<SalesModel> findLimitedSalesData() {
+		return salesRepository.findFirst100ByOrderByBillCodeDesc();
+	}
+
+	@Override
+	public List totalSalesByMonthWiseData() {
+		List<SalesDTO> response = salesRepository.getAllSalesDataForCharts();
+		List finalObj = new ArrayList();
+		for (SalesDTO obj : response) {
+			List temp = new ArrayList();
+			temp.add(obj.getBillDate().getMonth());
+			temp.add(obj.getTotalSales());
+			finalObj.add(temp);
+		}
+		return finalObj;
+	}
+
+	@Override
+	public List<String> findManufacturerBySales(String searchTerm) {
+		return salesRepository.findManufacturerInSalesSCL(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllManufacturerBySales() {
+		return salesRepository.findAllManufacturerInSalesSCL();
+	}
+
+	@Override
+	public List<String> findProvidersBySales(String searchTerm) {
+		return salesRepository.findProviderInSalesSCL(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllProvidersBySales() {
+		return salesRepository.findAllProvidersInSalesSCL();
+	}
+
+	@Override
+	public List<String> findBillDateBySales(String searchTerm) {
+		return salesRepository.findBillDateInSalesSCL(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllBillDtaessBySales() {
+		return salesRepository.findAllBillDatesInSalesSCL();
+	}
+
+	// DBL
+	@Override
+	public List<String> findBillDatesBySalesDBL(String searchTerm) {
+		return salesRepository.findBillDatesInSalesDBL(searchTerm);
+	}
+
+	@Override
+	public List<String> findfirst_nmBySalesDBL(String searchTerm) {
+		return salesRepository.findfirst_nmInSalesDBL(searchTerm);
+	}
+
+	@Override
+	public List<String> findnameBySalesDBL(String searchTerm) {
+		return salesRepository.findnameInSalesDBL(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllBillDatesBySalesDBL() {
+		return salesRepository.findAllBillDatesInSalesDBL();
+	}
+
+	@Override
+	public List<String> findAllfirst_nmBySalesDBL() {
+		return salesRepository.findAllfirst_nmInSalesDBL();
+	}
+
+	@Override
+	public List<String> findAllnameBySalesDBL() {
+		return salesRepository.findAllnameInSalesDBL();
+	}
+
+	@Override
+	public List<String> findbillDateINSalesSRD(String searchTerm) {
+		return salesRepository.findbillDateINSalesSRD(searchTerm);
+	}
+
+	@Override
+	public List<String> findtypeINSalesSRD(String searchTerm) {
+		return salesRepository.findtypeINSalesSRD(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllbillDateINSalesSRD() {
+		return salesRepository.findAllbillDateINSalesSRD();
+	}
+
+	@Override
+	public List<String> findAlltypeINSalesSRD() {
+		return salesRepository.findAlltypeINSalesSRD();
+	}
+
+	// SRADL
+	@Override
+	public List<String> findcityNameINSalesSRADL(String searchTerm) {
+		return salesRepository.findcityNameINSalesSRADL(searchTerm);
+	}
+
+	@Override
+	public List<String> getBillNumbersTop100() {
+		Pageable limit = new PageRequest(0, 100);
+		return salesRepository.findBillCodeTop100(limit);
+	}
+
+	@Override
+	public List<String> getBillNumbersBySearch(String key) {
+		return salesRepository.findByBillCodeSearch(key);
+	}
+
+	public List<String> findAllcityNameINSalesSRADL() {
+		return salesRepository.findAllcityNameINSalesSRADL();
+	}
+
+	// SRBB
+	@Override
+	public List<String> findBillCodeINSalesSRBB(String searchTerm) {
+		return salesRepository.findBillCodeINSalesSRBB(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllBillCodeINSalesSRBB() {
+		return salesRepository.findAllBillCodeINSalesSRBB();
+	}
+
+	@Override
+	public List<String> findCustomersINSalesSRBB(String searchTerm) {
+		return salesRepository.findCustomersBySearch(searchTerm);
+	}
+
+	@Override
+	public List<String> findAllCustomersINSalesSRBB() {
+		return salesRepository.findAllCustomers();
+	}
+
+	@Override
+	public List<String> findBillCodesByCustomer(String customer) {
+		return salesRepository.findBillCodesByCustomer(customer);
+	}
+
+	@Override
+	public List<String> findBillCodesByDates(String fromDate, String toDate) {
+
+		LocalDate start = LocalDate.parse(fromDate);
+		LocalDate end = LocalDate.parse(toDate);
+		return salesRepository.getBillCodesByDates(start, end);
+	}
+
+	@Override
+	public List<String> findBillCodesByFromDate(String fromDate) {
+		LocalDate start = LocalDate.parse(fromDate);
+		return salesRepository.getBillCodesByFromDate(start);
+	}
+
+	@Override
+	public List<String> findBillCodesByToDate(String toDate) {
+		LocalDate end = LocalDate.parse(toDate);
+		return salesRepository.getBillCodesByToDate(end);
+	}
+
+	@Override
+	public List<String> findCustomerByBillCode(String billCode) {
+		return salesRepository.findCustomersByBillCode(billCode);
+	}
+
+	// End of report code
+	@Override
+	public List<SalesBillDTO> findSalesByBillId(String billCode) {
+		return salesRepository.getAllSalesBySalesIdSearch(billCode);
+	}
+
+	public List<SalesEmployeeDTO> searchInSalesHistory(String status, String code, String codeValue, String startDate,
+			String endDate, Integer pageNumber, Integer pageSize) {
+		Pageable limit = new PageRequest(pageNumber, pageSize);
+
+		List<SalesModel> response = null;
+
+		if ((status != null && !status.equals("undefined") && !status.equals("null"))
+				&& ((code != null && !code.equals("undefined") && !code.equals("null"))
+						&& (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null")))
+				&& ((startDate != null && !startDate.equals("undefined") && !startDate.equals("null"))
+						&& (endDate != null && !endDate.equals("undefined") && !endDate.equals("null")))) {
+			LocalDate start = LocalDate.parse(startDate);
+			LocalDate end = LocalDate.parse(endDate);
+			response = salesRepository.findSalesSearchByStatusSearchCodeDate(status, codeValue, start, end, limit);
+		}
+
+		else if ((status != null && !status.equals("undefined") && !status.equals("null"))
+				&& ((startDate != null && !startDate.equals("undefined") && !startDate.equals("null"))
+						&& (endDate != null && !endDate.equals("undefined") && !endDate.equals("null")))) {
+			LocalDate start = LocalDate.parse(startDate);
+			LocalDate end = LocalDate.parse(endDate);
+			response = salesRepository.findSalesSearchByStatusDate(status, start, end, limit);
+		} else if (((code != null && !code.equals("undefined") && !code.equals("null"))
+				&& (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null")))
+				&& ((startDate != null && !startDate.equals("undefined") && !startDate.equals("null"))
+						&& (endDate != null && !endDate.equals("undefined") && !endDate.equals("null")))) {
+			LocalDate start = LocalDate.parse(startDate);
+			LocalDate end = LocalDate.parse(endDate);
+			response = salesRepository.findSalesSearchByCodeDate(codeValue, start, end, limit);
+		}
+
+		else if ((startDate != null && !startDate.equals("undefined") && !startDate.equals("null"))
+				&& (endDate != null && !endDate.equals("undefined") && !endDate.equals("null"))) {
+			LocalDate start = LocalDate.parse(startDate);
+			LocalDate end = LocalDate.parse(endDate);
+			response = salesRepository.findSalesByBillDate(start, end, limit);
+
+		}
+
+		else if (status != null && !status.equals("undefined") && !status.equals("null")) {
+			response = salesRepository.findSalesByPaymentStatus(status, limit);
+		}
+
+		else if ((code != null && !code.equals("undefined") && !code.equals("null"))
+				&& (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null"))) {
+			if (code.equalsIgnoreCase("Bill Number")) {
+				response = salesRepository.findSalesByBillCode(codeValue, limit);
+			} else if (code.equalsIgnoreCase("customer Name")) {
+				response = salesRepository.findSalesByCustomerName(codeValue, limit);
+			} else if (code.equalsIgnoreCase("customer Phone Number")) {
+				response = salesRepository.findSalesByCustomerPhoneNumber(codeValue, limit);
+			} else if (code.equalsIgnoreCase("Sales Person Name")) {
+
+				response = salesRepository.findAllSalesBySalesPersonName(codeValue, limit);
+			}
+
+		}
+
+		List<SalesEmployeeDTO> res = new ArrayList<>();
+
+		for (SalesModel it : response) {
+			SalesEmployeeDTO salesModel = new SalesEmployeeDTO();
+			salesModel.setCreditCardNo(it.getCreditCardNo());
+			salesModel.setCreditCardAmount(it.getCreditCardAmount());
+			salesModel.setCreditCardAuthNo(it.getCreditCardAuthNo());
+			salesModel.setCreditAccountNo(it.getCreditAccountNo());
+			salesModel.setStaff(it.getStaff());
+			salesModel.setActiveS(it.getActiveS());
+			salesModel.setHospitalModel(it.getHospitalModel());
+			salesModel.setProviderModel(it.getProviderModel());
+			salesModel.setPharmacyModel(it.getPharmacyModel());
+			salesModel.setCustomerModel(it.getCustomerModel());
+			salesModel.setCustomerMembershipModel(it.getCustomerMembershipModel());
+			salesModel.setCustomerInsuranceModel(it.getCustomerInsuranceModel());
+			salesModel.setCreditAmount(it.getCreditAmount());
+			salesModel.setChequeDate(it.getChequeDate());
+			salesModel.setChequeAmount(it.getChequeAmount());
+			salesModel.setChequeNumber(it.getChequeNumber());
+			salesModel.setVatAmt(it.getVatAmt());
+			salesModel.setUpiTransactionId(it.getUpiTransactionId());
+			salesModel.setUpiPhoneNo(it.getUpiPhoneNo());
+			salesModel.setUpiAmount(it.getUpiAmount());
+			salesModel.setTotalQty(it.getTotalQty());
+			salesModel.setTotalProducts(it.getTotalProducts());
+			salesModel.setNetAmount(it.getNetAmount());
+			salesModel.setTotalAmount(it.getTotalAmount());
+			salesModel.setSaleDiscAmt(it.getSaleDiscAmt());
+			salesModel.setRoundedOff(it.getRoundedOff());
+			salesModel.setRemarks(it.getRemarks());
+			salesModel.setPrescripion(it.getPrescripion());
+			salesModel.setPresciptionDate(it.getPresciptionDate());
+			salesModel.setPaymentStatus(it.getPaymentStatus());
+			salesModel.setPaidAmount(it.getPaidAmount());
+			salesModel.setOverallDiscount(it.getOverallDiscount());
+			salesModel.setMembershipContribAmt(it.getMembershipContribAmt());
+			salesModel.setMembershipContribPercent(it.getMembershipContribPercent());
+			salesModel.setMarginAmt(it.getMarginAmt());
+			salesModel.setLastUpdateUserId(it.getLastUpdateUserId());
+			salesModel.setLastUpdateTs(it.getLastUpdateTs());
+			salesModel.setInsuranceContribPercent(it.getInsuranceContribPercent());
+			salesModel.setInsuranceContribAmt(it.getInsuranceContribAmt());
+			salesModel.setEffectiveVat(it.getEffectiveVat());
+			salesModel.setEffectiveSalesDisc(it.getEffectiveSalesDisc());
+			salesModel.setEffectiveOverallDiscount(it.getEffectiveOverallDiscount());
+			salesModel.setEffectiveMargin(it.getEffectiveMargin());
+			salesModel.setCustomerPhoneNo(it.getCustomerPhoneNo());
+			salesModel.setCustomerNm(it.getCustomerNm());
+			salesModel.setCreditCardAuthNo(it.getCreditCardAuthNo());
+			salesModel.setCreditCardNo(it.getCreditCardNo());
+			salesModel.setCreditAmount(it.getCreditAmount());
+			salesModel.setCreditDays(it.getCreditDays());
+			salesModel.setCreationUserId(it.getCreationUserId());
+			salesModel.setCreationTs(it.getCreationTs());
+			salesModel.setCashAmount(it.getCashAmount());
+			salesModel.setBillDate(it.getBillDate());
+			salesModel.setPreviousBillCode(it.getPreviousBillCode());
+			salesModel.setBillCode(it.getBillCode());
+			salesModel.setBalanceAmount(it.getBalanceAmount());
+			salesModel.setAdjustedQty(it.getAdjustedQty());
+			salesModel.setBillId(it.getBillId());
+			salesModel.setEmployeeModel(
+					it.getEmployeeModel().getFirstName() + "  " + it.getEmployeeModel().getLastName());
+			salesModel.setCorporateCustomer(it.getCorporateCustomer());
+			salesModel.setCreditNoteAmount(it.getCreditNoteAmount());
+			salesModel.setSalesCreditRefNo(it.getSalesCreditRefNo());
+			res.add(salesModel);
+
+		}
+		return res;
+
+	}
+
+	@Override
+	public Integer searchInSalesHistoryCount(String status, String code, String codeValue, String startDate,
+			String endDate) {
+		Integer res = 0;
+
+		if ((status != null && !status.equals("undefined") && !status.equals("null"))
+				&& ((code != null && !code.equals("undefined") && !code.equals("null"))
+						&& (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null")))
+				&& ((startDate != null && !startDate.equals("undefined") && !startDate.equals("null"))
+						&& (endDate != null && !endDate.equals("undefined") && !endDate.equals("null")))) {
+			LocalDate start = LocalDate.parse(startDate);
+			LocalDate end = LocalDate.parse(endDate);
+			return salesRepository.findSalesSearchByStatusSearchCodeDateCount(status, codeValue, start, end);
+		}
+
+		else if ((status != null && !status.equals("undefined") && !status.equals("null"))
+				&& ((startDate != null && !startDate.equals("undefined") && !startDate.equals("null"))
+						&& (endDate != null && !endDate.equals("undefined") && !endDate.equals("null")))) {
+			LocalDate start = LocalDate.parse(startDate);
+			LocalDate end = LocalDate.parse(endDate);
+			return salesRepository.findSalesSearchByStatusDateCount(status, start, end);
+		} else if (((code != null && !code.equals("undefined") && !code.equals("null"))
+				&& (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null")))
+				&& ((startDate != null && !startDate.equals("undefined") && !startDate.equals("null"))
+						&& (endDate != null && !endDate.equals("undefined") && !endDate.equals("null")))) {
+			LocalDate start = LocalDate.parse(startDate);
+			LocalDate end = LocalDate.parse(endDate);
+			return salesRepository.findSalesSearchByCodeDateCount(codeValue, start, end);
+		}
+
+		else if (status != null && !status.equals("undefined") && !status.equals("null")) {
+			return salesRepository.findSalesByPaymentStatusCount(status);
+		}
+
+		else if ((code != null && !code.equals("undefined") && !code.equals("null"))
+				&& (codeValue != null && !codeValue.equals("undefined") && !codeValue.equals("null"))) {
+			if (code.equalsIgnoreCase("Bill Number")) {
+				return salesRepository.findSalesByBillCodeCount(codeValue);
+			} else if (code.equalsIgnoreCase("customer Name")) {
+				return salesRepository.findSalesByCustomerNameCount(codeValue);
+			} else if (code.equalsIgnoreCase("customer Phone Number")) {
+				return salesRepository.findSalesByCustomerPhoneNumberCount(codeValue);
+			} else if (code.equalsIgnoreCase("Sales Person Name")) {
+				return salesRepository.findSalesBySalesPersonCount(codeValue);
+			}
+
+		}
+
+		else if ((startDate != null && !startDate.equals("undefined") && !startDate.equals("null"))
+				&& (endDate != null && !endDate.equals("undefined") && !endDate.equals("null"))) {
+			LocalDate start = LocalDate.parse(startDate);
+			LocalDate end = LocalDate.parse(endDate);
+			return salesRepository.findSalesByBillDateCount(start, end);
+		}
+		return null;
+	}
+
+	@Override
+	public Integer findTodaySales() {
+		return salesRepository.todaySalesRepo();
+	}
+
+	@Override
+	public Integer findCashCount() {
+		return salesRepository.cashRepo();
+	}
+
+	@Override
+	public Integer findCreditCount() {
+		return salesRepository.creditRepo();
+	}
+
+	@Override
+	public Integer findYesterdayDiff() {
+		return salesRepository.yesterdayDiff();
+	}
+
+	@Override
+	public Integer findUpiCustomers() {
+		return salesRepository.upiCustomers();
+	}
+
+	@Override
+	public Integer findCreditCardCustomers() {
+		return salesRepository.creditCardCustomers();
+	}
+
+	@Override
+	public Integer findChequeCustomers() {
+		return salesRepository.chequeCustomers();
+	}
+
+	
+	@Override
+	public Integer findCreditNoteCustomers() {
+	
+		return salesRepository.creditNoteCustomers();
+	}
+
+	@Override
+	public Integer findCreditNoteIssuedCount() {
+		
+		return salesRepository.totalCreditNotesIssued();
+	}
+
+	
+	@Override
+	public Integer findCashAmount() {
+		return salesRepository.cashAmount();
+	}
+
+	@Override
+	public Integer findCreditAmount() {
+		return salesRepository.creditAmount();
+	}
+
+	@Override
+	public Integer finUpiAmount() {
+		return salesRepository.upiAmount();
+	}
+
+	@Override
+	public Integer findCreditNoteAmount() {
+		
+		return salesRepository.creditNoteAmount();
+	}
+
+	@Override
+	public Integer findCreditNoteAmountIssued() {
+		
+		return salesRepository.creditNotesIssuedAmount();
+	}
+	
+	@Override
+	public Integer findCreditCardAmount() {
+		return salesRepository.CreditCardAmount();
+	}
+
+	@Override
+	public Integer findChequeAmount() {
+		return salesRepository.chequeAmount();
+	}
+	
+	
+	@Override
+	public Integer findSalesReturnCount() {
+		
+		return salesRepository.totalSalesReturns();
+	}
+
+	@Override
+	public Integer findSalesReturnAmount() {
+		
+		return salesRepository.totalSalesReturnAmount();
+	}
+
+	@Override
+	public List<SalesByDatesDTO> findSalesByDatesChart(String fromDate, String toDate, Integer empId) {
+
+		LocalDate start = LocalDate.parse(fromDate);
+		LocalDate end = LocalDate.parse(toDate);
+
+		List<SalesByDatesDTO> results = salesRepository.getSalesByDatesRepo(start, end, empId);
+		List finalObj = new ArrayList();
+
+		for (SalesByDatesDTO obj : results) {
+			List temp = new ArrayList();
+			temp.add(obj.getBillDate());
+			temp.add(obj.getAmount());
+			finalObj.add(temp);
+		}
+		return finalObj;
+	}
+
+	@Override
+	public List<SalesByPersonsDTO> findSalesByPersons() {
+		List<SalesByPersonsDTO> results = salesRepository.getSalesByPersonRepo();
+		List finalObj = new ArrayList();
+
+		for (SalesByPersonsDTO obj : results) {
+			List temp = new ArrayList();
+			temp.add(obj.getFirstName());
+			temp.add(obj.getAmount());
+			finalObj.add(temp);
+		}
+		return finalObj;
+	}
+
+	@Override
+	public List<SalesBillsLimitedDTO> findBillsByLimit(Integer pageNumber, Integer pageSize) {
+		Pageable limit = PageRequest.of(pageNumber, pageSize);
+		return salesRepository.findBillsByLimit(limit);
+	}
+
+	@Override
+	public List<SalesBillsLimitedDTO> findBillsByName(String billCode) {
+		return salesRepository.getBillsByName(billCode);
+	}
+
+	@Override
+	public List<SalesByHour> findSalesByHour(String date, int selectedChartEmployee, String empName, int fromTime,
+			int toTime, int[] timeArray) {
+		List hoursArray = new ArrayList();
+		List dataArray = new ArrayList();
+		int variable = 0;
+		HashMap<String, Object> map = new HashMap<>();
+		HashMap<String, Object> data = new HashMap<>();
+		LocalDate start = LocalDate.parse(date);
+		List<SalesByHour> res = salesRepository.findSalesByHours(selectedChartEmployee, start, fromTime, toTime);
+
+		for (int h = 0; h < timeArray.length; h++) {
+			for (SalesByHour obj : res) {
+				if (timeArray[h] == obj.getHour()) {
+					hoursArray.add(obj.getTotalSales());
+				} else {
+					variable++;
+					if (variable == res.size()) {
+						hoursArray.add(0);
+					}
+
+				}
+
+			}
+			variable = 0;
+		}
+		map.put("label", empName);
+		map.put("data", hoursArray);
+		dataArray.add(map);
+
+		return dataArray;
+	}
+
+	@Override
+	public SalesModel findSalesData(String billNo) {
+		return salesRepository.getAllDataByBillNo(billNo);
+	}
+
+	@Override
+	public SalesModel updateSalesOldDat() {
+
+		List<SalesItemsModel> salesItems=salesItemsRepo.getAllSalesItemsToUpdateVatAmt();
+
+		DecimalFormat df = new DecimalFormat(".##");
+		for(int i=0;i<salesItems.size();i++) {
+			List<SalesItemsModel> salesItemsData=salesItemsRepo.getAllSalesItemsById(salesItems.get(i).getBillId().getBillId());
+
+			float totalVat=(float)0;
+			for(int j=0;j<salesItemsData.size();j++) {
+				salesItemsData.get(j).setVat(16);
+				SalesItemsModel salesItemsRes =salesItemsRepo.save(salesItemsData.get(j));
+
+				double vatAmt=0.0; 
+				double price = (salesItemsRes.getSaleQty() * Double.parseDouble(df.format(salesItemsRes.getUnitPurchasePrice())));
+
+				vatAmt= (((0.16 * price)*100)/100) ;
+				totalVat+= (float)vatAmt;
+
+				SalesModel s = salesRepository.getSalesRecordById(salesItemsRes.getBillId().getBillId());
+				s.setVatAmt(totalVat);
+				salesRepository.save(s);
+			}
+
+
+		}
+
+
+
+		return null;
+	}
+
+	@Override
+	public SalesModel updateSalesRemarksAfterBulkPayment(String remarks, String billCode) {
+
+		SalesModel res=salesRepository.getAllDataByBillNo(billCode);
+		if(Objects.nonNull(res.getRemarks())) {
+			salesRepository.updateRemarksForBill(res.getRemarks()+" - "+remarks, billCode);
+		}else {
+			salesRepository.updateRemarksForBill(remarks, billCode);
+		}
+		SalesModel resToSend=salesRepository.getAllDataByBillNo(billCode);
+
+		return resToSend;
+	}
+
+	@Override
+	public SalesModel findBillDataByCodeAndCustomerId(Integer customerId, String billCode) {
+
+		return salesRepository.findByCustomerIdAndBillCode(customerId,billCode);
+	}
+
+	@Override
+	public CustomerModel findCustomerModelByBillCode(String billCode) {
+
+		return salesRepository.findByCustomerByBillCode(billCode);
+	}
+
+	
+
+
+	
+
+}
